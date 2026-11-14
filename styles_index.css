@@ -842,12 +842,12 @@ a {
         padding: 10px 0;
     }
 
-    /* Distribuição da tela interna com card mais alto e sem achatamento */
+    /* Distribuição da tela interna */
     .split-screen {
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        padding: 62px 5% 62px 5% !important;
+        padding: 60px 5% 58px 5% !important;
         gap: 8px !important;
     }
 
@@ -866,8 +866,9 @@ a {
         margin-bottom: 4px !important;
     }
 
+    /* Texto descritivo da página um pouco menor */
     .des {
-        font-size: 11px !important;
+        font-size: 10.5px !important;
         line-height: 1.3 !important;
         text-align: center;
         margin: 0 auto;
@@ -879,11 +880,11 @@ a {
         align-items: center;
     }
 
-    /* Card mais alto e proporcional no Mobile */
+    /* Card mais estreito e sem achatamento no Mobile */
     .cards-wrapper, .glass-card {
-        width: 268px !important;
+        width: 265px !important;
         height: 365px !important;
-        padding: 18px !important;
+        padding: 16px !important;
     }
 
     .glass-card.card-front {
@@ -900,17 +901,19 @@ a {
     }
 
     .glass-card.card-front h3 {
-        font-size: 16px !important;
+        font-size: 15px !important;
         margin-top: 4px !important;
     }
 
+    /* Texto descritivo interno do card um pouco menor */
     .glass-card.card-front .card-desc {
-        font-size: 11.5px !important;
+        font-size: 10.5px !important;
+        line-height: 1.3 !important;
         margin-bottom: 10px !important;
     }
 
     .glass-card.card-front .actions {
-        gap: 8px !important;
+        gap: 7px !important;
     }
 
     .glass-card.card-front .btn-primary {
@@ -922,14 +925,33 @@ a {
         padding: 8px !important;
     }
 
+    /* Botões de navegação e bolinhas menores no Mobile */
     .controls-container {
         bottom: 8px !important;
         gap: 6px !important;
     }
 
+    .controls {
+        gap: 10px !important;
+    }
+
     .controls button {
-        width: 35px;
-        height: 35px;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 11px !important;
+    }
+
+    .pagination-dots {
+        gap: 6px !important;
+    }
+
+    .dot {
+        width: 6px !important;
+        height: 6px !important;
+    }
+
+    .dot.active {
+        width: 16px !important;
     }
 
     /* Compactação da Capa no Mobile */
