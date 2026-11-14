@@ -1,912 +1,185 @@
-:root {
-    --primary: #00d4ff;
-    --primary-dark: #008ebf;
-    --accent: #0055ff;
-    --glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-    --glass-border-light: rgba(255, 255, 255, 0.2);
-    --glass-blur: 10px;
-    --bg-dark: #050914;
-}
-
-/* ===================== Reset Global ===================== */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-family: 'Montserrat', sans-serif; 
-}
-
-body {
-    background: radial-gradient(circle at top right, #0d1b2a 0%, #02050a 100%);
-    color: #fff; 
-    overflow-x: hidden; 
-    overflow-y: auto; 
-    min-height: 100vh; 
-}
-
-a { 
-    text-decoration: none !important; 
-    color: inherit; 
-}
-
-/* ===================== Camada de Cinema (Overlay) ===================== */
-.item::before {
-    content: ''; 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
-    background: linear-gradient(to right, rgba(2, 5, 10, 0.50) 0%, rgba(2, 5, 10, 0.2) 100%);
-    z-index: 1;
-}
-
-/* ===================== Navbar ===================== */
-.navbar {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
-    padding: 15px 3%; 
-    background: transparent; 
-    width: 100%; 
-    position: absolute; 
-    top: 0; 
-    z-index: 1000;
-}
-
-.logo-img { 
-    height: 40px; 
-    width: auto; 
-}
-
-.nav-status {
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    background: rgba(0, 212, 255, 0.08);
-    border: 1px solid rgba(0, 212, 255, 0.2); 
-    padding: 5px 12px; 
-    border-radius: 50px;
-    font-size: 10px; 
-    font-weight: 700; 
-    color: var(--primary);
-}
-
-.pulse-dot { 
-    width: 7px; 
-    height: 7px; 
-    background-color: var(--primary); 
-    border-radius: 50%; 
-    animation: pulse-animation 2s infinite; 
-}
-
-@keyframes pulse-animation {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 212, 255, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
-}
-
-.search-box {
-    display: flex; 
-    align-items: center; 
-    background: rgba(255, 255, 255, 0.05);
-    border: 1.5px solid rgba(255, 255, 255, 0.15); 
-    border-radius: 50px; 
-    padding: 5px 14px; 
-    gap: 8px; 
-    width: 230px; 
-    transition: 0.3s;
-}
-
-.search-box:focus-within { 
-    border-color: var(--primary); 
-    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3); 
-}
-
-.search-box i { 
-    font-size: 12px; 
-    color: rgba(255,255,255,0.5); 
-}
-
-.search-box input { 
-    background: transparent; 
-    border: none; 
-    outline: none; 
-    color: rgba(255,255,255,0.5); 
-    font-size: 11px; 
-    width: 100%; 
-}
-
-.nav-links { 
-    display: flex; 
-    gap: 20px; 
-    align-items: center; 
-}
-
-.nav-item { 
-    color: rgba(255, 255, 255, 0.6); 
-    font-size: 0.7rem; 
-    font-weight: 600; 
-    text-transform: uppercase; 
-    padding: 6px 0; 
-    transition: 0.4s; 
-}
-
-.nav-item.active { 
-    color: var(--primary); 
-    font-weight: 800; 
-}
-
-.grid-toggle-btn {
-    background: rgba(255, 255, 255, 0.05); 
-    border: 1px solid var(--glass-border-light); 
-    color: #fff;
-    width: 32px; 
-    height: 32px; 
-    border-radius: 50%; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    transition: 0.3s; 
-    backdrop-filter: blur(5px);
-}
-
-.grid-toggle-btn:hover { 
-    background: var(--primary); 
-    color: #000; 
-    box-shadow: 0 0 10px var(--primary); 
-}
-
-.container { 
-    width: 100vw; 
-    min-height: 100vh; 
-    position: relative; 
-}
-
-.item { 
-    width: 100%; 
-    min-height: 100vh; 
-    position: absolute; 
-    top: 0;
-    left: 0;
-    background-size: cover; 
-    display: none; 
-}
-
-.item.active { 
-    display: block; 
-    position: relative; 
-}
-
-.split-screen {
-    position: relative; 
-    z-index: 2; 
-    display: grid; 
-    grid-template-columns: 0.8fr 1.2fr;
-    width: 100%; 
-    min-height: 100vh; 
-    align-items: center; 
-    padding: 100px 4% 80px 4%; 
-    gap: 25px;
-}
-
-/* ===================== Texto e Alinhamento do Topo ===================== */
-.text-section { 
-    z-index: 5; 
-    align-self: center; 
-    margin-top: -70px; 
-    transition: margin-top 0.3s ease;
-}
-
-.topic { 
-    color: var(--primary); 
-    letter-spacing: 2.5px; 
-    font-size: 12px; 
-    font-weight: 700; 
-    margin-bottom: 10px; 
-    text-transform: uppercase; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-}
-
-.topic::before { 
-    content: ''; 
-    width: 20px; 
-    height: 2px; 
-    background: var(--primary); 
-    display: block; 
-}
-
-.title { 
-    font-size: clamp(28px, 3.2vw, 42px); 
-    font-weight: 900; 
-    line-height: 1.1; 
-    text-transform: uppercase; 
-    margin-bottom: 16px; 
-    color: #ffffff;
-}
-
-.title span { 
-    display: inline-block; 
-    position: relative;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%);
-    background-size: 200% 100%; 
-    -webkit-background-clip: text; 
-    background-clip: text; 
-    -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 1px var(--primary); 
-    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
-    animation: textLightSweep 6s linear infinite;
-}
-
-@keyframes textLightSweep {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-.des { 
-    font-size: clamp(12px, 0.9vw, 13.5px); 
-    color: #a0aec0; 
-    line-height: 1.55; 
-    max-width: 460px;
-    text-align: justify;
-}
-
-/* ===================== Carrossel 3D e Modo Grade ===================== */
-.cards-section { 
-    position: relative; 
-    width: 100%; 
-    height: 100%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: visible; 
-}
-
-.cards-wrapper { 
-    position: relative; 
-    width: 290px; 
-    height: 370px; 
-    perspective: 900px; 
-    transform-style: preserve-3d; 
-    transition: 0.5s; 
-}
-
-.cards-wrapper.grid-mode {
-    width: 100% !important; 
-    max-width: 540px !important; 
-    height: 320px !important; 
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important; 
-    grid-auto-rows: 300px !important; 
-    gap: 12px !important; 
-    transform: none !important; 
-    overflow-y: scroll !important; 
-    overflow-x: hidden !important;
-    padding: 8px !important;
-    margin: 0 auto !important;
-}
-
-.cards-wrapper.grid-mode::-webkit-scrollbar { 
-    width: 6px !important; 
-    display: block !important; 
-}
-
-.cards-wrapper.grid-mode::-webkit-scrollbar-track { 
-    background: rgba(255, 255, 255, 0.05) !important; 
-    border-radius: 6px !important; 
-}
-
-.cards-wrapper.grid-mode::-webkit-scrollbar-thumb { 
-    background: rgba(0, 212, 255, 0.5) !important; 
-    border-radius: 6px !important; 
-}
-
-.cards-wrapper.grid-mode .glass-card {
-    position: relative !important; 
-    transform: none !important; 
-    opacity: 1 !important; 
-    filter: none !important; 
-    width: 100% !important; 
-    height: 100% !important; 
-    pointer-events: auto !important;
-    padding: 15px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
-    overflow: hidden !important;
-}
-
-.cards-wrapper.grid-mode .img-box {
-    height: 90px !important;
-    margin-bottom: 8px !important;
-    display: block !important;
-}
-
-.cards-wrapper.grid-mode .card-desc {
-    font-size: 10.5px !important;
-    line-height: 1.3 !important;
-    margin-bottom: 4px !important;
-    display: block !important;
-}
-
-.cards-wrapper.grid-mode .kpi-mini {
-    display: flex !important;
-    margin-bottom: 4px !important;
-}
-
-.cards-wrapper.grid-mode .glass-card h3 { 
-    font-size: 13px !important; 
-    margin-bottom: 2px !important; 
-    -webkit-text-stroke: 0 !important; 
-    animation: none !important;
-    background: none !important;
-    -webkit-text-fill-color: #fff !important;
-}
-
-.cards-wrapper.grid-mode .badge {
-    position: absolute !important;
-    top: 15px !important;
-    left: 15px !important;
-    padding: 3px 8px !important;
-    font-size: 8px !important;
-    z-index: 5;
-}
-
-.cards-wrapper.grid-mode .actions { 
-    margin-top: auto !important; 
-    width: 100% !important; 
-    gap: 4px !important;
-}
-
-.cards-wrapper.grid-mode .btn-primary { 
-    padding: 7px !important; 
-    font-size: 9px !important; 
-}
-
-.cards-wrapper.grid-mode .btn-glass {
-    padding: 6px !important;
-    font-size: 8.5px !important;
-}
-
-/* ===================== Glass Cards (Carrossel 3D) ===================== */
-.glass-card {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 290px; 
-    height: 360px;
-    background: var(--glass); 
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border-light); 
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
-    border-radius: 18px; 
-    padding: 18px; 
-    display: flex; 
-    flex-direction: column;
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); 
-    pointer-events: none; 
-    overflow: hidden;
-    transform: scale(0.9); 
-    filter: brightness(0.7);
-}
-
-/* CARD ATIVO: Fundo opaco refinado para leitura fluida */
-.glass-card.card-front {
-    transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg) !important; 
-    filter: brightness(1) !important;
-    opacity: 1; 
-    z-index: 20; 
-    pointer-events: auto; 
-    background: linear-gradient(135deg, rgba(12, 22, 42, 0.68) 0%, rgba(6, 14, 28, 0.42) 100%) !important;
-    border-color: var(--primary);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
-                0 0 32px rgba(0, 212, 255, 0.45), 
-                0 0 20px rgba(0, 212, 255, 0.2) inset !important;
-}
-
-.glass-card.card-front:hover { 
-    transform: translateY(-8px) translateZ(35px) scale(1.06) !important; 
-    border-color: #fff; 
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 
-                0 0 40px rgba(0, 212, 255, 0.6), 
-                0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
-}
-
-.glass-card.card-front h3 {
-    font-size: 16px !important; 
-    margin-bottom: 4px !important;
-    margin-top: 4px !important;
-    color: #ffffff !important;
-}
-
-.card-desc { 
-    font-size: 11px; 
-    color: #ffffff;
-    line-height: 1.3; 
-    margin-bottom: 5px; 
-    opacity: 0.95; 
-    transition: 0.3s; 
-}
-
-.glass-card.card-front .card-desc { 
-    font-size: 11.5px !important; 
-    margin-bottom: 5px !important; 
-}
-
-.glass-card.card-front .img-box { 
-    height: 130px !important; 
-    margin-bottom: 10px !important; 
-}
-
-.glass-card.card-front .actions { 
-    gap: 6px !important; 
-}
-
-.glass-card.card-front .btn-primary { 
-    font-size: 10px !important; 
-    padding: 10px !important; 
-    margin-top: 2px !important;
-    margin-bottom: 0px !important;  
-}
-
-.glass-card.card-front .btn-glass { 
-    font-size: 10px !important; 
-    padding: 10px !important; 
-}
-
-.glass-card.search-highlight {
-    border-color: #ffffff !important;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 12px rgba(255, 255, 255, 0.6) !important;
-    transform: translateY(-3px) scale(1.02) !important;
-}
-
-.glass-card.card-back-right { 
-    transform: translateX(210px) translateZ(-70px) scale(0.80); 
-    opacity: 0.70; 
-    z-index: 5; 
-    filter: blur(2px); 
-}
-
-.glass-card.card-back-left { 
-    transform: translateX(-210px) translateZ(-70px) scale(0.80); 
-    opacity: 0.70; 
-    z-index: 5; 
-    filter: blur(2px); 
-}
-
-.glass-card.card-hidden { 
-    transform: translateX(0) translateZ(-180px) scale(0.6); 
-    opacity: 0; 
-    z-index: 1; 
-}
-
-.glass-card > * { 
-    position: relative; 
-    z-index: 2; 
-}
-
-/* ===================== Elementos Internos Base ===================== */
-.img-box { 
-    width: 100%; 
-    height: 115px; 
-    border-radius: 10px; 
-    background-size: cover; 
-    background-position: center; 
-    margin-bottom: 14px; 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    position: relative; 
-}
-
-.badge { 
-    position: absolute; 
-    top: 10px; 
-    left: 10px; 
-    background: var(--accent); 
-    color: #fff; 
-    font-size: 8px; 
-    font-weight: 800; 
-    padding: 3px 10px; 
-    border-radius: 50px; 
-    text-transform: uppercase; 
-    z-index: 3; 
-}
-
-.badge.gold { 
-    background: #f1c40f; 
-    color: #000; 
-}
-
-.glass-card h3 { 
-    font-size: 13.5px; 
-    font-weight: 700; 
-    margin-bottom: 4px; 
-    color: #fff; 
-    transition: 0.3s; 
-}
-
-.kpi-mini { 
-    display: flex; 
-    gap: 6px; 
-    margin-bottom: 4px; 
-}
-
-.kpi-mini span { 
-    font-size: 9.5px; 
-    font-weight: 600; 
-    background: rgba(255, 255, 255, 0.05); 
-    padding: 4px 8px; 
-    border-radius: 5px; 
-    color: var(--primary); 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    display: flex; 
-    align-items: center; 
-    gap: 3px; 
-}
-
-.kpi-success { 
-    color: #2ecc71 !important; 
-    border-color: rgba(46, 204, 113, 0.3) !important; 
-    background: rgba(46, 204, 113, 0.05) !important; 
-}
-
-.kpi-warning { 
-    color: #f1c40f !important; 
-    border-color: rgba(241, 196, 15, 0.3) !important; 
-    background: rgba(241, 196, 15, 0.05) !important; 
-}
-
-/* Botões base */
-.actions { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 5px; 
-    margin-top: auto; 
-}
-
-.btn-primary { 
-    background: linear-gradient(90deg, var(--primary), var(--primary-dark)); 
-    border: none; 
-    padding: 8px; 
-    border-radius: 6px; 
-    font-weight: 800; 
-    cursor: pointer; 
-    color: #000; 
-    text-transform: uppercase; 
-    font-size: 9.5px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 5px; 
-    transition: 0.3s; 
-}
-
-.btn-glass { 
-    background: transparent; 
-    border: 1px solid rgba(255, 255, 255, 0.2); 
-    padding: 6px; 
-    border-radius: 6px; 
-    color: #a0aec0; 
-    cursor: pointer; 
-    font-weight: 600; 
-    font-size: 9px; 
-    text-transform: uppercase; 
-    transition: 0.3s; 
-}
-
-.btn-primary:hover { 
-    box-shadow: 0 0 10px var(--primary); 
-    transform: translateY(-2px); 
-}
-
-.btn-glass:hover { 
-    background: rgba(255, 255, 255, 0.1); 
-    color: #fff; 
-    border-color: #fff; 
-}
-
-/* ===================== Controles e Paginação ===================== */
-.controls-container { 
-    position: absolute; 
-    bottom: 20px; 
-    left: 3%; 
-    display: flex; 
-    align-items: center; 
-    gap: 16px; 
-    z-index: 10; 
-}
-
-.controls { 
-    display: flex; 
-    gap: 10px; 
-}
-
-.controls button { 
-    width: 34px; 
-    height: 34px; 
-    border-radius: 50%; 
-    border: 1px solid var(--glass-border-light); 
-    background: rgba(255,255,255,0.05); 
-    color: #fff; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    transition: 0.3s; 
-}
-
-.controls button:hover { 
-    background: var(--primary); 
-    color: #000; 
-    box-shadow: 0 0 10px var(--primary); 
-    transform: scale(1.05); 
-}
-
-.pagination-dots { 
-    display: flex; 
-    gap: 6px; 
-    align-items: center; 
-}
-
-.dot { 
-    width: 8px; 
-    height: 8px; 
-    border-radius: 50%; 
-    background: rgba(255, 255, 255, 0.2); 
-    cursor: pointer; 
-    transition: 0.3s; 
-}
-
-.dot.active { 
-    width: 20px; 
-    border-radius: 4px; 
-    background: var(--primary); 
-    box-shadow: 0 0 6px var(--primary); 
-}
-
-/* ===================== Rodapé Minimalista ===================== */
-.footer-bar { 
-    position: absolute; 
-    bottom: 12px; 
-    right: 3%; 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    font-size: 9.5px; 
-    color: rgba(255,255,255,0.5); 
-    z-index: 10; 
-}
-
-.footer-info { 
-    display: flex; 
-    align-items: center; 
-    gap: 5px; 
-}
-
-.footer-info strong { 
-    color: #fff; 
-}
-
-.separator { 
-    color: rgba(255,255,255,0.2); 
-}
-
-.footer-btn { 
-    background: rgba(255,255,255,0.05); 
-    border: 1px solid rgba(255,255,255,0.1); 
-    color: #a0aec0; 
-    padding: 3px 8px; 
-    border-radius: 12px; 
-    font-size: 8.5px; 
-    cursor: pointer; 
-    transition: 0.3s; 
-}
-
-.footer-btn:hover { 
-    background: var(--primary); 
-    color: #000; 
-    border-color: var(--primary); 
-}
-
-@media (max-width: 1100px) {
-    .split-screen { 
-        grid-template-columns: 1fr; 
-        padding: 120px 4% 100px 4%; 
-        text-align: center; 
-    }
-
-    .text-section {
-        margin-top: 0; /* Reseta a elevação negativa para não sobrepor o cabeçalho em telas menores */
-    }
-
-    .topic {
-        justify-content: center;
-    }
-    
-    .cards-section { 
-        justify-content: center; 
-        padding-right: 0; 
-        padding-bottom: 50px; 
-    }
-    
-    .controls-container { 
-        left: 50%; 
-        transform: translateX(-50%); 
-        bottom: 12px; 
-        flex-direction: column; 
-    }
-    
-    .footer-bar { 
-        display: none; 
-    }
-}
-
-/* ===================== Ajustes Estruturais da Navbar (Desktop) ===================== */
-.nav-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
-    padding-left: 15px;
-}
-
-.menu-mobile-btn {
-    display: none;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border-light);
-    color: #fff;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    font-size: 13px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-    transition: 0.3s;
-}
-
-.menu-mobile-btn:hover {
-    background: var(--primary);
-    color: #000;
-    box-shadow: 0 0 8px var(--primary);
-}
-
-/* ===================== Responsividade do Menu e Carrossel (Mobile) ===================== */
-@media (max-width: 768px) {
-    .navbar {
-        padding: 10px 4%;
-    }
-
-    .menu-mobile-btn {
-        display: flex; 
-    }
-
-    .nav-content {
-        display: none; 
-        flex-direction: column;
-        position: absolute;
-        top: 60px; 
-        left: 0;
-        width: 100%;
-        background: rgba(2, 5, 10, 0.95); 
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--glass-border-light);
-        padding: 15px 4%;
-        gap: 15px;
-        z-index: 999;
-        box-shadow: 0 12px 25px rgba(0,0,0,0.8);
-    }
-
-    .nav-content.ativo {
-        display: flex;
-    }
-
-    .nav-status, .search-box, .nav-links {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .search-box {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        gap: 12px;
-        padding-top: 6px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1); 
-    }
-
-    .nav-item {
-        font-size: 12px; 
-        width: 100%;
-        text-align: center;
-        padding: 8px 0;
-    }
-
-    /* === AJUSTES DE FONTES EXCLUSIVOS PARA MOBILE === */
-    .split-screen {
-        padding: 100px 5% 80px 5%;
-        gap: 25px;
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .text-section {
-        margin-top: 0 !important;
-    }
-
-    .topic {
-        justify-content: center;
-    }
-
-    .title {
-        font-size: 28px !important;
-        line-height: 1.15;
-        margin-bottom: 12px;
-    }
-
-    .des {
-        font-size: 12px !important;
-        max-width: 100%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    /* === AJUSTES DE CARDS EXCLUSIVOS PARA MOBILE (1 POR VEZ) === */
-    .cards-section {
-        justify-content: center;
-        padding-bottom: 40px;
-    }
-
-    .cards-wrapper {
-        margin: 0 auto; 
-        width: 290px !important;
-    }
-
-    .glass-card {
-        width: 290px !important; 
-        height: 360px !important;
-    }
-
-    /* Trava o card ativo exatamente de frente, removendo ângulos 3D */
-    .glass-card.card-front {
-        transform: translateX(0) translateZ(0) scale(1) rotateY(0deg) !important; 
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 
-                    0 0 20px rgba(0, 212, 255, 0.3) !important;
-    }
-
-    /* Esconde completamente os cards inativos no mobile para evitar sobreposições estranhas */
-    .glass-card.card-hidden {
-        display: none !important;
-        opacity: 0 !important;
-    }
-
-    .glass-card h3 {
-        font-size: 14.5px !important;
-    }
-
-    .card-desc {
-        font-size: 11px !important;
-    }
-
-    /* Centraliza e aproxima os controles de navegação */
-    .controls-container {
-        bottom: 15px;
-        gap: 15px;
-        width: 100%;
-        justify-content: center;
-        left: 0;
-        transform: none;
-    }
-
-    .controls button {
-        width: 38px;
-        height: 38px;
-    }
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | PAINEL DE CONTROLE</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+</head>
+
+<body>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="index.html"> 
+                        <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
+                    </a>
+                </div>
+
+            <!-- Botão Hambúrguer Mobile -->
+            <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Conteúdo da Navbar agrupado para responsividade perfeita -->
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">REDES ONLINE • 12ms</span>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="cardSearch" placeholder="Pesquisar módulo...">
+                </div>
+
+                <div class="nav-links">
+                    <a href="#" class="nav-item active"> HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    
+                    <button class="grid-toggle-btn" title="Alternar visualização em Grade">
+                        <i class="fa-solid fa-table-cells"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTAINER PRINCIPAL -->
+        <div class="container">
+            <div class="slide">
+                <div class="item active"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                    url('https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=2070');">
+
+                    <div class="split-screen">
+
+                        <!-- TEXTO -->
+                        <div class="text-section">
+                            <div class="topic">CENTRAL DE CONTROLE</div>
+
+                            <h1 class="title">
+                                GESTÃO & <br>
+                                <span>PERFORMANCE</span>
+                            </h1>
+
+                            <p class="des">
+                                Escolha como deseja visualizar seus resultados. 
+                                Acesse dashboards dinâmicos para uma análise visual rápida 
+                                ou utilize nossas planilhas inteligentes para um controle detalhado de dados.
+                                <br>
+                                Tudo o que você precisa para gerenciar seus processos em um só lugar.
+                            </p>
+                        </div>
+
+                        <!-- CARROSSEL 3D / GRADE -->
+                        <div class="cards-section">
+                            <div class="cards-wrapper">
+
+                                 <!-- CARD 1 -->
+                               
+                                <div class="glass-card" data-index="0" data-title="dashboards bi">
+                                    <div class="badge">BI <i class="fa-solid fa-chart-simple"></i></div>
+                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=60');"></div>
+                                    <h3>DASHBOARDS</h3>
+                                    <p class="card-desc">Análise em tempo real de infraestrutura e performance de rede.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>
+                                        <span><i class="fa-solid fa-chart-line"></i> Mensal</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="dashboard.html"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                               
+                                  
+                                 <!-- CARD 2 -->
+                                 <div class="glass-card" data-index="1" data-title="base de dados planilha">
+                                    <div class="badge gold">PLANILHA <i class="fa-regular fa-file-excel"></i></div>
+                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
+                                    <h3>BASE DE DADOS</h3>
+                                    <p class="card-desc">Controle unificado e planilhas inteligentes para auditoria.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>
+                                        <span><i class="fa-solid fa-calendar"></i> Período</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="planilha.html"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                                    
+                                <!-- CARD 3 -->
+                                <div class="glass-card" data-index="2" data-title="documentos docs">
+                                    <div class="badge gold">CONTROLE <i class="fa-regular fa-clipboard"></i></div>
+                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&auto=format&fit=crop&q=60');"></div>
+                                    <h3>GERENCIA</h3>
+                                    <p class="card-desc">Repositório de arquivos oficiais, manuais e inspeções técnicas.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-warning"><i class="fa-solid fa-triangle-exclamation"></i> Pendente</span>
+                                        <span><i class="fa-solid fa-calendar"></i> Período</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- CARD 4 -->
+                                <div class="glass-card" data-index="3" data-title="equipe organograma">
+                                    <div class="badge gold">EQUIPE <i class="fa-solid fa-people-group"></i></div>
+                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=60');"></div>
+                                    <h3>ORGANOGRAMA</h3>
+                                    <p class="card-desc">Estrutura organizacional, setores e contatos de suporte interno.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-check-circle"></i> Ativo</span>
+                                        <span><i class="fa-solid fa-calendar"></i> Período</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="#"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTROLES & PAGINAÇÃO -->
+            <div class="controls-container">
+                <div class="controls">
+                    <button class="prev"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="pagination-dots"></div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Dominio: <strong>Rodrigo Lopes</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrio.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrio.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
