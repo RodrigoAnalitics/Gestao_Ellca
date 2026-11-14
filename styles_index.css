@@ -55,7 +55,7 @@ a {
 }
 
 .logo-img { 
-    height: 60px; 
+    height: 70px; 
     width: auto; 
 }
 
@@ -939,7 +939,7 @@ a {
 }
 
 .capa-logo {
-    width: 160px;
+    width: 190px;
     margin-bottom: 35px;
     filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
     animation: floatLogo 4s ease-in-out infinite;
