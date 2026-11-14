@@ -881,7 +881,7 @@ a {
 
     /* Card mais alto e proporcional no Mobile */
     .cards-wrapper, .glass-card {
-        width: 300px !important;
+        width: 268px !important;
         height: 365px !important;
         padding: 18px !important;
     }
