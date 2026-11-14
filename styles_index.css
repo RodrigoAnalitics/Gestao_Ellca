@@ -175,6 +175,7 @@ a {
     display: block; 
 }
 
+/* Maior separação entre texto e cards (gap: 75px) e respiro do topo */
 .split-screen {
     position: relative; 
     z-index: 2; 
@@ -214,6 +215,7 @@ a {
     display: block; 
 }
 
+/* Maior distância entre o título principal e o texto descritivo */
 .title { 
     font-size: clamp(40px, 5vw, 60px); 
     font-weight: 900; 
@@ -412,6 +414,7 @@ a {
                 0 0 30px rgba(0, 212, 255, 0.25) inset !important;
 }
 
+/* Hover discreto: sobe apenas 6px e amplia levemente */
 .glass-card.card-front:hover { 
     transform: translateX(15px) translateY(-6px) translateZ(35px) scale(1.075) !important; 
     border-color: #fff; 
@@ -468,7 +471,7 @@ a {
 }
 
 .glass-card.card-back-right { 
-    transform: translateX(275px) translateZ(-100px) scale(0.78) rotateY(0deg); 
+    transform: translateX(275px) translateZ(-100px) scale(0.78) rotateY(-0deg); 
     opacity: 0.70; 
     z-index: 5; 
     filter: blur(3px); 
