@@ -54,6 +54,31 @@ a {
     z-index: 1000;
 }
 
+.btn-voltar {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border-light);
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+    flex-shrink: 0;
+}
+
+.btn-voltar:hover {
+    background: var(--primary);
+    color: #000;
+    border-color: var(--primary);
+    box-shadow: 0 0 12px var(--primary);
+    transform: translateX(-2px);
+}
+
 .logo-img { 
     height: 60px; 
     width: auto; 
@@ -112,7 +137,7 @@ a {
     background: transparent; 
     border: none; 
     outline: none; 
-    color: rgba(255,255,255,0.5); 
+    color: rgba(255,255,255,0.85); 
     font-size: 11px; 
     width: 100%; 
 }
@@ -435,7 +460,7 @@ a {
     position: absolute;
     inset: 0;
     border-radius: 18px;
-    padding: 1px;
+    padding: 1.5px;
     background: conic-gradient(
         from var(--neon-angle),
         transparent 0%,
@@ -847,6 +872,13 @@ a {
         padding: 10px 4%;
     }
 
+    .btn-voltar {
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+        font-size: 11px;
+    }
+
     .logo-img {
         height: 42px;
     }
@@ -1176,7 +1208,7 @@ a {
     width: 100%;
     height: 100%;
     background-image: linear-gradient(rgba(2, 5, 10, 0.885), rgba(2, 5, 10, 0.75)), 
-                      url('img/Capa_index.jpg');
+                      url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
     z-index: 1;
