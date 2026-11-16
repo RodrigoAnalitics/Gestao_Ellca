@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const TEMPO_POR_CARD = 6000; // Mesmo tempo do CSS (6s = 6000ms)
+    const TEMPO_POR_CARD = 6000; // Deve ser igual à duração da animação CSS (6s = 6000ms)
     let estaPausado = false;
-    let fallbackTimer = null;
+    let timerBorda = null;
 
-    const navItems = document.querySelectorAll('.nav-item');
-    const items = document.querySelectorAll('.item');
+    const navItems = Array.from(document.querySelectorAll('.nav-item'));
+    const items = Array.from(document.querySelectorAll('.item'));
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
     const gridToggleBtn = document.querySelector('.grid-toggle-btn');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================== Alternar Modo Grade / Carrossel =====================
     if (gridToggleBtn) {
         gridToggleBtn.addEventListener('click', () => {
-            const abaAtiva = document.querySelector('.item.active');
+            const abaAtiva = obterAbaAtiva();
             if (!abaAtiva) return;
 
             const wrapper = abaAtiva.querySelector('.cards-wrapper');
@@ -35,29 +35,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ===================== Helper: Retorna a Aba Ativa Atual =====================
+    function obterAbaAtiva() {
+        return document.querySelector('.item.active') || items[0] || null;
+    }
+
     // ===================== Navegação entre Abas (Navbar) =====================
+    function ativarAba(alvoIndex, alvoId) {
+        let indexFinal = alvoIndex;
+
+        // Se o link da navbar tiver href="#id" ou data-target="#id", busca a seção exata
+        if (alvoId) {
+            const idLimpo = alvoId.replace('#', '').trim();
+            if (idLimpo) {
+                const idxPorId = items.findIndex(sec => sec.id === idLimpo);
+                if (idxPorId !== -1) {
+                    indexFinal = idxPorId;
+                }
+            }
+        }
+
+        if (indexFinal < 0 || indexFinal >= items.length) return;
+
+        navItems.forEach((n, i) => {
+            n.classList.toggle('active', i === indexFinal);
+        });
+
+        items.forEach((sec, i) => {
+            sec.classList.toggle('active', i === indexFinal);
+        });
+
+        // Fecha o menu hambúrguer no mobile após clicar
+        if (navContent) {
+            navContent.classList.remove('ativo');
+        }
+
+        resetarPausaEIniciarCiclo();
+    }
+
     navItems.forEach((nav, index) => {
+        // Remove qualquer onclick inline conflitante para evitar duplo disparo
+        const onclickAttr = nav.getAttribute('onclick');
+        let indexPorOnclick = null;
+        if (onclickAttr) {
+            const matchNum = onclickAttr.match(/\((\d+)\)/);
+            if (matchNum) indexPorOnclick = parseInt(matchNum[1], 10);
+            nav.removeAttribute('onclick');
+        }
+
         nav.addEventListener('click', (e) => {
             e.preventDefault();
-            navItems.forEach(n => n.classList.remove('active'));
-            items.forEach(item => item.classList.remove('active'));
+            e.stopPropagation();
 
-            nav.classList.add('active');
-            if (items[index]) {
-                items[index].classList.add('active');
-            }
+            const href = nav.getAttribute('href');
+            const dataTarget = nav.getAttribute('data-target') || nav.getAttribute('data-tab');
+            const targetId = (href && href.startsWith('#') && href.length > 1) ? href : dataTarget;
+            const idxUsar = indexPorOnclick !== null ? indexPorOnclick : index;
 
-            if (navContent) navContent.classList.remove('ativo');
-            resetarPausaEIniciarCiclo();
+            ativarAba(idxUsar, targetId);
         });
     });
 
     // ===================== Controle do Carrossel 3D por Seção =====================
     items.forEach((section) => {
         const cards = Array.from(section.querySelectorAll('.glass-card'));
-        const botoesControle = section.querySelectorAll('.controls button');
-        const prevBtn = section.querySelector('#prev, .prev') || botoesControle[0];
-        const nextBtn = section.querySelector('#next, .next') || botoesControle[botoesControle.length - 1];
         const dotsContainer = section.querySelector('.pagination-dots');
         let currentIndex = 0;
 
@@ -69,16 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dot = document.createElement('span');
                 dot.classList.add('dot');
                 if (idx === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    currentIndex = idx;
-                    atualizarCarrossel();
-                    resetarPausaEIniciarCiclo();
-                });
                 dotsContainer.appendChild(dot);
             });
         }
 
         const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.dot')) : [];
+
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = idx;
+                atualizarCarrossel();
+                resetarPausaEIniciarCiclo();
+            });
+        });
 
         function atualizarCarrossel() {
             const total = cards.length;
@@ -101,31 +146,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Expõe a função de avanço direto na seção para o ciclo automático usar
-        section._avancarCard = () => {
+        // Métodos expostos na seção para Next, Preview e Ciclo Automático
+        section._proximoCard = () => {
             currentIndex = (currentIndex + 1) % cards.length;
             atualizarCarrossel();
-            iniciarCicloBorda();
+        };
+
+        section._cardAnterior = () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            atualizarCarrossel();
         };
 
         // Inicializa o carrossel da seção
         atualizarCarrossel();
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % cards.length;
-                atualizarCarrossel();
-                resetarPausaEIniciarCiclo();
-            });
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-                atualizarCarrossel();
-                resetarPausaEIniciarCiclo();
-            });
-        }
 
         // Suporte a Swipe (Arrastar o dedo no Mobile)
         let touchStartX = 0;
@@ -142,65 +175,113 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (Math.abs(diff) > 45) {
                     if (diff > 0) {
-                        currentIndex = (currentIndex + 1) % cards.length;
+                        section._proximoCard();
                     } else {
-                        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+                        section._cardAnterior();
                     }
-                    atualizarCarrossel();
                     resetarPausaEIniciarCiclo();
                 }
             }, { passive: true });
         }
     });
 
-    // ===================== Sincronização Exata com os 360° da Borda Neon =====================
-    document.addEventListener('animationend', (e) => {
-        if (e.animationName === 'borderNeonSweep' && !estaPausado) {
-            avancarAbaAtiva();
+    // ===================== Botões NEXT e PREVIEW (Prev) Universais =====================
+    function irParaProximo() {
+        const abaAtiva = obterAbaAtiva();
+        if (abaAtiva && typeof abaAtiva._proximoCard === 'function') {
+            abaAtiva._proximoCard();
+            resetarPausaEIniciarCiclo();
         }
+    }
+
+    function irParaAnterior() {
+        const abaAtiva = obterAbaAtiva();
+        if (abaAtiva && typeof abaAtiva._cardAnterior === 'function') {
+            abaAtiva._cardAnterior();
+            resetarPausaEIniciarCiclo();
+        }
+    }
+
+    // Expõe funções globais caso algum botão no HTML tenha onclick="nextSlide()" / "prevSlide()"
+    window.nextSlide = irParaProximo;
+    window.prevSlide = irParaAnterior;
+    window.proximoSlide = irParaProximo;
+    window.anteriorSlide = irParaAnterior;
+    window.mudarAba = (idx) => ativarAba(idx, null);
+
+    // Captura cliques em qualquer botão de controle (Next / Preview) dentro ou fora de .item
+    document.querySelectorAll('.controls button, #next, #prev, .next, .prev').forEach((btn) => {
+        // Remove onclick inline antigo para evitar pular 2 cards de uma vez
+        btn.removeAttribute('onclick');
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const containerControles = btn.closest('.controls');
+            const isPrev =
+                btn.id === 'prev' ||
+                btn.classList.contains('prev') ||
+                btn.querySelector('.fa-chevron-left, .fa-arrow-left, .fa-angle-left') !== null ||
+                (containerControles && btn === containerControles.querySelector('button:first-child'));
+
+            if (isPrev) {
+                irParaAnterior();
+            } else {
+                irParaProximo();
+            }
+        });
     });
 
-    function avancarAbaAtiva() {
+    // ===================== Ciclo Automático Sincronizado com a Borda Neon (360°) =====================
+    function avancarAutomaticamente() {
         if (estaPausado) return;
 
-        const abaAtiva = document.querySelector('.item.active') || items[0];
+        const abaAtiva = obterAbaAtiva();
         if (!abaAtiva) return;
 
         const wrapper = abaAtiva.querySelector('.cards-wrapper');
         if (wrapper && wrapper.classList.contains('grid-mode')) return;
 
-        if (typeof abaAtiva._avancarCard === 'function') {
-            abaAtiva._avancarCard();
+        if (typeof abaAtiva._proximoCard === 'function') {
+            abaAtiva._proximoCard();
+            iniciarTimerBorda();
         }
     }
 
-    function iniciarCicloBorda() {
-        clearTimeout(fallbackTimer);
+    function iniciarTimerBorda() {
+        clearTimeout(timerBorda);
         if (estaPausado) return;
 
-        // Timer de segurança exatamente sincronizado com os 6s da borda
-        fallbackTimer = setTimeout(() => {
+        timerBorda = setTimeout(() => {
             if (!estaPausado) {
-                avancarAbaAtiva();
+                avancarAutomaticamente();
             }
-        }, TEMPO_POR_CARD + 50);
+        }, TEMPO_POR_CARD);
     }
 
     function resetarPausaEIniciarCiclo() {
         estaPausado = false;
         document.querySelectorAll('.glass-card.pausado').forEach(c => c.classList.remove('pausado'));
-        iniciarCicloBorda();
+        iniciarTimerBorda();
     }
+
+    // Dispara exatamente quando a animação de 360° da borda termina
+    document.addEventListener('animationend', (e) => {
+        if (e.animationName === 'borderNeonSweep' && !estaPausado) {
+            clearTimeout(timerBorda);
+            avancarAutomaticamente();
+        }
+    });
 
     // ===================== Clique no Card Ativo: Pausa / Retoma Contador e Luz Neon =====================
     document.addEventListener('click', (e) => {
         const cardAtivo = e.target.closest('.glass-card.card-front');
         if (!cardAtivo) return;
 
-        // Ignora se clicou em botões ou links internos
+        // Ignora cliques em botões ou links dentro do card
         if (e.target.closest('button, a')) return;
 
-        // Ignora se estiver no modo grade
         const wrapper = cardAtivo.closest('.cards-wrapper');
         if (wrapper && wrapper.classList.contains('grid-mode')) return;
 
@@ -208,14 +289,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (estaPausado) {
             cardAtivo.classList.add('pausado');
-            clearTimeout(fallbackTimer);
+            clearTimeout(timerBorda);
         } else {
             cardAtivo.classList.remove('pausado');
-            // Reinicia a animação da borda ao retomar
+            // Reinicia a animação da borda neon do zero ao retomar
             cardAtivo.classList.remove('card-front');
             void cardAtivo.offsetWidth;
             cardAtivo.classList.add('card-front');
-            iniciarCicloBorda();
+            iniciarTimerBorda();
         }
     });
 
@@ -234,90 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Inicia o primeiro ciclo ao abrir a página
-    iniciarCicloBorda();
-});
-/* ===================== MÓDULO DE CICLO AUTOMÁTICO (BORDA 360° + PAUSA NO CLIQUE) ===================== */
-document.addEventListener('DOMContentLoaded', () => {
-    const TEMPO_POR_CARD = 6000; // Mesmo tempo do CSS (6s = 6000ms)
-    let estaPausado = false;
-    let timerBorda = null;
-
-    // Descobre qual botão "Próximo" existe na aba ativa (seja por ID, classe ou atributo onclick)
-    function acionarProximoCard() {
-        if (estaPausado) return;
-
-        const abaAtiva = document.querySelector('.item.active') || document;
-        const wrapper = abaAtiva.querySelector('.cards-wrapper');
-        
-        // Não avança sozinho se estiver no modo grade/colunas
-        if (wrapper && wrapper.classList.contains('grid-mode')) return;
-
-        // Procura o botão Next pelo seletor mais comum no seu HTML
-        const btnNext = 
-            abaAtiva.querySelector('#next, .next, [onclick*="next"], [onclick*="proximo"]') ||
-            document.querySelector('#next, .next, [onclick*="next"], [onclick*="proximo"]') ||
-            abaAtiva.querySelector('.controls button:last-child');
-
-        if (btnNext) {
-            btnNext.click();
-        }
-    }
-
-    // Inicia ou reinicia o timer de 6 segundos sincronizado com a borda
-    function iniciarTimerBorda() {
-        clearTimeout(timerBorda);
-        if (estaPausado) return;
-
-        timerBorda = setTimeout(() => {
-            if (!estaPausado) {
-                acionarProximoCard();
-            }
-        }, TEMPO_POR_CARD);
-    }
-
-    // Quando a borda completa 360 graus no CSS, dispara a troca imediatamente
-    document.addEventListener('animationend', (e) => {
-        if (e.animationName === 'borderNeonSweep' && !estaPausado) {
-            clearTimeout(timerBorda);
-            acionarProximoCard();
-        }
-    });
-
-    // Clique no Card Ativo: Pausa na 1ª vez, Retoma na 2ª vez (Desktop e Mobile)
-    document.addEventListener('click', (e) => {
-        // Se clicou em botões de navegação (setas, dots, menu, grade), apenas reseta a pausa e reinicia a contagem
-        if (e.target.closest('.controls, .pagination-dots, .nav-item, .grid-toggle-btn')) {
-            estaPausado = false;
-            document.querySelectorAll('.glass-card.pausado').forEach(c => c.classList.remove('pausado'));
-            iniciarTimerBorda();
-            return;
-        }
-
-        const cardAtivo = e.target.closest('.glass-card.card-front');
-        if (!cardAtivo) return;
-
-        // Se clicou nos botões internos do card ("Acessar", "Detalhes"), deixa o botão funcionar normalmente
-        if (e.target.closest('button, a')) return;
-
-        const wrapper = cardAtivo.closest('.cards-wrapper');
-        if (wrapper && wrapper.classList.contains('grid-mode')) return;
-
-        estaPausado = !estaPausado;
-
-        if (estaPausado) {
-            cardAtivo.classList.add('pausado');
-            clearTimeout(timerBorda);
-        } else {
-            cardAtivo.classList.remove('pausado');
-            // Reinicia a animação da borda neon ao despausar
-            cardAtivo.classList.remove('card-front');
-            void cardAtivo.offsetWidth;
-            cardAtivo.classList.add('card-front');
-            iniciarTimerBorda();
-        }
-    });
-
-    // Inicia o ciclo ao carregar a página
+    // Inicia o ciclo automático ao abrir a página
     iniciarTimerBorda();
 });
