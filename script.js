@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return document.querySelector('.item.active') || abas[0] || null;
     }
 
+    function normalizarTexto(txt) {
+        return (txt || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim();
+    }
+
     // ===================== Menu Mobile =====================
     if (menuMobileBtn && navContent) {
         menuMobileBtn.addEventListener('click', (e) => {
@@ -50,15 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===================== Navegação Inteligente entre Abas (Navbar) =====================
-    function normalizarTexto(txt) {
-        return (txt || '')
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .trim();
-    }
-
-    function ativarAbaPorElementoOuIndice(navEl, indexFallback) {
+    function ativarAbaPorElementoOuIndice(navEl, indexFallback, manterPausa = false) {
         const abas = obterAbas();
         const links = obterLinksNav();
         if (abas.length === 0) return;
@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let indexFinal = -1;
 
         if (navEl) {
-            // 1. Tenta por href="#id" ou data-target / data-tab / data-slide
             const alvoAttr =
                 navEl.getAttribute('data-target') ||
                 navEl.getAttribute('data-tab') ||
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 navEl.getAttribute('href');
 
             if (alvoAttr && alvoAttr !== '#' && !alvoAttr.startsWith('javascript')) {
-                // Se for um número puro no atributo
                 if (/^\d+$/.test(alvoAttr.trim())) {
                     indexFinal = parseInt(alvoAttr.trim(), 10);
                 } else {
@@ -87,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 2. Se não achou por ID, tenta pelo texto do botão comparado ao .topic ou .title da seção
             if (indexFinal === -1) {
                 const textoNav = normalizarTexto(navEl.textContent);
                 if (textoNav) {
@@ -100,14 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 3. Fallback pela posição do botão no menu
         if (indexFinal === -1 && typeof indexFallback === 'number') {
             indexFinal = indexFallback;
         }
 
         if (indexFinal < 0 || indexFinal >= abas.length) return;
 
-        // Atualiza classe active nos links da navbar
         links.forEach((link, i) => {
             if (navEl) {
                 link.classList.toggle('active', link === navEl);
@@ -116,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Exibe a seção escolhida e oculta as demais
         abas.forEach((sec, i) => {
             if (i === indexFinal) {
                 sec.classList.add('active');
@@ -127,15 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Fecha o menu hambúrguer no mobile
-        if (navContent) {
+        if (navContent && !manterPausa) {
             navContent.classList.remove('ativo');
         }
 
-        resetarPausaEIniciarCiclo();
+        if (!manterPausa) {
+            resetarPausaEIniciarCiclo();
+        }
     }
 
-    // Limpa atributos onclick antigos dos links da navbar para não bloquearem
     obterLinksNav().forEach((link) => {
         if (link.hasAttribute('onclick')) {
             const onclickVal = link.getAttribute('onclick');
@@ -155,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (cards.length === 0) return;
 
-        // Cria bolinhas de paginação se ainda não existirem
         if (dotsContainer && dotsContainer.children.length === 0) {
             cards.forEach((_, idx) => {
                 const dot = document.createElement('span');
@@ -205,6 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
         section._cardAnterior = () => {
             currentIndex = (currentIndex - 1 + cards.length) % cards.length;
             atualizarCarrossel();
+        };
+
+        section._irParaCard = (indiceCard) => {
+            if (indiceCard >= 0 && indiceCard < cards.length) {
+                currentIndex = indiceCard;
+                atualizarCarrossel();
+            }
         };
 
         atualizarCarrossel();
@@ -268,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(timerBorda);
         } else {
             cardAtivo.classList.remove('pausado');
-            // Reinicia a animação da borda neon do zero ao retomar
             cardAtivo.classList.remove('card-front');
             void cardAtivo.offsetWidth;
             cardAtivo.classList.add('card-front');
@@ -276,19 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Expõe funções globais caso algum HTML externo chame diretamente
     window.nextSlide = irParaProximo;
     window.prevSlide = irParaAnterior;
     window.proximoSlide = irParaProximo;
     window.anteriorSlide = irParaAnterior;
     window.mudarAba = (idx) => ativarAbaPorElementoOuIndice(null, idx);
 
-    // ===================== Delegação Global de Cliques (Navbar, Controles e Card Ativo) =====================
+    // ===================== Delegação Global de Cliques =====================
     document.addEventListener('click', (e) => {
-        // 1. Cliques nos botões do menu Navbar
         const navClicado = e.target.closest('.navbar .nav-item, .nav-links a, .nav-links button, .nav-item');
         if (navClicado) {
-            // Se for um link externo real (ex: https://... ou outra página .html), deixa navegar
             const href = navClicado.getAttribute('href');
             if (href && (href.startsWith('http') || href.endsWith('.html'))) {
                 return;
@@ -302,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 2. Cliques nos botões Next e Preview (Prev)
         const btnControle = e.target.closest('.controls button, #next, #prev, .next, .prev');
         if (btnControle) {
             e.preventDefault();
@@ -323,17 +318,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 3. Clique no Card Ativo para Pausar / Retomar o contador e a borda neon
         const cardAtivo = e.target.closest('.glass-card.card-front');
         if (cardAtivo) {
-            if (e.target.closest('button, a')) return; // Não intercepta botões internos do card
+            if (e.target.closest('button, a')) return;
             alternarPausaCardAtivo();
         }
     });
 
     // ===================== Controle pelo Teclado (Setas + Barra de Espaço) =====================
     document.addEventListener('keydown', (e) => {
-        // Não interfere enquanto o usuário digita na barra de busca ou em algum campo de texto
         const tagAtiva = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
         if (tagAtiva === 'input' || tagAtiva === 'textarea' || document.activeElement?.isContentEditable) {
             return;
@@ -354,10 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 irParaAnterior();
             }
         } else if (e.code === 'Space' || e.key === ' ') {
-            // Evita acionar se o foco estiver em um botão da página
             if (tagAtiva === 'button' || tagAtiva === 'a') return;
             if (!emModoGrade) {
-                e.preventDefault(); // Evita rolar a página para baixo
+                e.preventDefault();
                 alternarPausaCardAtivo();
             }
         }
@@ -396,7 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
         iniciarTimerBorda();
     }
 
-    // Dispara exatamente quando a animação de 360° da borda termina
     document.addEventListener('animationend', (e) => {
         if (e.animationName === 'borderNeonSweep' && !estaPausado) {
             clearTimeout(timerBorda);
@@ -404,18 +395,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== Busca Rápida nos Cards =====================
+    // ===================== Pesquisa Inteligente (Traz o Card para Frente + Filtra na Grade) =====================
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const termo = e.target.value.toLowerCase().trim();
-            const todosCards = document.querySelectorAll('.glass-card');
+            const termo = normalizarTexto(e.target.value);
+            const abas = obterAbas();
+            let primeiroMatch = null;
 
-            todosCards.forEach(card => {
-                card.classList.remove('search-highlight');
-                if (termo.length > 1 && card.textContent.toLowerCase().includes(termo)) {
-                    card.classList.add('search-highlight');
-                }
+            abas.forEach((sec, abaIndex) => {
+                const cardsDaAba = Array.from(sec.querySelectorAll('.glass-card'));
+                const wrapper = sec.querySelector('.cards-wrapper');
+                const emGrade = wrapper && wrapper.classList.contains('grid-mode');
+
+                cardsDaAba.forEach((card, cardIndex) => {
+                    card.classList.remove('search-highlight');
+
+                    if (!termo) {
+                        // Restaura exibição normal se a busca foi limpa
+                        card.style.removeProperty('display');
+                        return;
+                    }
+
+                    const textoCard = normalizarTexto(card.textContent);
+                    const encontrou = textoCard.includes(termo);
+
+                    if (encontrou) {
+                        card.classList.add('search-highlight');
+                        if (emGrade) {
+                            card.style.removeProperty('display');
+                        }
+                        if (!primeiroMatch) {
+                            primeiroMatch = { sec, abaIndex, cardIndex, card };
+                        }
+                    } else if (emGrade) {
+                        // No modo grade, oculta cards que não correspondem à pesquisa
+                        card.style.setProperty('display', 'none', 'important');
+                    }
+                });
             });
+
+            // Se limpou a busca, retoma o ciclo automático normal
+            if (!termo) {
+                resetarPausaEIniciarCiclo();
+                return;
+            }
+
+            // Se encontrou um card correspondente: vai até a aba dele, coloca-o em foco e pausa o timer para leitura
+            if (primeiroMatch) {
+                const abaAtual = obterAbaAtiva();
+                if (abaAtual !== primeiroMatch.sec) {
+                    ativarAbaPorElementoOuIndice(null, primeiroMatch.abaIndex, true);
+                }
+
+                if (typeof primeiroMatch.sec._irParaCard === 'function') {
+                    primeiroMatch.sec._irParaCard(primeiroMatch.cardIndex);
+                }
+
+                // Pausa a troca automática enquanto o usuário visualiza o resultado da pesquisa
+                estaPausado = true;
+                clearTimeout(timerBorda);
+                primeiroMatch.card.classList.add('pausado');
+            }
+        });
+
+        // Permite pressionar Enter na pesquisa (útil no mobile para fechar o teclado e ver o card encontrado)
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchInput.blur();
+                if (navContent && navContent.classList.contains('ativo')) {
+                    navContent.classList.remove('ativo');
+                }
+            }
         });
     }
 
