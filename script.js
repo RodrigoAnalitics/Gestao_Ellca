@@ -7,24 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
     const gridToggleBtn = document.querySelector('.grid-toggle-btn');
-    const searchInput = document.querySelector('.search-box input');
+    const searchInput = document.getElementById('cardSearch') || document.querySelector('.search-box input');
 
-    // ===================== Botão Voltar (Canto Superior Esquerdo) =====================
+    // ===================== Botão Voltar (Canto Superior Direito) =====================
     if (btnVoltar) {
         btnVoltar.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
 
-            // Se a capa (splash screen) estiver oculta na mesma página, reexibe ela
-            const capaWrapper = document.querySelector('.capa-wrapper');
-            if (capaWrapper && getComputedStyle(capaWrapper).display === 'none') {
-                capaWrapper.style.display = 'flex';
-                estaPausado = true;
-                clearTimeout(timerBorda);
-                return;
-            }
-
-            // Se houver página anterior no histórico, retorna; senão redireciona para index.html
             if (window.history.length > 1 && document.referrer !== '') {
                 window.history.back();
             } else {
@@ -33,13 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Helpers de Seleção Dinâmica =====================
+    // ===================== Helpers =====================
     function obterAbas() {
         return Array.from(document.querySelectorAll('.item'));
-    }
-
-    function obterLinksNav() {
-        return Array.from(document.querySelectorAll('.navbar .nav-item, .nav-links a, .nav-links button, .nav-item'));
     }
 
     function obterAbaAtiva() {
@@ -75,101 +61,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 wrapper.classList.toggle('grid-mode');
                 const icone = gridToggleBtn.querySelector('i');
                 if (icone) {
-                    icone.classList.toggle('fa-th-large');
+                    icone.classList.toggle('fa-table-cells');
                     icone.classList.toggle('fa-clone');
                 }
             }
         });
     }
 
-    // ===================== Navegação Inteligente entre Abas (Navbar) =====================
-    function ativarAbaPorElementoOuIndice(navEl, indexFallback, manterPausa = false) {
-        const abas = obterAbas();
-        const links = obterLinksNav();
-        if (abas.length === 0) return;
+    // ===================== Navegação da Navbar =====================
+    document.querySelectorAll('.navbar .nav-item').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
 
-        let indexFinal = -1;
-
-        if (navEl) {
-            const alvoAttr =
-                navEl.getAttribute('data-target') ||
-                navEl.getAttribute('data-tab') ||
-                navEl.getAttribute('data-slide') ||
-                navEl.getAttribute('href');
-
-            if (alvoAttr && alvoAttr !== '#' && !alvoAttr.startsWith('javascript')) {
-                if (/^\d+$/.test(alvoAttr.trim())) {
-                    indexFinal = parseInt(alvoAttr.trim(), 10);
-                } else {
-                    const idLimpo = alvoAttr.replace('#', '').trim();
-                    indexFinal = abas.findIndex(sec =>
-                        sec.id === idLimpo ||
-                        sec.getAttribute('data-category') === idLimpo ||
-                        sec.getAttribute('data-tab') === idLimpo
-                    );
-                }
+            if (href && href !== '#' && !href.startsWith('#')) {
+                return;
             }
 
-            if (indexFinal === -1) {
-                const textoNav = normalizarTexto(navEl.textContent);
-                if (textoNav) {
-                    indexFinal = abas.findIndex(sec => {
-                        const topic = normalizarTexto(sec.querySelector('.topic')?.textContent);
-                        const title = normalizarTexto(sec.querySelector('.title')?.textContent);
-                        return (topic && topic.includes(textoNav)) || (title && title.includes(textoNav));
-                    });
-                }
+            e.preventDefault();
+            document.querySelectorAll('.navbar .nav-item').forEach(n => n.classList.remove('active'));
+            link.classList.add('active');
+
+            if (navContent) navContent.classList.remove('ativo');
+
+            const abaAtiva = obterAbaAtiva();
+            if (abaAtiva && typeof abaAtiva._irParaCard === 'function') {
+                abaAtiva._irParaCard(0);
             }
-        }
-
-        if (indexFinal === -1 && typeof indexFallback === 'number') {
-            indexFinal = indexFallback;
-        }
-
-        if (indexFinal < 0 || indexFinal >= abas.length) return;
-
-        links.forEach((link, i) => {
-            if (navEl) {
-                link.classList.toggle('active', link === navEl);
-            } else {
-                link.classList.toggle('active', i === indexFinal);
-            }
-        });
-
-        abas.forEach((sec, i) => {
-            if (i === indexFinal) {
-                sec.classList.add('active');
-                sec.style.display = 'block';
-            } else {
-                sec.classList.remove('active');
-                sec.style.display = 'none';
-            }
-        });
-
-        if (navContent && !manterPausa) {
-            navContent.classList.remove('ativo');
-        }
-
-        if (!manterPausa) {
             resetarPausaEIniciarCiclo();
-        }
-    }
-
-    obterLinksNav().forEach((link) => {
-        if (link.hasAttribute('onclick')) {
-            const onclickVal = link.getAttribute('onclick');
-            const match = onclickVal.match(/\((\d+)\)/);
-            if (match && !link.hasAttribute('data-slide')) {
-                link.setAttribute('data-slide', match[1]);
-            }
-            link.removeAttribute('onclick');
-        }
+        });
     });
 
     // ===================== Controle do Carrossel 3D por Seção =====================
     obterAbas().forEach((section) => {
         const cards = Array.from(section.querySelectorAll('.glass-card'));
-        const dotsContainer = section.querySelector('.pagination-dots');
+        const dotsContainer = section.querySelector('.pagination-dots') || document.querySelector('.pagination-dots');
         let currentIndex = 0;
 
         if (cards.length === 0) return;
@@ -234,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         atualizarCarrossel();
 
-        // Suporte a Swipe (Arrastar o dedo no Mobile)
         let touchStartX = 0;
         const wrapper = section.querySelector('.cards-wrapper');
         if (wrapper) {
@@ -300,42 +224,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.nextSlide = irParaProximo;
-    window.prevSlide = irParaAnterior;
-    window.proximoSlide = irParaProximo;
-    window.anteriorSlide = irParaAnterior;
-    window.mudarAba = (idx) => ativarAbaPorElementoOuIndice(null, idx);
-
     // ===================== Delegação Global de Cliques =====================
     document.addEventListener('click', (e) => {
-        const navClicado = e.target.closest('.navbar .nav-item, .nav-links a, .nav-links button, .nav-item');
-        if (navClicado) {
-            const href = navClicado.getAttribute('href');
-            if (href && (href.startsWith('http') || href.endsWith('.html'))) {
-                return;
-            }
-
-            e.preventDefault();
-            e.stopPropagation();
-            const todosLinks = obterLinksNav();
-            const idx = todosLinks.indexOf(navClicado);
-            ativarAbaPorElementoOuIndice(navClicado, idx);
-            return;
-        }
-
-        const btnControle = e.target.closest('.controls button, #next, #prev, .next, .prev');
+        const btnControle = e.target.closest('.controls button, .next, .prev');
         if (btnControle) {
             e.preventDefault();
             e.stopPropagation();
 
-            const containerControles = btnControle.closest('.controls');
-            const isPrev =
-                btnControle.id === 'prev' ||
-                btnControle.classList.contains('prev') ||
-                btnControle.querySelector('.fa-chevron-left, .fa-arrow-left, .fa-angle-left') !== null ||
-                (containerControles && btnControle === containerControles.querySelector('button:first-child'));
-
-            if (isPrev) {
+            if (btnControle.classList.contains('prev')) {
                 irParaAnterior();
             } else {
                 irParaProximo();
@@ -420,41 +316,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== Pesquisa Inteligente (Traz o Card para Frente + Filtra na Grade) =====================
+    // ===================== Pesquisa Inteligente (#cardSearch) =====================
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const termo = normalizarTexto(e.target.value);
-            const abas = obterAbas();
-            let primeiroMatch = null;
+            const abaAtiva = obterAbaAtiva();
+            if (!abaAtiva) return;
 
-            abas.forEach((sec, abaIndex) => {
-                const cardsDaAba = Array.from(sec.querySelectorAll('.glass-card'));
-                const wrapper = sec.querySelector('.cards-wrapper');
-                const emGrade = wrapper && wrapper.classList.contains('grid-mode');
+            const cardsDaAba = Array.from(abaAtiva.querySelectorAll('.glass-card'));
+            const wrapper = abaAtiva.querySelector('.cards-wrapper');
+            const emGrade = wrapper && wrapper.classList.contains('grid-mode');
+            let primeiroIndiceEncontrado = -1;
 
-                cardsDaAba.forEach((card, cardIndex) => {
-                    card.classList.remove('search-highlight');
+            cardsDaAba.forEach((card, idx) => {
+                card.classList.remove('search-highlight');
 
-                    if (!termo) {
+                if (!termo) {
+                    card.style.removeProperty('display');
+                    return;
+                }
+
+                const textoCompleto = normalizarTexto(
+                    card.textContent + ' ' + (card.getAttribute('data-title') || '')
+                );
+                const encontrou = textoCompleto.includes(termo);
+
+                if (encontrou) {
+                    card.classList.add('search-highlight');
+                    if (emGrade) {
                         card.style.removeProperty('display');
-                        return;
                     }
-
-                    const textoCard = normalizarTexto(card.textContent);
-                    const encontrou = textoCard.includes(termo);
-
-                    if (encontrou) {
-                        card.classList.add('search-highlight');
-                        if (emGrade) {
-                            card.style.removeProperty('display');
-                        }
-                        if (!primeiroMatch) {
-                            primeiroMatch = { sec, abaIndex, cardIndex, card };
-                        }
-                    } else if (emGrade) {
-                        card.style.setProperty('display', 'none', 'important');
+                    if (primeiroIndiceEncontrado === -1) {
+                        primeiroIndiceEncontrado = idx;
                     }
-                });
+                } else if (emGrade) {
+                    card.style.setProperty('display', 'none', 'important');
+                }
             });
 
             if (!termo) {
@@ -462,19 +359,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (primeiroMatch) {
-                const abaAtual = obterAbaAtiva();
-                if (abaAtual !== primeiroMatch.sec) {
-                    ativarAbaPorElementoOuIndice(null, primeiroMatch.abaIndex, true);
-                }
+            if (primeiroIndiceEncontrado !== -1 && typeof abaAtiva._irParaCard === 'function') {
+                abaAtiva._irParaCard(primeiroIndiceEncontrado);
 
-                if (typeof primeiroMatch.sec._irParaCard === 'function') {
-                    primeiroMatch.sec._irParaCard(primeiroMatch.cardIndex);
+                const cardEncontrado = cardsDaAba[primeiroIndiceEncontrado];
+                if (cardEncontrado) {
+                    estaPausado = true;
+                    clearTimeout(timerBorda);
+                    cardEncontrado.classList.add('pausado');
                 }
-
-                estaPausado = true;
-                clearTimeout(timerBorda);
-                primeiroMatch.card.classList.add('pausado');
             }
         });
 
@@ -489,6 +382,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Inicia o ciclo automático ao abrir a página
     iniciarTimerBorda();
 });
