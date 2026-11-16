@@ -3,10 +3,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let estaPausado = false;
     let timerBorda = null;
 
+    const btnVoltar = document.getElementById('btnVoltar') || document.querySelector('.btn-voltar');
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
     const gridToggleBtn = document.querySelector('.grid-toggle-btn');
     const searchInput = document.querySelector('.search-box input');
+
+    // ===================== Botão Voltar (Canto Superior Esquerdo) =====================
+    if (btnVoltar) {
+        btnVoltar.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Se a capa (splash screen) estiver oculta na mesma página, reexibe ela
+            const capaWrapper = document.querySelector('.capa-wrapper');
+            if (capaWrapper && getComputedStyle(capaWrapper).display === 'none') {
+                capaWrapper.style.display = 'flex';
+                estaPausado = true;
+                clearTimeout(timerBorda);
+                return;
+            }
+
+            // Se houver página anterior no histórico, retorna; senão redireciona para index.html
+            if (window.history.length > 1 && document.referrer !== '') {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+    }
 
     // ===================== Helpers de Seleção Dinâmica =====================
     function obterAbas() {
@@ -411,7 +436,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.classList.remove('search-highlight');
 
                     if (!termo) {
-                        // Restaura exibição normal se a busca foi limpa
                         card.style.removeProperty('display');
                         return;
                     }
@@ -428,19 +452,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             primeiroMatch = { sec, abaIndex, cardIndex, card };
                         }
                     } else if (emGrade) {
-                        // No modo grade, oculta cards que não correspondem à pesquisa
                         card.style.setProperty('display', 'none', 'important');
                     }
                 });
             });
 
-            // Se limpou a busca, retoma o ciclo automático normal
             if (!termo) {
                 resetarPausaEIniciarCiclo();
                 return;
             }
 
-            // Se encontrou um card correspondente: vai até a aba dele, coloca-o em foco e pausa o timer para leitura
             if (primeiroMatch) {
                 const abaAtual = obterAbaAtiva();
                 if (abaAtual !== primeiroMatch.sec) {
@@ -451,14 +472,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     primeiroMatch.sec._irParaCard(primeiroMatch.cardIndex);
                 }
 
-                // Pausa a troca automática enquanto o usuário visualiza o resultado da pesquisa
                 estaPausado = true;
                 clearTimeout(timerBorda);
                 primeiroMatch.card.classList.add('pausado');
             }
         });
 
-        // Permite pressionar Enter na pesquisa (útil no mobile para fechar o teclado e ver o card encontrado)
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
