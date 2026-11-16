@@ -3,23 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let estaPausado = false;
     let timerBorda = null;
 
-    const navItems = Array.from(document.querySelectorAll('.nav-item'));
-    const items = Array.from(document.querySelectorAll('.item'));
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
     const gridToggleBtn = document.querySelector('.grid-toggle-btn');
     const searchInput = document.querySelector('.search-box input');
 
+    // ===================== Helpers de Seleção Dinâmica =====================
+    function obterAbas() {
+        return Array.from(document.querySelectorAll('.item'));
+    }
+
+    function obterLinksNav() {
+        return Array.from(document.querySelectorAll('.navbar .nav-item, .nav-links a, .nav-links button, .nav-item'));
+    }
+
+    function obterAbaAtiva() {
+        const abas = obterAbas();
+        return document.querySelector('.item.active') || abas[0] || null;
+    }
+
     // ===================== Menu Mobile =====================
     if (menuMobileBtn && navContent) {
-        menuMobileBtn.addEventListener('click', () => {
+        menuMobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             navContent.classList.toggle('ativo');
         });
     }
 
     // ===================== Alternar Modo Grade / Carrossel =====================
     if (gridToggleBtn) {
-        gridToggleBtn.addEventListener('click', () => {
+        gridToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             const abaAtiva = obterAbaAtiva();
             if (!abaAtiva) return;
 
@@ -35,37 +49,85 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Helper: Retorna a Aba Ativa Atual =====================
-    function obterAbaAtiva() {
-        return document.querySelector('.item.active') || items[0] || null;
+    // ===================== Navegação Inteligente entre Abas (Navbar) =====================
+    function normalizarTexto(txt) {
+        return (txt || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim();
     }
 
-    // ===================== Navegação entre Abas (Navbar) =====================
-    function ativarAba(alvoIndex, alvoId) {
-        let indexFinal = alvoIndex;
+    function ativarAbaPorElementoOuIndice(navEl, indexFallback) {
+        const abas = obterAbas();
+        const links = obterLinksNav();
+        if (abas.length === 0) return;
 
-        // Se o link da navbar tiver href="#id" ou data-target="#id", busca a seção exata
-        if (alvoId) {
-            const idLimpo = alvoId.replace('#', '').trim();
-            if (idLimpo) {
-                const idxPorId = items.findIndex(sec => sec.id === idLimpo);
-                if (idxPorId !== -1) {
-                    indexFinal = idxPorId;
+        let indexFinal = -1;
+
+        if (navEl) {
+            // 1. Tenta por href="#id" ou data-target / data-tab / data-slide
+            const alvoAttr =
+                navEl.getAttribute('data-target') ||
+                navEl.getAttribute('data-tab') ||
+                navEl.getAttribute('data-slide') ||
+                navEl.getAttribute('href');
+
+            if (alvoAttr && alvoAttr !== '#' && !alvoAttr.startsWith('javascript')) {
+                // Se for um número puro no atributo
+                if (/^\d+$/.test(alvoAttr.trim())) {
+                    indexFinal = parseInt(alvoAttr.trim(), 10);
+                } else {
+                    const idLimpo = alvoAttr.replace('#', '').trim();
+                    indexFinal = abas.findIndex(sec =>
+                        sec.id === idLimpo ||
+                        sec.getAttribute('data-category') === idLimpo ||
+                        sec.getAttribute('data-tab') === idLimpo
+                    );
+                }
+            }
+
+            // 2. Se não achou por ID, tenta pelo texto do botão comparado ao .topic ou .title da seção
+            if (indexFinal === -1) {
+                const textoNav = normalizarTexto(navEl.textContent);
+                if (textoNav) {
+                    indexFinal = abas.findIndex(sec => {
+                        const topic = normalizarTexto(sec.querySelector('.topic')?.textContent);
+                        const title = normalizarTexto(sec.querySelector('.title')?.textContent);
+                        return (topic && topic.includes(textoNav)) || (title && title.includes(textoNav));
+                    });
                 }
             }
         }
 
-        if (indexFinal < 0 || indexFinal >= items.length) return;
+        // 3. Fallback pela posição do botão no menu
+        if (indexFinal === -1 && typeof indexFallback === 'number') {
+            indexFinal = indexFallback;
+        }
 
-        navItems.forEach((n, i) => {
-            n.classList.toggle('active', i === indexFinal);
+        if (indexFinal < 0 || indexFinal >= abas.length) return;
+
+        // Atualiza classe active nos links da navbar
+        links.forEach((link, i) => {
+            if (navEl) {
+                link.classList.toggle('active', link === navEl);
+            } else {
+                link.classList.toggle('active', i === indexFinal);
+            }
         });
 
-        items.forEach((sec, i) => {
-            sec.classList.toggle('active', i === indexFinal);
+        // Exibe a seção escolhida e oculta as demais
+        abas.forEach((sec, i) => {
+            if (i === indexFinal) {
+                sec.classList.add('active');
+                sec.style.display = 'block';
+            } else {
+                sec.classList.remove('active');
+                sec.style.display = 'none';
+            }
         });
 
-        // Fecha o menu hambúrguer no mobile após clicar
+        // Fecha o menu hambúrguer no mobile
         if (navContent) {
             navContent.classList.remove('ativo');
         }
@@ -73,31 +135,20 @@ document.addEventListener('DOMContentLoaded', () => {
         resetarPausaEIniciarCiclo();
     }
 
-    navItems.forEach((nav, index) => {
-        // Remove qualquer onclick inline conflitante para evitar duplo disparo
-        const onclickAttr = nav.getAttribute('onclick');
-        let indexPorOnclick = null;
-        if (onclickAttr) {
-            const matchNum = onclickAttr.match(/\((\d+)\)/);
-            if (matchNum) indexPorOnclick = parseInt(matchNum[1], 10);
-            nav.removeAttribute('onclick');
+    // Limpa atributos onclick antigos dos links da navbar para não bloquearem
+    obterLinksNav().forEach((link) => {
+        if (link.hasAttribute('onclick')) {
+            const onclickVal = link.getAttribute('onclick');
+            const match = onclickVal.match(/\((\d+)\)/);
+            if (match && !link.hasAttribute('data-slide')) {
+                link.setAttribute('data-slide', match[1]);
+            }
+            link.removeAttribute('onclick');
         }
-
-        nav.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const href = nav.getAttribute('href');
-            const dataTarget = nav.getAttribute('data-target') || nav.getAttribute('data-tab');
-            const targetId = (href && href.startsWith('#') && href.length > 1) ? href : dataTarget;
-            const idxUsar = indexPorOnclick !== null ? indexPorOnclick : index;
-
-            ativarAba(idxUsar, targetId);
-        });
     });
 
     // ===================== Controle do Carrossel 3D por Seção =====================
-    items.forEach((section) => {
+    obterAbas().forEach((section) => {
         const cards = Array.from(section.querySelectorAll('.glass-card'));
         const dotsContainer = section.querySelector('.pagination-dots');
         let currentIndex = 0;
@@ -146,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Métodos expostos na seção para Next, Preview e Ciclo Automático
         section._proximoCard = () => {
             currentIndex = (currentIndex + 1) % cards.length;
             atualizarCarrossel();
@@ -157,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
             atualizarCarrossel();
         };
 
-        // Inicializa o carrossel da seção
         atualizarCarrossel();
 
         // Suporte a Swipe (Arrastar o dedo no Mobile)
@@ -185,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== Botões NEXT e PREVIEW (Prev) Universais =====================
+    // ===================== Funções de Navegação e Pausa =====================
     function irParaProximo() {
         const abaAtiva = obterAbaAtiva();
         if (abaAtiva && typeof abaAtiva._proximoCard === 'function') {
@@ -202,35 +251,116 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Expõe funções globais caso algum botão no HTML tenha onclick="nextSlide()" / "prevSlide()"
+    function alternarPausaCardAtivo() {
+        const abaAtiva = obterAbaAtiva();
+        if (!abaAtiva) return;
+
+        const wrapper = abaAtiva.querySelector('.cards-wrapper');
+        if (wrapper && wrapper.classList.contains('grid-mode')) return;
+
+        const cardAtivo = abaAtiva.querySelector('.glass-card.card-front');
+        if (!cardAtivo) return;
+
+        estaPausado = !estaPausado;
+
+        if (estaPausado) {
+            cardAtivo.classList.add('pausado');
+            clearTimeout(timerBorda);
+        } else {
+            cardAtivo.classList.remove('pausado');
+            // Reinicia a animação da borda neon do zero ao retomar
+            cardAtivo.classList.remove('card-front');
+            void cardAtivo.offsetWidth;
+            cardAtivo.classList.add('card-front');
+            iniciarTimerBorda();
+        }
+    }
+
+    // Expõe funções globais caso algum HTML externo chame diretamente
     window.nextSlide = irParaProximo;
     window.prevSlide = irParaAnterior;
     window.proximoSlide = irParaProximo;
     window.anteriorSlide = irParaAnterior;
-    window.mudarAba = (idx) => ativarAba(idx, null);
+    window.mudarAba = (idx) => ativarAbaPorElementoOuIndice(null, idx);
 
-    // Captura cliques em qualquer botão de controle (Next / Preview) dentro ou fora de .item
-    document.querySelectorAll('.controls button, #next, #prev, .next, .prev').forEach((btn) => {
-        // Remove onclick inline antigo para evitar pular 2 cards de uma vez
-        btn.removeAttribute('onclick');
+    // ===================== Delegação Global de Cliques (Navbar, Controles e Card Ativo) =====================
+    document.addEventListener('click', (e) => {
+        // 1. Cliques nos botões do menu Navbar
+        const navClicado = e.target.closest('.navbar .nav-item, .nav-links a, .nav-links button, .nav-item');
+        if (navClicado) {
+            // Se for um link externo real (ex: https://... ou outra página .html), deixa navegar
+            const href = navClicado.getAttribute('href');
+            if (href && (href.startsWith('http') || href.endsWith('.html'))) {
+                return;
+            }
 
-        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const todosLinks = obterLinksNav();
+            const idx = todosLinks.indexOf(navClicado);
+            ativarAbaPorElementoOuIndice(navClicado, idx);
+            return;
+        }
+
+        // 2. Cliques nos botões Next e Preview (Prev)
+        const btnControle = e.target.closest('.controls button, #next, #prev, .next, .prev');
+        if (btnControle) {
             e.preventDefault();
             e.stopPropagation();
 
-            const containerControles = btn.closest('.controls');
+            const containerControles = btnControle.closest('.controls');
             const isPrev =
-                btn.id === 'prev' ||
-                btn.classList.contains('prev') ||
-                btn.querySelector('.fa-chevron-left, .fa-arrow-left, .fa-angle-left') !== null ||
-                (containerControles && btn === containerControles.querySelector('button:first-child'));
+                btnControle.id === 'prev' ||
+                btnControle.classList.contains('prev') ||
+                btnControle.querySelector('.fa-chevron-left, .fa-arrow-left, .fa-angle-left') !== null ||
+                (containerControles && btnControle === containerControles.querySelector('button:first-child'));
 
             if (isPrev) {
                 irParaAnterior();
             } else {
                 irParaProximo();
             }
-        });
+            return;
+        }
+
+        // 3. Clique no Card Ativo para Pausar / Retomar o contador e a borda neon
+        const cardAtivo = e.target.closest('.glass-card.card-front');
+        if (cardAtivo) {
+            if (e.target.closest('button, a')) return; // Não intercepta botões internos do card
+            alternarPausaCardAtivo();
+        }
+    });
+
+    // ===================== Controle pelo Teclado (Setas + Barra de Espaço) =====================
+    document.addEventListener('keydown', (e) => {
+        // Não interfere enquanto o usuário digita na barra de busca ou em algum campo de texto
+        const tagAtiva = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+        if (tagAtiva === 'input' || tagAtiva === 'textarea' || document.activeElement?.isContentEditable) {
+            return;
+        }
+
+        const abaAtiva = obterAbaAtiva();
+        const wrapper = abaAtiva?.querySelector('.cards-wrapper');
+        const emModoGrade = wrapper && wrapper.classList.contains('grid-mode');
+
+        if (e.key === 'ArrowRight') {
+            if (!emModoGrade) {
+                e.preventDefault();
+                irParaProximo();
+            }
+        } else if (e.key === 'ArrowLeft') {
+            if (!emModoGrade) {
+                e.preventDefault();
+                irParaAnterior();
+            }
+        } else if (e.code === 'Space' || e.key === ' ') {
+            // Evita acionar se o foco estiver em um botão da página
+            if (tagAtiva === 'button' || tagAtiva === 'a') return;
+            if (!emModoGrade) {
+                e.preventDefault(); // Evita rolar a página para baixo
+                alternarPausaCardAtivo();
+            }
+        }
     });
 
     // ===================== Ciclo Automático Sincronizado com a Borda Neon (360°) =====================
@@ -271,32 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.animationName === 'borderNeonSweep' && !estaPausado) {
             clearTimeout(timerBorda);
             avancarAutomaticamente();
-        }
-    });
-
-    // ===================== Clique no Card Ativo: Pausa / Retoma Contador e Luz Neon =====================
-    document.addEventListener('click', (e) => {
-        const cardAtivo = e.target.closest('.glass-card.card-front');
-        if (!cardAtivo) return;
-
-        // Ignora cliques em botões ou links dentro do card
-        if (e.target.closest('button, a')) return;
-
-        const wrapper = cardAtivo.closest('.cards-wrapper');
-        if (wrapper && wrapper.classList.contains('grid-mode')) return;
-
-        estaPausado = !estaPausado;
-
-        if (estaPausado) {
-            cardAtivo.classList.add('pausado');
-            clearTimeout(timerBorda);
-        } else {
-            cardAtivo.classList.remove('pausado');
-            // Reinicia a animação da borda neon do zero ao retomar
-            cardAtivo.classList.remove('card-front');
-            void cardAtivo.offsetWidth;
-            cardAtivo.classList.add('card-front');
-            iniciarTimerBorda();
         }
     });
 
