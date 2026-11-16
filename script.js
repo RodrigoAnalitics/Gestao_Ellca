@@ -237,3 +237,87 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicia o primeiro ciclo ao abrir a página
     iniciarCicloBorda();
 });
+/* ===================== MÓDULO DE CICLO AUTOMÁTICO (BORDA 360° + PAUSA NO CLIQUE) ===================== */
+document.addEventListener('DOMContentLoaded', () => {
+    const TEMPO_POR_CARD = 6000; // Mesmo tempo do CSS (6s = 6000ms)
+    let estaPausado = false;
+    let timerBorda = null;
+
+    // Descobre qual botão "Próximo" existe na aba ativa (seja por ID, classe ou atributo onclick)
+    function acionarProximoCard() {
+        if (estaPausado) return;
+
+        const abaAtiva = document.querySelector('.item.active') || document;
+        const wrapper = abaAtiva.querySelector('.cards-wrapper');
+        
+        // Não avança sozinho se estiver no modo grade/colunas
+        if (wrapper && wrapper.classList.contains('grid-mode')) return;
+
+        // Procura o botão Next pelo seletor mais comum no seu HTML
+        const btnNext = 
+            abaAtiva.querySelector('#next, .next, [onclick*="next"], [onclick*="proximo"]') ||
+            document.querySelector('#next, .next, [onclick*="next"], [onclick*="proximo"]') ||
+            abaAtiva.querySelector('.controls button:last-child');
+
+        if (btnNext) {
+            btnNext.click();
+        }
+    }
+
+    // Inicia ou reinicia o timer de 6 segundos sincronizado com a borda
+    function iniciarTimerBorda() {
+        clearTimeout(timerBorda);
+        if (estaPausado) return;
+
+        timerBorda = setTimeout(() => {
+            if (!estaPausado) {
+                acionarProximoCard();
+            }
+        }, TEMPO_POR_CARD);
+    }
+
+    // Quando a borda completa 360 graus no CSS, dispara a troca imediatamente
+    document.addEventListener('animationend', (e) => {
+        if (e.animationName === 'borderNeonSweep' && !estaPausado) {
+            clearTimeout(timerBorda);
+            acionarProximoCard();
+        }
+    });
+
+    // Clique no Card Ativo: Pausa na 1ª vez, Retoma na 2ª vez (Desktop e Mobile)
+    document.addEventListener('click', (e) => {
+        // Se clicou em botões de navegação (setas, dots, menu, grade), apenas reseta a pausa e reinicia a contagem
+        if (e.target.closest('.controls, .pagination-dots, .nav-item, .grid-toggle-btn')) {
+            estaPausado = false;
+            document.querySelectorAll('.glass-card.pausado').forEach(c => c.classList.remove('pausado'));
+            iniciarTimerBorda();
+            return;
+        }
+
+        const cardAtivo = e.target.closest('.glass-card.card-front');
+        if (!cardAtivo) return;
+
+        // Se clicou nos botões internos do card ("Acessar", "Detalhes"), deixa o botão funcionar normalmente
+        if (e.target.closest('button, a')) return;
+
+        const wrapper = cardAtivo.closest('.cards-wrapper');
+        if (wrapper && wrapper.classList.contains('grid-mode')) return;
+
+        estaPausado = !estaPausado;
+
+        if (estaPausado) {
+            cardAtivo.classList.add('pausado');
+            clearTimeout(timerBorda);
+        } else {
+            cardAtivo.classList.remove('pausado');
+            // Reinicia a animação da borda neon ao despausar
+            cardAtivo.classList.remove('card-front');
+            void cardAtivo.offsetWidth;
+            cardAtivo.classList.add('card-front');
+            iniciarTimerBorda();
+        }
+    });
+
+    // Inicia o ciclo ao carregar a página
+    iniciarTimerBorda();
+});
