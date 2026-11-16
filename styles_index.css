@@ -29,6 +29,112 @@ a {
     color: inherit; 
 }
 
+/* ===================== TELA DE CAPA (index.html) ===================== */
+.capa-bg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.88)), url('img/Capa_home.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.capa-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 5%;
+    overflow: hidden;
+}
+
+.capa-logo {
+    width: min(290px, 60vw);
+    max-height: 24vh;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.4));
+    animation: capaLogoFloat 4s ease-in-out infinite;
+}
+
+@keyframes capaLogoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.capa-title {
+    font-size: clamp(26px, 3.6vw, 46px);
+    font-weight: 900;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+
+.capa-title span {
+    display: inline-block;
+    margin-top: 4px;
+}
+
+.capa-subtitle {
+    font-size: clamp(12px, 1vw, 14.5px);
+    color: #a0aec0;
+    line-height: 1.55;
+    max-width: 540px;
+    margin: 0 auto 28px auto;
+}
+
+.btn-iniciar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 42px;
+    border-radius: 50px;
+    border: 1.5px solid var(--primary);
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.16), rgba(0, 85, 255, 0.25));
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 22px rgba(0, 212, 255, 0.35), inset 0 0 12px rgba(0, 212, 255, 0.18);
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.btn-iniciar:hover {
+    background: var(--primary);
+    color: #000000;
+    box-shadow: 0 0 35px var(--primary);
+    transform: translateY(-3px) scale(1.04);
+}
+
+.version-tag {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
 /* ===================== Camada de Cinema (Overlay) ===================== */
 .item::before {
     content: ''; 
@@ -871,6 +977,39 @@ a {
         background-repeat: no-repeat !important;
     }
 
+    /* Capa Mobile */
+    .capa-wrapper {
+        padding: 20px 6%;
+        justify-content: center;
+    }
+
+    .capa-logo {
+        width: min(210px, 58vw);
+        max-height: 20vh;
+        margin-bottom: 14px;
+    }
+
+    .capa-title {
+        font-size: 24px !important;
+        margin-bottom: 10px;
+    }
+
+    .capa-subtitle {
+        font-size: 12px;
+        margin-bottom: 22px;
+    }
+
+    .btn-iniciar {
+        padding: 12px 32px;
+        font-size: 12px;
+    }
+
+    .version-tag {
+        bottom: 14px;
+        font-size: 9px;
+    }
+
+    /* Navbar Mobile */
     .navbar {
         padding: 10px 4%;
     }
