@@ -35,11 +35,27 @@ a {
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background-image: linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.88)), url('img/Capa_home.jpg');
+    background-image: 
+        radial-gradient(circle at 50% 42%, rgba(0, 212, 255, 0.14) 0%, transparent 55%),
+        linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.90)),
+        url('img/Capa_home.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 0;
+}
+
+.capa-grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85) 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85) 20%, transparent 80%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .capa-wrapper {
@@ -55,14 +71,80 @@ a {
     text-align: center;
     padding: 24px 5%;
     overflow: hidden;
+    transition: opacity 0.38s ease, transform 0.38s ease;
+}
+
+.capa-wrapper.saindo {
+    opacity: 0;
+    transform: scale(1.03);
+}
+
+/* Cantoneiras HUD discretas */
+.capa-wrapper::before,
+.capa-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border-color: rgba(0, 212, 255, 0.35);
+    border-style: solid;
+    pointer-events: none;
+}
+
+.capa-wrapper::before {
+    top: 24px;
+    left: 24px;
+    border-width: 2px 0 0 2px;
+}
+
+.capa-wrapper::after {
+    bottom: 24px;
+    right: 24px;
+    border-width: 0 2px 2px 0;
+}
+
+.capa-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    background: rgba(0, 212, 255, 0.07);
+    border: 1px solid rgba(0, 212, 255, 0.22);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    color: var(--primary);
+    margin-bottom: 22px;
+    backdrop-filter: blur(6px);
+    animation: capaFadeUp 0.6s ease both;
+}
+
+.capa-logo-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    animation: capaFadeUp 0.7s ease 0.1s both;
+}
+
+.capa-logo-box::before {
+    content: '';
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.22) 0%, transparent 70%);
+    filter: blur(12px);
+    z-index: -1;
 }
 
 .capa-logo {
-    width: min(290px, 60vw);
-    max-height: 24vh;
+    width: min(275px, 58vw);
+    max-height: 22vh;
     height: auto;
     object-fit: contain;
-    margin-bottom: 18px;
     filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.4));
     animation: capaLogoFloat 4s ease-in-out infinite;
 }
@@ -70,6 +152,17 @@ a {
 @keyframes capaLogoFloat {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-6px); }
+}
+
+@keyframes capaFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .capa-title {
@@ -80,6 +173,7 @@ a {
     color: #ffffff;
     margin-bottom: 14px;
     letter-spacing: 1px;
+    animation: capaFadeUp 0.7s ease 0.2s both;
 }
 
 .capa-title span {
@@ -93,14 +187,17 @@ a {
     line-height: 1.55;
     max-width: 540px;
     margin: 0 auto 28px auto;
+    animation: capaFadeUp 0.7s ease 0.3s both;
 }
 
 .btn-iniciar {
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 14px 42px;
+    gap: 12px;
+    padding: 15px 46px;
     border-radius: 50px;
     border: 1.5px solid var(--primary);
     background: linear-gradient(90deg, rgba(0, 212, 255, 0.16), rgba(0, 85, 255, 0.25));
@@ -113,13 +210,52 @@ a {
     backdrop-filter: blur(8px);
     box-shadow: 0 0 22px rgba(0, 212, 255, 0.35), inset 0 0 12px rgba(0, 212, 255, 0.18);
     transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: capaFadeUp 0.7s ease 0.4s both;
+}
+
+.btn-iniciar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+    transform: skewX(-25deg);
+    animation: btnShine 4.5s infinite;
+}
+
+@keyframes btnShine {
+    0%, 65% { left: -120%; }
+    100% { left: 160%; }
 }
 
 .btn-iniciar:hover {
     background: var(--primary);
     color: #000000;
-    box-shadow: 0 0 35px var(--primary);
+    box-shadow: 0 0 36px var(--primary);
     transform: translateY(-3px) scale(1.04);
+}
+
+.btn-iniciar i {
+    transition: transform 0.35s ease;
+}
+
+.btn-iniciar:hover i {
+    transform: rotate(90deg);
+}
+
+.capa-hint {
+    margin-top: 14px;
+    font-size: 10.5px;
+    color: rgba(160, 174, 192, 0.65);
+    letter-spacing: 0.6px;
+    animation: capaFadeUp 0.7s ease 0.5s both;
+}
+
+.capa-hint strong {
+    color: var(--primary);
+    font-weight: 700;
 }
 
 .version-tag {
@@ -802,7 +938,7 @@ a {
     border-color: #fff; 
 }
 
-/* ===================== Controles e Paginação ===================== */
+/* ===================== Controles e Paginação (Bolinhas Animadas) ===================== */
 .controls-container { 
     position: absolute; 
     bottom: 20px; 
@@ -841,24 +977,67 @@ a {
 
 .pagination-dots { 
     display: flex; 
-    gap: 6px; 
+    gap: 8px; 
     align-items: center; 
+    padding: 6px 12px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
 }
 
 .dot { 
-    width: 8px; 
-    height: 8px; 
+    position: relative;
+    width: 9px; 
+    height: 9px; 
     border-radius: 50%; 
-    background: rgba(255, 255, 255, 0.2); 
+    background: rgba(255, 255, 255, 0.22); 
+    border: 1px solid rgba(255, 255, 255, 0.15);
     cursor: pointer; 
-    transition: 0.3s; 
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+
+.dot:hover:not(.active) {
+    transform: scale(1.4);
+    background: rgba(0, 212, 255, 0.55);
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
+}
+
+.dot:active {
+    transform: scale(0.9);
 }
 
 .dot.active { 
-    width: 20px; 
-    border-radius: 4px; 
-    background: var(--primary); 
-    box-shadow: 0 0 6px var(--primary); 
+    width: 26px; 
+    border-radius: 50px; 
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary)); 
+    border-color: #ffffff;
+    box-shadow: 0 0 12px var(--primary), 0 0 4px #ffffff;
+    animation: dotPulseGlow 2.4s ease-in-out infinite;
+}
+
+/* Feixe de energia percorrendo a bolinha ativa */
+.dot.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+    animation: dotSweep 2.2s linear infinite;
+}
+
+@keyframes dotSweep {
+    0% { left: -100%; }
+    100% { left: 160%; }
+}
+
+@keyframes dotPulseGlow {
+    0%, 100% { box-shadow: 0 0 10px var(--primary), 0 0 3px #ffffff; }
+    50% { box-shadow: 0 0 18px var(--primary), 0 0 8px #ffffff; }
 }
 
 /* ===================== Rodapé Minimalista ===================== */
@@ -983,6 +1162,12 @@ a {
         justify-content: center;
     }
 
+    .capa-status-pill {
+        font-size: 8.5px;
+        padding: 5px 12px;
+        margin-bottom: 16px;
+    }
+
     .capa-logo {
         width: min(210px, 58vw);
         max-height: 20vh;
@@ -1002,6 +1187,10 @@ a {
     .btn-iniciar {
         padding: 12px 32px;
         font-size: 12px;
+    }
+
+    .capa-hint {
+        display: none;
     }
 
     .version-tag {
@@ -1243,13 +1432,18 @@ a {
         font-size: 11px;
     }
 
+    .pagination-dots {
+        padding: 4px 10px;
+        gap: 6px;
+    }
+
     .dot {
-        width: 6px;
-        height: 6px;
+        width: 7px;
+        height: 7px;
     }
 
     .dot.active {
-        width: 16px;
+        width: 20px;
     }
 }
 
