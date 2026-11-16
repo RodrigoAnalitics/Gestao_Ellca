@@ -395,13 +395,14 @@ a {
     filter: brightness(0.7);
 }
 
-/* CARD ATIVO: Fundo opaco refinado para leitura fluida */
+/* CARD ATIVO: Fundo opaco refinado e cursor interativo para pausa */
 .glass-card.card-front {
     transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg) !important; 
     filter: brightness(1) !important;
     opacity: 1; 
     z-index: 20; 
     pointer-events: auto; 
+    cursor: pointer;
     background: linear-gradient(135deg, rgba(12, 22, 42, 0.88) 0%, rgba(6, 14, 28, 0.82) 100%) !important;
     border-color: var(--primary);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
@@ -415,6 +416,63 @@ a {
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 
                 0 0 40px rgba(0, 212, 255, 0.6), 
                 0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
+}
+
+/* ===================== Feixe de Luz Neon na Borda do Card Ativo ===================== */
+@property --neon-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes borderNeonSweep {
+    0% { --neon-angle: 0deg; }
+    100% { --neon-angle: 360deg; }
+}
+
+.glass-card.card-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    padding: 2.5px;
+    background: conic-gradient(
+        from var(--neon-angle),
+        transparent 0%,
+        transparent 68%,
+        rgba(0, 212, 255, 0.4) 80%,
+        #ffffff 92%,
+        var(--primary) 100%
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 25;
+    animation: borderNeonSweep 6s linear infinite;
+}
+
+/* Quando o usuário clica no card ativo para pausar */
+.glass-card.card-front.pausado::before {
+    animation-play-state: paused !important;
+    background: conic-gradient(
+        from var(--neon-angle),
+        rgba(241, 196, 15, 0.35) 0%,
+        #f1c40f 100%
+    );
+}
+
+.glass-card.card-front.pausado {
+    border-color: #f1c40f !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
+                0 0 28px rgba(241, 196, 15, 0.45) !important;
+}
+
+/* Remove o feixe se estiver no modo grade/colunas */
+.cards-wrapper.grid-mode .glass-card.card-front::before {
+    display: none !important;
 }
 
 .glass-card.card-front h3 {
@@ -1118,7 +1176,7 @@ a {
     width: 100%;
     height: 100%;
     background-image: linear-gradient(rgba(2, 5, 10, 0.885), rgba(2, 5, 10, 0.75)), 
-                      url('img/Capa_index.jpg');
+                      url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
     z-index: 1;
