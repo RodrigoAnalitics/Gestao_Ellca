@@ -19,10 +19,19 @@
 <body>
 
     <div class="capa-bg"></div>
+    <div class="capa-grid-overlay"></div>
 
-    <div class="capa-wrapper">
-        <!-- Logo animada -->
-        <img src="img/logo_ellca.png" alt="Logo ELLCA" class="capa-logo">
+    <div class="capa-wrapper" id="capaWrapper">
+        <!-- Badge de Status Superior -->
+        <div class="capa-status-pill">
+            <span class="pulse-dot"></span>
+            <span>AMBIENTE OPERACIONAL • CONEXÃO SEGURA</span>
+        </div>
+
+        <!-- Logo animada com halo de luz -->
+        <div class="capa-logo-box">
+            <img src="img/logo_ellca.png" alt="Logo ELLCA" class="capa-logo">
+        </div>
         
         <!-- Título com efeito neon herdado -->
         <h1 class="capa-title title">
@@ -34,13 +43,45 @@
         </p>
         
         <!-- Botão que direciona para a página principal -->
-        <a href="home.html" class="btn-iniciar">
-            INICIAR <i class="fa-solid fa-power-off"></i>
+        <a href="home.html" class="btn-iniciar" id="btnIniciar">
+            <span>INICIAR</span>
+            <i class="fa-solid fa-power-off"></i>
         </a>
+
+        <span class="capa-hint">Pressione <strong>ENTER</strong> ou clique para acessar</span>
 
         <!-- Rodapé simples de sistema -->
         <div class="version-tag">ELLCA V2.4.0 • ACESSO RESTRITO</div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnIniciar = document.getElementById('btnIniciar');
+            const capaWrapper = document.getElementById('capaWrapper');
+
+            function entrarNoSistema(e) {
+                if (e) e.preventDefault();
+                if (!capaWrapper || !btnIniciar) {
+                    window.location.href = 'home.html';
+                    return;
+                }
+                capaWrapper.classList.add('saindo');
+                setTimeout(() => {
+                    window.location.href = btnIniciar.getAttribute('href');
+                }, 380);
+            }
+
+            if (btnIniciar) {
+                btnIniciar.addEventListener('click', entrarNoSistema);
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    entrarNoSistema(e);
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
