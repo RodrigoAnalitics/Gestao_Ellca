@@ -451,7 +451,7 @@ a {
     mask-composite: exclude;
     pointer-events: none;
     z-index: 25;
-    animation: borderNeonSweep 6s linear infinite;
+    animation: borderNeonSweep 6s linear 1 forwards;
 }
 
 /* Quando o usuário clica no card ativo para pausar */
