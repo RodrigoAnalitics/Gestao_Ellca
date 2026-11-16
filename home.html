@@ -16,15 +16,10 @@
     <div class="desktop-view">
         <!-- NAVBAR -->
         <nav class="navbar">
-            <div class="nav-brand-group">
-                <button class="btn-voltar" id="btnVoltar" title="Voltar ao Início">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <div class="logo">
-                    <a href="index.html"> 
-                        <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
-                    </a>
-                </div>
+            <div class="logo">
+                <a href="index.html"> 
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
+                </a>
             </div>
 
             <!-- Botão Hambúrguer Mobile -->
@@ -32,7 +27,7 @@
                 <i class="fa-solid fa-bars"></i>
             </button>
 
-            <!-- Conteúdo da Navbar agrupado para responsividade perfeita -->
+            <!-- Conteúdo da Navbar -->
             <div class="nav-content">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
@@ -49,9 +44,14 @@
                     <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
                     <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
                     
-                    <button class="grid-toggle-btn" title="Alternar visualização em Grade">
-                        <i class="fa-solid fa-table-cells"></i>
-                    </button>
+                    <div class="nav-actions-group">
+                        <button class="grid-toggle-btn" title="Alternar visualização em Grade">
+                            <i class="fa-solid fa-table-cells"></i>
+                        </button>
+                        <button class="btn-voltar" id="btnVoltar" title="Voltar">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -120,7 +120,7 @@
                                 </div>
                                     
                                 <!-- CARD 3 -->
-                                <div class="glass-card" data-index="2" data-title="documentos docs">
+                                <div class="glass-card" data-index="2" data-title="documentos docs gerencia">
                                     <div class="badge gold">CONTROLE <i class="fa-regular fa-clipboard"></i></div>
                                     <div class="img-box" style="background-image: url('img/Card_gerencial.jpg');"></div>
                                     <h3>GERENCIA</h3>
@@ -130,7 +130,7 @@
                                         <span><i class="fa-solid fa-calendar"></i> Período</span>
                                     </div>
                                     <div class="actions">
-                                        <button class="btn-primary"><a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
+                                        <button class="btn-primary"><a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
                                         <button class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
