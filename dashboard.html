@@ -6,13 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELLCA | DASHBOARD</title>
 
-    <!-- Fonte -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-
-    <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="styles_index.css">
 </head>
 
@@ -21,15 +16,10 @@
     <div class="desktop-view">
         <!-- NAVBAR -->
         <nav class="navbar">
-            <div class="nav-brand-group">
-                <button class="btn-voltar" id="btnVoltar" title="Voltar">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <div class="logo">
-                    <a href="index.html"> 
-                        <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
-                    </a>
-                </div>
+            <div class="logo">
+                <a href="index.html"> 
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
+                </a>
             </div>
 
             <!-- Botão Hambúrguer Mobile -->
@@ -37,7 +27,7 @@
                 <i class="fa-solid fa-bars"></i>
             </button>
 
-            <!-- Conteúdo da Navbar agrupado para responsividade perfeita -->
+            <!-- Conteúdo da Navbar -->
             <div class="nav-content">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
@@ -54,9 +44,14 @@
                     <a href="#" class="nav-item active">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
                     <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
                     
-                    <button class="grid-toggle-btn" title="Alternar visualização em Grade">
-                        <i class="fa-solid fa-table-cells"></i>
-                    </button>
+                    <div class="nav-actions-group">
+                        <button class="grid-toggle-btn" title="Alternar visualização em Grade">
+                            <i class="fa-solid fa-table-cells"></i>
+                        </button>
+                        <button class="btn-voltar" id="btnVoltar" title="Voltar">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -314,7 +309,7 @@
                 <div class="pagination-dots"></div>
             </div>
 
-            <!-- RODAPÉ PADRONIZADO COM BOTÃO SUPORTE -->
+            <!-- RODAPÉ -->
             <footer class="footer-bar">
                 <div class="footer-info">
                     <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
@@ -330,8 +325,6 @@
         </div>
     </div>
 
-    <!-- JS -->
     <script src="script.js"></script>
 </body>
-
 </html>
