@@ -20,46 +20,51 @@
 
     <div class="desktop-view">
         <!-- NAVBAR -->
-<nav class="navbar">
-    <div class="logo">
-        <a href="index.html"> 
-            <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
-        </a>
-    </div>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html"> 
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
+                </a>
+            </div>
 
-    <!-- Botão Hambúrguer Mobile -->
-    <button class="menu-mobile-btn" aria-label="Abrir Menu">
-        <i class="fa-solid fa-bars"></i>
-    </button>
-
-    <!-- Conteúdo da Navbar -->
-    <div class="nav-content">
-        <div class="nav-status">
-            <span class="pulse-dot"></span>
-            <span class="status-text">REDES ONLINE • 12ms</span>
-        </div>
-
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="cardSearch" placeholder="Pesquisar...">
-        </div>
-
-        <div class="nav-links">
-            <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
-            <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
-            <a href="planilha.html" class="nav-item active">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
-            
-            <div class="nav-actions-group">
-                <button class="grid-toggle-btn" title="Alternar visualização em Grade">
-                    <i class="fa-solid fa-table-cells"></i>
-                </button>
-                <button class="btn-voltar" id="btnVoltar" title="Voltar">
+            <!-- Ações Mobile: Voltar para Home + Menu Hambúrguer lado a lado -->
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
-        </div>
-    </div>
-</nav>
+
+            <!-- Conteúdo da Navbar -->
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">REDES ONLINE • 12ms</span>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="cardSearch" placeholder="Pesquisar...">
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
+                    <a href="planilha.html" class="nav-item active">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    
+                    <div class="nav-actions-group">
+                        <button class="grid-toggle-btn" title="Alternar visualização em Grade">
+                            <i class="fa-solid fa-table-cells"></i>
+                        </button>
+                        <button class="btn-voltar btn-voltar-desktop" id="btnVoltar" data-destino="home.html" title="Voltar para Home">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
         <!-- CONTAINER PRINCIPAL -->
         <div class="container">
