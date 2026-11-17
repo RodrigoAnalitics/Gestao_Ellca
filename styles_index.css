@@ -530,7 +530,7 @@ a {
     white-space: nowrap;
 }
 
-/* ===================== Carrossel 3D e Modo Grade ===================== */
+/* ===================== Carrossel 3D (Desktop) e Modo Grade ===================== */
 .cards-section { 
     position: relative; 
     width: 100%; 
@@ -648,7 +648,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards (Carrossel 3D) ===================== */
+/* ===================== Glass Cards (Carrossel 3D Desktop) ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -672,8 +672,8 @@ a {
 
 /* CARD ATIVO */
 .glass-card.card-front {
-    transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg) !important; 
-    filter: brightness(1) !important;
+    transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg); 
+    filter: brightness(1);
     opacity: 1; 
     z-index: 20; 
     pointer-events: auto; 
@@ -686,11 +686,49 @@ a {
 }
 
 .glass-card.card-front:hover { 
-    transform: translateY(-8px) translateZ(35px) scale(1.06) !important; 
+    transform: translateY(-8px) translateZ(35px) scale(1.06); 
     border-color: #fff; 
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 
                 0 0 40px rgba(0, 212, 255, 0.6), 
                 0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
+}
+
+/* Cards Laterais Visíveis e Clicáveis no Desktop */
+.glass-card.card-back-right { 
+    transform: translateX(210px) translateZ(-70px) scale(0.80); 
+    opacity: 0.72; 
+    z-index: 5; 
+    filter: blur(1.5px) brightness(0.85);
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.glass-card.card-back-left { 
+    transform: translateX(-210px) translateZ(-70px) scale(0.80); 
+    opacity: 0.72; 
+    z-index: 5; 
+    filter: blur(1.5px) brightness(0.85);
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.glass-card.card-back-right:hover {
+    opacity: 0.92;
+    filter: blur(0px) brightness(1);
+    transform: translateX(215px) translateZ(-55px) scale(0.83);
+}
+
+.glass-card.card-back-left:hover {
+    opacity: 0.92;
+    filter: blur(0px) brightness(1);
+    transform: translateX(-215px) translateZ(-55px) scale(0.83);
+}
+
+.glass-card.card-hidden { 
+    transform: translateX(0) translateZ(-180px) scale(0.6); 
+    opacity: 0; 
+    z-index: 1; 
+    pointer-events: none;
 }
 
 /* ===================== Feixe de Luz Neon na Borda do Card Ativo ===================== */
@@ -793,27 +831,6 @@ a {
 .glass-card.search-highlight {
     border-color: #ffffff !important;
     box-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 12px rgba(255, 255, 255, 0.6) !important;
-    transform: translateY(-3px) scale(1.02) !important;
-}
-
-.glass-card.card-back-right { 
-    transform: translateX(210px) translateZ(-70px) scale(0.80); 
-    opacity: 0.70; 
-    z-index: 5; 
-    filter: blur(2px); 
-}
-
-.glass-card.card-back-left { 
-    transform: translateX(-210px) translateZ(-70px) scale(0.80); 
-    opacity: 0.70; 
-    z-index: 5; 
-    filter: blur(2px); 
-}
-
-.glass-card.card-hidden { 
-    transform: translateX(0) translateZ(-180px) scale(0.6); 
-    opacity: 0; 
-    z-index: 1; 
 }
 
 .glass-card > * { 
@@ -1177,7 +1194,7 @@ a {
     box-shadow: 0 0 8px var(--primary);
 }
 
-/* ===================== Responsividade Mobile ===================== */
+/* ===================== Responsividade Mobile (Isolado <= 768px) ===================== */
 @media (max-width: 768px) {
     .item, .capa-bg, body {
         background-position: center center !important;
@@ -1358,7 +1375,6 @@ a {
                     filter 0.45s ease !important;
     }
 
-    /* Card ativo centralizado em foco nítido */
     .glass-card.card-front {
         transform: translateX(0) scale(1) !important; 
         opacity: 1 !important;
@@ -1369,7 +1385,6 @@ a {
                     0 0 22px rgba(0, 212, 255, 0.32) !important;
     }
 
-    /* Cards inativos ficam completamente invisíveis (sem sombra atrás) */
     .glass-card.card-back-right {
         transform: translateX(48px) scale(0.92) !important;
         opacity: 0 !important;
