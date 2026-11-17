@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPaused = false;
     let isGridMode = false;
 
+    const isMobile = () => window.innerWidth <= 768;
+
     // ===================== Botão Voltar (Desktop e Mobile) =====================
     document.querySelectorAll('.btn-voltar').forEach((btn) => {
         btn.addEventListener('click', (e) => {
@@ -57,6 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ===================== Animação de Arremesso no Mobile =====================
+    function animarSaidaMobile(indexSaindo, direcao) {
+        if (!isMobile() || isGridMode || !cards[indexSaindo]) return;
+        const cardSaindo = cards[indexSaindo];
+        const classeThrow = direcao === 'next' ? 'card-throw-left' : 'card-throw-right';
+
+        cardSaindo.classList.remove('card-throw-left', 'card-throw-right');
+        void cardSaindo.offsetWidth;
+        cardSaindo.classList.add(classeThrow);
+
+        setTimeout(() => {
+            cardSaindo.classList.remove('card-throw-left', 'card-throw-right');
+        }, 440);
+    }
+
     // ===================== Paginação (Bolinhas) =====================
     function criarBolinhas() {
         if (!paginationContainer || cards.length === 0) return;
@@ -68,8 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (index === currentIndex) dot.classList.add('active');
 
             dot.addEventListener('click', () => {
+                if (index === currentIndex) return;
+                const anterior = currentIndex;
+                const direcao = index > anterior ? 'next' : 'prev';
+
                 currentIndex = index;
                 atualizarCarrossel();
+                animarSaidaMobile(anterior, direcao);
                 reiniciarAutoSlide();
             });
 
@@ -112,14 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function proximoCard() {
         if (cards.length === 0 || isGridMode) return;
+        const anterior = currentIndex;
         currentIndex = (currentIndex + 1) % cards.length;
         atualizarCarrossel();
+        animarSaidaMobile(anterior, 'next');
     }
 
     function cardAnterior() {
         if (cards.length === 0 || isGridMode) return;
+        const anterior = currentIndex;
         currentIndex = (currentIndex - 1 + cards.length) % cards.length;
         atualizarCarrossel();
+        animarSaidaMobile(anterior, 'prev');
     }
 
     // ===================== Auto-Slide & Pausa =====================
@@ -166,8 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.closest('a, button')) return;
 
             if (index !== currentIndex) {
+                const anterior = currentIndex;
                 currentIndex = index;
                 atualizarCarrossel();
+                animarSaidaMobile(anterior, 'next');
                 reiniciarAutoSlide();
             }
         });
@@ -238,7 +266,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isGridMode) {
                 pararAutoSlide();
-                cards.forEach((c) => c.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden', 'pausado'));
+                cards.forEach((c) => c.classList.remove(
+                    'card-front', 'card-back-right', 'card-back-left',
+                    'card-hidden', 'pausado', 'card-throw-left', 'card-throw-right'
+                ));
             } else {
                 atualizarCarrossel();
                 reiniciarAutoSlide();
@@ -271,9 +302,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (primeiroMatch !== -1 && !isGridMode) {
+            if (primeiroMatch !== -1 && !isGridMode && primeiroMatch !== currentIndex) {
+                const anterior = currentIndex;
                 currentIndex = primeiroMatch;
                 atualizarCarrossel();
+                animarSaidaMobile(anterior, 'next');
             }
         });
     }
