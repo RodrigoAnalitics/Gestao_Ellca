@@ -398,7 +398,7 @@ a {
 
 .capa-logo {
     width: min(260px, 54vw);
-    max-height: 20vh;
+    max-height: 19vh;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.42));
