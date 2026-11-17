@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Carrossel 3D / Focus Depth Mobile =====================
+    // ===================== Carrossel 3D (Desktop) / Focus Depth (Mobile) =====================
     function atualizarCarrossel() {
         if (cards.length === 0) return;
         const total = cards.length;
