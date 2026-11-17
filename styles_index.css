@@ -141,12 +141,19 @@ a {
     font-weight: 800; 
 }
 
-/* Grupo dos botões superiores direitos lado a lado */
+/* Grupo dos botões superiores direitos lado a lado (Desktop) */
 .nav-actions-group {
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: nowrap;
+    gap: 8px;
+}
+
+/* Grupo dos botões superiores direitos no Mobile (oculto no Desktop) */
+.mobile-header-actions {
+    display: none;
+    align-items: center;
     gap: 8px;
 }
 
@@ -287,7 +294,7 @@ a {
     background-image: 
         radial-gradient(circle at 50% 42%, rgba(0, 212, 255, 0.16) 0%, transparent 58%),
         linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.90)),
-        url('img/Capa_index.jpg');
+        url('img/Capa_home.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -414,7 +421,6 @@ a {
     }
 }
 
-/* Tamanho e espaçamento dedicados da Capa (sobrescrevem .title) */
 .capa-title.title {
     font-size: clamp(32px, 4.4vw, 58px);
     font-weight: 900;
@@ -1235,6 +1241,16 @@ a {
 
     .logo-img {
         height: 42px;
+    }
+
+    .mobile-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-voltar-desktop {
+        display: none !important;
     }
 
     .menu-mobile-btn {
