@@ -294,7 +294,7 @@ a {
     background-image: 
         radial-gradient(circle at 50% 42%, rgba(0, 212, 255, 0.16) 0%, transparent 58%),
         linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.90)),
-        url('img/Capa_home.jpg');
+        url('img/Capa_index.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -422,7 +422,7 @@ a {
 }
 
 .capa-title.title {
-    font-size: clamp(32px, 4.4vw, 58px);
+    font-size: clamp(32px, 4.4vw, 54px);
     font-weight: 900;
     line-height: 1.16;
     text-transform: uppercase;
