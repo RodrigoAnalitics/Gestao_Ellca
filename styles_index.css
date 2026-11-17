@@ -1346,52 +1346,52 @@ a {
         margin: 0 auto; 
         width: 270px !important;
         height: 335px !important;
-        overflow: visible !important;
     }
 
+    /* Transição Mobile: Focus Depth + Deslizamento Suave (1 card por vez) */
     .glass-card {
         width: 270px !important; 
         height: 335px !important;
         padding: 15px !important;
-        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease !important;
+        transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                    filter 0.45s ease !important;
     }
 
-    /* Card ativo centralizado no mobile */
+    /* Card ativo centralizado em foco nítido */
     .glass-card.card-front {
-        transform: translateX(0) translateY(0) rotate(0deg) scale(1) !important; 
+        transform: translateX(0) scale(1) !important; 
         opacity: 1 !important;
+        filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
         pointer-events: auto !important;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 
-                    0 0 20px rgba(0, 212, 255, 0.3) !important;
+                    0 0 22px rgba(0, 212, 255, 0.32) !important;
     }
 
-    /* Oculta completamente os cards vizinhos/atrás no mobile (sem sombra) */
-    .glass-card.card-back-right,
-    .glass-card.card-back-left,
-    .glass-card.card-hidden {
-        transform: translateX(0) scale(0.92) !important;
+    /* Cards inativos ficam completamente invisíveis (sem sombra atrás) */
+    .glass-card.card-back-right {
+        transform: translateX(48px) scale(0.92) !important;
         opacity: 0 !important;
+        filter: blur(6px) !important;
         pointer-events: none !important;
-        filter: none !important;
         z-index: 1 !important;
     }
 
-    /* Efeito de card sendo jogado para fora da tela */
-    .glass-card.card-throw-left {
-        transform: translateX(-145%) translateY(25px) rotate(-18deg) scale(0.85) !important;
+    .glass-card.card-back-left {
+        transform: translateX(-48px) scale(0.92) !important;
         opacity: 0 !important;
-        z-index: 30 !important;
+        filter: blur(6px) !important;
         pointer-events: none !important;
-        transition: transform 0.42s cubic-bezier(0.55, 0.06, 0.68, 0.19), opacity 0.38s ease !important;
+        z-index: 1 !important;
     }
 
-    .glass-card.card-throw-right {
-        transform: translateX(145%) translateY(25px) rotate(18deg) scale(0.85) !important;
+    .glass-card.card-hidden {
+        transform: translateX(0) scale(0.88) !important;
         opacity: 0 !important;
-        z-index: 30 !important;
+        filter: blur(6px) !important;
         pointer-events: none !important;
-        transition: transform 0.42s cubic-bezier(0.55, 0.06, 0.68, 0.19), opacity 0.38s ease !important;
+        z-index: 1 !important;
     }
 
     .glass-card.card-front .img-box {
