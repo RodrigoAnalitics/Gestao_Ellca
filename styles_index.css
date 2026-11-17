@@ -1375,12 +1375,15 @@ a {
                     filter 0.45s ease !important;
     }
 
-    .glass-card.card-front {
+.glass-card.card-front {
         transform: translateX(0) scale(1) !important; 
         opacity: 1 !important;
         filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
         pointer-events: auto !important;
+        /* Ajuste a transparência aqui (valores menores = mais transparente) */
+        background: linear-gradient(135deg, rgba(12, 22, 42, 0.45) 0%, rgba(6, 14, 28, 0.35) 100%) !important;
+        backdrop-filter: blur(12px) !important;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 
                     0 0 22px rgba(0, 212, 255, 0.32) !important;
     }
