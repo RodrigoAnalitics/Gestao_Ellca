@@ -22,10 +22,15 @@
                 </a>
             </div>
 
-            <!-- Botão Hambúrguer Mobile -->
-            <button class="menu-mobile-btn" aria-label="Abrir Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <!-- Ações Mobile: Voltar para Home + Menu Hambúrguer lado a lado -->
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
 
             <!-- Conteúdo da Navbar -->
             <div class="nav-content">
@@ -41,14 +46,14 @@
 
                 <div class="nav-links">
                     <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
-                    <a href="#" class="nav-item active">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
+                    <a href="dashboard.html" class="nav-item active">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
                     <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
                     
                     <div class="nav-actions-group">
                         <button class="grid-toggle-btn" title="Alternar visualização em Grade">
                             <i class="fa-solid fa-table-cells"></i>
                         </button>
-                        <button class="btn-voltar" id="btnVoltar" title="Voltar">
+                        <button class="btn-voltar btn-voltar-desktop" id="btnVoltar" data-destino="home.html" title="Voltar para Home">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                     </div>
