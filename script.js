@@ -1,386 +1,298 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const TEMPO_POR_CARD = 6000; // Deve ser igual à duração da animação CSS (6s = 6000ms)
-    let estaPausado = false;
-    let timerBorda = null;
-
-    const btnVoltar = document.getElementById('btnVoltar') || document.querySelector('.btn-voltar');
+    // ===================== Elementos Principais =====================
+    const cardsWrapper = document.querySelector('.cards-wrapper');
+    const cards = Array.from(document.querySelectorAll('.glass-card'));
+    const prevBtn = document.querySelector('.controls .prev');
+    const nextBtn = document.querySelector('.controls .next');
+    const paginationContainer = document.querySelector('.pagination-dots');
+    const gridToggleBtn = document.querySelector('.grid-toggle-btn');
+    const searchInput = document.getElementById('cardSearch');
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
-    const gridToggleBtn = document.querySelector('.grid-toggle-btn');
-    const searchInput = document.getElementById('cardSearch') || document.querySelector('.search-box input');
 
-    // ===================== Botão Voltar (Canto Superior Direito) =====================
-    if (btnVoltar) {
-        btnVoltar.addEventListener('click', (e) => {
+    let currentIndex = 0;
+    let autoSlideInterval = null;
+    let isPaused = false;
+    let isGridMode = false;
+
+    // ===================== Botão Voltar (Desktop e Mobile) =====================
+    document.querySelectorAll('.btn-voltar').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
 
-            if (window.history.length > 1 && document.referrer !== '') {
+            const destino = btn.getAttribute('data-destino');
+            if (destino) {
+                window.location.href = destino;
+            } else if (window.history.length > 1 && document.referrer !== '') {
                 window.history.back();
             } else {
                 window.location.href = 'index.html';
             }
         });
-    }
+    });
 
-    // ===================== Helpers =====================
-    function obterAbas() {
-        return Array.from(document.querySelectorAll('.item'));
-    }
-
-    function obterAbaAtiva() {
-        const abas = obterAbas();
-        return document.querySelector('.item.active') || abas[0] || null;
-    }
-
-    function normalizarTexto(txt) {
-        return (txt || '')
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .trim();
-    }
-
-    // ===================== Menu Mobile =====================
+    // ===================== Menu Mobile (Hambúrguer) =====================
     if (menuMobileBtn && navContent) {
         menuMobileBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             navContent.classList.toggle('ativo');
+
+            const icon = menuMobileBtn.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !navContent.classList.contains('ativo'));
+                icon.classList.toggle('fa-xmark', navContent.classList.contains('ativo'));
+            }
         });
-    }
 
-    // ===================== Alternar Modo Grade / Carrossel =====================
-    if (gridToggleBtn) {
-        gridToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const abaAtiva = obterAbaAtiva();
-            if (!abaAtiva) return;
-
-            const wrapper = abaAtiva.querySelector('.cards-wrapper');
-            if (wrapper) {
-                wrapper.classList.toggle('grid-mode');
-                const icone = gridToggleBtn.querySelector('i');
-                if (icone) {
-                    icone.classList.toggle('fa-table-cells');
-                    icone.classList.toggle('fa-clone');
+        document.addEventListener('click', (e) => {
+            if (!navContent.contains(e.target) && !menuMobileBtn.contains(e.target)) {
+                navContent.classList.remove('ativo');
+                const icon = menuMobileBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-xmark');
                 }
             }
         });
     }
 
-    // ===================== Navegação da Navbar =====================
-    document.querySelectorAll('.navbar .nav-item').forEach((link) => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
+    // ===================== Paginação (Bolinhas) =====================
+    function criarBolinhas() {
+        if (!paginationContainer || cards.length === 0) return;
+        paginationContainer.innerHTML = '';
 
-            if (href && href !== '#' && !href.startsWith('#')) {
-                return;
-            }
+        cards.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (index === currentIndex) dot.classList.add('active');
 
-            e.preventDefault();
-            document.querySelectorAll('.navbar .nav-item').forEach(n => n.classList.remove('active'));
-            link.classList.add('active');
-
-            if (navContent) navContent.classList.remove('ativo');
-
-            const abaAtiva = obterAbaAtiva();
-            if (abaAtiva && typeof abaAtiva._irParaCard === 'function') {
-                abaAtiva._irParaCard(0);
-            }
-            resetarPausaEIniciarCiclo();
-        });
-    });
-
-    // ===================== Controle do Carrossel 3D por Seção =====================
-    obterAbas().forEach((section) => {
-        const cards = Array.from(section.querySelectorAll('.glass-card'));
-        const dotsContainer = section.querySelector('.pagination-dots') || document.querySelector('.pagination-dots');
-        let currentIndex = 0;
-
-        if (cards.length === 0) return;
-
-        if (dotsContainer && dotsContainer.children.length === 0) {
-            cards.forEach((_, idx) => {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (idx === 0) dot.classList.add('active');
-                dotsContainer.appendChild(dot);
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                atualizarCarrossel();
+                reiniciarAutoSlide();
             });
-        }
 
-        const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.dot')) : [];
+            paginationContainer.appendChild(dot);
+        });
+    }
 
+    function atualizarBolinhas() {
+        if (!paginationContainer) return;
+        const dots = paginationContainer.querySelectorAll('.dot');
         dots.forEach((dot, idx) => {
-            dot.addEventListener('click', (e) => {
-                e.stopPropagation();
-                currentIndex = idx;
-                atualizarCarrossel();
-                resetarPausaEIniciarCiclo();
-            });
+            dot.classList.toggle('active', idx === currentIndex);
+        });
+    }
+
+    // ===================== Carrossel 3D =====================
+    function atualizarCarrossel() {
+        if (cards.length === 0) return;
+        const total = cards.length;
+
+        cards.forEach((card, index) => {
+            card.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden', 'pausado');
+
+            if (isGridMode) return;
+
+            if (index === currentIndex) {
+                card.classList.add('card-front');
+                if (isPaused) card.classList.add('pausado');
+            } else if (index === (currentIndex + 1) % total) {
+                card.classList.add('card-back-right');
+            } else if (index === (currentIndex - 1 + total) % total) {
+                card.classList.add('card-back-left');
+            } else {
+                card.classList.add('card-hidden');
+            }
         });
 
-        function atualizarCarrossel() {
-            const total = cards.length;
-            cards.forEach((card, i) => {
-                card.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden', 'pausado');
+        atualizarBolinhas();
+    }
 
-                if (i === currentIndex) {
-                    card.classList.add('card-front');
-                } else if (i === (currentIndex + 1) % total) {
-                    card.classList.add('card-back-right');
-                } else if (i === (currentIndex - 1 + total) % total) {
-                    card.classList.add('card-back-left');
-                } else {
-                    card.classList.add('card-hidden');
-                }
-            });
-
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
-        }
-
-        section._proximoCard = () => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            atualizarCarrossel();
-        };
-
-        section._cardAnterior = () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            atualizarCarrossel();
-        };
-
-        section._irParaCard = (indiceCard) => {
-            if (indiceCard >= 0 && indiceCard < cards.length) {
-                currentIndex = indiceCard;
-                atualizarCarrossel();
-            }
-        };
-
+    function proximoCard() {
+        if (cards.length === 0 || isGridMode) return;
+        currentIndex = (currentIndex + 1) % cards.length;
         atualizarCarrossel();
-
-        let touchStartX = 0;
-        const wrapper = section.querySelector('.cards-wrapper');
-        if (wrapper) {
-            wrapper.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            wrapper.addEventListener('touchend', (e) => {
-                if (wrapper.classList.contains('grid-mode')) return;
-                const touchEndX = e.changedTouches[0].screenX;
-                const diff = touchStartX - touchEndX;
-
-                if (Math.abs(diff) > 45) {
-                    if (diff > 0) {
-                        section._proximoCard();
-                    } else {
-                        section._cardAnterior();
-                    }
-                    resetarPausaEIniciarCiclo();
-                }
-            }, { passive: true });
-        }
-    });
-
-    // ===================== Funções de Navegação e Pausa =====================
-    function irParaProximo() {
-        const abaAtiva = obterAbaAtiva();
-        if (abaAtiva && typeof abaAtiva._proximoCard === 'function') {
-            abaAtiva._proximoCard();
-            resetarPausaEIniciarCiclo();
-        }
     }
 
-    function irParaAnterior() {
-        const abaAtiva = obterAbaAtiva();
-        if (abaAtiva && typeof abaAtiva._cardAnterior === 'function') {
-            abaAtiva._cardAnterior();
-            resetarPausaEIniciarCiclo();
-        }
+    function cardAnterior() {
+        if (cards.length === 0 || isGridMode) return;
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        atualizarCarrossel();
     }
 
-    function alternarPausaCardAtivo() {
-        const abaAtiva = obterAbaAtiva();
-        if (!abaAtiva) return;
+    // ===================== Auto-Slide & Pausa =====================
+    function iniciarAutoSlide() {
+        pararAutoSlide();
+        if (isGridMode || cards.length <= 1) return;
 
-        const wrapper = abaAtiva.querySelector('.cards-wrapper');
-        if (wrapper && wrapper.classList.contains('grid-mode')) return;
-
-        const cardAtivo = abaAtiva.querySelector('.glass-card.card-front');
-        if (!cardAtivo) return;
-
-        estaPausado = !estaPausado;
-
-        if (estaPausado) {
-            cardAtivo.classList.add('pausado');
-            clearTimeout(timerBorda);
-        } else {
-            cardAtivo.classList.remove('pausado');
-            cardAtivo.classList.remove('card-front');
-            void cardAtivo.offsetWidth;
-            cardAtivo.classList.add('card-front');
-            iniciarTimerBorda();
-        }
-    }
-
-    // ===================== Delegação Global de Cliques =====================
-    document.addEventListener('click', (e) => {
-        const btnControle = e.target.closest('.controls button, .next, .prev');
-        if (btnControle) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (btnControle.classList.contains('prev')) {
-                irParaAnterior();
-            } else {
-                irParaProximo();
+        autoSlideInterval = setInterval(() => {
+            if (!isPaused && !isGridMode) {
+                proximoCard();
             }
-            return;
-        }
+        }, 6000);
+    }
 
-        const cardAtivo = e.target.closest('.glass-card.card-front');
-        if (cardAtivo) {
-            if (e.target.closest('button, a')) return;
-            alternarPausaCardAtivo();
+    function pararAutoSlide() {
+        if (autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
         }
+    }
+
+    function reiniciarAutoSlide() {
+        isPaused = false;
+        iniciarAutoSlide();
+    }
+
+    cards.forEach((card, index) => {
+        card.addEventListener('mouseenter', () => {
+            if (card.classList.contains('card-front') && !isGridMode) {
+                isPaused = true;
+                card.classList.add('pausado');
+            }
+        });
+
+        card.addEventListener('mouseleave', () => {
+            if (!isGridMode) {
+                isPaused = false;
+                card.classList.remove('pausado');
+            }
+        });
+
+        card.addEventListener('click', (e) => {
+            if (isGridMode) return;
+            if (e.target.closest('a, button')) return;
+
+            if (index !== currentIndex) {
+                currentIndex = index;
+                atualizarCarrossel();
+                reiniciarAutoSlide();
+            }
+        });
     });
 
-    // ===================== Controle pelo Teclado (Setas + Barra de Espaço) =====================
+    // ===================== Botões Anterior / Próximo & Teclado =====================
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            proximoCard();
+            reiniciarAutoSlide();
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            cardAnterior();
+            reiniciarAutoSlide();
+        });
+    }
+
     document.addEventListener('keydown', (e) => {
-        const tagAtiva = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-        if (tagAtiva === 'input' || tagAtiva === 'textarea' || document.activeElement?.isContentEditable) {
-            return;
-        }
-
-        const abaAtiva = obterAbaAtiva();
-        const wrapper = abaAtiva?.querySelector('.cards-wrapper');
-        const emModoGrade = wrapper && wrapper.classList.contains('grid-mode');
-
+        if (document.activeElement === searchInput || isGridMode) return;
         if (e.key === 'ArrowRight') {
-            if (!emModoGrade) {
-                e.preventDefault();
-                irParaProximo();
-            }
+            proximoCard();
+            reiniciarAutoSlide();
         } else if (e.key === 'ArrowLeft') {
-            if (!emModoGrade) {
-                e.preventDefault();
-                irParaAnterior();
-            }
-        } else if (e.code === 'Space' || e.key === ' ') {
-            if (tagAtiva === 'button' || tagAtiva === 'a') return;
-            if (!emModoGrade) {
-                e.preventDefault();
-                alternarPausaCardAtivo();
-            }
+            cardAnterior();
+            reiniciarAutoSlide();
         }
     });
 
-    // ===================== Ciclo Automático Sincronizado com a Borda Neon (360°) =====================
-    function avancarAutomaticamente() {
-        if (estaPausado) return;
+    // ===================== Suporte a Swipe (Toque no Celular) =====================
+    if (cardsWrapper) {
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-        const abaAtiva = obterAbaAtiva();
-        if (!abaAtiva) return;
+        cardsWrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
 
-        const wrapper = abaAtiva.querySelector('.cards-wrapper');
-        if (wrapper && wrapper.classList.contains('grid-mode')) return;
+        cardsWrapper.addEventListener('touchend', (e) => {
+            if (isGridMode) return;
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
 
-        if (typeof abaAtiva._proximoCard === 'function') {
-            abaAtiva._proximoCard();
-            iniciarTimerBorda();
-        }
-    }
-
-    function iniciarTimerBorda() {
-        clearTimeout(timerBorda);
-        if (estaPausado) return;
-
-        timerBorda = setTimeout(() => {
-            if (!estaPausado) {
-                avancarAutomaticamente();
+            if (Math.abs(diff) > 45) {
+                if (diff > 0) {
+                    proximoCard();
+                } else {
+                    cardAnterior();
+                }
+                reiniciarAutoSlide();
             }
-        }, TEMPO_POR_CARD);
+        }, { passive: true });
     }
 
-    function resetarPausaEIniciarCiclo() {
-        estaPausado = false;
-        document.querySelectorAll('.glass-card.pausado').forEach(c => c.classList.remove('pausado'));
-        iniciarTimerBorda();
+    // ===================== Modo Grade (Grid Toggle) =====================
+    if (gridToggleBtn && cardsWrapper) {
+        gridToggleBtn.addEventListener('click', () => {
+            isGridMode = !isGridMode;
+            cardsWrapper.classList.toggle('grid-mode', isGridMode);
+
+            const icon = gridToggleBtn.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-table-cells', !isGridMode);
+                icon.classList.toggle('fa-layer-group', isGridMode);
+            }
+
+            if (isGridMode) {
+                pararAutoSlide();
+                cards.forEach((c) => c.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden', 'pausado'));
+            } else {
+                atualizarCarrossel();
+                reiniciarAutoSlide();
+            }
+        });
     }
 
-    document.addEventListener('animationend', (e) => {
-        if (e.animationName === 'borderNeonSweep' && !estaPausado) {
-            clearTimeout(timerBorda);
-            avancarAutomaticamente();
-        }
-    });
-
-    // ===================== Pesquisa Inteligente (#cardSearch) =====================
+    // ===================== Pesquisa de Módulos =====================
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const termo = normalizarTexto(e.target.value);
-            const abaAtiva = obterAbaAtiva();
-            if (!abaAtiva) return;
-
-            const cardsDaAba = Array.from(abaAtiva.querySelectorAll('.glass-card'));
-            const wrapper = abaAtiva.querySelector('.cards-wrapper');
-            const emGrade = wrapper && wrapper.classList.contains('grid-mode');
-            let primeiroIndiceEncontrado = -1;
-
-            cardsDaAba.forEach((card, idx) => {
-                card.classList.remove('search-highlight');
-
-                if (!termo) {
-                    card.style.removeProperty('display');
-                    return;
-                }
-
-                const textoCompleto = normalizarTexto(
-                    card.textContent + ' ' + (card.getAttribute('data-title') || '')
-                );
-                const encontrou = textoCompleto.includes(termo);
-
-                if (encontrou) {
-                    card.classList.add('search-highlight');
-                    if (emGrade) {
-                        card.style.removeProperty('display');
-                    }
-                    if (primeiroIndiceEncontrado === -1) {
-                        primeiroIndiceEncontrado = idx;
-                    }
-                } else if (emGrade) {
-                    card.style.setProperty('display', 'none', 'important');
-                }
-            });
+        searchInput.addEventListener('input', () => {
+            const termo = searchInput.value.trim().toLowerCase();
 
             if (!termo) {
-                resetarPausaEIniciarCiclo();
+                cards.forEach((c) => c.classList.remove('search-highlight'));
                 return;
             }
 
-            if (primeiroIndiceEncontrado !== -1 && typeof abaAtiva._irParaCard === 'function') {
-                abaAtiva._irParaCard(primeiroIndiceEncontrado);
+            let primeiroMatch = -1;
 
-                const cardEncontrado = cardsDaAba[primeiroIndiceEncontrado];
-                if (cardEncontrado) {
-                    estaPausado = true;
-                    clearTimeout(timerBorda);
-                    cardEncontrado.classList.add('pausado');
-                }
-            }
-        });
+            cards.forEach((card, index) => {
+                const titulo = (card.getAttribute('data-title') || '').toLowerCase();
+                const h3 = (card.querySelector('h3')?.textContent || '').toLowerCase();
+                const desc = (card.querySelector('.card-desc')?.textContent || '').toLowerCase();
 
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                searchInput.blur();
-                if (navContent && navContent.classList.contains('ativo')) {
-                    navContent.classList.remove('ativo');
+                const encontrou = titulo.includes(termo) || h3.includes(termo) || desc.includes(termo);
+                card.classList.toggle('search-highlight', encontrou);
+
+                if (encontrou && primeiroMatch === -1) {
+                    primeiroMatch = index;
                 }
+            });
+
+            if (primeiroMatch !== -1 && !isGridMode) {
+                currentIndex = primeiroMatch;
+                atualizarCarrossel();
             }
         });
     }
 
-    iniciarTimerBorda();
+    // ===================== Botão DETALHES dos Cards =====================
+    document.querySelectorAll('.glass-card .btn-glass').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const card = btn.closest('.glass-card');
+            const titulo = card?.querySelector('h3')?.textContent?.trim() || 'Módulo';
+            const descricao = card?.querySelector('.card-desc')?.textContent?.trim() || '';
+            alert(`${titulo}\n\n${descricao}`);
+        });
+    });
+
+    // ===================== Inicialização =====================
+    criarBolinhas();
+    atualizarCarrossel();
+    iniciarAutoSlide();
 });
