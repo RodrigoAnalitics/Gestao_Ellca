@@ -1346,28 +1346,57 @@ a {
         margin: 0 auto; 
         width: 270px !important;
         height: 335px !important;
+        overflow: visible !important;
     }
 
     .glass-card {
         width: 270px !important; 
         height: 335px !important;
         padding: 15px !important;
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease !important;
     }
 
+    /* Card ativo centralizado no mobile */
     .glass-card.card-front {
-        transform: translateX(0) translateZ(0) scale(1) rotateY(0deg) !important; 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1) !important; 
+        opacity: 1 !important;
+        z-index: 20 !important;
+        pointer-events: auto !important;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 
                     0 0 20px rgba(0, 212, 255, 0.3) !important;
+    }
+
+    /* Oculta completamente os cards vizinhos/atrás no mobile (sem sombra) */
+    .glass-card.card-back-right,
+    .glass-card.card-back-left,
+    .glass-card.card-hidden {
+        transform: translateX(0) scale(0.92) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        filter: none !important;
+        z-index: 1 !important;
+    }
+
+    /* Efeito de card sendo jogado para fora da tela */
+    .glass-card.card-throw-left {
+        transform: translateX(-145%) translateY(25px) rotate(-18deg) scale(0.85) !important;
+        opacity: 0 !important;
+        z-index: 30 !important;
+        pointer-events: none !important;
+        transition: transform 0.42s cubic-bezier(0.55, 0.06, 0.68, 0.19), opacity 0.38s ease !important;
+    }
+
+    .glass-card.card-throw-right {
+        transform: translateX(145%) translateY(25px) rotate(18deg) scale(0.85) !important;
+        opacity: 0 !important;
+        z-index: 30 !important;
+        pointer-events: none !important;
+        transition: transform 0.42s cubic-bezier(0.55, 0.06, 0.68, 0.19), opacity 0.38s ease !important;
     }
 
     .glass-card.card-front .img-box {
         height: 112px !important;
         margin-bottom: 8px !important;
-    }
-
-    .glass-card.card-hidden {
-        display: none !important;
-        opacity: 0 !important;
     }
 
     .glass-card h3 {
@@ -1392,7 +1421,9 @@ a {
     }
 
     .cards-wrapper.grid-mode .glass-card,
-    .cards-wrapper.grid-mode .glass-card.card-hidden {
+    .cards-wrapper.grid-mode .glass-card.card-hidden,
+    .cards-wrapper.grid-mode .glass-card.card-back-right,
+    .cards-wrapper.grid-mode .glass-card.card-back-left {
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
