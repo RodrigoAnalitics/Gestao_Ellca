@@ -4,7 +4,7 @@
     --accent: #0055ff;
     --glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
     --glass-border-light: rgba(255, 255, 255, 0.2);
-    --glass-blur: 10px;
+    --glass-blur: 12px;
     --bg-dark: #050914;
 }
 
@@ -548,7 +548,7 @@ a {
     position: relative; 
     width: 290px; 
     height: 370px; 
-    perspective: 1200px; 
+    perspective: 1300px; 
     transform-style: preserve-3d; 
     transition: 0.5s; 
     z-index: 15 !important;
@@ -653,7 +653,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards & Giro 3D Sofisticado (Global) ===================== */
+/* ===================== Glass Cards & Múltiplos Giros Suaves + Raio Discreto ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -668,10 +668,10 @@ a {
     padding: 18px; 
     display: flex; 
     flex-direction: column;
-    transition: transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.6s ease,
-                filter 0.6s ease,
-                box-shadow 0.6s ease,
+    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.65s ease,
+                filter 0.65s ease,
+                box-shadow 0.65s ease,
                 border-color 0.4s ease;
     pointer-events: none; 
     overflow: hidden;
@@ -679,7 +679,7 @@ a {
     filter: brightness(0.7);
 }
 
-/* CARD ATIVO (Em destaque frontal) */
+/* CARD ATIVO: Efeito vidro fosco equilibrado (nem opaco demais, nem transparente demais) */
 .glass-card.card-front {
     transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg); 
     filter: brightness(1);
@@ -687,111 +687,123 @@ a {
     z-index: 20; 
     pointer-events: auto !important; 
     cursor: pointer;
-    background: linear-gradient(135deg, rgba(12, 22, 42, 0.88) 0%, rgba(6, 14, 28, 0.82) 100%) !important;
-    border-color: var(--primary);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
-                0 0 32px rgba(0, 212, 255, 0.45), 
-                0 0 20px rgba(0, 212, 255, 0.2) inset !important;
+    background: linear-gradient(135deg, rgba(12, 24, 46, 0.72) 0%, rgba(6, 15, 30, 0.66) 100%) !important;
+    backdrop-filter: blur(15px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(135%) !important;
+    border-color: rgba(0, 212, 255, 0.78);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 
+                0 0 28px rgba(0, 212, 255, 0.38), 
+                0 0 18px rgba(255, 255, 255, 0.14) inset !important;
 }
 
-/* Keyframes do Giro 3D Sofisticado (Desktop) */
+/* Múltiplos Giros Suaves (1.5 voltas = 540deg em 1.15s) - Desktop */
 @keyframes cardSpinNext {
     0% {
-        transform: translateX(175px) translateY(16px) translateZ(-90px) scale(0.82) rotateY(-180deg) rotateX(6deg);
-        opacity: 0.35;
+        transform: translateX(170px) translateY(14px) translateZ(-95px) scale(0.80) rotateY(-540deg) rotateX(5deg);
+        opacity: 0.25;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
     }
-    58% {
-        transform: translateX(-10px) translateY(-6px) translateZ(42px) scale(1.07) rotateY(10deg) rotateX(-2deg);
+    65% {
+        transform: translateX(-8px) translateY(-5px) translateZ(38px) scale(1.06) rotateY(10deg) rotateX(-2deg);
         opacity: 1;
-        box-shadow: 0 32px 60px rgba(0, 0, 0, 0.9), 0 0 52px rgba(0, 212, 255, 0.78), 0 0 26px rgba(255, 255, 255, 0.35) inset;
+        box-shadow: 0 30px 58px rgba(0, 0, 0, 0.88), 0 0 42px rgba(0, 212, 255, 0.62), 0 0 22px rgba(255, 255, 255, 0.25) inset;
     }
-    82% {
-        transform: translateX(3px) translateY(0) translateZ(28px) scale(1.045) rotateY(-3deg) rotateX(0deg);
+    85% {
+        transform: translateX(2px) translateY(0) translateZ(27px) scale(1.045) rotateY(-3deg) rotateX(0deg);
         opacity: 1;
     }
     100% {
         transform: translateX(0) translateY(0) translateZ(25px) scale(1.04) rotateY(0deg) rotateX(0deg);
         opacity: 1;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 212, 255, 0.45), 0 0 20px rgba(0, 212, 255, 0.2) inset;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 212, 255, 0.38), 0 0 18px rgba(255, 255, 255, 0.14) inset;
     }
 }
 
 @keyframes cardSpinPrev {
     0% {
-        transform: translateX(-175px) translateY(16px) translateZ(-90px) scale(0.82) rotateY(180deg) rotateX(6deg);
-        opacity: 0.35;
+        transform: translateX(-170px) translateY(14px) translateZ(-95px) scale(0.80) rotateY(540deg) rotateX(5deg);
+        opacity: 0.25;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
     }
-    58% {
-        transform: translateX(10px) translateY(-6px) translateZ(42px) scale(1.07) rotateY(-10deg) rotateX(-2deg);
+    65% {
+        transform: translateX(8px) translateY(-5px) translateZ(38px) scale(1.06) rotateY(-10deg) rotateX(-2deg);
         opacity: 1;
-        box-shadow: 0 32px 60px rgba(0, 0, 0, 0.9), 0 0 52px rgba(0, 212, 255, 0.78), 0 0 26px rgba(255, 255, 255, 0.35) inset;
+        box-shadow: 0 30px 58px rgba(0, 0, 0, 0.88), 0 0 42px rgba(0, 212, 255, 0.62), 0 0 22px rgba(255, 255, 255, 0.25) inset;
     }
-    82% {
-        transform: translateX(-3px) translateY(0) translateZ(28px) scale(1.045) rotateY(3deg) rotateX(0deg);
+    85% {
+        transform: translateX(-2px) translateY(0) translateZ(27px) scale(1.045) rotateY(3deg) rotateX(0deg);
         opacity: 1;
     }
     100% {
         transform: translateX(0) translateY(0) translateZ(25px) scale(1.04) rotateY(0deg) rotateX(0deg);
         opacity: 1;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 212, 255, 0.45), 0 0 20px rgba(0, 212, 255, 0.2) inset;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 212, 255, 0.38), 0 0 18px rgba(255, 255, 255, 0.14) inset;
     }
 }
 
-/* Feixe de reflexo diagonal de cristal varrendo o card durante o giro */
-@keyframes glassCrystalSheen {
+/* Efeito de Raio Pequeno e Discreto + Reflexo de Cristal */
+@keyframes subtleElectricBolt {
     0% {
-        transform: translateX(-150%) skewX(-25deg);
         opacity: 0;
+        transform: translateX(-120%) skewX(-28deg);
     }
-    25% {
-        opacity: 0.85;
+    30% {
+        opacity: 0.45;
     }
-    75% {
+    45% {
+        opacity: 0.15;
+    }
+    55% {
         opacity: 0.65;
     }
+    75% {
+        opacity: 0.2;
+    }
     100% {
-        transform: translateX(220%) skewX(-25deg);
         opacity: 0;
+        transform: translateX(230%) skewX(-28deg);
     }
 }
 
 .glass-card.card-front.spin-next {
-    animation: cardSpinNext 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: cardSpinNext 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .glass-card.card-front.spin-prev {
-    animation: cardSpinPrev 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: cardSpinPrev 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Filete de raio discreto cruzando o vidro durante o pouso */
 .glass-card.card-front.spin-next::after,
 .glass-card.card-front.spin-prev::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 55%;
+    width: 38%;
     height: 100%;
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.08) 35%,
-        rgba(0, 212, 255, 0.32) 50%,
-        rgba(255, 255, 255, 0.45) 55%,
+        rgba(0, 212, 255, 0.08) 38%,
+        rgba(180, 245, 255, 0.55) 49%,
+        #ffffff 50%,
+        rgba(0, 212, 255, 0.45) 51.5%,
+        rgba(0, 212, 255, 0.06) 62%,
         transparent 100%
     );
+    filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.85));
     pointer-events: none !important;
     z-index: 22;
-    animation: glassCrystalSheen 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: subtleElectricBolt 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .glass-card.card-front:hover { 
     transform: translateY(-8px) translateZ(35px) scale(1.06) rotateY(0deg); 
     border-color: #fff; 
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 
-                0 0 40px rgba(0, 212, 255, 0.6), 
-                0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.88), 
+                0 0 36px rgba(0, 212, 255, 0.52), 
+                0 0 22px rgba(255, 255, 255, 0.22) inset !important; 
 }
 
 /* Cards de trás retos no Desktop */
@@ -1078,14 +1090,14 @@ a {
     border-color: #fff; 
 }
 
-/* ===================== Controles, Setas e Bolinhas Animadas ===================== */
+/* ===================== Controles, Setas e Bolinhas Menores ===================== */
 .controls-container { 
     position: absolute; 
     bottom: 22px; 
     left: 3%; 
     display: flex; 
     align-items: center; 
-    gap: 16px; 
+    gap: 14px; 
     z-index: 50 !important; 
     pointer-events: auto !important;
 }
@@ -1098,8 +1110,8 @@ a {
 .controls button { 
     position: relative;
     overflow: hidden;
-    width: 38px; 
-    height: 38px; 
+    width: 36px; 
+    height: 36px; 
     border-radius: 50%; 
     border: 1px solid rgba(0, 212, 255, 0.35); 
     background: rgba(0, 212, 255, 0.08); 
@@ -1127,9 +1139,9 @@ a {
 
 .pagination-dots { 
     display: flex; 
-    gap: 9px; 
+    gap: 7px; 
     align-items: center; 
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 50px;
     background: rgba(6, 14, 28, 0.65);
     border: 1px solid rgba(0, 212, 255, 0.22);
@@ -1140,20 +1152,20 @@ a {
 .pagination-dots .dot { 
     position: relative;
     display: inline-block;
-    width: 10px; 
-    height: 10px; 
+    width: 7px; 
+    height: 7px; 
     border-radius: 50%; 
-    background: rgba(255, 255, 255, 0.25); 
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.28); 
+    border: 1px solid rgba(255, 255, 255, 0.28);
     cursor: pointer; 
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
 }
 
 .pagination-dots .dot:hover:not(.active) {
-    transform: scale(1.45);
+    transform: scale(1.4);
     background: var(--primary);
     border-color: #ffffff;
-    box-shadow: 0 0 12px var(--primary), 0 0 4px #ffffff;
+    box-shadow: 0 0 10px var(--primary);
 }
 
 .pagination-dots .dot:active {
@@ -1161,23 +1173,23 @@ a {
 }
 
 .pagination-dots .dot.active { 
-    width: 30px; 
-    height: 10px;
+    width: 22px; 
+    height: 7px;
     border-radius: 50px; 
     background: linear-gradient(90deg, var(--primary-dark), var(--primary), #ffffff); 
     background-size: 200% 100%;
     border-color: #ffffff;
-    box-shadow: 0 0 14px var(--primary), 0 0 6px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 12px var(--primary), 0 0 5px rgba(255, 255, 255, 0.8);
     animation: dotFlowGradient 2s linear infinite;
 }
 
 .pagination-dots .dot.active::before {
     content: '';
     position: absolute;
-    inset: -4px;
+    inset: -3px;
     border-radius: 50px;
-    border: 1.5px solid var(--primary);
-    opacity: 0.8;
+    border: 1px solid var(--primary);
+    opacity: 0.75;
     animation: dotRadarWave 1.8s ease-out infinite;
     pointer-events: none !important;
 }
@@ -1191,10 +1203,10 @@ a {
 @keyframes dotRadarWave {
     0% {
         transform: scale(1);
-        opacity: 0.85;
+        opacity: 0.8;
     }
     100% {
-        transform: scale(1.45, 1.9);
+        transform: scale(1.4, 1.8);
         opacity: 0;
     }
 }
@@ -1308,7 +1320,7 @@ a {
     box-shadow: 0 0 8px var(--primary);
 }
 
-/* ===================== Responsividade Mobile (<= 768px com Giro 3D Sofisticado) ===================== */
+/* ===================== Responsividade Mobile (<= 768px com Múltiplos Giros + Vidro + Raio) ===================== */
 @media (max-width: 768px) {
     .item, .capa-bg, body {
         background-position: center center !important;
@@ -1477,7 +1489,7 @@ a {
         margin: 0 auto; 
         width: 270px !important;
         height: 335px !important;
-        perspective: 1100px !important;
+        perspective: 1200px !important;
         transform-style: preserve-3d !important;
     }
 
@@ -1485,67 +1497,83 @@ a {
         width: 270px !important; 
         height: 335px !important;
         padding: 15px !important;
-        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-                    opacity 0.5s ease,
-                    filter 0.5s ease !important;
+        transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.55s ease,
+                    filter 0.55s ease !important;
     }
 
-    /* Keyframes do Giro 3D Calibrados para Tela Mobile */
+    /* Keyframes de Múltiplos Giros Suaves no Mobile (540deg em 1.1s) */
     @keyframes cardSpinNextMobile {
         0% {
-            transform: translateX(42px) translateY(10px) translateZ(-70px) scale(0.84) rotateY(-180deg) rotateX(5deg);
+            transform: translateX(38px) translateY(8px) translateZ(-75px) scale(0.82) rotateY(-540deg) rotateX(4deg);
             opacity: 0.25;
             box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
         }
-        60% {
-            transform: translateX(-4px) translateY(-4px) translateZ(26px) scale(1.03) rotateY(8deg) rotateX(-2deg);
+        65% {
+            transform: translateX(-4px) translateY(-4px) translateZ(24px) scale(1.03) rotateY(8deg) rotateX(-2deg);
             opacity: 1;
-            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.85), 0 0 38px rgba(0, 212, 255, 0.72), 0 0 18px rgba(255, 255, 255, 0.3) inset;
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.85), 0 0 36px rgba(0, 212, 255, 0.6), 0 0 18px rgba(255, 255, 255, 0.22) inset;
+        }
+        86% {
+            transform: translateX(2px) translateY(0) translateZ(6px) scale(1.01) rotateY(-2deg) rotateX(0deg);
+            opacity: 1;
         }
         100% {
             transform: translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg);
             opacity: 1;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 22px rgba(0, 212, 255, 0.32);
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 212, 255, 0.35), 0 0 16px rgba(255, 255, 255, 0.14) inset;
         }
     }
 
     @keyframes cardSpinPrevMobile {
         0% {
-            transform: translateX(-42px) translateY(10px) translateZ(-70px) scale(0.84) rotateY(180deg) rotateX(5deg);
+            transform: translateX(-38px) translateY(8px) translateZ(-75px) scale(0.82) rotateY(540deg) rotateX(4deg);
             opacity: 0.25;
             box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
         }
-        60% {
-            transform: translateX(4px) translateY(-4px) translateZ(26px) scale(1.03) rotateY(-8deg) rotateX(-2deg);
+        65% {
+            transform: translateX(4px) translateY(-4px) translateZ(24px) scale(1.03) rotateY(-8deg) rotateX(-2deg);
             opacity: 1;
-            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.85), 0 0 38px rgba(0, 212, 255, 0.72), 0 0 18px rgba(255, 255, 255, 0.3) inset;
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.85), 0 0 36px rgba(0, 212, 255, 0.6), 0 0 18px rgba(255, 255, 255, 0.22) inset;
+        }
+        86% {
+            transform: translateX(-2px) translateY(0) translateZ(6px) scale(1.01) rotateY(2deg) rotateX(0deg);
+            opacity: 1;
         }
         100% {
             transform: translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg);
             opacity: 1;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 22px rgba(0, 212, 255, 0.32);
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 212, 255, 0.35), 0 0 16px rgba(255, 255, 255, 0.14) inset;
         }
     }
 
-    /* Card ativo no mobile com vidro translúcido + giro 3D */
+    /* Card ativo no mobile: mesmo efeito vidro equilibrado + giro 3D */
     .glass-card.card-front {
         transform: translateX(0) scale(1) rotateY(0deg) !important; 
         opacity: 1 !important;
         filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
         pointer-events: auto !important;
-        background: linear-gradient(135deg, rgba(12, 22, 42, 0.45) 0%, rgba(6, 14, 28, 0.35) 100%) !important;
-        backdrop-filter: blur(12px) !important;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 
-                    0 0 22px rgba(0, 212, 255, 0.32) !important;
+        background: linear-gradient(135deg, rgba(12, 24, 46, 0.72) 0%, rgba(6, 15, 30, 0.66) 100%) !important;
+        backdrop-filter: blur(15px) saturate(135%) !important;
+        -webkit-backdrop-filter: blur(15px) saturate(135%) !important;
+        border-color: rgba(0, 212, 255, 0.78) !important;
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.8), 
+                    0 0 24px rgba(0, 212, 255, 0.35),
+                    0 0 16px rgba(255, 255, 255, 0.14) inset !important;
     }
 
     .glass-card.card-front.spin-next {
-        animation: cardSpinNextMobile 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+        animation: cardSpinNextMobile 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
     }
 
     .glass-card.card-front.spin-prev {
-        animation: cardSpinPrevMobile 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+        animation: cardSpinPrevMobile 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    .glass-card.card-front.spin-next::after,
+    .glass-card.card-front.spin-prev::after {
+        animation: subtleElectricBolt 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
     }
 
     /* Cards inativos invisíveis (1 card por vez sem sombra atrás) */
@@ -1616,7 +1644,8 @@ a {
         filter: none !important;
         pointer-events: auto !important;
         animation: none !important;
-        background: linear-gradient(135deg, rgba(12, 22, 42, 0.45) 0%, rgba(6, 14, 28, 0.35) 100%) !important;
+        background: linear-gradient(135deg, rgba(12, 24, 46, 0.72) 0%, rgba(6, 15, 30, 0.66) 100%) !important;
+        backdrop-filter: blur(15px) saturate(135%) !important;
     }
 
     .cards-wrapper.grid-mode .img-box {
@@ -1685,24 +1714,24 @@ a {
     }
 
     .controls button {
-        width: 34px;
-        height: 34px;
+        width: 32px;
+        height: 32px;
         font-size: 11px;
     }
 
     .pagination-dots {
-        padding: 5px 11px;
-        gap: 7px;
+        padding: 4px 10px;
+        gap: 6px;
     }
 
     .pagination-dots .dot {
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
     }
 
     .pagination-dots .dot.active {
-        width: 22px;
-        height: 8px;
+        width: 17px;
+        height: 6px;
     }
 }
 
