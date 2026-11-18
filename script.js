@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Carrossel 3D com Giro (Desktop) / Focus Depth (Mobile) =====================
+    // ===================== Carrossel 3D com Giro Sofisticado (Desktop) / Focus Depth (Mobile) =====================
     function atualizarCarrossel(direcao = null) {
         if (cards.length === 0) return;
         const total = cards.length;
@@ -110,8 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isGridMode) return;
 
             if (index === currentIndex) {
-                // Força reflow para reiniciar o efeito de giro a cada troca no desktop
-                void card.offsetWidth;
+                void card.offsetWidth; // reinicia a animação de giro e brilho especular
                 card.classList.add('card-front');
 
                 if (direcao === 'next') {
