@@ -214,20 +214,37 @@ a {
     position: relative; 
     z-index: 2; 
     display: grid; 
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: 0.85fr 1.15fr;
     width: 100%; 
     min-height: 100vh; 
     align-items: center; 
     padding: 100px 4% 80px 4%; 
-    gap: 25px;
+    gap: 28px;
 }
 
-/* ===================== Texto e Alinhamento do Topo ===================== */
+/* ===================== Texto Explicativo em Efeito Vidro ===================== */
 .text-section { 
     z-index: 5; 
     align-self: center; 
-    margin-top: -70px; 
-    transition: margin-top 0.3s ease;
+    margin-top: -55px; 
+    padding: 24px 26px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(10, 22, 42, 0.44) 55%, rgba(255, 255, 255, 0.04) 100%);
+    backdrop-filter: blur(15px) saturate(140%);
+    -webkit-backdrop-filter: blur(15px) saturate(140%);
+    border: 1px solid rgba(0, 212, 255, 0.35);
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.65),
+                0 0 22px rgba(0, 212, 255, 0.16),
+                inset 0 1px 1px rgba(255, 255, 255, 0.28),
+                inset 0 0 16px rgba(0, 212, 255, 0.08);
+    transition: margin-top 0.3s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.text-section:hover {
+    border-color: rgba(0, 212, 255, 0.62);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.72),
+                0 0 28px rgba(0, 212, 255, 0.25),
+                inset 0 1px 1px rgba(255, 255, 255, 0.38);
 }
 
 .topic { 
@@ -279,10 +296,11 @@ a {
 
 .des { 
     font-size: clamp(12px, 0.9vw, 13.5px); 
-    color: #a0aec0; 
+    color: #e2e8f0; 
     line-height: 1.55; 
     max-width: 460px;
     text-align: justify;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 
 /* ===================== TELA DE CAPA (index.html) ===================== */
@@ -1011,11 +1029,11 @@ a {
 }
 
 .btn-glass { 
-    background: rgba(255, 255, 255, 0.04); 
-    border: 1px solid rgba(255, 255, 255, 0.24); 
+    background: transparent; 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     padding: 6px; 
     border-radius: 6px; 
-    color: #cbd5e1; 
+    color: #a0aec0; 
     cursor: pointer !important; 
     font-weight: 600; 
     font-size: 9px; 
@@ -1032,7 +1050,7 @@ a {
 }
 
 .btn-glass:hover { 
-    background: rgba(255, 255, 255, 0.14); 
+    background: rgba(255, 255, 255, 0.1); 
     color: #fff; 
     border-color: #fff; 
 }
@@ -1206,10 +1224,18 @@ a {
 
     .text-section {
         margin-top: 0; 
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .topic {
         justify-content: center;
+    }
+
+    .des {
+        text-align: center;
+        margin: 0 auto;
     }
     
     .cards-section { 
@@ -1391,31 +1417,33 @@ a {
     }
 
     .split-screen {
-        padding: 72px 5% 62px 5%;
-        gap: 12px;
+        padding: 70px 5% 60px 5%;
+        gap: 10px;
         grid-template-columns: 1fr;
         text-align: center;
     }
 
     .text-section {
         margin-top: 0 !important;
+        padding: 12px 14px !important;
+        border-radius: 14px !important;
     }
 
     .topic {
         justify-content: center;
-        font-size: 10px;
-        margin-bottom: 4px;
+        font-size: 9.5px;
+        margin-bottom: 3px;
     }
 
     .title {
-        font-size: 24px !important;
+        font-size: 22px !important;
         line-height: 1.15;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
 
     .des {
-        font-size: 11px !important;
-        line-height: 1.35 !important;
+        font-size: 10.5px !important;
+        line-height: 1.32 !important;
         max-width: 100%;
         margin: 0 auto;
         text-align: center;
