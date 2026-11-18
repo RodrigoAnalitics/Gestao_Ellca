@@ -72,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dot.addEventListener('click', () => {
                 if (index === currentIndex) return;
-                const direcao = index > currentIndex ? 'next' : 'prev';
                 currentIndex = index;
-                atualizarCarrossel(direcao);
+                atualizarCarrossel();
                 reiniciarAutoSlide();
             });
 
@@ -90,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Carrossel 3D com Giros Suaves =====================
-    function atualizarCarrossel(direcao = null) {
+    // ===================== Carrossel 3D =====================
+    function atualizarCarrossel() {
         if (cards.length === 0) return;
         const total = cards.length;
         const pausadoAtual = isPaused || isManualPaused;
@@ -102,23 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'card-back-right',
                 'card-back-left',
                 'card-hidden',
-                'pausado',
-                'spin-next',
-                'spin-prev'
+                'pausado'
             );
 
             if (isGridMode) return;
 
             if (index === currentIndex) {
-                void card.offsetWidth; // força reflow para reiniciar animação suavemente
                 card.classList.add('card-front');
-
-                if (direcao === 'next') {
-                    card.classList.add('spin-next');
-                } else if (direcao === 'prev') {
-                    card.classList.add('spin-prev');
-                }
-
                 if (pausadoAtual) card.classList.add('pausado');
             } else if (index === (currentIndex + 1) % total) {
                 card.classList.add('card-back-right');
@@ -135,13 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function proximoCard() {
         if (cards.length === 0 || isGridMode) return;
         currentIndex = (currentIndex + 1) % cards.length;
-        atualizarCarrossel('next');
+        atualizarCarrossel();
     }
 
     function cardAnterior() {
         if (cards.length === 0 || isGridMode) return;
         currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        atualizarCarrossel('prev');
+        atualizarCarrossel();
     }
 
     // ===================== Auto-Slide & Pausa (Hover + Tecla Space) =====================
@@ -205,9 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.closest('a, button')) return;
 
             if (index !== currentIndex) {
-                const direcao = card.classList.contains('card-back-left') ? 'prev' : 'next';
                 currentIndex = index;
-                atualizarCarrossel(direcao);
+                atualizarCarrossel();
                 reiniciarAutoSlide();
             }
         });
@@ -288,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cards.forEach((c) => {
                     c.classList.remove(
                         'card-front', 'card-back-right', 'card-back-left',
-                        'card-hidden', 'pausado', 'spin-next', 'spin-prev'
+                        'card-hidden', 'pausado'
                     );
                 });
             } else {
@@ -324,9 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (primeiroMatch !== -1 && !isGridMode && primeiroMatch !== currentIndex) {
-                const direcao = primeiroMatch > currentIndex ? 'next' : 'prev';
                 currentIndex = primeiroMatch;
-                atualizarCarrossel(direcao);
+                atualizarCarrossel();
             }
         });
     }
