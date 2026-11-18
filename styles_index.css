@@ -532,7 +532,7 @@ a {
     white-space: nowrap;
 }
 
-/* ===================== Carrossel 3D (Desktop) e Modo Grade ===================== */
+/* ===================== Carrossel 3D e Modo Grade ===================== */
 .cards-section { 
     position: relative; 
     width: 100%; 
@@ -548,7 +548,7 @@ a {
     position: relative; 
     width: 290px; 
     height: 370px; 
-    perspective: 1100px; 
+    perspective: 1200px; 
     transform-style: preserve-3d; 
     transition: 0.5s; 
     z-index: 15 !important;
@@ -653,7 +653,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards (Carrossel 3D Desktop com Giro) ===================== */
+/* ===================== Glass Cards & Giro 3D Sofisticado (Global) ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -668,7 +668,7 @@ a {
     padding: 18px; 
     display: flex; 
     flex-direction: column;
-    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transition: transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
                 opacity 0.6s ease,
                 filter 0.6s ease,
                 box-shadow 0.6s ease,
@@ -694,45 +694,96 @@ a {
                 0 0 20px rgba(0, 212, 255, 0.2) inset !important;
 }
 
-/* Efeitos de Giro 3D na entrada do próximo card (Desktop) */
-@media (min-width: 769px) {
-    @keyframes cardSpinNext {
-        0% {
-            transform: translateX(160px) translateZ(-60px) scale(0.84) rotateY(-180deg);
-            opacity: 0.45;
-        }
-        60% {
-            transform: translateX(-8px) translateZ(35px) scale(1.06) rotateY(8deg);
-            opacity: 1;
-        }
-        100% {
-            transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg);
-            opacity: 1;
-        }
+/* Keyframes do Giro 3D Sofisticado (Desktop) */
+@keyframes cardSpinNext {
+    0% {
+        transform: translateX(175px) translateY(16px) translateZ(-90px) scale(0.82) rotateY(-180deg) rotateX(6deg);
+        opacity: 0.35;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
     }
+    58% {
+        transform: translateX(-10px) translateY(-6px) translateZ(42px) scale(1.07) rotateY(10deg) rotateX(-2deg);
+        opacity: 1;
+        box-shadow: 0 32px 60px rgba(0, 0, 0, 0.9), 0 0 52px rgba(0, 212, 255, 0.78), 0 0 26px rgba(255, 255, 255, 0.35) inset;
+    }
+    82% {
+        transform: translateX(3px) translateY(0) translateZ(28px) scale(1.045) rotateY(-3deg) rotateX(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0) translateY(0) translateZ(25px) scale(1.04) rotateY(0deg) rotateX(0deg);
+        opacity: 1;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 212, 255, 0.45), 0 0 20px rgba(0, 212, 255, 0.2) inset;
+    }
+}
 
-    @keyframes cardSpinPrev {
-        0% {
-            transform: translateX(-160px) translateZ(-60px) scale(0.84) rotateY(180deg);
-            opacity: 0.45;
-        }
-        60% {
-            transform: translateX(8px) translateZ(35px) scale(1.06) rotateY(-8deg);
-            opacity: 1;
-        }
-        100% {
-            transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg);
-            opacity: 1;
-        }
+@keyframes cardSpinPrev {
+    0% {
+        transform: translateX(-175px) translateY(16px) translateZ(-90px) scale(0.82) rotateY(180deg) rotateX(6deg);
+        opacity: 0.35;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
     }
+    58% {
+        transform: translateX(10px) translateY(-6px) translateZ(42px) scale(1.07) rotateY(-10deg) rotateX(-2deg);
+        opacity: 1;
+        box-shadow: 0 32px 60px rgba(0, 0, 0, 0.9), 0 0 52px rgba(0, 212, 255, 0.78), 0 0 26px rgba(255, 255, 255, 0.35) inset;
+    }
+    82% {
+        transform: translateX(-3px) translateY(0) translateZ(28px) scale(1.045) rotateY(3deg) rotateX(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0) translateY(0) translateZ(25px) scale(1.04) rotateY(0deg) rotateX(0deg);
+        opacity: 1;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 212, 255, 0.45), 0 0 20px rgba(0, 212, 255, 0.2) inset;
+    }
+}
 
-    .glass-card.card-front.spin-next {
-        animation: cardSpinNext 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* Feixe de reflexo diagonal de cristal varrendo o card durante o giro */
+@keyframes glassCrystalSheen {
+    0% {
+        transform: translateX(-150%) skewX(-25deg);
+        opacity: 0;
     }
+    25% {
+        opacity: 0.85;
+    }
+    75% {
+        opacity: 0.65;
+    }
+    100% {
+        transform: translateX(220%) skewX(-25deg);
+        opacity: 0;
+    }
+}
 
-    .glass-card.card-front.spin-prev {
-        animation: cardSpinPrev 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
+.glass-card.card-front.spin-next {
+    animation: cardSpinNext 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.glass-card.card-front.spin-prev {
+    animation: cardSpinPrev 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.glass-card.card-front.spin-next::after,
+.glass-card.card-front.spin-prev::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.08) 35%,
+        rgba(0, 212, 255, 0.32) 50%,
+        rgba(255, 255, 255, 0.45) 55%,
+        transparent 100%
+    );
+    pointer-events: none !important;
+    z-index: 22;
+    animation: glassCrystalSheen 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .glass-card.card-front:hover { 
@@ -743,7 +794,7 @@ a {
                 0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
 }
 
-/* Cards de trás retos como estavam originalmente (sem inclinação) */
+/* Cards de trás retos no Desktop */
 .glass-card.card-back-right { 
     transform: translateX(210px) translateZ(-70px) scale(0.80) rotateY(0deg); 
     opacity: 0.72; 
@@ -832,7 +883,8 @@ a {
                 0 0 28px rgba(241, 196, 15, 0.45) !important;
 }
 
-.cards-wrapper.grid-mode .glass-card.card-front::before {
+.cards-wrapper.grid-mode .glass-card.card-front::before,
+.cards-wrapper.grid-mode .glass-card.card-front::after {
     display: none !important;
 }
 
@@ -1256,7 +1308,7 @@ a {
     box-shadow: 0 0 8px var(--primary);
 }
 
-/* ===================== Responsividade Mobile (Isolado <= 768px) ===================== */
+/* ===================== Responsividade Mobile (<= 768px com Giro 3D Sofisticado) ===================== */
 @media (max-width: 768px) {
     .item, .capa-bg, body {
         background-position: center center !important;
@@ -1425,21 +1477,59 @@ a {
         margin: 0 auto; 
         width: 270px !important;
         height: 335px !important;
+        perspective: 1100px !important;
+        transform-style: preserve-3d !important;
     }
 
-    /* Transição Mobile: Focus Depth + Deslizamento Suave (1 card por vez) */
     .glass-card {
         width: 270px !important; 
         height: 335px !important;
         padding: 15px !important;
-        transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-                    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-                    filter 0.45s ease !important;
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.5s ease,
+                    filter 0.5s ease !important;
     }
 
-    /* Card ativo no mobile com vidro mais translúcido */
+    /* Keyframes do Giro 3D Calibrados para Tela Mobile */
+    @keyframes cardSpinNextMobile {
+        0% {
+            transform: translateX(42px) translateY(10px) translateZ(-70px) scale(0.84) rotateY(-180deg) rotateX(5deg);
+            opacity: 0.25;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
+        }
+        60% {
+            transform: translateX(-4px) translateY(-4px) translateZ(26px) scale(1.03) rotateY(8deg) rotateX(-2deg);
+            opacity: 1;
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.85), 0 0 38px rgba(0, 212, 255, 0.72), 0 0 18px rgba(255, 255, 255, 0.3) inset;
+        }
+        100% {
+            transform: translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg);
+            opacity: 1;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 22px rgba(0, 212, 255, 0.32);
+        }
+    }
+
+    @keyframes cardSpinPrevMobile {
+        0% {
+            transform: translateX(-42px) translateY(10px) translateZ(-70px) scale(0.84) rotateY(180deg) rotateX(5deg);
+            opacity: 0.25;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
+        }
+        60% {
+            transform: translateX(4px) translateY(-4px) translateZ(26px) scale(1.03) rotateY(-8deg) rotateX(-2deg);
+            opacity: 1;
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.85), 0 0 38px rgba(0, 212, 255, 0.72), 0 0 18px rgba(255, 255, 255, 0.3) inset;
+        }
+        100% {
+            transform: translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg);
+            opacity: 1;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 22px rgba(0, 212, 255, 0.32);
+        }
+    }
+
+    /* Card ativo no mobile com vidro translúcido + giro 3D */
     .glass-card.card-front {
-        transform: translateX(0) scale(1) !important; 
+        transform: translateX(0) scale(1) rotateY(0deg) !important; 
         opacity: 1 !important;
         filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
@@ -1450,8 +1540,17 @@ a {
                     0 0 22px rgba(0, 212, 255, 0.32) !important;
     }
 
+    .glass-card.card-front.spin-next {
+        animation: cardSpinNextMobile 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+    }
+
+    .glass-card.card-front.spin-prev {
+        animation: cardSpinPrevMobile 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+    }
+
+    /* Cards inativos invisíveis (1 card por vez sem sombra atrás) */
     .glass-card.card-back-right {
-        transform: translateX(48px) scale(0.92) !important;
+        transform: translateX(35px) scale(0.90) !important;
         opacity: 0 !important;
         filter: blur(6px) !important;
         pointer-events: none !important;
@@ -1459,7 +1558,7 @@ a {
     }
 
     .glass-card.card-back-left {
-        transform: translateX(-48px) scale(0.92) !important;
+        transform: translateX(-35px) scale(0.90) !important;
         opacity: 0 !important;
         filter: blur(6px) !important;
         pointer-events: none !important;
@@ -1516,6 +1615,7 @@ a {
         opacity: 1 !important;
         filter: none !important;
         pointer-events: auto !important;
+        animation: none !important;
         background: linear-gradient(135deg, rgba(12, 22, 42, 0.45) 0%, rgba(6, 14, 28, 0.35) 100%) !important;
     }
 
