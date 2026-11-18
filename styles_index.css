@@ -39,6 +39,7 @@ a {
     height: 100%;
     background: linear-gradient(to right, rgba(2, 5, 10, 0.50) 0%, rgba(2, 5, 10, 0.2) 100%);
     z-index: 1;
+    pointer-events: none !important;
 }
 
 /* ===================== Navbar ===================== */
@@ -51,7 +52,8 @@ a {
     width: 100%; 
     position: absolute; 
     top: 0; 
-    z-index: 1000;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
 }
 
 .logo-img { 
@@ -294,7 +296,7 @@ a {
     background-image: 
         radial-gradient(circle at 50% 42%, rgba(0, 212, 255, 0.16) 0%, transparent 58%),
         linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.90)),
-        url('img/Capa_index.jpg');
+        url('img/Capa_home.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -335,7 +337,6 @@ a {
     transform: scale(1.03);
 }
 
-/* Cantoneiras HUD discretas */
 .capa-wrapper::before,
 .capa-wrapper::after {
     content: '';
@@ -398,7 +399,7 @@ a {
 
 .capa-logo {
     width: min(260px, 54vw);
-    max-height: 19vh;
+    max-height: 20vh;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.42));
@@ -422,7 +423,7 @@ a {
 }
 
 .capa-title.title {
-    font-size: clamp(32px, 4.4vw, 54px);
+    font-size: clamp(32px, 4.4vw, 58px);
     font-weight: 900;
     line-height: 1.16;
     text-transform: uppercase;
@@ -482,6 +483,7 @@ a {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
     transform: skewX(-25deg);
     animation: btnShine 4.5s infinite;
+    pointer-events: none !important;
 }
 
 @keyframes btnShine {
@@ -530,7 +532,7 @@ a {
     white-space: nowrap;
 }
 
-/* ===================== Carrossel 3D (Desktop) e Modo Grade ===================== */
+/* ===================== Carrossel 3D Orbital (Desktop) e Modo Grade ===================== */
 .cards-section { 
     position: relative; 
     width: 100%; 
@@ -539,15 +541,17 @@ a {
     align-items: center; 
     justify-content: center; 
     overflow: visible; 
+    z-index: 15 !important;
 }
 
 .cards-wrapper { 
     position: relative; 
     width: 290px; 
     height: 370px; 
-    perspective: 900px; 
+    perspective: 1200px; 
     transform-style: preserve-3d; 
     transition: 0.5s; 
+    z-index: 15 !important;
 }
 
 .cards-wrapper.grid-mode {
@@ -648,7 +652,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards (Carrossel 3D Desktop) ===================== */
+/* ===================== Glass Cards (Carrossel 3D Orbital Desktop) ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -663,69 +667,73 @@ a {
     padding: 18px; 
     display: flex; 
     flex-direction: column;
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); 
+    transition: transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.65s ease,
+                filter 0.65s ease,
+                box-shadow 0.65s ease,
+                border-color 0.4s ease;
     pointer-events: none; 
     overflow: hidden;
-    transform: scale(0.9); 
+    transform: translateZ(-120px) scale(0.85); 
     filter: brightness(0.7);
 }
 
-/* CARD ATIVO */
+/* CARD ATIVO (Em destaque frontal) */
 .glass-card.card-front {
-    transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg); 
+    transform: translateX(0) translateY(0) translateZ(45px) scale(1.05) rotateY(0deg); 
     filter: brightness(1);
     opacity: 1; 
     z-index: 20; 
-    pointer-events: auto; 
+    pointer-events: auto !important; 
     cursor: pointer;
-    background: linear-gradient(135deg, rgba(12, 22, 42, 0.30) 0%, rgba(6, 14, 28, 0.50) 100%) !important;
+    background: linear-gradient(135deg, rgba(12, 22, 42, 0.88) 0%, rgba(6, 14, 28, 0.82) 100%) !important;
     border-color: var(--primary);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
-                0 0 32px rgba(0, 212, 255, 0.45), 
+    box-shadow: 0 28px 55px rgba(0, 0, 0, 0.88), 
+                0 0 34px rgba(0, 212, 255, 0.48), 
                 0 0 20px rgba(0, 212, 255, 0.2) inset !important;
 }
 
 .glass-card.card-front:hover { 
-    transform: translateY(-5px) translateZ(30px) scale(1.02); 
+    transform: translateY(-8px) translateZ(55px) scale(1.07) rotateY(0deg); 
     border-color: #fff; 
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 
-                0 0 40px rgba(0, 212, 255, 0.6), 
+    box-shadow: 0 32px 62px rgba(0, 0, 0, 0.92), 
+                0 0 42px rgba(0, 212, 255, 0.62), 
                 0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
 }
 
-/* Cards Laterais Visíveis e Clicáveis no Desktop */
+/* Cards Laterais em Órbita 3D (Inclinados para o centro e clicáveis no Desktop) */
 .glass-card.card-back-right { 
-    transform: translateX(210px) translateZ(-70px) scale(0.80); 
+    transform: translateX(225px) translateY(10px) translateZ(-85px) rotateY(-24deg) scale(0.82); 
     opacity: 0.72; 
     z-index: 5; 
-    filter: blur(1.5px) brightness(0.85);
-    pointer-events: auto;
+    filter: blur(1.2px) brightness(0.82);
+    pointer-events: auto !important;
     cursor: pointer;
 }
 
 .glass-card.card-back-left { 
-    transform: translateX(-210px) translateZ(-70px) scale(0.80); 
+    transform: translateX(-225px) translateY(10px) translateZ(-85px) rotateY(24deg) scale(0.82); 
     opacity: 0.72; 
     z-index: 5; 
-    filter: blur(1.5px) brightness(0.85);
-    pointer-events: auto;
+    filter: blur(1.2px) brightness(0.82);
+    pointer-events: auto !important;
     cursor: pointer;
 }
 
 .glass-card.card-back-right:hover {
-    opacity: 0.92;
+    opacity: 0.95;
     filter: blur(0px) brightness(1);
-    transform: translateX(215px) translateZ(-55px) scale(0.83);
+    transform: translateX(232px) translateY(4px) translateZ(-60px) rotateY(-16deg) scale(0.85);
 }
 
 .glass-card.card-back-left:hover {
-    opacity: 0.92;
+    opacity: 0.95;
     filter: blur(0px) brightness(1);
-    transform: translateX(-215px) translateZ(-55px) scale(0.83);
+    transform: translateX(-232px) translateY(4px) translateZ(-60px) rotateY(16deg) scale(0.85);
 }
 
 .glass-card.card-hidden { 
-    transform: translateX(0) translateZ(-180px) scale(0.6); 
+    transform: translateX(0) translateZ(-220px) rotateY(0deg) scale(0.58); 
     opacity: 0; 
     z-index: 1; 
     pointer-events: none;
@@ -762,7 +770,7 @@ a {
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    pointer-events: none;
+    pointer-events: none !important;
     z-index: 25;
     animation: borderNeonSweep 6s linear 1 forwards;
 }
@@ -778,8 +786,8 @@ a {
 
 .glass-card.card-front.pausado {
     border-color: #f1c40f !important;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
-                0 0 28px rgba(241, 196, 15, 0.45) !important;
+    box-shadow: 0 28px 55px rgba(0, 0, 0, 0.88), 
+                0 0 30px rgba(241, 196, 15, 0.48) !important;
 }
 
 .cards-wrapper.grid-mode .glass-card.card-front::before {
@@ -913,6 +921,9 @@ a {
     flex-direction: column; 
     gap: 5px; 
     margin-top: auto; 
+    position: relative;
+    z-index: 30 !important;
+    pointer-events: auto !important;
 }
 
 .btn-primary { 
@@ -921,7 +932,7 @@ a {
     padding: 8px; 
     border-radius: 6px; 
     font-weight: 800; 
-    cursor: pointer; 
+    cursor: pointer !important; 
     color: #000; 
     text-transform: uppercase; 
     font-size: 9.5px; 
@@ -930,6 +941,9 @@ a {
     align-items: center; 
     gap: 5px; 
     transition: 0.3s; 
+    position: relative;
+    z-index: 30 !important;
+    pointer-events: auto !important;
 }
 
 .btn-primary a {
@@ -939,6 +953,8 @@ a {
     gap: 5px;
     width: 100%;
     height: 100%;
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
 
 .btn-glass { 
@@ -947,11 +963,14 @@ a {
     padding: 6px; 
     border-radius: 6px; 
     color: #a0aec0; 
-    cursor: pointer; 
+    cursor: pointer !important; 
     font-weight: 600; 
     font-size: 9px; 
     text-transform: uppercase; 
     transition: 0.3s; 
+    position: relative;
+    z-index: 30 !important;
+    pointer-events: auto !important;
 }
 
 .btn-primary:hover { 
@@ -973,7 +992,8 @@ a {
     display: flex; 
     align-items: center; 
     gap: 16px; 
-    z-index: 10; 
+    z-index: 50 !important; 
+    pointer-events: auto !important;
 }
 
 .controls { 
@@ -1057,7 +1077,6 @@ a {
     animation: dotFlowGradient 2s linear infinite;
 }
 
-/* Onda radar pulsante ao redor da bolinha ativa */
 .pagination-dots .dot.active::before {
     content: '';
     position: absolute;
@@ -1066,7 +1085,7 @@ a {
     border: 1.5px solid var(--primary);
     opacity: 0.8;
     animation: dotRadarWave 1.8s ease-out infinite;
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
 @keyframes dotFlowGradient {
@@ -1096,7 +1115,8 @@ a {
     gap: 12px; 
     font-size: 9.5px; 
     color: rgba(255,255,255,0.5); 
-    z-index: 10; 
+    z-index: 50 !important; 
+    pointer-events: auto !important;
 }
 
 .footer-info { 
@@ -1375,13 +1395,13 @@ a {
                     filter 0.45s ease !important;
     }
 
-.glass-card.card-front {
+    /* Card ativo no mobile com vidro mais translúcido */
+    .glass-card.card-front {
         transform: translateX(0) scale(1) !important; 
         opacity: 1 !important;
         filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
         pointer-events: auto !important;
-        /* Ajuste a transparência aqui (valores menores = mais transparente) */
         background: linear-gradient(135deg, rgba(12, 22, 42, 0.45) 0%, rgba(6, 14, 28, 0.35) 100%) !important;
         backdrop-filter: blur(12px) !important;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 
@@ -1454,6 +1474,7 @@ a {
         opacity: 1 !important;
         filter: none !important;
         pointer-events: auto !important;
+        background: linear-gradient(135deg, rgba(12, 22, 42, 0.45) 0%, rgba(6, 14, 28, 0.35) 100%) !important;
     }
 
     .cards-wrapper.grid-mode .img-box {
