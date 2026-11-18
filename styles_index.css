@@ -645,7 +645,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards & Giros Ultra-Suaves ===================== */
+/* ===================== Glass Cards, Névoa Translúcida & Hover Premium ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -661,11 +661,12 @@ a {
     padding: 18px; 
     display: flex; 
     flex-direction: column;
-    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.7s ease,
-                filter 0.7s ease,
-                box-shadow 0.7s ease,
-                border-color 0.4s ease;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s ease,
+                filter 0.5s ease,
+                box-shadow 0.45s ease,
+                border-color 0.4s ease,
+                background 0.45s ease;
     pointer-events: none; 
     overflow: hidden;
     transform: scale(0.9); 
@@ -673,9 +674,9 @@ a {
     will-change: transform, opacity;
 }
 
-/* CARD ATIVO: Efeito vidro translúcido elegante (Desktop e Mobile) */
+/* CARD ATIVO: Efeito vidro fosco translúcido + névoa sutil (Desktop e Mobile) */
 .glass-card.card-front {
-    transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg); 
+    transform: translateX(0) translateZ(25px) scale(1.04); 
     filter: brightness(1);
     opacity: 1; 
     z-index: 20; 
@@ -691,63 +692,68 @@ a {
                 inset 0 0 18px rgba(0, 212, 255, 0.12) !important;
 }
 
-/* Giros Ultra-Suaves com Desaceleração Contínua (1.5 voltas = 540deg em 1.35s) */
-@keyframes cardSpinNext {
+/* Efeito de fumaça/névoa translúcida flutuando dentro do card ativo */
+@keyframes smokeDrift {
     0% {
-        transform: translateX(165px) translateY(12px) translateZ(-90px) scale(0.80) rotateY(-540deg) rotateX(4deg);
-        opacity: 0.22;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
+        transform: translate3d(-14%, 12%, 0) scale(1) rotate(0deg);
+        opacity: 0.32;
     }
-    72% {
-        transform: translateX(-4px) translateY(-4px) translateZ(34px) scale(1.052) rotateY(5deg) rotateX(-1deg);
-        opacity: 1;
-        box-shadow: 0 28px 54px rgba(0, 0, 0, 0.8), 0 0 38px rgba(0, 212, 255, 0.52), inset 0 1px 1px rgba(255, 255, 255, 0.38);
+    50% {
+        transform: translate3d(12%, -10%, 0) scale(1.16) rotate(12deg);
+        opacity: 0.48;
     }
     100% {
-        transform: translateX(0) translateY(0) translateZ(25px) scale(1.04) rotateY(0deg) rotateX(0deg);
-        opacity: 1;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 0 0 28px rgba(0, 212, 255, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.32), inset 0 0 18px rgba(0, 212, 255, 0.12);
+        transform: translate3d(-14%, 12%, 0) scale(1) rotate(0deg);
+        opacity: 0.32;
     }
 }
 
-@keyframes cardSpinPrev {
-    0% {
-        transform: translateX(-165px) translateY(12px) translateZ(-90px) scale(0.80) rotateY(540deg) rotateX(4deg);
-        opacity: 0.22;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
-    }
-    72% {
-        transform: translateX(4px) translateY(-4px) translateZ(34px) scale(1.052) rotateY(-5deg) rotateX(-1deg);
-        opacity: 1;
-        box-shadow: 0 28px 54px rgba(0, 0, 0, 0.8), 0 0 38px rgba(0, 212, 255, 0.52), inset 0 1px 1px rgba(255, 255, 255, 0.38);
-    }
-    100% {
-        transform: translateX(0) translateY(0) translateZ(25px) scale(1.04) rotateY(0deg) rotateX(0deg);
-        opacity: 1;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 0 0 28px rgba(0, 212, 255, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.32), inset 0 0 18px rgba(0, 212, 255, 0.12);
-    }
+.glass-card.card-front::after {
+    content: '';
+    position: absolute;
+    inset: -35%;
+    background:
+        radial-gradient(circle at 28% 72%, rgba(0, 212, 255, 0.22) 0%, transparent 46%),
+        radial-gradient(circle at 74% 32%, rgba(255, 255, 255, 0.16) 0%, transparent 42%),
+        radial-gradient(circle at 52% 55%, rgba(0, 142, 191, 0.18) 0%, transparent 52%);
+    filter: blur(18px);
+    pointer-events: none !important;
+    z-index: 1;
+    animation: smokeDrift 9s ease-in-out infinite;
+    transition: opacity 0.45s ease, filter 0.45s ease;
 }
 
-.glass-card.card-front.spin-next {
-    animation: cardSpinNext 1.35s cubic-bezier(0.12, 0.92, 0.22, 1) forwards;
-}
-
-.glass-card.card-front.spin-prev {
-    animation: cardSpinPrev 1.35s cubic-bezier(0.12, 0.92, 0.22, 1) forwards;
-}
-
+/* Hover sofisticado no card ativo */
 .glass-card.card-front:hover { 
-    transform: translateY(-8px) translateZ(35px) scale(1.06) rotateY(0deg); 
-    border-color: #fff; 
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), 
-                0 0 36px rgba(0, 212, 255, 0.5), 
-                inset 0 1px 1px rgba(255, 255, 255, 0.42),
-                inset 0 0 22px rgba(255, 255, 255, 0.16) !important; 
+    transform: translateY(-10px) translateZ(42px) scale(1.065); 
+    border-color: #ffffff;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(12, 28, 54, 0.54) 55%, rgba(0, 212, 255, 0.12) 100%) !important;
+    box-shadow: 0 34px 68px rgba(0, 0, 0, 0.88), 
+                0 0 42px rgba(0, 212, 255, 0.58), 
+                0 0 14px rgba(255, 255, 255, 0.35),
+                inset 0 1px 2px rgba(255, 255, 255, 0.55),
+                inset 0 0 26px rgba(0, 212, 255, 0.24) !important; 
+}
+
+.glass-card.card-front:hover::after {
+    opacity: 0.72;
+    filter: blur(14px);
+    animation-duration: 5.5s;
+}
+
+.glass-card.card-front .img-box {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.glass-card.card-front:hover .img-box {
+    transform: scale(1.035);
+    border-color: rgba(0, 212, 255, 0.55);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
 }
 
 /* Cards de trás retos no Desktop */
 .glass-card.card-back-right { 
-    transform: translateX(210px) translateZ(-70px) scale(0.80) rotateY(0deg); 
+    transform: translateX(210px) translateZ(-70px) scale(0.80); 
     opacity: 0.72; 
     z-index: 5; 
     filter: blur(1.5px) brightness(0.85);
@@ -756,7 +762,7 @@ a {
 }
 
 .glass-card.card-back-left { 
-    transform: translateX(-210px) translateZ(-70px) scale(0.80) rotateY(0deg); 
+    transform: translateX(-210px) translateZ(-70px) scale(0.80); 
     opacity: 0.72; 
     z-index: 5; 
     filter: blur(1.5px) brightness(0.85);
@@ -767,17 +773,17 @@ a {
 .glass-card.card-back-right:hover {
     opacity: 0.94;
     filter: blur(0px) brightness(1);
-    transform: translateX(215px) translateZ(-55px) scale(0.83) rotateY(0deg);
+    transform: translateX(215px) translateZ(-55px) scale(0.83);
 }
 
 .glass-card.card-back-left:hover {
     opacity: 0.94;
     filter: blur(0px) brightness(1);
-    transform: translateX(-215px) translateZ(-55px) scale(0.83) rotateY(0deg);
+    transform: translateX(-215px) translateZ(-55px) scale(0.83);
 }
 
 .glass-card.card-hidden { 
-    transform: translateX(0) translateZ(-180px) scale(0.6) rotateY(0deg); 
+    transform: translateX(0) translateZ(-180px) scale(0.6); 
     opacity: 0; 
     z-index: 1; 
     pointer-events: none;
@@ -834,7 +840,8 @@ a {
                 0 0 28px rgba(241, 196, 15, 0.45) !important;
 }
 
-.cards-wrapper.grid-mode .glass-card.card-front::before {
+.cards-wrapper.grid-mode .glass-card.card-front::before,
+.cards-wrapper.grid-mode .glass-card.card-front::after {
     display: none !important;
 }
 
@@ -1254,7 +1261,7 @@ a {
     box-shadow: 0 0 8px var(--primary);
 }
 
-/* ===================== Responsividade Mobile (<= 768px com Giros Suaves + Vidro) ===================== */
+/* ===================== Responsividade Mobile (<= 768px com Vidro + Névoa) ===================== */
 @media (max-width: 768px) {
     .item, .capa-bg, body {
         background-position: center center !important;
@@ -1431,51 +1438,14 @@ a {
         width: 270px !important; 
         height: 335px !important;
         padding: 15px !important;
-        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.65s ease,
-                    filter 0.65s ease !important;
+        transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.5s ease,
+                    filter 0.5s ease !important;
     }
 
-    /* Giros Ultra-Suaves no Mobile (540deg em 1.3s) */
-    @keyframes cardSpinNextMobile {
-        0% {
-            transform: translateX(36px) translateY(8px) translateZ(-70px) scale(0.82) rotateY(-540deg) rotateX(4deg);
-            opacity: 0.22;
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
-        }
-        72% {
-            transform: translateX(-3px) translateY(-3px) translateZ(20px) scale(1.02) rotateY(4deg) rotateX(-1deg);
-            opacity: 1;
-            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.8), 0 0 34px rgba(0, 212, 255, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-        }
-        100% {
-            transform: translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg);
-            opacity: 1;
-            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.75), 0 0 24px rgba(0, 212, 255, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.32), inset 0 0 16px rgba(0, 212, 255, 0.12);
-        }
-    }
-
-    @keyframes cardSpinPrevMobile {
-        0% {
-            transform: translateX(-36px) translateY(8px) translateZ(-70px) scale(0.82) rotateY(540deg) rotateX(4deg);
-            opacity: 0.22;
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6), 0 0 0px rgba(0, 212, 255, 0);
-        }
-        72% {
-            transform: translateX(3px) translateY(-3px) translateZ(20px) scale(1.02) rotateY(-4deg) rotateX(-1deg);
-            opacity: 1;
-            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.8), 0 0 34px rgba(0, 212, 255, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-        }
-        100% {
-            transform: translateX(0) translateY(0) translateZ(0) scale(1) rotateY(0deg) rotateX(0deg);
-            opacity: 1;
-            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.75), 0 0 24px rgba(0, 212, 255, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.32), inset 0 0 16px rgba(0, 212, 255, 0.12);
-        }
-    }
-
-    /* Card ativo no mobile: efeito vidro translúcido elegante + giro 3D */
+    /* Card ativo no mobile: mesmo efeito vidro translúcido + névoa */
     .glass-card.card-front {
-        transform: translateX(0) scale(1) rotateY(0deg) !important; 
+        transform: translateX(0) scale(1) !important; 
         opacity: 1 !important;
         filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
@@ -1488,14 +1458,6 @@ a {
                     0 0 24px rgba(0, 212, 255, 0.32),
                     inset 0 1px 1px rgba(255, 255, 255, 0.32),
                     inset 0 0 16px rgba(0, 212, 255, 0.12) !important;
-    }
-
-    .glass-card.card-front.spin-next {
-        animation: cardSpinNextMobile 1.3s cubic-bezier(0.12, 0.92, 0.22, 1) forwards !important;
-    }
-
-    .glass-card.card-front.spin-prev {
-        animation: cardSpinPrevMobile 1.3s cubic-bezier(0.12, 0.92, 0.22, 1) forwards !important;
     }
 
     /* Cards inativos invisíveis (1 card por vez sem sombra atrás) */
