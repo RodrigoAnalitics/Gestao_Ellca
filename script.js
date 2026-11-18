@@ -18,102 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isDesktop = () => window.innerWidth > 768;
 
-    // ===================== Gerador Procedural de Raios Reais Ramificados =====================
-    function gerarCaminhoRaio(x1, y1, x2, y2, deslocamento, profundidade) {
-        if (profundidade <= 0) {
-            return `M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${x2.toFixed(1)} ${y2.toFixed(1)} `;
-        }
-
-        const midX = (x1 + x2) / 2 + (Math.random() - 0.5) * deslocamento;
-        const midY = (y1 + y2) / 2 + (Math.random() - 0.5) * deslocamento;
-
-        let path = '';
-        path += gerarCaminhoRaio(x1, y1, midX, midY, deslocamento * 0.55, profundidade - 1);
-        path += gerarCaminhoRaio(midX, midY, x2, y2, deslocamento * 0.55, profundidade - 1);
-
-        // Ramificações secundárias aleatórias (como descargas reais)
-        if (profundidade >= 2 && Math.random() < 0.42) {
-            const angulo = Math.atan2(y2 - y1, x2 - x1) + (Math.random() > 0.5 ? 0.55 : -0.55);
-            const comp = Math.hypot(x2 - x1, y2 - y1) * (0.35 + Math.random() * 0.25);
-            const branchX = midX + Math.cos(angulo) * comp;
-            const branchY = midY + Math.sin(angulo) * comp;
-            path += gerarCaminhoRaio(midX, midY, branchX, branchY, deslocamento * 0.35, profundidade - 2);
-        }
-
-        return path;
-    }
-
-    function dispararRaioProcedural(card) {
-        if (!card) return;
-        const anterior = card.querySelector('.lightning-svg-layer');
-        if (anterior) anterior.remove();
-
-        const svgNS = 'http://www.w3.org/2000/svg';
-        const svg = document.createElementNS(svgNS, 'svg');
-        svg.setAttribute('class', 'lightning-svg-layer');
-        svg.setAttribute('viewBox', '0 0 290 360');
-        svg.setAttribute('preserveAspectRatio', 'none');
-
-        const filterId = `bolt-glow-${Math.floor(Math.random() * 100000)}`;
-        const defs = document.createElementNS(svgNS, 'defs');
-        defs.innerHTML = `
-            <filter id="${filterId}" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="2.4" result="blur"/>
-                <feMerge>
-                    <feMergeNode in="blur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-        `;
-        svg.appendChild(defs);
-
-        // Escolhe pontos de origem e destino discretos nas bordas do card
-        const lado = Math.random();
-        let x1, y1, x2, y2;
-        if (lado < 0.5) {
-            // Canto superior esquerdo para borda direita/inferior
-            x1 = 10 + Math.random() * 60;
-            y1 = 0;
-            x2 = 220 + Math.random() * 70;
-            y2 = 120 + Math.random() * 180;
-        } else {
-            // Canto superior direito para borda esquerda/inferior
-            x1 = 220 + Math.random() * 65;
-            y1 = 0;
-            x2 = 5 + Math.random() * 75;
-            y2 = 130 + Math.random() * 170;
-        }
-
-        const dPrincipal = gerarCaminhoRaio(x1, y1, x2, y2, 34, 4);
-
-        // Halo externo ciano
-        const halo = document.createElementNS(svgNS, 'path');
-        halo.setAttribute('d', dPrincipal);
-        halo.setAttribute('fill', 'none');
-        halo.setAttribute('stroke', '#00d4ff');
-        halo.setAttribute('stroke-width', '2.2');
-        halo.setAttribute('stroke-opacity', '0.55');
-        halo.setAttribute('stroke-linecap', 'round');
-        halo.setAttribute('filter', `url(#${filterId})`);
-
-        // Núcleo branco fino de alta tensão
-        const nucleo = document.createElementNS(svgNS, 'path');
-        nucleo.setAttribute('d', dPrincipal);
-        nucleo.setAttribute('fill', 'none');
-        nucleo.setAttribute('stroke', '#ffffff');
-        nucleo.setAttribute('stroke-width', '0.95');
-        nucleo.setAttribute('stroke-opacity', '0.9');
-        nucleo.setAttribute('stroke-linecap', 'round');
-
-        svg.appendChild(halo);
-        svg.appendChild(nucleo);
-        card.appendChild(svg);
-
-        setTimeout(() => {
-            if (svg.parentNode) svg.remove();
-        }, 1200);
-    }
-
     // ===================== Botão Voltar (Desktop e Mobile) =====================
     document.querySelectorAll('.btn-voltar').forEach((btn) => {
         btn.addEventListener('click', (e) => {
@@ -186,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Carrossel 3D com Giros Suaves + Raios Reais =====================
+    // ===================== Carrossel 3D com Giros Suaves =====================
     function atualizarCarrossel(direcao = null) {
         if (cards.length === 0) return;
         const total = cards.length;
@@ -211,10 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (direcao === 'next') {
                     card.classList.add('spin-next');
-                    dispararRaioProcedural(card);
                 } else if (direcao === 'prev') {
                     card.classList.add('spin-prev');
-                    dispararRaioProcedural(card);
                 }
 
                 if (pausadoAtual) card.classList.add('pausado');
@@ -388,8 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         'card-front', 'card-back-right', 'card-back-left',
                         'card-hidden', 'pausado', 'spin-next', 'spin-prev'
                     );
-                    const raio = c.querySelector('.lightning-svg-layer');
-                    if (raio) raio.remove();
                 });
             } else {
                 atualizarCarrossel();
