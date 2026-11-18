@@ -532,7 +532,7 @@ a {
     white-space: nowrap;
 }
 
-/* ===================== Carrossel 3D Orbital (Desktop) e Modo Grade ===================== */
+/* ===================== Carrossel 3D (Desktop) e Modo Grade ===================== */
 .cards-section { 
     position: relative; 
     width: 100%; 
@@ -548,7 +548,7 @@ a {
     position: relative; 
     width: 290px; 
     height: 370px; 
-    perspective: 1200px; 
+    perspective: 1100px; 
     transform-style: preserve-3d; 
     transition: 0.5s; 
     z-index: 15 !important;
@@ -598,6 +598,7 @@ a {
     justify-content: space-between !important;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
     overflow: hidden !important;
+    animation: none !important;
 }
 
 .cards-wrapper.grid-mode .img-box {
@@ -652,7 +653,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards (Carrossel 3D Orbital Desktop) ===================== */
+/* ===================== Glass Cards (Carrossel 3D Desktop com Giro) ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -667,20 +668,20 @@ a {
     padding: 18px; 
     display: flex; 
     flex-direction: column;
-    transition: transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.65s ease,
-                filter 0.65s ease,
-                box-shadow 0.65s ease,
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.6s ease,
+                filter 0.6s ease,
+                box-shadow 0.6s ease,
                 border-color 0.4s ease;
     pointer-events: none; 
     overflow: hidden;
-    transform: translateZ(-120px) scale(0.85); 
+    transform: scale(0.9); 
     filter: brightness(0.7);
 }
 
 /* CARD ATIVO (Em destaque frontal) */
 .glass-card.card-front {
-    transform: translateX(0) translateY(0) translateZ(45px) scale(1.05) rotateY(0deg); 
+    transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg); 
     filter: brightness(1);
     opacity: 1; 
     z-index: 20; 
@@ -688,52 +689,93 @@ a {
     cursor: pointer;
     background: linear-gradient(135deg, rgba(12, 22, 42, 0.88) 0%, rgba(6, 14, 28, 0.82) 100%) !important;
     border-color: var(--primary);
-    box-shadow: 0 28px 55px rgba(0, 0, 0, 0.88), 
-                0 0 34px rgba(0, 212, 255, 0.48), 
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
+                0 0 32px rgba(0, 212, 255, 0.45), 
                 0 0 20px rgba(0, 212, 255, 0.2) inset !important;
 }
 
+/* Efeitos de Giro 3D na entrada do próximo card (Desktop) */
+@media (min-width: 769px) {
+    @keyframes cardSpinNext {
+        0% {
+            transform: translateX(160px) translateZ(-60px) scale(0.84) rotateY(-180deg);
+            opacity: 0.45;
+        }
+        60% {
+            transform: translateX(-8px) translateZ(35px) scale(1.06) rotateY(8deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg);
+            opacity: 1;
+        }
+    }
+
+    @keyframes cardSpinPrev {
+        0% {
+            transform: translateX(-160px) translateZ(-60px) scale(0.84) rotateY(180deg);
+            opacity: 0.45;
+        }
+        60% {
+            transform: translateX(8px) translateZ(35px) scale(1.06) rotateY(-8deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0) translateZ(25px) scale(1.04) rotateY(0deg);
+            opacity: 1;
+        }
+    }
+
+    .glass-card.card-front.spin-next {
+        animation: cardSpinNext 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .glass-card.card-front.spin-prev {
+        animation: cardSpinPrev 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+}
+
 .glass-card.card-front:hover { 
-    transform: translateY(-8px) translateZ(55px) scale(1.07) rotateY(0deg); 
+    transform: translateY(-8px) translateZ(35px) scale(1.06) rotateY(0deg); 
     border-color: #fff; 
-    box-shadow: 0 32px 62px rgba(0, 0, 0, 0.92), 
-                0 0 42px rgba(0, 212, 255, 0.62), 
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 
+                0 0 40px rgba(0, 212, 255, 0.6), 
                 0 0 28px rgba(255, 255, 255, 0.3) inset !important; 
 }
 
-/* Cards Laterais em Órbita 3D (Inclinados para o centro e clicáveis no Desktop) */
+/* Cards de trás retos como estavam originalmente (sem inclinação) */
 .glass-card.card-back-right { 
-    transform: translateX(225px) translateY(10px) translateZ(-85px) rotateY(-24deg) scale(0.82); 
+    transform: translateX(210px) translateZ(-70px) scale(0.80) rotateY(0deg); 
     opacity: 0.72; 
     z-index: 5; 
-    filter: blur(1.2px) brightness(0.82);
+    filter: blur(1.5px) brightness(0.85);
     pointer-events: auto !important;
     cursor: pointer;
 }
 
 .glass-card.card-back-left { 
-    transform: translateX(-225px) translateY(10px) translateZ(-85px) rotateY(24deg) scale(0.82); 
+    transform: translateX(-210px) translateZ(-70px) scale(0.80) rotateY(0deg); 
     opacity: 0.72; 
     z-index: 5; 
-    filter: blur(1.2px) brightness(0.82);
+    filter: blur(1.5px) brightness(0.85);
     pointer-events: auto !important;
     cursor: pointer;
 }
 
 .glass-card.card-back-right:hover {
-    opacity: 0.95;
+    opacity: 0.94;
     filter: blur(0px) brightness(1);
-    transform: translateX(232px) translateY(4px) translateZ(-60px) rotateY(-16deg) scale(0.85);
+    transform: translateX(215px) translateZ(-55px) scale(0.83) rotateY(0deg);
 }
 
 .glass-card.card-back-left:hover {
-    opacity: 0.95;
+    opacity: 0.94;
     filter: blur(0px) brightness(1);
-    transform: translateX(-232px) translateY(4px) translateZ(-60px) rotateY(16deg) scale(0.85);
+    transform: translateX(-215px) translateZ(-55px) scale(0.83) rotateY(0deg);
 }
 
 .glass-card.card-hidden { 
-    transform: translateX(0) translateZ(-220px) rotateY(0deg) scale(0.58); 
+    transform: translateX(0) translateZ(-180px) scale(0.6) rotateY(0deg); 
     opacity: 0; 
     z-index: 1; 
     pointer-events: none;
@@ -786,8 +828,8 @@ a {
 
 .glass-card.card-front.pausado {
     border-color: #f1c40f !important;
-    box-shadow: 0 28px 55px rgba(0, 0, 0, 0.88), 
-                0 0 30px rgba(241, 196, 15, 0.48) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 
+                0 0 28px rgba(241, 196, 15, 0.45) !important;
 }
 
 .cards-wrapper.grid-mode .glass-card.card-front::before {
