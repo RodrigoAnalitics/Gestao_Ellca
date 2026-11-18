@@ -214,37 +214,20 @@ a {
     position: relative; 
     z-index: 2; 
     display: grid; 
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: 0.8fr 1.2fr;
     width: 100%; 
     min-height: 100vh; 
     align-items: center; 
     padding: 100px 4% 80px 4%; 
-    gap: 28px;
+    gap: 25px;
 }
 
-/* ===================== Texto Explicativo em Efeito Vidro ===================== */
+/* ===================== Texto e Alinhamento do Topo (Original Restaurado) ===================== */
 .text-section { 
     z-index: 5; 
     align-self: center; 
-    margin-top: -55px; 
-    padding: 24px 26px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(10, 22, 42, 0.44) 55%, rgba(255, 255, 255, 0.04) 100%);
-    backdrop-filter: blur(15px) saturate(140%);
-    -webkit-backdrop-filter: blur(15px) saturate(140%);
-    border: 1px solid rgba(0, 212, 255, 0.35);
-    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.65),
-                0 0 22px rgba(0, 212, 255, 0.16),
-                inset 0 1px 1px rgba(255, 255, 255, 0.28),
-                inset 0 0 16px rgba(0, 212, 255, 0.08);
-    transition: margin-top 0.3s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-.text-section:hover {
-    border-color: rgba(0, 212, 255, 0.62);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.72),
-                0 0 28px rgba(0, 212, 255, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.38);
+    margin-top: -70px; 
+    transition: margin-top 0.3s ease;
 }
 
 .topic { 
@@ -296,11 +279,10 @@ a {
 
 .des { 
     font-size: clamp(12px, 0.9vw, 13.5px); 
-    color: #e2e8f0; 
+    color: #a0aec0; 
     line-height: 1.55; 
     max-width: 460px;
     text-align: justify;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 
 /* ===================== TELA DE CAPA (index.html) ===================== */
@@ -917,7 +899,7 @@ a {
     z-index: 2; 
 }
 
-/* ===================== Elementos Internos Base ===================== */
+/* ===================== Elementos Internos Base & Tags em Efeito Vidro ===================== */
 .img-box { 
     width: 100%; 
     height: 115px; 
@@ -962,29 +944,33 @@ a {
     margin-bottom: 4px; 
 }
 
+/* Pílulas abaixo da descrição em Efeito Vidro Fosco Translúcido */
 .kpi-mini span { 
     font-size: 9.5px; 
     font-weight: 600; 
-    background: rgba(5, 12, 26, 0.45); 
-    padding: 4px 8px; 
-    border-radius: 5px; 
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%) !important; 
+    backdrop-filter: blur(10px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(135%) !important;
+    padding: 4px 9px; 
+    border-radius: 6px; 
     color: var(--primary); 
-    border: 1px solid rgba(255, 255, 255, 0.14); 
+    border: 1px solid rgba(255, 255, 255, 0.24) !important; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
     display: flex; 
     align-items: center; 
-    gap: 3px; 
+    gap: 4px; 
 }
 
 .kpi-success { 
     color: #2ecc71 !important; 
-    border-color: rgba(46, 204, 113, 0.35) !important; 
-    background: rgba(10, 36, 24, 0.45) !important; 
+    border-color: rgba(46, 204, 113, 0.42) !important; 
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%) !important; 
 }
 
 .kpi-warning { 
     color: #f1c40f !important; 
-    border-color: rgba(241, 196, 15, 0.35) !important; 
-    background: rgba(36, 30, 10, 0.45) !important; 
+    border-color: rgba(241, 196, 15, 0.42) !important; 
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%) !important; 
 }
 
 .actions { 
@@ -1224,18 +1210,10 @@ a {
 
     .text-section {
         margin-top: 0; 
-        max-width: 540px;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .topic {
         justify-content: center;
-    }
-
-    .des {
-        text-align: center;
-        margin: 0 auto;
     }
     
     .cards-section { 
@@ -1417,33 +1395,31 @@ a {
     }
 
     .split-screen {
-        padding: 70px 5% 60px 5%;
-        gap: 10px;
+        padding: 72px 5% 62px 5%;
+        gap: 12px;
         grid-template-columns: 1fr;
         text-align: center;
     }
 
     .text-section {
         margin-top: 0 !important;
-        padding: 12px 14px !important;
-        border-radius: 14px !important;
     }
 
     .topic {
         justify-content: center;
-        font-size: 9.5px;
-        margin-bottom: 3px;
+        font-size: 10px;
+        margin-bottom: 4px;
     }
 
     .title {
-        font-size: 22px !important;
+        font-size: 24px !important;
         line-height: 1.15;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
 
     .des {
-        font-size: 10.5px !important;
-        line-height: 1.32 !important;
+        font-size: 11px !important;
+        line-height: 1.35 !important;
         max-width: 100%;
         margin: 0 auto;
         text-align: center;
