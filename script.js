@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, TEMPO_LUZ_CARD);
     }
 
-    // ===================== 3. TECLA SPACE PAUSA / RETOMA O CARD E A LUZ =====================
+    // ===================== Tecla Space Pausa / Retoma o Card e a Luz =====================
     function alternarPausaCard() {
         if (isGridMode) return;
         const activeItem = document.querySelector('.item.active') || items[0];
@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             frontCard.classList.add('pausado');
         } else {
             frontCard.classList.remove('pausado');
-            // Reinicia a luz neon e o timer de 6s ao despausar
             frontCard.style.animation = 'none';
             void frontCard.offsetWidth;
             frontCard.style.animation = '';
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const state = itemStates.get(activeItem);
         if (!state || state.cards.length <= 1) return;
 
-        // Ao trocar de card manualmente ou automaticamente, remove pausa para a luz rodar no novo card
         isPaused = false;
         state.currentIndex = (state.currentIndex + direcao + state.cards.length) % state.cards.length;
         atualizarCarrossel(activeItem, true);
@@ -94,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         itemStates.set(item, state);
 
-        // Cria bolinhas de paginação
         if (dotsContainer && cards.length > 0) {
             dotsContainer.innerHTML = '';
             cards.forEach((_, idx) => {
@@ -114,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Clique nos cards laterais traz o card para frente sem bloquear links/botões internos
         cards.forEach((card, idx) => {
             card.addEventListener('click', (e) => {
                 if (e.target.closest('a, button, .btn-primary, .btn-glass')) return;
@@ -127,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Suporte a Swipe no Mobile
         if (wrapper) {
             let touchStartX = 0;
             let touchEndX = 0;
@@ -175,7 +170,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== 2. BOTÃO HOME DA NAVBAR -> REDIRECIONA PARA home.html =====================
+    // ===================== 2. CLIQUE NA LOGO LEVA PARA A CAPA (index.html) =====================
+    document.querySelectorAll('.navbar .logo-img, .navbar .logo, .navbar a:has(.logo-img)').forEach((logoEl) => {
+        logoEl.style.cursor = 'pointer';
+        logoEl.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            window.location.assign('index.html');
+        }, true);
+    });
+
+    // ===================== Botão Home da Navbar -> Redireciona para home.html =====================
     function irParaHome(e) {
         if (e) {
             e.preventDefault();
@@ -185,13 +191,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.assign('home.html');
     }
 
-    // Delegação global no nível de captura para garantir que qualquer clique no botão/ícone Home leve a home.html
     document.addEventListener('click', (e) => {
+        // Ignora se clicou na logo (que vai para index.html)
+        if (e.target.closest('.logo-img, .logo, a:has(.logo-img)')) return;
+
         const homeTarget = e.target.closest(
-            '.btn-voltar, .btn-home, [data-action="home"], a[href="home.html"], a[href="./home.html"], a[href="index.html"]'
+            '.btn-voltar, .btn-home, [data-action="home"], a[href="home.html"], a[href="./home.html"]'
         );
 
-        // Verifica também se clicou em um botão da navbar que contém ícone de casa (fa-home ou fa-house)
         const navBtnComCasa = e.target.closest('.navbar button, .navbar a');
         const temIconeCasa = navBtnComCasa && navBtnComCasa.querySelector('.fa-home, .fa-house');
 
@@ -339,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
         abrirDetalhesCard(card, detailBtn);
     });
 
-    // ===================== 4. ATUALIZA POSIÇÕES 3D & DISPARA PASSAGEM AUTOMÁTICA =====================
+    // ===================== Atualiza Posições 3D & Passagem Automática =====================
     function atualizarCarrossel(item, comFumaca = true) {
         const state = itemStates.get(item);
         if (!state || state.cards.length === 0) return;
@@ -353,7 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden', 'pausado');
 
             if (idx === activeIdx) {
-                // Força o reinício da animação do feixe de luz neon (::before) a cada troca de card
                 void card.offsetWidth;
                 card.classList.add('card-front');
             } else if (total > 1 && idx === rightIdx) {
@@ -392,7 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dispararFumacaTransicao(item);
         }
 
-        // Se este item estiver ativo na tela, inicia o contador de 6s para passar automaticamente
         if (item.classList.contains('active')) {
             iniciarCicloAutomatico();
         }
@@ -435,14 +440,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===================== Alternar Modo Carrossel 3D / Modo Grade =====================
+    // ===================== 1. BOTÃO MODO GRADE ALTERNANDO ÍCONE AO ATIVAR =====================
     gridToggleBtns.forEach(btn => {
         btn.type = 'button';
+        const icon = btn.querySelector('i');
+        // Salva as classes originais do ícone (ex: fas fa-th-large, fas fa-bars, etc.)
+        const originalIconClasses = icon ? icon.className : '';
+
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             isGridMode = !isGridMode;
             isPaused = false;
+
+            // Atualiza ícone em todos os botões de modo grade (desktop + mobile)
+            gridToggleBtns.forEach(b => {
+                b.classList.toggle('ativo', isGridMode);
+                const ic = b.querySelector('i');
+                if (!ic) return;
+
+                if (isGridMode) {
+                    // Ícone de carrossel/camadas quando o modo grade está ativo
+                    ic.className = 'fas fa-layer-group';
+                    b.title = 'Voltar para Modo Carrossel';
+                } else {
+                    // Restaura o ícone original do botão
+                    ic.className = originalIconClasses || 'fas fa-th-large';
+                    b.title = 'Alternar para Modo Grade';
+                }
+            });
 
             document.querySelectorAll('.cards-wrapper').forEach(wrapper => {
                 wrapper.classList.toggle('grid-mode', isGridMode);
@@ -457,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===================== 1. BOTÃO HAMBÚRGUER ALTERNANDO ÍCONE =====================
+    // ===================== Botão Hambúrguer do Menu Mobile =====================
     function atualizarIconeHamburguer(aberto) {
         if (!menuMobileBtn) return;
         const icon = menuMobileBtn.querySelector('i');
@@ -538,13 +564,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===================== Navegação por Teclado (Setas, Space e Esc) =====================
     document.addEventListener('keydown', (e) => {
-        // Ignora atalhos enquanto digita na barra de busca
         if (document.activeElement === searchInput ||
             ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
             return;
         }
 
-        // Tecla SPACE pausa / retoma a luz e o avanço automático do card ativo
         if (e.code === 'Space' || e.key === ' ') {
             e.preventDefault();
             alternarPausaCard();
@@ -568,6 +592,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Inicia o primeiro ciclo automático assim que a página carrega
+    // Inicia o ciclo automático ao carregar
     iniciarCicloAutomatico();
 });
