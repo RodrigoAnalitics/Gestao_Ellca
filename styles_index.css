@@ -668,7 +668,7 @@ a {
     padding: 18px; 
     display: flex; 
     flex-direction: column;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
                 opacity 0.5s ease,
                 filter 0.5s ease,
                 box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
@@ -681,37 +681,44 @@ a {
     will-change: transform, opacity;
 }
 
-/* CARD ATIVO: Efeito vidro fosco translúcido + névoa sutil */
+/* CARD ATIVO (DESKTOP): Destaque 3D, vidro fosco refinado e borda luminosa */
 .glass-card.card-front {
-    transform: translateX(0) translateZ(25px) scale(1.04); 
+    transform: translateX(0) translateZ(35px) scale(1.06); 
     filter: brightness(1);
     opacity: 1; 
     z-index: 20; 
     pointer-events: auto !important; 
     cursor: pointer;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.13) 0%, rgba(10, 22, 42, 0.46) 55%, rgba(255, 255, 255, 0.05) 100%) !important;
-    backdrop-filter: blur(15px) saturate(140%) !important;
-    -webkit-backdrop-filter: blur(15px) saturate(140%) !important;
-    border-color: rgba(0, 212, 255, 0.78);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 
-                0 0 28px rgba(0, 212, 255, 0.35), 
-                inset 0 1px 1px rgba(255, 255, 255, 0.32),
-                inset 0 0 18px rgba(0, 212, 255, 0.12) !important;
+    background: linear-gradient(
+        145deg, 
+        rgba(255, 255, 255, 0.15) 0%, 
+        rgba(12, 26, 48, 0.48) 50%, 
+        rgba(0, 212, 255, 0.08) 100%
+    ) !important;
+    backdrop-filter: blur(18px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+    border: 1px solid rgba(0, 212, 255, 0.85);
+    box-shadow: 
+        0 28px 55px rgba(0, 0, 0, 0.78), 
+        0 0 32px rgba(0, 212, 255, 0.38), 
+        inset 0 1px 1px rgba(255, 255, 255, 0.45),
+        inset 0 -1px 1px rgba(0, 212, 255, 0.2),
+        inset 0 0 22px rgba(0, 212, 255, 0.14) !important;
 }
 
 /* Efeito de fumaça/névoa translúcida flutuando dentro do card ativo */
 @keyframes smokeDrift {
     0% {
         transform: translate3d(-14%, 12%, 0) scale(1) rotate(0deg);
-        opacity: 0.32;
+        opacity: 0.30;
     }
     50% {
-        transform: translate3d(12%, -10%, 0) scale(1.16) rotate(12deg);
-        opacity: 0.48;
+        transform: translate3d(12%, -10%, 0) scale(1.15) rotate(10deg);
+        opacity: 0.46;
     }
     100% {
         transform: translate3d(-14%, 12%, 0) scale(1) rotate(0deg);
-        opacity: 0.32;
+        opacity: 0.30;
     }
 }
 
@@ -720,9 +727,9 @@ a {
     position: absolute;
     inset: -35%;
     background:
-        radial-gradient(circle at 28% 72%, rgba(0, 212, 255, 0.22) 0%, transparent 46%),
-        radial-gradient(circle at 74% 32%, rgba(255, 255, 255, 0.16) 0%, transparent 42%),
-        radial-gradient(circle at 52% 55%, rgba(0, 142, 191, 0.18) 0%, transparent 52%);
+        radial-gradient(circle at 26% 74%, rgba(0, 212, 255, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 76% 28%, rgba(255, 255, 255, 0.16) 0%, transparent 40%),
+        radial-gradient(circle at 50% 52%, rgba(0, 142, 191, 0.16) 0%, transparent 52%);
     filter: blur(18px);
     pointer-events: none !important;
     z-index: 1;
@@ -732,14 +739,20 @@ a {
 
 /* Hover Premium SOMENTE no Card Ativo (sem alterar elementos internos) */
 .glass-card.card-front:hover { 
-    transform: translateY(-10px) translateZ(42px) scale(1.06); 
-    border-color: rgba(255, 255, 255, 0.92);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(12, 28, 54, 0.52) 55%, rgba(0, 212, 255, 0.12) 100%) !important;
-    box-shadow: 0 36px 70px rgba(0, 0, 0, 0.88), 
-                0 0 44px rgba(0, 212, 255, 0.62), 
-                0 0 14px rgba(255, 255, 255, 0.38),
-                inset 0 1px 2px rgba(255, 255, 255, 0.58),
-                inset 0 0 28px rgba(0, 212, 255, 0.24) !important; 
+    transform: translateY(-10px) translateZ(52px) scale(1.08); 
+    border-color: #ffffff;
+    background: linear-gradient(
+        145deg, 
+        rgba(255, 255, 255, 0.20) 0%, 
+        rgba(14, 32, 60, 0.54) 50%, 
+        rgba(0, 212, 255, 0.15) 100%
+    ) !important;
+    box-shadow: 
+        0 38px 75px rgba(0, 0, 0, 0.88), 
+        0 0 46px rgba(0, 212, 255, 0.65), 
+        0 0 16px rgba(255, 255, 255, 0.42),
+        inset 0 1px 2px rgba(255, 255, 255, 0.65),
+        inset 0 0 30px rgba(0, 212, 255, 0.26) !important; 
 }
 
 .glass-card.card-front:hover::after {
@@ -748,35 +761,35 @@ a {
     animation-duration: 5.5s;
 }
 
-/* Cards de trás retos no Desktop */
+/* Cards de trás com mais respiro para valorizar o card ativo no Desktop */
 .glass-card.card-back-right { 
-    transform: translateX(210px) translateZ(-70px) scale(0.80); 
-    opacity: 0.72; 
+    transform: translateX(225px) translateZ(-80px) scale(0.78); 
+    opacity: 0.68; 
     z-index: 5; 
-    filter: blur(1.5px) brightness(0.85);
+    filter: blur(1.5px) brightness(0.82);
     pointer-events: auto !important;
     cursor: pointer;
 }
 
 .glass-card.card-back-left { 
-    transform: translateX(-210px) translateZ(-70px) scale(0.80); 
-    opacity: 0.72; 
+    transform: translateX(-225px) translateZ(-80px) scale(0.78); 
+    opacity: 0.68; 
     z-index: 5; 
-    filter: blur(1.5px) brightness(0.85);
+    filter: blur(1.5px) brightness(0.82);
     pointer-events: auto !important;
     cursor: pointer;
 }
 
 .glass-card.card-back-right:hover {
-    opacity: 0.94;
-    filter: blur(0px) brightness(1);
-    transform: translateX(215px) translateZ(-55px) scale(0.83);
+    opacity: 0.92;
+    filter: blur(0px) brightness(0.98);
+    transform: translateX(230px) translateZ(-60px) scale(0.81);
 }
 
 .glass-card.card-back-left:hover {
-    opacity: 0.94;
-    filter: blur(0px) brightness(1);
-    transform: translateX(-215px) translateZ(-55px) scale(0.83);
+    opacity: 0.92;
+    filter: blur(0px) brightness(0.98);
+    transform: translateX(-230px) translateZ(-60px) scale(0.81);
 }
 
 .glass-card.card-hidden { 
