@@ -531,7 +531,7 @@ a {
     white-space: nowrap;
 }
 
-/* ===================== Carrossel 3D e Modo Grade ===================== */
+/* ===================== Carrossel 3D, Fumaça Hollywoodiana e Modo Grade ===================== */
 .cards-section { 
     position: relative; 
     width: 100%; 
@@ -551,6 +551,77 @@ a {
     transform-style: preserve-3d; 
     transition: 0.5s; 
     z-index: 15 !important;
+}
+
+/* Efeito Fumaça Hollywoodiana na Transição dos Cards */
+.cards-wrapper::before,
+.cards-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: -55px;
+    border-radius: 50%;
+    pointer-events: none !important;
+    opacity: 0;
+    filter: url(#hollywood-smoke-filter) blur(14px);
+    transform: scale(0.72);
+    z-index: 12;
+}
+
+.cards-wrapper::before {
+    background:
+        radial-gradient(circle at 35% 45%, rgba(0, 212, 255, 0.52) 0%, transparent 48%),
+        radial-gradient(circle at 68% 58%, rgba(255, 255, 255, 0.34) 0%, transparent 45%),
+        radial-gradient(circle at 50% 35%, rgba(0, 110, 255, 0.42) 0%, transparent 55%);
+}
+
+.cards-wrapper::after {
+    z-index: 22;
+    background:
+        radial-gradient(circle at 62% 38%, rgba(0, 212, 255, 0.35) 0%, transparent 42%),
+        radial-gradient(circle at 30% 65%, rgba(200, 240, 255, 0.28) 0%, transparent 44%);
+}
+
+.cards-wrapper.smoke-burst::before {
+    animation: hollywoodSmokePrimary 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cards-wrapper.smoke-burst::after {
+    animation: hollywoodSmokeSecondary 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hollywoodSmokePrimary {
+    0% {
+        opacity: 0;
+        transform: scale(0.68) rotate(-8deg);
+    }
+    28% {
+        opacity: 0.95;
+        transform: scale(1.04) rotate(2deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.38) translateY(-18px) rotate(12deg);
+    }
+}
+
+@keyframes hollywoodSmokeSecondary {
+    0% {
+        opacity: 0;
+        transform: scale(0.75) translateX(-16px) rotate(6deg);
+    }
+    32% {
+        opacity: 0.72;
+        transform: scale(1.08) translateX(6px) rotate(-3deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.42) translateX(22px) translateY(-12px) rotate(-14deg);
+    }
+}
+
+.cards-wrapper.grid-mode::before,
+.cards-wrapper.grid-mode::after {
+    display: none !important;
 }
 
 .cards-wrapper.grid-mode {
