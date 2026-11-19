@@ -681,31 +681,7 @@ a {
     will-change: transform, opacity;
 }
 
-/* CARD ATIVO (PRIME ULTIMATE): Preto-vidro predominante + Gradiente Azul Estiloso */
-.glass-card.card-front {
-    transform: translateX(0) translateZ(35px) scale(1.06); 
-    filter: brightness(1);
-    opacity: 1; 
-    z-index: 20; 
-    pointer-events: auto !important; 
-    cursor: pointer;
-    background: linear-gradient(
-        145deg, 
-        rgba(3, 6, 14, 0.56) 0%, 
-        rgba(3, 6, 14, 0.46) 62%, 
-        rgba(10, 32, 74, 0.36) 85%, 
-        rgba(0, 145, 255, 0.18) 100%
-    ) !important;
-    backdrop-filter: blur(18px) saturate(155%) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(155%) !important;
-    border: 1px solid rgba(0, 212, 255, 0.72);
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.85), 
-        0 0 28px rgba(0, 145, 255, 0.28), 
-        inset 0 1px 1px rgba(255, 255, 255, 0.48),
-        inset 0 -1px 1px rgba(0, 145, 255, 0.24),
-        inset 0 0 24px rgba(0, 0, 0, 0.35) !important;
-}
+glass-card.card-front
 
 /* Hover Prime Ultimate (Somente no Card) */
 .glass-card.card-front:hover { 
