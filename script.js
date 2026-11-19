@@ -125,29 +125,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== 1. CONSERTO DO BOTÃO HOME (.btn-voltar / casa) =====================
-    const homeBtns = document.querySelectorAll('.btn-voltar, .btn-home, [data-action="home"]');
-    homeBtns.forEach((btn) => {
-        if (btn.tagName === 'BUTTON') btn.type = 'button';
-
-        btn.addEventListener('click', (e) => {
+    // ===================== BOTÃO HOME DA NAVBAR -> VAI PARA home.html =====================
+    function irParaHome(e) {
+        if (e) {
             e.preventDefault();
             e.stopPropagation();
+        }
+        window.location.href = 'home.html';
+    }
 
-            const anchor = btn.tagName === 'A' ? btn : btn.querySelector('a');
-            const destino = (anchor && anchor.getAttribute('href')) ||
-                            btn.getAttribute('data-href') ||
-                            'index.html';
+    // Vincula a todos os possíveis botões/links de Home na Navbar
+    const homeSelectors = [
+        '.navbar .btn-voltar',
+        '.navbar .btn-home',
+        '.navbar [data-action="home"]',
+        '.navbar a[href="home.html"]',
+        '.navbar a[href="./home.html"]',
+        '.navbar a[href="index.html"]',
+        '.navbar button:has(.fa-home, .fa-house)',
+        '.navbar a:has(.fa-home, .fa-house)'
+    ];
 
-            window.location.href = destino === '#' ? 'index.html' : destino;
-        });
+    document.querySelectorAll(homeSelectors.join(', ')).forEach((el) => {
+        if (el.tagName === 'BUTTON') el.type = 'button';
+        el.addEventListener('click', irParaHome);
     });
 
-    // ===================== 2. CONSERTO DO BOTÃO DE DETALHES (.btn-glass) =====================
+    // Garante também caso algum .nav-item tenha texto "HOME" ou "INÍCIO"
+    navItems.forEach((nav) => {
+        const texto = nav.textContent.trim().toUpperCase();
+        const href = nav.getAttribute('href');
+        if (texto === 'HOME' || texto === 'INÍCIO' || href === 'home.html') {
+            nav.addEventListener('click', irParaHome);
+        }
+    });
+
+    // ===================== BOTÃO DE DETALHES DOS CARDS (.btn-glass) =====================
     function abrirDetalhesCard(card, btn) {
         if (!card) return;
 
-        // Se o botão tiver um link próprio (href != '#'), navega normalmente
         const linkEl = btn.tagName === 'A' ? btn : btn.querySelector('a');
         if (linkEl) {
             const href = linkEl.getAttribute('href');
@@ -157,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Extrai dados do card atual
         const titulo = card.querySelector('h3')?.innerText?.trim() || 'Detalhes do Painel';
         const badge = card.querySelector('.badge')?.innerText?.trim() || 'BI & Analytics';
         const descricao = btn.getAttribute('data-detalhes') ||
@@ -169,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const linkAcesso = primaryAnchor?.getAttribute('href') || '';
         const targetAcesso = primaryAnchor?.getAttribute('target') || '_blank';
 
-        // Verifica se já existe um modal nativo no HTML
         const modalExistente = document.querySelector('#modalDetalhes, #detailsModal, .modal-detalhes, .modal-overlay');
         if (modalExistente) {
             const mTitle = modalExistente.querySelector('#modalTitle, .modal-title, h2, h3');
@@ -187,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Cria ou reutiliza um Modal Prime Ultimate dinâmico em vidro fosco
         let dynamicModal = document.getElementById('ellcaDynamicDetailModal');
         if (!dynamicModal) {
             dynamicModal = document.createElement('div');
@@ -202,9 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
             dynamicModal.innerHTML = `
                 <div id="ellcaDynamicModalBox" style="
                     width: 100%; max-width: 440px; border-radius: 18px; padding: 24px;
-                    background: linear-gradient(145deg, rgba(6, 12, 26, 0.92) 0%, rgba(10, 32, 74, 0.85) 100%);
-                    border: 1px solid rgba(0, 212, 255, 0.55);
-                    box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 30px rgba(0, 212, 255, 0.25);
+                    background: linear-gradient(150deg, rgba(4, 8, 18, 0.94) 0%, rgba(12, 38, 88, 0.90) 100%);
+                    border: 1px solid rgba(36, 102, 212, 0.72);
+                    box-shadow: 0 25px 60px rgba(0,0,0,0.88), 0 0 32px rgba(14, 52, 122, 0.45);
                     color: #fff; position: relative;
                 ">
                     <button type="button" id="ellcaCloseModalBtn" style="
@@ -216,8 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span id="ellcaModalBadge" style="
                         display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
                         text-transform: uppercase; padding: 4px 10px; border-radius: 50px;
-                        background: rgba(0, 212, 255, 0.16); color: #00d4ff;
-                        border: 1px solid rgba(0, 212, 255, 0.35); margin-bottom: 10px;
+                        background: rgba(16, 62, 145, 0.45); color: #7ab8ff;
+                        border: 1px solid rgba(64, 132, 240, 0.45); margin-bottom: 10px;
                     "></span>
                     <h3 id="ellcaModalTitle" style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #fff;"></h3>
                     <p id="ellcaModalDesc" style="font-size: 12.5px; line-height: 1.6; color: #cbd5e1; margin-bottom: 16px;"></p>
@@ -229,8 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             font-size: 11px; font-weight: 800; text-transform: uppercase;
                         ">Acessar Painel</a>
                         <button type="button" id="ellcaModalCancelBtn" style="
-                            padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.25);
-                            background: transparent; color: #cbd5e1; font-size: 11px; font-weight: 600;
+                            padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(64, 132, 240, 0.45);
+                            background: rgba(12, 36, 84, 0.35); color: #cbd5e1; font-size: 11px; font-weight: 600;
                             text-transform: uppercase; cursor: pointer;
                         ">Fechar</button>
                     </div>
@@ -257,8 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
         kpisBox.innerHTML = kpis.map(k => `
             <span style="
                 font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 6px;
-                background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
-                color: #00d4ff;
+                background: rgba(12, 36, 84, 0.45); border: 1px solid rgba(46, 115, 225, 0.42);
+                color: #7ab8ff;
             ">${k}</span>
         `).join('');
 
@@ -275,12 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => { dynamicModal.style.opacity = '1'; });
     }
 
-    // Delegação global para garantir que TODOS os botões .btn-glass funcionem
     document.addEventListener('click', (e) => {
         const detailBtn = e.target.closest('.btn-glass');
         if (!detailBtn) return;
-
-        // Se o botão já tiver um onclick nativo inline no HTML, deixa o HTML executar
         if (detailBtn.hasAttribute('onclick')) return;
 
         e.preventDefault();
@@ -343,6 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================== Navegação entre Setores / Abas da Navbar =====================
     navItems.forEach((nav, idx) => {
         nav.addEventListener('click', (e) => {
+            const texto = nav.textContent.trim().toUpperCase();
+            if (texto === 'HOME' || texto === 'INÍCIO' || nav.getAttribute('href') === 'home.html') {
+                return;
+            }
+
             const targetId = nav.getAttribute('data-target') || nav.getAttribute('href');
             let targetItem = null;
 
