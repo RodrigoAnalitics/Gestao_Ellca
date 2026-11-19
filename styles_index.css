@@ -184,6 +184,14 @@ a {
     box-shadow: 0 0 10px var(--primary); 
 }
 
+.grid-toggle-btn:hover,
+.grid-toggle-btn.ativo { 
+    background: var(--primary); 
+    color: #000; 
+    border-color: var(--primary);
+    box-shadow: 0 0 12px var(--primary); 
+}
+
 .btn-voltar:hover {
     background: var(--primary);
     color: #000;
