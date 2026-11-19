@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.search-box input');
 
     let isGridMode = false;
+    let isPaused = false;
+    let autoPlayTimer = null;
+    const TEMPO_LUZ_CARD = 6000; // 6s exatos da animação borderNeonSweep no CSS
+
     const itemStates = new Map();
 
     // ===================== Disparo da Fumaça Suave =====================
@@ -20,7 +24,49 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.classList.add('smoke-burst');
     }
 
-    // ===================== Funções Globais de Avançar / Voltar Slide =====================
+    // ===================== Controle do Ciclo Automático (Sincronizado com a Luz Neon) =====================
+    function iniciarCicloAutomatico() {
+        clearTimeout(autoPlayTimer);
+        if (isPaused || isGridMode) return;
+
+        const activeItem = document.querySelector('.item.active') || items[0];
+        if (!activeItem) return;
+
+        const state = itemStates.get(activeItem);
+        if (!state || state.cards.length <= 1) return;
+
+        autoPlayTimer = setTimeout(() => {
+            if (!isPaused && !isGridMode) {
+                moverCardAtivo(1);
+            }
+        }, TEMPO_LUZ_CARD);
+    }
+
+    // ===================== 3. TECLA SPACE PAUSA / RETOMA O CARD E A LUZ =====================
+    function alternarPausaCard() {
+        if (isGridMode) return;
+        const activeItem = document.querySelector('.item.active') || items[0];
+        if (!activeItem) return;
+
+        const frontCard = activeItem.querySelector('.glass-card.card-front');
+        if (!frontCard) return;
+
+        isPaused = !isPaused;
+
+        if (isPaused) {
+            clearTimeout(autoPlayTimer);
+            frontCard.classList.add('pausado');
+        } else {
+            frontCard.classList.remove('pausado');
+            // Reinicia a luz neon e o timer de 6s ao despausar
+            frontCard.style.animation = 'none';
+            void frontCard.offsetWidth;
+            frontCard.style.animation = '';
+            iniciarCicloAutomatico();
+        }
+    }
+
+    // ===================== Avançar / Voltar Slide =====================
     function moverCardAtivo(direcao) {
         const activeItem = document.querySelector('.item.active') || items[0];
         if (!activeItem || isGridMode) return;
@@ -28,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const state = itemStates.get(activeItem);
         if (!state || state.cards.length <= 1) return;
 
+        // Ao trocar de card manualmente ou automaticamente, remove pausa para a luz rodar no novo card
+        isPaused = false;
         state.currentIndex = (state.currentIndex + direcao + state.cards.length) % state.cards.length;
         atualizarCarrossel(activeItem, true);
     }
@@ -56,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.preventDefault();
                     e.stopPropagation();
                     if (state.currentIndex !== idx) {
+                        isPaused = false;
                         state.currentIndex = idx;
                         atualizarCarrossel(item, true);
                     }
@@ -71,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.target.closest('a, button, .btn-primary, .btn-glass')) return;
                 if (isGridMode) return;
                 if (state.currentIndex !== idx) {
+                    isPaused = false;
                     state.currentIndex = idx;
                     atualizarCarrossel(item, true);
                 }
@@ -104,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         atualizarCarrossel(item, false);
     });
 
-    // ===================== Conserto Universal dos Botões Anterior / Próximo =====================
+    // ===================== Botões Anterior / Próximo =====================
     document.querySelectorAll('.controls').forEach((controlsBox) => {
         const botoes = controlsBox.querySelectorAll('button');
         if (botoes.length >= 2) {
@@ -125,42 +175,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== BOTÃO HOME DA NAVBAR -> VAI PARA home.html =====================
+    // ===================== 2. BOTÃO HOME DA NAVBAR -> REDIRECIONA PARA home.html =====================
     function irParaHome(e) {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
         }
-        window.location.href = 'home.html';
+        window.location.assign('home.html');
     }
 
-    // Vincula a todos os possíveis botões/links de Home na Navbar
-    const homeSelectors = [
-        '.navbar .btn-voltar',
-        '.navbar .btn-home',
-        '.navbar [data-action="home"]',
-        '.navbar a[href="home.html"]',
-        '.navbar a[href="./home.html"]',
-        '.navbar a[href="index.html"]',
-        '.navbar button:has(.fa-home, .fa-house)',
-        '.navbar a:has(.fa-home, .fa-house)'
-    ];
+    // Delegação global no nível de captura para garantir que qualquer clique no botão/ícone Home leve a home.html
+    document.addEventListener('click', (e) => {
+        const homeTarget = e.target.closest(
+            '.btn-voltar, .btn-home, [data-action="home"], a[href="home.html"], a[href="./home.html"], a[href="index.html"]'
+        );
 
-    document.querySelectorAll(homeSelectors.join(', ')).forEach((el) => {
-        if (el.tagName === 'BUTTON') el.type = 'button';
-        el.addEventListener('click', irParaHome);
-    });
+        // Verifica também se clicou em um botão da navbar que contém ícone de casa (fa-home ou fa-house)
+        const navBtnComCasa = e.target.closest('.navbar button, .navbar a');
+        const temIconeCasa = navBtnComCasa && navBtnComCasa.querySelector('.fa-home, .fa-house');
 
-    // Garante também caso algum .nav-item tenha texto "HOME" ou "INÍCIO"
-    navItems.forEach((nav) => {
-        const texto = nav.textContent.trim().toUpperCase();
-        const href = nav.getAttribute('href');
-        if (texto === 'HOME' || texto === 'INÍCIO' || href === 'home.html') {
-            nav.addEventListener('click', irParaHome);
+        if (homeTarget || temIconeCasa) {
+            irParaHome(e);
         }
-    });
+    }, true);
 
-    // ===================== BOTÃO DE DETALHES DOS CARDS (.btn-glass) =====================
+    // ===================== Botão de Detalhes dos Cards (.btn-glass) =====================
     function abrirDetalhesCard(card, btn) {
         if (!card) return;
 
@@ -299,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         abrirDetalhesCard(card, detailBtn);
     });
 
-    // ===================== Atualiza Posições 3D dos Cards =====================
+    // ===================== 4. ATUALIZA POSIÇÕES 3D & DISPARA PASSAGEM AUTOMÁTICA =====================
     function atualizarCarrossel(item, comFumaca = true) {
         const state = itemStates.get(item);
         if (!state || state.cards.length === 0) return;
@@ -310,9 +350,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const leftIdx = (activeIdx - 1 + total) % total;
 
         state.cards.forEach((card, idx) => {
-            card.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden');
+            card.classList.remove('card-front', 'card-back-right', 'card-back-left', 'card-hidden', 'pausado');
 
             if (idx === activeIdx) {
+                // Força o reinício da animação do feixe de luz neon (::before) a cada troca de card
+                void card.offsetWidth;
                 card.classList.add('card-front');
             } else if (total > 1 && idx === rightIdx) {
                 card.classList.add('card-back-right');
@@ -333,6 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.preventDefault();
                     e.stopPropagation();
                     if (state.currentIndex !== idx) {
+                        isPaused = false;
                         state.currentIndex = idx;
                         atualizarCarrossel(item, true);
                     }
@@ -348,6 +391,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (comFumaca) {
             dispararFumacaTransicao(item);
         }
+
+        // Se este item estiver ativo na tela, inicia o contador de 6s para passar automaticamente
+        if (item.classList.contains('active')) {
+            iniciarCicloAutomatico();
+        }
     }
 
     // ===================== Navegação entre Setores / Abas da Navbar =====================
@@ -355,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nav.addEventListener('click', (e) => {
             const texto = nav.textContent.trim().toUpperCase();
             if (texto === 'HOME' || texto === 'INÍCIO' || nav.getAttribute('href') === 'home.html') {
+                irParaHome(e);
                 return;
             }
 
@@ -369,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (targetItem) {
                 e.preventDefault();
+                isPaused = false;
                 items.forEach(it => it.classList.remove('active'));
                 navItems.forEach(n => n.classList.remove('active'));
 
@@ -379,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (navContent && navContent.classList.contains('ativo')) {
                     navContent.classList.remove('ativo');
+                    atualizarIconeHamburguer(false);
                 }
             }
         });
@@ -391,29 +442,51 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             isGridMode = !isGridMode;
+            isPaused = false;
+
             document.querySelectorAll('.cards-wrapper').forEach(wrapper => {
                 wrapper.classList.toggle('grid-mode', isGridMode);
             });
 
-            if (!isGridMode) {
+            if (isGridMode) {
+                clearTimeout(autoPlayTimer);
+            } else {
                 const activeItem = document.querySelector('.item.active');
                 if (activeItem) atualizarCarrossel(activeItem, true);
             }
         });
     });
 
-    // ===================== Menu Mobile =====================
+    // ===================== 1. BOTÃO HAMBÚRGUER ALTERNANDO ÍCONE =====================
+    function atualizarIconeHamburguer(aberto) {
+        if (!menuMobileBtn) return;
+        const icon = menuMobileBtn.querySelector('i');
+        if (!icon) return;
+
+        if (aberto) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark', 'fa-times');
+        } else {
+            icon.classList.remove('fa-xmark', 'fa-times');
+            icon.classList.add('fa-bars');
+        }
+    }
+
     if (menuMobileBtn && navContent) {
         menuMobileBtn.type = 'button';
         menuMobileBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            navContent.classList.toggle('ativo');
+            const estaAtivo = navContent.classList.toggle('ativo');
+            atualizarIconeHamburguer(estaAtivo);
         });
 
         document.addEventListener('click', (e) => {
-            if (!navContent.contains(e.target) && !menuMobileBtn.contains(e.target)) {
+            if (navContent.classList.contains('ativo') &&
+                !navContent.contains(e.target) &&
+                !menuMobileBtn.contains(e.target)) {
                 navContent.classList.remove('ativo');
+                atualizarIconeHamburguer(false);
             }
         });
     }
@@ -445,6 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (primeiroMatch) {
+                isPaused = false;
                 items.forEach(it => it.classList.remove('active'));
                 navItems.forEach(n => n.classList.remove('active'));
 
@@ -462,12 +536,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Navegação por Teclado =====================
+    // ===================== Navegação por Teclado (Setas, Space e Esc) =====================
     document.addEventListener('keydown', (e) => {
-        if (document.activeElement === searchInput || isGridMode) return;
-        if (e.key === 'ArrowRight') moverCardAtivo(1);
-        if (e.key === 'ArrowLeft') moverCardAtivo(-1);
-        if (e.key === 'Escape') {
+        // Ignora atalhos enquanto digita na barra de busca
+        if (document.activeElement === searchInput ||
+            ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+            return;
+        }
+
+        // Tecla SPACE pausa / retoma a luz e o avanço automático do card ativo
+        if (e.code === 'Space' || e.key === ' ') {
+            e.preventDefault();
+            alternarPausaCard();
+            return;
+        }
+
+        if (isGridMode) return;
+
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            moverCardAtivo(1);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            moverCardAtivo(-1);
+        } else if (e.key === 'Escape') {
             const m = document.getElementById('ellcaDynamicDetailModal');
             if (m && m.style.display === 'flex') {
                 m.style.opacity = '0';
@@ -475,4 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Inicia o primeiro ciclo automático assim que a página carrega
+    iniciarCicloAutomatico();
 });
