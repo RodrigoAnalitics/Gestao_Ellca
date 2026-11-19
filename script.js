@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const items = Array.from(document.querySelectorAll('.item'));
     const navItems = Array.from(document.querySelectorAll('.nav-item'));
     const gridToggleBtns = document.querySelectorAll('.grid-toggle-btn');
-    const voltarBtns = document.querySelectorAll('.btn-voltar');
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
     const searchInput = document.querySelector('.search-box input');
@@ -106,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================== Conserto Universal dos Botões Anterior / Próximo =====================
-    // Funciona tanto se .controls estiver dentro de cada .item quanto fixo fora dele
     document.querySelectorAll('.controls').forEach((controlsBox) => {
         const botoes = controlsBox.querySelectorAll('button');
         if (botoes.length >= 2) {
@@ -127,19 +125,168 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== Botão Voltar (Capa / Histórico) =====================
-    voltarBtns.forEach((btn) => {
+    // ===================== 1. CONSERTO DO BOTÃO HOME (.btn-voltar / casa) =====================
+    const homeBtns = document.querySelectorAll('.btn-voltar, .btn-home, [data-action="home"]');
+    homeBtns.forEach((btn) => {
+        if (btn.tagName === 'BUTTON') btn.type = 'button';
+
         btn.addEventListener('click', (e) => {
-            const href = btn.getAttribute('href');
-            if (!href || href === '#') {
-                e.preventDefault();
-                if (window.history.length > 1) {
-                    window.history.back();
-                } else {
-                    window.location.href = 'index.html';
-                }
-            }
+            e.preventDefault();
+            e.stopPropagation();
+
+            const anchor = btn.tagName === 'A' ? btn : btn.querySelector('a');
+            const destino = (anchor && anchor.getAttribute('href')) ||
+                            btn.getAttribute('data-href') ||
+                            'index.html';
+
+            window.location.href = destino === '#' ? 'index.html' : destino;
         });
+    });
+
+    // ===================== 2. CONSERTO DO BOTÃO DE DETALHES (.btn-glass) =====================
+    function abrirDetalhesCard(card, btn) {
+        if (!card) return;
+
+        // Se o botão tiver um link próprio (href != '#'), navega normalmente
+        const linkEl = btn.tagName === 'A' ? btn : btn.querySelector('a');
+        if (linkEl) {
+            const href = linkEl.getAttribute('href');
+            if (href && href !== '#' && !href.startsWith('javascript:')) {
+                window.open(href, linkEl.getAttribute('target') || '_self');
+                return;
+            }
+        }
+
+        // Extrai dados do card atual
+        const titulo = card.querySelector('h3')?.innerText?.trim() || 'Detalhes do Painel';
+        const badge = card.querySelector('.badge')?.innerText?.trim() || 'BI & Analytics';
+        const descricao = btn.getAttribute('data-detalhes') ||
+                          card.getAttribute('data-detalhes') ||
+                          card.querySelector('.card-desc')?.innerText?.trim() ||
+                          'Painel analítico integrado ao portal corporativo.';
+        const kpis = Array.from(card.querySelectorAll('.kpi-mini span')).map(el => el.innerText.trim());
+        const primaryAnchor = card.querySelector('.btn-primary a') || card.querySelector('.btn-primary');
+        const linkAcesso = primaryAnchor?.getAttribute('href') || '';
+        const targetAcesso = primaryAnchor?.getAttribute('target') || '_blank';
+
+        // Verifica se já existe um modal nativo no HTML
+        const modalExistente = document.querySelector('#modalDetalhes, #detailsModal, .modal-detalhes, .modal-overlay');
+        if (modalExistente) {
+            const mTitle = modalExistente.querySelector('#modalTitle, .modal-title, h2, h3');
+            const mDesc = modalExistente.querySelector('#modalDesc, .modal-desc, p');
+            const mBadge = modalExistente.querySelector('#modalBadge, .modal-badge');
+            const mLink = modalExistente.querySelector('#modalLink, .modal-link, a.btn-primary');
+
+            if (mTitle) mTitle.innerText = titulo;
+            if (mDesc) mDesc.innerText = descricao;
+            if (mBadge) mBadge.innerText = badge;
+            if (mLink && linkAcesso) mLink.setAttribute('href', linkAcesso);
+
+            modalExistente.style.display = 'flex';
+            modalExistente.classList.add('ativo', 'active', 'show');
+            return;
+        }
+
+        // Cria ou reutiliza um Modal Prime Ultimate dinâmico em vidro fosco
+        let dynamicModal = document.getElementById('ellcaDynamicDetailModal');
+        if (!dynamicModal) {
+            dynamicModal = document.createElement('div');
+            dynamicModal.id = 'ellcaDynamicDetailModal';
+            dynamicModal.style.cssText = `
+                position: fixed; inset: 0; z-index: 9999;
+                background: rgba(2, 5, 12, 0.78);
+                backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+                display: flex; align-items: center; justify-content: center;
+                padding: 20px; opacity: 0; transition: opacity 0.25s ease;
+            `;
+            dynamicModal.innerHTML = `
+                <div id="ellcaDynamicModalBox" style="
+                    width: 100%; max-width: 440px; border-radius: 18px; padding: 24px;
+                    background: linear-gradient(145deg, rgba(6, 12, 26, 0.92) 0%, rgba(10, 32, 74, 0.85) 100%);
+                    border: 1px solid rgba(0, 212, 255, 0.55);
+                    box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 30px rgba(0, 212, 255, 0.25);
+                    color: #fff; position: relative;
+                ">
+                    <button type="button" id="ellcaCloseModalBtn" style="
+                        position: absolute; top: 16px; right: 16px; width: 30px; height: 30px;
+                        border-radius: 50%; border: 1px solid rgba(255,255,255,0.25);
+                        background: rgba(255,255,255,0.08); color: #fff; cursor: pointer;
+                        font-size: 14px; display: flex; align-items: center; justify-content: center;
+                    ">&times;</button>
+                    <span id="ellcaModalBadge" style="
+                        display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+                        text-transform: uppercase; padding: 4px 10px; border-radius: 50px;
+                        background: rgba(0, 212, 255, 0.16); color: #00d4ff;
+                        border: 1px solid rgba(0, 212, 255, 0.35); margin-bottom: 10px;
+                    "></span>
+                    <h3 id="ellcaModalTitle" style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #fff;"></h3>
+                    <p id="ellcaModalDesc" style="font-size: 12.5px; line-height: 1.6; color: #cbd5e1; margin-bottom: 16px;"></p>
+                    <div id="ellcaModalKpis" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;"></div>
+                    <div style="display: flex; gap: 10px;">
+                        <a id="ellcaModalActionLink" href="#" target="_blank" style="
+                            flex: 1; text-align: center; padding: 10px; border-radius: 8px;
+                            background: linear-gradient(90deg, #00d4ff, #008ebf); color: #000;
+                            font-size: 11px; font-weight: 800; text-transform: uppercase;
+                        ">Acessar Painel</a>
+                        <button type="button" id="ellcaModalCancelBtn" style="
+                            padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.25);
+                            background: transparent; color: #cbd5e1; font-size: 11px; font-weight: 600;
+                            text-transform: uppercase; cursor: pointer;
+                        ">Fechar</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(dynamicModal);
+
+            const fechar = () => {
+                dynamicModal.style.opacity = '0';
+                setTimeout(() => { dynamicModal.style.display = 'none'; }, 220);
+            };
+            dynamicModal.querySelector('#ellcaCloseModalBtn').addEventListener('click', fechar);
+            dynamicModal.querySelector('#ellcaModalCancelBtn').addEventListener('click', fechar);
+            dynamicModal.addEventListener('click', (ev) => {
+                if (ev.target === dynamicModal) fechar();
+            });
+        }
+
+        dynamicModal.querySelector('#ellcaModalBadge').innerText = badge;
+        dynamicModal.querySelector('#ellcaModalTitle').innerText = titulo;
+        dynamicModal.querySelector('#ellcaModalDesc').innerText = descricao;
+
+        const kpisBox = dynamicModal.querySelector('#ellcaModalKpis');
+        kpisBox.innerHTML = kpis.map(k => `
+            <span style="
+                font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 6px;
+                background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+                color: #00d4ff;
+            ">${k}</span>
+        `).join('');
+
+        const actionLink = dynamicModal.querySelector('#ellcaModalActionLink');
+        if (linkAcesso && linkAcesso !== '#') {
+            actionLink.style.display = 'block';
+            actionLink.href = linkAcesso;
+            actionLink.target = targetAcesso;
+        } else {
+            actionLink.style.display = 'none';
+        }
+
+        dynamicModal.style.display = 'flex';
+        requestAnimationFrame(() => { dynamicModal.style.opacity = '1'; });
+    }
+
+    // Delegação global para garantir que TODOS os botões .btn-glass funcionem
+    document.addEventListener('click', (e) => {
+        const detailBtn = e.target.closest('.btn-glass');
+        if (!detailBtn) return;
+
+        // Se o botão já tiver um onclick nativo inline no HTML, deixa o HTML executar
+        if (detailBtn.hasAttribute('onclick')) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        const card = detailBtn.closest('.glass-card');
+        abrirDetalhesCard(card, detailBtn);
     });
 
     // ===================== Atualiza Posições 3D dos Cards =====================
@@ -166,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Se existir uma barra .pagination-dots global fora de .item, recria/sincroniza também
         const globalDotsContainer = document.querySelector('body > .controls-container .pagination-dots, .container > .controls-container .pagination-dots');
         if (globalDotsContainer) {
             globalDotsContainer.innerHTML = '';
@@ -306,5 +452,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.activeElement === searchInput || isGridMode) return;
         if (e.key === 'ArrowRight') moverCardAtivo(1);
         if (e.key === 'ArrowLeft') moverCardAtivo(-1);
+        if (e.key === 'Escape') {
+            const m = document.getElementById('ellcaDynamicDetailModal');
+            if (m && m.style.display === 'flex') {
+                m.style.opacity = '0';
+                setTimeout(() => { m.style.display = 'none'; }, 220);
+            }
+        }
     });
 });
