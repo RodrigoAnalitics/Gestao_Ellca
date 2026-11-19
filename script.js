@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const items = document.querySelectorAll('.item');
-    const navItems = document.querySelectorAll('.nav-item');
+    const items = Array.from(document.querySelectorAll('.item'));
+    const navItems = Array.from(document.querySelectorAll('.nav-item'));
     const gridToggleBtns = document.querySelectorAll('.grid-toggle-btn');
+    const voltarBtns = document.querySelectorAll('.btn-voltar');
     const menuMobileBtn = document.querySelector('.menu-mobile-btn');
     const navContent = document.querySelector('.nav-content');
     const searchInput = document.querySelector('.search-box input');
@@ -9,24 +10,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let isGridMode = false;
     const itemStates = new Map();
 
-    // ===================== Disparo da Fumaça Hollywoodiana =====================
+    // ===================== Disparo da Fumaça Suave =====================
     function dispararFumacaTransicao(itemEl) {
         if (!itemEl || isGridMode) return;
         const wrapper = itemEl.querySelector('.cards-wrapper');
         if (!wrapper) return;
 
         wrapper.classList.remove('smoke-burst');
-        void wrapper.offsetWidth; // Reinicia o ciclo da animação instantaneamente
+        void wrapper.offsetWidth;
         wrapper.classList.add('smoke-burst');
+    }
+
+    // ===================== Funções Globais de Avançar / Voltar Slide =====================
+    function moverCardAtivo(direcao) {
+        const activeItem = document.querySelector('.item.active') || items[0];
+        if (!activeItem || isGridMode) return;
+
+        const state = itemStates.get(activeItem);
+        if (!state || state.cards.length <= 1) return;
+
+        state.currentIndex = (state.currentIndex + direcao + state.cards.length) % state.cards.length;
+        atualizarCarrossel(activeItem, true);
     }
 
     // ===================== Inicialização por Aba / Seção =====================
     items.forEach((item, itemIdx) => {
         const wrapper = item.querySelector('.cards-wrapper');
         const cards = wrapper ? Array.from(wrapper.querySelectorAll('.glass-card')) : [];
-        const dotsContainer = item.querySelector('.pagination-dots');
-        const prevBtn = item.querySelector('.controls button:first-child');
-        const nextBtn = item.querySelector('.controls button:last-child');
+        const dotsContainer = item.querySelector('.pagination-dots') || document.querySelector('.pagination-dots');
 
         const state = {
             currentIndex: 0,
@@ -36,13 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         itemStates.set(item, state);
 
-        // Cria as bolinhas de paginação dinamicamente conforme a quantidade de cards
+        // Cria bolinhas de paginação
         if (dotsContainer && cards.length > 0) {
             dotsContainer.innerHTML = '';
             cards.forEach((_, idx) => {
                 const dot = document.createElement('span');
                 dot.className = 'dot' + (idx === 0 ? ' active' : '');
                 dot.addEventListener('click', (e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     if (state.currentIndex !== idx) {
                         state.currentIndex = idx;
@@ -54,30 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Botões Anterior e Próximo
-        if (prevBtn) {
-            prevBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (state.cards.length <= 1) return;
-                state.currentIndex = (state.currentIndex - 1 + state.cards.length) % state.cards.length;
-                atualizarCarrossel(item, true);
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (state.cards.length <= 1) return;
-                state.currentIndex = (state.currentIndex + 1) % state.cards.length;
-                atualizarCarrossel(item, true);
-            });
-        }
-
-        // Clique nos cards laterais traz o card para frente
+        // Clique nos cards laterais traz o card para frente sem bloquear links/botões internos
         cards.forEach((card, idx) => {
             card.addEventListener('click', (e) => {
+                if (e.target.closest('a, button, .btn-primary, .btn-glass')) return;
                 if (isGridMode) return;
-                if (e.target.closest('a, button')) return;
                 if (state.currentIndex !== idx) {
                     state.currentIndex = idx;
                     atualizarCarrossel(item, true);
@@ -85,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Suporte a Swipe (arrastar dedo no mobile)
+        // Suporte a Swipe no Mobile
         if (wrapper) {
             let touchStartX = 0;
             let touchEndX = 0;
@@ -100,22 +93,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 const diff = touchStartX - touchEndX;
 
                 if (Math.abs(diff) > 42) {
-                    if (diff > 0) {
-                        state.currentIndex = (state.currentIndex + 1) % state.cards.length;
-                    } else {
-                        state.currentIndex = (state.currentIndex - 1 + state.cards.length) % state.cards.length;
-                    }
-                    atualizarCarrossel(item, true);
+                    moverCardAtivo(diff > 0 ? 1 : -1);
                 }
             }, { passive: true });
         }
 
-        // Define primeira seção como ativa caso nenhuma tenha .active no HTML
         if (itemIdx === 0 && !document.querySelector('.item.active')) {
             item.classList.add('active');
         }
 
         atualizarCarrossel(item, false);
+    });
+
+    // ===================== Conserto Universal dos Botões Anterior / Próximo =====================
+    // Funciona tanto se .controls estiver dentro de cada .item quanto fixo fora dele
+    document.querySelectorAll('.controls').forEach((controlsBox) => {
+        const botoes = controlsBox.querySelectorAll('button');
+        if (botoes.length >= 2) {
+            botoes[0].type = 'button';
+            botoes[1].type = 'button';
+
+            botoes[0].addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                moverCardAtivo(-1);
+            });
+
+            botoes[1].addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                moverCardAtivo(1);
+            });
+        }
+    });
+
+    // ===================== Botão Voltar (Capa / Histórico) =====================
+    voltarBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            const href = btn.getAttribute('href');
+            if (!href || href === '#') {
+                e.preventDefault();
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+        });
     });
 
     // ===================== Atualiza Posições 3D dos Cards =====================
@@ -142,9 +166,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        state.dots.forEach((dot, idx) => {
-            dot.classList.toggle('active', idx === activeIdx);
-        });
+        // Se existir uma barra .pagination-dots global fora de .item, recria/sincroniza também
+        const globalDotsContainer = document.querySelector('body > .controls-container .pagination-dots, .container > .controls-container .pagination-dots');
+        if (globalDotsContainer) {
+            globalDotsContainer.innerHTML = '';
+            state.cards.forEach((_, idx) => {
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (idx === activeIdx ? ' active' : '');
+                dot.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (state.currentIndex !== idx) {
+                        state.currentIndex = idx;
+                        atualizarCarrossel(item, true);
+                    }
+                });
+                globalDotsContainer.appendChild(dot);
+            });
+        } else {
+            state.dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === activeIdx);
+            });
+        }
 
         if (comFumaca) {
             dispararFumacaTransicao(item);
@@ -182,7 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===================== Alternar Modo Carrossel 3D / Modo Grade =====================
     gridToggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.type = 'button';
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             isGridMode = !isGridMode;
             document.querySelectorAll('.cards-wrapper').forEach(wrapper => {
                 wrapper.classList.toggle('grid-mode', isGridMode);
@@ -197,7 +243,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===================== Menu Mobile =====================
     if (menuMobileBtn && navContent) {
+        menuMobileBtn.type = 'button';
         menuMobileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             navContent.classList.toggle('ativo');
         });
@@ -253,21 +301,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Navegação por Teclado (Setas Esquerda/Direita) =====================
+    // ===================== Navegação por Teclado =====================
     document.addEventListener('keydown', (e) => {
         if (document.activeElement === searchInput || isGridMode) return;
-        const activeItem = document.querySelector('.item.active');
-        if (!activeItem) return;
-
-        const state = itemStates.get(activeItem);
-        if (!state || state.cards.length <= 1) return;
-
-        if (e.key === 'ArrowRight') {
-            state.currentIndex = (state.currentIndex + 1) % state.cards.length;
-            atualizarCarrossel(activeItem, true);
-        } else if (e.key === 'ArrowLeft') {
-            state.currentIndex = (state.currentIndex - 1 + state.cards.length) % state.cards.length;
-            atualizarCarrossel(activeItem, true);
-        }
+        if (e.key === 'ArrowRight') moverCardAtivo(1);
+        if (e.key === 'ArrowLeft') moverCardAtivo(-1);
     });
 });
