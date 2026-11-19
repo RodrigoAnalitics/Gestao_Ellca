@@ -652,7 +652,7 @@ a {
     font-size: 8.5px !important;
 }
 
-/* ===================== Glass Cards, Névoa Translúcida & Hover Exclusivo no Card ===================== */
+/* ===================== Glass Cards, Gradiente Preto/Azul & Névoa Translúcida ===================== */
 .glass-card {
     position: absolute; 
     top: 0; 
@@ -681,7 +681,7 @@ a {
     will-change: transform, opacity;
 }
 
-/* CARD ATIVO (DESKTOP): Destaque 3D, vidro fosco refinado e borda luminosa */
+/* CARD ATIVO (DESKTOP): Gradiente Preto -> Azul Escuro -> Azul com transparência de vidro */
 .glass-card.card-front {
     transform: translateX(0) translateZ(35px) scale(1.06); 
     filter: brightness(1);
@@ -691,9 +691,9 @@ a {
     cursor: pointer;
     background: linear-gradient(
         145deg, 
-        rgba(255, 255, 255, 0.15) 0%, 
-        rgba(12, 26, 48, 0.48) 50%, 
-        rgba(0, 212, 255, 0.08) 100%
+        rgba(3, 6, 14, 0.72) 0%, 
+        rgba(10, 32, 74, 0.56) 54%, 
+        rgba(0, 145, 255, 0.30) 100%
     ) !important;
     backdrop-filter: blur(18px) saturate(150%) !important;
     -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
@@ -701,9 +701,9 @@ a {
     box-shadow: 
         0 28px 55px rgba(0, 0, 0, 0.78), 
         0 0 32px rgba(0, 212, 255, 0.38), 
-        inset 0 1px 1px rgba(255, 255, 255, 0.45),
-        inset 0 -1px 1px rgba(0, 212, 255, 0.2),
-        inset 0 0 22px rgba(0, 212, 255, 0.14) !important;
+        inset 0 1px 1px rgba(255, 255, 255, 0.42),
+        inset 0 -1px 1px rgba(0, 180, 255, 0.25),
+        inset 0 0 22px rgba(0, 140, 255, 0.16) !important;
 }
 
 /* Efeito de fumaça/névoa translúcida flutuando dentro do card ativo */
@@ -727,9 +727,9 @@ a {
     position: absolute;
     inset: -35%;
     background:
-        radial-gradient(circle at 26% 74%, rgba(0, 212, 255, 0.22) 0%, transparent 45%),
-        radial-gradient(circle at 76% 28%, rgba(255, 255, 255, 0.16) 0%, transparent 40%),
-        radial-gradient(circle at 50% 52%, rgba(0, 142, 191, 0.16) 0%, transparent 52%);
+        radial-gradient(circle at 26% 74%, rgba(0, 165, 255, 0.24) 0%, transparent 45%),
+        radial-gradient(circle at 76% 28%, rgba(255, 255, 255, 0.14) 0%, transparent 40%),
+        radial-gradient(circle at 50% 52%, rgba(0, 110, 210, 0.18) 0%, transparent 52%);
     filter: blur(18px);
     pointer-events: none !important;
     z-index: 1;
@@ -743,16 +743,16 @@ a {
     border-color: #ffffff;
     background: linear-gradient(
         145deg, 
-        rgba(255, 255, 255, 0.20) 0%, 
-        rgba(14, 32, 60, 0.54) 50%, 
-        rgba(0, 212, 255, 0.15) 100%
+        rgba(3, 6, 14, 0.66) 0%, 
+        rgba(12, 42, 96, 0.52) 52%, 
+        rgba(0, 175, 255, 0.38) 100%
     ) !important;
     box-shadow: 
         0 38px 75px rgba(0, 0, 0, 0.88), 
         0 0 46px rgba(0, 212, 255, 0.65), 
         0 0 16px rgba(255, 255, 255, 0.42),
         inset 0 1px 2px rgba(255, 255, 255, 0.65),
-        inset 0 0 30px rgba(0, 212, 255, 0.26) !important; 
+        inset 0 0 30px rgba(0, 180, 255, 0.28) !important; 
 }
 
 .glass-card.card-front:hover::after {
@@ -1273,7 +1273,7 @@ a {
     box-shadow: 0 0 8px var(--primary);
 }
 
-/* ===================== Responsividade Mobile (<= 768px com Vidro + Névoa) ===================== */
+/* ===================== Responsividade Mobile (<= 768px com Vidro + Gradiente Preto/Azul + Névoa) ===================== */
 @media (max-width: 768px) {
     .item, .capa-bg, body {
         background-position: center center !important;
@@ -1455,21 +1455,27 @@ a {
                     filter 0.5s ease !important;
     }
 
-    /* Card ativo no mobile: mesmo efeito vidro translúcido + névoa */
+    /* Card ativo no mobile: mesmo gradiente Preto -> Azul Escuro -> Azul com efeito vidro */
     .glass-card.card-front {
         transform: translateX(0) scale(1) !important; 
         opacity: 1 !important;
         filter: blur(0px) brightness(1) !important;
         z-index: 20 !important;
         pointer-events: auto !important;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.13) 0%, rgba(10, 22, 42, 0.46) 55%, rgba(255, 255, 255, 0.05) 100%) !important;
-        backdrop-filter: blur(15px) saturate(140%) !important;
-        -webkit-backdrop-filter: blur(15px) saturate(140%) !important;
-        border-color: rgba(0, 212, 255, 0.78) !important;
-        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.75), 
-                    0 0 24px rgba(0, 212, 255, 0.32),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.32),
-                    inset 0 0 16px rgba(0, 212, 255, 0.12) !important;
+        background: linear-gradient(
+            145deg, 
+            rgba(3, 6, 14, 0.72) 0%, 
+            rgba(10, 32, 74, 0.56) 54%, 
+            rgba(0, 145, 255, 0.30) 100%
+        ) !important;
+        backdrop-filter: blur(18px) saturate(150%) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+        border-color: rgba(0, 212, 255, 0.85) !important;
+        box-shadow: 
+            0 18px 38px rgba(0, 0, 0, 0.75), 
+            0 0 24px rgba(0, 212, 255, 0.34),
+            inset 0 1px 1px rgba(255, 255, 255, 0.35),
+            inset 0 0 18px rgba(0, 140, 255, 0.14) !important;
     }
 
     /* Cards inativos invisíveis (1 card por vez sem sombra atrás) */
@@ -1540,8 +1546,13 @@ a {
         filter: none !important;
         pointer-events: auto !important;
         animation: none !important;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.13) 0%, rgba(10, 22, 42, 0.46) 55%, rgba(255, 255, 255, 0.05) 100%) !important;
-        backdrop-filter: blur(15px) saturate(140%) !important;
+        background: linear-gradient(
+            145deg, 
+            rgba(3, 6, 14, 0.72) 0%, 
+            rgba(10, 32, 74, 0.56) 54%, 
+            rgba(0, 145, 255, 0.30) 100%
+        ) !important;
+        backdrop-filter: blur(18px) saturate(150%) !important;
     }
 
     .cards-wrapper.grid-mode .img-box {
