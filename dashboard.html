@@ -195,7 +195,7 @@
 
                     <div class="split-screen">
 
-                        <div class="text-section">
+                        <div class="text-section" id="mainTextSection">
                             <div class="topic">PAINEL ANALÍTICO</div>
 
                             <h1 class="title">
@@ -226,26 +226,36 @@
                             </div>
                         </div>
 
-                        <div class="cards-section">
-                            <!-- Painel horizontal organizado quando o texto lateral está oculto nos sub-dashboards -->
-                            <div class="subdash-header-banner" id="subdashHeaderBanner">
-                                <div class="subdash-banner-left">
-                                    <div class="subdash-title-row">
-                                        <div class="subdash-badge-setor">
-                                            <i class="fa-solid fa-layer-group"></i>
-                                            SETOR: <span id="subdashSetorNome">DP</span>
-                                        </div>
-                                    </div>
-                                    <p class="subdash-banner-desc" id="subdashDesc">
-                                        Indicadores consolidados do departamento.
-                                    </p>
+                        <!-- Mesma posição esquerda do texto principal quando entra nos sub-dashboards -->
+                        <div class="text-section" id="subdashTextSection" style="display: none;">
+                            <div class="topic">SETOR SELECIONADO</div>
+
+                            <h1 class="title">
+                                PAINÉIS <br>
+                                <span id="subdashSetorNome">DP</span>
+                            </h1>
+
+                            <p class="des" id="subdashDesc">
+                                Indicadores consolidados do departamento. Selecione um sub-painel ao lado para visualizar os dados.
+                            </p>
+
+                            <div class="home-quick-stats">
+                                <div class="quick-stat-box">
+                                    <small>Responsável</small>
+                                    <strong id="subdashResp">Departamento Pessoal</strong>
                                 </div>
-                                <div class="subdash-meta-pills">
-                                    <span class="subdash-meta-pill" title="Responsável"><i class="fa-solid fa-user-gear"></i> <span id="subdashResp">Departamento Pessoal</span></span>
-                                    <span class="subdash-meta-pill" title="Frequência"><i class="fa-solid fa-clock-rotate-left"></i> <span id="subdashFreq">Diária • 08h00</span></span>
-                                    <span class="subdash-meta-pill" title="Total de Painéis"><i class="fa-solid fa-chart-pie"></i> <span id="subdashQtd">3 Painéis</span></span>
+                                <div class="quick-stat-box">
+                                    <small>Atualização</small>
+                                    <strong id="subdashFreq">Diária • 08h00</strong>
+                                </div>
+                                <div class="quick-stat-box">
+                                    <small>Disponíveis</small>
+                                    <strong id="subdashQtd">3 Painéis</strong>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="cards-section">
 
                             <div class="cards-wrapper">
 
@@ -705,9 +715,8 @@
 
             const cardsWrapper = document.querySelector(".cards-wrapper");
             const activeItem = document.querySelector(".item.active") || document.querySelector(".item");
-            const textSection = document.querySelector(".text-section");
-            const splitScreen = document.querySelector(".split-screen");
-            const subdashHeaderBanner = document.getElementById("subdashHeaderBanner");
+            const mainTextSection = document.getElementById("mainTextSection");
+            const subdashTextSection = document.getElementById("subdashTextSection");
             const subdashSetorNome = document.getElementById("subdashSetorNome");
             const subdashResp = document.getElementById("subdashResp");
             const subdashFreq = document.getElementById("subdashFreq");
@@ -913,19 +922,18 @@
                 }
 
                 emSubDashboards = true;
-                if (textSection) textSection.style.display = "none";
-                if (splitScreen) splitScreen.classList.add("subdash-mode");
+                if (mainTextSection) mainTextSection.style.display = "none";
                 if (subdashSetorNome) subdashSetorNome.textContent = dados.titulo;
                 if (subdashResp) subdashResp.textContent = dados.responsavel || "Equipe BI";
                 if (subdashFreq) subdashFreq.textContent = dados.frequencia || "Diária";
-                if (subdashQtd) subdashQtd.textContent = `${dados.subitens.length} ${dados.subitens.length === 1 ? "Sub-painel" : "Sub-painéis"}`;
+                if (subdashQtd) subdashQtd.textContent = `${dados.subitens.length} ${dados.subitens.length === 1 ? "Painel" : "Painéis"}`;
                 if (subdashDesc) subdashDesc.textContent = dados.descricao || "";
-                if (subdashHeaderBanner) subdashHeaderBanner.classList.add("visible");
+                if (subdashTextSection) subdashTextSection.style.display = "";
 
                 cardsWrapper.innerHTML = dados.subitens.map((sub, idx) => {
                     const bgEstilo = sub.imagem
                         ? `background-image: url('${sub.imagem}');`
-                        : `background: linear-gradient(135deg, rgba(12, 36, 84, 0.42) 0%, rgba(4, 8, 18, 0.68) 100%); border: 1px solid rgba(0, 212, 255, 0.22);`;
+                        : `background-image: linear-gradient(135deg, rgba(12, 36, 84, 0.65) 0%, rgba(4, 10, 24, 0.85) 100%), url('img/dashboards.jpg');`;
 
                     const statusClass = sub.embed ? "kpi-success" : "kpi-warning";
                     const statusTexto = sub.embed ? "Ativo" : "Pendente";
@@ -941,12 +949,8 @@
                                 <span class="${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTexto}</span>
                             </div>
                             <div class="actions">
-                                <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
-                                    ACESSAR <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                                <button type="button" class="btn-glass btn-detalhes-sub" data-setor="${setorKey}" data-sub-idx="${idx}">
-                                    DETALHES
-                                </button>
+                                <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">ACESSAR <i class="fa-solid fa-arrow-right"></i></button>
+                                <button type="button" class="btn-glass btn-detalhes-sub" data-setor="${setorKey}" data-sub-idx="${idx}">DETALHES</button>
                             </div>
                         </div>
                     `;
@@ -976,9 +980,8 @@
             function restaurarSetoresPrincipais() {
                 if (!cardsWrapper || !emSubDashboards) return false;
                 emSubDashboards = false;
-                if (textSection) textSection.style.display = "";
-                if (splitScreen) splitScreen.classList.remove("subdash-mode");
-                if (subdashHeaderBanner) subdashHeaderBanner.classList.remove("visible");
+                if (subdashTextSection) subdashTextSection.style.display = "none";
+                if (mainTextSection) mainTextSection.style.display = "";
                 cardsWrapper.innerHTML = htmlInicialCards;
                 ordenarCardsPorFavoritos();
                 vincularCliquesSetores();
