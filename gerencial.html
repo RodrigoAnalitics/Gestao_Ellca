@@ -507,6 +507,12 @@
             gap: 8px;
         }
 
+        .report-shell-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .report-frame-container {
             width: 100%;
             height: 76vh;
@@ -728,13 +734,18 @@
                         </div>
                     </div>
 
-                    <!-- MOLDURA DO LOOKER STUDIO -->
+                    <!-- MOLDURA LOOKER STUDIO -->
                     <div class="report-shell" id="reportFrameBox">
                         <div class="report-shell-bar">
                             <span><i class="fa-solid fa-chart-area"></i> Painel Analítico Interativo — Looker Studio</span>
-                            <button type="button" class="btn-exec gold" id="btnReloadIframe" style="padding: 6px 11px; font-size: 10px;">
-                                <i class="fa-solid fa-rotate"></i> Recarregar Painel
-                            </button>
+                            <div class="report-shell-actions">
+                                <button type="button" class="btn-exec gold" id="btnReloadIframe" style="padding: 6px 11px; font-size: 10px;">
+                                    <i class="fa-solid fa-rotate"></i> Recarregar Painel
+                                </button>
+                                <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec" style="padding: 6px 11px; font-size: 10px;">
+                                    <i class="fa-solid fa-chart-line"></i> Acessar BI
+                                </a>
+                            </div>
                         </div>
                         <div class="report-frame-container">
                             <iframe 
