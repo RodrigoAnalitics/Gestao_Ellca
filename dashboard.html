@@ -11,23 +11,17 @@
     <link rel="stylesheet" href="styles_index.css">
 
     <style>
-        /* Garante que links/botões dentro de .btn-primary preencham toda a área clicável */
+        /* Garante alinhamento uniforme dos botões principais e secundários nos cards */
+        .glass-card .actions .btn-primary,
         .glass-card .actions .btn-primary a,
-        .glass-card .actions .btn-primary button {
+        .glass-card .actions .btn-glass {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             width: 100%;
-            height: 100%;
             color: inherit;
             text-decoration: none;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: inherit;
-            font-size: inherit;
         }
 
         /* Evita que o texto dos cards vaze ou quebre feio em telas estreitas */
@@ -49,6 +43,8 @@
             background: rgba(8, 16, 34, 0.78);
             border: 1px solid rgba(0, 212, 255, 0.3);
             backdrop-filter: blur(12px);
+            position: relative;
+            z-index: 30;
         }
 
         .subdash-toolbar.active {
@@ -245,7 +241,7 @@
                                         <span><i class="fa-solid fa-warehouse"></i> Itens</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -261,7 +257,7 @@
                                         <span><i class="fa-solid fa-right-from-bracket"></i> Estoque/Saídas</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -277,7 +273,7 @@
                                         <span><i class="fa-solid fa-chart-line"></i> Eficiência</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -293,7 +289,7 @@
                                         <span><i class="fa-solid fa-clock"></i> Ponto/Horas</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -309,7 +305,7 @@
                                         <span><i class="fa-solid fa-signature"></i> Atas</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -325,7 +321,7 @@
                                         <span><i class="fa-solid fa-building"></i> Mobilização</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass" data-detalhes="6.1 Mobilização Diária, 6.2 Estrutura e 6.3 Estrutura Base.">DETALHES</button>
                                     </div>
                                 </div>
@@ -341,7 +337,7 @@
                                         <span><i class="fa-solid fa-gas-pump"></i> Frota/Comb.</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -357,7 +353,7 @@
                                         <span><i class="fa-solid fa-signal"></i> 99.9%</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -373,7 +369,7 @@
                                         <span><i class="fa-solid fa-chart-simple"></i> Metas</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -389,7 +385,7 @@
                                         <span><i class="fa-solid fa-person-digging"></i> Equipes</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-arrow-right"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -405,7 +401,7 @@
                                         <span><i class="fa-solid fa-clock"></i> Prazo</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -421,7 +417,7 @@
                                         <span><i class="fa-solid fa-users"></i> 100%</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -437,7 +433,7 @@
                                         <span><i class="fa-solid fa-shield-halved"></i> 0 Acidentes</span>
                                     </div>
                                     <div class="actions">
-                                        <button type="button" class="btn-primary"><button type="button" class="btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button></button>
+                                        <button type="button" class="btn-primary btn-abrir-dash">ACESSAR <i class="fa-solid fa-layer-group"></i></button>
                                         <button type="button" class="btn-glass">DETALHES</button>
                                     </div>
                                 </div>
@@ -509,7 +505,6 @@
     <!-- ESTRUTURA HIERÁRQUICA DOS SUB-DASHBOARDS E LINKS EMBED -->
     <script>
         (function configurarSubDashboards() {
-            // Mapa com todos os sub-dashboards e espaços reservados para imagem/embed
             const ESTRUTURA_DASHBOARDS = {
                 almoxarifado: {
                     titulo: "1. ALMOXARIFADO",
@@ -608,6 +603,7 @@
             };
 
             const cardsWrapper = document.querySelector(".cards-wrapper");
+            const activeItem = document.querySelector(".item.active") || document.querySelector(".item");
             const htmlInicialCards = cardsWrapper ? cardsWrapper.innerHTML : "";
             const toolbar = document.getElementById("subdashToolbar");
             const breadcrumb = document.getElementById("subdashBreadcrumb");
@@ -618,6 +614,12 @@
             const embedTitle = document.getElementById("dashEmbedTitle");
             const embedIframe = document.getElementById("dashEmbedIframe");
             const btnFecharEmbed = document.getElementById("btnFecharEmbed");
+
+            function sincronizarCarrossel() {
+                if (activeItem && window.EllcaCarrossel?.reSincronizarItem) {
+                    window.EllcaCarrossel.reSincronizarItem(activeItem, true);
+                }
+            }
 
             function abrirEmbed(titulo, url) {
                 if (!url) {
@@ -636,9 +638,8 @@
 
             function renderizarSubCards(setorKey) {
                 const dados = ESTRUTURA_DASHBOARDS[setorKey];
-                if (!dados) return;
+                if (!dados || !cardsWrapper) return;
 
-                // Se não tiver sub-itens, abre direto o embed ou aviso
                 if (!dados.subitens || dados.subitens.length === 0) {
                     abrirEmbed(dados.titulo, dados.embed);
                     return;
@@ -653,7 +654,7 @@
                         ? `background-image: url('${sub.imagem}');`
                         : `background: rgba(15, 23, 42, 0.75); display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:11px; border:1px dashed rgba(148,163,184,0.35);`;
 
-                    const conteudoImg = sub.imagem ? "" : `<span><i class="fa-regular fa-image"></i> Imagem pendente</span>`;
+                    const conteudoImg = sub.imagem ? "" : `<span><i class="fa-regular fa-image"></i> Espaço para imagem</span>`;
 
                     return `
                         <div class="glass-card" data-index="${idx}" data-title="${sub.titulo.toLowerCase()}">
@@ -666,10 +667,8 @@
                                 <span><i class="fa-solid fa-circle-dot"></i> ${sub.embed ? "Ativo" : "Pendente"}</span>
                             </div>
                             <div class="actions">
-                                <button type="button" class="btn-primary">
-                                    <button type="button" class="btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
-                                        ABRIR <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    </button>
+                                <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
+                                    ABRIR <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </button>
                             </div>
                         </div>
@@ -682,17 +681,26 @@
                         abrirEmbed(btn.getAttribute("data-titulo"), btn.getAttribute("data-embed"));
                     });
                 });
+
+                sincizar();
+            }
+
+            function sincizar() {
+                sincronizarCarrossel();
             }
 
             function restaurarSetoresPrincipais() {
+                if (!cardsWrapper) return;
                 toolbar.classList.remove("active");
                 cardsWrapper.innerHTML = htmlInicialCards;
                 vincularCliquesSetores();
+                sincronizarCarrossel();
             }
 
             btnVoltarSub.addEventListener("click", restaurarSetoresPrincipais);
 
             function vincularCliquesSetores() {
+                if (!cardsWrapper) return;
                 cardsWrapper.querySelectorAll(".glass-card[data-dash-id]").forEach(card => {
                     const key = card.getAttribute("data-dash-id");
                     const btnAcessar = card.querySelector(".btn-abrir-dash");
