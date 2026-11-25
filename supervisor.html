@@ -11,31 +11,6 @@
     <link rel="stylesheet" href="styles_index.css">
 
     <style>
-        html, body {
-            height: 100%;
-            min-height: 100vh;
-            overflow-y: auto !important;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            height: auto !important;
-            overflow: visible !important;
-        }
-
-        .container .item.active {
-            position: relative !important;
-            width: 100%;
-            min-height: 100vh;
-            height: auto !important;
-            overflow: visible !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
         /* Navbar e rodapé recolhíveis */
         .navbar,
         .footer-bar {
@@ -54,129 +29,140 @@
             pointer-events: none;
         }
 
-        .sup-page-wrapper {
-            position: relative;
-            z-index: 5;
-            width: 100%;
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 88px 24px 72px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 28px;
-            transition: padding 0.32s ease;
+        body.bars-collapsed .split-screen {
+            padding-top: 32px;
+            padding-bottom: 32px;
         }
 
-        body.bars-collapsed .sup-page-wrapper {
-            padding: 24px 24px 36px 24px;
-        }
-
-        .sup-topbar {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 14px;
-            padding: 14px 20px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.85) 0%, rgba(12, 36, 84, 0.65) 100%);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(0, 212, 255, 0.32);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
-        }
-
-        .sup-topbar-title h1 {
-            font-size: 18px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #fff;
-            margin: 0 0 3px 0;
-        }
-
-        .sup-topbar-title p {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            margin: 0;
-        }
-
-        .sup-topbar-actions {
+        /* Botão de controle de menu integrado na coluna esquerda (mesmo estilo dos cards e botões do sistema) */
+        .sup-left-controls {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
         }
 
         .btn-exec {
             padding: 8px 14px;
-            border-radius: 9px;
+            border-radius: 6px;
             border: 1px solid rgba(0, 212, 255, 0.4);
-            background: rgba(0, 212, 255, 0.12);
-            color: #fff;
-            font-size: 10.5px;
-            font-weight: 700;
+            background: rgba(6, 18, 42, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #00d4ff;
+            font-size: 9.5px;
+            font-weight: 800;
             letter-spacing: 0.7px;
             text-transform: uppercase;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 7px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
             transition: all 0.25s ease;
         }
 
         .btn-exec:hover,
         .btn-exec.active-mode {
             background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            box-shadow: 0 0 16px rgba(0, 212, 255, 0.45);
+            color: #02060f;
+            border-color: #ffffff;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.55);
+            transform: translateY(-1px);
         }
 
-        /* Fileira com cards usando exatamente o visual de .glass-card.card-front da home */
+        /* Fileira de cards na coluna direita com espaçamento padronizado e próximo */
         .sup-cards-row {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 44px;
-            padding: 12px 0;
+            gap: 24px;
+            width: 100%;
+            z-index: 15;
         }
 
         .sup-cards-row .glass-card.card-front {
             position: relative !important;
             top: auto !important;
             left: auto !important;
-            margin: 8px !important;
+            margin: 0 !important;
+            width: 268px !important;
+            height: 332px !important;
+            transform: scale(1) !important;
+            opacity: 1 !important;
+            filter: brightness(1) !important;
+            z-index: 20 !important;
+            pointer-events: auto !important;
+            cursor: pointer;
         }
 
         .sup-cards-row .glass-card.card-front:hover {
-            transform: translateY(-10px) translateZ(52px) scale(1.08);
+            transform: translateY(-8px) scale(1.03) !important;
         }
 
-        @media (max-width: 768px) {
-            .sup-page-wrapper {
-                padding: 78px 14px 64px 14px;
-                gap: 20px;
+        .footer-greeting {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .footer-greeting strong {
+            color: #ffffff;
+        }
+
+        .btn-footer-sair {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 8.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: 0.3s;
+        }
+
+        .btn-footer-sair:hover {
+            background: rgba(239, 68, 68, 0.22);
+            border-color: rgba(239, 68, 68, 0.55);
+            color: #ffffff;
+        }
+
+        @media (max-width: 1100px) {
+            html, body {
+                height: auto !important;
+                min-height: 100vh;
+                overflow-y: auto !important;
             }
 
-            body.bars-collapsed .sup-page-wrapper {
-                padding: 16px 14px 28px 14px;
+            .container,
+            .item.active,
+            .split-screen {
+                height: auto !important;
+                min-height: 100vh;
+                overflow: visible !important;
+            }
+
+            .sup-left-controls {
+                justify-content: center;
             }
 
             .sup-cards-row {
-                gap: 24px;
+                gap: 20px;
+                padding-bottom: 24px;
             }
+        }
 
+        @media (max-width: 768px) {
             .sup-cards-row .glass-card.card-front {
-                width: 270px !important;
-                height: 335px !important;
-                transform: none !important;
-            }
-
-            .sup-cards-row .glass-card.card-front:hover {
-                transform: translateY(-6px) !important;
+                width: 256px !important;
+                height: 318px !important;
             }
         }
     </style>
@@ -227,18 +213,41 @@
         </div>
     </nav>
 
-    <!-- CONTAINER PRINCIPAL -->
+    <!-- CONTAINER PRINCIPAL PADRONIZADO COM SPLIT-SCREEN -->
     <div class="container">
-        <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('img/Capa_home.jpg');">
-            <div class="sup-page-wrapper">
+        <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.55)), url('img/Capa_home.jpg');">
 
-                <div class="sup-topbar">
-                    <div class="sup-topbar-title">
-                        <h1>Módulo Supervisor</h1>
-                        <p>Selecione o card para abrir o painel de Programação ou o dashboard de Produção</p>
+            <div class="split-screen">
+
+                <!-- COLUNA ESQUERDA: MESMA POSIÇÃO E ESTRUTURA DA CENTRAL DE DASHBOARDS -->
+                <div class="text-section">
+                    <div class="topic">OPERAÇÕES & CAMPO</div>
+
+                    <h1 class="title">
+                        MÓDULO <br>
+                        <span>SUPERVISOR</span>
+                    </h1>
+
+                    <p class="des">
+                        Selecione o painel ao lado para gerenciar as Ordens de Serviço programadas ou acompanhar o realizado em campo, apontamentos pendentes e aderência por equipe.
+                    </p>
+
+                    <div class="home-quick-stats">
+                        <div class="quick-stat-box">
+                            <small>Módulos Ativos</small>
+                            <strong>2 Painéis</strong>
+                        </div>
+                        <div class="quick-stat-box">
+                            <small>Base Operacional</small>
+                            <strong>Programação & Prod.</strong>
+                        </div>
+                        <div class="quick-stat-box">
+                            <small>Sincronização</small>
+                            <strong>Google Sheets</strong>
+                        </div>
                     </div>
 
-                    <div class="sup-topbar-actions">
+                    <div class="sup-left-controls">
                         <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                             <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                             <span id="textToggleBars">Mostrar Menu</span>
@@ -246,49 +255,51 @@
                     </div>
                 </div>
 
-                <!-- CARDS COM MESMO VISUAL, MEDIDAS E EFEITOS DA HOME -->
-                <div class="sup-cards-row">
+                <!-- COLUNA DIREITA: CARDS PADRONIZADOS E MAIS PRÓXIMOS -->
+                <div class="cards-section">
+                    <div class="sup-cards-row">
 
-                    <!-- CARD 1: PROGRAMAÇÃO -->
-                    <div class="glass-card card-front" data-title="programacao ordens servico frota">
-                        <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
-                        <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
-                        <h3>PROGRAMAÇÃO</h3>
-                        <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
-                        <div class="kpi-mini">
-                            <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
-                            <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
+                        <!-- CARD 1: PROGRAMAÇÃO -->
+                        <div class="glass-card card-front" data-title="programacao ordens servico frota">
+                            <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
+                            <h3>PROGRAMAÇÃO</h3>
+                            <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
+                            <div class="kpi-mini">
+                                <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
+                                <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
+                                    ACESSAR <i class="fa-solid fa-rocket"></i>
+                                </button>
+                                <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
+                                    PAINEL
+                                </button>
+                            </div>
                         </div>
-                        <div class="actions">
-                            <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
-                                ACESSAR <i class="fa-solid fa-rocket"></i>
-                            </button>
-                            <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
-                                PAINEL
-                            </button>
+
+                        <!-- CARD 2: PRODUÇÃO -->
+                        <div class="glass-card card-front" data-title="producao realizado campo apontamento">
+                            <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
+                            <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
+                            <h3>PRODUÇÃO</h3>
+                            <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
+                            <div class="kpi-mini">
+                                <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
+                                <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
+                                    ACESSAR <i class="fa-solid fa-rocket"></i>
+                                </button>
+                                <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
+                                    DASHBOARD
+                                </button>
+                            </div>
                         </div>
+
                     </div>
-
-                    <!-- CARD 2: PRODUÇÃO -->
-                    <div class="glass-card card-front" data-title="producao realizado campo apontamento">
-                        <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
-                        <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
-                        <h3>PRODUÇÃO</h3>
-                        <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
-                        <div class="kpi-mini">
-                            <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
-                            <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
-                        </div>
-                        <div class="actions">
-                            <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
-                                ACESSAR <i class="fa-solid fa-rocket"></i>
-                            </button>
-                            <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
-                                DASHBOARD
-                            </button>
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
@@ -305,9 +316,24 @@
                 <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
                     <i class="fa-solid fa-headset"></i> Suporte
                 </button>
+                <span class="separator">•</span>
+                <span class="footer-greeting"><i class="fa-solid fa-user-check"></i> Olá, <strong id="footerUserName">Rodrigo Lopes</strong></span>
+                <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </button>
             </div>
         </footer>
     </div>
+
+    <!-- FILTRO DE FUMAÇA PARA OS CARDS -->
+    <svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
+        <filter id="hollywood-smoke-filter" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.010 0.015" numOctaves="3" seed="8" result="noise">
+                <animate attributeName="baseFrequency" dur="18s" values="0.010 0.015;0.015 0.022;0.010 0.015" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
 
     <script>
         (function iniciarSupervisor() {
@@ -319,6 +345,24 @@
                 const clean = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
                 return parseFloat(clean) || 0;
             };
+
+            const footerUserName = document.getElementById('footerUserName');
+            const btnSairRodape = document.getElementById('btnSairRodape');
+            const nomeSessao =
+                sessionStorage.getItem('ellca_user_name') ||
+                localStorage.getItem('ellca_user_name') ||
+                'Rodrigo Lopes';
+
+            if (footerUserName) {
+                footerUserName.textContent = nomeSessao;
+            }
+
+            if (btnSairRodape) {
+                btnSairRodape.addEventListener('click', () => {
+                    sessionStorage.removeItem('ellca_auth');
+                    window.location.href = 'login.html';
+                });
+            }
 
             const btnToggleBars = document.getElementById('btnToggleBars');
             const iconToggleBars = document.getElementById('iconToggleBars');
@@ -385,4 +429,5 @@
     </script>
     <script src="script.js"></script>
 </body>
+
 </html>
