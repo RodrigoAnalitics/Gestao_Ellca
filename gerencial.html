@@ -485,6 +485,20 @@
             box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
         }
 
+        .report-shell:fullscreen,
+        .report-shell:-webkit-full-screen {
+            border-radius: 0;
+            border: none;
+            background: #030712;
+        }
+
+        .report-shell:fullscreen .report-frame-container,
+        .report-shell:-webkit-full-screen .report-frame-container {
+            flex: 1;
+            height: auto;
+            min-height: 0;
+        }
+
         .report-shell-bar {
             display: flex;
             align-items: center;
@@ -510,6 +524,7 @@
         .report-shell-actions {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             gap: 8px;
         }
 
@@ -745,6 +760,10 @@
                                 <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec" style="padding: 6px 11px; font-size: 10px;">
                                     <i class="fa-solid fa-chart-line"></i> Acessar BI
                                 </a>
+                                <button type="button" class="btn-exec" id="btnFullscreenFrame" title="Expandir este painel em Tela Cheia" style="padding: 6px 11px; font-size: 10px;">
+                                    <i class="fa-solid fa-expand" id="iconFullscreenFrame"></i>
+                                    <span id="textFullscreenFrame">Tela Cheia</span>
+                                </button>
                             </div>
                         </div>
                         <div class="report-frame-container">
@@ -824,14 +843,26 @@
             }
 
             // Tela Cheia
-            document.getElementById('btnFullscreenGerencial')?.addEventListener('click', () => {
+            function toggleFullscreenFrame() {
                 const box = document.getElementById('reportFrameBox');
                 if (!document.fullscreenElement) {
                     box.requestFullscreen?.().catch(err => console.warn(err));
                 } else {
                     document.exitFullscreen?.();
                 }
-            });
+            }
+
+            function syncFullscreenLabel() {
+                const isFs = document.fullscreenElement === document.getElementById('reportFrameBox');
+                const icon = document.getElementById('iconFullscreenFrame');
+                const label = document.getElementById('textFullscreenFrame');
+                if (icon) icon.className = isFs ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+                if (label) label.textContent = isFs ? 'Sair Tela Cheia' : 'Tela Cheia';
+            }
+
+            document.getElementById('btnFullscreenGerencial')?.addEventListener('click', toggleFullscreenFrame);
+            document.getElementById('btnFullscreenFrame')?.addEventListener('click', toggleFullscreenFrame);
+            document.addEventListener('fullscreenchange', syncFullscreenLabel);
 
             // Recarregar Looker Studio
             document.getElementById('btnReloadIframe')?.addEventListener('click', () => {
