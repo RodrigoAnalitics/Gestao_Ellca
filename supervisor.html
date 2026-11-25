@@ -13,40 +13,30 @@
     <style>
         html, body {
             height: 100%;
-            margin: 0;
-            padding: 0;
+            min-height: 100vh;
             overflow-y: auto !important;
             overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
         }
 
-        .desktop-view {
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        .container .item.active {
+            position: relative !important;
+            width: 100%;
             min-height: 100vh;
             height: auto !important;
             overflow: visible !important;
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
 
-        .container {
-            flex: 1;
-            height: auto !important;
-            min-height: 100vh;
-            overflow: visible !important;
-            position: relative;
-        }
-
-        .container .item.active {
-            position: relative !important;
-            height: auto !important;
-            min-height: 100vh;
-            overflow: visible !important;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
+        /* Navbar e rodapé recolhíveis */
         .navbar,
         .footer-bar {
             transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
@@ -68,13 +58,13 @@
             position: relative;
             z-index: 5;
             width: 100%;
-            max-width: 1280px;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 96px 24px 80px 24px;
+            padding: 88px 24px 72px 24px;
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 28px;
-            box-sizing: border-box;
             transition: padding 0.32s ease;
         }
 
@@ -82,51 +72,50 @@
             padding: 24px 24px 36px 24px;
         }
 
-        /* BARRA SUPERIOR DO MÓDULO */
         .sup-topbar {
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 14px;
-            padding: 16px 22px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.86) 0%, rgba(12, 36, 84, 0.72) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+            padding: 14px 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.85) 0%, rgba(12, 36, 84, 0.65) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 212, 255, 0.32);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
         }
 
         .sup-topbar-title h1 {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
-            margin: 0;
+            margin: 0 0 3px 0;
         }
 
         .sup-topbar-title p {
-            font-size: 12px;
+            font-size: 11.5px;
             color: #cbd5e1;
-            margin: 4px 0 0 0;
+            margin: 0;
         }
 
         .sup-topbar-actions {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
             gap: 10px;
         }
 
         .btn-exec {
-            padding: 9px 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.42);
-            background: rgba(0, 212, 255, 0.13);
+            padding: 8px 14px;
+            border-radius: 9px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.12);
             color: #fff;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             letter-spacing: 0.7px;
             text-transform: uppercase;
@@ -135,179 +124,59 @@
             align-items: center;
             gap: 7px;
             transition: all 0.25s ease;
-            text-decoration: none;
         }
 
-        .btn-exec:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
-        }
-
+        .btn-exec:hover,
         .btn-exec.active-mode {
             background: var(--primary);
-            color: #030712;
+            color: #000;
             border-color: var(--primary);
+            box-shadow: 0 0 16px rgba(0, 212, 255, 0.45);
         }
 
-        /* ================= CARDS COM MESMA MEDIDA, CORES E EFEITO DA HOME ================= */
+        /* Fileira com cards usando exatamente o visual de .glass-card.card-front da home */
         .sup-cards-row {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: stretch;
-            gap: 28px;
+            align-items: center;
+            gap: 44px;
+            padding: 12px 0;
         }
 
-        .sup-card-orbit {
-            position: relative;
-            border-radius: 22px;
-            padding: 1.5px;
-            overflow: hidden;
-            flex: 0 0 auto;
-            display: flex;
-            background: rgba(255, 255, 255, 0.06);
-            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s ease;
-        }
-
-        .sup-card-orbit:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 22px 46px rgba(0, 212, 255, 0.22);
-        }
-
-        .sup-card-orbit.gold-orbit:hover {
-            box-shadow: 0 22px 46px rgba(245, 158, 11, 0.22);
-        }
-
-        /* Borda luminosa suave passando ao redor do card */
-        .sup-card-orbit::before {
-            content: "";
-            position: absolute;
-            inset: -65%;
-            background: conic-gradient(
-                from 0deg,
-                transparent 0deg 235deg,
-                rgba(0, 212, 255, 0.45) 278deg,
-                rgba(125, 211, 252, 0.72) 305deg,
-                rgba(0, 212, 255, 0.25) 335deg,
-                transparent 360deg
-            );
-            animation: supBorderSweep 9s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .sup-card-orbit.gold-orbit::before {
-            background: conic-gradient(
-                from 180deg,
-                transparent 0deg 235deg,
-                rgba(245, 158, 11, 0.45) 278deg,
-                rgba(253, 224, 71, 0.70) 305deg,
-                rgba(245, 158, 11, 0.25) 335deg,
-                transparent 360deg
-            );
-            animation-duration: 10.5s;
-        }
-
-        @keyframes supBorderSweep {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .sup-card-orbit .glass-card {
+        .sup-cards-row .glass-card.card-front {
             position: relative !important;
-            left: auto !important;
             top: auto !important;
-            transform: none !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            pointer-events: auto !important;
-            filter: none !important;
-            z-index: 1;
-            border-radius: 20.5px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            left: auto !important;
+            margin: 8px !important;
         }
 
-        /* Reflexo / brilho diagonal ao passar o mouse (mesmo efeito de destaque da home) */
-        .sup-card-orbit .glass-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -130%;
-            width: 65%;
-            height: 100%;
-            background: linear-gradient(
-                115deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.04) 35%,
-                rgba(255, 255, 255, 0.16) 50%,
-                rgba(255, 255, 255, 0.04) 65%,
-                transparent 100%
-            );
-            transform: skewX(-20deg);
-            transition: left 0.65s ease;
-            pointer-events: none;
-        }
-
-        .sup-card-orbit:hover .glass-card::after {
-            left: 150%;
-        }
-
-        /* Mesma espessura e proporção nos botões ACESSAR e secundário */
-        .sup-card-orbit .glass-card .actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .sup-card-orbit .glass-card .actions button {
-            height: 40px;
-            min-height: 40px;
-            max-height: 40px;
-            padding: 0 14px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            line-height: 1;
-            box-sizing: border-box;
-        }
-
-        .sup-card-orbit .glass-card .actions .btn-primary {
-            flex: 1.25;
-            border-width: 1px;
-        }
-
-        .sup-card-orbit .glass-card .actions .btn-glass {
-            flex: 0.9;
-            border-width: 1px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .sup-card-orbit::before,
-            .sup-card-orbit .glass-card::after {
-                animation: none;
-                transition: none;
-            }
+        .sup-cards-row .glass-card.card-front:hover {
+            transform: translateY(-10px) translateZ(52px) scale(1.08);
         }
 
         @media (max-width: 768px) {
             .sup-page-wrapper {
-                padding: 82px 14px 72px 14px;
+                padding: 78px 14px 64px 14px;
+                gap: 20px;
             }
+
             body.bars-collapsed .sup-page-wrapper {
                 padding: 16px 14px 28px 14px;
             }
+
             .sup-cards-row {
-                gap: 20px;
+                gap: 24px;
+            }
+
+            .sup-cards-row .glass-card.card-front {
+                width: 270px !important;
+                height: 335px !important;
+                transform: none !important;
+            }
+
+            .sup-cards-row .glass-card.card-front:hover {
+                transform: translateY(-6px) !important;
             }
         }
     </style>
@@ -315,135 +184,129 @@
 
 <body class="bars-collapsed">
     <script>
-        if (sessionStorage.getItem('ellca_auth') === 'false') {
+        if (sessionStorage.getItem('ellca_auth') !== 'true') {
             window.location.replace('login.html');
         }
     </script>
 
-    <div class="desktop-view">
-        <!-- NAVBAR -->
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
-                </a>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+            </a>
+        </div>
+
+        <div class="mobile-header-actions">
+            <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button type="button" class="menu-mobile-btn" aria-label="Abrir Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="nav-content">
+            <div class="nav-status">
+                <span class="pulse-dot"></span>
+                <span class="status-text">SUPERVISOR • OPERAÇÕES</span>
             </div>
 
-            <div class="mobile-header-actions">
-                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <button class="menu-mobile-btn" aria-label="Abrir Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                <a href="programacao_live.html" class="nav-item">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></a>
+                <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
+                <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
 
-            <div class="nav-content">
-                <div class="nav-status">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text">SUPERVISOR • OPERAÇÕES</span>
+                <div class="nav-actions-group">
+                    <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
                 </div>
+            </div>
+        </div>
+    </nav>
 
-                <div class="nav-links">
-                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
-                    <a href="programacao_live.html" class="nav-item">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></a>
-                    <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
-                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="container">
+        <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('img/Capa_home.jpg');">
+            <div class="sup-page-wrapper">
 
-                    <div class="nav-actions-group">
-                        <button class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
-                            <i class="fa-solid fa-arrow-left"></i>
+                <div class="sup-topbar">
+                    <div class="sup-topbar-title">
+                        <h1>Módulo Supervisor</h1>
+                        <p>Selecione o card para abrir o painel de Programação ou o dashboard de Produção</p>
+                    </div>
+
+                    <div class="sup-topbar-actions">
+                        <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                            <i class="fa-solid fa-bars" id="iconToggleBars"></i>
+                            <span id="textToggleBars">Mostrar Menu</span>
                         </button>
                     </div>
                 </div>
-            </div>
-        </nav>
 
-        <!-- CONTAINER PRINCIPAL -->
-        <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('img/Capa_home.jpg');">
-                <div class="sup-page-wrapper">
+                <!-- CARDS COM MESMO VISUAL, MEDIDAS E EFEITOS DA HOME -->
+                <div class="sup-cards-row">
 
-                    <div class="sup-topbar">
-                        <div class="sup-topbar-title">
-                            <h1>Módulo Supervisor</h1>
-                            <p>Selecione o card para abrir o painel de Programação ou o dashboard de Produção (Programado vs. Realizado)</p>
+                    <!-- CARD 1: PROGRAMAÇÃO -->
+                    <div class="glass-card card-front" data-title="programacao ordens servico frota">
+                        <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
+                        <h3>PROGRAMAÇÃO</h3>
+                        <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
+                        <div class="kpi-mini">
+                            <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
+                            <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
                         </div>
-
-                        <div class="sup-topbar-actions">
-                            <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
-                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
-                                <span id="textToggleBars">Mostrar Menu</span>
+                        <div class="actions">
+                            <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
+                                ACESSAR <i class="fa-solid fa-rocket"></i>
+                            </button>
+                            <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
+                                PAINEL
                             </button>
                         </div>
                     </div>
 
-                    <!-- CARDS COM MESMA MEDIDA, CORES E EFEITO DA HOME -->
-                    <div class="sup-cards-row">
-
-                        <!-- CARD 1: PROGRAMAÇÃO -->
-                        <div class="sup-card-orbit">
-                            <div class="glass-card" data-title="programacao ordens servico frota">
-                                <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
-                                <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
-                                <h3>PROGRAMAÇÃO</h3>
-                                <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
-                                <div class="kpi-mini">
-                                    <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
-                                    <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
-                                </div>
-                                <div class="actions">
-                                    <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
-                                        ACESSAR <i class="fa-solid fa-rocket"></i>
-                                    </button>
-                                    <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
-                                        PAINEL
-                                    </button>
-                                </div>
-                            </div>
+                    <!-- CARD 2: PRODUÇÃO -->
+                    <div class="glass-card card-front" data-title="producao realizado campo apontamento">
+                        <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
+                        <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
+                        <h3>PRODUÇÃO</h3>
+                        <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
+                        <div class="kpi-mini">
+                            <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
+                            <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
                         </div>
-
-                        <!-- CARD 2: PRODUÇÃO -->
-                        <div class="sup-card-orbit gold-orbit">
-                            <div class="glass-card" data-title="producao realizado campo apontamento">
-                                <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
-                                <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
-                                <h3>PRODUÇÃO</h3>
-                                <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
-                                <div class="kpi-mini">
-                                    <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
-                                    <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
-                                </div>
-                                <div class="actions">
-                                    <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
-                                        ACESSAR <i class="fa-solid fa-rocket"></i>
-                                    </button>
-                                    <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
-                                        DASHBOARD
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="actions">
+                            <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
+                                ACESSAR <i class="fa-solid fa-rocket"></i>
+                            </button>
+                            <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
+                                DASHBOARD
+                            </button>
                         </div>
-
                     </div>
 
                 </div>
-            </div>
 
-            <!-- RODAPÉ -->
-            <footer class="footer-bar">
-                <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
-                    <span class="separator">•</span>
-                    <span>Módulo: <strong>Supervisor</strong></span>
-                </div>
-                <div class="footer-actions">
-                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                        <i class="fa-solid fa-headset"></i> Suporte
-                    </button>
-                </div>
-            </footer>
+            </div>
         </div>
+
+        <!-- RODAPÉ -->
+        <footer class="footer-bar">
+            <div class="footer-info">
+                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+                <span class="separator">•</span>
+                <span>Módulo: <strong>Supervisor</strong></span>
+            </div>
+            <div class="footer-actions">
+                <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                    <i class="fa-solid fa-headset"></i> Suporte
+                </button>
+            </div>
+        </footer>
     </div>
 
     <script>
