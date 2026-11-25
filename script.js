@@ -452,6 +452,55 @@
         });
     }
 
+    function configurarMenuRecolhivel() {
+        const navbar = document.querySelector(".navbar");
+        if (!navbar) return;
+
+        const estadoSalvo = sessionStorage.getItem("ellca_bars_collapsed");
+        let collapsed = estadoSalvo !== null ? estadoSalvo === "true" : true;
+        document.body.classList.toggle("bars-collapsed", collapsed);
+
+        const btnLocal = document.getElementById("btnToggleBars");
+        if (btnLocal) {
+            const iconLocal = document.getElementById("iconToggleBars");
+            const textLocal = document.getElementById("textToggleBars");
+            btnLocal.classList.toggle("active-mode", !collapsed);
+            if (iconLocal) iconLocal.className = collapsed ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
+            if (textLocal) textLocal.textContent = collapsed ? "Mostrar Menu" : "Ocultar Menu";
+
+            btnLocal.addEventListener("click", () => {
+                setTimeout(() => {
+                    const estadoAtual = document.body.classList.contains("bars-collapsed");
+                    sessionStorage.setItem("ellca_bars_collapsed", String(estadoAtual));
+                }, 0);
+            });
+            return;
+        }
+
+        if (document.getElementById("globalBtnToggleBars")) return;
+
+        const btnGlobal = document.createElement("button");
+        btnGlobal.type = "button";
+        btnGlobal.id = "globalBtnToggleBars";
+        btnGlobal.className = "global-menu-toggle-btn" + (!collapsed ? " active-mode" : "");
+        btnGlobal.title = "Exibir ou ocultar menu superior e rodapé";
+        btnGlobal.innerHTML = collapsed
+            ? '<i class="fa-solid fa-bars"></i><span>Mostrar Menu</span>'
+            : '<i class="fa-solid fa-eye-slash"></i><span>Ocultar Menu</span>';
+
+        btnGlobal.addEventListener("click", () => {
+            collapsed = !collapsed;
+            sessionStorage.setItem("ellca_bars_collapsed", String(collapsed));
+            document.body.classList.toggle("bars-collapsed", collapsed);
+            btnGlobal.classList.toggle("active-mode", !collapsed);
+            btnGlobal.innerHTML = collapsed
+                ? '<i class="fa-solid fa-bars"></i><span>Mostrar Menu</span>'
+                : '<i class="fa-solid fa-eye-slash"></i><span>Ocultar Menu</span>';
+        });
+
+        document.body.appendChild(btnGlobal);
+    }
+
     function configurarAvatarUsuario() {
         const navLinks = document.querySelector(".nav-links");
         if (!navLinks || document.querySelector(".nav-user-wrap")) return;
@@ -561,6 +610,7 @@
         configurarPesquisa();
         configurarGestosToque();
         configurarMenuMobileEVoltar();
+        configurarMenuRecolhivel();
 
         sincronizarItemAtivo(itemInicial, false, true);
         iniciarAutoplay();
