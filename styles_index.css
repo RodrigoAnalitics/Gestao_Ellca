@@ -844,26 +844,25 @@ a {
 }
 
 .btn-primary {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.09) 55%, rgba(0, 212, 255, 0.16) 100%) !important;
-    backdrop-filter: blur(14px) saturate(175%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(175%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.45) !important;
-    border-top-color: rgba(255, 255, 255, 0.72) !important;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.18) 0%, rgba(0, 142, 191, 0.38) 100%) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid #00d4ff !important;
     padding: 8px 12px;
-    border-radius: 12px;
+    border-radius: 6px !important;
     font-weight: 800;
     cursor: pointer !important;
     color: #ffffff !important;
     text-transform: uppercase;
     font-size: 9.5px;
-    letter-spacing: 0.7px;
+    letter-spacing: 0.8px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 6px;
     width: 100%;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 14px rgba(255, 255, 255, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.55) !important;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.35), inset 0 0 8px rgba(0, 212, 255, 0.25) !important;
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     z-index: 45 !important;
     pointer-events: auto !important;
@@ -882,43 +881,44 @@ a {
 }
 
 .btn-glass {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
-    backdrop-filter: blur(14px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.28) !important;
-    border-top-color: rgba(255, 255, 255, 0.48) !important;
+    background: rgba(6, 18, 42, 0.65) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(0, 212, 255, 0.38) !important;
     padding: 7px 12px;
-    border-radius: 12px;
-    color: rgba(255, 255, 255, 0.92) !important;
+    border-radius: 6px !important;
+    color: #00d4ff !important;
     cursor: pointer !important;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 9px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
     width: 100%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.32) !important;
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+    transition: all 0.25s ease;
     position: relative;
     z-index: 45 !important;
     pointer-events: auto !important;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 60%, rgba(0, 212, 255, 0.24) 100%) !important;
-    border-color: rgba(255, 255, 255, 0.78) !important;
-    color: #ffffff !important;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.26), 0 0 14px rgba(0, 212, 255, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    background: #00d4ff !important;
+    border-color: #ffffff !important;
+    color: #02060f !important;
+    box-shadow: 0 0 22px #00d4ff, 0 0 8px rgba(255, 255, 255, 0.85) !important;
     transform: translateY(-2px);
 }
 
 .btn-glass:hover {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
+    background: rgba(0, 212, 255, 0.18) !important;
     color: #ffffff !important;
-    border-color: rgba(255, 255, 255, 0.55) !important;
+    border-color: #00d4ff !important;
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.45) !important;
+    transform: translateY(-1px);
 }
 
 .controls-container {
@@ -1622,4 +1622,120 @@ a {
     letter-spacing: 1px;
     color: var(--primary);
     text-transform: uppercase;
+}
+
+/* Painel de Contexto & Resumo no modo Sub-Dashboards (onde o texto lateral fica oculto) */
+.subdash-header-banner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    max-width: 680px;
+    margin-bottom: 18px;
+    padding: 12px 22px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(6, 16, 36, 0.78) 0%, rgba(2, 8, 20, 0.85) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 212, 255, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(0, 212, 255, 0.12);
+    z-index: 25;
+}
+
+.subdash-header-banner.visible {
+    display: flex;
+}
+
+.subdash-banner-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.subdash-badge-setor {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(0, 212, 255, 0.16);
+    border: 1px solid #00d4ff;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.subdash-badge-setor span {
+    color: var(--primary);
+}
+
+.subdash-meta-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.subdash-meta-pill {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 3px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.subdash-meta-pill i {
+    color: var(--primary);
+}
+
+.subdash-banner-desc {
+    font-size: 11px;
+    color: #cbd5e1;
+    line-height: 1.4;
+    max-width: 580px;
+}
+
+/* Barra de destaques rápidos na tela principal */
+.home-quick-stats {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.quick-stat-box {
+    background: linear-gradient(135deg, rgba(10, 28, 66, 0.55) 0%, rgba(4, 10, 24, 0.72) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 212, 255, 0.28);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 110px;
+}
+
+.quick-stat-box small {
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.quick-stat-box strong {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--primary);
 }
