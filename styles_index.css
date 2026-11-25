@@ -1648,3 +1648,71 @@ a {
         margin-right: auto;
     }
 }
+
+/* Card Gerencial / Executivo em Dourado */
+.glass-card.card-gerencial,
+.glass-card.card-front.card-gerencial {
+    border-color: rgba(241, 196, 15, 0.58) !important;
+    border-top-color: rgba(255, 243, 196, 0.72) !important;
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.88),
+        0 0 30px rgba(241, 196, 15, 0.28),
+        inset 0 1px 1px rgba(255, 243, 196, 0.55),
+        inset 0 -2px 6px rgba(180, 130, 10, 0.45) !important;
+}
+
+.glass-card.card-gerencial:hover,
+.glass-card.card-front.card-gerencial:hover {
+    border-color: #f1c40f !important;
+    border-top-color: #ffffff !important;
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.92),
+        0 0 42px rgba(241, 196, 15, 0.48),
+        0 0 14px rgba(255, 255, 255, 0.30),
+        inset 0 1px 2px rgba(255, 255, 255, 0.80),
+        inset 0 -2px 8px rgba(212, 160, 23, 0.55) !important;
+}
+
+.glass-card.card-front.card-gerencial::before {
+    background: conic-gradient(
+        from var(--neon-angle),
+        transparent 0%,
+        transparent 68%,
+        rgba(212, 160, 23, 0.65) 80%,
+        #ffffff 92%,
+        #f1c40f 100%
+    ) !important;
+}
+
+.glass-card.card-front.card-gerencial::after {
+    background:
+        radial-gradient(circle at 26% 76%, rgba(212, 160, 23, 0.32) 0%, transparent 48%),
+        radial-gradient(circle at 76% 26%, rgba(255, 245, 200, 0.14) 0%, transparent 40%),
+        radial-gradient(circle at 52% 55%, rgba(160, 115, 10, 0.25) 0%, transparent 55%) !important;
+}
+
+.glass-card.card-gerencial .btn-primary {
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.25) 0%, rgba(212, 160, 23, 0.48) 100%) !important;
+    border: 1px solid #f1c40f !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(241, 196, 15, 0.38), inset 0 0 8px rgba(241, 196, 15, 0.25) !important;
+}
+
+.glass-card.card-gerencial .btn-primary:hover {
+    background: #f1c40f !important;
+    border-color: #ffffff !important;
+    color: #02060f !important;
+    box-shadow: 0 0 22px #f1c40f, 0 0 8px rgba(255, 255, 255, 0.85) !important;
+}
+
+.glass-card.card-gerencial .btn-glass {
+    border-color: rgba(241, 196, 15, 0.42) !important;
+    color: #f1c40f !important;
+}
+
+.glass-card.card-gerencial .btn-glass:hover {
+    background: rgba(241, 196, 15, 0.18) !important;
+    border-color: #f1c40f !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 14px rgba(241, 196, 15, 0.45) !important;
+}
