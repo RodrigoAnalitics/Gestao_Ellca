@@ -111,12 +111,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.remove();
             }
         });
-
-        // Reorganiza o data-index (0, 1, 2...) dos cards restantes para o carrossel 3D funcionar perfeitamente
-        document.querySelectorAll('.cards-wrapper .glass-card').forEach((card, novoIdx) => {
-            card.setAttribute('data-index', novoIdx);
-        });
     }
+
+    // Reorganiza os data-index (0, 1, 2...) dos cards restantes
+    function reindexarCardsWrapper(wrapper) {
+        if (!wrapper) return [];
+        const cards = Array.from(wrapper.querySelectorAll('.glass-card'));
+        cards.forEach((card, idx) => {
+            card.setAttribute('data-index', idx);
+        });
+        return cards;
+    }
+
+    document.querySelectorAll('.cards-wrapper').forEach(reindexarCardsWrapper);
 
     // Garante que a seção principal (.item) esteja sempre visível
     const items = Array.from(document.querySelectorAll('.item'));
@@ -139,39 +146,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const itemStates = new Map();
 
-    // Garante que links externos abram em nova aba e links internos na mesma aba
-    document.querySelectorAll('.btn-primary a, a.btn-primary').forEach(link => {
-        const href = link.getAttribute('href') || '';
-        if (href.startsWith('http')) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
-        } else {
-            link.setAttribute('target', '_self');
-        }
-    });
+    function configurarLinks(root = document) {
+        root.querySelectorAll('.btn-primary a, a.btn-primary').forEach(link => {
+            const href = (link.getAttribute('href') || '').trim();
+            if (href.startsWith('http')) {
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+            } else if (href && href !== '#' && !href.startsWith('javascript:')) {
+                link.setAttribute('target', '_self');
+            }
+        });
+    }
 
-    // ===================== CLIQUE EM BOTÕES PRINCIPAIS (.btn-primary) =====================
-    document.addEventListener('click', (e) => {
-        const primaryBtn = e.target.closest('.btn-primary');
-        if (!primaryBtn || primaryBtn.closest('#ellcaDynamicDetailModal')) return;
+    configurarLinks();
 
-        const link = primaryBtn.tagName === 'A' ? primaryBtn : primaryBtn.querySelector('a');
-        if (!link) return;
-
-        const href = link.getAttribute('href');
-        if (!href || href === '#' || href.startsWith('javascript:')) return;
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (href.startsWith('http')) {
-            window.open(href, '_blank', 'noopener,noreferrer');
-        } else {
-            window.location.assign(href);
-        }
-    }, true);
-
-    // ===================== Disparo da Fumaça Suave =====================
+    // ===================== DISPARO DA FUMAÇA SUAVE =====================
     function dispararFumacaTransicao(itemEl) {
         if (!itemEl || isGridMode) return;
         const wrapper = itemEl.querySelector('.cards-wrapper');
@@ -182,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.classList.add('smoke-burst');
     }
 
-    // ===================== Controle do Ciclo Automático =====================
+    // ===================== CONTROLE DO CICLO AUTOMÁTICO =====================
     function iniciarCicloAutomatico() {
         clearTimeout(autoPlayTimer);
         if (isPaused || isGridMode) return;
@@ -200,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, TEMPO_LUZ_CARD);
     }
 
-    // ===================== Tecla Space Pausa / Retoma o Card e a Luz =====================
+    // ===================== TECLA SPACE PAUSA / RETOMA O CARD E A LUZ =====================
     function alternarPausaCard() {
         if (isGridMode) return;
         const activeItem = document.querySelector('.item.active') || items[0];
@@ -223,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ===================== Avançar / Voltar Slide =====================
+    // ===================== AVANÇAR / VOLTAR SLIDE =====================
     function moverCardAtivo(direcao) {
         const activeItem = document.querySelector('.item.active') || items[0];
         if (!activeItem || isGridMode) return;
@@ -236,41 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         atualizarCarrossel(activeItem, true);
     }
 
-    // ===================== Inicialização por Aba / Seção =====================
-    items.forEach((item, itemIdx) => {
-        const wrapper = item.querySelector('.cards-wrapper');
-        const cards = wrapper ? Array.from(wrapper.querySelectorAll('.glass-card')) : [];
-        const dotsContainer = item.querySelector('.pagination-dots') || document.querySelector('.pagination-dots');
-
-        const state = {
-            currentIndex: 0,
-            cards,
-            dots: [],
-            wrapper
-        };
-        itemStates.set(item, state);
-
-        if (dotsContainer && cards.length > 0) {
-            dotsContainer.innerHTML = '';
-            cards.forEach((_, idx) => {
-                const dot = document.createElement('span');
-                dot.className = 'dot' + (idx === 0 ? ' active' : '');
-                dot.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (state.currentIndex !== idx) {
-                        isPaused = false;
-                        state.currentIndex = idx;
-                        atualizarCarrossel(item, true);
-                    }
-                });
-                dotsContainer.appendChild(dot);
-                state.dots.push(dot);
-            });
-        }
-
-        cards.forEach((card, idx) => {
-            card.addEventListener('click', (e) => {
+    // ===================== VINCULA EVENTOS DOS CARDS DE UM ITEM =====================
+    function vincularEventosCardsItem(item, state) {
+        state.cards.forEach((card, idx) => {
+            card.onclick = (e) => {
                 if (e.target.closest('a, button, .btn-primary, .btn-glass')) return;
                 if (isGridMode) return;
                 if (state.currentIndex !== idx) {
@@ -278,8 +236,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     state.currentIndex = idx;
                     atualizarCarrossel(item, true);
                 }
-            });
+            };
         });
+    }
+
+    // ===================== RE-SINCRONIZA SE O CONTEÚDO DO WRAPPER MUDAR =====================
+    function reSincronizarItem(item, resetIndex = true) {
+        const state = itemStates.get(item);
+        if (!state || !state.wrapper) return;
+
+        state.cards = reindexarCardsWrapper(state.wrapper);
+        if (resetIndex || state.currentIndex >= state.cards.length) {
+            state.currentIndex = 0;
+        }
+        configurarLinks(state.wrapper);
+        vincularEventosCardsItem(item, state);
+        atualizarCarrossel(item, false);
+    }
+
+    window.EllcaCarrossel = {
+        reSincronizarItem
+    };
+
+    // ===================== INICIALIZAÇÃO POR ABA / SEÇÃO =====================
+    items.forEach((item) => {
+        const wrapper = item.querySelector('.cards-wrapper');
+        const cards = reindexarCardsWrapper(wrapper);
+        const dotsContainer = item.querySelector('.pagination-dots') || document.querySelector('.pagination-dots');
+
+        const state = {
+            currentIndex: 0,
+            cards,
+            dots: [],
+            wrapper,
+            dotsContainer
+        };
+        itemStates.set(item, state);
+
+        vincularEventosCardsItem(item, state);
 
         // Suporte a Swipe Touch no Mobile
         if (wrapper) {
@@ -301,15 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }, { passive: true });
         }
 
-        if (itemIdx === 0 && !document.querySelector('.item.active')) {
-            item.style.display = '';
-            item.classList.add('active');
-        }
-
         atualizarCarrossel(item, false);
     });
 
-    // ===================== Botões Anterior / Próximo =====================
+    // ===================== BOTÕES ANTERIOR / PRÓXIMO =====================
     document.querySelectorAll('.controls').forEach((controlsBox) => {
         const botoes = controlsBox.querySelectorAll('button');
         if (botoes.length >= 2) {
@@ -331,8 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================== CLIQUE NA LOGO LEVA PARA A CAPA (index.html) =====================
-    document.querySelectorAll('.navbar .logo-img, .navbar .logo, .navbar a').forEach((logoEl) => {
-        if (logoEl.tagName === 'A' && !logoEl.querySelector('.logo-img')) return;
+    document.querySelectorAll('.navbar .logo-img, .navbar .logo').forEach((logoEl) => {
         logoEl.style.cursor = 'pointer';
         logoEl.addEventListener('click', (e) => {
             e.preventDefault();
@@ -355,13 +343,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, true);
 
-    // ===================== Botão de Detalhes dos Cards (.btn-glass) =====================
+    // ===================== BOTÃO DE DETALHES DOS CARDS (.btn-glass) =====================
     function abrirDetalhesCard(card, btn) {
         if (!card) return;
 
         const linkEl = btn.tagName === 'A' ? btn : btn.querySelector('a');
         if (linkEl) {
-            const href = linkEl.getAttribute('href');
+            const href = (linkEl.getAttribute('href') || '').trim();
             if (href && href !== '#' && !href.startsWith('javascript:')) {
                 window.location.href = href;
                 return;
@@ -375,8 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
                           card.querySelector('.card-desc')?.innerText?.trim() ||
                           'Painel analítico integrado ao portal corporativo.';
         const kpis = Array.from(card.querySelectorAll('.kpi-mini span')).map(el => el.innerText.trim());
-        const primaryAnchor = card.querySelector('.btn-primary a') || card.querySelector('.btn-primary');
-        const linkAcesso = primaryAnchor?.getAttribute('href') || '';
+        const primaryAnchor = card.querySelector('.btn-primary a') || card.querySelector('a.btn-primary');
+        const linkAcesso = (primaryAnchor?.getAttribute('href') || '').trim();
 
         let dynamicModal = document.getElementById('ellcaDynamicDetailModal');
         if (!dynamicModal) {
@@ -476,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         abrirDetalhesCard(card, detailBtn);
     });
 
-    // ===================== Atualiza Posições 3D & Passagem Automática =====================
+    // ===================== ATUALIZA POSIÇÕES 3D & PASSAGEM AUTOMÁTICA =====================
     function atualizarCarrossel(item, comFumaca = true) {
         const state = itemStates.get(item);
         if (!state || state.cards.length === 0) return;
@@ -501,9 +489,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const globalDotsContainer = document.querySelector('body > .controls-container .pagination-dots, .container > .controls-container .pagination-dots');
-        if (globalDotsContainer) {
-            globalDotsContainer.innerHTML = '';
+        const dotsContainer = document.querySelector('body > .controls-container .pagination-dots, .container > .controls-container .pagination-dots') || state.dotsContainer;
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            state.dots = [];
             state.cards.forEach((_, idx) => {
                 const dot = document.createElement('span');
                 dot.className = 'dot' + (idx === activeIdx ? ' active' : '');
@@ -516,11 +505,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         atualizarCarrossel(item, true);
                     }
                 });
-                globalDotsContainer.appendChild(dot);
-            });
-        } else {
-            state.dots.forEach((dot, idx) => {
-                dot.classList.toggle('active', idx === activeIdx);
+                dotsContainer.appendChild(dot);
+                state.dots.push(dot);
             });
         }
 
@@ -533,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ===================== Botão Modo Grade =====================
+    // ===================== BOTÃO MODO GRADE =====================
     gridToggleBtns.forEach(btn => {
         btn.type = 'button';
         const icon = btn.querySelector('i');
@@ -572,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===================== Botão Hambúrguer do Menu Mobile =====================
+    // ===================== BOTÃO HAMBÚRGUER DO MENU MOBILE =====================
     function atualizarIconeHamburguer(aberto) {
         if (!menuMobileBtn) return;
         const icon = menuMobileBtn.querySelector('i');
@@ -606,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Busca em Tempo Real (Nos Cards Permitidos) =====================
+    // ===================== BUSCA EM TEMPO REAL (NOS CARDS PERMITIDOS) =====================
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const termo = e.target.value.trim().toLowerCase();
@@ -622,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!state) return;
 
                 state.cards.forEach((card, cardIdx) => {
-                    const texto = card.innerText.toLowerCase();
+                    const texto = (card.getAttribute('data-title') || card.innerText || '').toLowerCase();
                     if (texto.includes(termo)) {
                         card.classList.add('search-highlight');
                         if (!primeiroMatch) {
@@ -643,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================== Navegação por Teclado (Setas, Space e Esc) =====================
+    // ===================== NAVEGAÇÃO POR TECLADO (SETAS, SPACE E ESC) =====================
     document.addEventListener('keydown', (e) => {
         if (document.activeElement === searchInput ||
             ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
@@ -725,9 +711,18 @@ function renderizarUsuarioNavbar() {
     avatar.id = 'navUserAvatar';
     avatar.className = 'nav-user-avatar';
     avatar.title = `${dadosUsuario.nome} • ${dadosUsuario.cargo}`;
-    avatar.innerHTML = dadosUsuario.foto
-        ? `<img src="${dadosUsuario.foto}" alt="" onerror="this.parentElement.textContent='${iniciais}';">`
-        : iniciais;
+
+    if (dadosUsuario.foto) {
+        const img = document.createElement('img');
+        img.src = dadosUsuario.foto;
+        img.alt = dadosUsuario.nome;
+        img.onerror = () => {
+            avatar.textContent = iniciais;
+        };
+        avatar.appendChild(img);
+    } else {
+        avatar.textContent = iniciais;
+    }
 
     navLinks.insertBefore(avatar, navLinks.firstChild);
 }
