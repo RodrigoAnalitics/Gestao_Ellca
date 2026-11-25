@@ -507,8 +507,6 @@
 
     <!-- =====================================================================
          [TUTORIAL PASSO 4] NAVBAR GLOBAL DO PORTAL
-         - Inicia recolhida (classe bars-collapsed no body) e expande pelo botão
-           "Menu" no cabeçalho do dashboard.
          ===================================================================== -->
     <nav class="navbar">
         <div class="logo">
@@ -547,13 +545,16 @@
     </nav>
 
     <!-- =====================================================================
-         [TUTORIAL PASSO 5] CONTAINER PRINCIPAL & CABEÇALHO DE CONTROLES
+         [TUTORIAL PASSO 5] CONTAINER PRINCIPAL & FILTROS DO SITE
+         - Todos os filtros (Data, Processo, Supervisor e Status) rodam no
+           navegador sobre a base completa da planilha (sem depender de filtros
+           ativos na aba do Google Sheets).
          ===================================================================== -->
     <div class="container">
         <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('img/Capa_home.jpg');">
             <div class="est-wrapper">
 
-                <!-- CABEÇALHO E FILTROS DINÂMICOS -->
+                <!-- CABEÇALHO E FILTROS DINÂMICOS NO SITE -->
                 <div class="est-header-card">
                     <div class="est-brand">
                         <div class="est-brand-icon"><i class="fa-solid fa-sitemap"></i></div>
@@ -564,12 +565,24 @@
                     </div>
 
                     <div class="est-actions">
+                        <select id="filtroData" class="est-select" title="Filtrar por Data">
+                            <option value="TODAS">Data: Todas</option>
+                        </select>
+
                         <select id="filtroProcesso" class="est-select" title="Filtrar por Processo">
                             <option value="TODOS">Processo: Todos</option>
                         </select>
 
                         <select id="filtroSupervisor" class="est-select" title="Filtrar por Supervisor">
                             <option value="TODOS">Supervisor: Todos</option>
+                        </select>
+
+                        <select id="filtroStatus" class="est-select" title="Filtrar por Status">
+                            <option value="TODOS">Status: Todos</option>
+                            <option value="ATIVO">Status: Ativo</option>
+                            <option value="OFICINA">Status: Oficina</option>
+                            <option value="FERIAS">Status: Férias</option>
+                            <option value="MOBILIZAR">Status: Mobilizar</option>
                         </select>
 
                         <button type="button" class="btn-exec active-tab" data-mode="ambos">
@@ -591,8 +604,6 @@
 
                 <!-- ===========================================================
                      [TUTORIAL PASSO 6] SEÇÃO 1 — RESUMO DA ABA "ESTRUTURA PROCESSO"
-                     Alimenta 4 cards de KPI, 3 gráficos em barra e a tabela
-                     detalhada diretamente da planilha Google Sheets via JSONP.
                      =========================================================== -->
                 <div id="blocoResumo" style="display:flex; flex-direction:column; gap:18px;">
 
@@ -699,8 +710,6 @@
 
                 <!-- ===========================================================
                      [TUTORIAL PASSO 7] SEÇÃO 2 — PAINEL INTERATIVO LOOKER STUDIO
-                     Aceita tanto link /reporting/... quanto /embed/reporting/...
-                     e salva no localStorage do navegador.
                      =========================================================== -->
                 <div class="looker-card" id="blocoLooker">
                     <div class="panel-head" style="border-bottom:none; padding-bottom:4px;">
@@ -749,9 +758,12 @@
     </div>
 
     <!-- =====================================================================
-         [TUTORIAL PASSO 8] SCRIPT DE INTEGRAÇÃO (GOOGLE SHEETS + LOOKER STUDIO)
-         - Conecta na planilha "Gestao Ellca - Estrutura", aba "Estrutura Processo"
-         - Calcula KPIs da data mais recente e renderiza filtros, barras e tabela
+         [TUTORIAL PASSO 8] SCRIPT DE INTEGRAÇÃO (GOOGLE SHEETS SEM FILTRO EXTERNO)
+         - Usa `tq=select *` na Google Visualization API para puxar TODAS as
+           linhas da aba "Estrutura Processo", ignorando qualquer filtro visual
+           ou visualização filtrada aplicada dentro da planilha.
+         - Aplica os filtros (Data, Processo, Supervisor e Status) diretamente
+           no site via JavaScript.
          ===================================================================== -->
     <script>
         (function () {
@@ -781,7 +793,8 @@
                 return s;
             };
 
-            // Consulta JSONP na Google Visualization API (não exige backend/CORS)
+            // Consulta JSONP com `tq=select *` para puxar 100% das linhas da aba,
+            // ignorando qualquer filtro ativo na planilha Google Sheets.
             const cb = 'cbEstruturaProc_' + Math.random().toString(36).slice(2, 9);
             const script = document.createElement('script');
             window[cb] = function (json) {
@@ -806,12 +819,18 @@
                     const ferias = num(c[10]?.v);
                     const att = fmtData(c[11]);
                     if (att && !ultimaAtt) ultimaAtt = att;
-                    return { dt, proc, sup, eq, veic, equip, estEq, ativo, mob, oficina, ferias };
+
+                    let statusKey = 'ATIVO';
+                    if (oficina > 0) statusKey = 'OFICINA';
+                    else if (ferias > 0) statusKey = 'FERIAS';
+                    else if (mob > 0) statusKey = 'MOBILIZAR';
+
+                    return { dt, proc, sup, eq, veic, equip, estEq, ativo, mob, oficina, ferias, statusKey };
                 }).filter(x => x.eq && x.eq !== 'EQUIPE');
 
                 document.getElementById('lblStatusPlanilha').textContent = ultimaAtt
-                    ? `Aba "${ABA_ESTRUTURA}" conectada • Atualizado em ${ultimaAtt}`
-                    : `Aba "${ABA_ESTRUTURA}" conectada • ${registros.length} registros`;
+                    ? `Aba "${ABA_ESTRUTURA}" conectada (base completa) • Atualizado em ${ultimaAtt}`
+                    : `Aba "${ABA_ESTRUTURA}" conectada (base completa) • ${registros.length} registros`;
 
                 preencherFiltros();
                 atualizarResumo();
@@ -822,12 +841,30 @@
                     'Erro ao conectar na planilha. Verifique se o compartilhamento está como "Qualquer pessoa com o link".';
             };
 
-            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_ESTRUTURA)}&tqx=responseHandler:${cb}`;
+            // `tq=select *` força a leitura integral da tabela sem depender de filtros da planilha
+            const queryGviz = encodeURIComponent('select *');
+            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_ESTRUTURA)}&tq=${queryGviz}&tqx=responseHandler:${cb}`;
             document.body.appendChild(script);
 
             function preencherFiltros() {
+                const selData = document.getElementById('filtroData');
                 const selProc = document.getElementById('filtroProcesso');
                 const selSup = document.getElementById('filtroSupervisor');
+                const selStatus = document.getElementById('filtroStatus');
+
+                const datasUnicas = [...new Set(registros.map(r => r.dt).filter(Boolean))];
+                datasUnicas.forEach(d => {
+                    const o = document.createElement('option');
+                    o.value = d;
+                    o.textContent = `Data: ${d}`;
+                    selData.appendChild(o);
+                });
+
+                // Seleciona automaticamente a data mais recente da planilha como padrão no filtro do site,
+                // mas mantém a opção "Data: Todas" e todas as demais datas disponíveis no seletor.
+                if (datasUnicas.length > 0) {
+                    selData.value = datasUnicas[datasUnicas.length - 1];
+                }
 
                 [...new Set(registros.map(r => r.proc).filter(Boolean))].sort().forEach(p => {
                     const o = document.createElement('option');
@@ -843,8 +880,10 @@
                     selSup.appendChild(o);
                 });
 
+                selData.addEventListener('change', atualizarResumo);
                 selProc.addEventListener('change', atualizarResumo);
                 selSup.addEventListener('change', atualizarResumo);
+                selStatus.addEventListener('change', atualizarResumo);
             }
 
             function renderBarras(id, mapa, total) {
@@ -869,17 +908,18 @@
             }
 
             function atualizarResumo() {
+                const fData = document.getElementById('filtroData').value;
                 const fProc = document.getElementById('filtroProcesso').value;
                 const fSup = document.getElementById('filtroSupervisor').value;
+                const fStatus = document.getElementById('filtroStatus').value;
 
-                const datas = [...new Set(registros.map(r => r.dt).filter(Boolean))];
-                const dataRef = datas[datas.length - 1] || '';
-
+                // Toda a filtragem acontece exclusivamente aqui no site:
                 const filtrados = registros.filter(r => {
-                    const okData = !dataRef || r.dt === dataRef;
+                    const okData = fData === 'TODAS' || r.dt === fData;
                     const okProc = fProc === 'TODOS' || r.proc === fProc;
                     const okSup = fSup === 'TODOS' || r.sup === fSup;
-                    return okData && okProc && okSup;
+                    const okStatus = fStatus === 'TODOS' || r.statusKey === fStatus;
+                    return okData && okProc && okSup && okStatus;
                 });
 
                 const total = filtrados.length;
@@ -889,7 +929,7 @@
                 const mob = filtrados.reduce((a, b) => a + b.mob, 0);
                 const disp = total > 0 ? ((ativo / total) * 100).toFixed(1) : '0.0';
 
-                document.getElementById('lblRefData').textContent = dataRef || 'Atual';
+                document.getElementById('lblRefData').textContent = fData === 'TODAS' ? 'Todas as Datas' : fData;
                 document.getElementById('kpiTotal').textContent = total;
                 document.getElementById('kpiAtivo').textContent = ativo;
                 document.getElementById('kpiOficina').textContent = oficina;
@@ -921,13 +961,13 @@
                 document.getElementById('lblQtdLinhas').textContent = `${filtrados.length} equipes`;
                 const tbody = document.getElementById('corpoTabela');
                 if (!filtrados.length) {
-                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:16px; color:#94a3b8;">Nenhum registro encontrado.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:16px; color:#94a3b8;">Nenhum registro encontrado para os filtros selecionados.</td></tr>`;
                 } else {
                     tbody.innerHTML = filtrados.map(r => {
                         let st = `<span class="pill-tag pill-ok">ATIVO</span>`;
-                        if (r.oficina > 0) st = `<span class="pill-tag pill-warn">OFICINA</span>`;
-                        else if (r.ferias > 0) st = `<span class="pill-tag">FÉRIAS</span>`;
-                        else if (r.mob > 0) st = `<span class="pill-tag pill-danger">MOBILIZAR</span>`;
+                        if (r.statusKey === 'OFICINA') st = `<span class="pill-tag pill-warn">OFICINA</span>`;
+                        else if (r.statusKey === 'FERIAS') st = `<span class="pill-tag">FÉRIAS</span>`;
+                        else if (r.statusKey === 'MOBILIZAR') st = `<span class="pill-tag pill-danger">MOBILIZAR</span>`;
 
                         return `
                             <tr>
