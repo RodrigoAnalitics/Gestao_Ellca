@@ -30,6 +30,7 @@
 
     function dispararFumaca(wrapperEl) {
         if (!wrapperEl || modoGrade) return;
+        if (localStorage.getItem("ellca_effects") === "off") return;
         wrapperEl.classList.remove("smoke-burst");
         void wrapperEl.offsetWidth;
         wrapperEl.classList.add("smoke-burst");
@@ -238,7 +239,7 @@
             card.addEventListener("click", (e) => {
                 if (modoGrade) return;
 
-                const clicouEmBotaoOuLink = e.target.closest("button, a, input, .actions");
+                const clicouEmBotaoOuLink = e.target.closest("button, a, input, .actions, .btn-fav-card");
                 if (clicouEmBotaoOuLink) return;
 
                 if (card.classList.contains("card-back-right")) {
@@ -413,6 +414,15 @@
                 atualizarEstadoDots(cards.length);
             }
         });
+
+        searchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                const termo = searchInput.value.trim().toLowerCase();
+                if (termo && window.EllcaDashSearchGlobal) {
+                    window.EllcaDashSearchGlobal(termo);
+                }
+            }
+        });
     }
 
     function configurarMenuMobileEVoltar() {
@@ -444,12 +454,17 @@
 
     function configurarAvatarUsuario() {
         const navLinks = document.querySelector(".nav-links");
-        if (!navLinks || document.querySelector(".nav-user-avatar")) return;
+        if (!navLinks || document.querySelector(".nav-user-wrap")) return;
 
         const nomeUsuario =
             sessionStorage.getItem("ellca_user_name") ||
             localStorage.getItem("ellca_user_name") ||
             "Rodrigo Lopes";
+
+        const cargoUsuario =
+            sessionStorage.getItem("ellca_user_role") ||
+            localStorage.getItem("ellca_user_role") ||
+            "Analista de Dados • BI";
 
         const fotoUsuario =
             sessionStorage.getItem("ellca_user_photo") ||
@@ -464,6 +479,9 @@
             .join("")
             .toUpperCase() || "RL";
 
+        const wrap = document.createElement("div");
+        wrap.className = "nav-user-wrap";
+
         const avatar = document.createElement("div");
         avatar.className = "nav-user-avatar";
         avatar.title = nomeUsuario;
@@ -475,9 +493,60 @@
             img.remove();
             avatar.textContent = iniciais;
         });
-
         avatar.appendChild(img);
-        navLinks.parentElement.insertBefore(avatar, navLinks);
+
+        const effectsAtivo = localStorage.getItem("ellca_effects") !== "off";
+
+        const popover = document.createElement("div");
+        popover.className = "user-popover";
+        popover.innerHTML = `
+            <div class="user-popover-header">
+                <strong>${nomeUsuario}</strong>
+                <span>${cargoUsuario}</span>
+            </div>
+            <button type="button" class="user-popover-item" id="btnToggleEffects">
+                <span><i class="fa-solid fa-wand-magic-sparkles"></i> Efeitos Visuais</span>
+                <strong id="effectsStatusLabel">${effectsAtivo ? "ON" : "OFF"}</strong>
+            </button>
+            <button type="button" class="user-popover-item" id="btnLimparFavs">
+                <span><i class="fa-solid fa-star"></i> Resetar Favoritos</span>
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            <button type="button" class="user-popover-item danger" id="btnPopoverSair">
+                <span><i class="fa-solid fa-right-from-bracket"></i> Encerrar Sessão</span>
+            </button>
+        `;
+
+        avatar.addEventListener("click", (e) => {
+            e.stopPropagation();
+            popover.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!wrap.contains(e.target)) {
+                popover.classList.remove("open");
+            }
+        });
+
+        popover.querySelector("#btnToggleEffects").addEventListener("click", () => {
+            const atual = localStorage.getItem("ellca_effects") !== "off";
+            localStorage.setItem("ellca_effects", atual ? "off" : "on");
+            popover.querySelector("#effectsStatusLabel").textContent = atual ? "OFF" : "ON";
+        });
+
+        popover.querySelector("#btnLimparFavs").addEventListener("click", () => {
+            localStorage.removeItem("ellca_dash_favs");
+            window.location.reload();
+        });
+
+        popover.querySelector("#btnPopoverSair").addEventListener("click", () => {
+            sessionStorage.removeItem("ellca_auth");
+            window.location.href = "login.html";
+        });
+
+        wrap.appendChild(avatar);
+        wrap.appendChild(popover);
+        navLinks.parentElement.insertBefore(wrap, navLinks);
     }
 
     function init() {
@@ -498,14 +567,29 @@
     }
 
     window.EllcaCarrossel = {
-        reSincronizarItem(itemEl, comFumaca = true) {
+        reSincronizarItem(itemEl, comFumaca = true, indiceInicial = 0) {
             const alvo = itemEl || itens[indiceAtual] || document.querySelector(".item.active") || document.querySelector(".item");
-            sincronizarItemAtivo(alvo, comFumaca, true);
+            indiceCardAtivo = indiceInicial;
+            sincronizarItemAtivo(alvo, comFumaca, indiceInicial === 0);
+            if (indiceInicial > 0) {
+                atualizarPosicoesCards(alvo, comFumaca);
+                atualizarEstadoDots(getCards(alvo).length);
+            }
             reiniciarAutoplay();
         },
         irParaSlide(idx, comFumaca = true) {
             mostrarSlide(idx, comFumaca);
             reiniciarAutoplay();
+        },
+        irParaCard(idx, comFumaca = true) {
+            const itemAtivo = itens[indiceAtual] || document.querySelector(".item.active") || document.querySelector(".item");
+            const cards = getCards(itemAtivo);
+            if (cards.length > 0) {
+                indiceCardAtivo = idx % cards.length;
+                atualizarPosicoesCards(itemAtivo, comFumaca);
+                atualizarEstadoDots(cards.length);
+                reiniciarAutoplay();
+            }
         },
         obterIndiceAtual() {
             return indiceCardAtivo;
