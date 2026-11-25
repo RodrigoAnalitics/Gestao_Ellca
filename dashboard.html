@@ -227,22 +227,24 @@
                         </div>
 
                         <div class="cards-section">
-                            <!-- Painel informativo contextual quando o texto lateral está oculto nos sub-dashboards -->
+                            <!-- Painel horizontal organizado quando o texto lateral está oculto nos sub-dashboards -->
                             <div class="subdash-header-banner" id="subdashHeaderBanner">
-                                <div class="subdash-banner-top">
-                                    <div class="subdash-badge-setor">
-                                        <i class="fa-solid fa-layer-group" style="color: var(--primary);"></i>
-                                        SETOR: <span id="subdashSetorNome">DP</span>
+                                <div class="subdash-banner-left">
+                                    <div class="subdash-title-row">
+                                        <div class="subdash-badge-setor">
+                                            <i class="fa-solid fa-layer-group"></i>
+                                            SETOR: <span id="subdashSetorNome">DP</span>
+                                        </div>
                                     </div>
-                                    <div class="subdash-meta-pills">
-                                        <span class="subdash-meta-pill"><i class="fa-solid fa-user-gear"></i> <span id="subdashResp">Departamento Pessoal</span></span>
-                                        <span class="subdash-meta-pill"><i class="fa-solid fa-clock-rotate-left"></i> <span id="subdashFreq">Diária • 08h00</span></span>
-                                        <span class="subdash-meta-pill"><i class="fa-solid fa-chart-pie"></i> <span id="subdashQtd">3 Sub-painéis</span></span>
-                                    </div>
+                                    <p class="subdash-banner-desc" id="subdashDesc">
+                                        Indicadores consolidados do departamento.
+                                    </p>
                                 </div>
-                                <p class="subdash-banner-desc" id="subdashDesc">
-                                    Indicadores consolidados do departamento. Selecione um sub-painel abaixo para abrir o relatório interativo.
-                                </p>
+                                <div class="subdash-meta-pills">
+                                    <span class="subdash-meta-pill" title="Responsável"><i class="fa-solid fa-user-gear"></i> <span id="subdashResp">Departamento Pessoal</span></span>
+                                    <span class="subdash-meta-pill" title="Frequência"><i class="fa-solid fa-clock-rotate-left"></i> <span id="subdashFreq">Diária • 08h00</span></span>
+                                    <span class="subdash-meta-pill" title="Total de Painéis"><i class="fa-solid fa-chart-pie"></i> <span id="subdashQtd">3 Painéis</span></span>
+                                </div>
                             </div>
 
                             <div class="cards-wrapper">
@@ -745,6 +747,7 @@
 
             let emSubDashboards = false;
             let setorAtualDrawer = null;
+            let subItemAtualDrawer = null;
 
             function obterFavoritos() {
                 try {
@@ -808,14 +811,48 @@
                 embedModal.classList.remove("active");
             });
 
-            // Drawer de Detalhes
-            function abrirDrawerDetalhes(setorKey) {
+            // Drawer de Detalhes (suporta tanto Setor Principal quanto Sub-painel)
+            function abrirDrawerDetalhes(setorKey, subIdx = null) {
                 const dados = ESTRUTURA_DASHBOARDS[setorKey];
                 if (!dados) return;
+
+                if (subIdx !== null && dados.subitens && dados.subitens[subIdx]) {
+                    const sub = dados.subitens[subIdx];
+                    setorAtualDrawer = null;
+                    subItemAtualDrawer = sub;
+
+                    document.getElementById("drawerSetorTitulo").textContent = sub.titulo;
+                    document.getElementById("drawerSetorDesc").textContent = sub.desc || dados.descricao || "";
+                    document.getElementById("drawerPlataforma").textContent = sub.plataforma || "Looker Studio";
+                    document.getElementById("drawerFrequencia").textContent = dados.frequencia || "Diária";
+                    document.getElementById("drawerResponsavel").textContent = dados.responsavel || "Equipe BI";
+                    document.getElementById("drawerTotalSub").textContent = `Setor ${dados.titulo}`;
+
+                    document.getElementById("drawerSublist").innerHTML = `
+                        <li>
+                            <span>Status de Integração</span>
+                            <span style="font-size:9px; font-weight:700; color:${sub.embed ? '#2ecc71' : '#f1c40f'};">
+                                ${sub.embed ? 'ONLINE / ATIVO' : 'LINK PENDENTE'}
+                            </span>
+                        </li>
+                        <li>
+                            <span>Departamento Origem</span>
+                            <span style="font-size:9.5px; font-weight:700; color:var(--primary);">${dados.titulo}</span>
+                        </li>
+                    `;
+
+                    btnDrawerAcessar.innerHTML = `ACESSAR PAINEL <i class="fa-solid fa-arrow-up-right-from-square"></i>`;
+                    detailsBackdrop.classList.add("open");
+                    detailsDrawer.classList.add("open");
+                    return;
+                }
+
                 setorAtualDrawer = setorKey;
+                subItemAtualDrawer = null;
 
                 document.getElementById("drawerSetorTitulo").textContent = dados.titulo;
                 document.getElementById("drawerSetorDesc").textContent = dados.descricao || "";
+                document.getElementById("drawerPlataforma").textContent = "Looker Studio";
                 document.getElementById("drawerFrequencia").textContent = dados.frequencia || "Diária";
                 document.getElementById("drawerResponsavel").textContent = dados.responsavel || "Equipe BI";
 
@@ -843,6 +880,7 @@
                     `;
                 }
 
+                btnDrawerAcessar.innerHTML = `ABRIR SETOR <i class="fa-solid fa-arrow-right"></i>`;
                 detailsBackdrop.classList.add("open");
                 detailsDrawer.classList.add("open");
             }
@@ -856,8 +894,13 @@
             detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
             btnDrawerAcessar.addEventListener("click", () => {
                 const chave = setorAtualDrawer;
+                const subItem = subItemAtualDrawer;
                 fecharDrawerDetalhes();
-                if (chave) renderizarSubCards(chave, 0);
+                if (subItem) {
+                    abrirEmbed(subItem.titulo, subItem.embed);
+                } else if (chave) {
+                    renderizarSubCards(chave, 0);
+                }
             });
 
             function renderizarSubCards(setorKey, subIndiceInicial = 0) {
@@ -889,7 +932,7 @@
 
                     return `
                         <div class="glass-card" data-index="${idx}" data-title="${sub.titulo.toLowerCase()}">
-                            <div class="badge">SUB-PAINEL <i class="fa-solid fa-chart-bar"></i></div>
+                            <div class="badge gold">BI <i class="fa-solid fa-chart-bar"></i></div>
                             <div class="img-box" style="${bgEstilo}"></div>
                             <h3>${sub.titulo}</h3>
                             <p class="card-desc">${sub.desc || "Painel analítico do setor."}</p>
@@ -898,14 +941,12 @@
                                 <span class="${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTexto}</span>
                             </div>
                             <div class="actions">
-                                <div class="sub-actions-row">
-                                    <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
-                                        ABRIR <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    </button>
-                                    <button type="button" class="btn-nova-aba" title="${sub.embed ? "Abrir em nova aba" : "Link pendente"}" data-embed="${sub.embed || ""}" ${sub.embed ? "" : "disabled"}>
-                                        <i class="fa-solid fa-up-right-from-square"></i>
-                                    </button>
-                                </div>
+                                <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
+                                    ACESSAR <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                                <button type="button" class="btn-glass btn-detalhes-sub" data-setor="${setorKey}" data-sub-idx="${idx}">
+                                    DETALHES
+                                </button>
                             </div>
                         </div>
                     `;
@@ -913,18 +954,19 @@
 
                 cardsWrapper.querySelectorAll(".btn-abrir-sub").forEach(btn => {
                     btn.addEventListener("click", (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         abrirEmbed(btn.getAttribute("data-titulo"), btn.getAttribute("data-embed"));
                     });
                 });
 
-                cardsWrapper.querySelectorAll(".btn-nova-aba").forEach(btn => {
+                cardsWrapper.querySelectorAll(".btn-detalhes-sub").forEach(btn => {
                     btn.addEventListener("click", (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
-                        const url = btn.getAttribute("data-embed");
-                        if (url) {
-                            window.open(url, "_blank", "noopener,noreferrer");
-                        }
+                        const sKey = btn.getAttribute("data-setor");
+                        const sIdx = Number(btn.getAttribute("data-sub-idx"));
+                        abrirDrawerDetalhes(sKey, sIdx);
                     });
                 });
 
