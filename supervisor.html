@@ -150,7 +150,7 @@
             border-color: var(--primary);
         }
 
-        /* MESMAS MEDIDAS DOS CARDS DA HOME / DASHBOARD */
+        /* ================= CARDS COM MESMAS MEDIDAS + BORDA SUAVE ANIMADA ================= */
         .sup-cards-row {
             display: flex;
             flex-wrap: wrap;
@@ -159,7 +159,51 @@
             gap: 28px;
         }
 
-        .sup-cards-row .glass-card {
+        .sup-card-orbit {
+            position: relative;
+            border-radius: 22px;
+            padding: 1.5px;
+            overflow: hidden;
+            flex: 0 0 auto;
+            display: flex;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sup-card-orbit::before {
+            content: "";
+            position: absolute;
+            inset: -65%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg 230deg,
+                rgba(0, 212, 255, 0.42) 275deg,
+                rgba(125, 211, 252, 0.65) 305deg,
+                rgba(0, 212, 255, 0.25) 335deg,
+                transparent 360deg
+            );
+            animation: supBorderSweep 9s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sup-card-orbit.gold-orbit::before {
+            background: conic-gradient(
+                from 180deg,
+                transparent 0deg 230deg,
+                rgba(245, 158, 11, 0.42) 275deg,
+                rgba(253, 224, 71, 0.62) 305deg,
+                rgba(245, 158, 11, 0.25) 335deg,
+                transparent 360deg
+            );
+            animation-duration: 10.5s;
+        }
+
+        @keyframes supBorderSweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sup-card-orbit .glass-card {
             position: relative !important;
             left: auto !important;
             top: auto !important;
@@ -168,7 +212,52 @@
             visibility: visible !important;
             pointer-events: auto !important;
             filter: none !important;
-            flex: 0 0 auto;
+            z-index: 1;
+            border-radius: 20.5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Espessura e altura uniformes nos botões ACESSAR e secundário */
+        .sup-card-orbit .glass-card .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .sup-card-orbit .glass-card .actions button {
+            height: 40px;
+            min-height: 40px;
+            max-height: 40px;
+            padding: 0 14px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            line-height: 1;
+            box-sizing: border-box;
+        }
+
+        .sup-card-orbit .glass-card .actions .btn-primary {
+            flex: 1.25;
+            border-width: 1px;
+        }
+
+        .sup-card-orbit .glass-card .actions .btn-glass {
+            flex: 0.9;
+            border-width: 1px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sup-card-orbit::before {
+                animation: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -250,46 +339,50 @@
                         </div>
                     </div>
 
-                    <!-- CARDS COM AS MESMAS MEDIDAS DA HOME / DASHBOARD -->
+                    <!-- CARDS COM AS MESMAS MEDIDAS + BORDA SUAVE ANIMADA -->
                     <div class="sup-cards-row">
 
                         <!-- CARD 1: PROGRAMAÇÃO -->
-                        <div class="glass-card" data-title="programacao ordens servico frota">
-                            <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
-                            <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
-                            <h3>PROGRAMAÇÃO</h3>
-                            <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
-                            <div class="kpi-mini">
-                                <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
-                                <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
-                            </div>
-                            <div class="actions">
-                                <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
-                                    ACESSAR <i class="fa-solid fa-rocket"></i>
-                                </button>
-                                <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
-                                    PAINEL
-                                </button>
+                        <div class="sup-card-orbit">
+                            <div class="glass-card" data-title="programacao ordens servico frota">
+                                <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
+                                <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
+                                <h3>PROGRAMAÇÃO</h3>
+                                <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
+                                <div class="kpi-mini">
+                                    <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
+                                    <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
+                                        ACESSAR <i class="fa-solid fa-rocket"></i>
+                                    </button>
+                                    <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
+                                        PAINEL
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         <!-- CARD 2: PRODUÇÃO -->
-                        <div class="glass-card" data-title="producao realizado campo apontamento">
-                            <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
-                            <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
-                            <h3>PRODUÇÃO</h3>
-                            <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
-                            <div class="kpi-mini">
-                                <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
-                                <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
-                            </div>
-                            <div class="actions">
-                                <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
-                                    ACESSAR <i class="fa-solid fa-rocket"></i>
-                                </button>
-                                <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
-                                    DASHBOARD
-                                </button>
+                        <div class="sup-card-orbit gold-orbit">
+                            <div class="glass-card" data-title="producao realizado campo apontamento">
+                                <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
+                                <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
+                                <h3>PRODUÇÃO</h3>
+                                <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
+                                <div class="kpi-mini">
+                                    <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
+                                    <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
+                                        ACESSAR <i class="fa-solid fa-rocket"></i>
+                                    </button>
+                                    <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
+                                        DASHBOARD
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
