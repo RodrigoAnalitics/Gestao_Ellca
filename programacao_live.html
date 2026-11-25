@@ -47,6 +47,24 @@
             background-position: center;
         }
 
+        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
+        .navbar,
+        .footer-bar {
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        }
+
+        body.bars-collapsed .navbar {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.bars-collapsed .footer-bar {
+            transform: translateY(110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
         ::-webkit-scrollbar { width: 7px; height: 7px; }
         ::-webkit-scrollbar-track { background: rgba(3, 7, 18, 0.85); }
         ::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.45); border-radius: 10px; }
@@ -63,6 +81,11 @@
             flex-direction: column;
             gap: 20px;
             box-sizing: border-box;
+            transition: padding 0.32s ease;
+        }
+
+        body.bars-collapsed .prog-wrapper {
+            padding: 20px 24px 28px 24px;
         }
 
         /* HEADER COCKPIT */
@@ -166,6 +189,13 @@
             box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
         }
 
+        .btn-exec.active-mode {
+            background: var(--primary);
+            color: #030712;
+            border-color: var(--primary);
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+        }
+
         .btn-exec.gold {
             border-color: rgba(245, 158, 11, 0.52);
             background: rgba(245, 158, 11, 0.15);
@@ -181,7 +211,7 @@
         /* BARRA DE FILTROS */
         .filter-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 12px;
             padding: 16px 18px;
             border-radius: 16px;
@@ -224,6 +254,8 @@
             font-weight: 600;
             outline: none;
             transition: 0.2s;
+            box-sizing: border-box;
+            color-scheme: dark;
         }
 
         .filter-field select:focus,
@@ -253,6 +285,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            height: 36px;
         }
 
         .btn-reset-filters:hover {
@@ -703,6 +736,9 @@
             .prog-wrapper {
                 padding: 80px 12px 68px 12px;
             }
+            body.bars-collapsed .prog-wrapper {
+                padding: 14px 12px 24px 12px;
+            }
             .cockpit-title-group h1 {
                 font-size: 15px;
             }
@@ -710,7 +746,7 @@
     </style>
 </head>
 
-<body>
+<body class="bars-collapsed">
     <script>
         if (sessionStorage.getItem('ellca_auth') !== 'true') {
             window.location.replace('login.html');
@@ -783,6 +819,10 @@
                             <button type="button" class="btn-exec" id="btnExportCsv" title="Exportar dados filtrados">
                                 <i class="fa-solid fa-file-csv"></i> Exportar CSV
                             </button>
+                            <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
+                                <span id="textToggleBars">Mostrar Menu</span>
+                            </button>
                             <a href="https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit?gid=1374247594#gid=1374247594" target="_blank" class="btn-exec gold">
                                 <i class="fa-solid fa-table"></i> Abrir Planilha
                             </a>
@@ -791,6 +831,25 @@
 
                     <!-- FILTROS -->
                     <div class="filter-panel">
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
+                            <select id="filterAno">
+                                <option value="">Todos os Anos</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
+                            <select id="filterMes">
+                                <option value="">Todos os Meses</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data Específica</label>
+                            <input type="date" id="filterData">
+                        </div>
+
                         <div class="filter-field">
                             <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
                             <select id="filterSupervisor">
@@ -1013,16 +1072,29 @@
             const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
             const GID_PROGRAMACAO = '1374247594';
 
-            // Valores padrão de referência da Tabela 1 (Planilha Programacao_2027)
+            const NOMES_MESES = {
+                '01': '01 - Janeiro',
+                '02': '02 - Fevereiro',
+                '03': '03 - Março',
+                '04': '04 - Abril',
+                '05': '05 - Maio',
+                '06': '06 - Junho',
+                '07': '07 - Julho',
+                '08': '08 - Agosto',
+                '09': '09 - Setembro',
+                '10': '10 - Outubro',
+                '11': '11 - Novembro',
+                '12': '12 - Dezembro'
+            };
+
             const TABELA_VEICULOS = {
                 MK: { descricao: 'Caminhão Munck', valorMensal: 180000, qtdFrota: 8 },
                 LV: { descricao: 'Linha Viva', valorMensal: 165000, qtdFrota: 7 },
                 LD: { descricao: 'Linha Desenergizada', valorMensal: 140000, qtdFrota: 5 },
                 LM: { descricao: 'Linha Morta', valorMensal: 120000, qtdFrota: 7 }
             };
-            const CAPACIDADE_MENSAL_TOTAL = 4135000; // R$ 4.135.000,00 (27 veículos)
+            const CAPACIDADE_MENSAL_TOTAL = 4135000;
 
-            // Base de fallback fiel à planilha caso o navegador esteja offline
             const FALLBACK_PROGRAMACAO = [
                 { idItem: '52199-1', os: '52199', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440235269', bairro: 'CIDADE NOVA', endereco: 'AV. INDEPENDÊNCIA', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'ARRUELA QUAD AC ZC 38X38X3MM F 18MM PDE', qtde: 9, valorUnit: 1850, valorTotal: 16650, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
                 { idItem: '52200-1', os: '52200', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440222163', bairro: 'CIDADE NOVA', endereco: 'AV. INDEPENDÊNCIA', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'MATERIAL', qtde: 6, valorUnit: 1850, valorTotal: 11100, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
@@ -1051,6 +1123,27 @@
             let dadosFiltrados = [];
             let charts = {};
 
+            // ================= CONTROLE MOSTRAR / OCULTAR MENU E RODAPÉ =================
+            const btnToggleBars = document.getElementById('btnToggleBars');
+            const iconToggleBars = document.getElementById('iconToggleBars');
+            const textToggleBars = document.getElementById('textToggleBars');
+            let areBarsCollapsed = true; // Inicia recolhido conforme padrão
+
+            btnToggleBars.addEventListener('click', () => {
+                areBarsCollapsed = !areBarsCollapsed;
+                if (areBarsCollapsed) {
+                    document.body.classList.add('bars-collapsed');
+                    btnToggleBars.classList.remove('active-mode');
+                    iconToggleBars.className = 'fa-solid fa-bars';
+                    textToggleBars.textContent = 'Mostrar Menu';
+                } else {
+                    document.body.classList.remove('bars-collapsed');
+                    btnToggleBars.classList.add('active-mode');
+                    iconToggleBars.className = 'fa-solid fa-eye-slash';
+                    textToggleBars.textContent = 'Ocultar Menu';
+                }
+            });
+
             const fmtBRL = (val) => (Number(val) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
             function parseNumeroBR(v) {
@@ -1060,9 +1153,34 @@
                 return parseFloat(limpo) || 0;
             }
 
+            // Normaliza qualquer formato de data (DD/MM/YYYY, YYYY-MM-DD ou Date(...))
+            function extrairInfoData(dataStr) {
+                const s = String(dataStr || '').trim();
+                if (!s) return { ano: '', mes: '', iso: '', exibicao: '' };
+
+                // Formato ISO: YYYY-MM-DD
+                let m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+                if (m) {
+                    const ano = m[1];
+                    const mes = m[2].padStart(2, '0');
+                    const dia = m[3].padStart(2, '0');
+                    return { ano, mes, iso: `${ano}-${mes}-${dia}`, exibicao: `${dia}/${mes}/${ano}` };
+                }
+
+                // Formato BR: DD/MM/YYYY
+                m = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+                if (m) {
+                    const dia = m[1].padStart(2, '0');
+                    const mes = m[2].padStart(2, '0');
+                    const ano = m[3];
+                    return { ano, mes, iso: `${ano}-${mes}-${dia}`, exibicao: `${dia}/${mes}/${ano}` };
+                }
+
+                return { ano: '', mes: '', iso: s, exibicao: s };
+            }
+
             function formatarDataCell(cell) {
                 if (!cell) return '';
-                if (cell.f) return cell.f;
                 const val = String(cell.v || '');
                 const m = val.match(/Date\((\d+),(\d+),(\d+)\)/);
                 if (m) {
@@ -1071,10 +1189,10 @@
                     const d = String(parseInt(m[3], 10)).padStart(2, '0');
                     return `${y}-${mo}-${d}`;
                 }
+                if (cell.f) return cell.f;
                 return val;
             }
 
-            // Carrega dados via Google Visualization JSONP (sem bloqueio de CORS)
             function fetchGvizSheet(sheetNameOrGid, isGid = false) {
                 return new Promise((resolve, reject) => {
                     const cbName = 'gvizCb_' + Math.random().toString(36).substring(2, 10);
@@ -1120,7 +1238,7 @@
                     const progRows = [];
                     const frotaRows = [];
 
-                    (tabProg.rows || []).forEach((r, idx) => {
+                    (tabProg.rows || []).forEach((r) => {
                         const c = r.c || [];
                         const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
                         const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNumeroBR(c[i].v) : 0;
@@ -1128,10 +1246,15 @@
                         const osVal = getStr(1);
                         const equipeVal = getStr(3);
                         if (osVal && osVal !== 'OS' && equipeVal) {
+                            const rawData = formatarDataCell(c[2]);
+                            const infoData = extrairInfoData(rawData);
                             progRows.push({
                                 idItem: getStr(0),
                                 os: osVal,
-                                data: formatarDataCell(c[2]),
+                                data: infoData.exibicao || rawData,
+                                dataIso: infoData.iso,
+                                ano: infoData.ano,
+                                mes: infoData.mes,
                                 equipe: equipeVal,
                                 tipoVeiculo: getStr(4).toUpperCase(),
                                 supervisor: getStr(5).toUpperCase(),
@@ -1152,7 +1275,6 @@
                             });
                         }
 
-                        // Lê também a Tabela 2 (Colunas W:AA -> índices 22..26) se presente
                         const eqFrota = getStr(22);
                         const tvFrota = getStr(23).toUpperCase();
                         const supFrota = getStr(24).toUpperCase();
@@ -1199,7 +1321,16 @@
                     }
                 } catch (err) {
                     console.warn('Usando base de demonstração local:', err.message);
-                    dadosProgramacao = FALLBACK_PROGRAMACAO;
+                    dadosProgramacao = FALLBACK_PROGRAMACAO.map(item => {
+                        const infoData = extrairInfoData(item.data);
+                        return {
+                            ...item,
+                            data: infoData.exibicao || item.data,
+                            dataIso: infoData.iso,
+                            ano: infoData.ano,
+                            mes: infoData.mes
+                        };
+                    });
                     dadosMateriais = FALLBACK_MATERIAIS;
                     frotaPorEquipe = [];
                     badge.className = 'sync-badge fallback';
@@ -1211,19 +1342,23 @@
             }
 
             function popularFiltros() {
-                const preencherSelect = (id, valores, labelTodos) => {
+                const preencherSelect = (id, valores, labelTodos, formatLabel = (v) => v, sortDesc = false) => {
                     const sel = document.getElementById(id);
                     const atual = sel.value;
                     sel.innerHTML = `<option value="">${labelTodos}</option>`;
-                    [...new Set(valores.filter(Boolean))].sort().forEach(v => {
+                    const unicos = [...new Set(valores.filter(Boolean))].sort();
+                    if (sortDesc) unicos.reverse();
+                    unicos.forEach(v => {
                         const opt = document.createElement('option');
                         opt.value = v;
-                        opt.textContent = v;
+                        opt.textContent = formatLabel(v);
                         sel.appendChild(opt);
                     });
                     if ([...sel.options].some(o => o.value === atual)) sel.value = atual;
                 };
 
+                preencherSelect('filterAno', dadosProgramacao.map(d => d.ano), 'Todos os Anos', (v) => v, true);
+                preencherSelect('filterMes', dadosProgramacao.map(d => d.mes), 'Todos os Meses', (m) => NOMES_MESES[m] || m);
                 preencherSelect('filterSupervisor', dadosProgramacao.map(d => d.supervisor), 'Todos os Supervisores');
                 preencherSelect('filterVeiculo', dadosProgramacao.map(d => d.tipoVeiculo), 'Todos (MK, LV, LD, LM)');
                 preencherSelect('filterServico', dadosProgramacao.map(d => d.tipoServico), 'Todos os Serviços');
@@ -1231,6 +1366,9 @@
             }
 
             function aplicarFiltros() {
+                const ano = document.getElementById('filterAno').value;
+                const mes = document.getElementById('filterMes').value;
+                const dataFiltro = document.getElementById('filterData').value; // YYYY-MM-DD
                 const sup = document.getElementById('filterSupervisor').value;
                 const veic = document.getElementById('filterVeiculo').value;
                 const serv = document.getElementById('filterServico').value;
@@ -1238,6 +1376,9 @@
                 const busca = document.getElementById('filterBusca').value.trim().toLowerCase();
 
                 dadosFiltrados = dadosProgramacao.filter(item => {
+                    if (ano && item.ano !== ano) return false;
+                    if (mes && item.mes !== mes) return false;
+                    if (dataFiltro && item.dataIso !== dataFiltro) return false;
                     if (sup && item.supervisor !== sup) return false;
                     if (veic && item.tipoVeiculo !== veic) return false;
                     if (serv && item.tipoServico !== serv) return false;
@@ -1261,7 +1402,6 @@
                 const totalUnidades = dadosFiltrados.reduce((acc, d) => acc + d.qtde, 0);
                 const ticketMedio = totalOs > 0 ? producaoTotal / totalOs : 0;
 
-                // Equipes únicas no recorte
                 const equipesMap = {};
                 dadosFiltrados.forEach(d => {
                     if (!equipesMap[d.equipe]) {
@@ -1275,7 +1415,6 @@
                 const pctMeta = Math.min(100, (producaoTotal / CAPACIDADE_MENSAL_TOTAL) * 100);
                 const pctCobertura = custoFrotaAlocada > 0 ? (producaoTotal / custoFrotaAlocada) * 100 : 0;
 
-                // Materiais vinculados às OS filtradas
                 const osSet = new Set(dadosFiltrados.map(d => d.os));
                 const matsVinculados = dadosMateriais.filter(m => osSet.has(m.os));
                 const osComMat = new Set(matsVinculados.map(m => m.os)).size;
@@ -1301,9 +1440,20 @@
                 const grid = document.getElementById('supervisoresGrid');
                 const supSelecionado = document.getElementById('filterSupervisor').value;
 
-                // Agrupa por supervisor considerando todos os registros (ou frota vinculada)
+                // Respeita filtros de período (Ano/Mês/Data) nos cards de supervisores
+                const ano = document.getElementById('filterAno').value;
+                const mes = document.getElementById('filterMes').value;
+                const dataFiltro = document.getElementById('filterData').value;
+
+                const basePeriodo = dadosProgramacao.filter(d => {
+                    if (ano && d.ano !== ano) return false;
+                    if (mes && d.mes !== mes) return false;
+                    if (dataFiltro && d.dataIso !== dataFiltro) return false;
+                    return true;
+                });
+
                 const mapaSup = {};
-                dadosProgramacao.forEach(d => {
+                basePeriodo.forEach(d => {
                     const s = d.supervisor || 'NÃO DEFINIDO';
                     if (!mapaSup[s]) {
                         mapaSup[s] = { nome: s, producao: 0, osSet: new Set(), equipes: {} };
@@ -1315,7 +1465,6 @@
                     }
                 });
 
-                // Complementa com equipes da Tabela 2 se houver
                 frotaPorEquipe.forEach(f => {
                     const s = f.supervisor || 'NÃO DEFINIDO';
                     if (!mapaSup[s]) {
@@ -1374,22 +1523,19 @@
                 Chart.defaults.color = '#cbd5e1';
                 Chart.defaults.font.family = 'Montserrat, sans-serif';
 
-                // 1. Produção por Supervisor
                 const supMap = {};
                 dadosFiltrados.forEach(d => {
                     supMap[d.supervisor] = (supMap[d.supervisor] || 0) + d.valorTotal;
                 });
-                const supLabels = Object.keys(supMap);
-                const supVals = Object.values(supMap);
 
                 if (charts.sup) charts.sup.destroy();
                 charts.sup = new Chart(document.getElementById('chartSupervisor'), {
                     type: 'bar',
                     data: {
-                        labels: supLabels,
+                        labels: Object.keys(supMap),
                         datasets: [{
                             label: 'Produção Programada (R$)',
-                            data: supVals,
+                            data: Object.values(supMap),
                             backgroundColor: 'rgba(0, 212, 255, 0.72)',
                             borderColor: '#00d4ff',
                             borderWidth: 1.5,
@@ -1407,7 +1553,6 @@
                     }
                 });
 
-                // 2. Distribuição por Tipo de Veículo
                 const veicMap = {};
                 dadosFiltrados.forEach(d => {
                     veicMap[d.tipoVeiculo] = (veicMap[d.tipoVeiculo] || 0) + d.valorTotal;
@@ -1434,7 +1579,6 @@
                     }
                 });
 
-                // 3. Mix por Tipo de Serviço
                 const servMap = {};
                 dadosFiltrados.forEach(d => {
                     servMap[d.tipoServico] = (servMap[d.tipoServico] || 0) + d.valorTotal;
@@ -1579,13 +1723,16 @@
                 URL.revokeObjectURL(url);
             });
 
-            // Eventos UI
-            ['filterSupervisor', 'filterVeiculo', 'filterServico', 'filterSituacao'].forEach(id => {
+            // Eventos UI dos Filtros
+            ['filterAno', 'filterMes', 'filterData', 'filterSupervisor', 'filterVeiculo', 'filterServico', 'filterSituacao'].forEach(id => {
                 document.getElementById(id).addEventListener('change', aplicarFiltros);
             });
             document.getElementById('filterBusca').addEventListener('input', aplicarFiltros);
 
             document.getElementById('btnLimparFiltros').addEventListener('click', () => {
+                document.getElementById('filterAno').value = '';
+                document.getElementById('filterMes').value = '';
+                document.getElementById('filterData').value = '';
                 document.getElementById('filterSupervisor').value = '';
                 document.getElementById('filterVeiculo').value = '';
                 document.getElementById('filterServico').value = '';
