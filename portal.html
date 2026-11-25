@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | PORTAL INTEGRADO</title>
+
+    <!-- Fontes e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Base do Portal -->
+    <link rel="stylesheet" href="styles_index.css">
+
+    <style>
+        /* =====================================================================
+           VARIÁVEIS E AJUSTES DE LAYOUT DO PORTAL ÚNICO
+           ===================================================================== */
+        :root {
+            --primary: #00d4ff;
+            --gold-main: #f5c451;
+            --gold-border: rgba(245, 196, 81, 0.65);
+            --gold-glow: rgba(245, 180, 40, 0.25);
+        }
+
+        html, body {
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .hidden-view {
+            display: none !important;
+        }
+
+        /* Área principal de navegação em Grade / Carrossel */
+        .portal-main-stage {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            padding: 96px 28px 80px 28px;
+            box-sizing: border-box;
+            background-image: linear-gradient(rgba(3, 8, 20, 0.82), rgba(5, 14, 32, 0.76)), url('img/Capa_Base_dados.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: scroll;
+        }
+
+        /* Barra de navegação interna (Breadcrumb + Botão Voltar) */
+        .portal-nav-bar {
+            max-width: 1520px;
+            margin: 0 auto 22px auto;
+            padding: 14px 20px;
+            border-radius: 14px;
+            background: rgba(8, 16, 34, 0.78);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .portal-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-portal-voltar {
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s ease;
+        }
+
+        .btn-portal-voltar:hover {
+            background: var(--primary);
+            color: #030712;
+        }
+
+        .portal-breadcrumb {
+            font-size: 12px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .portal-breadcrumb span.atual {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        /* Grade de Cards do Portal */
+        .portal-cards-grid {
+            max-width: 1520px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+            gap: 20px;
+        }
+
+        /* Card padrão com espaço reservado para imagem */
+        .p-card {
+            background: rgba(10, 19, 38, 0.76);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 212, 255, 0.26);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 255px;
+            cursor: pointer;
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .p-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+        }
+
+        /* Estilo Dourado para o Card 5. GERÊNCIA e seus sub-níveis */
+        .p-card.card-gold {
+            background: linear-gradient(155deg, rgba(245, 196, 81, 0.16) 0%, rgba(28, 22, 10, 0.82) 100%);
+            border: 1.5px solid var(--gold-border);
+            box-shadow: 0 10px 26px var(--gold-glow);
+        }
+
+        .p-card.card-gold:hover {
+            border-color: var(--gold-main);
+            box-shadow: 0 14px 32px rgba(245, 196, 81, 0.42);
+        }
+
+        .p-card.card-gold .p-card-title {
+            color: #fde68a;
+        }
+
+        .p-card.card-gold .p-card-img-box {
+            border-color: rgba(245, 196, 81, 0.5);
+        }
+
+        /* Espaço reservado para imagens (quando vazio, mostra placeholder) */
+        .p-card-img-box {
+            width: 100%;
+            height: 112px;
+            border-radius: 10px;
+            background: rgba(3, 8, 20, 0.65);
+            border: 1px dashed rgba(148, 163, 184, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 14px;
+            color: #94a3b8;
+            font-size: 11px;
+            text-align: center;
+            padding: 6px;
+        }
+
+        .p-card-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .p-card-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 0 6px 0;
+            letter-spacing: 0.4px;
+        }
+
+        .p-card-desc {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+
+        .p-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--primary);
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .p-card.card-gold .p-card-footer {
+            color: var(--gold-main);
+        }
+
+        /* =====================================================================
+           VISUALIZADOR DE DASHBOARD / PLANILHA (IFRAME)
+           ===================================================================== */
+        .viewer-box {
+            max-width: 1520px;
+            margin: 0 auto;
+            background: rgba(8, 16, 34, 0.85);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .viewer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .viewer-frame-wrap {
+            width: 100%;
+            height: 76vh;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #050a14;
+        }
+
+        /* =====================================================================
+           PÁGINA ORGANOGRAMA (CLARIDADE AJUSTADA + FUNDO MOBILE CORRIGIDO)
+           ===================================================================== */
+        .org-section-box {
+            max-width: 1520px;
+            margin: 0 auto;
+            min-height: 78vh;
+            border-radius: 18px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            /* Fundo mais claro (camada reduzida de 0.84 para 0.42) */
+            background-image: linear-gradient(rgba(3, 8, 20, 0.42), rgba(5, 14, 32, 0.36)), url('img/estrutura.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Garante que no mobile a imagem ocupe a tela sem cortar ao meio */
+        @media (max-width: 768px) {
+            .portal-main-stage {
+                padding: 82px 14px 76px 14px;
+            }
+            .org-section-box {
+                min-height: 100vh;
+                padding: 16px 10px;
+                background-attachment: scroll;
+                background-size: cover;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="desktop-view">
+
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#home" id="logoHomeLink">
+                    <!-- Espaço reservado para logo: substitua img/logo_ellca.png quando desejar -->
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" id="btnTopoMobile" title="Voltar ao Início">
+                    <i class="fa-solid fa-house"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text" id="navStatusText">PORTAL ELLCA • ONLINE</span>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="portalSearchInput" placeholder="Buscar card ou setor...">
+                </div>
+
+                <div class="nav-links">
+                    <button type="button" class="nav-item active" data-nav="home">HOME <i class="fa-solid fa-house-user"></i></button>
+                    <button type="button" class="nav-item" data-nav="dashboards">DASHBOARDS <i class="fa-solid fa-chart-pie"></i></button>
+                    <button type="button" class="nav-item" data-nav="banco_dados">BANCO DE DADOS <i class="fa-solid fa-database"></i></button>
+                    <button type="button" class="nav-item" data-nav="supervisao">SUPERVISÃO <i class="fa-solid fa-user-shield"></i></button>
+                    <button type="button" class="nav-item" data-nav="organograma">ORGANOGRAMA <i class="fa-solid fa-sitemap"></i></button>
+                    <button type="button" class="nav-item" data-nav="gerencia" style="color:#fde68a;">GERÊNCIA <i class="fa-solid fa-crown"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- PALCO ÚNICO DO PORTAL -->
+        <div class="portal-main-stage">
+
+            <!-- Barra superior interna de navegação e trilha -->
+            <div class="portal-nav-bar">
+                <div class="portal-nav-left">
+                    <button type="button" id="btnVoltarNivel" class="btn-portal-voltar hidden-view">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar
+                    </button>
+                    <div id="breadcrumbTrilha" class="portal-breadcrumb">
+                        Home / <span class="atual">Início</span>
+                    </div>
+                </div>
+                <div id="contadorItens" style="font-size: 11px; color: #94a3b8;"></div>
+            </div>
+
+            <!-- 1. GRADE DINÂMICA DE CARDS (HOME, DASHBOARDS, BANCO DE DADOS, SUPERVISÃO, GERÊNCIA) -->
+            <div id="cardsGridView" class="portal-cards-grid"></div>
+
+            <!-- 2. VISUALIZADOR DE RELATÓRIO / PLANILHA (IFRAME) -->
+            <div id="iframeViewerView" class="viewer-box hidden-view">
+                <div class="viewer-top">
+                    <h2 id="iframeTitulo" style="font-size: 16px; margin: 0; color: #fff;">Visualizador</h2>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <a id="iframeLinkExterno" href="#" target="_blank" class="btn-portal-voltar" style="text-decoration:none;">
+                            <i class="fa-solid fa-up-right-from-square"></i> Abrir em nova aba
+                        </a>
+                        <button type="button" id="btnFecharIframe" class="btn-portal-voltar">
+                            <i class="fa-solid fa-xmark"></i> Fechar
+                        </button>
+                    </div>
+                </div>
+                <div class="viewer-frame-wrap">
+                    <!-- Embed padrão do Looker Studio corrigido -->
+                    <iframe
+                        id="portalIframe"
+                        width="100%"
+                        height="100%"
+                        src=""
+                        frameborder="0"
+                        style="border:0"
+                        allowfullscreen
+                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- 3. SEÇÃO ORGANOGRAMA (COM CLARIDADE AJUSTADA E FUNDO MOBILE CORRIGIDO) -->
+            <div id="organogramaView" class="org-section-box hidden-view">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:18px;">
+                    <div>
+                        <h2 style="margin:0; font-size:18px; color:#fff;">ESTRUTURA ORGANIZACIONAL • ELLCA</h2>
+                        <p style="margin:4px 0 0 0; font-size:12px; color:#e2e8f0;">
+                            Camada de fundo ajustada para maior nitidez e enquadramento mobile corrigido.
+                        </p>
+                    </div>
+                    <button type="button" id="btnVoltarOrganogramaHome" class="btn-portal-voltar">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar para Home
+                    </button>
+                </div>
+
+                <!-- Você pode colar aqui o bloco interno do seu organograma caso queira manter os cards de liderança -->
+                <div id="organogramaCardsResumo" class="portal-cards-grid"></div>
+            </div>
+
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer class="footer-bar">
+            <div class="footer-info">
+                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                <span class="separator">•</span>
+                <span>Portal Unificado</span>
+            </div>
+            <div class="footer-actions">
+                <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                    <i class="fa-solid fa-headset"></i> Suporte
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        (function iniciarPortalUnico() {
+            // =================================================================
+            // MAPA COMPLETO DO PORTAL (ORGANOGRAMA DE CARDS E SUB-CARDS)
+            // Deixe imagem: "" para manter o espaço reservado e preencher depois.
+            // =================================================================
+            const ARVORE_PORTAL = {
+                home: [
+                    {
+                        id: "dashboards",
+                        titulo: "1. DASHBOARDS",
+                        descricao: "Painéis analíticos e indicadores operacionais por setor.",
+                        imagem: "", // Espaço reservado para imagem
+                        filhos: [
+                            { titulo: "1. ALMOXARIFADO", imagem: "", embed: "" },
+                            {
+                                titulo: "2. ALMOX. EPI/EPC",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "2.1. ESTOQUE", imagem: "", embed: "" },
+                                    { titulo: "2.2. ESTOQUE (SAÍDAS)", imagem: "", embed: "" }
+                                ]
+                            },
+                            { titulo: "3. BACKOFFICE", imagem: "", embed: "" },
+                            {
+                                titulo: "4. DP",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "4.1. EFETIVO", imagem: "", embed: "" },
+                                    { titulo: "4.2. BANCO DE HORAS", imagem: "", embed: "" },
+                                    { titulo: "4.3. CONTROLE DE FALTAS", imagem: "", embed: "" }
+                                ]
+                            },
+                            { titulo: "5. DSC", imagem: "", embed: "" },
+                            {
+                                titulo: "6. ESTRUTURA",
+                                imagem: "",
+                                filhos: [
+                                    {
+                                        titulo: "6.1. MOBILIZAÇÃO DIÁRIA",
+                                        imagem: "",
+                                        embed: "https://lookerstudio.google.com/embed/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F"
+                                    },
+                                    { titulo: "6.2. ESTRUTURA", imagem: "", embed: "" },
+                                    { titulo: "6.3. ESTRUTURA BASE", imagem: "", embed: "" }
+                                ]
+                            },
+                            {
+                                titulo: "7. FROTA",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "7.1. MANUTENÇÃO", imagem: "", embed: "" },
+                                    { titulo: "7.2. COMBUSTÍVEL", imagem: "", embed: "" }
+                                ]
+                            },
+                            {
+                                titulo: "8. INFRAESTRUTURA",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "8.1. DSC", imagem: "", embed: "" }
+                                ]
+                            },
+                            {
+                                titulo: "9. PRODUTIVIDADE",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "9.1. RECEITA", imagem: "", embed: "" },
+                                    { titulo: "9.2. SUSTENTAÇÃO", imagem: "", embed: "" },
+                                    { titulo: "9.3. NEGOCIAÇÃO", imagem: "", embed: "" },
+                                    { titulo: "9.4. NEGOCIADORES", imagem: "", embed: "" }
+                                ]
+                            },
+                            { titulo: "10. PROGRAMAÇÃO", imagem: "", embed: "" },
+                            {
+                                titulo: "11. PROJETO",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "11.1. INSTALAÇÃO DE UC & CS", imagem: "", embed: "" },
+                                    { titulo: "11.2. ENCERRAMENTO DE NOTAS", imagem: "", embed: "" },
+                                    { titulo: "11.3. PROJETOS", imagem: "", embed: "" },
+                                    { titulo: "11.4. AS BUILT", imagem: "", embed: "" }
+                                ]
+                            },
+                            {
+                                titulo: "12. RH",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "12.1. EFETIVO", imagem: "", embed: "" }
+                                ]
+                            },
+                            {
+                                titulo: "13. SESMT",
+                                imagem: "",
+                                filhos: [
+                                    { titulo: "13.1. CDS", imagem: "", embed: "" },
+                                    { titulo: "13.2. INSUFLADOR", imagem: "", embed: "" },
+                                    { titulo: "13.3. INSPEÇÕES", imagem: "", embed: "" },
+                                    { titulo: "13.4. CONTROLE DE ASO", imagem: "", embed: "" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: "banco_dados",
+                        titulo: "2. BANCO DE DADOS",
+                        descricao: "Repositórios de dados consolidados e planilhas operacionais por setor.",
+                        imagem: "", // Espaço reservado para imagem
+                        filhos: [
+                            { titulo: "1. ALMOXARIFADO", descricao: "Inventário, entradas, saídas e movimentações.", imagem: "", linkExterno: "#" },
+                            { titulo: "2. ALM. EPI/EPC", descricao: "Inventário e movimentações de EPI, EPC e Ferramental.", imagem: "", linkExterno: "https://docs.google.com/spreadsheets/d/1I6UkmlY0l5mIOZCS5uNgUC7hVOsnp_jxmzGFJmNFYfE/edit?gid=0#gid=0" },
+                            { titulo: "3. BACKOFFICE", descricao: "Suporte administrativo, chamados e processos.", imagem: "", linkExterno: "#" },
+                            { titulo: "4. DP", descricao: "Folha de pagamento, ponto, férias e encargos.", imagem: "", linkExterno: "https://docs.google.com/spreadsheets/d/1j-maVH4qYVCuISlzI6Y0cKnBOAZwH3In-X0vhF4-cuU/edit?gid=391528799#gid=391528799" },
+                            { titulo: "5. ESTRUTURA", descricao: "Estrutura dos processos, formação e mobilização.", imagem: "", linkExterno: "https://docs.google.com/spreadsheets/d/1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo/edit?gid=0#gid=0" },
+                            { titulo: "6. FROTA", descricao: "Quilometragem, abastecimento e manutenções.", imagem: "", linkExterno: "https://docs.google.com/spreadsheets/d/1_BWswAx52A7_sGW8Wsd1OdBNxmxBH7h897UydQyVeyY/edit?gid=0#gid=0" },
+                            { titulo: "7. INFRAESTRUTURA", descricao: "Ativos de TI, manutenções e chamados de rede.", imagem: "", linkExterno: "#" },
+                            { titulo: "8. PRODUTIVIDADE", descricao: "Eficiência operacional, rendimento de equipes e metas.", imagem: "", linkExterno: "https://docs.google.com/spreadsheets/d/1_BWswAx52A7_sGW8Wsd1OdBNxmxBH7h897UydQyVeyY/edit?gid=0#gid=0" },
+                            { titulo: "9. PROGRAMAÇÃO", descricao: "Programação, frota por supervisor, materiais e OS.", imagem: "img/Programacao.jpg", linkExterno: "https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit?gid=1374247594#gid=1374247594" },
+                            { titulo: "10. PROJETO", descricao: "Escopo, marcos contratuais e cronograma físico.", imagem: "", linkExterno: "#" },
+                            { titulo: "11. RH", descricao: "Colaboradores, talentos, treinamentos e avaliações.", imagem: "", linkExterno: "https://docs.google.com/spreadsheets/d/1j-maVH4qYVCuISlzI6Y0cKnBOAZwH3In-X0vhF4-cuU/edit?gid=391528799#gid=391528799" },
+                            { titulo: "12. SESMT", descricao: "Entrega de EPIs, inspeções e ocorrências.", imagem: "", linkExterno: "#" }
+                        ]
+                    },
+                    {
+                        id: "supervisao",
+                        titulo: "3. SUPERVISÃO",
+                        descricao: "Acompanhamento de programação e produção.",
+                        imagem: "", // Espaço reservado para imagem
+                        filhos: [
+                            { titulo: "1. PROGRAMAÇÃO", imagem: "", embed: "" },
+                            { titulo: "2. PRODUÇÃO", imagem: "", embed: "" }
+                        ]
+                    },
+                    {
+                        id: "organograma",
+                        titulo: "4. ORGANOGRAMA",
+                        descricao: "Estrutura hierárquica e equipes do contrato.",
+                        imagem: "", // Espaço reservado para imagem
+                        tipoEspecial: "organograma"
+                    },
+                    {
+                        id: "gerencia",
+                        titulo: "5. GERÊNCIA",
+                        descricao: "Indicadores executivos, faturamento e acompanhamento gerencial.",
+                        imagem: "", // Espaço reservado para imagem
+                        dourado: true,
+                        filhos: [
+                            {
+                                titulo: "1. FATURAMENTO",
+                                imagem: "",
+                                dourado: true,
+                                filhos: [
+                                    { titulo: "1.1. SUSTENTAÇÃO", imagem: "", dourado: true, embed: "" },
+                                    { titulo: "1.2. RECEITA", imagem: "", dourado: true, embed: "" },
+                                    { titulo: "1.3. RETROFIT", imagem: "", dourado: true, embed: "" },
+                                    { titulo: "1.4. EXPANSÃO", imagem: "", dourado: true, embed: "" },
+                                    { titulo: "1.5. FATURAMENTO TOTAL", imagem: "", dourado: true, embed: "" }
+                                ]
+                            },
+                            { titulo: "2. PROGRAMAÇÃO", imagem: "", dourado: true, embed: "" },
+                            { titulo: "3. PRODUÇÃO", imagem: "", dourado: true, embed: "" },
+                            { titulo: "4. INSTALAÇÃO DE CLIENTES", imagem: "", dourado: true, embed: "" }
+                        ]
+                    }
+                ]
+            };
+
+            // =================================================================
+            // ESTADO E REFERÊNCIAS DO DOM
+            // =================================================================
+            let pilhaHistorico = [];
+            let listaAtual = ARVORE_PORTAL.home;
+            let rotaAtualNome = "Início";
+
+            const cardsGridView = document.getElementById("cardsGridView");
+            const iframeViewerView = document.getElementById("iframeViewerView");
+            const organogramaView = document.getElementById("organogramaView");
+            const organogramaCardsResumo = document.getElementById("organogramaCardsResumo");
+
+            const btnVoltarNivel = document.getElementById("btnVoltarNivel");
+            const breadcrumbTrilha = document.getElementById("breadcrumbTrilha");
+            const contadorItens = document.getElementById("contadorItens");
+            const portalIframe = document.getElementById("portalIframe");
+            const iframeTitulo = document.getElementById("iframeTitulo");
+            const iframeLinkExterno = document.getElementById("iframeLinkExterno");
+            const searchInput = document.getElementById("portalSearchInput");
+
+            // =================================================================
+            // RENDERIZAÇÃO DOS CARDS
+            // =================================================================
+            function desenharCards(filtroTexto = "") {
+                iframeViewerView.classList.add("hidden-view");
+                organogramaView.classList.add("hidden-view");
+                cardsGridView.classList.remove("hidden-view");
+
+                const termo = filtroTexto.trim().toLowerCase();
+                const itensFiltrados = termo
+                    ? listaAtual.filter(item =>
+                        item.titulo.toLowerCase().includes(termo) ||
+                        (item.descricao && item.descricao.toLowerCase().includes(termo))
+                    )
+                    : listaAtual;
+
+                cardsGridView.innerHTML = "";
+
+                itensFiltrados.forEach(item => {
+                    const card = document.createElement("div");
+                    card.className = `p-card ${item.dourado ? "card-gold" : ""}`;
+
+                    // Espaço reservado para imagem: mostra imagem se preenchida ou placeholder
+                    const blocoImagem = item.imagem
+                        ? `<img src="${item.imagem}" alt="${item.titulo}">`
+                        : `<span>🖼️ Espaço reservado para imagem</span>`;
+
+                    let acaoTexto = "Abrir";
+                    if (item.filhos && item.filhos.length) acaoTexto = `${item.filhos.length} itens`;
+                    else if (item.tipoEspecial === "organograma") acaoTexto = "Ver Organograma";
+                    else if (item.linkExterno && item.linkExterno !== "#") acaoTexto = "Abrir Planilha";
+                    else if (item.embed) acaoTexto = "Abrir Dashboard";
+                    else acaoTexto = "Pendente";
+
+                    card.innerHTML = `
+                        <div>
+                            <div class="p-card-img-box">${blocoImagem}</div>
+                            <h3 class="p-card-title">${item.titulo}</h3>
+                            <p class="p-card-desc">${item.descricao || "Espaço reservado para descrição e imagem futura."}</p>
+                        </div>
+                        <div class="p-card-footer">
+                            <span>${acaoTexto}</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    `;
+
+                    card.addEventListener("click", () => aoClicarNoCard(item));
+                    cardsGridView.appendChild(card);
+                });
+
+                atualizarTrilha(itensFiltrados.length);
+            }
+
+            // =================================================================
+            // NAVEGAÇÃO AO CLICAR EM UM CARD
+            // =================================================================
+            function aoClicarNoCard(item) {
+                // Se tiver sub-cards, avança na hierarquia
+                if (item.filhos && item.filhos.length > 0) {
+                    pilhaHistorico.push({
+                        nome: rotaAtualNome,
+                        itens: listaAtual
+                    });
+                    listaAtual = item.filhos;
+                    rotaAtualNome = item.titulo;
+                    searchInput.value = "";
+                    desenharCards();
+                    return;
+                }
+
+                // Se for o card Organograma
+                if (item.tipoEspecial === "organograma") {
+                    pilhaHistorico.push({
+                        nome: rotaAtualNome,
+                        itens: listaAtual
+                    });
+                    rotaAtualNome = item.titulo;
+                    abrirSecaoOrganograma();
+                    return;
+                }
+
+                // Se for link externo de planilha (Banco de Dados)
+                if (item.linkExterno && item.linkExterno !== "#") {
+                    window.open(item.linkExterno, "_blank");
+                    return;
+                }
+
+                // Se tiver embed do Looker Studio, abre no iframe integrado
+                if (item.embed) {
+                    cardsGridView.classList.add("hidden-view");
+                    organogramaView.classList.add("hidden-view");
+                    iframeViewerView.classList.remove("hidden-view");
+                    iframeTitulo.textContent = item.titulo;
+                    iframeLinkExterno.href = item.embed;
+                    portalIframe.src = item.embed;
+                    return;
+                }
+
+                alert(`"${item.titulo}" está estruturado e aguardando link/imagem.`);
+            }
+
+            // =================================================================
+            // SEÇÃO ORGANOGRAMA INTEGRADA
+            // =================================================================
+            function abrirSecaoOrganograma() {
+                cardsGridView.classList.add("hidden-view");
+                iframeViewerView.classList.add("hidden-view");
+                organogramaView.classList.remove("hidden-view");
+                btnVoltarNivel.classList.remove("hidden-view");
+                breadcrumbTrilha.innerHTML = `Home / <span class="atual">4. ORGANOGRAMA</span>`;
+
+                organogramaCardsResumo.innerHTML = `
+                    <div class="p-card card-gold">
+                        <div class="p-card-img-box"><span>🖼️ Foto / Imagem Liderança</span></div>
+                        <h3 class="p-card-title">GERÊNCIA DE CONTRATO</h3>
+                        <p class="p-card-desc">Gestão executiva do contrato e direcionamento estratégico.</p>
+                        <div class="p-card-footer"><span>Nível 1</span><i class="fa-solid fa-crown"></i></div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-img-box"><span>🖼️ Foto / Imagem Liderança</span></div>
+                        <h3 class="p-card-title">GERÊNCIA OPERACIONAL</h3>
+                        <p class="p-card-desc">Supervisão geral das operações e eficiência de campo.</p>
+                        <div class="p-card-footer"><span>Nível 2</span><i class="fa-solid fa-sitemap"></i></div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-img-box"><span>🖼️ Foto / Imagem Liderança</span></div>
+                        <h3 class="p-card-title">COORDENAÇÃO OPERACIONAL</h3>
+                        <p class="p-card-desc">Coordenação das frentes de serviço e planejamento diário.</p>
+                        <div class="p-card-footer"><span>Nível 3</span><i class="fa-solid fa-users"></i></div>
+                    </div>
+                `;
+            }
+
+            // =================================================================
+            // TRILHA DE NAVEGAÇÃO, VOLTAR E MENU SUPERIOR
+            // =================================================================
+            function atualizarTrilha(qtd) {
+                if (pilhaHistorico.length === 0) {
+                    btnVoltarNivel.classList.add("hidden-view");
+                    breadcrumbTrilha.innerHTML = `Home / <span class="atual">Início</span>`;
+                } else {
+                    btnVoltarNivel.classList.remove("hidden-view");
+                    const caminho = pilhaHistorico.map(p => p.nome).join(" / ");
+                    breadcrumbTrilha.innerHTML = `${caminho} / <span class="atual">${rotaAtualNome}</span>`;
+                }
+                contadorItens.textContent = `${qtd} card(s) exibido(s)`;
+            }
+
+            function voltarParaHome() {
+                pilhaHistorico = [];
+                listaAtual = ARVORE_PORTAL.home;
+                rotaAtualNome = "Início";
+                searchInput.value = "";
+                portalIframe.src = "";
+                desenharCards();
+            }
+
+            btnVoltarNivel.addEventListener("click", () => {
+                if (!iframeViewerView.classList.contains("hidden-view")) {
+                    portalIframe.src = "";
+                    desenharCards();
+                    return;
+                }
+
+                if (pilhaHistorico.length > 0) {
+                    const anterior = pilhaHistorico.pop();
+                    listaAtual = anterior.itens;
+                    rotaAtualNome = anterior.nome;
+                    desenharCards();
+                } else {
+                    voltarParaHome();
+                }
+            });
+
+            document.getElementById("btnFecharIframe").addEventListener("click", () => {
+                portalIframe.src = "";
+                desenharCards();
+            });
+
+            document.getElementById("btnVoltarOrganogramaHome").addEventListener("click", voltarParaHome);
+            document.getElementById("logoHomeLink").addEventListener("click", (e) => {
+                e.preventDefault();
+                voltarParaHome();
+            });
+            document.getElementById("btnTopoMobile").addEventListener("click", voltarParaHome);
+
+            // Atalhos diretos da Navbar para cada seção principal
+            document.querySelectorAll("[data-nav]").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const destino = btn.getAttribute("data-nav");
+                    document.querySelectorAll("[data-nav]").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    voltarParaHome();
+                    if (destino === "home") return;
+
+                    const cardAlvo = ARVORE_PORTAL.home.find(c => c.id === destino);
+                    if (cardAlvo) aoClicarNoCard(cardAlvo);
+                });
+            });
+
+            searchInput.addEventListener("input", (e) => {
+                desenharCards(e.target.value);
+            });
+
+            // Inicializa o portal exibindo os cards da Home
+            desenharCards();
+        })();
+    </script>
+</body>
+
+</html>
