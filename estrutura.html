@@ -1,18 +1,961 @@
-<div class="glass-card" data-setor="estrutura" data-title="estrutura frota equipes mobilizacao">
-    <div class="badge">ESTRUTURA <i class="fa-solid fa-sitemap"></i></div>
-    <div class="img-box" style="background-image: url('img/Card_estrutura.jpg');"></div>
-    <h3>ESTRUTURA</h3>
-    <p class="card-desc">Resumo executivo de equipes ativas, frota, mobilização diária e painel interativo no Looker Studio.</p>
-    <div class="kpi-mini">
-        <span class="kpi-success"><i class="fa-solid fa-truck-pickup"></i> Frota & Equipes</span>
-        <span><i class="fa-solid fa-chart-pie"></i> Looker BI</span>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | ESTRUTURA — RESUMO & LOOKER STUDIO</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+
+    <style>
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        .container .item.active {
+            position: relative !important;
+            width: 100%;
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+            display: block;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .navbar,
+        .footer-bar {
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        }
+
+        body.bars-collapsed .navbar {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.bars-collapsed .footer-bar {
+            transform: translateY(110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .est-wrapper {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 88px 24px 76px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: padding 0.32s ease;
+        }
+
+        body.bars-collapsed .est-wrapper {
+            padding: 20px 24px 36px 24px;
+        }
+
+        /* Cabeçalho Superior */
+        .est-header-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 16px 22px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.9) 0%, rgba(12, 36, 84, 0.72) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.36);
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.65);
+        }
+
+        .est-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .est-brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .est-brand h1 {
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: #fff;
+            margin: 0 0 3px 0;
+        }
+
+        .est-brand p {
+            font-size: 11.5px;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        .est-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .est-select {
+            background: rgba(4, 10, 24, 0.88);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .est-select:hover,
+        .est-select:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-exec {
+            padding: 9px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+            background: rgba(0, 212, 255, 0.12);
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-exec:hover {
+            background: rgba(0, 212, 255, 0.26);
+            border-color: var(--primary);
+            box-shadow: 0 0 16px rgba(0, 212, 255, 0.35);
+        }
+
+        .btn-exec.active-tab {
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            color: #030712;
+            border-color: var(--primary);
+        }
+
+        /* KPIs da Aba Estrutura Processo */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .kpi-card {
+            padding: 18px 20px;
+            border-radius: 16px;
+            background: linear-gradient(148deg, rgba(2, 4, 10, 0.82) 0%, rgba(10, 32, 74, 0.56) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            border-top: 1px solid rgba(255, 255, 255, 0.32);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 212, 255, 0.65);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .kpi-num {
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .kpi-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .pill-tag {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 9.5px;
+            background: rgba(12, 36, 84, 0.55);
+            border: 1px solid rgba(46, 115, 225, 0.4);
+            color: #7ab8ff;
+        }
+
+        .pill-ok {
+            background: rgba(46, 204, 113, 0.16);
+            border-color: rgba(46, 204, 113, 0.42);
+            color: #2ecc71;
+        }
+
+        .pill-warn {
+            background: rgba(241, 196, 15, 0.16);
+            border-color: rgba(241, 196, 15, 0.42);
+            color: #f1c40f;
+        }
+
+        .pill-danger {
+            background: rgba(239, 68, 68, 0.16);
+            border-color: rgba(239, 68, 68, 0.42);
+            color: #f87171;
+        }
+
+        /* Painéis de Distribuição & Tabela */
+        .panels-3col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.15fr;
+            gap: 16px;
+        }
+
+        .glass-panel {
+            padding: 18px 20px;
+            border-radius: 16px;
+            background: linear-gradient(150deg, rgba(3, 7, 16, 0.86) 0%, rgba(10, 32, 74, 0.54) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.26);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.58);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .panel-head h3 {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .panel-head span {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .bar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 240px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .bar-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .bar-track {
+            width: 100%;
+            height: 7px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            transition: width 0.5s ease;
+        }
+
+        .table-scroll {
+            width: 100%;
+            max-height: 290px;
+            overflow: auto;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .est-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            text-align: left;
+        }
+
+        .est-table thead th {
+            position: sticky;
+            top: 0;
+            background: rgba(6, 18, 42, 0.96);
+            color: var(--primary);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .est-table tbody td {
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+        }
+
+        .est-table tbody tr:hover {
+            background: rgba(0, 212, 255, 0.08);
+        }
+
+        /* Bloco Looker Studio */
+        .looker-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: linear-gradient(150deg, rgba(3, 7, 16, 0.9) 0%, rgba(10, 32, 74, 0.58) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.36);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.68);
+        }
+
+        .looker-frame-wrap {
+            position: relative;
+            width: 100%;
+            height: 76vh;
+            min-height: 540px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            background: rgba(2, 5, 12, 0.94);
+        }
+
+        .looker-frame-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        .looker-empty {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            gap: 12px;
+            color: #cbd5e1;
+        }
+
+        .looker-empty input {
+            width: 100%;
+            max-width: 440px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            background: rgba(4, 10, 24, 0.92);
+            color: #fff;
+            font-size: 11.5px;
+            outline: none;
+        }
+
+        .hidden-section {
+            display: none !important;
+        }
+
+        @media (max-width: 1100px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .panels-3col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .est-wrapper {
+                padding: 76px 14px 64px 14px;
+            }
+            body.bars-collapsed .est-wrapper {
+                padding: 14px 14px 28px 14px;
+            }
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .looker-frame-wrap {
+                height: 65vh;
+                min-height: 420px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bars-collapsed">
+    <script>
+        // 1. Exige autenticação ativa
+        if (sessionStorage.getItem('ellca_auth') !== 'true') {
+            window.location.replace('login.html');
+        }
+
+        // 2. Bloqueia acesso de usuários sem permissão para o módulo Estrutura
+        (function validarPermissaoEstrutura() {
+            let setores = [];
+            try {
+                setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]')
+                    .map(s => String(s).trim().toLowerCase());
+            } catch (e) {
+                setores = [];
+            }
+
+            const autorizado = setores.includes('todos') || setores.includes('estrutura');
+            if (!autorizado) {
+                alert('Acesso restrito: seu usuário não possui permissão para acessar o módulo Estrutura.');
+                window.location.replace('dashboard.html');
+            }
+        })();
+    </script>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+            </a>
+        </div>
+
+        <div class="mobile-header-actions">
+            <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="dashboard.html" title="Voltar para Dashboards">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button type="button" class="menu-mobile-btn" aria-label="Abrir Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="nav-content">
+            <div class="nav-status">
+                <span class="pulse-dot"></span>
+                <span class="status-text">ESTRUTURA • ONLINE</span>
+            </div>
+
+            <div class="nav-links">
+                <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+                <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+
+                <div class="nav-actions-group">
+                    <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="dashboard.html" title="Voltar para Dashboards">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="container">
+        <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('img/Capa_home.jpg');">
+            <div class="est-wrapper">
+
+                <!-- CABEÇALHO E CONTROLES -->
+                <div class="est-header-card">
+                    <div class="est-brand">
+                        <div class="est-brand-icon"><i class="fa-solid fa-sitemap"></i></div>
+                        <div>
+                            <h1>Dashboard Estrutura</h1>
+                            <p id="lblStatusPlanilha">Aba Estrutura Processo • Resumo em tempo real + Relatório Looker Studio</p>
+                        </div>
+                    </div>
+
+                    <div class="est-actions">
+                        <select id="filtroProcesso" class="est-select" title="Filtrar por Processo">
+                            <option value="TODOS">Processo: Todos</option>
+                        </select>
+
+                        <select id="filtroSupervisor" class="est-select" title="Filtrar por Supervisor">
+                            <option value="TODOS">Supervisor: Todos</option>
+                        </select>
+
+                        <button type="button" class="btn-exec active-tab" data-mode="ambos">
+                            <i class="fa-solid fa-layer-group"></i> Tudo
+                        </button>
+                        <button type="button" class="btn-exec" data-mode="resumo">
+                            <i class="fa-solid fa-chart-simple"></i> Resumo
+                        </button>
+                        <button type="button" class="btn-exec" data-mode="looker">
+                            <i class="fa-solid fa-chart-pie"></i> Looker
+                        </button>
+
+                        <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu e rodapé">
+                            <i class="fa-solid fa-bars" id="iconToggleBars"></i>
+                            <span id="textToggleBars">Menu</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 1: RESUMO DA ABA "ESTRUTURA PROCESSO" -->
+                <div id="blocoResumo" style="display:flex; flex-direction:column; gap:18px;">
+
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Total de Equipes</span>
+                                <i class="fa-solid fa-truck-pickup" style="color:var(--primary);"></i>
+                            </div>
+                            <div class="kpi-num" id="kpiTotal">--</div>
+                            <div class="kpi-pills" id="pillsTotal">
+                                <span class="pill-tag pill-ok">Ativo: --</span>
+                                <span class="pill-tag pill-warn">Mobilizar: --</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Equipes Ativas</span>
+                                <i class="fa-solid fa-circle-check" style="color:#2ecc71;"></i>
+                            </div>
+                            <div class="kpi-num" id="kpiAtivo">--</div>
+                            <div class="kpi-pills" id="pillsAtivo">
+                                <span class="pill-tag pill-ok">Disponibilidade: --%</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Em Oficina</span>
+                                <i class="fa-solid fa-screwdriver-wrench" style="color:#f1c40f;"></i>
+                            </div>
+                            <div class="kpi-num" id="kpiOficina">--</div>
+                            <div class="kpi-pills">
+                                <span class="pill-tag pill-warn">Manutenção / Frota</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Férias & Mobilizar</span>
+                                <i class="fa-solid fa-calendar-days" style="color:#7ab8ff;"></i>
+                            </div>
+                            <div class="kpi-num" id="kpiFeriasMob">--</div>
+                            <div class="kpi-pills" id="pillsFeriasMob">
+                                <span class="pill-tag">Férias: --</span>
+                                <span class="pill-tag pill-danger">Mobilizar: --</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panels-3col">
+                        <div class="glass-panel">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-diagram-project" style="color:var(--primary);"></i> Por Processo</h3>
+                                <span id="lblRefData">Atual</span>
+                            </div>
+                            <div class="bar-list" id="listaProcessos"></div>
+                        </div>
+
+                        <div class="glass-panel">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-truck-front" style="color:var(--primary);"></i> Tipo de Veículo</h3>
+                                <span>Frota</span>
+                            </div>
+                            <div class="bar-list" id="listaVeiculos"></div>
+                        </div>
+
+                        <div class="glass-panel">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-user-tie" style="color:var(--primary);"></i> Por Supervisor</h3>
+                                <span>Gestão</span>
+                            </div>
+                            <div class="bar-list" id="listaSupervisores"></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="panel-head">
+                            <h3><i class="fa-solid fa-table-list" style="color:var(--primary);"></i> Equipes — Estrutura Processo</h3>
+                            <span id="lblQtdLinhas">0 linhas</span>
+                        </div>
+                        <div class="table-scroll">
+                            <table class="est-table">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Processo</th>
+                                        <th>Supervisor</th>
+                                        <th>Equipe</th>
+                                        <th>Veículo</th>
+                                        <th>Equipamento</th>
+                                        <th>Estrutura da Equipe</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabela">
+                                    <tr><td colspan="8" style="text-align:center; padding:16px; color:#94a3b8;">Carregando dados da planilha...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 2: RELATÓRIO LOOKER STUDIO -->
+                <div class="looker-card" id="blocoLooker">
+                    <div class="panel-head" style="border-bottom:none; padding-bottom:4px;">
+                        <h3><i class="fa-solid fa-chart-line" style="color:var(--primary);"></i> Painel Looker Studio — Estrutura</h3>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <button type="button" class="btn-exec" id="btnTelaCheia">
+                                <i class="fa-solid fa-expand"></i> Tela Cheia
+                            </button>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-exec" id="linkAbrirExterno">
+                                <i class="fa-solid fa-up-right-from-square"></i> Abrir Externo
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="looker-frame-wrap" id="lookerContainer">
+                        <iframe id="lookerIframe" src="" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" style="display:none;"></iframe>
+
+                        <div class="looker-empty" id="lookerConfig">
+                            <i class="fa-solid fa-chart-pie" style="font-size:34px; color:var(--primary);"></i>
+                            <strong style="color:#fff; font-size:14px;">Link de Incorporação do Looker Studio</strong>
+                            <span style="font-size:11.5px; max-width:480px;">Cole o link <code>/embed/reporting/...</code> do Looker Studio abaixo ou fixe direto na constante <code>LOOKER_URL_FIXA</code> no código:</span>
+                            <input type="url" id="campoLookerUrl" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+                            <button type="button" class="btn-exec active-tab" id="btnCarregarLooker">
+                                <i class="fa-solid fa-check"></i> Carregar Relatório
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer class="footer-bar">
+            <div class="footer-info">
+                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                <span class="separator">•</span>
+                <span>Módulo: <strong>Dashboard Estrutura</strong></span>
+            </div>
+            <div class="footer-actions">
+                <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                    <i class="fa-solid fa-headset"></i> Suporte
+                </button>
+            </div>
+        </footer>
     </div>
-    <div class="actions">
-        <button type="button" class="btn-primary">
-            <a href="estrutura.html">ACESSAR <i class="fa-solid fa-rocket"></i></a>
-        </button>
-        <button type="button" class="btn-glass" data-detalhes="Acompanhamento em tempo real da Estrutura de Processos, Mobilização Diária, Quadro Base e Relatório Looker Studio.">
-            DETALHES
-        </button>
-    </div>
-</div>
+
+    <script>
+        (function () {
+            const SHEET_ID = '1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo';
+            const ABA_ESTRUTURA = 'Estrutura Processo';
+
+            // Coloque aqui o link /embed/reporting/... fixo quando desejar que abra automático para todos
+            const LOOKER_URL_FIXA = localStorage.getItem('ellca_looker_estrutura_embed') || '';
+
+            let registros = [];
+
+            const num = (v) => {
+                if (typeof v === 'number') return v;
+                if (!v) return 0;
+                return parseFloat(String(v).replace(/[^\d.-]/g, '')) || 0;
+            };
+
+            const fmtData = (cell) => {
+                if (!cell) return '';
+                if (cell.f) return String(cell.f).trim();
+                const s = String(cell.v || '').trim();
+                const m = s.match(/^Date\((\d+),(\d+),(\d+)\)/);
+                if (m) {
+                    return `${String(m[3]).padStart(2, '0')}/${String(Number(m[2]) + 1).padStart(2, '0')}/${m[1]}`;
+                }
+                return s;
+            };
+
+            // Busca os dados da aba "Estrutura Processo" via JSONP
+            const cb = 'cbEstruturaProc_' + Math.random().toString(36).slice(2, 9);
+            const script = document.createElement('script');
+            window[cb] = function (json) {
+                delete window[cb];
+                script.remove();
+
+                const rows = (json && json.table && Array.isArray(json.table.rows)) ? json.table.rows : [];
+                let ultimaAtt = '';
+
+                registros = rows.map(r => {
+                    const c = r.c || [];
+                    const dt = fmtData(c[0]);
+                    const proc = String(c[1]?.v || '').trim().toUpperCase();
+                    const sup = String(c[2]?.v || '').trim().toUpperCase();
+                    const eq = String(c[3]?.v || '').trim().toUpperCase();
+                    const veic = String(c[4]?.v || '').trim().toUpperCase();
+                    const equip = String(c[5]?.v || '').trim().toUpperCase();
+                    const estEq = String(c[6]?.v || '').trim();
+                    const ativo = num(c[7]?.v);
+                    const mob = num(c[8]?.v);
+                    const oficina = num(c[9]?.v);
+                    const ferias = num(c[10]?.v);
+                    const att = fmtData(c[11]);
+                    if (att && !ultimaAtt) ultimaAtt = att;
+                    return { dt, proc, sup, eq, veic, equip, estEq, ativo, mob, oficina, ferias };
+                }).filter(x => x.eq && x.eq !== 'EQUIPE');
+
+                document.getElementById('lblStatusPlanilha').textContent = ultimaAtt
+                    ? `Aba "${ABA_ESTRUTURA}" conectada • Atualizado em ${ultimaAtt}`
+                    : `Aba "${ABA_ESTRUTURA}" conectada • ${registros.length} registros`;
+
+                preencherFiltros();
+                atualizarResumo();
+            };
+
+            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_ESTRUTURA)}&tqx=responseHandler:${cb}`;
+            document.body.appendChild(script);
+
+            function preencherFiltros() {
+                const selProc = document.getElementById('filtroProcesso');
+                const selSup = document.getElementById('filtroSupervisor');
+
+                [...new Set(registros.map(r => r.proc).filter(Boolean))].sort().forEach(p => {
+                    const o = document.createElement('option');
+                    o.value = p;
+                    o.textContent = `Processo: ${p}`;
+                    selProc.appendChild(o);
+                });
+
+                [...new Set(registros.map(r => r.sup).filter(Boolean))].sort().forEach(s => {
+                    const o = document.createElement('option');
+                    o.value = s;
+                    o.textContent = `Supervisor: ${s}`;
+                    selSup.appendChild(o);
+                });
+
+                selProc.addEventListener('change', atualizarResumo);
+                selSup.addEventListener('change', atualizarResumo);
+            }
+
+            function renderBarras(id, mapa, total) {
+                const el = document.getElementById(id);
+                const itens = Object.entries(mapa).sort((a, b) => b[1] - a[1]);
+                if (!itens.length) {
+                    el.innerHTML = `<div style="font-size:11px; color:#94a3b8;">Sem dados para o filtro.</div>`;
+                    return;
+                }
+                el.innerHTML = itens.map(([nome, qtd]) => {
+                    const pct = total > 0 ? Math.round((qtd / total) * 100) : 0;
+                    return `
+                        <div class="bar-item">
+                            <div class="bar-row">
+                                <span>${nome}</span>
+                                <span style="color:var(--primary);">${qtd} (${pct}%)</span>
+                            </div>
+                            <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function atualizarResumo() {
+                const fProc = document.getElementById('filtroProcesso').value;
+                const fSup = document.getElementById('filtroSupervisor').value;
+
+                const datas = [...new Set(registros.map(r => r.dt).filter(Boolean))];
+                const dataRef = datas[datas.length - 1] || '';
+
+                const filtrados = registros.filter(r => {
+                    const okData = !dataRef || r.dt === dataRef;
+                    const okProc = fProc === 'TODOS' || r.proc === fProc;
+                    const okSup = fSup === 'TODOS' || r.sup === fSup;
+                    return okData && okProc && okSup;
+                });
+
+                const total = filtrados.length;
+                const ativo = filtrados.reduce((a, b) => a + b.ativo, 0);
+                const oficina = filtrados.reduce((a, b) => a + b.oficina, 0);
+                const ferias = filtrados.reduce((a, b) => a + b.ferias, 0);
+                const mob = filtrados.reduce((a, b) => a + b.mob, 0);
+                const disp = total > 0 ? ((ativo / total) * 100).toFixed(1) : '0.0';
+
+                document.getElementById('lblRefData').textContent = dataRef || 'Atual';
+                document.getElementById('kpiTotal').textContent = total;
+                document.getElementById('kpiAtivo').textContent = ativo;
+                document.getElementById('kpiOficina').textContent = oficina;
+                document.getElementById('kpiFeriasMob').textContent = ferias + mob;
+
+                document.getElementById('pillsTotal').innerHTML = `
+                    <span class="pill-tag pill-ok">Ativo: ${ativo}</span>
+                    <span class="pill-tag pill-warn">Mobilizar: ${mob}</span>
+                `;
+                document.getElementById('pillsAtivo').innerHTML = `
+                    <span class="pill-tag pill-ok">Disponibilidade: ${disp}%</span>
+                `;
+                document.getElementById('pillsFeriasMob').innerHTML = `
+                    <span class="pill-tag">Férias: ${ferias}</span>
+                    <span class="pill-tag pill-danger">Mobilizar: ${mob}</span>
+                `;
+
+                const mProc = {}, mVeic = {}, mSup = {};
+                filtrados.forEach(r => {
+                    if (r.proc) mProc[r.proc] = (mProc[r.proc] || 0) + 1;
+                    if (r.veic) mVeic[r.veic] = (mVeic[r.veic] || 0) + 1;
+                    if (r.sup) mSup[r.sup] = (mSup[r.sup] || 0) + 1;
+                });
+
+                renderBarras('listaProcessos', mProc, total);
+                renderBarras('listaVeiculos', mVeic, total);
+                renderBarras('listaSupervisores', mSup, total);
+
+                document.getElementById('lblQtdLinhas').textContent = `${filtrados.length} equipes`;
+                const tbody = document.getElementById('corpoTabela');
+                if (!filtrados.length) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:16px; color:#94a3b8;">Nenhum registro encontrado.</td></tr>`;
+                } else {
+                    tbody.innerHTML = filtrados.map(r => {
+                        let st = `<span class="pill-tag pill-ok">ATIVO</span>`;
+                        if (r.oficina > 0) st = `<span class="pill-tag pill-warn">OFICINA</span>`;
+                        else if (r.ferias > 0) st = `<span class="pill-tag">FÉRIAS</span>`;
+                        else if (r.mob > 0) st = `<span class="pill-tag pill-danger">MOBILIZAR</span>`;
+
+                        return `
+                            <tr>
+                                <td>${r.dt}</td>
+                                <td><strong>${r.proc}</strong></td>
+                                <td>${r.sup}</td>
+                                <td style="color:var(--primary); font-weight:800;">${r.eq}</td>
+                                <td>${r.veic}</td>
+                                <td>${r.equip}</td>
+                                <td>${r.estEq}</td>
+                                <td>${st}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Alternância de visualização (Tudo / Resumo / Looker)
+            const blocoResumo = document.getElementById('blocoResumo');
+            const blocoLooker = document.getElementById('blocoLooker');
+            document.querySelectorAll('.btn-exec[data-mode]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.btn-exec[data-mode]').forEach(b => b.classList.remove('active-tab'));
+                    btn.classList.add('active-tab');
+                    const mode = btn.dataset.mode;
+                    blocoResumo.classList.toggle('hidden-section', mode === 'looker');
+                    blocoLooker.classList.toggle('hidden-section', mode === 'resumo');
+                });
+            });
+
+            // Looker Studio
+            const iframe = document.getElementById('lookerIframe');
+            const configBox = document.getElementById('lookerConfig');
+            const campoUrl = document.getElementById('campoLookerUrl');
+            const linkExterno = document.getElementById('linkAbrirExterno');
+
+            function setLooker(url) {
+                if (!url) return;
+                const embed = url.replace('lookerstudio.google.com/reporting/', 'lookerstudio.google.com/embed/reporting/');
+                iframe.src = embed;
+                iframe.style.display = 'block';
+                configBox.style.display = 'none';
+                linkExterno.href = embed.replace('/embed/reporting/', '/reporting/');
+                localStorage.setItem('ellca_looker_estrutura_embed', embed);
+            }
+
+            if (LOOKER_URL_FIXA) setLooker(LOOKER_URL_FIXA);
+
+            document.getElementById('btnCarregarLooker').addEventListener('click', () => {
+                setLooker(campoUrl.value.trim());
+            });
+
+            document.getElementById('btnTelaCheia').addEventListener('click', () => {
+                const wrap = document.getElementById('lookerContainer');
+                if (wrap.requestFullscreen) wrap.requestFullscreen();
+            });
+
+            // Recolher/exibir barras
+            const btnToggle = document.getElementById('btnToggleBars');
+            let recolhido = true;
+            btnToggle.addEventListener('click', () => {
+                recolhido = !recolhido;
+                document.body.classList.toggle('bars-collapsed', recolhido);
+                document.getElementById('iconToggleBars').className = recolhido ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
+                document.getElementById('textToggleBars').textContent = recolhido ? 'Menu' : 'Ocultar';
+            });
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
