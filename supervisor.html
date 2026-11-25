@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ELLCA | SUPERVISOR — PROGRAMAÇÃO & PRODUÇÃO</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -11,6 +11,29 @@
     <link rel="stylesheet" href="styles_index.css">
 
     <style>
+        /* Barra de rolagem fina e quase transparente */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        html::-webkit-scrollbar-track,
+        body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        html::-webkit-scrollbar-thumb,
+        body::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.22);
+            border-radius: 999px;
+        }
+
+        html::-webkit-scrollbar-thumb:hover,
+        body::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.45);
+        }
+
         /* Navbar e rodapé recolhíveis */
         .navbar,
         .footer-bar {
@@ -72,19 +95,21 @@
             transform: translateY(-1px);
         }
 
-        /* Fileira de cards lado a lado na coluna direita, bem próximos e alinhados */
+        /* Fileira de cards lado a lado na coluna direita, alinhados e sem estourar */
         .sup-cards-row {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 268px)) !important;
             justify-content: center !important;
-            align-items: center !important;
-            gap: 24px !important;
+            align-items: stretch !important;
+            gap: 20px !important;
             width: 100% !important;
+            max-width: 560px !important;
+            margin: 0 auto !important;
+            box-sizing: border-box !important;
             z-index: 15 !important;
         }
 
-        /* Bloqueia qualquer classe de carrossel (card-back-left, card-back-right, card-hidden) que o script.js tente aplicar */
+        /* Bloqueia classes de carrossel que o script.js possa tentar aplicar */
         .sup-cards-row .glass-card,
         .sup-cards-row .glass-card.card-front,
         .sup-cards-row .glass-card.card-back-left,
@@ -96,15 +121,21 @@
             right: auto !important;
             bottom: auto !important;
             margin: 0 !important;
-            width: 268px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
             height: 332px !important;
-            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
             transform: translate3d(0, 0, 0) scale(1) !important;
             opacity: 1 !important;
             filter: brightness(1) blur(0px) !important;
             z-index: 20 !important;
             pointer-events: auto !important;
             cursor: pointer;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            overflow: hidden !important;
             background:
                 linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 55%),
                 linear-gradient(
@@ -128,7 +159,7 @@
         }
 
         .sup-cards-row .glass-card:hover {
-            transform: translateY(-8px) scale(1.03) !important;
+            transform: translateY(-8px) scale(1.02) !important;
             border-color: rgba(0, 212, 255, 0.78) !important;
             border-top-color: #ffffff !important;
             box-shadow:
@@ -137,22 +168,62 @@
                 0 0 14px rgba(255, 255, 255, 0.28) !important;
         }
 
+        /* Tema dourado para o card de Produção */
+        .sup-cards-row .glass-card.card-gerencial {
+            border-color: rgba(241, 196, 15, 0.58) !important;
+            border-top-color: rgba(255, 243, 196, 0.72) !important;
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.88),
+                0 0 30px rgba(241, 196, 15, 0.28),
+                inset 0 1px 1px rgba(255, 243, 196, 0.55),
+                inset 0 -2px 6px rgba(180, 130, 10, 0.45) !important;
+        }
+
+        .sup-cards-row .glass-card.card-gerencial:hover {
+            border-color: #f1c40f !important;
+            border-top-color: #ffffff !important;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.92),
+                0 0 42px rgba(241, 196, 15, 0.48),
+                0 0 14px rgba(255, 255, 255, 0.30) !important;
+        }
+
         .sup-cards-row .glass-card h3 {
             font-size: 15px !important;
             margin-bottom: 3px !important;
             margin-top: 2px !important;
             color: #ffffff !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .sup-cards-row .glass-card .card-desc {
             font-size: 11px !important;
+            line-height: 1.35 !important;
             margin-bottom: 5px !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .sup-cards-row .glass-card .img-box {
-            height: 108px !important;
+            height: 104px !important;
             margin-bottom: 8px !important;
             border-color: rgba(30, 88, 185, 0.45) !important;
+            flex-shrink: 0;
+        }
+
+        .sup-cards-row .kpi-mini {
+            min-width: 0;
+        }
+
+        .sup-cards-row .kpi-mini span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
         }
 
         .footer-greeting {
@@ -187,36 +258,103 @@
             color: #ffffff;
         }
 
+        /* ==================== RESPONSIVIDADE TABLET E MOBILE ==================== */
         @media (max-width: 1180px) {
             html, body {
                 height: auto !important;
-                min-height: 100vh;
+                min-height: 100dvh !important;
                 overflow-y: auto !important;
+                overflow-x: hidden !important;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(0, 212, 255, 0.22) transparent;
             }
 
             .container,
-            .item.active,
+            .item,
+            .item.active {
+                position: relative !important;
+                height: auto !important;
+                min-height: 100dvh !important;
+                overflow: visible !important;
+            }
+
             .split-screen {
                 height: auto !important;
-                min-height: 100vh;
+                min-height: 100dvh !important;
+                grid-template-columns: 1fr !important;
+                grid-template-rows: auto auto !important;
+                padding: 84px 4% 36px 4% !important;
+                gap: 22px !important;
                 overflow: visible !important;
+                text-align: center;
+            }
+
+            body.bars-collapsed .split-screen {
+                padding-top: 28px !important;
+                padding-bottom: 28px !important;
             }
 
             .sup-left-controls {
                 justify-content: center;
             }
 
+            .cards-section {
+                height: auto !important;
+                overflow: visible !important;
+                padding-bottom: 16px !important;
+            }
+
             .sup-cards-row {
-                flex-wrap: wrap !important;
-                gap: 20px !important;
-                padding-bottom: 24px;
+                max-width: 560px !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 16px !important;
             }
         }
 
         @media (max-width: 768px) {
-            .sup-cards-row .glass-card {
-                width: 256px !important;
-                height: 318px !important;
+            .split-screen {
+                padding: 72px 4% 28px 4% !important;
+                gap: 16px !important;
+            }
+
+            body.bars-collapsed .split-screen {
+                padding-top: 22px !important;
+                padding-bottom: 24px !important;
+            }
+
+            .des {
+                -webkit-line-clamp: unset !important;
+                overflow: visible !important;
+            }
+
+            .sup-left-controls {
+                margin-top: 12px;
+            }
+
+            .sup-cards-row {
+                width: 100% !important;
+                max-width: 100% !important;
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 14px !important;
+                padding: 0 2px 16px 2px !important;
+            }
+
+            .sup-cards-row .glass-card,
+            .sup-cards-row .glass-card.card-front {
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+                height: auto !important;
+                min-height: 286px !important;
+                padding: 14px !important;
+            }
+
+            .sup-cards-row .glass-card .img-box {
+                height: 96px !important;
+            }
+
+            .sup-cards-row .glass-card:hover {
+                transform: none !important;
             }
         }
     </style>
@@ -241,12 +379,12 @@
             <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
-            <button type="button" class="menu-mobile-btn" aria-label="Abrir Menu">
+            <button type="button" class="menu-mobile-btn" id="btnMenuMobileSup" aria-label="Abrir Menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <div class="nav-content">
+        <div class="nav-content" id="navContentSup">
             <div class="nav-status">
                 <span class="pulse-dot"></span>
                 <span class="status-text">SUPERVISOR • OPERAÇÕES</span>
@@ -273,7 +411,7 @@
 
             <div class="split-screen">
 
-                <!-- COLUNA ESQUERDA: MESMA POSIÇÃO E ESTRUTURA DA CENTRAL DE DASHBOARDS -->
+                <!-- COLUNA ESQUERDA -->
                 <div class="text-section">
                     <div class="topic">OPERAÇÕES & CAMPO</div>
 
@@ -309,7 +447,7 @@
                     </div>
                 </div>
 
-                <!-- COLUNA DIREITA: CARDS LADO A LADO, PRÓXIMOS E PADRONIZADOS -->
+                <!-- COLUNA DIREITA: CARDS LADO A LADO (DESKTOP) E EMPILHADOS (MOBILE) -->
                 <div class="cards-section">
                     <div class="sup-cards-row">
 
@@ -334,7 +472,7 @@
                         </div>
 
                         <!-- CARD 2: PRODUÇÃO -->
-                        <div class="glass-card card-front" data-title="producao realizado campo apontamento">
+                        <div class="glass-card card-front card-gerencial" data-title="producao realizado campo apontamento">
                             <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
                             <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
                             <h3>PRODUÇÃO</h3>
@@ -422,6 +560,21 @@
                     textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
                 });
             }
+
+            // Menu mobile e botões voltar
+            const btnMenuMobile = document.getElementById('btnMenuMobileSup');
+            const navContent = document.getElementById('navContentSup');
+            if (btnMenuMobile && navContent) {
+                btnMenuMobile.addEventListener('click', () => {
+                    navContent.classList.toggle('ativo');
+                });
+            }
+
+            document.querySelectorAll('.btn-voltar').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    window.location.href = btn.getAttribute('data-destino') || 'home.html';
+                });
+            });
 
             const cbName = 'cbSup_' + Math.random().toString(36).slice(2, 9);
             const script = document.createElement('script');
