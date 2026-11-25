@@ -73,7 +73,7 @@
             padding: 96px 24px 80px 24px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 28px;
             box-sizing: border-box;
             transition: padding 0.32s ease;
         }
@@ -150,36 +150,25 @@
             border-color: var(--primary);
         }
 
-        /* GRADE DE GLASS-CARDS (MESMO ESTILO DA HOME / DASHBOARD) */
-        .sup-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 380px));
+        /* MESMAS MEDIDAS DOS CARDS DA HOME / DASHBOARD */
+        .sup-cards-row {
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
+            align-items: stretch;
             gap: 28px;
         }
 
-        .sup-cards-grid .glass-card {
+        .sup-cards-row .glass-card {
             position: relative !important;
+            left: auto !important;
+            top: auto !important;
             transform: none !important;
             opacity: 1 !important;
             visibility: visible !important;
             pointer-events: auto !important;
             filter: none !important;
-            width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
-        }
-
-        .sup-cards-grid .glass-card .btn-primary a,
-        .sup-cards-grid .glass-card .btn-glass a {
-            color: inherit;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            width: 100%;
-            height: 100%;
-            justify-content: center;
+            flex: 0 0 auto;
         }
 
         @media (max-width: 768px) {
@@ -189,8 +178,8 @@
             body.bars-collapsed .sup-page-wrapper {
                 padding: 16px 14px 28px 14px;
             }
-            .sup-cards-grid {
-                grid-template-columns: 1fr;
+            .sup-cards-row {
+                gap: 20px;
             }
         }
     </style>
@@ -261,8 +250,8 @@
                         </div>
                     </div>
 
-                    <!-- CARDS NO MESMO ESTILO DA HOME / DASHBOARD -->
-                    <div class="sup-cards-grid">
+                    <!-- CARDS COM AS MESMAS MEDIDAS DA HOME / DASHBOARD -->
+                    <div class="sup-cards-row">
 
                         <!-- CARD 1: PROGRAMAÇÃO -->
                         <div class="glass-card" data-title="programacao ordens servico frota">
@@ -351,7 +340,6 @@
                 });
             }
 
-            // Atualiza mini-indicadores dos cards sem bloquear cliques nem navegação
             const cbName = 'cbSup_' + Math.random().toString(36).slice(2, 9);
             const script = document.createElement('script');
             const timer = setTimeout(() => {
