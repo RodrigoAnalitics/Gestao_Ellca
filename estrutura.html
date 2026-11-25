@@ -18,9 +18,6 @@
 
     <!-- =====================================================================
          [TUTORIAL PASSO 2] ESTILOS ESPECÍFICOS DO DASHBOARD ESTRUTURA
-         Nota: styles_index.css trava html/body em 100vh com overflow: hidden.
-         As regras abaixo liberam a rolagem vertical (overflow-y: auto) para
-         exibir os KPIs, gráficos em barras, tabela e o painel Looker Studio.
          ===================================================================== -->
     <style>
         html, body {
@@ -49,7 +46,6 @@
             background-position: center;
         }
 
-        /* Transição suave para recolher/exibir Navbar e Rodapé */
         .navbar,
         .footer-bar {
             transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
@@ -354,7 +350,7 @@
 
         .table-scroll {
             width: 100%;
-            max-height: 290px;
+            max-height: 310px;
             overflow: auto;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -480,8 +476,6 @@
 <body class="bars-collapsed">
     <!-- =====================================================================
          [TUTORIAL PASSO 3] PROTEÇÃO DE ROTA E PERMISSÃO POR SETOR
-         - Redireciona para login.html se sessionStorage['ellca_auth'] !== 'true'
-         - Libera acesso se ellca_user_setores contiver 'todos' ou 'estrutura'
          ===================================================================== -->
     <script>
         if (sessionStorage.getItem('ellca_auth') !== 'true') {
@@ -546,9 +540,6 @@
 
     <!-- =====================================================================
          [TUTORIAL PASSO 5] CONTAINER PRINCIPAL & FILTROS DO SITE
-         - Todos os filtros (Data, Processo, Supervisor e Status) rodam no
-           navegador sobre a base completa da planilha (sem depender de filtros
-           ativos na aba do Google Sheets).
          ===================================================================== -->
     <div class="container">
         <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('img/Capa_home.jpg');">
@@ -560,7 +551,7 @@
                         <div class="est-brand-icon"><i class="fa-solid fa-sitemap"></i></div>
                         <div>
                             <h1>Dashboard Estrutura</h1>
-                            <p id="lblStatusPlanilha">Aba Estrutura Processo • Resumo em tempo real + Relatório Looker Studio</p>
+                            <p id="lblStatusPlanilha">Conectando via Apps Script à base completa...</p>
                         </div>
                     </div>
 
@@ -584,6 +575,10 @@
                             <option value="FERIAS">Status: Férias</option>
                             <option value="MOBILIZAR">Status: Mobilizar</option>
                         </select>
+
+                        <button type="button" class="btn-exec" id="btnLimparFiltros" title="Resetar todos os filtros">
+                            <i class="fa-solid fa-filter-circle-xmark"></i> Limpar
+                        </button>
 
                         <button type="button" class="btn-exec active-tab" data-mode="ambos">
                             <i class="fa-solid fa-layer-group"></i> Tudo
@@ -758,21 +753,16 @@
     </div>
 
     <!-- =====================================================================
-         [TUTORIAL PASSO 8] SCRIPT DE INTEGRAÇÃO (GOOGLE SHEETS SEM FILTRO EXTERNO)
-         - Usa `tq=select *` na Google Visualization API para puxar TODAS as
-           linhas da aba "Estrutura Processo", ignorando qualquer filtro visual
-           ou visualização filtrada aplicada dentro da planilha.
-         - Aplica os filtros (Data, Processo, Supervisor e Status) diretamente
-           no site via JavaScript.
+         [TUTORIAL PASSO 8] SCRIPT DE INTEGRAÇÃO VIA GOOGLE APPS SCRIPT
+         - Lê 100% da aba "Estrutura Processo" via fetch() no Apps Script,
+           ignorando filtros aplicados na planilha.
          ===================================================================== -->
     <script>
         (function () {
-            const SHEET_ID = '1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo';
-            const ABA_ESTRUTURA = 'Estrutura Processo';
+            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHybDzDjWlikLTZuehRMGzKYiWjPzydHXJ0yLprFA0t17WZCt40tkqhm78XMmuFyk/exec';
 
-            // DICA: Para deixar o Looker fixo para todos os usuários do GitHub Pages,
-            // substitua a string vazia abaixo pelo seu link https://lookerstudio.google.com/embed/reporting/...
-            const LOOKER_URL_FIXA = localStorage.getItem('https://script.google.com/macros/s/AKfycbzHybDzDjWlikLTZuehRMGzKYiWjPzydHXJ0yLprFA0t17WZCt40tkqhm78XMmuFyk/exec') || '';
+            // Cole o link /embed/reporting/... do Looker Studio aqui se quiser deixar fixo:
+            const LOOKER_URL_FIXA = localStorage.getItem('ellca_looker_estrutura_embed') || '';
 
             let registros = [];
 
@@ -782,42 +772,34 @@
                 return parseFloat(String(v).replace(/[^\d.-]/g, '')) || 0;
             };
 
-            const fmtData = (cell) => {
-                if (!cell) return '';
-                if (cell.f) return String(cell.f).trim();
-                const s = String(cell.v || '').trim();
-                const m = s.match(/^Date\((\d+),(\d+),(\d+)\)/);
-                if (m) {
-                    return `${String(m[3]).padStart(2, '0')}/${String(Number(m[2]) + 1).padStart(2, '0')}/${m[1]}`;
-                }
-                return s;
+            const chaveDataIso = (dtStr) => {
+                const m = String(dtStr || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+                return m ? `${m[3]}-${m[2]}-${m[1]}` : String(dtStr || '');
             };
 
-            // Consulta JSONP com `tq=select *` para puxar 100% das linhas da aba,
-            // ignorando qualquer filtro ativo na planilha Google Sheets.
-            const cb = 'cbEstruturaProc_' + Math.random().toString(36).slice(2, 9);
-            const script = document.createElement('script');
-            window[cb] = function (json) {
-                delete window[cb];
-                script.remove();
-
-                const rows = (json && json.table && Array.isArray(json.table.rows)) ? json.table.rows : [];
+            function processarMatriz(matriz) {
+                let ultimaDataValida = '';
                 let ultimaAtt = '';
 
-                registros = rows.map(r => {
-                    const c = r.c || [];
-                    const dt = fmtData(c[0]);
-                    const proc = String(c[1]?.v || '').trim().toUpperCase();
-                    const sup = String(c[2]?.v || '').trim().toUpperCase();
-                    const eq = String(c[3]?.v || '').trim().toUpperCase();
-                    const veic = String(c[4]?.v || '').trim().toUpperCase();
-                    const equip = String(c[5]?.v || '').trim().toUpperCase();
-                    const estEq = String(c[6]?.v || '').trim();
-                    const ativo = num(c[7]?.v);
-                    const mob = num(c[8]?.v);
-                    const oficina = num(c[9]?.v);
-                    const ferias = num(c[10]?.v);
-                    const att = fmtData(c[11]);
+                registros = matriz.slice(1).map(row => {
+                    let dt = String(row[0] || '').trim();
+                    if (dt) {
+                        ultimaDataValida = dt;
+                    } else {
+                        dt = ultimaDataValida;
+                    }
+
+                    const proc = String(row[1] || '').trim().toUpperCase();
+                    const sup = String(row[2] || '').trim().toUpperCase();
+                    const eq = String(row[3] || '').trim().toUpperCase();
+                    const veic = String(row[4] || '').trim().toUpperCase();
+                    const equip = String(row[5] || '').trim().toUpperCase();
+                    const estEq = String(row[6] || '').trim();
+                    const ativo = num(row[7]);
+                    const mob = num(row[8]);
+                    const oficina = num(row[9]);
+                    const ferias = num(row[10]);
+                    const att = String(row[11] || '').trim();
                     if (att && !ultimaAtt) ultimaAtt = att;
 
                     let statusKey = 'ATIVO';
@@ -829,22 +811,30 @@
                 }).filter(x => x.eq && x.eq !== 'EQUIPE');
 
                 document.getElementById('lblStatusPlanilha').textContent = ultimaAtt
-                    ? `Aba "${ABA_ESTRUTURA}" conectada (base completa) • Atualizado em ${ultimaAtt}`
-                    : `Aba "${ABA_ESTRUTURA}" conectada (base completa) • ${registros.length} registros`;
+                    ? `Apps Script conectado (base completa) • ${registros.length} registros • Atualizado em ${ultimaAtt}`
+                    : `Apps Script conectado (base completa) • ${registros.length} registros`;
 
                 preencherFiltros();
                 atualizarResumo();
-            };
+            }
 
-            script.onerror = function () {
-                document.getElementById('lblStatusPlanilha').textContent =
-                    'Erro ao conectar na planilha. Verifique se o compartilhamento está como "Qualquer pessoa com o link".';
-            };
-
-            // `tq=select *` força a leitura integral da tabela sem depender de filtros da planilha
-            const queryGviz = encodeURIComponent('select *');
-            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_ESTRUTURA)}&tq=${queryGviz}&tqx=responseHandler:${cb}`;
-            document.body.appendChild(script);
+            async function carregarDados() {
+                try {
+                    const resp = await fetch(APPS_SCRIPT_URL, { cache: 'no-store' });
+                    const json = await resp.json();
+                    if (json && Array.isArray(json.rows)) {
+                        processarMatriz(json.rows);
+                    } else if (json && json.error) {
+                        document.getElementById('lblStatusPlanilha').textContent = `Erro no Apps Script: ${json.error}`;
+                    } else {
+                        throw new Error('Resposta inválida do Apps Script.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById('lblStatusPlanilha').textContent =
+                        'Erro ao conectar no Apps Script. Verifique se a implantação está publicada para "Qualquer pessoa".';
+                }
+            }
 
             function preencherFiltros() {
                 const selData = document.getElementById('filtroData');
@@ -852,7 +842,9 @@
                 const selSup = document.getElementById('filtroSupervisor');
                 const selStatus = document.getElementById('filtroStatus');
 
-                const datasUnicas = [...new Set(registros.map(r => r.dt).filter(Boolean))];
+                const datasUnicas = [...new Set(registros.map(r => r.dt).filter(Boolean))]
+                    .sort((a, b) => chaveDataIso(a).localeCompare(chaveDataIso(b)));
+
                 datasUnicas.forEach(d => {
                     const o = document.createElement('option');
                     o.value = d;
@@ -860,8 +852,6 @@
                     selData.appendChild(o);
                 });
 
-                // Seleciona automaticamente a data mais recente da planilha como padrão no filtro do site,
-                // mas mantém a opção "Data: Todas" e todas as demais datas disponíveis no seletor.
                 if (datasUnicas.length > 0) {
                     selData.value = datasUnicas[datasUnicas.length - 1];
                 }
@@ -884,6 +874,14 @@
                 selProc.addEventListener('change', atualizarResumo);
                 selSup.addEventListener('change', atualizarResumo);
                 selStatus.addEventListener('change', atualizarResumo);
+
+                document.getElementById('btnLimparFiltros').addEventListener('click', () => {
+                    selData.value = 'TODAS';
+                    selProc.value = 'TODOS';
+                    selSup.value = 'TODOS';
+                    selStatus.value = 'TODOS';
+                    atualizarResumo();
+                });
             }
 
             function renderBarras(id, mapa, total) {
@@ -913,7 +911,6 @@
                 const fSup = document.getElementById('filtroSupervisor').value;
                 const fStatus = document.getElementById('filtroStatus').value;
 
-                // Toda a filtragem acontece exclusivamente aqui no site:
                 const filtrados = registros.filter(r => {
                     const okData = fData === 'TODAS' || r.dt === fData;
                     const okProc = fProc === 'TODOS' || r.proc === fProc;
@@ -1034,12 +1031,13 @@
                 document.getElementById('iconToggleBars').className = recolhido ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
                 document.getElementById('textToggleBars').textContent = recolhido ? 'Menu' : 'Ocultar';
             });
+
+            carregarDados();
         })();
     </script>
 
     <!-- =====================================================================
          [TUTORIAL PASSO 9] SCRIPT GLOBAL DO PORTAL (script.js)
-         Deve estar na MESMA pasta raiz que estrutura.html e styles_index.css
          ===================================================================== -->
     <script src="script.js"></script>
 </body>
