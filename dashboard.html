@@ -11,40 +11,35 @@
     <link rel="stylesheet" href="styles_index.css">
 
     <style>
-        /* Garante alinhamento uniforme dos botões principais e secundários nos cards */
-        .glass-card .actions .btn-primary,
-        .glass-card .actions .btn-primary a,
-        .glass-card .actions .btn-glass {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* Evita que o texto dos cards vaze ou quebre feio em telas estreitas */
         .glass-card h3,
         .glass-card .card-desc {
             overflow-wrap: break-word;
         }
 
-        /* Barra de navegação de sub-níveis dentro da tela de dashboards */
+        /* Área do carrossel alinhada ao centro com a barra de sub-painéis logo acima */
+        .cards-section {
+            justify-content: center !important;
+            gap: 14px;
+        }
+
         .subdash-toolbar {
             display: none;
+            width: 100%;
+            max-width: 540px;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 18px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
-            background: rgba(8, 16, 34, 0.78);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, rgba(10, 32, 74, 0.55) 0%, rgba(4, 8, 18, 0.72) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.34);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
             position: relative;
             z-index: 30;
+            margin: 0 auto;
         }
 
         .subdash-toolbar.active {
@@ -54,38 +49,97 @@
         .subdash-nav-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .btn-sub-voltar {
-            padding: 7px 13px;
+            padding: 6px 12px;
             border-radius: 8px;
             border: 1px solid rgba(0, 212, 255, 0.45);
-            background: rgba(0, 212, 255, 0.14);
+            background: rgba(0, 212, 255, 0.16);
             color: #fff;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease;
         }
 
         .btn-sub-voltar:hover {
-            background: #00d4ff;
-            color: #030712;
+            background: rgba(0, 212, 255, 0.38);
+            border-color: #00d4ff;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.35);
         }
 
         .subdash-breadcrumb {
-            font-size: 12px;
+            font-size: 11.5px;
             color: #cbd5e1;
             font-weight: 600;
         }
 
         .subdash-breadcrumb strong {
             color: #00d4ff;
+        }
+
+        .subdash-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10.5px;
+            color: #94a3b8;
+        }
+
+        .subdash-pill-count {
+            padding: 3px 9px;
+            border-radius: 50px;
+            background: rgba(0, 212, 255, 0.12);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            color: #7ab8ff;
+            font-weight: 700;
+            font-size: 10px;
+        }
+
+        .sub-actions-row {
+            display: flex;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .sub-actions-row .btn-primary {
+            flex: 1;
+        }
+
+        .btn-nova-aba {
+            width: 34px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(10, 32, 74, 0.45) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            border-radius: 6px;
+            color: #7ab8ff;
+            font-size: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .btn-nova-aba:hover:not(:disabled) {
+            background: rgba(0, 212, 255, 0.28);
+            color: #fff;
+            border-color: #00d4ff;
+        }
+
+        .btn-nova-aba:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
         }
 
         /* Visualizador de Embed (Looker Studio) */
@@ -225,7 +279,9 @@
                                         Dashboards / <strong>Setor</strong>
                                     </div>
                                 </div>
-                                <span style="font-size: 11px; color: #94a3b8;" id="subdashCount"></span>
+                                <div class="subdash-meta">
+                                    <span class="subdash-pill-count" id="subdashCount"></span>
+                                </div>
                             </div>
 
                             <div class="cards-wrapper">
@@ -246,7 +302,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 2. ALMOX. EPI/EPC (2.1 ESTOQUE / 2.2 ESTOQUE SAÍDAS) -->
+                                <!-- 2. ALMOX. EPI/EPC -->
                                 <div class="glass-card" data-dash-id="almox_epi" data-setor="almoxarifado_epi" data-index="1" data-title="2 almox epi epc estoque saidas seg seguranca equipamento">
                                     <div class="badge gold">SEG <i class="fa-solid fa-helmet-safety"></i></div>
                                     <div class="img-box" style="background-image: url('img/epi_epc.jpg');"></div>
@@ -278,7 +334,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 4. DP (4.1 EFETIVO / 4.2 BANCO DE HORAS / 4.3 CONTROLE DE FALTAS) -->
+                                <!-- 4. DP -->
                                 <div class="glass-card" data-dash-id="dp" data-setor="dp" data-index="3" data-title="4 dp efetivo banco de horas controle de faltas fin departamento pessoal">
                                     <div class="badge gold">FIN <i class="fa-solid fa-file-invoice-dollar"></i></div>
                                     <div class="img-box" style="background-image: url('img/Card_DP.jpg');"></div>
@@ -310,7 +366,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 6. ESTRUTURA (6.1 MOBILIZAÇÃO DIÁRIA / 6.2 ESTRUTURA / 6.3 ESTRUTURA BASE) -->
+                                <!-- 6. ESTRUTURA -->
                                 <div class="glass-card" data-dash-id="estrutura" data-setor="estrutura" data-index="5" data-title="6 estrutura mobilizacao diaria estrutura base corp filiais">
                                     <div class="badge">CORP <i class="fa-solid fa-sitemap"></i></div>
                                     <div class="img-box" style="background-image: url('img/estrutura.jpg');"></div>
@@ -326,7 +382,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 7. FROTA (7.1 MANUTENÇÃO / 7.2 COMBUSTÍVEL) -->
+                                <!-- 7. FROTA -->
                                 <div class="glass-card" data-dash-id="frota" data-setor="frota" data-index="6" data-title="7 frota manutencao combustivel ops veiculos rotas">
                                     <div class="badge">OPS <i class="fa-solid fa-truck-fast"></i></div>
                                     <div class="img-box" style="background-image: url('img/frota.jpg');"></div>
@@ -342,7 +398,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 8. INFRAESTRUTURA (8.1 DSC) -->
+                                <!-- 8. INFRAESTRUTURA -->
                                 <div class="glass-card" data-dash-id="infraestrutura" data-setor="infraestrutura" data-index="7" data-title="8 infraestrutura dsc ti servidores redes hardware">
                                     <div class="badge">TI <i class="fa-solid fa-server"></i></div>
                                     <div class="img-box" style="background-image: url('img/infraestrutura.jpg');"></div>
@@ -358,7 +414,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 9. PRODUTIVIDADE (9.1 RECEITA / 9.2 SUSTENTAÇÃO / 9.3 NEGOCIAÇÃO / 9.4 NEGOCIADORES) -->
+                                <!-- 9. PRODUTIVIDADE -->
                                 <div class="glass-card" data-dash-id="produtividade" data-setor="produtividade" data-index="8" data-title="9 produtividade receita sustentacao negociacao negociadores perf eficiencia metas">
                                     <div class="badge">PERF <i class="fa-solid fa-gauge-high"></i></div>
                                     <div class="img-box" style="background-image: url('img/Card_Produtividade.jpg');"></div>
@@ -390,7 +446,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 11. PROJETO (11.1 INSTALAÇÃO DE UC & CS / 11.2 ENCERRAMENTO DE NOTAS / 11.3 PROJETOS / 11.4 AS BUILT) -->
+                                <!-- 11. PROJETO -->
                                 <div class="glass-card" data-dash-id="projeto" data-setor="projeto" data-index="10" data-title="11 projeto instalacao de uc cs encerramento de notas projetos as built bi cronogramas">
                                     <div class="badge">BI <i class="fa-solid fa-diagram-project"></i></div>
                                     <div class="img-box" style="background-image: url('img/Card_Projeto.jpg');"></div>
@@ -406,7 +462,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 12. RH (12.1 EFETIVO) -->
+                                <!-- 12. RH -->
                                 <div class="glass-card" data-dash-id="rh" data-setor="rh" data-index="11" data-title="12 rh efetivo talent recursos humanos recrutamento clima">
                                     <div class="badge">TALENT <i class="fa-solid fa-user-tie"></i></div>
                                     <div class="img-box" style="background-image: url('img/Card_RH.jpg');"></div>
@@ -422,7 +478,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 13. SESMT (13.1 CDS / 13.2 INSUFLADOR / 13.3 INSPEÇÕES / 13.4 CONTROLE DE ASO) -->
+                                <!-- 13. SESMT -->
                                 <div class="glass-card" data-dash-id="sesmt" data-setor="sesmt" data-index="12" data-title="13 sesmt cds insuflador inspecoes controle de aso seg seguranca do trabalho riscos">
                                     <div class="badge gold">SEG <i class="fa-solid fa-helmet-safety"></i></div>
                                     <div class="img-box" style="background-image: url('img/sesmt.jpg');"></div>
@@ -514,8 +570,8 @@
                 almox_epi: {
                     titulo: "2. ALMOX. EPI/EPC",
                     subitens: [
-                        { titulo: "2.1. ESTOQUE", imagem: "", desc: "Controle de saldo e entradas de EPI/EPC.", embed: "" },
-                        { titulo: "2.2. ESTOQUE (SAÍDAS)", imagem: "", desc: "Registro de saídas e entregas às equipes.", embed: "" }
+                        { titulo: "2.1. ESTOQUE", imagem: "", plataforma: "Looker Studio", desc: "Controle de saldo e entradas de EPI/EPC.", embed: "" },
+                        { titulo: "2.2. ESTOQUE (SAÍDAS)", imagem: "", plataforma: "Looker Studio", desc: "Registro de saídas e entregas às equipes.", embed: "" }
                     ]
                 },
                 backoffice: {
@@ -526,9 +582,9 @@
                 dp: {
                     titulo: "4. DP",
                     subitens: [
-                        { titulo: "4.1. EFETIVO", imagem: "", desc: "Acompanhamento do quadro de efetivo.", embed: "" },
-                        { titulo: "4.2. BANCO DE HORAS", imagem: "", desc: "Saldo, créditos e compensações de horas.", embed: "" },
-                        { titulo: "4.3. CONTROLE DE FALTAS", imagem: "", desc: "Indicadores de faltas, justificativas e ausências.", embed: "" }
+                        { titulo: "4.1. EFETIVO", imagem: "", plataforma: "Looker Studio", desc: "Acompanhamento do quadro de efetivo.", embed: "" },
+                        { titulo: "4.2. BANCO DE HORAS", imagem: "", plataforma: "Looker Studio", desc: "Saldo, créditos e compensações de horas.", embed: "" },
+                        { titulo: "4.3. CONTROLE DE FALTAS", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de faltas, justificativas e ausências.", embed: "" }
                     ]
                 },
                 dsc: {
@@ -542,33 +598,34 @@
                         {
                             titulo: "6.1. MOBILIZAÇÃO DIÁRIA",
                             imagem: "",
+                            plataforma: "Looker Studio",
                             desc: "Acompanhamento diário de mobilização.",
                             embed: "https://lookerstudio.google.com/embed/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F"
                         },
-                        { titulo: "6.2. ESTRUTURA", imagem: "", desc: "Visão estrutural da operação.", embed: "" },
-                        { titulo: "6.3. ESTRUTURA BASE", imagem: "", desc: "Dados e indicadores da estrutura base.", embed: "" }
+                        { titulo: "6.2. ESTRUTURA", imagem: "", plataforma: "Looker Studio", desc: "Visão estrutural da operação.", embed: "" },
+                        { titulo: "6.3. ESTRUTURA BASE", imagem: "", plataforma: "Looker Studio", desc: "Dados e indicadores da estrutura base.", embed: "" }
                     ]
                 },
                 frota: {
                     titulo: "7. FROTA",
                     subitens: [
-                        { titulo: "7.1. MANUTENÇÃO", imagem: "", desc: "Manutenções preventivas e corretivas da frota.", embed: "" },
-                        { titulo: "7.2. COMBUSTÍVEL", imagem: "", desc: "Consumo, abastecimentos e médias da frota.", embed: "" }
+                        { titulo: "7.1. MANUTENÇÃO", imagem: "", plataforma: "Looker Studio", desc: "Manutenções preventivas e corretivas da frota.", embed: "" },
+                        { titulo: "7.2. COMBUSTÍVEL", imagem: "", plataforma: "Looker Studio", desc: "Consumo, abastecimentos e médias da frota.", embed: "" }
                     ]
                 },
                 infraestrutura: {
                     titulo: "8. INFRAESTRUTURA",
                     subitens: [
-                        { titulo: "8.1. DSC", imagem: "", desc: "Indicadores de DSC ligados à infraestrutura.", embed: "" }
+                        { titulo: "8.1. DSC", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de DSC ligados à infraestrutura.", embed: "" }
                     ]
                 },
                 produtividade: {
                     titulo: "9. PRODUTIVIDADE",
                     subitens: [
-                        { titulo: "9.1. RECEITA", imagem: "", desc: "Indicadores de produtividade por receita.", embed: "" },
-                        { titulo: "9.2. SUSTENTAÇÃO", imagem: "", desc: "Indicadores de produtividade em sustentação.", embed: "" },
-                        { titulo: "9.3. NEGOCIAÇÃO", imagem: "", desc: "Indicadores de produtividade em negociação.", embed: "" },
-                        { titulo: "9.4. NEGOCIADORES", imagem: "", desc: "Desempenho por negociador.", embed: "" }
+                        { titulo: "9.1. RECEITA", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de produtividade por receita.", embed: "" },
+                        { titulo: "9.2. SUSTENTAÇÃO", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de produtividade em sustentação.", embed: "" },
+                        { titulo: "9.3. NEGOCIAÇÃO", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de produtividade em negociação.", embed: "" },
+                        { titulo: "9.4. NEGOCIADORES", imagem: "", plataforma: "Looker Studio", desc: "Desempenho por negociador.", embed: "" }
                     ]
                 },
                 programacao: {
@@ -579,25 +636,25 @@
                 projeto: {
                     titulo: "11. PROJETO",
                     subitens: [
-                        { titulo: "11.1. INSTALAÇÃO DE UC & CS", imagem: "", desc: "Acompanhamento de instalação de UC e CS.", embed: "" },
-                        { titulo: "11.2. ENCERRAMENTO DE NOTAS", imagem: "", desc: "Controle de encerramento de notas.", embed: "" },
-                        { titulo: "11.3. PROJETOS", imagem: "", desc: "Indicadores gerais de projetos.", embed: "" },
-                        { titulo: "11.4. AS BUILT", imagem: "", desc: "Controle e entrega de As Built.", embed: "" }
+                        { titulo: "11.1. INSTALAÇÃO DE UC & CS", imagem: "", plataforma: "Looker Studio", desc: "Acompanhamento de instalação de UC e CS.", embed: "" },
+                        { titulo: "11.2. ENCERRAMENTO DE NOTAS", imagem: "", plataforma: "Looker Studio", desc: "Controle de encerramento de notas.", embed: "" },
+                        { titulo: "11.3. PROJETOS", imagem: "", plataforma: "Looker Studio", desc: "Indicadores gerais de projetos.", embed: "" },
+                        { titulo: "11.4. AS BUILT", imagem: "", plataforma: "Looker Studio", desc: "Controle e entrega de As Built.", embed: "" }
                     ]
                 },
                 rh: {
                     titulo: "12. RH",
                     subitens: [
-                        { titulo: "12.1. EFETIVO", imagem: "", desc: "Indicadores de efetivo de Recursos Humanos.", embed: "" }
+                        { titulo: "12.1. EFETIVO", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de efetivo de Recursos Humanos.", embed: "" }
                     ]
                 },
                 sesmt: {
                     titulo: "13. SESMT",
                     subitens: [
-                        { titulo: "13.1. CDS", imagem: "", desc: "Indicadores de CDS do SESMT.", embed: "" },
-                        { titulo: "13.2. INSUFLADOR", imagem: "", desc: "Controle e monitoramento de insuflador.", embed: "" },
-                        { titulo: "13.3. INSPEÇÕES", imagem: "", desc: "Inspeções de segurança e campo.", embed: "" },
-                        { titulo: "13.4. CONTROLE DE ASO", imagem: "", desc: "Validade e controle de ASO.", embed: "" }
+                        { titulo: "13.1. CDS", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de CDS do SESMT.", embed: "" },
+                        { titulo: "13.2. INSUFLADOR", imagem: "", plataforma: "Looker Studio", desc: "Controle e monitoramento de insuflador.", embed: "" },
+                        { titulo: "13.3. INSPEÇÕES", imagem: "", plataforma: "Looker Studio", desc: "Inspeções de segurança e campo.", embed: "" },
+                        { titulo: "13.4. CONTROLE DE ASO", imagem: "", plataforma: "Looker Studio", desc: "Validade e controle de ASO.", embed: "" }
                     ]
                 }
             };
@@ -645,31 +702,38 @@
                     return;
                 }
 
+                const ativosCount = dados.subitens.filter(s => Boolean(s.embed)).length;
                 toolbar.classList.add("active");
                 breadcrumb.innerHTML = `Dashboards / <strong>${dados.titulo}</strong>`;
-                countLabel.textContent = `${dados.subitens.length} sub-dashboard(s)`;
+                countLabel.textContent = `${dados.subitens.length} sub-painéis • ${ativosCount} ativo(s)`;
 
                 cardsWrapper.innerHTML = dados.subitens.map((sub, idx) => {
                     const bgEstilo = sub.imagem
                         ? `background-image: url('${sub.imagem}');`
-                        : `background: rgba(15, 23, 42, 0.75); display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:11px; border:1px dashed rgba(148,163,184,0.35);`;
+                        : `background: linear-gradient(135deg, rgba(12, 36, 84, 0.42) 0%, rgba(4, 8, 18, 0.68) 100%); border: 1px solid rgba(0, 212, 255, 0.22);`;
 
-                    const conteudoImg = sub.imagem ? "" : `<span><i class="fa-regular fa-image"></i> Espaço para imagem</span>`;
+                    const statusClass = sub.embed ? "kpi-success" : "kpi-warning";
+                    const statusTexto = sub.embed ? "Ativo" : "Pendente";
 
                     return `
                         <div class="glass-card" data-index="${idx}" data-title="${sub.titulo.toLowerCase()}">
                             <div class="badge">SUB-PAINEL <i class="fa-solid fa-chart-bar"></i></div>
-                            <div class="img-box" style="${bgEstilo}">${conteudoImg}</div>
+                            <div class="img-box" style="${bgEstilo}"></div>
                             <h3>${sub.titulo}</h3>
-                            <p class="card-desc">${sub.desc || "Espaço reservado para o dashboard."}</p>
+                            <p class="card-desc">${sub.desc || "Painel analítico do setor."}</p>
                             <div class="kpi-mini">
-                                <span><i class="fa-solid fa-display"></i> Looker Studio</span>
-                                <span><i class="fa-solid fa-circle-dot"></i> ${sub.embed ? "Ativo" : "Pendente"}</span>
+                                <span><i class="fa-solid fa-display"></i> ${sub.plataforma || "Looker Studio"}</span>
+                                <span class="${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTexto}</span>
                             </div>
                             <div class="actions">
-                                <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
-                                    ABRIR <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
+                                <div class="sub-actions-row">
+                                    <button type="button" class="btn-primary btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
+                                        ABRIR <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </button>
+                                    <button type="button" class="btn-nova-aba" title="${sub.embed ? "Abrir em nova aba" : "Link pendente"}" data-embed="${sub.embed || ""}" ${sub.embed ? "" : "disabled"}>
+                                        <i class="fa-solid fa-up-right-from-square"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -682,10 +746,16 @@
                     });
                 });
 
-                sincizar();
-            }
+                cardsWrapper.querySelectorAll(".btn-nova-aba").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        const url = btn.getAttribute("data-embed");
+                        if (url) {
+                            window.open(url, "_blank", "noopener,noreferrer");
+                        }
+                    });
+                });
 
-            function sincizar() {
                 sincronizarCarrossel();
             }
 
