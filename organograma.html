@@ -31,6 +31,11 @@
             -webkit-overflow-scrolling: touch;
         }
 
+        /* Trava scroll quando o modo "Ajustar à Tela" estiver ativo */
+        body.fit-screen-mode {
+            overflow: hidden !important;
+        }
+
         .desktop-view {
             min-height: 100vh;
             height: auto !important;
@@ -57,6 +62,24 @@
             background-position: center;
         }
 
+        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
+        .navbar,
+        .footer-bar {
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        }
+
+        body.bars-collapsed .navbar {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.bars-collapsed .footer-bar {
+            transform: translateY(110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
         /* Barra de rolagem estilizada e visível */
         ::-webkit-scrollbar {
             width: 7px;
@@ -81,7 +104,21 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 22px;
+            transition: padding 0.32s ease;
+        }
+
+        /* Reduz margens quando navbar e rodapé estão encolhidos */
+        body.bars-collapsed .org-wrapper {
+            padding: 18px 24px 24px 24px;
+        }
+
+        body.fit-screen-mode .org-wrapper {
+            max-width: 100%;
+            height: 100vh;
+            padding-bottom: 14px;
+            gap: 14px;
+            overflow: hidden;
         }
 
         /* CABEÇALHO DA PÁGINA */
@@ -90,14 +127,16 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 14px;
-            padding: 16px 24px;
+            gap: 12px;
+            padding: 14px 22px;
             border-radius: 16px;
             background: linear-gradient(135deg, rgba(4, 9, 20, 0.78) 0%, rgba(12, 36, 84, 0.65) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(0, 212, 255, 0.32);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+            flex-shrink: 0;
+            z-index: 10;
         }
 
         .org-title-group {
@@ -107,8 +146,8 @@
         }
 
         .org-icon-box {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
             background: rgba(0, 212, 255, 0.14);
             border: 1px solid rgba(0, 212, 255, 0.45);
@@ -121,7 +160,7 @@
         }
 
         .org-title-group h1 {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 900;
             letter-spacing: 1.2px;
             color: #fff;
@@ -135,27 +174,65 @@
             margin: 3px 0 0 0;
         }
 
-        .btn-voltar-org {
-            padding: 9px 16px;
+        .org-header-controls {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-org-control {
+            padding: 9px 14px;
             border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            background: rgba(0, 212, 255, 0.14);
-            color: #fff;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+            background: rgba(0, 212, 255, 0.12);
+            color: #e2e8f0;
             font-size: 11px;
             font-weight: 700;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.6px;
             text-transform: uppercase;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             transition: all 0.25s ease;
         }
 
-        .btn-voltar-org:hover {
+        .btn-org-control:hover {
+            background: rgba(0, 212, 255, 0.26);
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.35);
+        }
+
+        .btn-org-control.active-mode {
             background: var(--primary);
             color: #030712;
+            border-color: var(--primary);
             box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+        }
+
+        /* PALCO DO ORGANOGRAMA (PERMITE ESCALA PROPORCIONAL) */
+        .org-stage {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        body.fit-screen-mode .org-stage {
+            flex: 1;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #organogramaContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            transform-origin: center center;
+            transition: transform 0.25s ease;
         }
 
         /* ÁRVORE DO ORGANOGRAMA */
@@ -167,11 +244,6 @@
             animation: fadeInOrg 0.35s ease;
         }
 
-        @keyframes fadeInOrg {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .org-level {
             display: flex;
             justify-content: center;
@@ -181,10 +253,40 @@
             position: relative;
         }
 
+        /* Modos de disposição dos líderes no modo Ajustar à Tela */
+        .org-tree.fit-single-row {
+            width: max-content;
+        }
+        .org-tree.fit-single-row .org-level {
+            flex-wrap: nowrap;
+            width: max-content;
+        }
+        .org-tree.fit-single-row .org-connector-bar {
+            width: 94%;
+            max-width: none;
+        }
+
+        .org-tree.fit-two-rows {
+            width: 1620px;
+        }
+        .org-tree.fit-two-rows .org-level {
+            flex-wrap: wrap;
+            width: 1620px;
+        }
+        .org-tree.fit-two-rows .org-connector-bar {
+            width: 92%;
+            max-width: none;
+        }
+
+        @keyframes fadeInOrg {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ================= CONECTORES LUMINOSOS COM PULSO DE ENERGIA ================= */
         .org-connector-v {
             width: 2px;
-            height: 28px;
+            height: 26px;
             background: rgba(0, 212, 255, 0.24);
             box-shadow: 0 0 10px rgba(0, 212, 255, 0.35);
             margin: 0 auto;
@@ -215,7 +317,7 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.28) 15%, rgba(0, 212, 255, 0.28) 85%, transparent);
             box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             position: relative;
             overflow: hidden;
             border-radius: 4px;
@@ -267,7 +369,6 @@
             box-shadow: 0 16px 34px rgba(0, 0, 0, 0.65);
         }
 
-        /* SVG da linha fina que percorre um card por vez (ida e volta) */
         .card-border-svg {
             position: absolute;
             inset: 0;
@@ -317,8 +418,6 @@
         }
 
         /* ================= EFEITO VIDRO METÁLICO SUTIL: OURO, PRATA E BRONZE ================= */
-        
-        /* 1. OURO (Gerente de Contrato) */
         .org-card.tier-gold {
             --stroke-color: #fcd34d;
             width: 274px;
@@ -343,7 +442,6 @@
             box-shadow: 0 0 14px rgba(245, 190, 65, 0.24);
         }
 
-        /* 2. PRATA (Gerente Operacional) */
         .org-card.tier-silver {
             --stroke-color: #f1f5f9;
             width: 266px;
@@ -368,7 +466,6 @@
             box-shadow: 0 0 14px rgba(226, 232, 240, 0.20);
         }
 
-        /* 3. BRONZE (Coordenador Operacional) */
         .org-card.tier-bronze {
             --stroke-color: #fdba74;
             width: 258px;
@@ -532,7 +629,7 @@
             color: #7dd3fc;
         }
 
-        /* ================= MODAL PERFIL INDIVIDUAL (VER QUEM É A PESSOA) ================= */
+        /* ================= MODAL PERFIL INDIVIDUAL ================= */
         .perfil-modal-overlay {
             position: fixed;
             inset: 0;
@@ -668,18 +765,21 @@
             color: #030712;
         }
 
-        /* RESPONSIVO MOBILE (MANTENDO 2 CARDS POR LINHA E TAMANHO EQUILIBRADO) */
+        /* RESPONSIVO MOBILE */
         @media (max-width: 768px) {
-            .org-wrapper {
+            body:not(.fit-screen-mode) .org-wrapper {
                 padding: 80px 12px 75px 12px;
             }
-            .org-level {
+            body.bars-collapsed:not(.fit-screen-mode) .org-wrapper {
+                padding: 14px 12px 24px 12px;
+            }
+            body:not(.fit-screen-mode) .org-level {
                 gap: 12px;
             }
-            .org-card,
-            .org-card.tier-gold,
-            .org-card.tier-silver,
-            .org-card.tier-bronze {
+            body:not(.fit-screen-mode) .org-card,
+            body:not(.fit-screen-mode) .org-card.tier-gold,
+            body:not(.fit-screen-mode) .org-card.tier-silver,
+            body:not(.fit-screen-mode) .org-card.tier-bronze {
                 width: calc(50% - 6px);
                 min-width: 156px;
                 max-width: 215px;
@@ -696,10 +796,10 @@
         }
 
         @media (max-width: 360px) {
-            .org-card,
-            .org-card.tier-gold,
-            .org-card.tier-silver,
-            .org-card.tier-bronze {
+            body:not(.fit-screen-mode) .org-card,
+            body:not(.fit-screen-mode) .org-card.tier-gold,
+            body:not(.fit-screen-mode) .org-card.tier-silver,
+            body:not(.fit-screen-mode) .org-card.tier-bronze {
                 width: 100%;
                 max-width: 245px;
             }
@@ -707,7 +807,7 @@
     </style>
 </head>
 
-<body>
+<body class="bars-collapsed">
     <div class="desktop-view">
         <!-- NAVBAR -->
         <nav class="navbar">
@@ -753,7 +853,7 @@
                 <div class="org-wrapper">
 
                     <!-- CABEÇALHO DINÂMICO -->
-                    <div class="org-header">
+                    <div class="org-header" id="orgHeaderBar">
                         <div class="org-title-group">
                             <div class="org-icon-box">
                                 <i class="fa-solid fa-sitemap" id="orgHeaderIcon"></i>
@@ -764,13 +864,30 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn-voltar-org" id="btnVoltarGeral" style="display: none;">
-                            <i class="fa-solid fa-arrow-left"></i> Voltar ao Organograma Geral
-                        </button>
+                        <div class="org-header-controls">
+                            <!-- BOTÃO ENQUADRAR NA TELA VS VISÃO NORMAL -->
+                            <button type="button" class="btn-org-control" id="btnToggleFitScreen" title="Ajustar toda a estrutura para caber em uma única tela">
+                                <i class="fa-solid fa-compress" id="iconFitScreen"></i>
+                                <span id="textFitScreen">Ajustar à Tela</span>
+                            </button>
+
+                            <!-- BOTÃO MOSTRAR / ENCOLHER NAVBAR E RODAPÉ -->
+                            <button type="button" class="btn-org-control" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
+                                <span id="textToggleBars">Mostrar Menu</span>
+                            </button>
+
+                            <!-- BOTÃO VOLTAR AO ORGANOGRAMA GERAL (QUANDO ESTIVER DENTRO DE UMA EQUIPE) -->
+                            <button type="button" class="btn-org-control active-mode" id="btnVoltarGeral" style="display: none;">
+                                <i class="fa-solid fa-arrow-left"></i> Voltar ao Geral
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- CONTAINER ONDE A ÁRVORE É RENDERIZADA -->
-                    <div id="organogramaContainer"></div>
+                    <!-- PALCO ONDE A ÁRVORE É RENDERIZADA E ESCALADA -->
+                    <div class="org-stage" id="orgStage">
+                        <div id="organogramaContainer"></div>
+                    </div>
 
                 </div>
             </div>
@@ -791,7 +908,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE PERFIL INDIVIDUAL (VER QUEM É A PESSOA) -->
+    <!-- MODAL DE PERFIL INDIVIDUAL -->
     <div class="perfil-modal-overlay" id="perfilModalOverlay">
         <div class="perfil-modal-box">
             <button type="button" class="modal-close-btn" id="btnFecharModal" title="Fechar">
@@ -821,8 +938,6 @@
 
     <script>
         (function iniciarOrganograma() {
-            // ===================== LIDERANÇAS REAIS E EQUIPES =====================
-            // Caminho das imagens: organograma/PrimeiroNome.jpg (primeira letra maiúscula)
             const ORGANOGRAMA_DADOS = {
                 gerenciaContrato: {
                     nivel: 'Gerência de Contrato',
@@ -857,7 +972,6 @@
                     whatsapp: '5591999990003',
                     email: 'jhonattan.alencar@ellca2.com.br'
                 },
-                // SETORES EM ORDEM ALFABÉTICA (A -> Z)
                 lideres: [
                     {
                         id: 'almox_epi',
@@ -879,49 +993,44 @@
                                 whatsapp: '5591999990108',
                                 email: 'epi@ellca2.com.br'
                             },
-                   
                             {
                                 nome: 'Colaborador EPI 02',
                                 funcao: 'Auxiliar de Almox. EPI/EPC',
                                 descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
                                 foto: 'organograma/Epi.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+02&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990108',
                                 email: 'epi@ellca2.com.br'
                             },
-                  
                             {
                                 nome: 'Colaborador EPI 03',
                                 funcao: 'Auxiliar de Almox. EPI/EPC',
                                 descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
                                 foto: 'organograma/Epi.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+03&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990108',
                                 email: 'epi@ellca2.com.br'
                             },
-                  
                             {
                                 nome: 'Colaborador EPI 04',
                                 funcao: 'Auxiliar de Almox. EPI/EPC',
                                 descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
                                 foto: 'organograma/Epi.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+04&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990108',
                                 email: 'epi@ellca2.com.br'
                             },
-                    
                             {
                                 nome: 'Colaborador EPI 05',
                                 funcao: 'Auxiliar de Almox. EPI/EPC',
                                 descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
                                 foto: 'organograma/Epi.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+05&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990108',
                                 email: 'epi@ellca2.com.br'
                             }
                         ]
                     },
-        
                     {
                         id: 'almoxarifado',
                         setor: 'Almoxarifado',
@@ -947,7 +1056,7 @@
                                 funcao: 'Almoxarife',
                                 descricao: 'Conferência de materiais, organização física e baixa de requisições.',
                                 foto: 'organograma/Almox.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+02&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990109',
                                 email: 'almoxarifado@ellca2.com.br'
                             },
@@ -956,7 +1065,7 @@
                                 funcao: 'Almoxarife',
                                 descricao: 'Conferência de materiais, organização física e baixa de requisições.',
                                 foto: 'organograma/Almox.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+03&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990109',
                                 email: 'almoxarifado@ellca2.com.br'
                             },
@@ -965,7 +1074,7 @@
                                 funcao: 'Almoxarife',
                                 descricao: 'Conferência de materiais, organização física e baixa de requisições.',
                                 foto: 'organograma/Almox.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+04&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990109',
                                 email: 'almoxarifado@ellca2.com.br'
                             },
@@ -974,7 +1083,7 @@
                                 funcao: 'Almoxarife',
                                 descricao: 'Conferência de materiais, organização física e baixa de requisições.',
                                 foto: 'organograma/Almox.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+05&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990109',
                                 email: 'almoxarifado@ellca2.com.br'
                             },
@@ -983,7 +1092,7 @@
                                 funcao: 'Almoxarife',
                                 descricao: 'Conferência de materiais, organização física e baixa de requisições.',
                                 foto: 'organograma/Almox.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+06&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990109',
                                 email: 'almoxarifado@ellca2.com.br'
                             },
@@ -992,7 +1101,7 @@
                                 funcao: 'Almoxarife',
                                 descricao: 'Conferência de materiais, organização física e baixa de requisições.',
                                 foto: 'organograma/Almox.jpg',
-                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+07&background=0f172a&color=38bdf8&size=128',
                                 whatsapp: '5591999990109',
                                 email: 'almoxarifado@ellca2.com.br'
                             }
@@ -1222,11 +1331,24 @@
             };
 
             const container = document.getElementById('organogramaContainer');
+            const headerBar = document.getElementById('orgHeaderBar');
             const headerTitle = document.getElementById('orgHeaderTitle');
             const headerSubtitle = document.getElementById('orgHeaderSubtitle');
             const headerIcon = document.getElementById('orgHeaderIcon');
             const btnVoltarGeral = document.getElementById('btnVoltarGeral');
             const navStatus = document.getElementById('navOrgStatus');
+
+            // Controles de Enquadramento e Barras
+            const btnToggleFitScreen = document.getElementById('btnToggleFitScreen');
+            const iconFitScreen = document.getElementById('iconFitScreen');
+            const textFitScreen = document.getElementById('textFitScreen');
+
+            const btnToggleBars = document.getElementById('btnToggleBars');
+            const iconToggleBars = document.getElementById('iconToggleBars');
+            const textToggleBars = document.getElementById('textToggleBars');
+
+            let isFitScreen = false;
+            let areBarsCollapsed = true; // Inicia encolhido conforme solicitado
 
             // Elementos do Modal
             const modalOverlay = document.getElementById('perfilModalOverlay');
@@ -1240,12 +1362,94 @@
             const modalMail = document.getElementById('modalMail');
             const btnModalVerEquipe = document.getElementById('btnModalVerEquipe');
 
-            // Mapa para recuperar rapidamente o objeto da pessoa pelo ID único
             const REGISTRO_PESSOAS = {};
-
-            // Controle da animação sequencial ida-e-volta (ping-pong) pelos cards
             let animacaoSequencialId = null;
 
+            // ================= FUNÇÃO DE ENQUADRAMENTO AUTOMÁTICO NA TELA =================
+            function aplicarAjusteDeTela() {
+                const tree = container.querySelector('.org-tree');
+                if (!tree) return;
+
+                // Reset inicial para medição real
+                container.style.transform = 'none';
+                tree.classList.remove('fit-single-row', 'fit-two-rows');
+
+                if (!isFitScreen) {
+                    document.body.classList.remove('fit-screen-mode');
+                    return;
+                }
+
+                document.body.classList.add('fit-screen-mode');
+
+                // Calcula área disponível na janela descontando cabeçalho e barras (se visíveis)
+                const headerRect = headerBar.getBoundingClientRect();
+                const topUsed = headerRect.bottom + 14;
+                const bottomMargin = areBarsCollapsed ? 18 : 68;
+                const availW = window.innerWidth - 36;
+                const availH = Math.max(220, window.innerHeight - topUsed - bottomMargin);
+
+                // Testa 1 linha contínua de líderes vs 2 linhas equilibradas e escolhe a que gera maior escala (cards maiores)
+                tree.classList.add('fit-single-row');
+                const w1 = tree.scrollWidth;
+                const h1 = tree.scrollHeight;
+                const scale1 = Math.min(availW / w1, availH / h1, 1);
+
+                tree.classList.remove('fit-single-row');
+                tree.classList.add('fit-two-rows');
+                const w2 = tree.scrollWidth;
+                const h2 = tree.scrollHeight;
+                const scale2 = Math.min(availW / w2, availH / h2, 1);
+
+                let finalScale = scale1;
+                if (scale2 > scale1) {
+                    finalScale = scale2;
+                } else {
+                    tree.classList.remove('fit-two-rows');
+                    tree.classList.add('fit-single-row');
+                }
+
+                container.style.transform = `scale(${finalScale.toFixed(4)})`;
+            }
+
+            // Alternar modo "Ajustar à Tela" vs "Tamanho Original"
+            btnToggleFitScreen.addEventListener('click', () => {
+                isFitScreen = !isFitScreen;
+                if (isFitScreen) {
+                    btnToggleFitScreen.classList.add('active-mode');
+                    iconFitScreen.className = 'fa-solid fa-expand';
+                    textFitScreen.textContent = 'Tamanho Original';
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                } else {
+                    btnToggleFitScreen.classList.remove('active-mode');
+                    iconFitScreen.className = 'fa-solid fa-compress';
+                    textFitScreen.textContent = 'Ajustar à Tela';
+                }
+                aplicarAjusteDeTela();
+            });
+
+            // Alternar Navbar e Rodapé Encolhidos vs Visíveis
+            btnToggleBars.addEventListener('click', () => {
+                areBarsCollapsed = !areBarsCollapsed;
+                if (areBarsCollapsed) {
+                    document.body.classList.add('bars-collapsed');
+                    btnToggleBars.classList.remove('active-mode');
+                    iconToggleBars.className = 'fa-solid fa-bars';
+                    textToggleBars.textContent = 'Mostrar Menu';
+                } else {
+                    document.body.classList.remove('bars-collapsed');
+                    btnToggleBars.classList.add('active-mode');
+                    iconToggleBars.className = 'fa-solid fa-eye-slash';
+                    textToggleBars.textContent = 'Ocultar Menu';
+                }
+                // Recalcula escala caso esteja no modo Ajustar à Tela
+                setTimeout(aplicarAjusteDeTela, 50);
+            });
+
+            window.addEventListener('resize', () => {
+                if (isFitScreen) aplicarAjusteDeTela();
+            });
+
+            // ================= ANIMAÇÃO SEQUENCIAL VAI-E-VOLTA NOS CARDS =================
             function iniciarTraçoSequencialPingPong() {
                 if (animacaoSequencialId) {
                     cancelAnimationFrame(animacaoSequencialId);
@@ -1257,19 +1461,15 @@
 
                 const rects = cards.map(c => c.querySelector('.card-border-rect'));
                 let index = 0;
-                let direction = 1; // 1 = ida (primeiro ao último), -1 = volta (último ao primeiro)
-                let progress = 0;  // 0.0 -> 1.0 (uma volta 360° completa no card atual)
+                let direction = 1;
+                let progress = 0;
                 let lastTime = null;
-                const duracaoPorCardMs = 3200; // Tempo para completar 360° em cada card
+                const duracaoPorCardMs = 3200;
 
-                function limparTodos() {
-                    cards.forEach((c, i) => {
-                        c.classList.remove('active-trace');
-                        if (rects[i]) rects[i].style.strokeDashoffset = '128';
-                    });
-                }
-
-                limparTodos();
+                cards.forEach((c, i) => {
+                    c.classList.remove('active-trace');
+                    if (rects[i]) rects[i].style.strokeDashoffset = '128';
+                });
 
                 function step(timestamp) {
                     if (!lastTime) lastTime = timestamp;
@@ -1279,18 +1479,15 @@
                     progress += delta / duracaoPorCardMs;
 
                     if (progress >= 1) {
-                        // Finalizou 360° no card atual
                         cards[index].classList.remove('active-trace');
                         rects[index].style.strokeDashoffset = '128';
                         progress = 0;
 
                         if (cards.length > 1) {
                             if (index === cards.length - 1 && direction === 1) {
-                                // Chegou no último: inicia retorno inverso pelo penúltimo
                                 direction = -1;
                                 index = cards.length - 2;
                             } else if (index === 0 && direction === -1) {
-                                // Voltou ao primeiro: retoma sentido normal pelo segundo
                                 direction = 1;
                                 index = 1;
                             } else {
@@ -1303,7 +1500,6 @@
                     const currentRect = rects[index];
                     if (currentCard && currentRect) {
                         currentCard.classList.add('active-trace');
-                        // Na ida percorre no sentido horário (128 -> 0); na volta percorre no sentido anti-horário (0 -> 128)
                         const offset = direction === 1
                             ? (128 - progress * 128)
                             : (progress * 128);
@@ -1316,6 +1512,7 @@
                 animacaoSequencialId = requestAnimationFrame(step);
             }
 
+            // ================= MODAL DE PERFIL =================
             function abrirModalPessoa(personKey) {
                 const info = REGISTRO_PESSOAS[personKey];
                 if (!info) return;
@@ -1415,7 +1612,7 @@
                 });
             }
 
-            // RENDERIZA A VISÃO GERAL (PIRÂMIDE OURO -> PRATA -> BRONZE -> 12 LÍDERES EM ORDEM ALFABÉTICA)
+            // RENDERIZA A VISÃO GERAL
             function renderizarGeral() {
                 headerTitle.textContent = 'Organograma Geral ELLCA';
                 headerSubtitle.textContent = 'Clique no card para ver o perfil ou em "Equipe" para abrir o organograma do setor';
@@ -1438,7 +1635,6 @@
 
                 container.innerHTML = `
                     <div class="org-tree">
-                        <!-- NÍVEL 1: OURO (GERENTE DE CONTRATO) -->
                         <div class="org-level">
                             ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaContrato, {
                                 badgeText: ORGANOGRAMA_DADOS.gerenciaContrato.nivel,
@@ -1449,7 +1645,6 @@
 
                         <div class="org-connector-v"></div>
 
-                        <!-- NÍVEL 2: PRATA (GERENTE OPERACIONAL) -->
                         <div class="org-level">
                             ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaOperacional, {
                                 badgeText: ORGANOGRAMA_DADOS.gerenciaOperacional.nivel,
@@ -1460,7 +1655,6 @@
 
                         <div class="org-connector-v"></div>
 
-                        <!-- NÍVEL 3: BRONZE (COORDENADOR OPERACIONAL) -->
                         <div class="org-level">
                             ${criarCardHTML(ORGANOGRAMA_DADOS.coordenacaoOperacional, {
                                 badgeText: ORGANOGRAMA_DADOS.coordenacaoOperacional.nivel,
@@ -1472,7 +1666,6 @@
                         <div class="org-connector-v"></div>
                         <div class="org-connector-bar"></div>
 
-                        <!-- NÍVEL 4: LÍDERES DE SETOR (ORDEM ALFABÉTICA) -->
                         <div class="org-level">
                             ${htmlLideres}
                         </div>
@@ -1481,9 +1674,10 @@
 
                 vincularEventosCards();
                 iniciarTraçoSequencialPingPong();
+                aplicarAjusteDeTela();
             }
 
-            // RENDERIZA O ORGANOGRAMA ESPECÍFICO DA EQUIPE DO LÍDER CLICADO
+            // RENDERIZA O ORGANOGRAMA ESPECÍFICO DA EQUIPE
             function renderizarEquipe(leaderId) {
                 const lider = ORGANOGRAMA_DADOS.lideres.find(l => l.id === leaderId);
                 if (!lider) return;
@@ -1503,7 +1697,6 @@
 
                 container.innerHTML = `
                     <div class="org-tree">
-                        <!-- TOPO DA EQUIPE: LÍDER DO SETOR -->
                         <div class="org-level">
                             ${criarCardHTML(lider, {
                                 badgeText: `Líder • ${lider.setor}`,
@@ -1515,7 +1708,6 @@
                         <div class="org-connector-v"></div>
                         <div class="org-connector-bar"></div>
 
-                        <!-- MEMBROS DA EQUIPE -->
                         <div class="org-level">
                             ${htmlMembros}
                         </div>
@@ -1524,7 +1716,8 @@
 
                 vincularEventosCards();
                 iniciarTraçoSequencialPingPong();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                aplicarAjusteDeTela();
+                if (!isFitScreen) window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             btnVoltarGeral.addEventListener('click', renderizarGeral);
