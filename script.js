@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const footerBar = document.querySelector('.footer-bar');
         const navContentEl = document.querySelector('.nav-content');
 
-        // 1. Desktop: adiciona no rodapé (.footer-bar)
-        if (footerBar) {
+        // 1. Desktop: adiciona no rodapé (.footer-bar) se ainda não existir
+        if (footerBar && !document.getElementById('btnLogoutDesktop')) {
             const userBadgeHTML = `
                 <span class="separator">|</span>
                 <div class="footer-info" style="color: #cbd5e1;">
@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('btnLogoutDesktop')?.addEventListener('click', realizarLogout);
         }
 
-        // 2. Mobile: adiciona dentro do menu hambúrguer (.nav-content)
-        if (navContentEl) {
+        // 2. Mobile: adiciona dentro do menu hambúrguer (.nav-content) se ainda não existir
+        if (navContentEl && !navContentEl.querySelector('.mobile-user-session-bar')) {
             const mobileUserBox = document.createElement('div');
             mobileUserBox.className = 'mobile-user-session-bar';
             mobileUserBox.style.cssText = `
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPaginaHome = pathAtual.endsWith('home.html') || pathAtual === '/' || pathAtual.endsWith('/');
 
     if (!acessoTotal) {
-        const permitidosLower = setoresPermitidos.map(s => s.trim().toLowerCase());
+        const permitidosLower = setoresPermitidos.map(s => String(s).trim().toLowerCase());
         const cards = document.querySelectorAll('.cards-wrapper .glass-card');
 
         cards.forEach(card => {
@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Garante que a seção principal (.item) esteja sempre visível
     const items = Array.from(document.querySelectorAll('.item'));
-    const navItems = Array.from(document.querySelectorAll('.nav-item'));
 
     if (items.length > 0 && !document.querySelector('.item.active')) {
         items[0].style.display = '';
@@ -140,19 +139,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const itemStates = new Map();
 
-    // Garante que links externos abram em nova aba e links internos na mesma aba (mesmo clicando na borda do botão)
+    // Garante que links externos abram em nova aba e links internos na mesma aba
     document.querySelectorAll('.btn-primary a, a.btn-primary').forEach(link => {
         const href = link.getAttribute('href') || '';
         if (href.startsWith('http')) {
             link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
         } else {
             link.setAttribute('target', '_self');
         }
     });
 
+    // ===================== CLIQUE EM BOTÕES PRINCIPAIS (.btn-primary) =====================
     document.addEventListener('click', (e) => {
         const primaryBtn = e.target.closest('.btn-primary');
-        if (!primaryBtn) return;
+        if (!primaryBtn || primaryBtn.closest('#ellcaDynamicDetailModal')) return;
 
         const link = primaryBtn.tagName === 'A' ? primaryBtn : primaryBtn.querySelector('a');
         if (!link) return;
@@ -164,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
 
         if (href.startsWith('http')) {
-            window.open(href, '_blank', 'noopener');
+            window.open(href, '_blank', 'noopener,noreferrer');
         } else {
             window.location.assign(href);
         }
@@ -329,8 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===================== Clique na Logo Leva para a Capa (index.html) =====================
-    document.querySelectorAll('.navbar .logo-img, .navbar .logo, .navbar a:has(.logo-img)').forEach((logoEl) => {
+    // ===================== CLIQUE NA LOGO LEVA PARA A CAPA (index.html) =====================
+    document.querySelectorAll('.navbar .logo-img, .navbar .logo, .navbar a').forEach((logoEl) => {
+        if (logoEl.tagName === 'A' && !logoEl.querySelector('.logo-img')) return;
         logoEl.style.cursor = 'pointer';
         logoEl.addEventListener('click', (e) => {
             e.preventDefault();
@@ -340,9 +342,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, true);
     });
 
-    // ===================== Botão Voltar / Home da Navbar =====================
+    // ===================== BOTÃO VOLTAR / HOME DA NAVBAR =====================
     document.addEventListener('click', (e) => {
-        if (e.target.closest('.logo-img, .logo, a:has(.logo-img)')) return;
+        if (e.target.closest('.logo-img, .logo')) return;
 
         const voltarBtn = e.target.closest('.btn-voltar');
         if (voltarBtn) {
@@ -411,10 +413,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p id="ellcaModalDesc" style="font-size: 12px; line-height: 1.55; color: #cbd5e1; margin-bottom: 16px;"></p>
                     <div id="ellcaModalKpis" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;"></div>
                     <div style="display: flex; gap: 10px;">
-                        <a id="ellcaModalActionLink" href="#" target="_blank" style="
+                        <a id="ellcaModalActionLink" href="#" style="
                             flex: 1; text-align: center; padding: 10px; border-radius: 8px;
                             background: linear-gradient(90deg, #00d4ff, #008ebf); color: #000;
-                            font-size: 11px; font-weight: 800; text-transform: uppercase;
+                            font-size: 11px; font-weight: 800; text-transform: uppercase; text-decoration: none;
                         ">Acessar Painel</a>
                         <button type="button" id="ellcaModalCancelBtn" style="
                             padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(64, 132, 240, 0.45);
@@ -675,9 +677,8 @@ document.addEventListener('DOMContentLoaded', () => {
     iniciarCicloAutomatico();
 });
 
-
 // ===================== AVATAR DO USUÁRIO LOGADO NA NAVBAR (SOMENTE FOTO) =====================
-(function renderizarUsuarioNavbar() {
+function renderizarUsuarioNavbar() {
     const navLinks = document.querySelector('.nav-links');
     if (!navLinks || document.getElementById('navUserAvatar')) return;
 
@@ -729,4 +730,10 @@ document.addEventListener('DOMContentLoaded', () => {
         : iniciais;
 
     navLinks.insertBefore(avatar, navLinks.firstChild);
-})();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderizarUsuarioNavbar);
+} else {
+    renderizarUsuarioNavbar();
+}
