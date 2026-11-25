@@ -6,13 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELLCA | ESTRUTURA — RESUMO & LOOKER STUDIO</title>
 
+    <!-- =====================================================================
+         [TUTORIAL PASSO 1] DEPENDÊNCIAS EXTERNAS E FOLHA DE ESTILO PRINCIPAL
+         - Fonte Montserrat (Google Fonts)
+         - Ícones Font Awesome 6.4.0
+         - styles_index.css (deve estar na MESMA pasta raiz que estrutura.html)
+         ===================================================================== -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
 
+    <!-- =====================================================================
+         [TUTORIAL PASSO 2] ESTILOS ESPECÍFICOS DO DASHBOARD ESTRUTURA
+         Nota: styles_index.css trava html/body em 100vh com overflow: hidden.
+         As regras abaixo liberam a rolagem vertical (overflow-y: auto) para
+         exibir os KPIs, gráficos em barras, tabela e o painel Looker Studio.
+         ===================================================================== -->
     <style>
         html, body {
-            height: 100%;
+            height: auto;
             min-height: 100vh;
             overflow-y: auto !important;
             overflow-x: hidden;
@@ -37,6 +49,7 @@
             background-position: center;
         }
 
+        /* Transição suave para recolher/exibir Navbar e Rodapé */
         .navbar,
         .footer-bar {
             transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
@@ -465,13 +478,16 @@
 </head>
 
 <body class="bars-collapsed">
+    <!-- =====================================================================
+         [TUTORIAL PASSO 3] PROTEÇÃO DE ROTA E PERMISSÃO POR SETOR
+         - Redireciona para login.html se sessionStorage['ellca_auth'] !== 'true'
+         - Libera acesso se ellca_user_setores contiver 'todos' ou 'estrutura'
+         ===================================================================== -->
     <script>
-        // 1. Exige autenticação ativa
         if (sessionStorage.getItem('ellca_auth') !== 'true') {
             window.location.replace('login.html');
         }
 
-        // 2. Bloqueia acesso de usuários sem permissão para o módulo Estrutura
         (function validarPermissaoEstrutura() {
             let setores = [];
             try {
@@ -489,7 +505,11 @@
         })();
     </script>
 
-    <!-- NAVBAR -->
+    <!-- =====================================================================
+         [TUTORIAL PASSO 4] NAVBAR GLOBAL DO PORTAL
+         - Inicia recolhida (classe bars-collapsed no body) e expande pelo botão
+           "Menu" no cabeçalho do dashboard.
+         ===================================================================== -->
     <nav class="navbar">
         <div class="logo">
             <a href="index.html">
@@ -526,12 +546,14 @@
         </div>
     </nav>
 
-    <!-- CONTAINER PRINCIPAL -->
+    <!-- =====================================================================
+         [TUTORIAL PASSO 5] CONTAINER PRINCIPAL & CABEÇALHO DE CONTROLES
+         ===================================================================== -->
     <div class="container">
         <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('img/Capa_home.jpg');">
             <div class="est-wrapper">
 
-                <!-- CABEÇALHO E CONTROLES -->
+                <!-- CABEÇALHO E FILTROS DINÂMICOS -->
                 <div class="est-header-card">
                     <div class="est-brand">
                         <div class="est-brand-icon"><i class="fa-solid fa-sitemap"></i></div>
@@ -567,7 +589,11 @@
                     </div>
                 </div>
 
-                <!-- SEÇÃO 1: RESUMO DA ABA "ESTRUTURA PROCESSO" -->
+                <!-- ===========================================================
+                     [TUTORIAL PASSO 6] SEÇÃO 1 — RESUMO DA ABA "ESTRUTURA PROCESSO"
+                     Alimenta 4 cards de KPI, 3 gráficos em barra e a tabela
+                     detalhada diretamente da planilha Google Sheets via JSONP.
+                     =========================================================== -->
                 <div id="blocoResumo" style="display:flex; flex-direction:column; gap:18px;">
 
                     <div class="kpi-grid">
@@ -671,7 +697,11 @@
                     </div>
                 </div>
 
-                <!-- SEÇÃO 2: RELATÓRIO LOOKER STUDIO -->
+                <!-- ===========================================================
+                     [TUTORIAL PASSO 7] SEÇÃO 2 — PAINEL INTERATIVO LOOKER STUDIO
+                     Aceita tanto link /reporting/... quanto /embed/reporting/...
+                     e salva no localStorage do navegador.
+                     =========================================================== -->
                 <div class="looker-card" id="blocoLooker">
                     <div class="panel-head" style="border-bottom:none; padding-bottom:4px;">
                         <h3><i class="fa-solid fa-chart-line" style="color:var(--primary);"></i> Painel Looker Studio — Estrutura</h3>
@@ -706,7 +736,7 @@
         <!-- RODAPÉ -->
         <footer class="footer-bar">
             <div class="footer-info">
-                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                 <span class="separator">•</span>
                 <span>Módulo: <strong>Dashboard Estrutura</strong></span>
             </div>
@@ -718,12 +748,18 @@
         </footer>
     </div>
 
+    <!-- =====================================================================
+         [TUTORIAL PASSO 8] SCRIPT DE INTEGRAÇÃO (GOOGLE SHEETS + LOOKER STUDIO)
+         - Conecta na planilha "Gestao Ellca - Estrutura", aba "Estrutura Processo"
+         - Calcula KPIs da data mais recente e renderiza filtros, barras e tabela
+         ===================================================================== -->
     <script>
         (function () {
             const SHEET_ID = '1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo';
             const ABA_ESTRUTURA = 'Estrutura Processo';
 
-            // Coloque aqui o link /embed/reporting/... fixo quando desejar que abra automático para todos
+            // DICA: Para deixar o Looker fixo para todos os usuários do GitHub Pages,
+            // substitua a string vazia abaixo pelo seu link https://lookerstudio.google.com/embed/reporting/...
             const LOOKER_URL_FIXA = localStorage.getItem('ellca_looker_estrutura_embed') || '';
 
             let registros = [];
@@ -745,7 +781,7 @@
                 return s;
             };
 
-            // Busca os dados da aba "Estrutura Processo" via JSONP
+            // Consulta JSONP na Google Visualization API (não exige backend/CORS)
             const cb = 'cbEstruturaProc_' + Math.random().toString(36).slice(2, 9);
             const script = document.createElement('script');
             window[cb] = function (json) {
@@ -779,6 +815,11 @@
 
                 preencherFiltros();
                 atualizarResumo();
+            };
+
+            script.onerror = function () {
+                document.getElementById('lblStatusPlanilha').textContent =
+                    'Erro ao conectar na planilha. Verifique se o compartilhamento está como "Qualquer pessoa com o link".';
             };
 
             script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_ESTRUTURA)}&tqx=responseHandler:${cb}`;
@@ -917,7 +958,7 @@
                 });
             });
 
-            // Looker Studio
+            // Configuração do Looker Studio
             const iframe = document.getElementById('lookerIframe');
             const configBox = document.getElementById('lookerConfig');
             const campoUrl = document.getElementById('campoLookerUrl');
@@ -944,7 +985,7 @@
                 if (wrap.requestFullscreen) wrap.requestFullscreen();
             });
 
-            // Recolher/exibir barras
+            // Recolher/exibir Navbar e Rodapé
             const btnToggle = document.getElementById('btnToggleBars');
             let recolhido = true;
             btnToggle.addEventListener('click', () => {
@@ -955,6 +996,11 @@
             });
         })();
     </script>
+
+    <!-- =====================================================================
+         [TUTORIAL PASSO 9] SCRIPT GLOBAL DO PORTAL (script.js)
+         Deve estar na MESMA pasta raiz que estrutura.html e styles_index.css
+         ===================================================================== -->
     <script src="script.js"></script>
 </body>
 
