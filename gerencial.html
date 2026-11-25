@@ -4,91 +4,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELLCA | DASHBOARD GERENCIAL</title>
+    <title>ELLCA | COCKPIT GERENCIAL EXECUTIVO</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
 
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .desktop-view {
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            position: relative;
+        }
+
+        .container .item.active {
+            position: relative !important;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
+        .navbar,
+        .footer-bar {
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        }
+
+        body.bars-collapsed .navbar {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.bars-collapsed .footer-bar {
+            transform: translateY(110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: rgba(3, 7, 18, 0.88); }
+        ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.45); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.85); }
+
         .gerencial-wrapper {
+            position: relative;
+            z-index: 5;
             width: 100%;
-            max-width: 1380px;
+            max-width: 1520px;
             margin: 0 auto;
-            padding: 95px 24px 75px 24px;
+            padding: 92px 24px 76px 24px;
             display: flex;
             flex-direction: column;
             gap: 18px;
-            height: 100vh;
-            height: 100dvh;
             box-sizing: border-box;
+            transition: padding 0.32s ease;
         }
 
+        body.bars-collapsed .gerencial-wrapper {
+            padding: 20px 24px 30px 24px;
+        }
+
+        /* ================= CABEÇALHO EXECUTIVO PADRÃO OURO ================= */
         .gerencial-header {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 12px;
-            padding: 14px 20px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.85) 0%, rgba(12, 36, 84, 0.72) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+            gap: 14px;
+            padding: 18px 24px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(6, 10, 22, 0.92) 0%, rgba(28, 22, 12, 0.82) 55%, rgba(10, 32, 72, 0.82) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.48);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(253, 224, 71, 0.22);
         }
 
         .gerencial-title-group {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 15px;
         }
 
         .gerencial-icon-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: rgba(0, 212, 255, 0.14);
-            border: 1px solid rgba(0, 212, 255, 0.45);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(251, 191, 36, 0.08));
+            border: 1px solid rgba(245, 158, 11, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            font-size: 18px;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            color: #fbbf24;
+            font-size: 20px;
+            box-shadow: 0 0 22px rgba(245, 158, 11, 0.28);
+        }
+
+        .exec-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: #fbbf24;
+            margin-bottom: 3px;
         }
 
         .gerencial-title-group h1 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 900;
-            letter-spacing: 1.2px;
+            letter-spacing: 1.1px;
             color: #fff;
             margin: 0;
             text-transform: uppercase;
         }
 
         .gerencial-title-group p {
-            font-size: 11px;
-            color: #94a3b8;
-            margin: 2px 0 0 0;
+            font-size: 11.5px;
+            color: #cbd5e1;
+            margin: 3px 0 0 0;
         }
 
         .gerencial-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border-radius: 50px;
+            font-size: 10.5px;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+        }
+
+        .sync-badge.fallback {
+            background: rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.45);
+            color: #fcd34d;
         }
 
         .btn-exec {
-            padding: 9px 15px;
-            border-radius: 9px;
-            border: 1px solid rgba(0, 212, 255, 0.4);
+            padding: 9px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.42);
             background: rgba(0, 212, 255, 0.12);
             color: #fff;
             font-size: 11px;
             font-weight: 700;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.7px;
             text-transform: uppercase;
             cursor: pointer;
             display: inline-flex;
@@ -104,27 +201,318 @@
             box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
         }
 
+        .btn-exec.active-mode {
+            background: #fbbf24;
+            color: #030712;
+            border-color: #fbbf24;
+        }
+
         .btn-exec.gold {
-            border-color: rgba(245, 158, 11, 0.5);
-            background: rgba(245, 158, 11, 0.14);
+            border-color: rgba(245, 158, 11, 0.58);
+            background: rgba(245, 158, 11, 0.16);
             color: #fcd34d;
         }
 
         .btn-exec.gold:hover {
             background: #f59e0b;
             color: #000;
-            box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.45);
+        }
+
+        /* ================= BARRA DE FILTROS EXECUTIVOS ================= */
+        .filter-bar-gold {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(5, 10, 22, 0.84);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-field label {
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-field label i { color: #fbbf24; }
+
+        .filter-field select,
+        .filter-field input {
+            width: 100%;
+            height: 36px;
+            padding: 0 11px;
+            border-radius: 9px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            color: #f8fafc;
+            font-size: 11.5px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.2s;
+            box-sizing: border-box;
+            color-scheme: dark;
+        }
+
+        .filter-field select:focus,
+        .filter-field input:focus {
+            border-color: #fbbf24;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+        }
+
+        .filter-actions-cell {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .btn-reset-filters {
+            width: 100%;
+            height: 36px;
+            border-radius: 9px;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.14);
+            color: #fca5a5;
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.22s;
+        }
+
+        .btn-reset-filters:hover {
+            background: rgba(239, 68, 68, 0.28);
+            color: #fff;
+        }
+
+        /* ================= KPIS EXECUTIVOS ================= */
+        .exec-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .exec-kpi {
+            position: relative;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: linear-gradient(145deg, rgba(6, 12, 26, 0.90) 0%, rgba(14, 28, 56, 0.72) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            overflow: hidden;
+        }
+
+        .exec-kpi::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2.5px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+        }
+
+        .exec-kpi.gold-accent {
+            border-color: rgba(245, 158, 11, 0.42);
+            background: linear-gradient(145deg, rgba(16, 13, 6, 0.92) 0%, rgba(56, 38, 12, 0.65) 100%);
+        }
+
+        .exec-kpi.gold-accent::after {
+            background: linear-gradient(90deg, transparent, #fbbf24, transparent);
+        }
+
+        .exec-kpi.emerald-accent {
+            border-color: rgba(16, 185, 129, 0.42);
+            background: linear-gradient(145deg, rgba(5, 18, 15, 0.92) 0%, rgba(8, 58, 45, 0.62) 100%);
+        }
+
+        .exec-kpi.emerald-accent::after {
+            background: linear-gradient(90deg, transparent, #34d399, transparent);
+        }
+
+        .exec-kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .exec-kpi-top i { font-size: 15px; color: var(--primary); }
+        .exec-kpi.gold-accent .exec-kpi-top i { color: #fbbf24; }
+        .exec-kpi.emerald-accent .exec-kpi-top i { color: #34d399; }
+
+        .exec-kpi-val {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.3px;
+        }
+
+        .exec-kpi-sub {
+            font-size: 11px;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mini-bar {
+            width: 100%;
+            height: 5px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .mini-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24, #34d399);
+            transition: width 0.5s ease;
+        }
+
+        /* ================= PAINEL SÍNTESE EXECUTIVA (SUPERVISORES & FROTA) ================= */
+        .exec-summary-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 16px;
+        }
+
+        .exec-summary-panel.hidden {
+            display: none;
+        }
+
+        .exec-box {
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: rgba(5, 10, 22, 0.86);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .exec-box-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        }
+
+        .exec-box-head h3 {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exec-box-head h3 i { color: #fbbf24; }
+        .exec-box-head span { font-size: 10.5px; color: #94a3b8; }
+
+        .rank-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .rank-row {
+            padding: 9px 12px;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.62);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .rank-row-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .rank-row-metrics {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+            color: #94a3b8;
+        }
+
+        /* ================= MOLDURA LOOKER STUDIO ================= */
+        .report-shell {
+            display: flex;
+            flex-direction: column;
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(3, 7, 16, 0.9);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
+        }
+
+        .report-shell-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 11px 18px;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(38, 28, 12, 0.85));
+            border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .report-shell-bar span {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: #fcd34d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .report-frame-container {
-            flex: 1;
             width: 100%;
-            border-radius: 18px;
-            overflow: hidden;
+            height: 76vh;
+            min-height: 560px;
             position: relative;
-            background: rgba(3, 7, 16, 0.85);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
+            background: #030712;
         }
 
         .report-frame-container iframe {
@@ -135,17 +523,16 @@
         }
 
         @media (max-width: 768px) {
-            .gerencial-wrapper {
-                padding: 80px 12px 65px 12px;
-            }
-            .gerencial-title-group h1 {
-                font-size: 15px;
-            }
+            .gerencial-wrapper { padding: 80px 12px 68px 12px; }
+            body.bars-collapsed .gerencial-wrapper { padding: 14px 12px 24px 12px; }
+            .gerencial-title-group h1 { font-size: 16px; }
+            .exec-summary-panel { grid-template-columns: 1fr; }
+            .report-frame-container { height: 65vh; min-height: 440px; }
         }
     </style>
 </head>
 
-<body>
+<body class="bars-collapsed">
     <!-- BLOQUEIO DE SEGURANÇA IMEDIATO -->
     <script>
         (function validarAcessoGerencial() {
@@ -182,13 +569,14 @@
             <div class="nav-content">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
-                    <span class="status-text">VISÃO EXECUTIVA • ONLINE</span>
+                    <span class="status-text">VISÃO EXECUTIVA • PADRÃO OURO</span>
                 </div>
 
                 <div class="nav-links">
-                    <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="supervisor.html" class="nav-item">SUPERVISÃO <i class="fa-solid fa-user-shield"></i></a>
+                    <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
                     <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
-                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
                     <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
 
                     <div class="nav-actions-group">
@@ -202,23 +590,34 @@
 
         <!-- FUNDO E ÁREA EXECUTIVA -->
         <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.72)), url('img/Card_gerencial.jpg');">
+            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.74)), url('img/Card_gerencial.jpg');">
                 <div class="gerencial-wrapper">
-                    
-                    <!-- CABEÇALHO DO COCKPIT -->
+
+                    <!-- CABEÇALHO DO COCKPIT GERENCIAL -->
                     <div class="gerencial-header">
                         <div class="gerencial-title-group">
                             <div class="gerencial-icon-box">
-                                <i class="fa-solid fa-chart-line"></i>
+                                <i class="fa-solid fa-crown"></i>
                             </div>
                             <div>
+                                <div class="exec-kicker"><i class="fa-solid fa-star"></i> Diretoria & Coordenação • Visão Consolidada</div>
                                 <h1>Cockpit Gerencial Ellca</h1>
-                                <p>Consolidado estratégico de indicadores operacionais, produtividade e metas</p>
+                                <p>Síntese executiva ao vivo (Programado vs. Realizado) integrada ao painel analítico Looker Studio</p>
                             </div>
                         </div>
 
                         <div class="gerencial-actions">
-                            <button type="button" class="btn-exec" id="btnFullscreenGerencial" title="Expandir em Tela Cheia">
+                            <span class="sync-badge" id="syncBadgeGerencial">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...
+                            </span>
+                            <button type="button" class="btn-exec" id="btnToggleSummary" title="Mostrar ou recolher ranking de supervisores e frota">
+                                <i class="fa-solid fa-layer-group"></i> Síntese Operacional
+                            </button>
+                            <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
+                                <span id="textToggleBars">Mostrar Menu</span>
+                            </button>
+                            <button type="button" class="btn-exec" id="btnFullscreenGerencial" title="Expandir Looker Studio em Tela Cheia">
                                 <i class="fa-solid fa-expand"></i> Tela Cheia
                             </button>
                             <a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" class="btn-exec gold">
@@ -227,13 +626,124 @@
                         </div>
                     </div>
 
+                    <!-- FILTROS EXECUTIVOS -->
+                    <div class="filter-bar-gold">
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
+                            <select id="gFilterAno"><option value="">Todos os Anos</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
+                            <select id="gFilterMes"><option value="">Todos os Meses</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data</label>
+                            <input type="date" id="gFilterData">
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                            <select id="gFilterSup"><option value="">Todos os Supervisores</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Equipe</label>
+                            <select id="gFilterTipoEq"><option value="">Todos os Tipos</option></select>
+                        </div>
+                        <div class="filter-actions-cell">
+                            <button type="button" class="btn-reset-filters" id="btnLimparFiltrosGer">
+                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KPIS EXECUTIVOS CONSOLIDADOS -->
+                    <div class="exec-kpi-grid">
+                        <div class="exec-kpi gold-accent">
+                            <div class="exec-kpi-top">
+                                <span>Receita Programada</span>
+                                <i class="fa-solid fa-sack-dollar"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="gKpiProg">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="gKpiOs">0 OS programadas</span>
+                                <span id="gKpiQtdeProg">0 unid.</span>
+                            </div>
+                        </div>
+
+                        <div class="exec-kpi emerald-accent">
+                            <div class="exec-kpi-top">
+                                <span>Receita Realizada</span>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="gKpiReal" style="color:#34d399;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="gKpiQtdeReal">0 unid. executadas</span>
+                                <span id="gKpiGap">Gap: R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <div class="exec-kpi gold-accent">
+                            <div class="exec-kpi-top">
+                                <span>Aderência Executiva</span>
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="gKpiPct" style="color:#fbbf24;">0,0%</div>
+                            <div class="exec-kpi-sub">
+                                <span id="gKpiStatusExec">Realizado / Programado</span>
+                                <span>Meta: 95,0%</span>
+                            </div>
+                            <div class="mini-bar">
+                                <div class="mini-bar-fill" id="gKpiBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="exec-kpi">
+                            <div class="exec-kpi-top">
+                                <span>Governança de Campo</span>
+                                <i class="fa-solid fa-clipboard-check"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="gKpiPendentes">0</div>
+                            <div class="exec-kpi-sub">
+                                <span id="gKpiApontados">0 itens apontados</span>
+                                <a href="producao.html" style="color:#38bdf8; text-decoration:none; font-weight:700;">Ver Produção →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SÍNTESE EXECUTIVA: SUPERVISORES & FROTA -->
+                    <div class="exec-summary-panel" id="execSummaryPanel">
+                        <div class="exec-box">
+                            <div class="exec-box-head">
+                                <h3><i class="fa-solid fa-ranking-star"></i> Performance por Supervisor</h3>
+                                <span>Programado vs. Realizado</span>
+                            </div>
+                            <div class="rank-list" id="rankSupervisoresList"></div>
+                        </div>
+
+                        <div class="exec-box">
+                            <div class="exec-box-head">
+                                <h3><i class="fa-solid fa-truck-fast"></i> Distribuição por Tipo de Equipe</h3>
+                                <span>MK • LV • LD • LM</span>
+                            </div>
+                            <div class="rank-list" id="rankFrotaList"></div>
+                        </div>
+                    </div>
+
                     <!-- MOLDURA DO LOOKER STUDIO -->
-                    <div class="report-frame-container" id="reportFrameBox">
-                        <iframe 
-                            src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" 
-                            allowfullscreen 
-                            sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
-                        </iframe>
+                    <div class="report-shell" id="reportFrameBox">
+                        <div class="report-shell-bar">
+                            <span><i class="fa-solid fa-chart-area"></i> Painel Analítico Interativo — Looker Studio</span>
+                            <button type="button" class="btn-exec gold" id="btnReloadIframe" style="padding: 6px 11px; font-size: 10px;">
+                                <i class="fa-solid fa-rotate"></i> Recarregar Painel
+                            </button>
+                        </div>
+                        <div class="report-frame-container">
+                            <iframe 
+                                id="lookerIframe"
+                                src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" 
+                                allowfullscreen 
+                                sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                            </iframe>
+                        </div>
                     </div>
 
                 </div>
@@ -242,9 +752,9 @@
             <!-- RODAPÉ -->
             <footer class="footer-bar">
                 <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Dashboard Gerencial</strong></span>
+                    <span>Módulo: <strong>Dashboard Gerencial (Padrão Ouro)</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -256,15 +766,286 @@
     </div>
 
     <script>
-        // Controle do botão Tela Cheia para Reuniões
-        document.getElementById('btnFullscreenGerencial')?.addEventListener('click', () => {
-            const box = document.getElementById('reportFrameBox');
-            if (!document.fullscreenElement) {
-                box.requestFullscreen?.().catch(err => console.warn(err));
-            } else {
-                document.exitFullscreen?.();
+        (function iniciarCockpitGerencial() {
+            const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
+            const NOMES_MESES = {
+                '01': '01 - Janeiro', '02': '02 - Fevereiro', '03': '03 - Março',
+                '04': '04 - Abril', '05': '05 - Maio', '06': '06 - Junho',
+                '07': '07 - Julho', '08': '08 - Agosto', '09': '09 - Setembro',
+                '10': '10 - Outubro', '11': '11 - Novembro', '12': '12 - Dezembro'
+            };
+
+            const FALLBACK_DATA = [
+                { os: '52199', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA04 LV', tipoEquipe: 'LV', supervisor: 'AMIEL JR', qtdeProg: 9, valorProg: 16650, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
+                { os: '52204', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA39 MK', tipoEquipe: 'MK', supervisor: 'JANILSON', qtdeProg: 1, valorProg: 1850, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
+                { os: '52206', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA26 LD', tipoEquipe: 'LD', supervisor: 'ELENILSON', qtdeProg: 1, valorProg: 420, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
+                { os: '52213', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA11 LD', tipoEquipe: 'LD', supervisor: 'JÚLIO MOURA', qtdeProg: 1, valorProg: 420, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
+                { os: '52225', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA03 LV', tipoEquipe: 'LV', supervisor: 'DEYVID', qtdeProg: 1, valorProg: 980, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' }
+            ];
+
+            let baseDados = [];
+
+            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const parseNum = (v) => {
+                if (typeof v === 'number') return v;
+                if (!v) return 0;
+                const clean = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
+                return parseFloat(clean) || 0;
+            };
+
+            function formatarDataCell(cell) {
+                if (!cell) return '';
+                const val = String(cell.v || '');
+                const m = val.match(/Date\((\d+),(\d+),(\d+)\)/);
+                if (m) {
+                    return `${m[1]}-${String(parseInt(m[2], 10) + 1).padStart(2, '0')}-${String(parseInt(m[3], 10)).padStart(2, '0')}`;
+                }
+                return cell.f || val;
             }
-        });
+
+            function extrairInfoData(raw) {
+                const s = String(raw || '').trim();
+                let m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+                if (m) return { ano: m[1], mes: m[2].padStart(2, '0'), iso: `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}` };
+                m = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+                if (m) return { ano: m[3], mes: m[2].padStart(2, '0'), iso: `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` };
+                return { ano: '', mes: '', iso: s };
+            }
+
+            // Tela Cheia
+            document.getElementById('btnFullscreenGerencial')?.addEventListener('click', () => {
+                const box = document.getElementById('reportFrameBox');
+                if (!document.fullscreenElement) {
+                    box.requestFullscreen?.().catch(err => console.warn(err));
+                } else {
+                    document.exitFullscreen?.();
+                }
+            });
+
+            // Recarregar Looker Studio
+            document.getElementById('btnReloadIframe')?.addEventListener('click', () => {
+                const iframe = document.getElementById('lookerIframe');
+                if (iframe) iframe.src = iframe.src;
+            });
+
+            // Mostrar / Ocultar Menu Superior e Rodapé
+            const btnToggleBars = document.getElementById('btnToggleBars');
+            const iconToggleBars = document.getElementById('iconToggleBars');
+            const textToggleBars = document.getElementById('textToggleBars');
+            let collapsed = true;
+
+            btnToggleBars?.addEventListener('click', () => {
+                collapsed = !collapsed;
+                document.body.classList.toggle('bars-collapsed', collapsed);
+                btnToggleBars.classList.toggle('active-mode', !collapsed);
+                iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
+                textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
+            });
+
+            // Mostrar / Ocultar Síntese Operacional
+            document.getElementById('btnToggleSummary')?.addEventListener('click', (e) => {
+                const panel = document.getElementById('execSummaryPanel');
+                panel.classList.toggle('hidden');
+                e.currentTarget.classList.toggle('active-mode', !panel.classList.contains('hidden'));
+            });
+
+            function carregarPlanilha() {
+                const badge = document.getElementById('syncBadgeGerencial');
+                const cbName = 'cbGer_' + Math.random().toString(36).slice(2, 9);
+                const script = document.createElement('script');
+                const timer = setTimeout(() => {
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    baseDados = FALLBACK_DATA;
+                    badge.className = 'sync-badge fallback';
+                    badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Offline';
+                    popularFiltros();
+                    atualizarVisao();
+                }, 7000);
+
+                window[cbName] = function (json) {
+                    clearTimeout(timer);
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+
+                    const rows = [];
+                    if (json && json.table && Array.isArray(json.table.rows)) {
+                        json.table.rows.forEach((r) => {
+                            const c = r.c || [];
+                            const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
+                            const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
+
+                            const os = getStr(1);
+                            const equipe = getStr(3);
+                            if (os && os !== 'OS' && equipe) {
+                                const info = extrairInfoData(formatarDataCell(c[2]));
+                                const qtdeProg = getNum(10) || 1;
+                                const valorUnit = getNum(11);
+                                const valorProg = getNum(12) || (qtdeProg * valorUnit);
+                                const status = (getStr(13) || 'AGUARDANDO APONTAMENTO').toUpperCase();
+                                const qtdeReal = getNum(15);
+                                const rawReal = getNum(16);
+                                const valorReal = rawReal > 0 ? rawReal : (qtdeReal * valorUnit);
+
+                                rows.push({
+                                    os,
+                                    ano: info.ano,
+                                    mes: info.mes,
+                                    dataIso: info.iso,
+                                    equipe,
+                                    tipoEquipe: getStr(4).toUpperCase(),
+                                    supervisor: getStr(5).toUpperCase(),
+                                    qtdeProg,
+                                    valorProg,
+                                    qtdeReal,
+                                    valorReal,
+                                    status
+                                });
+                            }
+                        });
+                    }
+
+                    if (rows.length > 0) {
+                        baseDados = rows;
+                        const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        badge.className = 'sync-badge';
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo • ${hora}`;
+                    } else {
+                        baseDados = FALLBACK_DATA;
+                        badge.className = 'sync-badge fallback';
+                        badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Demonstração';
+                    }
+
+                    popularFiltros();
+                    atualizarVisao();
+                };
+
+                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent('Produção')}&tqx=responseHandler:${cbName}`;
+                script.onerror = () => {
+                    clearTimeout(timer);
+                    baseDados = FALLBACK_DATA;
+                    popularFiltros();
+                    atualizarVisao();
+                };
+                document.body.appendChild(script);
+            }
+
+            function popularFiltros() {
+                const fill = (id, vals, labelAll, fmt = (v) => v, desc = false) => {
+                    const sel = document.getElementById(id);
+                    const prev = sel.value;
+                    sel.innerHTML = `<option value="">${labelAll}</option>`;
+                    const uniq = [...new Set(vals.filter(Boolean))].sort();
+                    if (desc) uniq.reverse();
+                    uniq.forEach(v => {
+                        const opt = document.createElement('option');
+                        opt.value = v;
+                        opt.textContent = fmt(v);
+                        sel.appendChild(opt);
+                    });
+                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+                };
+
+                fill('gFilterAno', baseDados.map(d => d.ano), 'Todos os Anos', (v) => v, true);
+                fill('gFilterMes', baseDados.map(d => d.mes), 'Todos os Meses', (m) => NOMES_MESES[m] || m);
+                fill('gFilterSup', baseDados.map(d => d.supervisor), 'Todos os Supervisores');
+                fill('gFilterTipoEq', baseDados.map(d => d.tipoEquipe), 'Todos os Tipos (LV, MK, LD, LM)');
+            }
+
+            function atualizarVisao() {
+                const ano = document.getElementById('gFilterAno').value;
+                const mes = document.getElementById('gFilterMes').value;
+                const dataVal = document.getElementById('gFilterData').value;
+                const sup = document.getElementById('gFilterSup').value;
+                const tipoEq = document.getElementById('gFilterTipoEq').value;
+
+                const filtrados = baseDados.filter(d => {
+                    if (ano && d.ano !== ano) return false;
+                    if (mes && d.mes !== mes) return false;
+                    if (dataVal && d.dataIso !== dataVal) return false;
+                    if (sup && d.supervisor !== sup) return false;
+                    if (tipoEq && d.tipoEquipe !== tipoEq) return false;
+                    return true;
+                });
+
+                const totProg = filtrados.reduce((a, d) => a + d.valorProg, 0);
+                const totReal = filtrados.reduce((a, d) => a + d.valorReal, 0);
+                const qtdeProg = filtrados.reduce((a, d) => a + d.qtdeProg, 0);
+                const qtdeReal = filtrados.reduce((a, d) => a + d.qtdeReal, 0);
+                const qtdOs = new Set(filtrados.map(d => d.os)).size;
+                const pct = totProg > 0 ? (totReal / totProg) * 100 : 0;
+                const pendentes = filtrados.filter(d => d.status.includes('AGUARDANDO')).length;
+                const apontados = filtrados.length - pendentes;
+
+                document.getElementById('gKpiProg').textContent = fmtBRL(totProg);
+                document.getElementById('gKpiOs').textContent = `${qtdOs} OS programadas`;
+                document.getElementById('gKpiQtdeProg').textContent = `${qtdeProg} unid.`;
+
+                document.getElementById('gKpiReal').textContent = fmtBRL(totReal);
+                document.getElementById('gKpiQtdeReal').textContent = `${qtdeReal} unid. executadas`;
+                document.getElementById('gKpiGap').textContent = `Gap: ${fmtBRL(totReal - totProg)}`;
+
+                document.getElementById('gKpiPct').textContent = `${pct.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('gKpiBar').style.width = `${Math.min(100, pct)}%`;
+
+                document.getElementById('gKpiPendentes').textContent = `${pendentes} pendentes`;
+                document.getElementById('gKpiApontados').textContent = `${apontados} apontados`;
+
+                renderRanking('rankSupervisoresList', filtrados, 'supervisor', totProg);
+                renderRanking('rankFrotaList', filtrados, 'tipoEquipe', totProg);
+            }
+
+            function renderRanking(containerId, lista, campo, totalGeralProg) {
+                const el = document.getElementById(containerId);
+                const map = {};
+                lista.forEach(d => {
+                    const k = d[campo] || 'N/D';
+                    if (!map[k]) map[k] = { prog: 0, real: 0, os: new Set() };
+                    map[k].prog += d.valorProg;
+                    map[k].real += d.valorReal;
+                    map[k].os.add(d.os);
+                });
+
+                const sorted = Object.entries(map).sort((a, b) => b[1].prog - a[1].prog);
+                if (sorted.length === 0) {
+                    el.innerHTML = `<div style="font-size:11.5px; color:#94a3b8; padding:10px;">Sem registros para o filtro selecionado.</div>`;
+                    return;
+                }
+
+                el.innerHTML = sorted.map(([nome, info]) => {
+                    const share = totalGeralProg > 0 ? (info.prog / totalGeralProg) * 100 : 0;
+                    const aderencia = info.prog > 0 ? (info.real / info.prog) * 100 : 0;
+                    return `
+                        <div class="rank-row">
+                            <div class="rank-row-top">
+                                <span>${nome} <small style="color:#94a3b8; font-weight:600;">(${info.os.size} OS • ${share.toFixed(0)}%)</small></span>
+                                <span style="color:#fcd34d;">Prog: ${fmtBRL(info.prog)}</span>
+                            </div>
+                            <div class="rank-row-metrics">
+                                <span>Realizado: <strong style="color:#34d399;">${fmtBRL(info.real)}</strong></span>
+                                <span>Aderência: <strong>${aderencia.toFixed(1).replace('.', ',')}%</strong></span>
+                            </div>
+                            <div class="mini-bar">
+                                <div class="mini-bar-fill" style="width:${Math.min(100, share)}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            ['gFilterAno', 'gFilterMes', 'gFilterData', 'gFilterSup', 'gFilterTipoEq'].forEach(id => {
+                document.getElementById(id)?.addEventListener('change', atualizarVisao);
+            });
+
+            document.getElementById('btnLimparFiltrosGer')?.addEventListener('click', () => {
+                ['gFilterAno', 'gFilterMes', 'gFilterData', 'gFilterSup', 'gFilterTipoEq'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+                atualizarVisao();
+            });
+
+            carregarPlanilha();
+        })();
     </script>
     <script src="script.js"></script>
 </body>
