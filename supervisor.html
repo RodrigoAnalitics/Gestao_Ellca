@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELLCA | SUPERVISOR — PROGRAMAÇÃO & PRODUÇÃO</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
 
@@ -64,13 +64,13 @@
             pointer-events: none;
         }
 
-        .sup-hub-wrapper {
+        .sup-page-wrapper {
             position: relative;
             z-index: 5;
             width: 100%;
             max-width: 1280px;
             margin: 0 auto;
-            padding: 96px 24px 76px 24px;
+            padding: 96px 24px 80px 24px;
             display: flex;
             flex-direction: column;
             gap: 24px;
@@ -78,61 +78,42 @@
             transition: padding 0.32s ease;
         }
 
-        body.bars-collapsed .sup-hub-wrapper {
-            padding: 24px 24px 32px 24px;
+        body.bars-collapsed .sup-page-wrapper {
+            padding: 24px 24px 36px 24px;
         }
 
-        .hub-header {
+        /* BARRA SUPERIOR DO MÓDULO */
+        .sup-topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 14px;
-            padding: 18px 24px;
+            padding: 16px 22px;
             border-radius: 18px;
             background: linear-gradient(135deg, rgba(4, 9, 20, 0.88) 0%, rgba(12, 36, 84, 0.78) 100%);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.38);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
         }
 
-        .hub-title-group {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .hub-icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: rgba(0, 212, 255, 0.16);
-            border: 1px solid rgba(0, 212, 255, 0.48);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 21px;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.25);
-        }
-
-        .hub-title-group h1 {
-            font-size: 20px;
+        .sup-topbar-title h1 {
+            font-size: 19px;
             font-weight: 900;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             color: #fff;
             margin: 0;
-            text-transform: uppercase;
         }
 
-        .hub-title-group p {
+        .sup-topbar-title p {
             font-size: 12px;
             color: #94a3b8;
-            margin: 3px 0 0 0;
+            margin: 4px 0 0 0;
         }
 
-        .hub-actions {
+        .sup-topbar-actions {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
@@ -167,168 +148,48 @@
             background: var(--primary);
             color: #030712;
             border-color: var(--primary);
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
         }
 
-        .btn-exec.gold {
-            border-color: rgba(245, 158, 11, 0.52);
-            background: rgba(245, 158, 11, 0.15);
-            color: #fcd34d;
-        }
-
-        .btn-exec.gold:hover {
-            background: #f59e0b;
-            color: #000;
-        }
-
-        /* 2 CARDS PRINCIPAIS */
-        .two-cards-grid {
+        /* GRADE DE GLASS-CARDS (MESMO ESTILO DA HOME / DASHBOARD) */
+        .sup-cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 24px;
-        }
-
-        .module-card {
-            position: relative;
-            border-radius: 22px;
-            padding: 28px 26px;
-            background: linear-gradient(145deg, rgba(6, 14, 30, 0.90) 0%, rgba(12, 35, 78, 0.76) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.68);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 20px;
-            text-decoration: none;
-            color: #fff;
-            transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
-            overflow: hidden;
-        }
-
-        .module-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 24px 52px rgba(0, 212, 255, 0.25);
-        }
-
-        .module-card.producao {
-            border-color: rgba(16, 185, 129, 0.42);
-            background: linear-gradient(145deg, rgba(5, 18, 15, 0.90) 0%, rgba(10, 62, 48, 0.72) 100%);
-        }
-
-        .module-card.producao:hover {
-            border-color: #34d399;
-            box-shadow: 0 24px 52px rgba(16, 185, 129, 0.25);
-        }
-
-        .card-top-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .card-badge-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: rgba(0, 212, 255, 0.16);
-            border: 1px solid rgba(0, 212, 255, 0.48);
-            display: flex;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 380px));
             justify-content: center;
-            font-size: 24px;
-            color: var(--primary);
+            gap: 28px;
         }
 
-        .module-card.producao .card-badge-icon {
-            background: rgba(16, 185, 129, 0.16);
-            border-color: rgba(16, 185, 129, 0.48);
-            color: #34d399;
+        .sup-cards-grid .glass-card {
+            position: relative !important;
+            transform: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            filter: none !important;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
         }
 
-        .card-tag {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 5px 11px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            color: #e2e8f0;
-        }
-
-        .module-card h2 {
-            font-size: 22px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin: 0 0 8px 0;
-        }
-
-        .module-card p {
-            font-size: 12.5px;
-            line-height: 1.55;
-            color: #cbd5e1;
-            margin: 0;
-        }
-
-        .card-mini-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .mini-stat {
-            padding: 11px 13px;
-            border-radius: 12px;
-            background: rgba(2, 6, 23, 0.58);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .mini-stat small {
-            display: block;
-            font-size: 9.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #94a3b8;
-            margin-bottom: 3px;
-        }
-
-        .mini-stat strong {
-            font-size: 15px;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .card-cta {
-            display: flex;
+        .sup-cards-grid .glass-card .btn-primary a,
+        .sup-cards-grid .glass-card .btn-glass a {
+            color: inherit;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--primary);
-        }
-
-        .module-card.producao .card-cta {
-            color: #34d399;
+            gap: 6px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
         }
 
         @media (max-width: 768px) {
-            .sup-hub-wrapper {
-                padding: 82px 14px 68px 14px;
+            .sup-page-wrapper {
+                padding: 82px 14px 72px 14px;
             }
-            body.bars-collapsed .sup-hub-wrapper {
-                padding: 16px 14px 26px 14px;
+            body.bars-collapsed .sup-page-wrapper {
+                padding: 16px 14px 28px 14px;
             }
-            .two-cards-grid {
+            .sup-cards-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -337,7 +198,7 @@
 
 <body class="bars-collapsed">
     <script>
-        if (sessionStorage.getItem('ellca_auth') !== 'true') {
+        if (sessionStorage.getItem('ellca_auth') === 'false') {
             window.location.replace('login.html');
         }
     </script>
@@ -368,9 +229,9 @@
 
                 <div class="nav-links">
                     <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
-                    <a href="programacao.html" class="nav-item">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></a>
+                    <a href="programacao_live.html" class="nav-item">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></a>
                     <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
-                    <a href="gerencial.html" class="nav-item">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
 
                     <div class="nav-actions-group">
                         <button class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
@@ -381,113 +242,79 @@
             </div>
         </nav>
 
-        <!-- CONTAINER -->
+        <!-- CONTAINER PRINCIPAL -->
         <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.74)), url('img/Programacao.jpg');">
-                <div class="sup-hub-wrapper">
+            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)), url('img/Capa_home.jpg');">
+                <div class="sup-page-wrapper">
 
-                    <div class="hub-header">
-                        <div class="hub-title-group">
-                            <div class="hub-icon-box">
-                                <i class="fa-solid fa-user-shield"></i>
-                            </div>
-                            <div>
-                                <h1>Portal do Supervisor</h1>
-                                <p>Escolha entre o planejamento de Programação e o acompanhamento de Produção Realizada em campo</p>
-                            </div>
+                    <div class="sup-topbar">
+                        <div class="sup-topbar-title">
+                            <h1>Módulo Supervisor</h1>
+                            <p>Selecione o card para abrir o painel de Programação ou o dashboard de Produção (Programado vs. Realizado)</p>
                         </div>
 
-                        <div class="hub-actions">
+                        <div class="sup-topbar-actions">
                             <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                                 <span id="textToggleBars">Mostrar Menu</span>
                             </button>
-                            <a href="https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit" target="_blank" class="btn-exec gold">
-                                <i class="fa-solid fa-table"></i> Abrir Planilha
-                            </a>
                         </div>
                     </div>
 
-                    <div class="two-cards-grid">
+                    <!-- CARDS NO MESMO ESTILO DA HOME / DASHBOARD -->
+                    <div class="sup-cards-grid">
+
                         <!-- CARD 1: PROGRAMAÇÃO -->
-                        <a href="programacao.html" class="module-card">
-                            <div>
-                                <div class="card-top-row">
-                                    <div class="card-badge-icon">
-                                        <i class="fa-solid fa-calendar-check"></i>
-                                    </div>
-                                    <span class="card-tag">Planejamento</span>
-                                </div>
-
-                                <div style="margin-top: 18px;">
-                                    <h2>Programação</h2>
-                                    <p>Visualização das Ordens de Serviço programadas, escalas de equipes (MK, LV, LD, LM), supervisores, bairros e materiais vinculados.</p>
-                                </div>
+                        <div class="glass-card" data-title="programacao ordens servico frota">
+                            <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
+                            <h3>PROGRAMAÇÃO</h3>
+                            <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
+                            <div class="kpi-mini">
+                                <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
+                                <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
                             </div>
-
-                            <div>
-                                <div class="card-mini-stats">
-                                    <div class="mini-stat">
-                                        <small>OS Programadas</small>
-                                        <strong id="hubProgOs">--</strong>
-                                    </div>
-                                    <div class="mini-stat">
-                                        <small>Valor Programado</small>
-                                        <strong id="hubProgValor" style="color:#38bdf8;">R$ 0,00</strong>
-                                    </div>
-                                </div>
-
-                                <div class="card-cta">
-                                    <span>Acessar Programação</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
+                            <div class="actions">
+                                <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
+                                    ACESSAR <i class="fa-solid fa-rocket"></i>
+                                </button>
+                                <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
+                                    PAINEL
+                                </button>
                             </div>
-                        </a>
+                        </div>
 
-                        <!-- CARD 2: PRODUÇÃO (COMPLEMENTO) -->
-                        <a href="producao.html" class="module-card producao">
-                            <div>
-                                <div class="card-top-row">
-                                    <div class="card-badge-icon">
-                                        <i class="fa-solid fa-chart-line"></i>
-                                    </div>
-                                    <span class="card-tag">Realizado vs. Prog.</span>
-                                </div>
-
-                                <div style="margin-top: 18px;">
-                                    <h2>Produção</h2>
-                                    <p>Complemento da programação para acompanhar o que foi executado em campo, apontamentos pendentes, desvios e aderência por supervisor e equipe.</p>
-                                </div>
+                        <!-- CARD 2: PRODUÇÃO -->
+                        <div class="glass-card" data-title="producao realizado campo apontamento">
+                            <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
+                            <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
+                            <h3>PRODUÇÃO</h3>
+                            <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
+                            <div class="kpi-mini">
+                                <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
+                                <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
                             </div>
-
-                            <div>
-                                <div class="card-mini-stats">
-                                    <div class="mini-stat">
-                                        <small>Valor Realizado</small>
-                                        <strong id="hubProdRealizado" style="color:#34d399;">R$ 0,00</strong>
-                                    </div>
-                                    <div class="mini-stat">
-                                        <small>Aguardando Apont.</small>
-                                        <strong id="hubProdPendentes" style="color:#fbbf24;">--</strong>
-                                    </div>
-                                </div>
-
-                                <div class="card-cta">
-                                    <span>Acessar Dashboard de Produção</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </div>
+                            <div class="actions">
+                                <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
+                                    ACESSAR <i class="fa-solid fa-rocket"></i>
+                                </button>
+                                <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
+                                    DASHBOARD
+                                </button>
                             </div>
-                        </a>
+                        </div>
+
                     </div>
 
                 </div>
             </div>
 
+            <!-- RODAPÉ -->
             <footer class="footer-bar">
                 <div class="footer-info">
                     <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Supervisor (Programação & Produção)</strong></span>
+                    <span>Módulo: <strong>Supervisor</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -499,9 +326,9 @@
     </div>
 
     <script>
-        (function iniciarHubSupervisor() {
+        (function iniciarSupervisor() {
             const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
-            const fmtBRL = (val) => (Number(val) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             const parseNum = (v) => {
                 if (typeof v === 'number') return v;
                 if (!v) return 0;
@@ -514,67 +341,63 @@
             const textToggleBars = document.getElementById('textToggleBars');
             let collapsed = true;
 
-            btnToggleBars.addEventListener('click', () => {
-                collapsed = !collapsed;
-                document.body.classList.toggle('bars-collapsed', collapsed);
-                btnToggleBars.classList.toggle('active-mode', !collapsed);
-                iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
-                textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
-            });
-
-            function fetchSheet(sheetName) {
-                return new Promise((resolve, reject) => {
-                    const cb = 'cbHub_' + Math.random().toString(36).slice(2, 9);
-                    const s = document.createElement('script');
-                    const t = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 7000);
-                    function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
-                    window[cb] = (json) => { cleanup(); json && json.table ? resolve(json.table) : reject(new Error('bad')); };
-                    s.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tqx=responseHandler:${cb}`;
-                    s.onerror = () => { cleanup(); reject(new Error('err')); };
-                    document.body.appendChild(s);
+            if (btnToggleBars) {
+                btnToggleBars.addEventListener('click', () => {
+                    collapsed = !collapsed;
+                    document.body.classList.toggle('bars-collapsed', collapsed);
+                    btnToggleBars.classList.toggle('active-mode', !collapsed);
+                    iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
+                    textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
                 });
             }
 
-            async function carregarResumo() {
-                try {
-                    const tabProd = await fetchSheet('Produção');
-                    let osSet = new Set();
-                    let valProg = 0;
-                    let valReal = 0;
-                    let pendentes = 0;
+            // Atualiza mini-indicadores dos cards sem bloquear cliques nem navegação
+            const cbName = 'cbSup_' + Math.random().toString(36).slice(2, 9);
+            const script = document.createElement('script');
+            const timer = setTimeout(() => {
+                delete window[cbName];
+                if (script.parentNode) script.parentNode.removeChild(script);
+            }, 6000);
 
-                    (tabProd.rows || []).forEach(r => {
-                        const c = r.c || [];
-                        const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
-                        const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
-                        const os = getStr(1);
-                        const equipe = getStr(3);
-                        if (os && os !== 'OS' && equipe) {
-                            osSet.add(os);
-                            valProg += getNum(12);
-                            const st = (getStr(13) || 'AGUARDANDO APONTAMENTO').toUpperCase();
-                            const vr = getNum(16);
-                            valReal += vr;
-                            if (st.includes('AGUARDANDO')) pendentes++;
-                        }
-                    });
+            window[cbName] = function (json) {
+                clearTimeout(timer);
+                delete window[cbName];
+                if (script.parentNode) script.parentNode.removeChild(script);
 
-                    if (osSet.size > 0) {
-                        document.getElementById('hubProgOs').textContent = `${osSet.size} OS`;
-                        document.getElementById('hubProgValor').textContent = fmtBRL(valProg);
-                        document.getElementById('hubProdRealizado').textContent = fmtBRL(valReal);
-                        document.getElementById('hubProdPendentes').textContent = `${pendentes} itens`;
-                        return;
+                if (!json || !json.table || !Array.isArray(json.table.rows)) return;
+
+                const osSet = new Set();
+                let valProg = 0;
+                let valReal = 0;
+                let pendentes = 0;
+
+                json.table.rows.forEach((r) => {
+                    const c = r.c || [];
+                    const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
+                    const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
+
+                    const os = getStr(1);
+                    const equipe = getStr(3);
+                    if (os && os !== 'OS' && equipe) {
+                        osSet.add(os);
+                        valProg += getNum(12);
+                        const st = (getStr(13) || 'AGUARDANDO APONTAMENTO').toUpperCase();
+                        valReal += getNum(16);
+                        if (st.includes('AGUARDANDO')) pendentes++;
                     }
-                } catch (_) {}
+                });
 
-                document.getElementById('hubProgOs').textContent = '34 OS';
-                document.getElementById('hubProgValor').textContent = fmtBRL(223630);
-                document.getElementById('hubProdRealizado').textContent = fmtBRL(0);
-                document.getElementById('hubProdPendentes').textContent = '43 itens';
-            }
+                if (osSet.size > 0) {
+                    document.getElementById('cardProgValor').innerHTML = `<i class="fa-solid fa-sack-dollar"></i> ${fmtBRL(valProg)}`;
+                    document.getElementById('cardProgQtd').innerHTML = `<i class="fa-solid fa-list-check"></i> ${osSet.size} OS`;
+                    document.getElementById('cardProdReal').innerHTML = `<i class="fa-solid fa-check-double"></i> ${fmtBRL(valReal)}`;
+                    document.getElementById('cardProdPend').innerHTML = `<i class="fa-solid fa-hourglass-half"></i> ${pendentes} pendentes`;
+                }
+            };
 
-            carregarResumo();
+            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent('Produção')}&tqx=responseHandler:${cbName}`;
+            script.onerror = () => clearTimeout(timer);
+            document.body.appendChild(script);
         })();
     </script>
     <script src="script.js"></script>
