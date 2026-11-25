@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | DASHBOARD</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+</head>
+
+<body>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html"> 
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
+                </a>
+            </div>
+
+            <!-- Ações Mobile -->
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Conteúdo da Navbar -->
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">REDES ONLINE • 12ms</span>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="cardSearch" placeholder="Pesquisar setor...">
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item active">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    
+                    <div class="nav-actions-group">
+                        <button class="grid-toggle-btn" title="Alternar visualização em Grade">
+                            <i class="fa-solid fa-table-cells"></i>
+                        </button>
+                        <button class="btn-voltar btn-voltar-desktop" id="btnVoltar" data-destino="home.html" title="Voltar para Home">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTAINER PRINCIPAL -->
+        <div class="container">
+            <div class="slide">
+                <div class="item active"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.55)),
+                    url('img/dashboards.jpg');">
+
+                    <div class="split-screen">
+
+                        <!-- TEXTO -->
+                        <div class="text-section">
+                            <div class="topic">PAINEL ANALÍTICO</div>
+
+                            <h1 class="title">
+                                CENTRAL DE <br>
+                                <span>DASHBOARDS</span>
+                            </h1>
+
+                            <p class="des">
+                                Acesse os indicadores de desempenho por setor. 
+                                Monitore métricas em tempo real, relatórios gerenciais e acompanhe a evolução dos processos corporativos com total precisão.
+                                <br><br>
+                                Selecione um departamento para visualizar os dados consolidados.
+                            </p>
+                        </div>
+
+                        <!-- CARROSSEL 3D / GRADE DE SETORES -->
+                        <div class="cards-section">
+                            <div class="cards-wrapper">
+
+                                <!-- CARD 1: ALMOXARIFADO -->
+                                <div class="glass-card" data-setor="almoxarifado" data-index="0" data-title="almoxarifado log estoque materiais">
+                                    <div class="badge gold">LOG <i class="fa-solid fa-boxes-stacked"></i></div>
+                                    <div class="img-box" style="background-image: url('img/almoxarifado.jpg');"></div>
+                                    <h3>ALMOXARIFADO</h3>
+                                    <p class="card-desc">Controle de estoque, entradas, saídas e inventário de materiais.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-box"></i> 1.240</span>
+                                        <span><i class="fa-solid fa-warehouse"></i> Itens</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=almoxarifado"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div> 
+                               
+                                <!-- CARD 2: ALMOXARIFADO EPI/EPC -->
+                                <div class="glass-card" data-setor="almoxarifado_epi" data-index="1" data-title="almoxarifado epi epc seg segurança equipamento">
+                                    <div class="badge gold">SEG <i class="fa-solid fa-helmet-safety"></i></div>
+                                    <div class="img-box" style="background-image: url('img/epi_epc.jpg');"></div>
+                                    <h3>ALM. EPI/EPC</h3>
+                                    <p class="card-desc">Controle de estoque e entrega de Equipamentos de Proteção.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-box-archive"></i> Estoque</span>
+                                        <span><i class="fa-solid fa-hand-holding-medical"></i> Entregas</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=almoxarifado_epi"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- CARD 3: BACKOFFICE -->
+                                <div class="glass-card" data-setor="backoffice" data-index="2" data-title="backoffice gestor administrativo">
+                                    <div class="badge gold">GESTOR <i class="fa-solid fa-briefcase"></i></div>
+                                    <div class="img-box" style="background-image: url('img/backoffice.jpg');"></div>
+                                    <h3>BACKOFFICE</h3>
+                                    <p class="card-desc">Indicadores de suporte administrativo e controle de processos internos.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-check"></i> 98%</span>
+                                        <span><i class="fa-solid fa-chart-line"></i> Eficiência</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=backoffice"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 4: DP -->
+                                <div class="glass-card" data-setor="dp" data-index="3" data-title="dp fin departamento pessoal folha ponto">
+                                    <div class="badge gold">FIN <i class="fa-solid fa-file-invoice-dollar"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_DP.jpg');"></div>
+                                    <h3>DP</h3>
+                                    <p class="card-desc">Departamento pessoal, folha de pagamento, benefícios e ponto eletrônico.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-calendar-check"></i> OK</span>
+                                        <span><i class="fa-solid fa-wallet"></i> Folha</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=dp"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                               
+                                <!-- CARD 5: DSC -->
+                                <div class="glass-card" data-setor="dsc" data-index="4" data-title="dsc dialogo semanal segurança treinamento eqtl">
+                                    <div class="badge gold">EQTL <i class="fa-solid fa-hard-hat"></i></div>
+                                    <div class="img-box" style="background-image: url('img/DSC.jpg');"></div>
+                                    <h3>DSC</h3>
+                                    <p class="card-desc">Registros e histórico dos Diálogos Semanais do Cliente.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-users"></i> 100% Pauta</span>
+                                        <span><i class="fa-solid fa-signature"></i> Atas</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=dsc"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 6: ESTRUTURA -->
+                                <div class="glass-card" data-setor="estrutura" data-index="5" data-title="estrutura organizacional fisco hierarquia corp filiais">
+                                    <div class="badge">CORP <i class="fa-solid fa-sitemap"></i></div>
+                                    <div class="img-box" style="background-image: url('img/estrutura.jpg');"></div>
+                                    <h3>ESTRUTURA</h3>
+                                    <p class="card-desc">Gestão da estrutura física, patrimonial e organizacional da empresa.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-building"></i> Ativos</span>
+                                        <span><i class="fa-solid fa-map-location-dot"></i> Filiais</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=estrutura"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 7: FROTA -->
+                                <div class="glass-card" data-setor="frota" data-index="6" data-title="frota ops veiculos combustivel rotas">
+                                    <div class="badge">OPS <i class="fa-solid fa-truck-fast"></i></div>
+                                    <div class="img-box" style="background-image: url('img/frota.jpg');"></div>
+                                    <h3>FROTA</h3>
+                                    <p class="card-desc">Gestão de veículos, manutenções preventivas, rotas e consumo de combustível.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-gas-pump"></i> Controlado</span>
+                                        <span><i class="fa-solid fa-car"></i> Ativa</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=frota"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 8: INFRAESTRUTURA -->
+                                <div class="glass-card" data-setor="infraestrutura" data-index="7" data-title="infraestrutura ti servidores redes hardware">
+                                    <div class="badge">TI <i class="fa-solid fa-server"></i></div>
+                                    <div class="img-box" style="background-image: url('img/infraestrutura.jpg');"></div>
+                                    <h3>INFRAESTRUTURA</h3>
+                                    <p class="card-desc">Monitoramento de servidores, redes, hardware e suporte técnico.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-signal"></i> 99.9%</span>
+                                        <span><i class="fa-solid fa-network-wired"></i> Uptime</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=infraestrutura"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 9: PRODUTIVIDADE -->
+                                <div class="glass-card" data-setor="produtividade" data-index="8" data-title="produtividade perf performance eficiência rendimento metas">
+                                    <div class="badge">PERF <i class="fa-solid fa-gauge-high"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_Produtividade.jpg');"></div>
+                                    <h3>PRODUTIVIDADE</h3>
+                                    <p class="card-desc">Análise de eficiência operacional, rendimento de equipes e metas.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-person-running"></i> Eficiência</span>
+                                        <span><i class="fa-solid fa-thumbs-up"></i> Qualidade</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=produtividade"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                               
+                                <!-- CARD 10: PROGRAMAÇÃO -->
+                                <div class="glass-card" data-setor="programacao" data-index="9" data-title="programação planejamento ops operacional serviços">
+                                    <div class="badge gold">OPS <i class="fa-solid fa-calendar-check"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
+                                    <h3>PROGRAMAÇÃO</h3>
+                                    <p class="card-desc">Planejamento e agendamento de serviços operacionais e equipes.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-list-check"></i> Aderência</span>
+                                        <span><i class="fa-solid fa-person-digging"></i> Equipes</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=programacao"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                  
+                                <!-- CARD 11: PROJETO -->
+                                <div class="glass-card" data-setor="projeto" data-index="10" data-title="projeto bi cronogramas entregas">
+                                    <div class="badge">BI <i class="fa-solid fa-diagram-project"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_Projeto.jpg');"></div>
+                                    <h3>PROJETO</h3>
+                                    <p class="card-desc">Acompanhamento de cronogramas, escopos e entregas de projetos.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-arrow-up"></i> 94%</span>
+                                        <span><i class="fa-solid fa-clock"></i> Prazo</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=projeto"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 12: RH -->
+                                <div class="glass-card" data-setor="rh" data-index="11" data-title="rh talent recursos humanos recrutamento clima">
+                                    <div class="badge">TALENT <i class="fa-solid fa-user-tie"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_RH.jpg');"></div>
+                                    <h3>RH</h3>
+                                    <p class="card-desc">Gestão de talentos, recrutamento, seleções e clima organizacional.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-users"></i> 100%</span>
+                                        <span><i class="fa-solid fa-face-smile"></i> Clima</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=rh"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                                <!-- CARD 13: SESMT -->
+                                <div class="glass-card" data-setor="sesmt" data-index="12" data-title="sesmt seg segurança do trabalho riscos">
+                                    <div class="badge gold">SEG <i class="fa-solid fa-helmet-safety"></i></div>
+                                    <div class="img-box" style="background-image: url('img/sesmt.jpg');"></div>
+                                    <h3>SESMT</h3>
+                                    <p class="card-desc">Segurança do trabalho, EPIs, inspeções de campo e prevenção de riscos.</p>
+                                    <div class="kpi-mini">
+                                        <span><i class="fa-solid fa-shield-halved"></i> 0 Acidentes</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="painel.html?setor=sesmt"> ACESSAR <i class="fa-solid fa-arrow-right"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTROLES & PAGINAÇÃO -->
+            <div class="controls-container">
+                <div class="controls">
+                    <button class="prev"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="pagination-dots"></div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong>Dashboards Setoriais</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Filtro SVG para Fumaça Volumétrica Suave -->
+    <svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
+        <filter id="hollywood-smoke-filter" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.010 0.015" numOctaves="3" seed="8" result="noise">
+                <animate attributeName="baseFrequency" dur="18s" values="0.010 0.015;0.015 0.022;0.010 0.015" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <!-- SCRIPT DE PROTEÇÃO DE SESSÃO E CLIQUE DIRETO -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('ellca_auth') !== 'true') {
+                window.location.replace('login.html');
+                return;
+            }
+
+            document.querySelectorAll('.cards-wrapper .btn-primary').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    const link = this.querySelector('a');
+                    const href = link ? link.getAttribute('href') : this.getAttribute('data-href');
+                    if (href) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.location.assign(href);
+                    }
+                });
+            });
+        })();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

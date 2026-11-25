@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | PAINEL SETORIAL</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+
+    <style>
+        .painel-wrapper {
+            width: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 95px 24px 75px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            height: 100vh;
+            height: 100dvh;
+            box-sizing: border-box;
+        }
+
+        .painel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.85) 0%, rgba(12, 36, 84, 0.72) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+        }
+
+        .painel-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .painel-icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .painel-title-group h1 {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .painel-title-group p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 2px 0 0 0;
+        }
+
+        .painel-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-exec {
+            padding: 9px 15px;
+            border-radius: 9px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.12);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-exec:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+        }
+
+        .btn-exec.gold {
+            border-color: rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.14);
+            color: #fcd34d;
+        }
+
+        .btn-exec.gold:hover {
+            background: #f59e0b;
+            color: #000;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+        }
+
+        .report-frame-container {
+            flex: 1;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(3, 7, 16, 0.85);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
+        }
+
+        .report-frame-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .painel-wrapper {
+                padding: 80px 12px 65px 12px;
+            }
+            .painel-title-group h1 {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="dashboard.html" title="Voltar aos Dashboards">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text" id="navSetorStatus">PAINEL SETORIAL • ONLINE</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item active">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    <a href="gerencial.html" class="nav-item">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+
+                    <div class="nav-actions-group">
+                        <button class="btn-voltar btn-voltar-desktop" data-destino="dashboard.html" title="Voltar aos Dashboards">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- FUNDO E ÁREA DO PAINEL -->
+        <div class="container">
+            <div class="item active" id="painelBgItem" style="background-image: linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.72)), url('img/dashboards.jpg');">
+                <div class="painel-wrapper">
+                    <div class="painel-header">
+                        <div class="painel-title-group">
+                            <div class="painel-icon-box">
+                                <i class="fa-solid fa-chart-column" id="painelIcon"></i>
+                            </div>
+                            <div>
+                                <h1 id="painelTitulo">Carregando Painel...</h1>
+                                <p id="painelSubtitulo">Indicadores operacionais integrados ao Portal ELLCA</p>
+                            </div>
+                        </div>
+
+                        <div class="painel-actions">
+                            <button type="button" class="btn-exec" id="btnFullscreenPainel" title="Expandir em Tela Cheia">
+                                <i class="fa-solid fa-expand"></i> Tela Cheia
+                            </button>
+                            <a href="#" target="_blank" class="btn-exec gold" id="btnAbrirExterno">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Externo
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="report-frame-container" id="reportFrameBox">
+                        <iframe 
+                            id="painelIframe"
+                            src="about:blank"
+                            loading="lazy"
+                            allowfullscreen 
+                            sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong id="footerModulo">Painel Setorial</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        (function carregarPainelSetor() {
+            if (sessionStorage.getItem('ellca_auth') !== 'true') {
+                window.location.replace('login.html');
+                return;
+            }
+
+            // ===================== CATÁLOGO COM TODOS OS LINKS DO LOOKER STUDIO =====================
+            const PAINEIS_ELLCA = {
+                almoxarifado: {
+                    titulo: 'Dashboard Almoxarifado',
+                    permissao: 'almoxarifado',
+                    subtitulo: 'Controle de estoque, entradas, saídas e inventário de materiais',
+                    icone: 'fa-boxes-stacked',
+                    bg: 'img/almoxarifado.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/8370a5a7-ee0a-4167-b9d4-a5021aefabef/page/7Gm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/8370a5a7-ee0a-4167-b9d4-a5021aefabef'
+                },
+                almoxarifado_epi: {
+                    titulo: 'Dashboard Almox. EPI/EPC',
+                    permissao: 'almoxarifado_epi',
+                    subtitulo: 'Controle de estoque e entrega de Equipamentos de Proteção',
+                    icone: 'fa-helmet-safety',
+                    bg: 'img/epi_epc.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/0bf16d9c-192a-4db0-9805-73dbf9a72d1d/page/PIm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/0bf16d9c-192a-4db0-9805-73dbf9a72d1d/page/PIm7F'
+                },
+                'almox-epi-epc': {
+                    titulo: 'Dashboard Almox. EPI/EPC',
+                    permissao: 'almoxarifado_epi',
+                    subtitulo: 'Controle de estoque e entrega de Equipamentos de Proteção',
+                    icone: 'fa-helmet-safety',
+                    bg: 'img/epi_epc.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/0bf16d9c-192a-4db0-9805-73dbf9a72d1d/page/PIm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/0bf16d9c-192a-4db0-9805-73dbf9a72d1d/page/PIm7F'
+                },
+                backoffice: {
+                    titulo: 'Dashboard Backoffice',
+                    permissao: 'backoffice',
+                    subtitulo: 'Indicadores de suporte administrativo e controle de processos internos',
+                    icone: 'fa-briefcase',
+                    bg: 'img/backoffice.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/edb98a46-591b-48f8-a5b5-264d40524756/page/ZFm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/edb98a46-591b-48f8-a5b5-264d40524756'
+                },
+                dp: {
+                    titulo: 'Dashboard Departamento Pessoal',
+                    permissao: 'dp',
+                    subtitulo: 'Departamento pessoal, folha de pagamento, benefícios e ponto eletrônico',
+                    icone: 'fa-file-invoice-dollar',
+                    bg: 'img/Card_DP.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/3510f169-6cbe-4d38-bfad-24dbb4964675/page/VHm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/3510f169-6cbe-4d38-bfad-24dbb4964675'
+                },
+                dsc: {
+                    titulo: 'Dashboard DSC',
+                    permissao: 'dsc',
+                    subtitulo: 'Registros e histórico dos Diálogos Semanais do Cliente',
+                    icone: 'fa-hard-hat',
+                    bg: 'img/DSC.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/d7f172f9-562a-4cb6-a70a-effcdf64ee31/page/Vjm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/d7f172f9-562a-4cb6-a70a-effcdf64ee31/page/Vjm7F'
+                },
+                estrutura: {
+                    titulo: 'Dashboard Estrutura',
+                    permissao: 'estrutura',
+                    subtitulo: 'Gestão da estrutura física, patrimonial e organizacional da empresa',
+                    icone: 'fa-sitemap',
+                    bg: 'img/estrutura.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F'
+                },
+                frota: {
+                    titulo: 'Dashboard Frota',
+                    permissao: 'frota',
+                    subtitulo: 'Gestão de veículos, manutenções preventivas, rotas e consumo de combustível',
+                    icone: 'fa-truck-fast',
+                    bg: 'img/frota.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/61bc72c0-da72-421c-bc27-fac2c1fd0c58/page/p_lv328th58d',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/61bc72c0-da72-421c-bc27-fac2c1fd0c58/page/PHm7F'
+                },
+                infraestrutura: {
+                    titulo: 'Dashboard Infraestrutura',
+                    permissao: 'infraestrutura',
+                    subtitulo: 'Monitoramento de servidores, redes, hardware e suporte técnico',
+                    icone: 'fa-server',
+                    bg: 'img/infraestrutura.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/f6ba133f-2494-43fc-abf2-e3fdc7b7a772/page/fHm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/f6ba133f-2494-43fc-abf2-e3fdc7b7a772'
+                },
+                produtividade: {
+                    titulo: 'Dashboard Produtividade',
+                    permissao: 'produtividade',
+                    subtitulo: 'Análise de eficiência operacional, rendimento de equipes e metas',
+                    icone: 'fa-gauge-high',
+                    bg: 'img/Card_Produtividade.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/1636b76d-f0fd-449f-90ef-75192face508/page/0lm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/1636b76d-f0fd-449f-90ef-75192face508/page/0lm7F'
+                },
+                programacao: {
+                    titulo: 'Dashboard Programação',
+                    permissao: 'programacao',
+                    subtitulo: 'Planejamento e agendamento de serviços operacionais e equipes',
+                    icone: 'fa-calendar-check',
+                    bg: 'img/Programacao.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/1a3ebe48-0bc9-4432-8b9d-8961657df087/page/tkm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/1a3ebe48-0bc9-4432-8b9d-8961657df087/page/tkm7F'
+                },
+                projeto: {
+                    titulo: 'Dashboard Projeto',
+                    permissao: 'projeto',
+                    subtitulo: 'Acompanhamento de cronogramas, escopos e entregas de projetos',
+                    icone: 'fa-diagram-project',
+                    bg: 'img/Card_Projeto.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/ab2ae67d-b2f1-41bc-9393-5abf5147ab45/page/xGm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/ab2ae67d-b2f1-41bc-9393-5abf5147ab45/page/xGm7F'
+                },
+                rh: {
+                    titulo: 'Dashboard Recursos Humanos',
+                    permissao: 'rh',
+                    subtitulo: 'Gestão de talentos, recrutamento, seleções e clima organizacional',
+                    icone: 'fa-user-tie',
+                    bg: 'img/Card_RH.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/ad35fd89-5143-470f-bb41-65d0094ae625/page/lJm7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/ad35fd89-5143-470f-bb41-65d0094ae625/page/lJm7F'
+                },
+                sesmt: {
+                    titulo: 'Dashboard SESMT',
+                    permissao: 'sesmt',
+                    subtitulo: 'Segurança do trabalho, EPIs, inspeções de campo e prevenção de riscos',
+                    icone: 'fa-shield-halved',
+                    bg: 'img/sesmt.jpg',
+                    embedUrl: 'https://lookerstudio.google.com/embed/reporting/dca58365-f4b5-4c8b-b54f-65fcd8801303/page/GOd7F',
+                    externoUrl: 'https://lookerstudio.google.com/reporting/dca58365-f4b5-4c8b-b54f-65fcd8801303/page/GOd7F'
+                }
+            };
+
+            const params = new URLSearchParams(window.location.search);
+            const setorKey = (params.get('setor') || '').toLowerCase().trim();
+            const dados = PAINEIS_ELLCA[setorKey];
+
+            if (!dados) {
+                window.location.replace('dashboard.html');
+                return;
+            }
+
+            // Validação de permissão do usuário logado
+            let setoresPermitidos = [];
+            try {
+                setoresPermitidos = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]')
+                    .map(s => s.toLowerCase().trim());
+            } catch (e) {
+                setoresPermitidos = [];
+            }
+
+            const temAcesso =
+                setoresPermitidos.includes('todos') ||
+                setoresPermitidos.includes(setorKey) ||
+                setoresPermitidos.includes(dados.permissao) ||
+                (dados.permissao === 'almoxarifado_epi' && setoresPermitidos.includes('almoxarifado'));
+
+            if (!temAcesso) {
+                alert('Você não possui permissão para acessar este setor.');
+                window.location.replace('dashboard.html');
+                return;
+            }
+
+            // Preenche a interface dinamicamente
+            document.title = `ELLCA | ${dados.titulo.toUpperCase()}`;
+            document.getElementById('painelTitulo').textContent = dados.titulo;
+            document.getElementById('painelSubtitulo').textContent = dados.subtitulo;
+            document.getElementById('footerModulo').textContent = dados.titulo;
+            document.getElementById('navSetorStatus').textContent = `${dados.titulo.replace('Dashboard ', '').toUpperCase()} • ONLINE`;
+            document.getElementById('painelIcon').className = `fa-solid ${dados.icone}`;
+            document.getElementById('painelBgItem').style.backgroundImage =
+                `linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.72)), url('${dados.bg}')`;
+
+            // Extrai apenas a URL limpa, mesmo que futuramente seja colada uma tag <iframe> inteira
+            const matchSrc = dados.embedUrl.match(/src=["']([^"']+)["']/i);
+            const urlLimpa = (matchSrc ? matchSrc[1] : dados.embedUrl).replace('google.com:/', 'google.com/');
+            document.getElementById('painelIframe').src = urlLimpa;
+
+            document.getElementById('btnAbrirExterno').href = dados.externoUrl;
+
+            // Botão Tela Cheia
+            document.getElementById('btnFullscreenPainel')?.addEventListener('click', () => {
+                const box = document.getElementById('reportFrameBox');
+                if (!document.fullscreenElement) {
+                    box.requestFullscreen?.().catch(err => console.warn(err));
+                } else {
+                    document.exitFullscreen?.();
+                }
+            });
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

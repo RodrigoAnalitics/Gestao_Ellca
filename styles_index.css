@@ -1,0 +1,1829 @@
+:root {
+    --primary: #00d4ff;
+    --primary-dark: #008ebf;
+    --accent: #0055ff;
+    --navy-deep: #0a204a;
+    --navy-glow: rgba(15, 58, 138, 0.55);
+    --glass: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.025) 100%);
+    --glass-border-light: rgba(255, 255, 255, 0.2);
+    --glass-blur: 12px;
+    --bg-dark: #050914;
+}
+
+/* ===================== Reset Global & Tela Exata (100vh) ===================== */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Montserrat', sans-serif; 
+}
+
+html, body {
+    background: radial-gradient(circle at top right, #0d1b2a 0%, #02050a 100%);
+    color: #fff; 
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden; 
+}
+
+a { 
+    text-decoration: none !important; 
+    color: inherit; 
+}
+
+/* ===================== Camada de Cinema (Overlay) ===================== */
+.item::before {
+    content: ''; 
+    position: absolute; 
+    inset: 0;
+    width: 100%; 
+    height: 100%;
+    background: linear-gradient(to right, rgba(2, 5, 10, 0.50) 0%, rgba(2, 5, 10, 0.2) 100%);
+    z-index: 1;
+    pointer-events: none !important;
+}
+
+/* ===================== Navbar ===================== */
+.navbar {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 12px 3%; 
+    background: transparent; 
+    width: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+}
+
+.logo-img { 
+    height: 54px; 
+    width: auto; 
+    display: block;
+    cursor: pointer;
+}
+
+.nav-status {
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.2); 
+    padding: 5px 12px; 
+    border-radius: 50px;
+    font-size: 10px; 
+    font-weight: 700; 
+    color: var(--primary);
+}
+
+.pulse-dot { 
+    width: 7px; 
+    height: 7px; 
+    background-color: var(--primary); 
+    border-radius: 50%; 
+    animation: pulse-animation 2s infinite; 
+}
+
+@keyframes pulse-animation {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 212, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+}
+
+.search-box {
+    display: flex; 
+    align-items: center; 
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.15); 
+    border-radius: 50px; 
+    padding: 5px 14px; 
+    gap: 8px; 
+    width: 230px; 
+    transition: 0.3s;
+}
+
+.search-box:focus-within { 
+    border-color: var(--primary); 
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3); 
+}
+
+.search-box i { 
+    font-size: 12px; 
+    color: rgba(255,255,255,0.5); 
+}
+
+.search-box input { 
+    background: transparent; 
+    border: none; 
+    outline: none; 
+    color: rgba(255,255,255,0.9); 
+    font-size: 11px; 
+    width: 100%; 
+}
+
+.nav-links { 
+    display: flex; 
+    gap: 20px; 
+    align-items: center; 
+    flex-wrap: nowrap;
+}
+
+.nav-item { 
+    color: rgba(255, 255, 255, 0.6); 
+    font-size: 0.7rem; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    padding: 6px 0; 
+    transition: 0.4s; 
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.nav-item:hover,
+.nav-item.active { 
+    color: var(--primary); 
+    font-weight: 800; 
+}
+
+.nav-actions-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+
+.mobile-header-actions {
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===================== Botões da Navbar em Efeito Vidro Translúcido ===================== */
+.grid-toggle-btn,
+.btn-voltar,
+.menu-mobile-btn {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(10, 32, 74, 0.25) 100%); 
+    border: 1px solid rgba(255, 255, 255, 0.28); 
+    border-top-color: rgba(255, 255, 255, 0.45);
+    color: #fff;
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%; 
+    cursor: pointer; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1); 
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
+}
+
+.menu-mobile-btn {
+    display: none;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.grid-toggle-btn:hover,
+.grid-toggle-btn.ativo,
+.menu-mobile-btn:hover { 
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.32) 0%, rgba(10, 42, 96, 0.55) 100%); 
+    color: #ffffff; 
+    border-color: var(--primary);
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.5); 
+    transform: scale(1.06);
+}
+
+.btn-voltar:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.32) 0%, rgba(10, 42, 96, 0.55) 100%);
+    color: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    transform: translateX(-2px) scale(1.06);
+}
+
+/* ===================== Estrutura Principal Enquadrada na Tela ===================== */
+.container { 
+    width: 100vw; 
+    height: 100vh;
+    height: 100dvh;
+    position: relative; 
+    overflow: hidden;
+}
+
+.item { 
+    width: 100%; 
+    height: 100vh;
+    height: 100dvh;
+    position: absolute; 
+    inset: 0;
+    background-size: cover; 
+    background-position: center;
+    display: none; 
+    overflow: hidden;
+}
+
+.item.active { 
+    display: block; 
+}
+
+.split-screen {
+    position: relative; 
+    z-index: 2; 
+    display: grid; 
+    grid-template-columns: 0.8fr 1.2fr;
+    width: 100%; 
+    height: 100vh;
+    height: 100dvh;
+    align-items: center; 
+    padding: 74px 4% 64px 4%; 
+    gap: 25px;
+    overflow: hidden;
+}
+
+/* ===================== Texto Principal Limpo (Sem Efeito Vidro) ===================== */
+.text-section { 
+    z-index: 5; 
+    align-self: center; 
+    margin-top: -35px; 
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    transition: margin-top 0.3s ease;
+}
+
+.topic { 
+    color: var(--primary); 
+    letter-spacing: 2.5px; 
+    font-size: 12px; 
+    font-weight: 700; 
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.topic::before { 
+    content: ''; 
+    width: 20px; 
+    height: 2px; 
+    background: var(--primary); 
+    display: block; 
+}
+
+.title { 
+    font-size: clamp(28px, 3.2vw, 42px); 
+    font-weight: 900; 
+    line-height: 1.1; 
+    text-transform: uppercase; 
+    margin-bottom: 16px; 
+    color: #ffffff;
+}
+
+.title span { 
+    display: inline-block; 
+    position: relative;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%);
+    background-size: 200% 100%; 
+    -webkit-background-clip: text; 
+    background-clip: text; 
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px var(--primary); 
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
+    animation: textLightSweep 6s linear infinite;
+}
+
+@keyframes textLightSweep {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.des { 
+    font-size: clamp(12px, 0.9vw, 13.5px); 
+    color: #a0aec0; 
+    line-height: 1.55; 
+    max-width: 460px;
+    text-align: justify;
+}
+
+/* ===================== TELA DE CAPA (index.html) ===================== */
+.capa-bg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+        radial-gradient(circle at 50% 42%, rgba(0, 212, 255, 0.16) 0%, transparent 58%),
+        linear-gradient(rgba(2, 5, 10, 0.72), rgba(2, 5, 10, 0.90)),
+        url('img/Capa_home.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.capa-grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.045) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85) 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85) 20%, transparent 80%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.capa-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px 6% 56px 6%;
+    overflow: hidden;
+    transition: opacity 0.38s ease, transform 0.38s ease;
+}
+
+.capa-wrapper.saindo {
+    opacity: 0;
+    transform: scale(1.03);
+}
+
+.capa-wrapper::before,
+.capa-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-color: rgba(0, 212, 255, 0.38);
+    border-style: solid;
+    pointer-events: none;
+}
+
+.capa-wrapper::before {
+    top: 26px;
+    left: 26px;
+    border-width: 2px 0 0 2px;
+}
+
+.capa-wrapper::after {
+    bottom: 26px;
+    right: 26px;
+    border-width: 0 2px 2px 0;
+}
+
+.capa-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 18px;
+    border-radius: 50px;
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--primary);
+    margin-bottom: 28px;
+    backdrop-filter: blur(6px);
+    animation: capaFadeUp 0.6s ease both;
+}
+
+.capa-logo-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: capaFadeUp 0.7s ease 0.1s both;
+}
+
+.capa-logo-box::before {
+    content: '';
+    position: absolute;
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.24) 0%, transparent 70%);
+    filter: blur(14px);
+    z-index: -1;
+}
+
+.capa-logo {
+    width: min(260px, 54vw);
+    max-height: 20vh;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.42));
+    animation: capaLogoFloat 4s ease-in-out infinite;
+}
+
+@keyframes capaLogoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes capaFadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.capa-title.title {
+    font-size: clamp(32px, 4.4vw, 58px);
+    font-weight: 900;
+    line-height: 1.16;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+    animation: capaFadeUp 0.7s ease 0.2s both;
+}
+
+.capa-title.title span {
+    display: inline-block;
+    margin-top: 6px;
+    letter-spacing: 2.5px;
+    -webkit-text-stroke: 1.2px var(--primary);
+}
+
+.capa-subtitle {
+    font-size: clamp(13.5px, 1.15vw, 16.5px);
+    color: #cbd5e1;
+    line-height: 1.65;
+    max-width: 620px;
+    margin: 0 auto 36px auto;
+    letter-spacing: 0.3px;
+    animation: capaFadeUp 0.7s ease 0.3s both;
+}
+
+.btn-iniciar {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 52px;
+    border-radius: 50px;
+    border: 1.5px solid var(--primary);
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.18), rgba(0, 85, 255, 0.28));
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 24px rgba(0, 212, 255, 0.38), inset 0 0 12px rgba(0, 212, 255, 0.2);
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: capaFadeUp 0.7s ease 0.4s both;
+}
+
+.btn-iniciar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+    transform: skewX(-25deg);
+    animation: btnShine 4.5s infinite;
+    pointer-events: none !important;
+}
+
+@keyframes btnShine {
+    0%, 65% { left: -120%; }
+    100% { left: 160%; }
+}
+
+.btn-iniciar:hover {
+    background: var(--primary);
+    color: #000000;
+    box-shadow: 0 0 38px var(--primary);
+    transform: translateY(-3px) scale(1.04);
+}
+
+.btn-iniciar i {
+    transition: transform 0.35s ease;
+}
+
+.btn-iniciar:hover i {
+    transform: rotate(90deg);
+}
+
+.capa-hint {
+    margin-top: 18px;
+    font-size: 11px;
+    color: rgba(160, 174, 192, 0.72);
+    letter-spacing: 0.8px;
+    animation: capaFadeUp 0.7s ease 0.5s both;
+}
+
+.capa-hint strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.version-tag {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* ===================== Carrossel 3D, Fumaça Suave e Modo Grade ===================== */
+.cards-section { 
+    position: relative; 
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    overflow: visible; 
+    z-index: 15 !important;
+}
+
+.cards-wrapper { 
+    position: relative; 
+    width: 290px; 
+    height: 360px; 
+    perspective: 1400px; 
+    transform-style: preserve-3d; 
+    transition: 0.5s; 
+    z-index: 15 !important;
+}
+
+/* Fumaça Hollywoodiana BEM SUAVE na Transição */
+.cards-wrapper::before,
+.cards-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: -45px;
+    border-radius: 50%;
+    pointer-events: none !important;
+    opacity: 0;
+    filter: url(#hollywood-smoke-filter) blur(22px);
+    transform: scale(0.82);
+    z-index: 12;
+}
+
+.cards-wrapper::before {
+    background:
+        radial-gradient(circle at 38% 46%, rgba(16, 62, 145, 0.28) 0%, transparent 52%),
+        radial-gradient(circle at 66% 56%, rgba(255, 255, 255, 0.14) 0%, transparent 48%),
+        radial-gradient(circle at 50% 38%, rgba(8, 32, 82, 0.24) 0%, transparent 58%);
+}
+
+.cards-wrapper::after {
+    z-index: 22;
+    background:
+        radial-gradient(circle at 60% 40%, rgba(20, 75, 175, 0.18) 0%, transparent 46%),
+        radial-gradient(circle at 34% 62%, rgba(180, 210, 255, 0.12) 0%, transparent 48%);
+}
+
+.cards-wrapper.smoke-burst::before {
+    animation: hollywoodSmokePrimary 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.cards-wrapper.smoke-burst::after {
+    animation: hollywoodSmokeSecondary 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes hollywoodSmokePrimary {
+    0% {
+        opacity: 0;
+        transform: scale(0.80) rotate(-4deg);
+    }
+    30% {
+        opacity: 0.42;
+        transform: scale(1.02) rotate(1deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.24) translateY(-12px) rotate(6deg);
+    }
+}
+
+@keyframes hollywoodSmokeSecondary {
+    0% {
+        opacity: 0;
+        transform: scale(0.84) translateX(-10px) rotate(3deg);
+    }
+    35% {
+        opacity: 0.30;
+        transform: scale(1.04) translateX(4px) rotate(-2deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.28) translateX(14px) translateY(-8px) rotate(-7deg);
+    }
+}
+
+.cards-wrapper.grid-mode::before,
+.cards-wrapper.grid-mode::after {
+    display: none !important;
+}
+
+.cards-wrapper.grid-mode {
+    width: 100% !important; 
+    max-width: 540px !important; 
+    height: 320px !important; 
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; 
+    grid-auto-rows: 300px !important; 
+    gap: 12px !important; 
+    transform: none !important; 
+    overflow-y: scroll !important; 
+    overflow-x: hidden !important;
+    padding: 8px !important;
+    margin: 0 auto !important;
+}
+
+.cards-wrapper.grid-mode::-webkit-scrollbar { 
+    width: 6px !important; 
+    display: block !important; 
+}
+
+.cards-wrapper.grid-mode::-webkit-scrollbar-track { 
+    background: rgba(255, 255, 255, 0.05) !important; 
+    border-radius: 6px !important; 
+}
+
+.cards-wrapper.grid-mode::-webkit-scrollbar-thumb { 
+    background: rgba(0, 212, 255, 0.5) !important; 
+    border-radius: 6px !important; 
+}
+
+.cards-wrapper.grid-mode .glass-card {
+    position: relative !important; 
+    transform: none !important; 
+    opacity: 1 !important; 
+    filter: none !important; 
+    width: 100% !important; 
+    height: 100% !important; 
+    pointer-events: auto !important;
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    overflow: hidden !important;
+    animation: none !important;
+}
+
+.cards-wrapper.grid-mode .img-box {
+    height: 90px !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+}
+
+.cards-wrapper.grid-mode .card-desc {
+    font-size: 10.5px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+}
+
+.cards-wrapper.grid-mode .kpi-mini {
+    display: flex !important;
+    margin-bottom: 4px !important;
+}
+
+.cards-wrapper.grid-mode .glass-card h3 { 
+    font-size: 13px !important; 
+    margin-bottom: 2px !important; 
+    -webkit-text-stroke: 0 !important; 
+    animation: none !important;
+    background: none !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+.cards-wrapper.grid-mode .badge {
+    position: absolute !important;
+    top: 15px !important;
+    left: 15px !important;
+    padding: 3px 8px !important;
+    font-size: 8px !important;
+    z-index: 5;
+}
+
+.cards-wrapper.grid-mode .actions { 
+    margin-top: auto !important; 
+    width: 100% !important; 
+    gap: 4px !important;
+}
+
+.cards-wrapper.grid-mode .btn-primary { 
+    padding: 7px !important; 
+    font-size: 9px !important; 
+}
+
+.cards-wrapper.grid-mode .btn-glass {
+    padding: 6px !important;
+    font-size: 8.5px !important;
+}
+
+/* ===================== Glass Cards: Preto Profundo Efeito Vidro + Toque Azul Escuro ===================== */
+.glass-card {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 290px; 
+    height: 360px;
+    background: var(--glass); 
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border-light); 
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    border-radius: 18px; 
+    padding: 18px; 
+    display: flex; 
+    flex-direction: column;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s ease,
+                filter 0.5s ease,
+                box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease,
+                background 0.45s ease;
+    pointer-events: none; 
+    overflow: hidden;
+    transform: scale(0.9); 
+    filter: brightness(0.7);
+    will-change: transform, opacity;
+}
+
+/* CARD ATIVO: Preto Profundo Efeito Vidro + Toque Azul Escuro + Luz Ciano */
+.glass-card.card-front {
+    transform: translateX(0) translateZ(35px) scale(1.06); 
+    filter: brightness(1);
+    opacity: 1; 
+    z-index: 20; 
+    pointer-events: auto !important; 
+    cursor: pointer;
+    background: 
+        linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 55%),
+        linear-gradient(
+            148deg, 
+            rgba(2, 4, 10, 0.66) 0%, 
+            rgba(3, 7, 16, 0.58) 62%, 
+            rgba(10, 32, 74, 0.52) 86%, 
+            rgba(16, 56, 128, 0.45) 100%
+        ) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
+    border: 1px solid rgba(0, 212, 255, 0.38);
+    border-top: 1px solid rgba(255, 255, 255, 0.52);
+    border-left: 1px solid rgba(255, 255, 255, 0.36);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.88), 
+        0 0 30px rgba(0, 165, 255, 0.28), 
+        inset 0 1px 1px rgba(255, 255, 255, 0.50),
+        inset 0 -2px 6px rgba(14, 52, 122, 0.48),
+        inset 0 0 20px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Efeito de fumaça/névoa azul escuro translúcida flutuando dentro do card ativo */
+@keyframes smokeDrift {
+    0% {
+        transform: translate3d(-14%, 12%, 0) scale(1) rotate(0deg);
+        opacity: 0.26;
+    }
+    50% {
+        transform: translate3d(12%, -10%, 0) scale(1.15) rotate(10deg);
+        opacity: 0.40;
+    }
+    100% {
+        transform: translate3d(-14%, 12%, 0) scale(1) rotate(0deg);
+        opacity: 0.26;
+    }
+}
+
+.glass-card.card-front::after {
+    content: '';
+    position: absolute;
+    inset: -35%;
+    background:
+        radial-gradient(circle at 26% 76%, rgba(16, 64, 150, 0.34) 0%, transparent 48%),
+        radial-gradient(circle at 76% 26%, rgba(255, 255, 255, 0.11) 0%, transparent 40%),
+        radial-gradient(circle at 52% 55%, rgba(10, 38, 92, 0.28) 0%, transparent 55%);
+    filter: blur(18px);
+    pointer-events: none !important;
+    z-index: 1;
+    animation: smokeDrift 9s ease-in-out infinite;
+    transition: opacity 0.45s ease, filter 0.45s ease;
+}
+
+/* Hover: Elevação 3D suave + Vidro preto espelhado mais iluminado */
+.glass-card.card-front:hover { 
+    transform: translateY(-10px) translateZ(52px) scale(1.08); 
+    border-color: rgba(0, 212, 255, 0.78);
+    border-top-color: #ffffff;
+    border-left-color: rgba(255, 255, 255, 0.80);
+    background: 
+        linear-gradient(125deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 38%, transparent 62%),
+        linear-gradient(
+            148deg, 
+            rgba(2, 4, 10, 0.58) 0%, 
+            rgba(3, 7, 16, 0.48) 58%, 
+            rgba(12, 40, 94, 0.54) 84%, 
+            rgba(20, 72, 162, 0.48) 100%
+        ) !important;
+    backdrop-filter: blur(22px) saturate(195%) brightness(1.10) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(195%) brightness(1.10) !important;
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.92), 
+        0 0 42px rgba(0, 212, 255, 0.45), 
+        0 0 14px rgba(255, 255, 255, 0.28),
+        inset 0 1px 2px rgba(255, 255, 255, 0.78),
+        inset 0 -2px 8px rgba(24, 86, 195, 0.55),
+        inset 0 0 26px rgba(14, 52, 122, 0.22) !important; 
+}
+
+.glass-card.card-front:hover::after {
+    opacity: 0.65;
+    filter: blur(14px);
+    animation-duration: 5.5s;
+}
+
+/* Cards de trás com respiro para valorizar o card ativo no Desktop */
+.glass-card.card-back-right { 
+    transform: translateX(225px) translateZ(-80px) scale(0.78); 
+    opacity: 0.68; 
+    z-index: 5; 
+    filter: blur(1.5px) brightness(0.82);
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+.glass-card.card-back-left { 
+    transform: translateX(-225px) translateZ(-80px) scale(0.78); 
+    opacity: 0.68; 
+    z-index: 5; 
+    filter: blur(1.5px) brightness(0.82);
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+.glass-card.card-back-right:hover {
+    opacity: 0.92;
+    filter: blur(0px) brightness(0.98);
+    transform: translateX(230px) translateZ(-60px) scale(0.81);
+}
+
+.glass-card.card-back-left:hover {
+    opacity: 0.92;
+    filter: blur(0px) brightness(0.98);
+    transform: translateX(-230px) translateZ(-60px) scale(0.81);
+}
+
+.glass-card.card-hidden { 
+    transform: translateX(0) translateZ(-180px) scale(0.6); 
+    opacity: 0; 
+    z-index: 1; 
+    pointer-events: none;
+}
+
+/* ===================== Feixe de Luz Azul Escuro / Ciano na Borda do Card Ativo ===================== */
+@property --neon-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes borderNeonSweep {
+    0% { --neon-angle: 0deg; }
+    100% { --neon-angle: 360deg; }
+}
+
+.glass-card.card-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    padding: 1.5px;
+    background: conic-gradient(
+        from var(--neon-angle),
+        transparent 0%,
+        transparent 68%,
+        rgba(16, 68, 165, 0.65) 80%,
+        #ffffff 92%,
+        var(--primary) 100%
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none !important;
+    z-index: 25;
+    animation: borderNeonSweep 6s linear 1 forwards;
+}
+
+.glass-card.card-front.pausado::before {
+    animation-play-state: paused !important;
+    background: conic-gradient(
+        from var(--neon-angle),
+        rgba(241, 196, 15, 0.35) 0%,
+        #f1c40f 100%
+    );
+}
+
+.glass-card.card-front.pausado {
+    border-color: #f1c40f !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 
+                0 0 28px rgba(241, 196, 15, 0.45) !important;
+}
+
+.cards-wrapper.grid-mode .glass-card.card-front::before,
+.cards-wrapper.grid-mode .glass-card.card-front::after {
+    display: none !important;
+}
+
+.glass-card.card-front h3 {
+    font-size: 16px !important; 
+    margin-bottom: 4px !important;
+    margin-top: 4px !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+.card-desc { 
+    font-size: 11px; 
+    color: #e2e8f0;
+    line-height: 1.3; 
+    margin-bottom: 5px; 
+    opacity: 0.96; 
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.glass-card.card-front .card-desc { 
+    font-size: 11.5px !important; 
+    margin-bottom: 5px !important; 
+}
+
+.glass-card.card-front .img-box { 
+    height: 130px !important; 
+    margin-bottom: 10px !important; 
+    border-color: rgba(30, 88, 185, 0.45);
+}
+
+.glass-card.card-front .actions { 
+    gap: 6px !important; 
+}
+
+.glass-card.card-front .btn-primary { 
+    font-size: 10px !important; 
+    padding: 10px !important; 
+    margin-top: 2px !important;
+    margin-bottom: 0px !important;  
+}
+
+.glass-card.card-front .btn-glass { 
+    font-size: 10px !important; 
+    padding: 10px !important; 
+}
+
+.glass-card.search-highlight {
+    border-color: #5ca4ff !important;
+    box-shadow: 0 0 22px rgba(20, 75, 175, 0.85), 0 0 12px rgba(255, 255, 255, 0.45) !important;
+}
+
+.glass-card > * { 
+    position: relative; 
+    z-index: 2; 
+}
+
+/* ===================== Elementos Internos Base & Tags em Efeito Vidro ===================== */
+.img-box { 
+    width: 100%; 
+    height: 115px; 
+    border-radius: 10px; 
+    background-size: cover; 
+    background-position: center; 
+    margin-bottom: 14px; 
+    border: 1px solid rgba(255, 255, 255, 0.14); 
+    position: relative; 
+}
+
+.badge { 
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
+    background: linear-gradient(135deg, #0b2863 0%, #1649ad 100%); 
+    border: 1px solid rgba(92, 164, 255, 0.45);
+    color: #fff; 
+    font-size: 8px; 
+    font-weight: 800; 
+    padding: 3px 10px; 
+    border-radius: 50px; 
+    text-transform: uppercase; 
+    z-index: 3; 
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.badge.gold { 
+    background: #f1c40f; 
+    border-color: #f1c40f;
+    color: #000; 
+}
+
+.glass-card h3 { 
+    font-size: 13.5px; 
+    font-weight: 700; 
+    margin-bottom: 4px; 
+    color: #fff; 
+}
+
+.kpi-mini { 
+    display: flex; 
+    gap: 6px; 
+    margin-bottom: 4px; 
+}
+
+/* Pílulas abaixo da descrição em Efeito Vidro Preto/Azul Escuro */
+.kpi-mini span { 
+    font-size: 9.5px; 
+    font-weight: 600; 
+    background: linear-gradient(135deg, rgba(12, 36, 84, 0.45) 0%, rgba(4, 8, 18, 0.55) 100%) !important; 
+    backdrop-filter: blur(10px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(135%) !important;
+    padding: 4px 9px; 
+    border-radius: 6px; 
+    color: #7ab8ff; 
+    border: 1px solid rgba(42, 110, 215, 0.38) !important; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.16) !important;
+    display: flex; 
+    align-items: center; 
+    gap: 4px; 
+}
+
+.kpi-success { 
+    color: #2ecc71 !important; 
+    border-color: rgba(46, 204, 113, 0.42) !important; 
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.16) 0%, rgba(4, 8, 18, 0.55) 100%) !important; 
+}
+
+.kpi-warning { 
+    color: #f1c40f !important; 
+    border-color: rgba(241, 196, 15, 0.42) !important; 
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.16) 0%, rgba(4, 8, 18, 0.55) 100%) !important; 
+}
+
+/* ===================== Botões Internos do Card ===================== */
+.actions { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+    margin-top: auto; 
+    position: relative;
+    z-index: 40 !important;
+    pointer-events: auto !important;
+}
+
+.btn-primary { 
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark)); 
+    border: none; 
+    padding: 8px; 
+    border-radius: 6px; 
+    font-weight: 800; 
+    cursor: pointer !important; 
+    color: #000; 
+    text-transform: uppercase; 
+    font-size: 9.5px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 5px; 
+    transition: 0.3s; 
+    position: relative;
+    z-index: 45 !important;
+    pointer-events: auto !important;
+}
+
+.btn-primary a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.btn-glass { 
+    background: linear-gradient(135deg, rgba(12, 38, 88, 0.42) 0%, rgba(4, 8, 18, 0.48) 100%); 
+    border: 1px solid rgba(46, 115, 225, 0.42); 
+    padding: 6px; 
+    border-radius: 6px; 
+    color: #cbd5e1; 
+    cursor: pointer !important; 
+    font-weight: 600; 
+    font-size: 9px; 
+    text-transform: uppercase; 
+    transition: 0.3s; 
+    position: relative;
+    z-index: 45 !important;
+    pointer-events: auto !important;
+}
+
+.btn-primary:hover { 
+    box-shadow: 0 0 12px var(--primary); 
+    transform: translateY(-2px); 
+}
+
+.btn-glass:hover { 
+    background: linear-gradient(135deg, rgba(20, 62, 142, 0.65) 0%, rgba(8, 18, 42, 0.72) 100%); 
+    color: #fff; 
+    border-color: #6ea8ff; 
+}
+
+/* ===================== Controles, Setas e Bolinhas Menores ===================== */
+.controls-container { 
+    position: fixed; 
+    bottom: 18px; 
+    left: 3%; 
+    display: flex; 
+    align-items: center; 
+    gap: 14px; 
+    z-index: 80 !important; 
+    pointer-events: auto !important;
+}
+
+.controls { 
+    display: flex; 
+    gap: 10px; 
+    position: relative;
+    z-index: 85 !important;
+    pointer-events: auto !important;
+}
+
+.controls button { 
+    position: relative;
+    overflow: hidden;
+    width: 36px; 
+    height: 36px; 
+    border-radius: 50%; 
+    border: 1px solid rgba(0, 212, 255, 0.35); 
+    background: rgba(0, 212, 255, 0.08); 
+    color: #fff; 
+    cursor: pointer !important; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    pointer-events: auto !important;
+    z-index: 90 !important;
+}
+
+.controls button i {
+    pointer-events: none !important;
+}
+
+.controls button:hover { 
+    background: var(--primary); 
+    color: #000; 
+    border-color: #ffffff;
+    box-shadow: 0 0 18px var(--primary), 0 0 6px #ffffff; 
+    transform: scale(1.12); 
+}
+
+.controls button:active {
+    transform: scale(0.92);
+}
+
+.pagination-dots { 
+    display: flex; 
+    gap: 7px; 
+    align-items: center; 
+    padding: 6px 12px;
+    border-radius: 50px;
+    background: rgba(6, 14, 28, 0.65);
+    border: 1px solid rgba(0, 212, 255, 0.22);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    position: relative;
+    z-index: 85 !important;
+    pointer-events: auto !important;
+}
+
+.pagination-dots .dot { 
+    position: relative;
+    display: inline-block;
+    width: 7px; 
+    height: 7px; 
+    border-radius: 50%; 
+    background: rgba(255, 255, 255, 0.28); 
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    cursor: pointer !important; 
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    pointer-events: auto !important;
+}
+
+.pagination-dots .dot:hover:not(.active) {
+    transform: scale(1.4);
+    background: var(--primary);
+    border-color: #ffffff;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.pagination-dots .dot:active {
+    transform: scale(0.85);
+}
+
+.pagination-dots .dot.active { 
+    width: 22px; 
+    height: 7px;
+    border-radius: 50px; 
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary), #ffffff); 
+    background-size: 200% 100%;
+    border-color: #ffffff;
+    box-shadow: 0 0 12px var(--primary), 0 0 5px rgba(255, 255, 255, 0.8);
+    animation: dotFlowGradient 2s linear infinite;
+}
+
+.pagination-dots .dot.active::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50px;
+    border: 1px solid var(--primary);
+    opacity: 0.75;
+    animation: dotRadarWave 1.8s ease-out infinite;
+    pointer-events: none !important;
+}
+
+@keyframes dotFlowGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes dotRadarWave {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.4, 1.8); opacity: 0; }
+}
+
+/* ===================== Rodapé Minimalista ===================== */
+.footer-bar { 
+    position: fixed; 
+    bottom: 14px; 
+    right: 3%; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-size: 9.5px; 
+    color: rgba(255,255,255,0.5); 
+    z-index: 80 !important; 
+    pointer-events: auto !important;
+}
+
+.footer-info { 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+}
+
+.footer-info strong { 
+    color: #fff; 
+}
+
+.separator { 
+    color: rgba(255,255,255,0.2); 
+}
+
+.footer-btn { 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: #a0aec0; 
+    padding: 3px 8px; 
+    border-radius: 12px; 
+    font-size: 8.5px; 
+    cursor: pointer !important; 
+    transition: 0.3s; 
+}
+
+.footer-btn:hover { 
+    background: var(--primary); 
+    color: #000; 
+    border-color: var(--primary); 
+}
+
+@media (max-width: 1100px) {
+    .split-screen { 
+        grid-template-columns: 1fr; 
+        padding: 90px 4% 85px 4%; 
+        text-align: center; 
+    }
+
+    .text-section {
+        margin-top: 0; 
+    }
+
+    .topic {
+        justify-content: center;
+    }
+    
+    .cards-section { 
+        justify-content: center; 
+        padding-right: 0; 
+        padding-bottom: 30px; 
+    }
+    
+    .controls-container { 
+        left: 50%; 
+        transform: translateX(-50%); 
+        bottom: 12px; 
+        flex-direction: column; 
+    }
+    
+    .footer-bar { 
+        display: none; 
+    }
+}
+
+/* ===================== Ajustes Estruturais da Navbar (Desktop) ===================== */
+.nav-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding-left: 15px;
+}
+
+/* ===================== Responsividade Mobile (<= 768px) ===================== */
+@media (max-width: 768px) {
+    .item, .capa-bg, body {
+        background-position: center center !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+    }
+
+    /* Capa Mobile */
+    .capa-wrapper {
+        padding: 24px 6% 48px 6%;
+        justify-content: center;
+    }
+
+    .capa-status-pill {
+        font-size: 8.5px;
+        padding: 5px 12px;
+        margin-bottom: 18px;
+        letter-spacing: 1.4px;
+    }
+
+    .capa-logo-box {
+        margin-bottom: 16px;
+    }
+
+    .capa-logo {
+        width: min(200px, 55vw);
+        max-height: 18vh;
+    }
+
+    .capa-title.title {
+        font-size: 26px !important;
+        line-height: 1.18;
+        margin-bottom: 12px;
+        letter-spacing: 1.2px;
+    }
+
+    .capa-subtitle {
+        font-size: 12.5px;
+        line-height: 1.5;
+        margin-bottom: 26px;
+    }
+
+    .btn-iniciar {
+        padding: 13px 36px;
+        font-size: 12.5px;
+    }
+
+    .capa-hint {
+        display: none;
+    }
+
+    .version-tag {
+        bottom: 14px;
+        font-size: 9px;
+    }
+
+    /* Navbar Mobile */
+    .navbar {
+        padding: 10px 4%;
+    }
+
+    .logo-img {
+        height: 42px;
+    }
+
+    .mobile-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-voltar-desktop {
+        display: none !important;
+    }
+
+    .menu-mobile-btn {
+        display: inline-flex; 
+    }
+
+    .nav-content {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 60px; 
+        left: 0;
+        width: 100%;
+        background: rgba(2, 5, 10, 0.95); 
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--glass-border-light);
+        padding: 15px 4%;
+        gap: 15px;
+        z-index: 999;
+        box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+    }
+
+    .nav-content.ativo {
+        display: flex;
+    }
+
+    .nav-status, .search-box, .nav-links {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .search-box {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 6px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    }
+
+    .nav-actions-group {
+        justify-content: center;
+        margin-top: 4px;
+    }
+
+    .nav-item {
+        font-size: 12px; 
+        width: 100%;
+        text-align: center;
+        padding: 8px 0;
+    }
+
+    .split-screen {
+        padding: 72px 5% 62px 5%;
+        gap: 12px;
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .text-section {
+        margin-top: 0 !important;
+    }
+
+    .topic {
+        justify-content: center;
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
+
+    .title {
+        font-size: 24px !important;
+        line-height: 1.15;
+        margin-bottom: 8px;
+    }
+
+    .des {
+        font-size: 11px !important;
+        line-height: 1.35 !important;
+        max-width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .cards-section {
+        justify-content: center;
+        padding-bottom: 0;
+    }
+
+    .cards-wrapper {
+        margin: 0 auto; 
+        width: 270px !important;
+        height: 335px !important;
+        perspective: 1300px !important;
+        transform-style: preserve-3d !important;
+    }
+
+    .glass-card {
+        width: 270px !important; 
+        height: 335px !important;
+        padding: 15px !important;
+        transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.5s ease,
+                    filter 0.5s ease !important;
+    }
+
+    /* Card ativo mobile: Preto Profundo Efeito Vidro + Toque Azul Escuro */
+    .glass-card.card-front {
+        transform: translateX(0) scale(1) !important; 
+        opacity: 1 !important;
+        filter: blur(0px) brightness(1) !important;
+        z-index: 20 !important;
+        pointer-events: auto !important;
+        background: 
+            linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 55%),
+            linear-gradient(
+                148deg, 
+                rgba(2, 4, 10, 0.66) 0%, 
+                rgba(3, 7, 16, 0.58) 62%, 
+                rgba(10, 32, 74, 0.52) 86%, 
+                rgba(16, 56, 128, 0.45) 100%
+            ) !important;
+        backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
+        border: 1px solid rgba(0, 212, 255, 0.38) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.52) !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.36) !important;
+        box-shadow: 
+            0 18px 38px rgba(0, 0, 0, 0.88), 
+            0 0 26px rgba(0, 165, 255, 0.28),
+            inset 0 1px 1px rgba(255, 255, 255, 0.45),
+            inset 0 -2px 6px rgba(14, 52, 122, 0.45) !important;
+    }
+
+    .glass-card.card-back-right {
+        transform: translateX(35px) scale(0.90) !important;
+        opacity: 0 !important;
+        filter: blur(6px) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+
+    .glass-card.card-back-left {
+        transform: translateX(-35px) scale(0.90) !important;
+        opacity: 0 !important;
+        filter: blur(6px) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+
+    .glass-card.card-hidden {
+        transform: translateX(0) scale(0.88) !important;
+        opacity: 0 !important;
+        filter: blur(6px) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+    }
+
+    .glass-card.card-front .img-box {
+        height: 112px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .glass-card h3 {
+        font-size: 14.5px !important;
+    }
+
+    .card-desc {
+        font-size: 10.5px !important;
+    }
+
+    .cards-wrapper.grid-mode {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 345px !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-auto-rows: 255px !important;
+        gap: 10px !important;
+        padding: 6px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    .cards-wrapper.grid-mode .glass-card,
+    .cards-wrapper.grid-mode .glass-card.card-hidden,
+    .cards-wrapper.grid-mode .glass-card.card-back-right,
+    .cards-wrapper.grid-mode .glass-card.card-back-left {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        position: relative !important;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 12px !important;
+        border-radius: 14px !important;
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+        pointer-events: auto !important;
+        animation: none !important;
+        background: 
+            linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 55%),
+            linear-gradient(
+                148deg, 
+                rgba(2, 4, 10, 0.66) 0%, 
+                rgba(3, 7, 16, 0.58) 62%, 
+                rgba(10, 32, 74, 0.52) 86%, 
+                rgba(16, 56, 128, 0.45) 100%
+            ) !important;
+        backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
+    }
+
+    .cards-wrapper.grid-mode .img-box {
+        height: 72px !important;
+        margin-bottom: 6px !important;
+        border-radius: 8px !important;
+    }
+
+    .cards-wrapper.grid-mode .badge {
+        top: 16px !important;
+        left: 16px !important;
+        padding: 2px 7px !important;
+        font-size: 7.5px !important;
+    }
+
+    .cards-wrapper.grid-mode .glass-card h3 {
+        font-size: 12px !important;
+        margin-bottom: 2px !important;
+        margin-top: 0 !important;
+    }
+
+    .cards-wrapper.grid-mode .card-desc {
+        font-size: 9.5px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 5px !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .cards-wrapper.grid-mode .kpi-mini {
+        gap: 4px !important;
+        margin-bottom: 5px !important;
+        flex-wrap: wrap;
+    }
+
+    .cards-wrapper.grid-mode .kpi-mini span {
+        font-size: 8px !important;
+        padding: 3px 6px !important;
+    }
+
+    .cards-wrapper.grid-mode .actions {
+        gap: 4px !important;
+        margin-top: auto !important;
+    }
+
+    .cards-wrapper.grid-mode .btn-primary {
+        padding: 6px !important;
+        font-size: 8.5px !important;
+        margin-top: 0 !important;
+    }
+
+    .cards-wrapper.grid-mode .btn-glass {
+        padding: 5px !important;
+        font-size: 8px !important;
+    }
+
+    .controls-container {
+        bottom: 10px;
+        gap: 6px;
+        width: 100%;
+        justify-content: center;
+        left: 0;
+        transform: none;
+    }
+
+    .controls button {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+
+    .pagination-dots {
+        padding: 4px 10px;
+        gap: 6px;
+    }
+
+    .pagination-dots .dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .pagination-dots .dot.active {
+        width: 17px;
+        height: 6px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    html, body, .container, .item, .split-screen, .capa-wrapper {
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+    }
+
+    .split-screen {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
+}
+
+@media (max-width: 920px) and (orientation: landscape) {
+    html, body, .container, .item, .split-screen, .capa-wrapper {
+        height: auto !important;
+        min-height: 100vh !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+    }
+
+    .split-screen {
+        padding: 85px 4% 75px 4% !important;
+        gap: 20px !important;
+    }
+}
+
+/* ================= AVATAR DO USUÁRIO LOGADO NA NAVBAR (SOMENTE FOTO) ================= */
+.nav-user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    padding: 2px;
+    background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.28), rgba(6, 18, 42, 0.92));
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-right: 12px;
+    box-shadow: 0 0 14px rgba(0, 212, 255, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+}
+
+.nav-user-avatar:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.65);
+}
+
+.nav-user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    font-size: 0;
+    color: transparent;
+}
+
+@media (max-width: 768px) {
+    .nav-user-avatar {
+        margin: 8px 0;
+    }
+}

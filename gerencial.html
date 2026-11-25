@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | DASHBOARD GERENCIAL</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+
+    <style>
+        .gerencial-wrapper {
+            width: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 95px 24px 75px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            height: 100vh;
+            height: 100dvh;
+            box-sizing: border-box;
+        }
+
+        .gerencial-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.85) 0%, rgba(12, 36, 84, 0.72) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+        }
+
+        .gerencial-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .gerencial-icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .gerencial-title-group h1 {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .gerencial-title-group p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 2px 0 0 0;
+        }
+
+        .gerencial-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-exec {
+            padding: 9px 15px;
+            border-radius: 9px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.12);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-exec:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+        }
+
+        .btn-exec.gold {
+            border-color: rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.14);
+            color: #fcd34d;
+        }
+
+        .btn-exec.gold:hover {
+            background: #f59e0b;
+            color: #000;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+        }
+
+        .report-frame-container {
+            flex: 1;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(3, 7, 16, 0.85);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
+        }
+
+        .report-frame-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .gerencial-wrapper {
+                padding: 80px 12px 65px 12px;
+            }
+            .gerencial-title-group h1 {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- BLOQUEIO DE SEGURANÇA IMEDIATO -->
+    <script>
+        (function validarAcessoGerencial() {
+            if (sessionStorage.getItem('ellca_auth') !== 'true') {
+                window.location.replace('login.html');
+                return;
+            }
+            const setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]');
+            if (!setores.includes('todos') && !setores.includes('gerencial')) {
+                alert('Acesso restrito à Diretoria e Coordenação.');
+                window.location.replace('home.html');
+            }
+        })();
+    </script>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">VISÃO EXECUTIVA • ONLINE</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+
+                    <div class="nav-actions-group">
+                        <button class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- FUNDO E ÁREA EXECUTIVA -->
+        <div class="container">
+            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.72)), url('img/Card_gerencial.jpg');">
+                <div class="gerencial-wrapper">
+                    
+                    <!-- CABEÇALHO DO COCKPIT -->
+                    <div class="gerencial-header">
+                        <div class="gerencial-title-group">
+                            <div class="gerencial-icon-box">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h1>Cockpit Gerencial Ellca</h1>
+                                <p>Consolidado estratégico de indicadores operacionais, produtividade e metas</p>
+                            </div>
+                        </div>
+
+                        <div class="gerencial-actions">
+                            <button type="button" class="btn-exec" id="btnFullscreenGerencial" title="Expandir em Tela Cheia">
+                                <i class="fa-solid fa-expand"></i> Tela Cheia
+                            </button>
+                            <a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" class="btn-exec gold">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Externo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- MOLDURA DO LOOKER STUDIO -->
+                    <div class="report-frame-container" id="reportFrameBox">
+                        <iframe 
+                            src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" 
+                            allowfullscreen 
+                            sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                        </iframe>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong>Dashboard Gerencial</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Controle do botão Tela Cheia para Reuniões
+        document.getElementById('btnFullscreenGerencial')?.addEventListener('click', () => {
+            const box = document.getElementById('reportFrameBox');
+            if (!document.fullscreenElement) {
+                box.requestFullscreen?.().catch(err => console.warn(err));
+            } else {
+                document.exitFullscreen?.();
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

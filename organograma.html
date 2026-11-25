@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | ESTRUTURA ORGANIZACIONAL</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --gold-border: rgba(245, 196, 81, 0.55);
+            --gold-glow: rgba(245, 180, 40, 0.22);
+            --silver-border: rgba(203, 213, 225, 0.55);
+            --silver-glow: rgba(226, 232, 240, 0.20);
+            --bronze-border: rgba(205, 127, 50, 0.55);
+            --bronze-glow: rgba(205, 127, 50, 0.22);
+        }
+
+        /* ================= CORREÇÃO DE SCROLL NO DESKTOP E MOBILE ================= */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .desktop-view {
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            position: relative;
+        }
+
+        .container .item.active {
+            position: relative !important;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Barra de rolagem estilizada e visível */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(3, 7, 18, 0.85);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.45);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.8);
+        }
+
+        .org-wrapper {
+            width: 100%;
+            max-width: 1520px;
+            margin: 0 auto;
+            padding: 95px 24px 85px 24px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* CABEÇALHO DA PÁGINA */
+        .org-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 16px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.78) 0%, rgba(12, 36, 84, 0.65) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 212, 255, 0.32);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+        }
+
+        .org-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .org-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .org-title-group h1 {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .org-title-group p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 3px 0 0 0;
+        }
+
+        .btn-voltar-org {
+            padding: 9px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            background: rgba(0, 212, 255, 0.14);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-voltar-org:hover {
+            background: var(--primary);
+            color: #030712;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+        }
+
+        /* ÁRVORE DO ORGANOGRAMA */
+        .org-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            animation: fadeInOrg 0.35s ease;
+        }
+
+        @keyframes fadeInOrg {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .org-level {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* ================= CONECTORES LUMINOSOS COM PULSO DE ENERGIA ================= */
+        .org-connector-v {
+            width: 2px;
+            height: 28px;
+            background: rgba(0, 212, 255, 0.24);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.35);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .org-connector-v::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #ffffff, var(--primary), transparent);
+            animation: pulseVertical 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes pulseVertical {
+            0% { top: -100%; }
+            100% { top: 120%; }
+        }
+
+        .org-connector-bar {
+            width: 86%;
+            max-width: 1280px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.28) 15%, rgba(0, 212, 255, 0.28) 85%, transparent);
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .org-connector-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -35%;
+            width: 35%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.85), #ffffff, rgba(0, 212, 255, 0.85), transparent);
+            box-shadow: 0 0 14px #00d4ff;
+            animation: pulseHorizontal 3.4s ease-in-out infinite;
+        }
+
+        @keyframes pulseHorizontal {
+            0% { left: -35%; }
+            50% { left: 100%; }
+            100% { left: -35%; }
+        }
+
+        /* ================= CARD PROPORCIONAL COM TRAÇO SEQUENCIAL VAI-E-VOLTA ================= */
+        .org-card {
+            --stroke-color: #00d4ff;
+            width: 248px;
+            min-height: 266px;
+            padding: 18px 16px 15px 16px;
+            border-radius: 16px;
+            background: rgba(8, 15, 30, 0.56);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 212, 255, 0.24);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.48);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .org-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 212, 255, 0.65);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.65);
+        }
+
+        /* SVG da linha fina que percorre um card por vez (ida e volta) */
+        .card-border-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: visible;
+        }
+
+        .card-border-rect {
+            fill: none;
+            stroke: var(--stroke-color);
+            stroke-width: 1.15;
+            stroke-linecap: round;
+            pathLength: 100;
+            stroke-dasharray: 28 100;
+            stroke-dashoffset: 128;
+            opacity: 0;
+            filter: drop-shadow(0 0 3.5px var(--stroke-color));
+            transition: opacity 0.12s ease;
+        }
+
+        .org-card.active-trace .card-border-rect {
+            opacity: 1;
+        }
+
+        .org-card-top,
+        .org-card-bottom {
+            position: relative;
+            z-index: 1;
+        }
+
+        .org-card-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .org-card-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        /* ================= EFEITO VIDRO METÁLICO SUTIL: OURO, PRATA E BRONZE ================= */
+        
+        /* 1. OURO (Gerente de Contrato) */
+        .org-card.tier-gold {
+            --stroke-color: #fcd34d;
+            width: 274px;
+            min-height: 278px;
+            background: linear-gradient(155deg, rgba(245, 190, 65, 0.15) 0%, rgba(28, 22, 10, 0.58) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--gold-border);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 230, 150, 0.26);
+        }
+        .org-card.tier-gold:hover {
+            border-color: rgba(252, 211, 77, 0.85);
+            box-shadow: 0 16px 36px var(--gold-glow), inset 0 1px 0 rgba(255, 236, 179, 0.38);
+        }
+        .tier-gold .org-badge {
+            background: rgba(245, 190, 65, 0.16);
+            border-color: rgba(245, 190, 65, 0.45);
+            color: #fde68a;
+        }
+        .tier-gold .org-avatar {
+            border-color: rgba(245, 190, 65, 0.75);
+            box-shadow: 0 0 14px rgba(245, 190, 65, 0.24);
+        }
+
+        /* 2. PRATA (Gerente Operacional) */
+        .org-card.tier-silver {
+            --stroke-color: #f1f5f9;
+            width: 266px;
+            min-height: 272px;
+            background: linear-gradient(155deg, rgba(226, 232, 240, 0.15) 0%, rgba(20, 27, 38, 0.58) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--silver-border);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(248, 250, 252, 0.26);
+        }
+        .org-card.tier-silver:hover {
+            border-color: rgba(241, 245, 249, 0.85);
+            box-shadow: 0 16px 36px var(--silver-glow), inset 0 1px 0 rgba(255, 255, 255, 0.38);
+        }
+        .tier-silver .org-badge {
+            background: rgba(226, 232, 240, 0.15);
+            border-color: rgba(203, 213, 225, 0.45);
+            color: #e2e8f0;
+        }
+        .tier-silver .org-avatar {
+            border-color: rgba(226, 232, 240, 0.75);
+            box-shadow: 0 0 14px rgba(226, 232, 240, 0.20);
+        }
+
+        /* 3. BRONZE (Coordenador Operacional) */
+        .org-card.tier-bronze {
+            --stroke-color: #fdba74;
+            width: 258px;
+            min-height: 268px;
+            background: linear-gradient(155deg, rgba(205, 127, 50, 0.15) 0%, rgba(30, 19, 12, 0.58) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--bronze-border);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(244, 184, 134, 0.24);
+        }
+        .org-card.tier-bronze:hover {
+            border-color: rgba(234, 159, 90, 0.85);
+            box-shadow: 0 16px 36px var(--bronze-glow), inset 0 1px 0 rgba(244, 184, 134, 0.36);
+        }
+        .tier-bronze .org-badge {
+            background: rgba(205, 127, 50, 0.16);
+            border-color: rgba(205, 127, 50, 0.45);
+            color: #fdba74;
+        }
+        .tier-bronze .org-avatar {
+            border-color: rgba(217, 140, 68, 0.75);
+            box-shadow: 0 0 14px rgba(205, 127, 50, 0.22);
+        }
+
+        /* ELEMENTOS INTERNOS DO CARD */
+        .org-badge {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            padding: 3.5px 10px;
+            border-radius: 20px;
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            color: #7dd3fc;
+            margin-bottom: 11px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .org-avatar {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(0, 212, 255, 0.55);
+            background: rgba(15, 23, 42, 0.85);
+            margin-bottom: 10px;
+        }
+
+        .org-name {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 3px 0;
+            line-height: 1.25;
+        }
+
+        .org-role {
+            font-size: 11px;
+            font-weight: 700;
+            color: #cbd5e1;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        .org-desc {
+            font-size: 10.5px;
+            line-height: 1.42;
+            color: #94a3b8;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* BOTÕES WHATSAPP E E-MAIL */
+        .org-contact-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-contact {
+            flex: 1;
+            padding: 7px 8px;
+            border-radius: 8px;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-contact.wpp {
+            background: rgba(34, 197, 94, 0.14);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #86efac;
+        }
+        .btn-contact.wpp:hover {
+            background: #22c55e;
+            color: #052e16;
+        }
+
+        .btn-contact.mail {
+            background: rgba(0, 212, 255, 0.14);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            color: #7dd3fc;
+        }
+        .btn-contact.mail:hover {
+            background: var(--primary);
+            color: #082f49;
+        }
+
+        .card-footer-actions {
+            margin-top: 9px;
+            padding-top: 8px;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+        }
+
+        .btn-card-action {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-card-action:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-card-action.equipe-btn {
+            color: var(--primary);
+        }
+        .btn-card-action.equipe-btn:hover {
+            background: rgba(0, 212, 255, 0.15);
+            color: #7dd3fc;
+        }
+
+        /* ================= MODAL PERFIL INDIVIDUAL (VER QUEM É A PESSOA) ================= */
+        .perfil-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 15, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .perfil-modal-overlay.active {
+            display: flex;
+            animation: fadeInOrg 0.22s ease;
+        }
+
+        .perfil-modal-box {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, rgba(10, 20, 42, 0.92) 0%, rgba(5, 11, 24, 0.96) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+            padding: 26px 22px 22px 22px;
+            text-align: center;
+            position: relative;
+            color: #fff;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .modal-close-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+
+        .modal-avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.28);
+            margin-bottom: 12px;
+        }
+
+        .modal-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            color: #7dd3fc;
+            margin-bottom: 10px;
+        }
+
+        .modal-name {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0 0 4px 0;
+        }
+
+        .modal-role {
+            font-size: 12px;
+            font-weight: 700;
+            color: #cbd5e1;
+            margin: 0 0 14px 0;
+        }
+
+        .modal-bio {
+            font-size: 12px;
+            line-height: 1.55;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin: 0 0 16px 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .modal-contact-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-ver-equipe-modal {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            background: rgba(0, 212, 255, 0.16);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            transition: all 0.2s ease;
+        }
+        .btn-ver-equipe-modal:hover {
+            background: var(--primary);
+            color: #030712;
+        }
+
+        /* RESPONSIVO MOBILE (MANTENDO 2 CARDS POR LINHA E TAMANHO EQUILIBRADO) */
+        @media (max-width: 768px) {
+            .org-wrapper {
+                padding: 80px 12px 75px 12px;
+            }
+            .org-level {
+                gap: 12px;
+            }
+            .org-card,
+            .org-card.tier-gold,
+            .org-card.tier-silver,
+            .org-card.tier-bronze {
+                width: calc(50% - 6px);
+                min-width: 156px;
+                max-width: 215px;
+                min-height: 248px;
+                padding: 14px 10px 12px 10px;
+            }
+            .org-connector-bar {
+                width: 90%;
+            }
+            .btn-contact {
+                font-size: 9.5px;
+                padding: 6px 4px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .org-card,
+            .org-card.tier-gold,
+            .org-card.tier-silver,
+            .org-card.tier-bronze {
+                width: 100%;
+                max-width: 245px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar ao Início">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text" id="navOrgStatus">ESTRUTURA • ONLINE</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    <a href="gerencial.html" class="nav-item">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+
+                    <div class="nav-actions-group">
+                        <button class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar ao Início">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- FUNDO E ÁREA DO ORGANOGRAMA -->
+        <div class="container">
+            <div class="item active" style="background-image: linear-gradient(rgba(3, 8, 20, 0.84), rgba(5, 14, 32, 0.78)), url('img/estrutura.jpg');">
+                <div class="org-wrapper">
+
+                    <!-- CABEÇALHO DINÂMICO -->
+                    <div class="org-header">
+                        <div class="org-title-group">
+                            <div class="org-icon-box">
+                                <i class="fa-solid fa-sitemap" id="orgHeaderIcon"></i>
+                            </div>
+                            <div>
+                                <h1 id="orgHeaderTitle">Organograma Geral ELLCA</h1>
+                                <p id="orgHeaderSubtitle">Clique no card para ver o perfil ou em "Equipe" para abrir o setor</p>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-voltar-org" id="btnVoltarGeral" style="display: none;">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar ao Organograma Geral
+                        </button>
+                    </div>
+
+                    <!-- CONTAINER ONDE A ÁRVORE É RENDERIZADA -->
+                    <div id="organogramaContainer"></div>
+
+                </div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong id="footerModuloOrg">Estrutura Organizacional</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- MODAL DE PERFIL INDIVIDUAL (VER QUEM É A PESSOA) -->
+    <div class="perfil-modal-overlay" id="perfilModalOverlay">
+        <div class="perfil-modal-box">
+            <button type="button" class="modal-close-btn" id="btnFecharModal" title="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="" alt="Foto" class="modal-avatar" id="modalAvatar">
+            <div><span class="modal-badge" id="modalBadge">Setor</span></div>
+            <h3 class="modal-name" id="modalName">Nome</h3>
+            <p class="modal-role" id="modalRole">Função</p>
+            <p class="modal-bio" id="modalBio">Descrição das atividades.</p>
+
+            <div class="modal-actions">
+                <div class="modal-contact-row">
+                    <a href="#" target="_blank" class="btn-contact wpp" id="modalWpp" style="padding: 9px;">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="#" class="btn-contact mail" id="modalMail" style="padding: 9px;">
+                        <i class="fa-solid fa-envelope"></i> E-mail
+                    </a>
+                </div>
+                <button type="button" class="btn-ver-equipe-modal" id="btnModalVerEquipe" style="display: none;">
+                    <i class="fa-solid fa-users"></i> Abrir Organograma da Equipe
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function iniciarOrganograma() {
+            // ===================== LIDERANÇAS REAIS E EQUIPES =====================
+            // Caminho das imagens: organograma/PrimeiroNome.jpg (primeira letra maiúscula)
+            const ORGANOGRAMA_DADOS = {
+                gerenciaContrato: {
+                    nivel: 'Gerência de Contrato',
+                    tier: 'tier-gold',
+                    nome: 'Jean Francisquini',
+                    funcao: 'Gerente de Contrato',
+                    descricao: 'Gestão executiva do contrato, relacionamento institucional e direcionamento estratégico.',
+                    foto: 'organograma/Jean.jpg',
+                    fallbackFoto: 'https://ui-avatars.com/api/?name=Jean+Francisquini&background=78350f&color=fde68a&size=128',
+                    whatsapp: '5591999990001',
+                    email: 'jean.francisquini@ellca2.com.br'
+                },
+                gerenciaOperacional: {
+                    nivel: 'Gerência Operacional',
+                    tier: 'tier-silver',
+                    nome: 'Arioston Paixão',
+                    funcao: 'Gerente Operacional',
+                    descricao: 'Supervisão geral das operações, cumprimento de metas contratuais e eficiência de campo.',
+                    foto: 'organograma/Arioston.jpg',
+                    fallbackFoto: 'https://ui-avatars.com/api/?name=Arioston+Paixao&background=334155&color=f1f5f9&size=128',
+                    whatsapp: '5591999990002',
+                    email: 'arioston.paixao@ellca2.com.br'
+                },
+                coordenacaoOperacional: {
+                    nivel: 'Coordenação Operacional',
+                    tier: 'tier-bronze',
+                    nome: 'Jhonattan Alencar',
+                    funcao: 'Coordenador Operacional',
+                    descricao: 'Coordenação direta das frentes de serviço, planejamento diário e integração entre setores.',
+                    foto: 'organograma/Jhonattan.jpg',
+                    fallbackFoto: 'https://ui-avatars.com/api/?name=Jhonattan+Alencar&background=7c2d12&color=fdba74&size=128',
+                    whatsapp: '5591999990003',
+                    email: 'jhonattan.alencar@ellca2.com.br'
+                },
+                // SETORES EM ORDEM ALFABÉTICA (A -> Z)
+                lideres: [
+                    {
+                        id: 'almox_epi',
+                        setor: 'Almox. EPI e EPC',
+                        nome: 'Lilianne Lima',
+                        funcao: 'Técnica de Segurança',
+                        descricao: 'Controle de estoque, inspeção, validade e entrega de EPIs e EPCs às equipes.',
+                        foto: 'organograma/Lilianne.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Lilianne+Lima&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990011',
+                        email: 'lilianne.lima@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador EPI 01',
+                                funcao: 'Auxiliar de Almox. EPI/EPC',
+                                descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
+                                foto: 'organograma/Epi.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990108',
+                                email: 'epi@ellca2.com.br'
+                            },
+                   
+                            {
+                                nome: 'Colaborador EPI 02',
+                                funcao: 'Auxiliar de Almox. EPI/EPC',
+                                descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
+                                foto: 'organograma/Epi.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990108',
+                                email: 'epi@ellca2.com.br'
+                            },
+                  
+                            {
+                                nome: 'Colaborador EPI 03',
+                                funcao: 'Auxiliar de Almox. EPI/EPC',
+                                descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
+                                foto: 'organograma/Epi.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990108',
+                                email: 'epi@ellca2.com.br'
+                            },
+                  
+                            {
+                                nome: 'Colaborador EPI 04',
+                                funcao: 'Auxiliar de Almox. EPI/EPC',
+                                descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
+                                foto: 'organograma/Epi.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990108',
+                                email: 'epi@ellca2.com.br'
+                            },
+                    
+                            {
+                                nome: 'Colaborador EPI 05',
+                                funcao: 'Auxiliar de Almox. EPI/EPC',
+                                descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.',
+                                foto: 'organograma/Epi.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990108',
+                                email: 'epi@ellca2.com.br'
+                            }
+                        ]
+                    },
+        
+                    {
+                        id: 'almoxarifado',
+                        setor: 'Almoxarifado',
+                        nome: 'Adriana Souza',
+                        funcao: 'Supervisora de Almoxarifado',
+                        descricao: 'Gestão de estoque, recebimento, inventário e abastecimento de materiais operacionais.',
+                        foto: 'organograma/Adriana.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Adriana+Souza&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990012',
+                        email: 'adriana.souza@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador Almox. 01',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            },
+                            {
+                                nome: 'Colaborador Almox. 02',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            },
+                            {
+                                nome: 'Colaborador Almox. 03',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            },
+                            {
+                                nome: 'Colaborador Almox. 04',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            },
+                            {
+                                nome: 'Colaborador Almox. 05',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            },
+                            {
+                                nome: 'Colaborador Almox. 06',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            },
+                            {
+                                nome: 'Colaborador Almox. 07',
+                                funcao: 'Almoxarife',
+                                descricao: 'Conferência de materiais, organização física e baixa de requisições.',
+                                foto: 'organograma/Almox.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990109',
+                                email: 'almoxarifado@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'backoffice',
+                        setor: 'Backoffice',
+                        nome: 'Suellem Nunes',
+                        funcao: 'Analista Administrativo',
+                        descricao: 'Controle de processos administrativos, faturamento, medições e suporte operacional.',
+                        foto: 'organograma/Suellem.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Suellem+Nunes&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990005',
+                        email: 'suellem.nunes@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador Backoffice 01',
+                                funcao: 'Assistente Administrativo',
+                                descricao: 'Conferência documental, lançamento de notas e controle de arquivos.',
+                                foto: 'organograma/Backoffice.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Backoffice+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990102',
+                                email: 'backoffice@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'dados_bi',
+                        setor: 'Dados e Inteligência (BI)',
+                        nome: 'Rodrigo Lopes',
+                        funcao: 'Analista de Dados',
+                        descricao: 'Desenvolvimento de dashboards gerenciais, automações e inteligência de indicadores.',
+                        foto: 'organograma/Rodrigo.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Rodrigo+Lopes&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990013',
+                        email: 'Rodrigo.lopes@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador BI 01',
+                                funcao: 'Assistente de Dados',
+                                descricao: 'Atualização de bases operacionais, validação de registros e suporte aos painéis.',
+                                foto: 'organograma/Dados.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Dados+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990110',
+                                email: 'dados@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'dp',
+                        setor: 'DP',
+                        nome: 'Vanessa Soares',
+                        funcao: 'Analista Administrativo',
+                        descricao: 'Gestão de departamento pessoal, ponto eletrônico, folha de pagamento e benefícios.',
+                        foto: 'organograma/Vanessa.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Vanessa+Soares&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990006',
+                        email: 'vanessa.soares@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador DP 01',
+                                funcao: 'Assistente de Depto. Pessoal',
+                                descricao: 'Apuração de frequência, controle de férias, atestados e admissões.',
+                                foto: 'organograma/Dp.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=DP+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990103',
+                                email: 'dp@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'frota',
+                        setor: 'Frota',
+                        nome: 'Alex Caldeira',
+                        funcao: 'Supervisor de Frota',
+                        descricao: 'Controle de veículos, manutenções preventivas/corretivas, abastecimento e rastreamento.',
+                        foto: 'organograma/Alex.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Alex+Caldeira&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990010',
+                        email: 'alex.caldeira@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador Frota 01',
+                                funcao: 'Assistente de Frota',
+                                descricao: 'Checklist veicular, agendamento de oficinas e controle de combustível.',
+                                foto: 'organograma/Frota.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Frota+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990107',
+                                email: 'frota@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'infraestrutura',
+                        setor: 'Infraestrutura',
+                        nome: 'Jacqueline Pimentel',
+                        funcao: 'Analista Administrativo',
+                        descricao: 'Gestão da infraestrutura predial, manutenção de bases operacionais e suporte logístico.',
+                        foto: 'organograma/Jacqueline.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Jacqueline+Pimentel&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990009',
+                        email: 'jacqueline.pimentel@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador Infra 01',
+                                funcao: 'Auxiliar de Infraestrutura',
+                                descricao: 'Manutenção predial, apoio operacional e controle de serviços gerais.',
+                                foto: 'organograma/Infra.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Infra+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990106',
+                                email: 'infra@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'programacao',
+                        setor: 'Programação',
+                        nome: 'Jadison Santos',
+                        funcao: 'Técnico em Eletrotécnica',
+                        descricao: 'Planejamento, roteirização e programação diária das ordens de serviço e equipes.',
+                        foto: 'organograma/Jadison.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Jadison+Santos&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990015',
+                        email: 'jadison.santos@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador Programação 01',
+                                funcao: 'Programador de Serviços',
+                                descricao: 'Distribuição de OS, controle de prazos e acompanhamento de execução.',
+                                foto: 'organograma/Programacao.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Programacao+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990112',
+                                email: 'programacao@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'projeto',
+                        setor: 'Projeto',
+                        nome: 'Fabio de Lima',
+                        funcao: 'Técnico em Eletrotécnica',
+                        descricao: 'Elaboração, análise técnica e acompanhamento de projetos elétricos e obras.',
+                        foto: 'organograma/Fabio.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Fabio+de+Lima&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990014',
+                        email: 'fabio.lima@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador Projeto 01',
+                                funcao: 'Projetista / Cadista',
+                                descricao: 'Desenho técnico, levantamento em campo e atualização de croquis.',
+                                foto: 'organograma/Projeto.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Projeto+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990111',
+                                email: 'projeto@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'rh',
+                        setor: 'Recursos Humanos',
+                        nome: 'Eduarda Ribeiro',
+                        funcao: 'Analista de RH',
+                        descricao: 'Recrutamento e seleção, integração de colaboradores, treinamentos e clima interno.',
+                        foto: 'organograma/Eduarda.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Eduarda+Ribeiro&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990007',
+                        email: 'eduarda.ribeiro@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador RH 01',
+                                funcao: 'Assistente de RH',
+                                descricao: 'Triagem de candidatos, agendamento de entrevistas e integração.',
+                                foto: 'organograma/Rh.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=RH+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990104',
+                                email: 'rh@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'sesmt',
+                        setor: 'SESMT',
+                        nome: 'Vinicius Alves',
+                        funcao: 'Engenheiro de Segurança',
+                        descricao: 'Coordenação de segurança do trabalho, prevenção de acidentes, DSC e normas regulamentadoras.',
+                        foto: 'organograma/Vinicius.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Vinicius+Alves&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990008',
+                        email: 'vinicius.alves@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador SESMT 01',
+                                funcao: 'Técnico de Segurança do Trabalho',
+                                descricao: 'Inspeções de campo, acompanhamento de equipes e controle de APR.',
+                                foto: 'organograma/Sesmt.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=SESMT+01&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990105',
+                                email: 'sesmt@ellca2.com.br'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'ti',
+                        setor: 'Tecnologia da Informação',
+                        nome: 'Endel Amaral',
+                        funcao: 'Analista de TI',
+                        descricao: 'Gestão de infraestrutura de rede, sistemas internos, suporte técnico e hardware.',
+                        foto: 'organograma/Endel.jpg',
+                        fallbackFoto: 'https://ui-avatars.com/api/?name=Endel+Amaral&background=0c4a6e&color=7dd3fc&size=128',
+                        whatsapp: '5591999990004',
+                        email: 'endel.amaral@ellca2.com.br',
+                        equipe: [
+                            {
+                                nome: 'Colaborador TI 01',
+                                funcao: 'Técnico de Suporte de TI',
+                                descricao: 'Atendimento de chamados internos, manutenção de estações e redes.',
+                                foto: 'organograma/Suporte.jpg',
+                                fallbackFoto: 'https://ui-avatars.com/api/?name=Suporte+TI&background=0f172a&color=38bdf8&size=128',
+                                whatsapp: '5591999990101',
+                                email: 'ti@ellca2.com.br'
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            const container = document.getElementById('organogramaContainer');
+            const headerTitle = document.getElementById('orgHeaderTitle');
+            const headerSubtitle = document.getElementById('orgHeaderSubtitle');
+            const headerIcon = document.getElementById('orgHeaderIcon');
+            const btnVoltarGeral = document.getElementById('btnVoltarGeral');
+            const navStatus = document.getElementById('navOrgStatus');
+
+            // Elementos do Modal
+            const modalOverlay = document.getElementById('perfilModalOverlay');
+            const btnFecharModal = document.getElementById('btnFecharModal');
+            const modalAvatar = document.getElementById('modalAvatar');
+            const modalBadge = document.getElementById('modalBadge');
+            const modalName = document.getElementById('modalName');
+            const modalRole = document.getElementById('modalRole');
+            const modalBio = document.getElementById('modalBio');
+            const modalWpp = document.getElementById('modalWpp');
+            const modalMail = document.getElementById('modalMail');
+            const btnModalVerEquipe = document.getElementById('btnModalVerEquipe');
+
+            // Mapa para recuperar rapidamente o objeto da pessoa pelo ID único
+            const REGISTRO_PESSOAS = {};
+
+            // Controle da animação sequencial ida-e-volta (ping-pong) pelos cards
+            let animacaoSequencialId = null;
+
+            function iniciarTraçoSequencialPingPong() {
+                if (animacaoSequencialId) {
+                    cancelAnimationFrame(animacaoSequencialId);
+                    animacaoSequencialId = null;
+                }
+
+                const cards = Array.from(container.querySelectorAll('.org-card'));
+                if (!cards.length) return;
+
+                const rects = cards.map(c => c.querySelector('.card-border-rect'));
+                let index = 0;
+                let direction = 1; // 1 = ida (primeiro ao último), -1 = volta (último ao primeiro)
+                let progress = 0;  // 0.0 -> 1.0 (uma volta 360° completa no card atual)
+                let lastTime = null;
+                const duracaoPorCardMs = 3200; // Tempo para completar 360° em cada card
+
+                function limparTodos() {
+                    cards.forEach((c, i) => {
+                        c.classList.remove('active-trace');
+                        if (rects[i]) rects[i].style.strokeDashoffset = '128';
+                    });
+                }
+
+                limparTodos();
+
+                function step(timestamp) {
+                    if (!lastTime) lastTime = timestamp;
+                    const delta = timestamp - lastTime;
+                    lastTime = timestamp;
+
+                    progress += delta / duracaoPorCardMs;
+
+                    if (progress >= 1) {
+                        // Finalizou 360° no card atual
+                        cards[index].classList.remove('active-trace');
+                        rects[index].style.strokeDashoffset = '128';
+                        progress = 0;
+
+                        if (cards.length > 1) {
+                            if (index === cards.length - 1 && direction === 1) {
+                                // Chegou no último: inicia retorno inverso pelo penúltimo
+                                direction = -1;
+                                index = cards.length - 2;
+                            } else if (index === 0 && direction === -1) {
+                                // Voltou ao primeiro: retoma sentido normal pelo segundo
+                                direction = 1;
+                                index = 1;
+                            } else {
+                                index += direction;
+                            }
+                        }
+                    }
+
+                    const currentCard = cards[index];
+                    const currentRect = rects[index];
+                    if (currentCard && currentRect) {
+                        currentCard.classList.add('active-trace');
+                        // Na ida percorre no sentido horário (128 -> 0); na volta percorre no sentido anti-horário (0 -> 128)
+                        const offset = direction === 1
+                            ? (128 - progress * 128)
+                            : (progress * 128);
+                        currentRect.style.strokeDashoffset = offset.toFixed(2);
+                    }
+
+                    animacaoSequencialId = requestAnimationFrame(step);
+                }
+
+                animacaoSequencialId = requestAnimationFrame(step);
+            }
+
+            function abrirModalPessoa(personKey) {
+                const info = REGISTRO_PESSOAS[personKey];
+                if (!info) return;
+
+                const { pessoa, badgeText, leaderId } = info;
+                modalAvatar.src = pessoa.foto;
+                modalAvatar.onerror = () => { modalAvatar.src = pessoa.fallbackFoto; };
+                modalBadge.textContent = badgeText;
+                modalName.textContent = pessoa.nome;
+                modalRole.textContent = pessoa.funcao;
+                modalBio.textContent = pessoa.descricao;
+                modalWpp.href = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
+                modalMail.href = `mailto:${pessoa.email}`;
+
+                if (leaderId) {
+                    btnModalVerEquipe.style.display = 'flex';
+                    btnModalVerEquipe.onclick = () => {
+                        fecharModal();
+                        renderizarEquipe(leaderId);
+                    };
+                } else {
+                    btnModalVerEquipe.style.display = 'none';
+                }
+
+                modalOverlay.classList.add('active');
+            }
+
+            function fecharModal() {
+                modalOverlay.classList.remove('active');
+            }
+
+            btnFecharModal.addEventListener('click', fecharModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) fecharModal();
+            });
+
+            function criarCardHTML(pessoa, opcoes = {}) {
+                const { badgeText = '', tierClass = '', isLeader = false, leaderId = '', uniqueKey = '' } = opcoes;
+                REGISTRO_PESSOAS[uniqueKey] = { pessoa, badgeText, leaderId: isLeader ? leaderId : null };
+
+                const wppLink = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
+                const mailLink = `mailto:${pessoa.email}`;
+
+                return `
+                    <div class="org-card ${tierClass}" data-person-key="${uniqueKey}">
+                        <svg class="card-border-svg" aria-hidden="true">
+                            <rect class="card-border-rect" x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="16" ry="16" pathLength="100"></rect>
+                        </svg>
+
+                        <div class="org-card-top">
+                            ${badgeText ? `<span class="org-badge" title="${badgeText}">${badgeText}</span>` : ''}
+                            <img src="${pessoa.foto}" onerror="this.onerror=null;this.src='${pessoa.fallbackFoto}'" alt="${pessoa.nome}" class="org-avatar">
+                            <h3 class="org-name">${pessoa.nome}</h3>
+                            <p class="org-role">${pessoa.funcao}</p>
+                            <p class="org-desc">${pessoa.descricao}</p>
+                        </div>
+
+                        <div class="org-card-bottom">
+                            <div class="org-contact-actions">
+                                <a href="${wppLink}" target="_blank" class="btn-contact wpp" onclick="event.stopPropagation()">
+                                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                                </a>
+                                <a href="${mailLink}" class="btn-contact mail" onclick="event.stopPropagation()">
+                                    <i class="fa-solid fa-envelope"></i> E-mail
+                                </a>
+                            </div>
+
+                            <div class="card-footer-actions">
+                                <button type="button" class="btn-card-action perfil-btn" data-person-key="${uniqueKey}">
+                                    <i class="fa-solid fa-id-card"></i> Perfil
+                                </button>
+                                ${isLeader ? `
+                                    <button type="button" class="btn-card-action equipe-btn" data-leader-id="${leaderId}">
+                                        <i class="fa-solid fa-users"></i> Equipe (${pessoa.equipe.length})
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function vincularEventosCards() {
+                document.querySelectorAll('.org-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const key = card.getAttribute('data-person-key');
+                        abrirModalPessoa(key);
+                    });
+                });
+
+                document.querySelectorAll('.equipe-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = btn.getAttribute('data-leader-id');
+                        renderizarEquipe(id);
+                    });
+                });
+            }
+
+            // RENDERIZA A VISÃO GERAL (PIRÂMIDE OURO -> PRATA -> BRONZE -> 12 LÍDERES EM ORDEM ALFABÉTICA)
+            function renderizarGeral() {
+                headerTitle.textContent = 'Organograma Geral ELLCA';
+                headerSubtitle.textContent = 'Clique no card para ver o perfil ou em "Equipe" para abrir o organograma do setor';
+                headerIcon.className = 'fa-solid fa-sitemap';
+                navStatus.textContent = 'ESTRUTURA • VISÃO GERAL';
+                btnVoltarGeral.style.display = 'none';
+
+                const lideresOrdenados = [...ORGANOGRAMA_DADOS.lideres].sort((a, b) =>
+                    a.setor.localeCompare(b.setor, 'pt-BR')
+                );
+
+                const htmlLideres = lideresOrdenados.map(lider =>
+                    criarCardHTML(lider, {
+                        badgeText: lider.setor,
+                        isLeader: true,
+                        leaderId: lider.id,
+                        uniqueKey: `lider_${lider.id}`
+                    })
+                ).join('');
+
+                container.innerHTML = `
+                    <div class="org-tree">
+                        <!-- NÍVEL 1: OURO (GERENTE DE CONTRATO) -->
+                        <div class="org-level">
+                            ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaContrato, {
+                                badgeText: ORGANOGRAMA_DADOS.gerenciaContrato.nivel,
+                                tierClass: ORGANOGRAMA_DADOS.gerenciaContrato.tier,
+                                uniqueKey: 'top_contrato'
+                            })}
+                        </div>
+
+                        <div class="org-connector-v"></div>
+
+                        <!-- NÍVEL 2: PRATA (GERENTE OPERACIONAL) -->
+                        <div class="org-level">
+                            ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaOperacional, {
+                                badgeText: ORGANOGRAMA_DADOS.gerenciaOperacional.nivel,
+                                tierClass: ORGANOGRAMA_DADOS.gerenciaOperacional.tier,
+                                uniqueKey: 'top_operacional'
+                            })}
+                        </div>
+
+                        <div class="org-connector-v"></div>
+
+                        <!-- NÍVEL 3: BRONZE (COORDENADOR OPERACIONAL) -->
+                        <div class="org-level">
+                            ${criarCardHTML(ORGANOGRAMA_DADOS.coordenacaoOperacional, {
+                                badgeText: ORGANOGRAMA_DADOS.coordenacaoOperacional.nivel,
+                                tierClass: ORGANOGRAMA_DADOS.coordenacaoOperacional.tier,
+                                uniqueKey: 'top_coordenacao'
+                            })}
+                        </div>
+
+                        <div class="org-connector-v"></div>
+                        <div class="org-connector-bar"></div>
+
+                        <!-- NÍVEL 4: LÍDERES DE SETOR (ORDEM ALFABÉTICA) -->
+                        <div class="org-level">
+                            ${htmlLideres}
+                        </div>
+                    </div>
+                `;
+
+                vincularEventosCards();
+                iniciarTraçoSequencialPingPong();
+            }
+
+            // RENDERIZA O ORGANOGRAMA ESPECÍFICO DA EQUIPE DO LÍDER CLICADO
+            function renderizarEquipe(leaderId) {
+                const lider = ORGANOGRAMA_DADOS.lideres.find(l => l.id === leaderId);
+                if (!lider) return;
+
+                headerTitle.textContent = `Equipe • ${lider.setor}`;
+                headerSubtitle.textContent = `Liderança direta de ${lider.nome} (${lider.equipe.length} colaborador${lider.equipe.length > 1 ? 'es' : ''})`;
+                headerIcon.className = 'fa-solid fa-users-gear';
+                navStatus.textContent = `${lider.setor.toUpperCase()} • EQUIPE`;
+                btnVoltarGeral.style.display = 'inline-flex';
+
+                const htmlMembros = lider.equipe.map((membro, idx) =>
+                    criarCardHTML(membro, {
+                        badgeText: lider.setor,
+                        uniqueKey: `membro_${lider.id}_${idx}`
+                    })
+                ).join('');
+
+                container.innerHTML = `
+                    <div class="org-tree">
+                        <!-- TOPO DA EQUIPE: LÍDER DO SETOR -->
+                        <div class="org-level">
+                            ${criarCardHTML(lider, {
+                                badgeText: `Líder • ${lider.setor}`,
+                                tierClass: 'tier-bronze',
+                                uniqueKey: `lider_topo_${lider.id}`
+                            })}
+                        </div>
+
+                        <div class="org-connector-v"></div>
+                        <div class="org-connector-bar"></div>
+
+                        <!-- MEMBROS DA EQUIPE -->
+                        <div class="org-level">
+                            ${htmlMembros}
+                        </div>
+                    </div>
+                `;
+
+                vincularEventosCards();
+                iniciarTraçoSequencialPingPong();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            btnVoltarGeral.addEventListener('click', renderizarGeral);
+
+            // Inicializa na visão geral
+            renderizarGeral();
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

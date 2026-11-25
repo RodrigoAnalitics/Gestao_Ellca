@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Acesso Restrito | Portal Corporativo Ellca</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+    <style>
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 22px;
+            padding: 34px 28px;
+            background: 
+                linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 55%),
+                linear-gradient(148deg, rgba(2, 4, 10, 0.78) 0%, rgba(3, 7, 16, 0.68) 62%, rgba(10, 32, 74, 0.62) 100%);
+            backdrop-filter: blur(22px) saturate(180%);
+            -webkit-backdrop-filter: blur(22px) saturate(180%);
+            border: 1px solid rgba(0, 212, 255, 0.38);
+            border-top: 1px solid rgba(255, 255, 255, 0.52);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.9), 
+                0 0 35px rgba(0, 165, 255, 0.25),
+                inset 0 1px 1px rgba(255, 255, 255, 0.45);
+            text-align: center;
+            animation: capaFadeUp 0.6s ease both;
+        }
+
+        .login-logo {
+            width: 145px;
+            height: auto;
+            margin: 0 auto 16px auto;
+            display: block;
+            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
+        }
+
+        .login-title {
+            font-size: 19px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .login-subtitle {
+            font-size: 11.5px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--primary);
+            margin-bottom: 6px;
+            padding-left: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.icon-left {
+            position: absolute;
+            left: 14px;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 42px 12px 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.08);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.25);
+        }
+
+        .input-wrapper:focus-within i.icon-left {
+            color: var(--primary);
+        }
+
+        .toggle-pass {
+            position: absolute;
+            right: 12px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .toggle-pass:hover {
+            color: var(--primary);
+        }
+
+        .login-error {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            color: #fca5a5;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 9px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .login-error.show {
+            display: flex;
+            animation: shakeError 0.35s ease;
+        }
+
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            color: #000;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 6px;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.35);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 26px var(--primary);
+        }
+
+        .login-back {
+            display: inline-block;
+            margin-top: 18px;
+            font-size: 11.5px;
+            color: #94a3b8;
+            transition: 0.3s;
+            padding: 4px 8px;
+        }
+
+        .login-back:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 28px 20px;
+                border-radius: 18px;
+            }
+            .login-logo {
+                width: 125px;
+                margin-bottom: 12px;
+            }
+            .login-title {
+                font-size: 17px;
+            }
+            .login-subtitle {
+                font-size: 11px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="capa-bg"></div>
+    <div class="capa-grid-overlay"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <img src="img/logo_ellca.png" alt="Logo Ellca" class="login-logo" onerror="this.style.display='none'">
+            
+            <h1 class="login-title">Acesso ao Portal</h1>
+            <p class="login-subtitle">Insira suas credenciais corporativas para continuar</p>
+
+            <div id="loginError" class="login-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Usuário ou senha incorretos.</span>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Usuário</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user icon-left"></i>
+                        <input type="text" id="username" placeholder="Digite seu usuário" autocomplete="username" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock icon-left"></i>
+                        <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password" required>
+                        <button type="button" class="toggle-pass" id="togglePass" title="Mostrar/Ocultar senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Acessar Painéis
+                </button>
+            </form>
+
+            <a href="index.html" class="login-back">
+                <i class="fas fa-arrow-left"></i> Voltar para a capa
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // ===================== CONFIGURAÇÃO DE USUÁRIOS E PERMISSÕES =====================
+        // Em 'setores': use ['todos'] para acesso total ou liste os nomes exatos das abas/IDs em minúsculo
+        const USUARIOS_VALIDOS = [
+            { 
+                user: 'admin', 
+                pass: 'ellca2026', 
+                nome: 'Administrador', 
+                setores: ['todos'] 
+            },
+
+            // Analista - CEO - Admistrador
+            { 
+                user: 'rodrigo.lopes@ellca2.com.br', 
+                pass: '#EllcaPA2023', 
+                nome: 'Rodrigo Lopes', 
+                setores: ['todos'] 
+            },
+            
+            // GERENCIA - GESTÃO ELLCA
+            { 
+                user: 'arioston.paixao@ellca2.com.br', 
+                pass: '4779', 
+                nome: 'Arioston Paixão', 
+                setores: ['todos'] 
+            },
+
+            // COORDENAÇÃO - GESTÃO ELLCA
+            { 
+                user: 'jhonattan.alencar@ellca2.com.br', 
+                pass: '4549', 
+                nome: 'Jhonattan Alencar', 
+                setores: ['todos'] 
+            },
+            
+          // SUPERVISÃO  
+            { 
+                user: 'adriana.souza@ellca2.com.br', 
+                pass: '4540', 
+                nome: 'Adriana Costa', 
+                setores: ['almoxarifado'] 
+            },
+            
+            { 
+                user: 'adriano.leite@ellca2.com.br', 
+                pass: '4737', 
+                nome: 'Adriano Leite', 
+                setores: ['produtividade', 'estrutura','programacao'] 
+            },
+            
+            { 
+                user: 'elenilson.lima@ellca2.com.br', 
+                pass: '5001', 
+                nome: 'Elenilson Lima', 
+                setores: ['produtividade', 'estrutura','programacao'] 
+            },
+            
+            { 
+                user: 'jadison.santos@ellca2.com.br', 
+                pass: '4651', 
+                nome: 'Jadison Santos', 
+                setores: ['produtividade', 'estrutura','programacao', 'backoffice'] 
+            },
+            
+            { 
+                user: 'janilson.vieira@ellca2.com.br', 
+                pass: '4795', 
+                nome: 'Janilson Vieira', 
+                setores: ['produtividade', 'estrutura','programacao'] 
+            },
+            
+            { 
+                user: 'amiel.junior@ellca2.com.br', 
+                pass: '4667', 
+                nome: 'José Amiel', 
+                setores: ['produtividade', 'estrutura','programacao'] 
+            },
+            
+            { 
+                user: 'julio.gomes@ellca2.com.br', 
+                pass: '4355', 
+                nome: 'Júlio Moura', 
+                setores: ['produtividade', 'estrutura','programacao'] 
+            },
+           
+            // PROJETO
+            { 
+                user: 'fabio.lima@ellca2.com.br', 
+                pass: '4806', 
+                nome: 'Fabio Lima', 
+                setores: ['projeto', 'programacao'] 
+            },
+            
+            // BACKOFFICE
+            { 
+                user: 'ana.portilho@ellca2.com.br', 
+                pass: '4720', 
+                nome: 'Ana Carolina', 
+                setores: ['backoffice'] 
+            },
+            
+            { 
+                user: 'daniel.cardozo@ellca2.com.br', 
+                pass: '4762', 
+                nome: 'Danel Pantoja', 
+                setores: ['backoffice'] 
+            },
+            
+            { 
+                user: 'gladson.franca@ellca2.com.br', 
+                pass: '4741', 
+                nome: 'Gladson Afonso', 
+                setores: ['backoffice'] 
+            },
+            
+            { 
+                user: 'suellem.nunes@ellca2.com.br', 
+                pass: '4665', 
+                nome: 'Suellem Lopes', 
+                setores: ['projeto', 'programacao'] 
+            },
+           
+            // RECURSOS HUMANOS - RH
+            { 
+                user: 'eduarda.ribeiro@ellca2.com.br', 
+                pass: '4977', 
+                nome: 'Eduarda Ribeiro', 
+                setores: ['rh', 'dp'] 
+            },
+           
+            // FROTA
+            { 
+                user: 'alex.caldeira@ellca2.com.br', 
+                pass: '4543', 
+                nome: 'Alex Sandro', 
+                setores: ['frota'] 
+            },
+            // DEPARTAMENTO PESSOAL - DP
+            { 
+                user: 'andreza.gomes@ellca2.com.br', 
+                pass: '4280', 
+                nome: 'Andreza Gomes', 
+                setores: ['rh', 'dp'] 
+            },
+            
+            { 
+                user: 'vanessa.oliveira@ellca2.com.br', 
+                pass: '4070', 
+                nome: 'Vanessa Oliveira', 
+                setores: ['rh', 'dp'] 
+            },
+            
+            { 
+                user: 'wellington.pantoja@ellca2.com.br', 
+                pass: '4977', 
+                nome: 'Wellington Pantoja', 
+                setores: ['rh', 'dp'] 
+            },
+            // INFRAESTRUTURA
+            { 
+                user: 'jacqueline.moura@ellca2.com.br', 
+                pass: '4544', 
+                nome: 'Jacqueline Pimentel', 
+                setores: ['infraestrutura'] 
+            },
+            
+            { 
+                user: 'fernanda.bezerra@ellca2.com.br', 
+                pass: '4802', 
+                nome: 'Fernanda Dantas', 
+                setores: ['infraestrutura'] 
+            }
+        ];
+
+        const form = document.getElementById('loginForm');
+        const errorBox = document.getElementById('loginError');
+        const togglePassBtn = document.getElementById('togglePass');
+        const passInput = document.getElementById('password');
+
+        togglePassBtn.addEventListener('click', () => {
+            const isPass = passInput.type === 'password';
+            passInput.type = isPass ? 'text' : 'password';
+            togglePassBtn.innerHTML = isPass ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            errorBox.classList.remove('show');
+
+            const userDigitado = document.getElementById('username').value.trim().toLowerCase();
+            const passDigitada = passInput.value.trim();
+
+            const encontrado = USUARIOS_VALIDOS.find(
+                u => u.user.toLowerCase() === userDigitado && u.pass === passDigitada
+            );
+
+            if (encontrado) {
+                sessionStorage.setItem('ellca_auth', 'true');
+                sessionStorage.setItem('ellca_user_name', encontrado.nome);
+                sessionStorage.setItem('ellca_user_setores', JSON.stringify(encontrado.setores));
+
+                window.location.href = 'home.html';
+            } else {
+                errorBox.classList.add('show');
+                passInput.value = '';
+                passInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>

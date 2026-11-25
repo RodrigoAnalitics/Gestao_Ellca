@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | PROGRAMAÇÃO & OPERAÇÕES AO VIVO</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .desktop-view {
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            position: relative;
+        }
+
+        .container .item.active {
+            position: relative !important;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: rgba(3, 7, 18, 0.85); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.45); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 255, 0.85); }
+
+        .prog-wrapper {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 92px 24px 76px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        /* HEADER COCKPIT */
+        .cockpit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 16px 22px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.88) 0%, rgba(12, 36, 84, 0.76) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.38);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7);
+        }
+
+        .cockpit-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cockpit-icon-box {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid rgba(0, 212, 255, 0.48);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.25);
+        }
+
+        .cockpit-title-group h1 {
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .cockpit-title-group p {
+            font-size: 11.5px;
+            color: #94a3b8;
+            margin: 3px 0 0 0;
+        }
+
+        .cockpit-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border-radius: 50px;
+            font-size: 10.5px;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.42);
+            color: #6ee7b7;
+        }
+
+        .sync-badge.fallback {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.45);
+            color: #fcd34d;
+        }
+
+        .btn-exec {
+            padding: 9px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+            background: rgba(0, 212, 255, 0.13);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-exec:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+        }
+
+        .btn-exec.gold {
+            border-color: rgba(245, 158, 11, 0.52);
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+        }
+
+        .btn-exec.gold:hover {
+            background: #f59e0b;
+            color: #000;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+        }
+
+        /* BARRA DE FILTROS */
+        .filter-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 12px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: rgba(4, 9, 20, 0.78);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-field label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-field label i {
+            color: var(--primary);
+        }
+
+        .filter-field select,
+        .filter-field input {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 9px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            color: #f8fafc;
+            font-size: 12px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .filter-field select:focus,
+        .filter-field input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.25);
+        }
+
+        .filter-actions-cell {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .btn-reset-filters {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.14);
+            color: #fca5a5;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-reset-filters:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #fff;
+        }
+
+        /* CARDS KPI */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+        }
+
+        .kpi-card {
+            padding: 18px 20px;
+            border-radius: 16px;
+            background: linear-gradient(145deg, rgba(6, 13, 28, 0.86) 0%, rgba(12, 34, 76, 0.65) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card.gold {
+            border-color: rgba(245, 158, 11, 0.42);
+            background: linear-gradient(145deg, rgba(16, 13, 6, 0.86) 0%, rgba(76, 48, 12, 0.55) 100%);
+        }
+
+        .kpi-card.green {
+            border-color: rgba(16, 185, 129, 0.42);
+            background: linear-gradient(145deg, rgba(4, 18, 14, 0.86) 0%, rgba(6, 68, 52, 0.55) 100%);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            color: #94a3b8;
+        }
+
+        .kpi-top i {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .kpi-card.gold .kpi-top i { color: #fbbf24; }
+        .kpi-card.green .kpi-top i { color: #34d399; }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.4px;
+        }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+            margin-top: 2px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, #00d4ff, #38bdf8);
+            transition: width 0.5s ease;
+        }
+
+        .kpi-card.gold .progress-fill {
+            background: linear-gradient(90deg, #f59e0b, #fcd34d);
+        }
+
+        /* SEÇÃO SUPERVISORES & FROTA */
+        .section-block {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(4, 9, 20, 0.82);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-head h2 {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-head h2 i {
+            color: var(--primary);
+        }
+
+        .section-head span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .supervisores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .sup-card {
+            padding: 15px 16px;
+            border-radius: 14px;
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(8, 24, 54, 0.72));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .sup-card:hover,
+        .sup-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .sup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .sup-name {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sup-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 212, 255, 0.18);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .sup-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 50px;
+            background: rgba(0, 212, 255, 0.14);
+            color: var(--primary);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .sup-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .sup-metric-box {
+            padding: 7px 9px;
+            border-radius: 8px;
+            background: rgba(2, 6, 23, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sup-metric-box small {
+            display: block;
+            font-size: 9.5px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .sup-metric-box strong {
+            font-size: 12.5px;
+            color: #f8fafc;
+        }
+
+        .sup-teams-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .team-pill {
+            font-size: 9.5px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+        }
+
+        /* GRÁFICOS */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .chart-card {
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(4, 9, 20, 0.82);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chart-card h3 {
+            font-size: 12.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-card h3 i {
+            color: var(--primary);
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        /* TABELA DE OS */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table.os-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            text-align: left;
+        }
+
+        table.os-table thead {
+            background: rgba(12, 36, 84, 0.85);
+            color: #38bdf8;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.7px;
+        }
+
+        table.os-table th,
+        table.os-table td {
+            padding: 11px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            white-space: nowrap;
+        }
+
+        table.os-table tbody tr {
+            background: rgba(5, 10, 24, 0.6);
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        table.os-table tbody tr:hover {
+            background: rgba(0, 212, 255, 0.12);
+        }
+
+        .status-pill {
+            padding: 3px 9px;
+            border-radius: 50px;
+            font-size: 9.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .status-programado {
+            background: rgba(0, 212, 255, 0.16);
+            color: #38bdf8;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+        }
+
+        .status-executado {
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+        }
+
+        .status-pendente {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.45);
+        }
+
+        .veh-tag {
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 800;
+            background: rgba(245, 158, 11, 0.16);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        /* MODAL ESPELHO DE OS */
+        .os-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.84);
+            backdrop-filter: blur(10px);
+            z-index: 2500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .os-modal-overlay.active {
+            display: flex;
+        }
+
+        .os-modal-box {
+            width: 100%;
+            max-width: 780px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 24px;
+            background: linear-gradient(145deg, #060d1f 0%, #0b1f44 100%);
+            border: 1px solid rgba(0, 212, 255, 0.45);
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.9);
+            color: #fff;
+            position: relative;
+        }
+
+        .os-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+        }
+
+        .os-modal-header h3 {
+            font-size: 17px;
+            font-weight: 900;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .modal-close:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+        }
+
+        .os-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .os-detail-item {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .os-detail-item small {
+            display: block;
+            font-size: 9.5px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .os-detail-item strong {
+            font-size: 12.5px;
+            color: #f8fafc;
+        }
+
+        @media (max-width: 768px) {
+            .prog-wrapper {
+                padding: 80px 12px 68px 12px;
+            }
+            .cockpit-title-group h1 {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        if (sessionStorage.getItem('ellca_auth') !== 'true') {
+            window.location.replace('login.html');
+        }
+    </script>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text" id="navProgStatus">PROGRAMAÇÃO • ONLINE</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    <a href="gerencial.html" class="nav-item">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+
+                    <div class="nav-actions-group">
+                        <button class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTAINER PRINCIPAL -->
+        <div class="container">
+            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.74)), url('img/Programacao.jpg');">
+                <div class="prog-wrapper">
+
+                    <!-- CABEÇALHO -->
+                    <div class="cockpit-header">
+                        <div class="cockpit-title-group">
+                            <div class="cockpit-icon-box">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h1>Cockpit de Programação & Supervisão</h1>
+                                <p>Monitoramento integrado de Ordens de Serviço, Frota, Supervisores e Materiais Solicitados</p>
+                            </div>
+                        </div>
+
+                        <div class="cockpit-actions">
+                            <span class="sync-badge" id="syncStatusBadge">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Base...
+                            </span>
+                            <button type="button" class="btn-exec" id="btnRefreshData" title="Recarregar dados da planilha">
+                                <i class="fa-solid fa-rotate"></i> Atualizar
+                            </button>
+                            <button type="button" class="btn-exec" id="btnExportCsv" title="Exportar dados filtrados">
+                                <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                            </button>
+                            <a href="https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit?gid=1374247594#gid=1374247594" target="_blank" class="btn-exec gold">
+                                <i class="fa-solid fa-table"></i> Abrir Planilha
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- FILTROS -->
+                    <div class="filter-panel">
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                            <select id="filterSupervisor">
+                                <option value="">Todos os Supervisores</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Veículo</label>
+                            <select id="filterVeiculo">
+                                <option value="">Todos (MK, LV, LD, LM)</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-screwdriver-wrench"></i> Tipo de Serviço</label>
+                            <select id="filterServico">
+                                <option value="">Todos os Serviços</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-clipboard-check"></i> Situação</label>
+                            <select id="filterSituacao">
+                                <option value="">Todas as Situações</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-magnifying-glass"></i> Busca Rápida</label>
+                            <input type="text" id="filterBusca" placeholder="OS, Nota, Equipe, Bairro...">
+                        </div>
+
+                        <div class="filter-actions-cell">
+                            <button type="button" class="btn-reset-filters" id="btnLimparFiltros">
+                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Produção Programada</span>
+                                <i class="fa-solid fa-sack-dollar"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiProducaoTotal">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiMetaPercent">0,0% da capacidade mensal</span>
+                                <span>Meta: R$ 4,13M</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" id="kpiMetaBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card gold">
+                            <div class="kpi-top">
+                                <span>Custo Mensal Frota Alocada</span>
+                                <i class="fa-solid fa-truck-monster"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiCustoFrota">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiQtdEquipes">0 equipes ativas</span>
+                                <span id="kpiCoberturaFrota">Cobertura: 0%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" id="kpiFrotaBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card green">
+                            <div class="kpi-top">
+                                <span>Ordens de Serviço (OS)</span>
+                                <i class="fa-solid fa-list-check"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiTotalOs">0</div>
+                            <div class="kpi-sub">
+                                <span id="kpiQtdItens">0 unidades/serviços</span>
+                                <span id="kpiTicketMedio">Ticket: R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Materiais Vinculados</span>
+                                <i class="fa-solid fa-boxes-stacked"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiTotalMateriais">0 itens</div>
+                            <div class="kpi-sub">
+                                <span id="kpiOsComMaterial">0 OS com requisição</span>
+                                <span>Aba Material</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DESEMPENHO POR SUPERVISOR -->
+                    <div class="section-block">
+                        <div class="section-head">
+                            <h2><i class="fa-solid fa-users-viewfinder"></i> Desempenho por Supervisor & Equipes</h2>
+                            <span>Clique em um supervisor para filtrar o painel</span>
+                        </div>
+                        <div class="supervisores-grid" id="supervisoresGrid"></div>
+                    </div>
+
+                    <!-- GRÁFICOS ANALÍTICOS -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-column"></i> Produção Programada por Supervisor (R$)</h3>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartSupervisor"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Distribuição por Tipo de Veículo</h3>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartVeiculo"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-layer-group"></i> Receita por Tipo de Serviço (R$)</h3>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartServico"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABELA DETALHADA DE PROGRAMAÇÃO -->
+                    <div class="section-block">
+                        <div class="section-head">
+                            <h2><i class="fa-solid fa-table-list"></i> Programação Operacional Detalhada</h2>
+                            <span id="tableCountLabel">Exibindo 0 registros • Clique na linha para abrir o Espelho da OS e Materiais</span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="os-table">
+                                <thead>
+                                    <tr>
+                                        <th>OS</th>
+                                        <th>Data</th>
+                                        <th>Equipe</th>
+                                        <th>Veíc.</th>
+                                        <th>Supervisor</th>
+                                        <th>Encarregado</th>
+                                        <th>Nota</th>
+                                        <th>Bairro</th>
+                                        <th>Tipo de Serviço</th>
+                                        <th>Qtde.</th>
+                                        <th>Valor Total</th>
+                                        <th>Situação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="osTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong>Programação & Operações Ao Vivo</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- MODAL ESPELHO DE ORDEM DE SERVIÇO + MATERIAIS -->
+    <div class="os-modal-overlay" id="osModalOverlay">
+        <div class="os-modal-box">
+            <div class="os-modal-header">
+                <h3 id="modalOsTitulo"><i class="fa-solid fa-file-invoice"></i> Ordem de Serviço #00000</h3>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button type="button" class="btn-exec" onclick="window.print()">
+                        <i class="fa-solid fa-print"></i> Imprimir
+                    </button>
+                    <button type="button" class="modal-close" id="btnFecharOsModal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="os-detail-grid" id="modalOsGrid"></div>
+
+            <div style="margin-bottom: 16px;">
+                <h4 style="font-size: 11.5px; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px; letter-spacing: 0.7px;">
+                    <i class="fa-solid fa-boxes-stacked"></i> Materiais Solicitados para esta OS / Nota
+                </h4>
+                <div class="table-responsive">
+                    <table class="os-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição do Material</th>
+                                <th>Un.</th>
+                                <th>Qtde. Solic.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalMateriaisBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function iniciarCockpitProgramacao() {
+            const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
+            const GID_PROGRAMACAO = '1374247594';
+
+            // Valores padrão de referência da Tabela 1 (Planilha Programacao_2027)
+            const TABELA_VEICULOS = {
+                MK: { descricao: 'Caminhão Munck', valorMensal: 180000, qtdFrota: 8 },
+                LV: { descricao: 'Linha Viva', valorMensal: 165000, qtdFrota: 7 },
+                LD: { descricao: 'Linha Desenergizada', valorMensal: 140000, qtdFrota: 5 },
+                LM: { descricao: 'Linha Morta', valorMensal: 120000, qtdFrota: 7 }
+            };
+            const CAPACIDADE_MENSAL_TOTAL = 4135000; // R$ 4.135.000,00 (27 veículos)
+
+            // Base de fallback fiel à planilha caso o navegador esteja offline
+            const FALLBACK_PROGRAMACAO = [
+                { idItem: '52199-1', os: '52199', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440235269', bairro: 'CIDADE NOVA', endereco: 'AV. INDEPENDÊNCIA', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'ARRUELA QUAD AC ZC 38X38X3MM F 18MM PDE', qtde: 9, valorUnit: 1850, valorTotal: 16650, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52200-1', os: '52200', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440222163', bairro: 'CIDADE NOVA', endereco: 'AV. INDEPENDÊNCIA', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'MATERIAL', qtde: 6, valorUnit: 1850, valorTotal: 11100, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52201-1', os: '52201', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440241514', bairro: 'CIDADE NOVA', endereco: 'AV. INDEPENDÊNCIA', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'SUPORTE MET CONCEN MED 63X260X360MM ACO', qtde: 1, valorUnit: 1850, valorTotal: 1850, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52202-1', os: '52202', data: '2026-11-25', equipe: 'ELLCA05 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'MÁRIO SANTANA', nota: '440237070', bairro: '40 HORAS IV', endereco: 'RUA JARDIM ATLÂNTICO', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'Ativação de Trafo U OU L / Retirada de cabo Desativado', qtde: 1, valorUnit: 1850, valorTotal: 1850, situacao: 'PROGRAMADO', alimentador: 'BI - 06', si: '217084', medidor: '' },
+                { idItem: '52203-1', os: '52203', data: '2026-11-25', equipe: 'ELLCA05 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'MÁRIO SANTANA', nota: '440236635', bairro: '40 HORAS IV', endereco: 'RUA JARDIM ATLÂNTICO', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'Ativação de Trafo U OU L / Retirada de cabo Desativado', qtde: 1, valorUnit: 1850, valorTotal: 1850, situacao: 'PROGRAMADO', alimentador: 'BI - 06', si: '217084', medidor: '' },
+                { idItem: '52204-1', os: '52204', data: '2026-11-25', equipe: 'ELLCA39 MK', tipoVeiculo: 'MK', supervisor: 'JANILSON', encarregado: 'LADILSON BENTES', nota: '440237070', bairro: '40 HORAS IV', endereco: 'RUA JARDIM ATLÂNTICO', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: 'RETIRADA DE POSTE', qtde: 1, valorUnit: 1850, valorTotal: 1850, situacao: 'PROGRAMADO', alimentador: 'BI - 06', si: '217084', medidor: '' },
+                { idItem: '52205-1', os: '52205', data: '2026-11-24', equipe: 'ELLCA39 MK', tipoVeiculo: 'MK', supervisor: 'JANILSON', encarregado: 'LADILSON BENTES', nota: '440238506', bairro: '40 HORAS IV', endereco: 'QUADRA L', tipoServico: 'ESTRUTURAÇÃO', equipamento: '', observacoes: '', qtde: 1, valorUnit: 1850, valorTotal: 1850, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52206-1', os: '52206', data: '2026-11-25', equipe: 'ELLCA26 LD', tipoVeiculo: 'LD', supervisor: 'ELENILSON', encarregado: 'LEONARDO AMARAL', nota: '440250025', bairro: 'CONJ JADER BARBALHO', endereco: 'RUA GOV MARGALHÃES BARATA', tipoServico: 'INSTALAÇÃO DE CLIENTE', equipamento: '', observacoes: '', qtde: 1, valorUnit: 420, valorTotal: 420, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52207-1', os: '52207', data: '2026-11-25', equipe: 'ELLCA27 LD', tipoVeiculo: 'LD', supervisor: 'ELENILSON', encarregado: 'JOSÉ ANDERSON', nota: '440246506', bairro: '40 HORAS', endereco: 'PASS MARGARIDA ALVES', tipoServico: 'INSTALAÇÃO DE CLIENTE', equipamento: '', observacoes: 'ALIMENTAÇÃO 6 3M', qtde: 1, valorUnit: 420, valorTotal: 420, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52213-1', os: '52213', data: '2026-11-25', equipe: 'ELLCA11 LD', tipoVeiculo: 'LD', supervisor: 'JÚLIO MOURA', encarregado: 'FRANCISCO NETO', nota: '440250449', bairro: 'COQUEIRO', endereco: 'CONJUNTO JADER BARBALHO', tipoServico: 'INSTALAÇÃO DE CLIENTE', equipamento: '', observacoes: '', qtde: 1, valorUnit: 420, valorTotal: 420, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52214-1', os: '52214', data: '2026-11-25', equipe: 'ELLCA34 LM', tipoVeiculo: 'LM', supervisor: 'JÚLIO MOURA', encarregado: 'JOSÉ ARNALDO', nota: '440250449', bairro: 'COQUEIRO', endereco: 'CONJUNTO JADER BARBALHO', tipoServico: 'INSTALAÇÃO DE CLIENTE', equipamento: '', observacoes: 'ALIMENTAÇÃO 6 3M', qtde: 1, valorUnit: 420, valorTotal: 420, situacao: 'PROGRAMADO', alimentador: '', si: '', medidor: '' },
+                { idItem: '52219-1', os: '52219', data: '2026-11-25', equipe: 'ELLCA08 LV', tipoVeiculo: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTONIO EDINEY', nota: 'CP658 MTR202', bairro: 'GUAMA', endereco: 'SAO LAZARO', tipoServico: 'MANUTENÇÃO DE MTR', equipamento: 'PG160', observacoes: 'FASE ZERADA', qtde: 1, valorUnit: 1450, valorTotal: 1450, situacao: 'PROGRAMADO', alimentador: 'CRE-01C7', si: '214927', medidor: '2000484345-31050020978' }
+            ];
+
+            const FALLBACK_MATERIAIS = [
+                { os: '52214', nota: '440250449', codigo: '108010187', descricao: 'MEDIDOR MODULAR ELT 1F 127/220 V', un: 'UN', qtde: 20 },
+                { os: '52214', nota: '440250449', codigo: '108150012', descricao: 'CAIXA DISPLAY SMC POLIC 150X115X50MM', un: 'UN', qtde: 20 },
+                { os: '52214', nota: '440250449', codigo: '122230030', descricao: 'CABO IS CU MOL 25MM² 750V PVC PT CL5', un: 'M', qtde: 72 },
+                { os: '52214', nota: '440250449', codigo: '124010012', descricao: 'CONECT CUN RAM CU/EST TIPO "III" VM', un: 'UN', qtde: 110 }
+            ];
+
+            let dadosProgramacao = [];
+            let dadosMateriais = [];
+            let frotaPorEquipe = [];
+            let dadosFiltrados = [];
+            let charts = {};
+
+            const fmtBRL = (val) => (Number(val) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            function parseNumeroBR(v) {
+                if (typeof v === 'number') return v;
+                if (!v) return 0;
+                const limpo = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
+                return parseFloat(limpo) || 0;
+            }
+
+            function formatarDataCell(cell) {
+                if (!cell) return '';
+                if (cell.f) return cell.f;
+                const val = String(cell.v || '');
+                const m = val.match(/Date\((\d+),(\d+),(\d+)\)/);
+                if (m) {
+                    const y = m[1];
+                    const mo = String(parseInt(m[2], 10) + 1).padStart(2, '0');
+                    const d = String(parseInt(m[3], 10)).padStart(2, '0');
+                    return `${y}-${mo}-${d}`;
+                }
+                return val;
+            }
+
+            // Carrega dados via Google Visualization JSONP (sem bloqueio de CORS)
+            function fetchGvizSheet(sheetNameOrGid, isGid = false) {
+                return new Promise((resolve, reject) => {
+                    const cbName = 'gvizCb_' + Math.random().toString(36).substring(2, 10);
+                    const script = document.createElement('script');
+                    const timeout = setTimeout(() => {
+                        cleanup();
+                        reject(new Error('Timeout ao conectar com Google Sheets'));
+                    }, 8000);
+
+                    function cleanup() {
+                        clearTimeout(timeout);
+                        delete window[cbName];
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                    }
+
+                    window[cbName] = function (json) {
+                        cleanup();
+                        if (json && json.table) resolve(json.table);
+                        else reject(new Error('Resposta inválida do Google Sheets'));
+                    };
+
+                    const param = isGid ? `gid=${sheetNameOrGid}` : `sheet=${encodeURIComponent(sheetNameOrGid)}`;
+                    script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?${param}&tqx=responseHandler:${cbName}`;
+                    script.onerror = () => {
+                        cleanup();
+                        reject(new Error('Falha de rede ao acessar Google Sheets'));
+                    };
+                    document.body.appendChild(script);
+                });
+            }
+
+            async function carregarDadosPlanilha() {
+                const badge = document.getElementById('syncStatusBadge');
+                badge.className = 'sync-badge';
+                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Base...';
+
+                try {
+                    const [tabProg, tabMat] = await Promise.all([
+                        fetchGvizSheet(GID_PROGRAMACAO, true),
+                        fetchGvizSheet('Material', false).catch(() => null)
+                    ]);
+
+                    const progRows = [];
+                    const frotaRows = [];
+
+                    (tabProg.rows || []).forEach((r, idx) => {
+                        const c = r.c || [];
+                        const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
+                        const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNumeroBR(c[i].v) : 0;
+
+                        const osVal = getStr(1);
+                        const equipeVal = getStr(3);
+                        if (osVal && osVal !== 'OS' && equipeVal) {
+                            progRows.push({
+                                idItem: getStr(0),
+                                os: osVal,
+                                data: formatarDataCell(c[2]),
+                                equipe: equipeVal,
+                                tipoVeiculo: getStr(4).toUpperCase(),
+                                supervisor: getStr(5).toUpperCase(),
+                                encarregado: getStr(6),
+                                nota: getStr(7),
+                                bairro: getStr(8),
+                                endereco: getStr(9),
+                                tipoServico: getStr(10),
+                                equipamento: getStr(11),
+                                observacoes: getStr(12),
+                                qtde: getNum(13) || 1,
+                                valorUnit: getNum(14),
+                                valorTotal: getNum(15),
+                                situacao: (getStr(16) || 'PROGRAMADO').toUpperCase(),
+                                alimentador: getStr(17),
+                                si: getStr(18),
+                                medidor: getStr(19)
+                            });
+                        }
+
+                        // Lê também a Tabela 2 (Colunas W:AA -> índices 22..26) se presente
+                        const eqFrota = getStr(22);
+                        const tvFrota = getStr(23).toUpperCase();
+                        const supFrota = getStr(24).toUpperCase();
+                        if (eqFrota && eqFrota.startsWith('ELLCA') && ['MK', 'LV', 'LD', 'LM'].includes(tvFrota)) {
+                            frotaRows.push({
+                                equipe: eqFrota,
+                                tipoVeiculo: tvFrota,
+                                supervisor: supFrota,
+                                valorVeiculo: getNum(25),
+                                producaoProg: getNum(26)
+                            });
+                        }
+                    });
+
+                    const matRows = [];
+                    if (tabMat && tabMat.rows) {
+                        tabMat.rows.forEach(r => {
+                            const c = r.c || [];
+                            const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
+                            const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNumeroBR(c[i].v) : 0;
+                            const osM = getStr(1);
+                            if (osM && osM !== 'OS') {
+                                matRows.push({
+                                    os: osM,
+                                    nota: getStr(4),
+                                    codigo: getStr(6),
+                                    descricao: getStr(7),
+                                    un: getStr(8),
+                                    qtde: getNum(9)
+                                });
+                            }
+                        });
+                    }
+
+                    if (progRows.length > 0) {
+                        dadosProgramacao = progRows;
+                        dadosMateriais = matRows;
+                        frotaPorEquipe = frotaRows;
+                        const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        badge.className = 'sync-badge';
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo • Atualizado às ${hora}`;
+                    } else {
+                        throw new Error('Planilha vazia');
+                    }
+                } catch (err) {
+                    console.warn('Usando base de demonstração local:', err.message);
+                    dadosProgramacao = FALLBACK_PROGRAMACAO;
+                    dadosMateriais = FALLBACK_MATERIAIS;
+                    frotaPorEquipe = [];
+                    badge.className = 'sync-badge fallback';
+                    badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Demonstração (Offline)';
+                }
+
+                popularFiltros();
+                aplicarFiltros();
+            }
+
+            function popularFiltros() {
+                const preencherSelect = (id, valores, labelTodos) => {
+                    const sel = document.getElementById(id);
+                    const atual = sel.value;
+                    sel.innerHTML = `<option value="">${labelTodos}</option>`;
+                    [...new Set(valores.filter(Boolean))].sort().forEach(v => {
+                        const opt = document.createElement('option');
+                        opt.value = v;
+                        opt.textContent = v;
+                        sel.appendChild(opt);
+                    });
+                    if ([...sel.options].some(o => o.value === atual)) sel.value = atual;
+                };
+
+                preencherSelect('filterSupervisor', dadosProgramacao.map(d => d.supervisor), 'Todos os Supervisores');
+                preencherSelect('filterVeiculo', dadosProgramacao.map(d => d.tipoVeiculo), 'Todos (MK, LV, LD, LM)');
+                preencherSelect('filterServico', dadosProgramacao.map(d => d.tipoServico), 'Todos os Serviços');
+                preencherSelect('filterSituacao', dadosProgramacao.map(d => d.situacao), 'Todas as Situações');
+            }
+
+            function aplicarFiltros() {
+                const sup = document.getElementById('filterSupervisor').value;
+                const veic = document.getElementById('filterVeiculo').value;
+                const serv = document.getElementById('filterServico').value;
+                const sit = document.getElementById('filterSituacao').value;
+                const busca = document.getElementById('filterBusca').value.trim().toLowerCase();
+
+                dadosFiltrados = dadosProgramacao.filter(item => {
+                    if (sup && item.supervisor !== sup) return false;
+                    if (veic && item.tipoVeiculo !== veic) return false;
+                    if (serv && item.tipoServico !== serv) return false;
+                    if (sit && item.situacao !== sit) return false;
+                    if (busca) {
+                        const alvo = `${item.os} ${item.nota} ${item.equipe} ${item.supervisor} ${item.encarregado} ${item.bairro} ${item.endereco} ${item.tipoServico} ${item.alimentador}`.toLowerCase();
+                        if (!alvo.includes(busca)) return false;
+                    }
+                    return true;
+                });
+
+                atualizarKPIs();
+                renderizarSupervisores();
+                atualizarGraficos();
+                renderizarTabela();
+            }
+
+            function atualizarKPIs() {
+                const producaoTotal = dadosFiltrados.reduce((acc, d) => acc + d.valorTotal, 0);
+                const totalOs = new Set(dadosFiltrados.map(d => d.os)).size;
+                const totalUnidades = dadosFiltrados.reduce((acc, d) => acc + d.qtde, 0);
+                const ticketMedio = totalOs > 0 ? producaoTotal / totalOs : 0;
+
+                // Equipes únicas no recorte
+                const equipesMap = {};
+                dadosFiltrados.forEach(d => {
+                    if (!equipesMap[d.equipe]) {
+                        const custo = TABELA_VEICULOS[d.tipoVeiculo]?.valorMensal || 0;
+                        equipesMap[d.equipe] = { tipo: d.tipoVeiculo, custo };
+                    }
+                });
+
+                const qtdEquipes = Object.keys(equipesMap).length;
+                const custoFrotaAlocada = Object.values(equipesMap).reduce((acc, e) => acc + e.custo, 0);
+                const pctMeta = Math.min(100, (producaoTotal / CAPACIDADE_MENSAL_TOTAL) * 100);
+                const pctCobertura = custoFrotaAlocada > 0 ? (producaoTotal / custoFrotaAlocada) * 100 : 0;
+
+                // Materiais vinculados às OS filtradas
+                const osSet = new Set(dadosFiltrados.map(d => d.os));
+                const matsVinculados = dadosMateriais.filter(m => osSet.has(m.os));
+                const osComMat = new Set(matsVinculados.map(m => m.os)).size;
+
+                document.getElementById('kpiProducaoTotal').textContent = fmtBRL(producaoTotal);
+                document.getElementById('kpiMetaPercent').textContent = `${pctMeta.toFixed(2).replace('.', ',')}% da capacidade total`;
+                document.getElementById('kpiMetaBar').style.width = `${Math.max(pctMeta, producaoTotal > 0 ? 4 : 0)}%`;
+
+                document.getElementById('kpiCustoFrota').textContent = fmtBRL(custoFrotaAlocada);
+                document.getElementById('kpiQtdEquipes').textContent = `${qtdEquipes} equipe${qtdEquipes === 1 ? '' : 's'} escalada${qtdEquipes === 1 ? '' : 's'}`;
+                document.getElementById('kpiCoberturaFrota').textContent = `Cobertura: ${pctCobertura.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiFrotaBar').style.width = `${Math.min(100, pctCobertura)}%`;
+
+                document.getElementById('kpiTotalOs').textContent = totalOs;
+                document.getElementById('kpiQtdItens').textContent = `${totalUnidades} serviços/unid.`;
+                document.getElementById('kpiTicketMedio').textContent = `Ticket: ${fmtBRL(ticketMedio)}`;
+
+                document.getElementById('kpiTotalMateriais').textContent = `${matsVinculados.length} itens`;
+                document.getElementById('kpiOsComMaterial').textContent = `${osComMat} OS com requisição`;
+            }
+
+            function renderizarSupervisores() {
+                const grid = document.getElementById('supervisoresGrid');
+                const supSelecionado = document.getElementById('filterSupervisor').value;
+
+                // Agrupa por supervisor considerando todos os registros (ou frota vinculada)
+                const mapaSup = {};
+                dadosProgramacao.forEach(d => {
+                    const s = d.supervisor || 'NÃO DEFINIDO';
+                    if (!mapaSup[s]) {
+                        mapaSup[s] = { nome: s, producao: 0, osSet: new Set(), equipes: {} };
+                    }
+                    mapaSup[s].producao += d.valorTotal;
+                    mapaSup[s].osSet.add(d.os);
+                    if (!mapaSup[s].equipes[d.equipe]) {
+                        mapaSup[s].equipes[d.equipe] = TABELA_VEICULOS[d.tipoVeiculo]?.valorMensal || 0;
+                    }
+                });
+
+                // Complementa com equipes da Tabela 2 se houver
+                frotaPorEquipe.forEach(f => {
+                    const s = f.supervisor || 'NÃO DEFINIDO';
+                    if (!mapaSup[s]) {
+                        mapaSup[s] = { nome: s, producao: 0, osSet: new Set(), equipes: {} };
+                    }
+                    if (!mapaSup[s].equipes[f.equipe]) {
+                        mapaSup[s].equipes[f.equipe] = f.valorVeiculo || (TABELA_VEICULOS[f.tipoVeiculo]?.valorMensal || 0);
+                    }
+                });
+
+                const lista = Object.values(mapaSup).sort((a, b) => b.producao - a.producao);
+
+                grid.innerHTML = lista.map(sup => {
+                    const iniciais = sup.nome.split(' ').slice(0, 2).map(p => p[0]).join('');
+                    const equipesNomes = Object.keys(sup.equipes).sort();
+                    const custoFrota = Object.values(sup.equipes).reduce((a, b) => a + b, 0);
+                    const isSelected = supSelecionado === sup.nome;
+
+                    return `
+                        <div class="sup-card ${isSelected ? 'selected' : ''}" data-sup="${sup.nome}">
+                            <div class="sup-header">
+                                <div class="sup-name">
+                                    <div class="sup-avatar">${iniciais}</div>
+                                    <span>${sup.nome}</span>
+                                </div>
+                                <span class="sup-badge">${sup.osSet.size} OS</span>
+                            </div>
+                            <div class="sup-metrics">
+                                <div class="sup-metric-box">
+                                    <small>Produção Prog.</small>
+                                    <strong style="color:#38bdf8;">${fmtBRL(sup.producao)}</strong>
+                                </div>
+                                <div class="sup-metric-box">
+                                    <small>Frota (${equipesNomes.length} eq.)</small>
+                                    <strong style="color:#fcd34d;">${fmtBRL(custoFrota)}</strong>
+                                </div>
+                            </div>
+                            <div class="sup-teams-list">
+                                ${equipesNomes.map(eq => `<span class="team-pill">${eq}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                grid.querySelectorAll('.sup-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const s = card.getAttribute('data-sup');
+                        const sel = document.getElementById('filterSupervisor');
+                        sel.value = (sel.value === s) ? '' : s;
+                        aplicarFiltros();
+                    });
+                });
+            }
+
+            function atualizarGraficos() {
+                Chart.defaults.color = '#cbd5e1';
+                Chart.defaults.font.family = 'Montserrat, sans-serif';
+
+                // 1. Produção por Supervisor
+                const supMap = {};
+                dadosFiltrados.forEach(d => {
+                    supMap[d.supervisor] = (supMap[d.supervisor] || 0) + d.valorTotal;
+                });
+                const supLabels = Object.keys(supMap);
+                const supVals = Object.values(supMap);
+
+                if (charts.sup) charts.sup.destroy();
+                charts.sup = new Chart(document.getElementById('chartSupervisor'), {
+                    type: 'bar',
+                    data: {
+                        labels: supLabels,
+                        datasets: [{
+                            label: 'Produção Programada (R$)',
+                            data: supVals,
+                            backgroundColor: 'rgba(0, 212, 255, 0.72)',
+                            borderColor: '#00d4ff',
+                            borderWidth: 1.5,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { color: 'rgba(255,255,255,0.08)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+
+                // 2. Distribuição por Tipo de Veículo
+                const veicMap = {};
+                dadosFiltrados.forEach(d => {
+                    veicMap[d.tipoVeiculo] = (veicMap[d.tipoVeiculo] || 0) + d.valorTotal;
+                });
+
+                if (charts.veic) charts.veic.destroy();
+                charts.veic = new Chart(document.getElementById('chartVeiculo'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(veicMap).map(k => `${k} - ${TABELA_VEICULOS[k]?.descricao || k}`),
+                        datasets: [{
+                            data: Object.values(veicMap),
+                            backgroundColor: ['#00d4ff', '#f59e0b', '#10b981', '#8b5cf6'],
+                            borderColor: '#040914',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                        }
+                    }
+                });
+
+                // 3. Mix por Tipo de Serviço
+                const servMap = {};
+                dadosFiltrados.forEach(d => {
+                    servMap[d.tipoServico] = (servMap[d.tipoServico] || 0) + d.valorTotal;
+                });
+                const servEntries = Object.entries(servMap).sort((a, b) => b[1] - a[1]);
+
+                if (charts.serv) charts.serv.destroy();
+                charts.serv = new Chart(document.getElementById('chartServico'), {
+                    type: 'bar',
+                    data: {
+                        labels: servEntries.map(e => e[0]),
+                        datasets: [{
+                            label: 'Valor Total (R$)',
+                            data: servEntries.map(e => e[1]),
+                            backgroundColor: 'rgba(245, 158, 11, 0.75)',
+                            borderColor: '#fbbf24',
+                            borderWidth: 1.5,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { color: 'rgba(255,255,255,0.08)' } },
+                            y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                        }
+                    }
+                });
+            }
+
+            function renderizarTabela() {
+                const tbody = document.getElementById('osTableBody');
+                document.getElementById('tableCountLabel').textContent =
+                    `Exibindo ${dadosFiltrados.length} registro${dadosFiltrados.length === 1 ? '' : 's'} • Clique na linha para abrir o Espelho da OS e Materiais`;
+
+                if (dadosFiltrados.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:24px; color:#94a3b8;">Nenhum registro encontrado para os filtros selecionados.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = dadosFiltrados.map((item, idx) => {
+                    let sitClass = 'status-programado';
+                    if (item.situacao.includes('EXEC') || item.situacao.includes('CONCL')) sitClass = 'status-executado';
+                    else if (item.situacao.includes('PEND') || item.situacao.includes('CANC')) sitClass = 'status-pendente';
+
+                    return `
+                        <tr data-row-idx="${idx}">
+                            <td><strong>#${item.os}</strong></td>
+                            <td>${item.data}</td>
+                            <td><strong>${item.equipe}</strong></td>
+                            <td><span class="veh-tag">${item.tipoVeiculo}</span></td>
+                            <td>${item.supervisor}</td>
+                            <td>${item.encarregado}</td>
+                            <td>${item.nota}</td>
+                            <td>${item.bairro}</td>
+                            <td>${item.tipoServico}</td>
+                            <td>${item.qtde}</td>
+                            <td><strong style="color:#38bdf8;">${fmtBRL(item.valorTotal)}</strong></td>
+                            <td><span class="status-pill ${sitClass}">${item.situacao}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.querySelectorAll('tr[data-row-idx]').forEach(tr => {
+                    tr.addEventListener('click', () => {
+                        const idx = parseInt(tr.getAttribute('data-row-idx'), 10);
+                        abrirModalOs(dadosFiltrados[idx]);
+                    });
+                });
+            }
+
+            function abrirModalOs(item) {
+                if (!item) return;
+                document.getElementById('modalOsTitulo').innerHTML =
+                    `<i class="fa-solid fa-file-invoice"></i> Ordem de Serviço #${item.os} • ${item.equipe}`;
+
+                const campos = [
+                    { label: 'Data Programada', val: item.data || '-' },
+                    { label: 'Nota / Projeto', val: item.nota || '-' },
+                    { label: 'Supervisor', val: item.supervisor || '-' },
+                    { label: 'Encarregado', val: item.encarregado || '-' },
+                    { label: 'Tipo de Veículo', val: `${item.tipoVeiculo} (${TABELA_VEICULOS[item.tipoVeiculo]?.descricao || ''})` },
+                    { label: 'Alimentador / S.I.', val: `${item.alimentador || '-'} / ${item.si || '-'}` },
+                    { label: 'Bairro', val: item.bairro || '-' },
+                    { label: 'Endereço', val: item.endereco || '-' },
+                    { label: 'Tipo de Serviço', val: item.tipoServico || '-' },
+                    { label: 'Equipamento / Poste', val: item.equipamento || '-' },
+                    { label: 'Qtde × Valor Unit.', val: `${item.qtde} × ${fmtBRL(item.valorUnit)}` },
+                    { label: 'Valor Total', val: fmtBRL(item.valorTotal) }
+                ];
+
+                document.getElementById('modalOsGrid').innerHTML = campos.map(c => `
+                    <div class="os-detail-item">
+                        <small>${c.label}</small>
+                        <strong>${c.val}</strong>
+                    </div>
+                `).join('') + `
+                    <div class="os-detail-item" style="grid-column: 1 / -1;">
+                        <small>Observações Operacionais</small>
+                        <strong>${item.observacoes || 'Sem observações adicionais registradas.'}</strong>
+                    </div>
+                `;
+
+                const mats = dadosMateriais.filter(m => m.os === item.os || (item.nota && m.nota === item.nota));
+                const matBody = document.getElementById('modalMateriaisBody');
+                if (mats.length === 0) {
+                    matBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8; padding:14px;">Nenhum material específico vinculado a esta OS na aba Material.</td></tr>`;
+                } else {
+                    matBody.innerHTML = mats.map(m => `
+                        <tr>
+                            <td><strong>${m.codigo}</strong></td>
+                            <td>${m.descricao}</td>
+                            <td>${m.un}</td>
+                            <td><strong>${m.qtde}</strong></td>
+                        </tr>
+                    `).join('');
+                }
+
+                document.getElementById('osModalOverlay').classList.add('active');
+            }
+
+            // Exportar CSV
+            document.getElementById('btnExportCsv').addEventListener('click', () => {
+                const headers = ['ID_ITEM', 'OS', 'DATA', 'EQUIPE', 'TIPO_VEICULO', 'SUPERVISOR', 'ENCARREGADO', 'NOTA', 'BAIRRO', 'ENDERECO', 'TIPO_SERVICO', 'QTDE', 'VALOR_UNIT', 'VALOR_TOTAL', 'SITUACAO'];
+                const linhas = [headers.join(';')];
+                dadosFiltrados.forEach(d => {
+                    linhas.push([
+                        d.idItem, d.os, d.data, d.equipe, d.tipoVeiculo, d.supervisor,
+                        d.encarregado, d.nota, d.bairro, d.endereco, d.tipoServico,
+                        d.qtde, d.valorUnit, d.valorTotal, d.situacao
+                    ].map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(';'));
+                });
+                const blob = new Blob(['\uFEFF' + linhas.join('\n')], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Programacao_Ellca_${new Date().toISOString().slice(0, 10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            // Eventos UI
+            ['filterSupervisor', 'filterVeiculo', 'filterServico', 'filterSituacao'].forEach(id => {
+                document.getElementById(id).addEventListener('change', aplicarFiltros);
+            });
+            document.getElementById('filterBusca').addEventListener('input', aplicarFiltros);
+
+            document.getElementById('btnLimparFiltros').addEventListener('click', () => {
+                document.getElementById('filterSupervisor').value = '';
+                document.getElementById('filterVeiculo').value = '';
+                document.getElementById('filterServico').value = '';
+                document.getElementById('filterSituacao').value = '';
+                document.getElementById('filterBusca').value = '';
+                aplicarFiltros();
+            });
+
+            document.getElementById('btnRefreshData').addEventListener('click', carregarDadosPlanilha);
+
+            const overlay = document.getElementById('osModalOverlay');
+            document.getElementById('btnFecharOsModal').addEventListener('click', () => overlay.classList.remove('active'));
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+
+            carregarDadosPlanilha();
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

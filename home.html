@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | PAINEL DE CONTROLE</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+</head>
+
+<body>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html"> 
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
+                </a>
+            </div>
+
+            <!-- Ações Mobile: Voltar para Capa + Menu Hambúrguer lado a lado -->
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="index.html" title="Voltar para a Capa">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Conteúdo da Navbar -->
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">REDES ONLINE • 12ms</span>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="cardSearch" placeholder="Pesquisar módulo...">
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item active"> HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
+                    <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
+                    
+                    <div class="nav-actions-group">
+                        <button class="grid-toggle-btn" title="Alternar visualização em Grade">
+                            <i class="fa-solid fa-table-cells"></i>
+                        </button>
+                        <button class="btn-voltar btn-voltar-desktop" id="btnVoltar" data-destino="index.html" title="Voltar para a Capa">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTAINER PRINCIPAL -->
+        <div class="container">
+            <div class="slide">
+                <div class="item active"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                    url('img/Capa_home.jpg');">
+
+                    <div class="split-screen">
+
+                        <!-- TEXTO -->
+                        <div class="text-section">
+                            <div class="topic">CENTRAL DE CONTROLE</div>
+
+                            <h1 class="title">
+                                GESTÃO & <br>
+                                <span>PERFORMANCE</span>
+                            </h1>
+
+                            <p class="des">
+                                Escolha como deseja visualizar seus resultados. 
+                                Acesse dashboards dinâmicos para uma análise visual rápida 
+                                ou utilize nossas planilhas inteligentes para um controle detalhado de dados.
+                                <br>
+                                Tudo o que você precisa para gerenciar seus processos em um só lugar.
+                            </p>
+                        </div>
+
+                        <!-- CARROSSEL 3D / GRADE -->
+                        <div class="cards-section">
+                            <div class="cards-wrapper">
+
+                                <!-- CARD 1 -->
+                                <div class="glass-card" data-index="0" data-title="dashboards bi">
+                                    <div class="badge">BI <i class="fa-solid fa-chart-simple"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
+                                    <h3>DASHBOARDS</h3>
+                                    <p class="card-desc">Centralização de dados e indicadores para acompanhamento ágil e visual das informações.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>
+                                        <span><i class="fa-solid fa-chart-line"></i> Mensal</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="dashboard.html"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                               
+                                <!-- CARD 2 -->
+                                <div class="glass-card" data-index="1" data-title="base de dados planilha">
+                                    <div class="badge gold">PLANILHA <i class="fa-regular fa-file-excel"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_base_dados.jpg');"></div>
+                                    <h3>BASE DE DADOS</h3>
+                                    <p class="card-desc">Controle unificado e planilhas inteligentes para auditoria.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>
+                                        <span><i class="fa-solid fa-calendar"></i> Período</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="planilha.html"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                                    
+                                <!-- CARD 3: DASHBOARD GERENCIAL (RESTRITO A 'gerencial' OU 'todos') -->
+                                <div class="glass-card" data-setor="gerencial" data-index="2" data-title="documentos docs gerencia executivo">
+                                    <div class="badge gold">EXECUTIVO <i class="fa-solid fa-crown"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_gerencial.jpg');"></div>
+                                    <h3>DASHBOARD GERENCIAL</h3>
+                                    <p class="card-desc">Indicadores estratégicos e operacionais para uma visão integrada dos resultados da empresa.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> Restrito</span>
+                                        <span><i class="fa-solid fa-chart-line"></i> Consolidado</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="gerencial.html"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+                                
+                               <!-- CARD 4: ORGANOGRAMA -->
+                                <div class="glass-card" data-index="3" data-title="equipe organograma">
+                                    <div class="badge gold">EQUIPE <i class="fa-solid fa-people-group"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Card_Organograma.jpg');"></div>
+                                    <h3>ORGANOGRAMA</h3>
+                                    <p class="card-desc">Estrutura organizacional, setores e contatos de suporte interno.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-check-circle"></i> Ativo</span>
+                                        <span><i class="fa-solid fa-sitemap"></i> Estrutura</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="organograma.html"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+
+                                <!-- CARD 5: PROGRAMAÇÃO & OPERAÇÕES AO VIVO -->
+                                <div class="glass-card" data-setor="programacao" data-index="4" data-title="programacao operacoes supervisao ordens servico frota">
+                                    <div class="badge">AO VIVO <i class="fa-solid fa-satellite-dish"></i></div>
+                                    <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
+                                    <h3>PROGRAMAÇÃO</h3>
+                                    <p class="card-desc">Cockpit em tempo real de Ordens de Serviço, supervisores, frota e materiais vinculados.</p>
+                                    <div class="kpi-mini">
+                                        <span class="kpi-success"><i class="fa-solid fa-bolt"></i> Tempo Real</span>
+                                        <span><i class="fa-solid fa-truck-fast"></i> Frota & OS</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="btn-primary"><a href="programacao_live.html"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
+                                        <button class="btn-glass">DETALHES</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTROLES & PAGINAÇÃO -->
+            <div class="controls-container">
+                <div class="controls">
+                    <button class="prev"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="pagination-dots"></div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Dominio: <strong>Rodrigo Lopes</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Filtro SVG para Fumaça Volumétrica Suave -->
+    <svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
+        <filter id="hollywood-smoke-filter" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.010 0.015" numOctaves="3" seed="8" result="noise">
+                <animate attributeName="baseFrequency" dur="18s" values="0.010 0.015;0.015 0.022;0.010 0.015" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <script src="script.js"></script>
+</body>
+</html>
