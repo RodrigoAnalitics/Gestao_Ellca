@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELLCA | PRODUÇÃO — PROGRAMADO VS. REALIZADO</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .desktop-view {
+            min-height: 100vh;
+            height: auto !important;
+            overflow: visible !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            position: relative;
+        }
+
+        .container .item.active {
+            position: relative !important;
+            height: auto !important;
+            min-height: 100vh;
+            overflow: visible !important;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
+        .navbar,
+        .footer-bar {
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        }
+
+        body.bars-collapsed .navbar {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.bars-collapsed .footer-bar {
+            transform: translateY(110%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: rgba(3, 7, 18, 0.85); }
+        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.45); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.85); }
+
+        .prod-wrapper {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 1520px;
+            margin: 0 auto;
+            padding: 92px 24px 76px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+            transition: padding 0.32s ease;
+        }
+
+        body.bars-collapsed .prod-wrapper {
+            padding: 20px 24px 28px 24px;
+        }
+
+        /* HEADER */
+        .cockpit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 16px 22px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(4, 15, 14, 0.90) 0%, rgba(10, 56, 46, 0.78) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(16, 185, 129, 0.42);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7);
+        }
+
+        .cockpit-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cockpit-icon-box {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-size: 20px;
+        }
+
+        .cockpit-title-group h1 {
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 1.1px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .cockpit-title-group p {
+            font-size: 11.5px;
+            color: #a7f3d0;
+            margin: 3px 0 0 0;
+            opacity: 0.85;
+        }
+
+        .cockpit-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border-radius: 50px;
+            font-size: 10.5px;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+        }
+
+        .sync-badge.fallback {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.45);
+            color: #fcd34d;
+        }
+
+        .btn-exec {
+            padding: 9px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+            background: rgba(0, 212, 255, 0.13);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-exec:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn-exec.active-mode {
+            background: #34d399;
+            color: #030712;
+            border-color: #34d399;
+        }
+
+        .btn-exec.emerald {
+            border-color: rgba(16, 185, 129, 0.52);
+            background: rgba(16, 185, 129, 0.16);
+            color: #6ee7b7;
+        }
+
+        .btn-exec.emerald:hover {
+            background: #10b981;
+            color: #000;
+        }
+
+        .btn-exec.gold {
+            border-color: rgba(245, 158, 11, 0.52);
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+        }
+
+        .btn-exec.gold:hover {
+            background: #f59e0b;
+            color: #000;
+        }
+
+        /* PAINEL DE FILTROS */
+        .filter-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+            gap: 12px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: rgba(4, 9, 20, 0.80);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-field label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-field label i {
+            color: #34d399;
+        }
+
+        .filter-field select,
+        .filter-field input {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 9px;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(16, 185, 129, 0.30);
+            color: #f8fafc;
+            font-size: 12px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.2s;
+            box-sizing: border-box;
+            color-scheme: dark;
+        }
+
+        .filter-field select:focus,
+        .filter-field input:focus {
+            border-color: #34d399;
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.25);
+        }
+
+        .filter-actions-cell {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .btn-reset-filters {
+            width: 100%;
+            height: 36px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.14);
+            color: #fca5a5;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-reset-filters:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #fff;
+        }
+
+        /* KPIS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+            gap: 15px;
+        }
+
+        .kpi-card {
+            padding: 18px 20px;
+            border-radius: 16px;
+            background: linear-gradient(145deg, rgba(6, 13, 28, 0.88) 0%, rgba(12, 34, 76, 0.65) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .kpi-card.green {
+            border-color: rgba(16, 185, 129, 0.45);
+            background: linear-gradient(145deg, rgba(4, 18, 14, 0.88) 0%, rgba(6, 68, 52, 0.58) 100%);
+        }
+
+        .kpi-card.gold {
+            border-color: rgba(245, 158, 11, 0.42);
+            background: linear-gradient(145deg, rgba(16, 13, 6, 0.88) 0%, rgba(76, 48, 12, 0.55) 100%);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            color: #94a3b8;
+        }
+
+        .kpi-top i { font-size: 16px; color: var(--primary); }
+        .kpi-card.green .kpi-top i { color: #34d399; }
+        .kpi-card.gold .kpi-top i { color: #fbbf24; }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            transition: width 0.5s ease;
+        }
+
+        /* SEÇÕES, GRÁFICOS E TABELA */
+        .section-block {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(4, 9, 20, 0.84);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-head h2 {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .section-head h2 i { color: #34d399; }
+        .section-head span { font-size: 11px; color: #94a3b8; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 16px;
+        }
+
+        .chart-card {
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(4, 9, 20, 0.84);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chart-card h3 {
+            font-size: 12.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .chart-card h3 i { color: #34d399; }
+
+        .chart-canvas-wrap {
+            position: relative;
+            height: 255px;
+            width: 100%;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table.os-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            text-align: left;
+        }
+
+        table.os-table thead {
+            background: rgba(6, 68, 52, 0.78);
+            color: #6ee7b7;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.7px;
+        }
+
+        table.os-table th,
+        table.os-table td {
+            padding: 11px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            white-space: nowrap;
+        }
+
+        table.os-table tbody tr {
+            background: rgba(5, 10, 24, 0.62);
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        table.os-table tbody tr:hover {
+            background: rgba(16, 185, 129, 0.14);
+        }
+
+        .status-pill {
+            padding: 3px 9px;
+            border-radius: 50px;
+            font-size: 9.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .st-aguardando {
+            background: rgba(148, 163, 184, 0.16);
+            color: #cbd5e1;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+
+        .st-executado {
+            background: rgba(16, 185, 129, 0.20);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+        }
+
+        .st-parcial {
+            background: rgba(0, 212, 255, 0.18);
+            color: #38bdf8;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+        }
+
+        .st-pendente {
+            background: rgba(245, 158, 11, 0.20);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.45);
+        }
+
+        .st-nao-exec {
+            background: rgba(239, 68, 68, 0.20);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+        }
+
+        .veh-tag {
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 800;
+            background: rgba(245, 158, 11, 0.16);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        /* MODAL */
+        .os-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.84);
+            backdrop-filter: blur(10px);
+            z-index: 2500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .os-modal-overlay.active { display: flex; }
+
+        .os-modal-box {
+            width: 100%;
+            max-width: 760px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 24px;
+            background: linear-gradient(145deg, #061312 0%, #092c25 100%);
+            border: 1px solid rgba(52, 211, 153, 0.45);
+            color: #fff;
+        }
+
+        .os-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+        }
+
+        .os-modal-header h3 {
+            font-size: 16px;
+            font-weight: 900;
+            color: #34d399;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .os-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 10px;
+        }
+
+        .os-detail-item {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .os-detail-item small {
+            display: block;
+            font-size: 9.5px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .os-detail-item strong {
+            font-size: 12.5px;
+            color: #f8fafc;
+        }
+
+        @media (max-width: 768px) {
+            .prod-wrapper { padding: 80px 12px 68px 12px; }
+            body.bars-collapsed .prod-wrapper { padding: 14px 12px 24px 12px; }
+        }
+    </style>
+</head>
+
+<body class="bars-collapsed">
+    <script>
+        if (sessionStorage.getItem('ellca_auth') !== 'true') {
+            window.location.replace('login.html');
+        }
+    </script>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button class="btn-voltar btn-voltar-mobile" data-destino="supervisor.html" title="Voltar para Supervisor">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="menu-mobile-btn" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">PRODUÇÃO • REALIZADO VS. PROG.</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="supervisor.html" class="nav-item">SUPERVISOR <i class="fa-solid fa-user-shield"></i></a>
+                    <a href="programacao.html" class="nav-item">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></a>
+                    <a href="gerencial.html" class="nav-item">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+
+                    <div class="nav-actions-group">
+                        <button class="btn-voltar btn-voltar-desktop" data-destino="supervisor.html" title="Voltar para Supervisor">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTAINER -->
+        <div class="container">
+            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.75)), url('img/Programacao.jpg');">
+                <div class="prod-wrapper">
+
+                    <!-- CABEÇALHO -->
+                    <div class="cockpit-header">
+                        <div class="cockpit-title-group">
+                            <div class="cockpit-icon-box">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h1>Dashboard de Produção — Programado vs. Realizado</h1>
+                                <p>Acompanhamento de apontamentos de campo, aderência financeira e motivos de ocorrência</p>
+                            </div>
+                        </div>
+
+                        <div class="cockpit-actions">
+                            <span class="sync-badge" id="syncStatusBadge">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Aba Produção...
+                            </span>
+                            <button type="button" class="btn-exec emerald" id="btnRefreshData">
+                                <i class="fa-solid fa-rotate"></i> Atualizar
+                            </button>
+                            <button type="button" class="btn-exec" id="btnExportCsv">
+                                <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                            </button>
+                            <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
+                                <span id="textToggleBars">Mostrar Menu</span>
+                            </button>
+                            <a href="https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit" target="_blank" class="btn-exec gold">
+                                <i class="fa-solid fa-pen-to-square"></i> Preencher na Planilha
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- FILTROS: ANO, MÊS, DATA, SUPERVISOR, TIPO DE EQUIPE + STATUS E BUSCA -->
+                    <div class="filter-panel">
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
+                            <select id="filterAno">
+                                <option value="">Todos os Anos</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
+                            <select id="filterMes">
+                                <option value="">Todos os Meses</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data</label>
+                            <input type="date" id="filterData">
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                            <select id="filterSupervisor">
+                                <option value="">Todos os Supervisores</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Equipe</label>
+                            <select id="filterTipoEquipe">
+                                <option value="">Todos os Tipos (LV, MK, LD, LM)</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-circle-check"></i> Status Realizado</label>
+                            <select id="filterStatus">
+                                <option value="">Todos os Status</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-magnifying-glass"></i> Busca Rápida</label>
+                            <input type="text" id="filterBusca" placeholder="OS, Equipe, Bairro, Serviço...">
+                        </div>
+
+                        <div class="filter-actions-cell">
+                            <button type="button" class="btn-reset-filters" id="btnLimparFiltros">
+                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>Total Programado</span>
+                                <i class="fa-solid fa-calendar-plus"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiValorProg">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiQtdeProg">0 unid. programadas</span>
+                                <span id="kpiQtdOs">0 OS</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card green">
+                            <div class="kpi-top">
+                                <span>Total Realizado</span>
+                                <i class="fa-solid fa-check-double"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiValorReal" style="color:#34d399;">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiQtdeReal">0 unid. realizadas</span>
+                                <span id="kpiDesvioValor">Gap: R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-top">
+                                <span>% Atendimento Financeiro</span>
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiPctAtendimento">0,0%</div>
+                            <div class="kpi-sub">
+                                <span id="kpiPctQtde">Físico: 0,0%</span>
+                                <span>Realizado / Prog.</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" id="kpiBarraAtendimento" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card gold">
+                            <div class="kpi-top">
+                                <span>Aguardando Apontamento</span>
+                                <i class="fa-solid fa-hourglass-half"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiAguardando" style="color:#fbbf24;">0</div>
+                            <div class="kpi-sub">
+                                <span id="kpiApontados">0 já apontados</span>
+                                <span>Aba Produção</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GRÁFICOS COMPARATIVOS -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-column"></i> Programado vs. Realizado por Supervisor (R$)</h3>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartSupComparativo"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-truck-monster"></i> Programado vs. Realizado por Tipo de Equipe (R$)</h3>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartEquipeComparativo"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Distribuição por Status de Apontamento</h3>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartStatus"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABELA DETALHADA -->
+                    <div class="section-block">
+                        <div class="section-head">
+                            <h2><i class="fa-solid fa-table-list"></i> Apontamento de Produção (Programado vs. Realizado)</h2>
+                            <span id="tableCountLabel">Exibindo 0 registros • Clique na linha para ver detalhes</span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="os-table">
+                                <thead>
+                                    <tr>
+                                        <th>OS</th>
+                                        <th>Data Prog.</th>
+                                        <th>Equipe</th>
+                                        <th>Tipo Eq.</th>
+                                        <th>Supervisor</th>
+                                        <th>Tipo de Serviço</th>
+                                        <th>Qtde Prog.</th>
+                                        <th>Qtde Real.</th>
+                                        <th>Valor Prog.</th>
+                                        <th>Valor Real.</th>
+                                        <th>% Atend.</th>
+                                        <th>Status Realizado</th>
+                                        <th>Motivo / Ocorrência</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="prodTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong>Produção (Programado vs. Realizado)</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- MODAL DETALHES DO ITEM -->
+    <div class="os-modal-overlay" id="detModalOverlay">
+        <div class="os-modal-box">
+            <div class="os-modal-header">
+                <h3 id="detModalTitulo"><i class="fa-solid fa-clipboard-check"></i> Detalhes do Apontamento</h3>
+                <button type="button" class="modal-close" id="btnFecharDetModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="os-detail-grid" id="detModalGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        (function iniciarDashboardProducao() {
+            const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
+            const NOMES_MESES = {
+                '01': '01 - Janeiro', '02': '02 - Fevereiro', '03': '03 - Março',
+                '04': '04 - Abril', '05': '05 - Maio', '06': '06 - Junho',
+                '07': '07 - Julho', '08': '08 - Agosto', '09': '09 - Setembro',
+                '10': '10 - Outubro', '11': '11 - Novembro', '12': '12 - Dezembro'
+            };
+
+            const FALLBACK_PRODUCAO = [
+                { idItem: '52199-1', os: '52199', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoEquipe: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440235269', bairro: 'CIDADE NOVA', tipoServico: 'ESTRUTURAÇÃO', qtdeProg: 9, valorUnit: 1850, valorProg: 16650, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52200-1', os: '52200', data: '2026-11-25', equipe: 'ELLCA04 LV', tipoEquipe: 'LV', supervisor: 'AMIEL JR', encarregado: 'ANTÔNIO JOAQUIN', nota: '440222163', bairro: 'CIDADE NOVA', tipoServico: 'ESTRUTURAÇÃO', qtdeProg: 6, valorUnit: 1850, valorProg: 11100, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52204-1', os: '52204', data: '2026-11-25', equipe: 'ELLCA39 MK', tipoEquipe: 'MK', supervisor: 'JANILSON', encarregado: 'LADILSON BENTES', nota: '440237070', bairro: '40 HORAS IV', tipoServico: 'ESTRUTURAÇÃO', qtdeProg: 1, valorUnit: 1850, valorProg: 1850, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52205-1', os: '52205', data: '2026-11-24', equipe: 'ELLCA39 MK', tipoEquipe: 'MK', supervisor: 'JANILSON', encarregado: 'LADILSON BENTES', nota: '440238506', bairro: '40 HORAS IV', tipoServico: 'ESTRUTURAÇÃO', qtdeProg: 1, valorUnit: 1850, valorProg: 1850, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52206-1', os: '52206', data: '2026-11-25', equipe: 'ELLCA26 LD', tipoEquipe: 'LD', supervisor: 'ELENILSON', encarregado: 'LEONARDO AMARAL', nota: '440250025', bairro: 'CONJ JADER BARBALHO', tipoServico: 'INSTALAÇÃO DE CLIENTE', qtdeProg: 1, valorUnit: 420, valorProg: 420, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52213-1', os: '52213', data: '2026-11-25', equipe: 'ELLCA11 LD', tipoEquipe: 'LD', supervisor: 'JÚLIO MOURA', encarregado: 'FRANCISCO NETO', nota: '440250449', bairro: 'COQUEIRO', tipoServico: 'INSTALAÇÃO DE CLIENTE', qtdeProg: 1, valorUnit: 420, valorProg: 420, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52225-1', os: '52225', data: '2026-11-25', equipe: 'ELLCA03 LV', tipoEquipe: 'LV', supervisor: 'DEYVID', encarregado: 'ENCARREGADO 03', nota: '440251001', bairro: 'MARAMBAIA', tipoServico: 'COMUNICAÇÃO DE MTR', qtdeProg: 1, valorUnit: 980, valorProg: 980, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' },
+                { idItem: '52233-1', os: '52233', data: '2026-11-26', equipe: 'ELLCA22 MK', tipoEquipe: 'MK', supervisor: 'AMIEL JR', encarregado: 'MANOEL MONTEIRO', nota: '440252100', bairro: 'CIDADE NOVA', tipoServico: 'INSTALAÇÃO DE TRANSFORMADOR', qtdeProg: 1, valorUnit: 4850, valorProg: 4850, statusRealizado: 'AGUARDANDO APONTAMENTO', dataExecucao: '', qtdeRealizada: 0, valorRealizado: 0, pctAtendimento: 0, motivo: '' }
+            ];
+
+            let dadosProducao = [];
+            let dadosFiltrados = [];
+            let charts = {};
+
+            // Controle Mostrar / Ocultar Menu
+            const btnToggleBars = document.getElementById('btnToggleBars');
+            const iconToggleBars = document.getElementById('iconToggleBars');
+            const textToggleBars = document.getElementById('textToggleBars');
+            let collapsed = true;
+
+            btnToggleBars.addEventListener('click', () => {
+                collapsed = !collapsed;
+                document.body.classList.toggle('bars-collapsed', collapsed);
+                btnToggleBars.classList.toggle('active-mode', !collapsed);
+                iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
+                textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
+            });
+
+            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            function parseNum(v) {
+                if (typeof v === 'number') return v;
+                if (!v) return 0;
+                const clean = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
+                return parseFloat(clean) || 0;
+            }
+
+            function formatarDataCell(cell) {
+                if (!cell) return '';
+                const val = String(cell.v || '');
+                const m = val.match(/Date\((\d+),(\d+),(\d+)\)/);
+                if (m) {
+                    return `${m[1]}-${String(parseInt(m[2], 10) + 1).padStart(2, '0')}-${String(parseInt(m[3], 10)).padStart(2, '0')}`;
+                }
+                if (cell.f) return cell.f;
+                return val;
+            }
+
+            function extrairInfoData(raw) {
+                const s = String(raw || '').trim();
+                let m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+                if (m) {
+                    const ano = m[1], mes = m[2].padStart(2, '0'), dia = m[3].padStart(2, '0');
+                    return { ano, mes, iso: `${ano}-${mes}-${dia}`, exibicao: `${dia}/${mes}/${ano}` };
+                }
+                m = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+                if (m) {
+                    const dia = m[1].padStart(2, '0'), mes = m[2].padStart(2, '0'), ano = m[3];
+                    return { ano, mes, iso: `${ano}-${mes}-${dia}`, exibicao: `${dia}/${mes}/${ano}` };
+                }
+                return { ano: '', mes: '', iso: s, exibicao: s };
+            }
+
+            function fetchSheet(sheetName) {
+                return new Promise((resolve, reject) => {
+                    const cb = 'cbProd_' + Math.random().toString(36).slice(2, 10);
+                    const s = document.createElement('script');
+                    const t = setTimeout(() => { cleanup(); reject(new Error('Timeout')); }, 8000);
+                    function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
+                    window[cb] = (json) => { cleanup(); json && json.table ? resolve(json.table) : reject(new Error('Resposta inválida')); };
+                    s.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(sheetName)}&tqx=responseHandler:${cb}`;
+                    s.onerror = () => { cleanup(); reject(new Error('Erro de rede')); };
+                    document.body.appendChild(s);
+                });
+            }
+
+            async function carregarDados() {
+                const badge = document.getElementById('syncStatusBadge');
+                badge.className = 'sync-badge';
+                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Aba Produção...';
+
+                try {
+                    const table = await fetchSheet('Produção');
+                    const rows = [];
+
+                    (table.rows || []).forEach(r => {
+                        const c = r.c || [];
+                        const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
+                        const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
+
+                        const os = getStr(1);
+                        const equipe = getStr(3);
+                        if (os && os !== 'OS' && equipe) {
+                            const rawData = formatarDataCell(c[2]);
+                            const info = extrairInfoData(rawData);
+                            const qtdeProg = getNum(10) || 1;
+                            const valorUnit = getNum(11);
+                            const valorProg = getNum(12) || (qtdeProg * valorUnit);
+                            const statusRealizado = (getStr(13) || 'AGUARDANDO APONTAMENTO').toUpperCase();
+                            const qtdeRealizada = getNum(15);
+                            const rawValorReal = getNum(16);
+                            const valorRealizado = rawValorReal > 0 ? rawValorReal : (qtdeRealizada * valorUnit);
+                            const pctAtendimento = valorProg > 0 ? (valorRealizado / valorProg) * 100 : 0;
+
+                            rows.push({
+                                idItem: getStr(0),
+                                os,
+                                data: info.exibicao || rawData,
+                                dataIso: info.iso,
+                                ano: info.ano,
+                                mes: info.mes,
+                                equipe,
+                                tipoEquipe: getStr(4).toUpperCase(),
+                                supervisor: getStr(5).toUpperCase(),
+                                encarregado: getStr(6),
+                                nota: getStr(7),
+                                bairro: getStr(8),
+                                tipoServico: getStr(9),
+                                qtdeProg,
+                                valorUnit,
+                                valorProg,
+                                statusRealizado,
+                                dataExecucao: formatarDataCell(c[14]),
+                                qtdeRealizada,
+                                valorRealizado,
+                                pctAtendimento,
+                                motivo: getStr(18)
+                            });
+                        }
+                    });
+
+                    if (rows.length > 0) {
+                        dadosProducao = rows;
+                        const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        badge.className = 'sync-badge';
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo • ${hora}`;
+                    } else {
+                        throw new Error('Sem linhas');
+                    }
+                } catch (err) {
+                    console.warn('Fallback Produção:', err.message);
+                    dadosProducao = FALLBACK_PRODUCAO.map(d => {
+                        const info = extrairInfoData(d.data);
+                        return { ...d, data: info.exibicao || d.data, dataIso: info.iso, ano: info.ano, mes: info.mes };
+                    });
+                    badge.className = 'sync-badge fallback';
+                    badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Demonstração';
+                }
+
+                popularFiltros();
+                aplicarFiltros();
+            }
+
+            function popularFiltros() {
+                const fill = (id, vals, labelAll, fmt = (v) => v, desc = false) => {
+                    const sel = document.getElementById(id);
+                    const prev = sel.value;
+                    sel.innerHTML = `<option value="">${labelAll}</option>`;
+                    const uniq = [...new Set(vals.filter(Boolean))].sort();
+                    if (desc) uniq.reverse();
+                    uniq.forEach(v => {
+                        const opt = document.createElement('option');
+                        opt.value = v;
+                        opt.textContent = fmt(v);
+                        sel.appendChild(opt);
+                    });
+                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+                };
+
+                fill('filterAno', dadosProducao.map(d => d.ano), 'Todos os Anos', (v) => v, true);
+                fill('filterMes', dadosProducao.map(d => d.mes), 'Todos os Meses', (m) => NOMES_MESES[m] || m);
+                fill('filterSupervisor', dadosProducao.map(d => d.supervisor), 'Todos os Supervisores');
+                fill('filterTipoEquipe', dadosProducao.map(d => d.tipoEquipe), 'Todos os Tipos (LV, MK, LD, LM)');
+                fill('filterStatus', dadosProducao.map(d => d.statusRealizado), 'Todos os Status');
+            }
+
+            function aplicarFiltros() {
+                const ano = document.getElementById('filterAno').value;
+                const mes = document.getElementById('filterMes').value;
+                const dataVal = document.getElementById('filterData').value;
+                const sup = document.getElementById('filterSupervisor').value;
+                const tipoEq = document.getElementById('filterTipoEquipe').value;
+                const status = document.getElementById('filterStatus').value;
+                const busca = document.getElementById('filterBusca').value.trim().toLowerCase();
+
+                dadosFiltrados = dadosProducao.filter(d => {
+                    if (ano && d.ano !== ano) return false;
+                    if (mes && d.mes !== mes) return false;
+                    if (dataVal && d.dataIso !== dataVal) return false;
+                    if (sup && d.supervisor !== sup) return false;
+                    if (tipoEq && d.tipoEquipe !== tipoEq) return false;
+                    if (status && d.statusRealizado !== status) return false;
+                    if (busca) {
+                        const hay = `${d.os} ${d.equipe} ${d.tipoEquipe} ${d.supervisor} ${d.encarregado} ${d.bairro} ${d.tipoServico} ${d.statusRealizado} ${d.motivo}`.toLowerCase();
+                        if (!hay.includes(busca)) return false;
+                    }
+                    return true;
+                });
+
+                atualizarKPIs();
+                atualizarGraficos();
+                renderizarTabela();
+            }
+
+            function atualizarKPIs() {
+                const totProg = dadosFiltrados.reduce((a, d) => a + d.valorProg, 0);
+                const totReal = dadosFiltrados.reduce((a, d) => a + d.valorRealizado, 0);
+                const qtdeProg = dadosFiltrados.reduce((a, d) => a + d.qtdeProg, 0);
+                const qtdeReal = dadosFiltrados.reduce((a, d) => a + d.qtdeRealizada, 0);
+                const qtdOs = new Set(dadosFiltrados.map(d => d.os)).size;
+                const gap = totReal - totProg;
+                const pctFin = totProg > 0 ? (totReal / totProg) * 100 : 0;
+                const pctFis = qtdeProg > 0 ? (qtdeReal / qtdeProg) * 100 : 0;
+
+                const aguardando = dadosFiltrados.filter(d => d.statusRealizado.includes('AGUARDANDO')).length;
+                const apontados = dadosFiltrados.length - aguardando;
+
+                document.getElementById('kpiValorProg').textContent = fmtBRL(totProg);
+                document.getElementById('kpiQtdeProg').textContent = `${qtdeProg} unid. programadas`;
+                document.getElementById('kpiQtdOs').textContent = `${qtdOs} OS`;
+
+                document.getElementById('kpiValorReal').textContent = fmtBRL(totReal);
+                document.getElementById('kpiQtdeReal').textContent = `${qtdeReal} unid. realizadas`;
+                document.getElementById('kpiDesvioValor').textContent = `Gap: ${fmtBRL(gap)}`;
+
+                document.getElementById('kpiPctAtendimento').textContent = `${pctFin.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiPctQtde').textContent = `Físico: ${pctFis.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiBarraAtendimento').style.width = `${Math.min(100, pctFin)}%`;
+
+                document.getElementById('kpiAguardando').textContent = aguardando;
+                document.getElementById('kpiApontados').textContent = `${apontados} já apontados`;
+            }
+
+            function atualizarGraficos() {
+                Chart.defaults.color = '#cbd5e1';
+                Chart.defaults.font.family = 'Montserrat, sans-serif';
+
+                // 1. Programado vs Realizado por Supervisor
+                const supMap = {};
+                dadosFiltrados.forEach(d => {
+                    const s = d.supervisor || 'N/D';
+                    if (!supMap[s]) supMap[s] = { prog: 0, real: 0 };
+                    supMap[s].prog += d.valorProg;
+                    supMap[s].real += d.valorRealizado;
+                });
+                const supKeys = Object.keys(supMap);
+
+                if (charts.sup) charts.sup.destroy();
+                charts.sup = new Chart(document.getElementById('chartSupComparativo'), {
+                    type: 'bar',
+                    data: {
+                        labels: supKeys,
+                        datasets: [
+                            {
+                                label: 'Programado (R$)',
+                                data: supKeys.map(k => supMap[k].prog),
+                                backgroundColor: 'rgba(0, 212, 255, 0.72)',
+                                borderColor: '#00d4ff',
+                                borderWidth: 1.5,
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Realizado (R$)',
+                                data: supKeys.map(k => supMap[k].real),
+                                backgroundColor: 'rgba(16, 185, 129, 0.78)',
+                                borderColor: '#34d399',
+                                borderWidth: 1.5,
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { grid: { color: 'rgba(255,255,255,0.08)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+
+                // 2. Programado vs Realizado por Tipo de Equipe
+                const eqMap = {};
+                dadosFiltrados.forEach(d => {
+                    const t = d.tipoEquipe || 'N/D';
+                    if (!eqMap[t]) eqMap[t] = { prog: 0, real: 0 };
+                    eqMap[t].prog += d.valorProg;
+                    eqMap[t].real += d.valorRealizado;
+                });
+                const eqKeys = Object.keys(eqMap).sort();
+
+                if (charts.eq) charts.eq.destroy();
+                charts.eq = new Chart(document.getElementById('chartEquipeComparativo'), {
+                    type: 'bar',
+                    data: {
+                        labels: eqKeys,
+                        datasets: [
+                            {
+                                label: 'Programado (R$)',
+                                data: eqKeys.map(k => eqMap[k].prog),
+                                backgroundColor: 'rgba(245, 158, 11, 0.72)',
+                                borderColor: '#fbbf24',
+                                borderWidth: 1.5,
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Realizado (R$)',
+                                data: eqKeys.map(k => eqMap[k].real),
+                                backgroundColor: 'rgba(16, 185, 129, 0.78)',
+                                borderColor: '#34d399',
+                                borderWidth: 1.5,
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { grid: { color: 'rgba(255,255,255,0.08)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+
+                // 3. Status de Apontamento
+                const stMap = {};
+                dadosFiltrados.forEach(d => {
+                    stMap[d.statusRealizado] = (stMap[d.statusRealizado] || 0) + 1;
+                });
+
+                if (charts.st) charts.st.destroy();
+                charts.st = new Chart(document.getElementById('chartStatus'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(stMap),
+                        datasets: [{
+                            data: Object.values(stMap),
+                            backgroundColor: ['#94a3b8', '#10b981', '#00d4ff', '#f59e0b', '#ef4444'],
+                            borderColor: '#040914',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10.5 } } } }
+                    }
+                });
+            }
+
+            function getStatusClass(st) {
+                const s = String(st || '').toUpperCase();
+                if (s.includes('PARCIAL')) return 'st-parcial';
+                if (s.includes('EXECUTADO') && !s.includes('NÃO')) return 'st-executado';
+                if (s.includes('NÃO EXECUTADO')) return 'st-nao-exec';
+                if (s.includes('REPROG') || s.includes('PEND')) return 'st-pendente';
+                return 'st-aguardando';
+            }
+
+            function renderizarTabela() {
+                const tbody = document.getElementById('prodTableBody');
+                document.getElementById('tableCountLabel').textContent =
+                    `Exibindo ${dadosFiltrados.length} registro${dadosFiltrados.length === 1 ? '' : 's'} • Clique na linha para ver detalhes`;
+
+                if (dadosFiltrados.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="13" style="text-align:center; padding:24px; color:#94a3b8;">Nenhum registro encontrado para os filtros selecionados.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = dadosFiltrados.map((d, idx) => `
+                    <tr data-idx="${idx}">
+                        <td><strong>#${d.os}</strong></td>
+                        <td>${d.data}</td>
+                        <td><strong>${d.equipe}</strong></td>
+                        <td><span class="veh-tag">${d.tipoEquipe}</span></td>
+                        <td>${d.supervisor}</td>
+                        <td>${d.tipoServico}</td>
+                        <td>${d.qtdeProg}</td>
+                        <td><strong>${d.qtdeRealizada}</strong></td>
+                        <td>${fmtBRL(d.valorProg)}</td>
+                        <td><strong style="color:#34d399;">${fmtBRL(d.valorRealizado)}</strong></td>
+                        <td>${d.pctAtendimento.toFixed(1).replace('.', ',')}%</td>
+                        <td><span class="status-pill ${getStatusClass(d.statusRealizado)}">${d.statusRealizado}</span></td>
+                        <td>${d.motivo || '<span style="color:#64748b;">—</span>'}</td>
+                    </tr>
+                `).join('');
+
+                tbody.querySelectorAll('tr[data-idx]').forEach(tr => {
+                    tr.addEventListener('click', () => {
+                        const d = dadosFiltrados[parseInt(tr.getAttribute('data-idx'), 10)];
+                        abrirModal(d);
+                    });
+                });
+            }
+
+            function abrirModal(d) {
+                if (!d) return;
+                document.getElementById('detModalTitulo').innerHTML =
+                    `<i class="fa-solid fa-clipboard-check"></i> OS #${d.os} • ${d.equipe} (${d.tipoEquipe})`;
+
+                const items = [
+                    { l: 'Data Programada', v: d.data || '-' },
+                    { l: 'Data Execução', v: d.dataExecucao || 'Não informada' },
+                    { l: 'Supervisor', v: d.supervisor || '-' },
+                    { l: 'Encarregado', v: d.encarregado || '-' },
+                    { l: 'Nota / Bairro', v: `${d.nota || '-'} • ${d.bairro || '-'}` },
+                    { l: 'Tipo de Serviço', v: d.tipoServico || '-' },
+                    { l: 'Qtde Prog. vs. Real.', v: `${d.qtdeProg} / ${d.qtdeRealizada}` },
+                    { l: 'Valor Unitário', v: fmtBRL(d.valorUnit) },
+                    { l: 'Valor Programado', v: fmtBRL(d.valorProg) },
+                    { l: 'Valor Realizado', v: fmtBRL(d.valorRealizado) },
+                    { l: 'Status Realizado', v: d.statusRealizado },
+                    { l: 'Motivo / Ocorrência', v: d.motivo || 'Sem ocorrência registrada' }
+                ];
+
+                document.getElementById('detModalGrid').innerHTML = items.map(x => `
+                    <div class="os-detail-item"><small>${x.l}</small><strong>${x.v}</strong></div>
+                `).join('');
+
+                document.getElementById('detModalOverlay').classList.add('active');
+            }
+
+            document.getElementById('btnExportCsv').addEventListener('click', () => {
+                const headers = ['OS', 'DATA_PROG', 'EQUIPE', 'TIPO_EQUIPE', 'SUPERVISOR', 'TIPO_SERVICO', 'QTDE_PROG', 'QTDE_REALIZADA', 'VALOR_PROG', 'VALOR_REALIZADO', 'STATUS_REALIZADO', 'MOTIVO'];
+                const lines = [headers.join(';')];
+                dadosFiltrados.forEach(d => {
+                    lines.push([d.os, d.data, d.equipe, d.tipoEquipe, d.supervisor, d.tipoServico, d.qtdeProg, d.qtdeRealizada, d.valorProg, d.valorRealizado, d.statusRealizado, d.motivo]
+                        .map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';'));
+                });
+                const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Producao_Ellca_${new Date().toISOString().slice(0, 10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            ['filterAno', 'filterMes', 'filterData', 'filterSupervisor', 'filterTipoEquipe', 'filterStatus'].forEach(id => {
+                document.getElementById(id).addEventListener('change', aplicarFiltros);
+            });
+            document.getElementById('filterBusca').addEventListener('input', aplicarFiltros);
+
+            document.getElementById('btnLimparFiltros').addEventListener('click', () => {
+                ['filterAno', 'filterMes', 'filterData', 'filterSupervisor', 'filterTipoEquipe', 'filterStatus', 'filterBusca'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+                aplicarFiltros();
+            });
+
+            document.getElementById('btnRefreshData').addEventListener('click', carregarDados);
+
+            const modal = document.getElementById('detModalOverlay');
+            document.getElementById('btnFecharDetModal').addEventListener('click', () => modal.classList.remove('active'));
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+
+            carregarDados();
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
