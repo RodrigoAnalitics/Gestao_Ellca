@@ -91,7 +91,7 @@
             gap: 14px;
             padding: 16px 22px;
             border-radius: 18px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.88) 0%, rgba(12, 36, 84, 0.78) 100%);
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.86) 0%, rgba(12, 36, 84, 0.72) 100%);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid rgba(0, 212, 255, 0.35);
@@ -109,7 +109,7 @@
 
         .sup-topbar-title p {
             font-size: 12px;
-            color: #94a3b8;
+            color: #cbd5e1;
             margin: 4px 0 0 0;
         }
 
@@ -150,7 +150,7 @@
             border-color: var(--primary);
         }
 
-        /* ================= CARDS COM MESMAS MEDIDAS + BORDA SUAVE ANIMADA ================= */
+        /* ================= CARDS COM MESMA MEDIDA, CORES E EFEITO DA HOME ================= */
         .sup-cards-row {
             display: flex;
             flex-wrap: wrap;
@@ -167,17 +167,28 @@
             flex: 0 0 auto;
             display: flex;
             background: rgba(255, 255, 255, 0.06);
+            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s ease;
         }
 
+        .sup-card-orbit:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 46px rgba(0, 212, 255, 0.22);
+        }
+
+        .sup-card-orbit.gold-orbit:hover {
+            box-shadow: 0 22px 46px rgba(245, 158, 11, 0.22);
+        }
+
+        /* Borda luminosa suave passando ao redor do card */
         .sup-card-orbit::before {
             content: "";
             position: absolute;
             inset: -65%;
             background: conic-gradient(
                 from 0deg,
-                transparent 0deg 230deg,
-                rgba(0, 212, 255, 0.42) 275deg,
-                rgba(125, 211, 252, 0.65) 305deg,
+                transparent 0deg 235deg,
+                rgba(0, 212, 255, 0.45) 278deg,
+                rgba(125, 211, 252, 0.72) 305deg,
                 rgba(0, 212, 255, 0.25) 335deg,
                 transparent 360deg
             );
@@ -189,9 +200,9 @@
         .sup-card-orbit.gold-orbit::before {
             background: conic-gradient(
                 from 180deg,
-                transparent 0deg 230deg,
-                rgba(245, 158, 11, 0.42) 275deg,
-                rgba(253, 224, 71, 0.62) 305deg,
+                transparent 0deg 235deg,
+                rgba(245, 158, 11, 0.45) 278deg,
+                rgba(253, 224, 71, 0.70) 305deg,
                 rgba(245, 158, 11, 0.25) 335deg,
                 transparent 360deg
             );
@@ -216,9 +227,35 @@
             border-radius: 20.5px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
-        /* Espessura e altura uniformes nos botões ACESSAR e secundário */
+        /* Reflexo / brilho diagonal ao passar o mouse (mesmo efeito de destaque da home) */
+        .sup-card-orbit .glass-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -130%;
+            width: 65%;
+            height: 100%;
+            background: linear-gradient(
+                115deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.04) 35%,
+                rgba(255, 255, 255, 0.16) 50%,
+                rgba(255, 255, 255, 0.04) 65%,
+                transparent 100%
+            );
+            transform: skewX(-20deg);
+            transition: left 0.65s ease;
+            pointer-events: none;
+        }
+
+        .sup-card-orbit:hover .glass-card::after {
+            left: 150%;
+        }
+
+        /* Mesma espessura e proporção nos botões ACESSAR e secundário */
         .sup-card-orbit .glass-card .actions {
             display: flex;
             align-items: center;
@@ -255,8 +292,10 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .sup-card-orbit::before {
+            .sup-card-orbit::before,
+            .sup-card-orbit .glass-card::after {
                 animation: none;
+                transition: none;
             }
         }
 
@@ -322,7 +361,7 @@
 
         <!-- CONTAINER PRINCIPAL -->
         <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)), url('img/Capa_home.jpg');">
+            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('img/Capa_home.jpg');">
                 <div class="sup-page-wrapper">
 
                     <div class="sup-topbar">
@@ -339,7 +378,7 @@
                         </div>
                     </div>
 
-                    <!-- CARDS COM AS MESMAS MEDIDAS + BORDA SUAVE ANIMADA -->
+                    <!-- CARDS COM MESMA MEDIDA, CORES E EFEITO DA HOME -->
                     <div class="sup-cards-row">
 
                         <!-- CARD 1: PROGRAMAÇÃO -->
