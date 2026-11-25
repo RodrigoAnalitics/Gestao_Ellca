@@ -1095,7 +1095,7 @@ a {
     background: linear-gradient(135deg, rgba(241, 196, 15, 0.16) 0%, rgba(4, 8, 18, 0.55) 100%) !important;
 }
 
-/* ===================== Botões Internos do Card ===================== */
+/* ===================== Botões Internos do Card (Efeito Vidro) ===================== */
 .actions {
     display: flex;
     flex-direction: column;
@@ -1107,21 +1107,26 @@ a {
 }
 
 .btn-primary {
-    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-    border: none;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.24) 0%, rgba(10, 48, 120, 0.45) 100%) !important;
+    backdrop-filter: blur(12px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+    border: 1px solid rgba(0, 212, 255, 0.55) !important;
+    border-top-color: rgba(255, 255, 255, 0.48) !important;
     padding: 8px;
     border-radius: 6px;
     font-weight: 800;
     cursor: pointer !important;
-    color: #000;
+    color: #ffffff !important;
     text-transform: uppercase;
     font-size: 9.5px;
+    letter-spacing: 0.6px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
     width: 100%;
-    transition: 0.3s;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45), 0 0 14px rgba(0, 212, 255, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     z-index: 45 !important;
     pointer-events: auto !important;
@@ -1134,16 +1139,20 @@ a {
     gap: 5px;
     width: 100%;
     height: 100%;
+    color: inherit !important;
     pointer-events: auto !important;
     cursor: pointer !important;
 }
 
 .btn-glass {
-    background: linear-gradient(135deg, rgba(12, 38, 88, 0.42) 0%, rgba(4, 8, 18, 0.48) 100%);
-    border: 1px solid rgba(46, 115, 225, 0.42);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(6, 18, 44, 0.45) 100%) !important;
+    backdrop-filter: blur(12px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    border-top-color: rgba(255, 255, 255, 0.36) !important;
     padding: 6px;
     border-radius: 6px;
-    color: #cbd5e1;
+    color: #e2e8f0 !important;
     cursor: pointer !important;
     font-weight: 600;
     font-size: 9px;
@@ -1153,21 +1162,25 @@ a {
     align-items: center;
     gap: 5px;
     width: 100%;
-    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.16) !important;
+    transition: all 0.3s ease;
     position: relative;
     z-index: 45 !important;
     pointer-events: auto !important;
 }
 
 .btn-primary:hover {
-    box-shadow: 0 0 12px var(--primary);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.42) 0%, rgba(16, 72, 175, 0.62) 100%) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
     transform: translateY(-2px);
 }
 
 .btn-glass:hover {
-    background: linear-gradient(135deg, rgba(20, 62, 142, 0.65) 0%, rgba(8, 18, 42, 0.72) 100%);
-    color: #fff;
-    border-color: #6ea8ff;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.20) 0%, rgba(12, 38, 88, 0.62) 100%) !important;
+    color: #ffffff !important;
+    border-color: rgba(0, 212, 255, 0.55) !important;
 }
 
 /* ===================== Controles, Setas e Bolinhas Menores ===================== */
