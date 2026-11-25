@@ -16,98 +16,14 @@
             overflow-wrap: break-word;
         }
 
-        /* Área do carrossel alinhada ao centro com a barra de sub-painéis logo acima */
+        /* Área do carrossel centralizada */
         .cards-section {
             justify-content: center !important;
-            gap: 14px;
-        }
-
-        .subdash-toolbar {
-            display: none;
-            width: 100%;
-            max-width: 540px;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(10, 32, 74, 0.55) 0%, rgba(4, 8, 18, 0.72) 100%);
-            border: 1px solid rgba(0, 212, 255, 0.34);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
-            position: relative;
-            z-index: 30;
-            margin: 0 auto;
-        }
-
-        .subdash-toolbar.active {
-            display: flex;
-        }
-
-        .subdash-nav-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn-sub-voltar {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            background: rgba(0, 212, 255, 0.16);
-            color: #fff;
-            font-size: 10.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            backdrop-filter: blur(8px);
-            transition: all 0.25s ease;
-        }
-
-        .btn-sub-voltar:hover {
-            background: rgba(0, 212, 255, 0.38);
-            border-color: #00d4ff;
-            color: #ffffff;
-            box-shadow: 0 0 12px rgba(0, 212, 255, 0.35);
-        }
-
-        .subdash-breadcrumb {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-
-        .subdash-breadcrumb strong {
-            color: #00d4ff;
-        }
-
-        .subdash-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 10.5px;
-            color: #94a3b8;
-        }
-
-        .subdash-pill-count {
-            padding: 3px 9px;
-            border-radius: 50px;
-            background: rgba(0, 212, 255, 0.12);
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            color: #7ab8ff;
-            font-weight: 700;
-            font-size: 10px;
         }
 
         .sub-actions-row {
             display: flex;
-            gap: 5px;
+            gap: 6px;
             width: 100%;
         }
 
@@ -116,30 +32,65 @@
         }
 
         .btn-nova-aba {
-            width: 34px;
+            width: 36px;
             flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(10, 32, 74, 0.45) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            border-radius: 6px;
-            color: #7ab8ff;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            border-top-color: rgba(255, 255, 255, 0.55);
+            border-radius: 12px;
+            color: #ffffff;
             font-size: 10px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.35);
             transition: all 0.25s ease;
         }
 
         .btn-nova-aba:hover:not(:disabled) {
-            background: rgba(0, 212, 255, 0.28);
-            color: #fff;
-            border-color: #00d4ff;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 100%);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
         }
 
         .btn-nova-aba:disabled {
             opacity: 0.35;
             cursor: not-allowed;
+        }
+
+        .footer-greeting {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .footer-greeting strong {
+            color: #ffffff;
+        }
+
+        .btn-footer-sair {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 8.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: 0.3s;
+        }
+
+        .btn-footer-sair:hover {
+            background: rgba(239, 68, 68, 0.22);
+            border-color: rgba(239, 68, 68, 0.55);
+            color: #ffffff;
         }
 
         /* Visualizador de Embed (Looker Studio) */
@@ -268,22 +219,6 @@
 
                         <!-- CARROSSEL 3D / GRADE DE SETORES -->
                         <div class="cards-section">
-
-                            <!-- Barra de navegação quando estiver dentro de um setor com sub-dashboards -->
-                            <div class="subdash-toolbar" id="subdashToolbar">
-                                <div class="subdash-nav-left">
-                                    <button type="button" class="btn-sub-voltar" id="btnVoltarSubdash">
-                                        <i class="fa-solid fa-arrow-left"></i> Voltar
-                                    </button>
-                                    <div class="subdash-breadcrumb" id="subdashBreadcrumb">
-                                        Dashboards / <strong>Setor</strong>
-                                    </div>
-                                </div>
-                                <div class="subdash-meta">
-                                    <span class="subdash-pill-count" id="subdashCount"></span>
-                                </div>
-                            </div>
-
                             <div class="cards-wrapper">
 
                                 <!-- 1. ALMOXARIFADO -->
@@ -521,6 +456,11 @@
                     <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
                         <i class="fa-solid fa-headset"></i> Suporte
                     </button>
+                    <span class="separator">•</span>
+                    <span class="footer-greeting"><i class="fa-solid fa-user-check"></i> Olá, <strong id="footerUserName">Rodrigo Lopes</strong></span>
+                    <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sair
+                    </button>
                 </div>
             </footer>
         </div>
@@ -530,7 +470,7 @@
     <div class="dash-embed-modal" id="dashEmbedModal">
         <div class="dash-embed-header">
             <h2 id="dashEmbedTitle">Dashboard</h2>
-            <button type="button" class="btn-sub-voltar" id="btnFecharEmbed">
+            <button type="button" class="btn-glass" style="width:auto;padding:8px 14px;" id="btnFecharEmbed">
                 <i class="fa-solid fa-xmark"></i> Fechar Painel
             </button>
         </div>
@@ -562,11 +502,7 @@
     <script>
         (function configurarSubDashboards() {
             const ESTRUTURA_DASHBOARDS = {
-                almoxarifado: {
-                    titulo: "1. ALMOXARIFADO",
-                    embed: "",
-                    subitens: []
-                },
+                almoxarifado: { titulo: "1. ALMOXARIFADO", embed: "", subitens: [] },
                 almox_epi: {
                     titulo: "2. ALMOX. EPI/EPC",
                     subitens: [
@@ -574,11 +510,7 @@
                         { titulo: "2.2. ESTOQUE (SAÍDAS)", imagem: "", plataforma: "Looker Studio", desc: "Registro de saídas e entregas às equipes.", embed: "" }
                     ]
                 },
-                backoffice: {
-                    titulo: "3. BACKOFFICE",
-                    embed: "",
-                    subitens: []
-                },
+                backoffice: { titulo: "3. BACKOFFICE", embed: "", subitens: [] },
                 dp: {
                     titulo: "4. DP",
                     subitens: [
@@ -587,11 +519,7 @@
                         { titulo: "4.3. CONTROLE DE FALTAS", imagem: "", plataforma: "Looker Studio", desc: "Indicadores de faltas, justificativas e ausências.", embed: "" }
                     ]
                 },
-                dsc: {
-                    titulo: "5. DSC",
-                    embed: "",
-                    subitens: []
-                },
+                dsc: { titulo: "5. DSC", embed: "", subitens: [] },
                 estrutura: {
                     titulo: "6. ESTRUTURA",
                     subitens: [
@@ -628,11 +556,7 @@
                         { titulo: "9.4. NEGOCIADORES", imagem: "", plataforma: "Looker Studio", desc: "Desempenho por negociador.", embed: "" }
                     ]
                 },
-                programacao: {
-                    titulo: "10. PROGRAMAÇÃO",
-                    embed: "",
-                    subitens: []
-                },
+                programacao: { titulo: "10. PROGRAMAÇÃO", embed: "", subitens: [] },
                 projeto: {
                     titulo: "11. PROJETO",
                     subitens: [
@@ -661,16 +585,34 @@
 
             const cardsWrapper = document.querySelector(".cards-wrapper");
             const activeItem = document.querySelector(".item.active") || document.querySelector(".item");
+            const textSection = document.querySelector(".text-section");
             const htmlInicialCards = cardsWrapper ? cardsWrapper.innerHTML : "";
-            const toolbar = document.getElementById("subdashToolbar");
-            const breadcrumb = document.getElementById("subdashBreadcrumb");
-            const countLabel = document.getElementById("subdashCount");
-            const btnVoltarSub = document.getElementById("btnVoltarSubdash");
 
             const embedModal = document.getElementById("dashEmbedModal");
             const embedTitle = document.getElementById("dashEmbedTitle");
             const embedIframe = document.getElementById("dashEmbedIframe");
             const btnFecharEmbed = document.getElementById("btnFecharEmbed");
+
+            const footerUserName = document.getElementById("footerUserName");
+            const btnSairRodape = document.getElementById("btnSairRodape");
+
+            const nomeSessao =
+                sessionStorage.getItem("ellca_user_name") ||
+                localStorage.getItem("ellca_user_name") ||
+                "Rodrigo Lopes";
+
+            if (footerUserName) {
+                footerUserName.textContent = nomeSessao;
+            }
+
+            if (btnSairRodape) {
+                btnSairRodape.addEventListener("click", () => {
+                    sessionStorage.removeItem("ellca_auth");
+                    window.location.href = "login.html";
+                });
+            }
+
+            let emSubDashboards = false;
 
             function sincronizarCarrossel() {
                 if (activeItem && window.EllcaCarrossel?.reSincronizarItem) {
@@ -702,10 +644,8 @@
                     return;
                 }
 
-                const ativosCount = dados.subitens.filter(s => Boolean(s.embed)).length;
-                toolbar.classList.add("active");
-                breadcrumb.innerHTML = `Dashboards / <strong>${dados.titulo}</strong>`;
-                countLabel.textContent = `${dados.subitens.length} sub-painéis • ${ativosCount} ativo(s)`;
+                emSubDashboards = true;
+                if (textSection) textSection.style.display = "none";
 
                 cardsWrapper.innerHTML = dados.subitens.map((sub, idx) => {
                     const bgEstilo = sub.imagem
@@ -760,14 +700,25 @@
             }
 
             function restaurarSetoresPrincipais() {
-                if (!cardsWrapper) return;
-                toolbar.classList.remove("active");
+                if (!cardsWrapper || !emSubDashboards) return false;
+                emSubDashboards = false;
+                if (textSection) textSection.style.display = "";
                 cardsWrapper.innerHTML = htmlInicialCards;
                 vincularCliquesSetores();
                 sincronizarCarrossel();
+                return true;
             }
 
-            btnVoltarSub.addEventListener("click", restaurarSetoresPrincipais);
+            // Se estiver visualizando sub-dashboards, a seta voltar da navbar retorna aos setores principais
+            document.querySelectorAll(".btn-voltar").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    if (emSubDashboards) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        restaurarSetoresPrincipais();
+                    }
+                }, true);
+            });
 
             function vincularCliquesSetores() {
                 if (!cardsWrapper) return;
