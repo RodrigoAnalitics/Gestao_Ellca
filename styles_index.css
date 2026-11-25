@@ -1897,8 +1897,8 @@ body.bars-collapsed .split-screen {
 .global-menu-toggle-btn {
     position: fixed;
     top: 14px;
-    left: 16px;
-    z-index: 1500 !important;
+    left: 3%;
+    z-index: 950 !important;
     padding: 8px 14px;
     border-radius: 50px;
     border: 1px solid rgba(0, 212, 255, 0.45);
@@ -1915,14 +1915,14 @@ body.bars-collapsed .split-screen {
     align-items: center;
     gap: 7px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
-    transition: all 0.25s ease;
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Quando o menu está visível, desloca o botão para não cobrir a logo da navbar */
+/* Quando o menu está visível, fica logo abaixo da logo (sem cobrir os controles de slide) */
 body:not(.bars-collapsed) .global-menu-toggle-btn {
-    top: auto;
-    bottom: 16px;
-    left: 16px;
+    top: 76px;
+    left: 3%;
+    bottom: auto;
 }
 
 .global-menu-toggle-btn:hover,
@@ -1937,14 +1937,14 @@ body:not(.bars-collapsed) .global-menu-toggle-btn {
 @media (max-width: 768px) {
     .global-menu-toggle-btn {
         top: 10px;
-        left: 12px;
-        padding: 7px 11px;
+        left: 4%;
+        padding: 6px 11px;
         font-size: 9px;
     }
 
     body:not(.bars-collapsed) .global-menu-toggle-btn {
-        top: auto;
-        bottom: 54px;
-        left: 12px;
+        top: 58px;
+        left: 4%;
+        bottom: auto;
     }
 }
