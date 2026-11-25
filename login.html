@@ -8,6 +8,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
     <style>
+        .capa-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 45%, rgba(0, 212, 255, 0.14) 0%, rgba(10, 32, 74, 0.35) 45%, rgba(2, 5, 10, 0.94) 100%),
+                url('img/Capa_home.jpg') center / cover no-repeat;
+            z-index: 0;
+            transform: scale(1.03);
+            animation: capaZoom 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes capaZoom {
+            0% { transform: scale(1.02); }
+            100% { transform: scale(1.07); }
+        }
+
+        .capa-grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 212, 255, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.045) 1px, transparent 1px);
+            background-size: 46px 46px;
+            mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85) 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.85) 20%, transparent 80%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes capaFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .login-container {
             position: relative;
             z-index: 10;
