@@ -1870,7 +1870,7 @@ a {
     color: #ffffff !important;
     box-shadow: 0 0 14px rgba(241, 196, 15, 0.45) !important;
 }
-```[cite: 23]
+
 /* ==================== BOTÃO GLOBAL MOSTRAR / OCULTAR MENU ==================== */
 .navbar,
 .footer-bar {
@@ -1948,48 +1948,3 @@ body:not(.bars-collapsed) .global-menu-toggle-btn {
         left: 12px;
     }
 }
-
-/* ==================== CONTROLE GLOBAL DE MENU RECOLHÍVEL ==================== */
-document.addEventListener('DOMContentLoaded', () => {
-    const navbar = document.querySelector('.navbar');
-    // Só ativa em páginas que possuem navbar (ignora index.html e login.html)
-    if (!navbar) return;
-
-    // Inicia recolhido por padrão (respeitando a preferência salva na sessão, se houver)
-    const estadoSalvo = sessionStorage.getItem('ellca_bars_collapsed');
-    let collapsed = estadoSalvo !== null ? estadoSalvo === 'true' : true;
-    document.body.classList.toggle('bars-collapsed', collapsed);
-
-    // Se a página já tiver um botão próprio (#btnToggleBars, como supervisor/gerencial), sincroniza com ele
-    const btnLocal = document.getElementById('btnToggleBars');
-    if (btnLocal) {
-        const iconLocal = document.getElementById('iconToggleBars');
-        const textLocal = document.getElementById('textToggleBars');
-        btnLocal.classList.toggle('active-mode', !collapsed);
-        if (iconLocal) iconLocal.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
-        if (textLocal) textLocal.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
-        return;
-    }
-
-    // Cria automaticamente o botão flutuante nas demais páginas (Home, Dashboard, Produção, etc.)
-    const btnGlobal = document.createElement('button');
-    btnGlobal.type = 'button';
-    btnGlobal.id = 'globalBtnToggleBars';
-    btnGlobal.className = 'global-menu-toggle-btn' + (!collapsed ? ' active-mode' : '');
-    btnGlobal.title = 'Exibir ou ocultar menu superior e rodapé';
-    btnGlobal.innerHTML = collapsed
-        ? '<i class="fa-solid fa-bars"></i><span>Mostrar Menu</span>'
-        : '<i class="fa-solid fa-eye-slash"></i><span>Ocultar Menu</span>';
-
-    btnGlobal.addEventListener('click', () => {
-        collapsed = !collapsed;
-        sessionStorage.setItem('ellca_bars_collapsed', String(collapsed));
-        document.body.classList.toggle('bars-collapsed', collapsed);
-        btnGlobal.classList.toggle('active-mode', !collapsed);
-        btnGlobal.innerHTML = collapsed
-            ? '<i class="fa-solid fa-bars"></i><span>Mostrar Menu</span>'
-            : '<i class="fa-solid fa-eye-slash"></i><span>Ocultar Menu</span>';
-    });
-
-    document.body.appendChild(btnGlobal);
-});
