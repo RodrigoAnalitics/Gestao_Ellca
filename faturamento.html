@@ -33,12 +33,12 @@
     body {
       background-color: #060911;
       background-image:
-        radial-gradient(ellipse 65% 45% at 18% 6%, rgba(37, 99, 235, 0.16) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 40% at 85% 15%, rgba(59, 130, 246, 0.10) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 50% at 50% 96%, rgba(29, 78, 216, 0.12) 0%, transparent 65%);
+        radial-gradient(ellipse 65% 45% at 18% 6%, rgba(37, 99, 235, 0.17) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 40% at 85% 15%, rgba(59, 130, 246, 0.11) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 50% at 50% 96%, rgba(29, 78, 216, 0.13) 0%, transparent 65%);
       color: #f8fafc;
       min-height: 100vh;
-      padding: 20px 24px 36px;
+      padding: 20px 24px 24px;
       overflow-x: hidden;
     }
 
@@ -60,7 +60,7 @@
 
     /* ================= MOSTRAR / ESCONDER MENU ================= */
     .collapsible-chrome {
-      max-height: 220px;
+      max-height: 260px;
       opacity: 1;
       transform: translateY(0);
       overflow: hidden;
@@ -141,42 +141,6 @@
       color: #ffffff;
     }
 
-    .nav-pills {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      background: #0c111b;
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .nav-pill {
-      text-decoration: none;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 15px;
-      border-radius: 9px;
-      cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-
-    .nav-pill:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-pill.active {
-      background: #2563eb;
-      color: #ffffff;
-      font-weight: 700;
-      box-shadow: 0 2px 12px rgba(37, 99, 235, 0.35);
-    }
-
     .header-right {
       display: flex;
       align-items: center;
@@ -223,6 +187,7 @@
       align-items: center;
       gap: 6px;
       transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      text-decoration: none;
     }
 
     .icon-action-btn:hover {
@@ -232,9 +197,10 @@
     }
 
     .icon-action-btn.primary-blue {
-      background: #2563eb;
-      border-color: #3b82f6;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border-color: #60a5fa;
       color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
     }
 
     .icon-action-btn.toggled {
@@ -252,6 +218,105 @@
       border: 1px solid rgba(59, 130, 246, 0.35);
       padding: 6px 12px;
       border-radius: 10px;
+    }
+
+    /* ================= BARRA DE MENU PREMIUM + AÇÕES DA PLANILHA ================= */
+    .premium-menu-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(16, 23, 38, 0.96), rgba(10, 15, 26, 0.96));
+      padding: 7px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(96, 165, 250, 0.18);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .nav-pills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .nav-pill {
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 13px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-pill:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-pill.active {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 2px 12px rgba(37, 99, 235, 0.38);
+    }
+
+    .sheet-actions-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-sheet-edit {
+      height: 32px;
+      padding: 0 13px;
+      border-radius: 9px;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      background: rgba(16, 185, 129, 0.13);
+      color: #6ee7b7;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-sheet-edit:hover {
+      background: rgba(16, 185, 129, 0.24);
+      border-color: #34d399;
+      color: #ffffff;
+    }
+
+    .btn-sheet-download {
+      height: 32px;
+      padding: 0 13px;
+      border-radius: 9px;
+      border: 1px solid rgba(96, 165, 250, 0.42);
+      background: rgba(37, 99, 235, 0.2);
+      color: #bfdbfe;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-sheet-download:hover {
+      background: #2563eb;
+      border-color: #60a5fa;
+      color: #ffffff;
     }
 
     /* ================= FILTROS ================= */
@@ -364,7 +429,7 @@
       justify-content: space-between;
     }
 
-    /* ================= LAYOUT ESTILO DASHBRD X ================= */
+    /* ================= LAYOUT PRINCIPAL ================= */
     .main-grid {
       display: grid;
       grid-template-columns: 1.62fr 1fr;
@@ -430,7 +495,6 @@
       font-size: 10.5px;
     }
 
-    /* GRÁFICO PRINCIPAL */
     .chart-header-bar {
       display: flex;
       align-items: center;
@@ -467,7 +531,6 @@
       font-weight: 700;
     }
 
-    /* GRADE INFERIOR (VELOCÍMETRO + PIZZA + BARRAS) */
     .mid-charts-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -480,7 +543,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 195px;
+      height: 198px;
     }
 
     .gauge-svg-wrap {
@@ -522,7 +585,6 @@
       font-size: 11px;
     }
 
-    /* COLUNA DIREITA */
     .ai-box {
       margin-top: 10px;
       padding: 12px 13px;
@@ -588,7 +650,6 @@
       flex-shrink: 0;
     }
 
-    /* TABELA CONSOLIDADA INFERIOR */
     .table-wrap {
       overflow: auto;
       max-height: 380px;
@@ -635,6 +696,48 @@
     .c-emerald { color: #34d399 !important; }
     .c-rose    { color: #f87171 !important; }
 
+    /* ================= RODAPÉ PADRÃO DO PORTAL ================= */
+    .portal-footer {
+      margin-top: 4px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: #0c111b;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11.5px;
+      color: #94a3b8;
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: #60a5fa;
+    }
+
     @media (max-width: 1120px) {
       .main-grid,
       .mid-charts-grid,
@@ -647,7 +750,7 @@
 
   <div class="dashboard-container">
 
-    <!-- CABEÇALHO SUPERIOR (LOGO + TÍTULO + MOSTRAR/ESCONDER MENU) -->
+    <!-- CABEÇALHO SUPERIOR -->
     <div class="top-header">
       <div class="header-left">
         <a href="home.html" class="brand-logo" title="Ellca">
@@ -681,12 +784,20 @@
       </div>
     </div>
 
-    <!-- ÁREA RECOLHÍVEL: MENU (dashboard.html e home.html) + FILTROS -->
+    <!-- ÁREA RECOLHÍVEL: BARRA DE MENU PREMIUM + AÇÕES DA PLANILHA + FILTROS -->
     <div class="collapsible-chrome" id="areaMenuFiltros">
-      <nav class="nav-pills" aria-label="Navegação">
-        <a href="dashboard.html" class="nav-pill active">Dashboard</a>
-        <a href="home.html" class="nav-pill">Home</a>
-      </nav>
+      <div class="premium-menu-bar">
+        <nav class="nav-pills" id="menuPaginasPortal" aria-label="Navegação do Portal"></nav>
+
+        <div class="sheet-actions-group">
+          <a href="#" id="linkEditarPlanilha" target="_blank" rel="noopener noreferrer" class="btn-sheet-edit">
+            <i class="fa-solid fa-pen-to-square"></i> Editar Planilha
+          </a>
+          <button type="button" id="btnBaixarPlanilha" class="btn-sheet-download">
+            <i class="fa-solid fa-download"></i> Baixar Planilha
+          </button>
+        </div>
+      </div>
 
       <div class="filters-strip">
         <div class="filter-pill">
@@ -785,7 +896,7 @@
                 </div>
               </div>
 
-              <div style="height: 245px; width: 100%;">
+              <div style="height: 255px; width: 100%;">
                 <canvas id="chartFaturamentoPrincipal"></canvas>
               </div>
             </div>
@@ -828,7 +939,7 @@
                 <span style="font-size:11px; color:#64748b;">Clique p/ filtrar</span>
               </div>
 
-              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:255px; overflow-y:auto;"></div>
+              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:260px; overflow-y:auto;"></div>
             </div>
           </div>
         </div>
@@ -889,7 +1000,7 @@
               <span style="font-size:13px; font-weight:700;">Faturamento por Tipo (Pizza)</span>
               <span style="font-size:10.5px; color:#94a3b8;">Participação</span>
             </div>
-            <div style="height: 195px; width: 100%;">
+            <div style="height: 198px; width: 100%;">
               <canvas id="chartPizzaTipos"></canvas>
             </div>
           </div>
@@ -903,7 +1014,7 @@
               <span style="font-size:13px; font-weight:700;">Top Equipes (Barras)</span>
               <span style="font-size:10.5px; color:#94a3b8;">Realizado</span>
             </div>
-            <div style="height: 195px; width: 100%;">
+            <div style="height: 198px; width: 100%;">
               <canvas id="chartBarrasEquipes"></canvas>
             </div>
           </div>
@@ -920,7 +1031,7 @@
               <span style="font-size:13px; font-weight:700;">Faturamento por Dia da Semana</span>
               <span style="font-size:10.5px; color:#94a3b8;">R$ Realizado</span>
             </div>
-            <div style="height: 215px; width: 100%;">
+            <div style="height: 225px; width: 100%;">
               <canvas id="chartDiaSemana"></canvas>
             </div>
           </div>
@@ -934,7 +1045,7 @@
               <span style="font-size:13px; font-weight:700;">Previsto x Realizado por Supervisor</span>
               <span style="font-size:10.5px; color:#94a3b8;">Comparativo</span>
             </div>
-            <div style="height: 215px; width: 100%;">
+            <div style="height: 225px; width: 100%;">
               <canvas id="chartSupComparativo"></canvas>
             </div>
           </div>
@@ -973,13 +1084,35 @@
       </div>
     </div>
 
+    <!-- RODAPÉ PADRÃO DO PORTAL -->
+    <footer class="portal-footer">
+      <div class="footer-brand">
+        <span>🌀Ellca</span>
+        <span style="color:#64748b; font-weight:500;">• Portal Operacional &amp; Faturamento</span>
+      </div>
+      <div class="footer-links" id="footerPortalLinks"></div>
+    </footer>
+
   </div>
 
 <script>
   // =========================================================================
-  // 1. CONFIGURAÇÃO EDITÁVEL
+  // 1. CONFIGURAÇÃO EDITÁVEL (API, PLANILHA, MENU E RODAPÉ)
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/AKfycbwhFjFhTamq91OcNe2nuK8T_qQQgBD5Eu_rrpeVBlz59kA-i21G5ZIM53Nyu7bORKDw/exec";
+  const PLANILHA_EDIT_URL = "COLE_AQUI_O_LINK_DA_PLANILHA_PARA_EDITAR";
+  const PLANILHA_EXPORT_URL = ""; // Opcional: link direto .xlsx/.csv; se vazio, gera CSV dos dados filtrados
+
+  const MENU_PORTAL = [
+    { label: "Home", href: "home.html" },
+    { label: "Programação", href: "programacao.html" },
+    { label: "Faturamento", href: "faturamento.html", active: true },
+    { label: "Dashboard", href: "dashboard.html" },
+    { label: "Medição", href: "medicao.html" },
+    { label: "SESMT", href: "sesmt.html" },
+    { label: "Frota", href: "frota.html" },
+    { label: "Gerencial", href: "gerencial.html" }
+  ];
 
   const DIAS_UTEIS_MES = {
     1: 22, 2: 20, 3: 22, 4: 22, 5: 21, 6: 22,
@@ -1004,6 +1137,56 @@
 
   Chart.register(ChartDataLabels);
 
+  function configurarMenuRodapeEPlanilha() {
+    document.getElementById("menuPaginasPortal").innerHTML = MENU_PORTAL.map(p =>
+      `<a href="${p.href}" class="nav-pill ${p.active ? "active" : ""}">${p.label}</a>`
+    ).join("");
+
+    document.getElementById("footerPortalLinks").innerHTML = MENU_PORTAL.map(p =>
+      `<a href="${p.href}">${p.label}</a>`
+    ).join("");
+
+    const linkEdit = document.getElementById("linkEditarPlanilha");
+    linkEdit.href = PLANILHA_EDIT_URL;
+    linkEdit.addEventListener("click", (e) => {
+      if (!PLANILHA_EDIT_URL || PLANILHA_EDIT_URL.includes("COLE_AQUI")) {
+        e.preventDefault();
+        alert("Configure a constante PLANILHA_EDIT_URL no código para abrir sua planilha de edição.");
+      }
+    });
+
+    document.getElementById("btnBaixarPlanilha").addEventListener("click", baixarPlanilhaFaturamento);
+  }
+
+  function baixarPlanilhaFaturamento() {
+    if (PLANILHA_EXPORT_URL && !PLANILHA_EXPORT_URL.includes("COLE_AQUI")) {
+      window.open(PLANILHA_EXPORT_URL, "_blank", "noopener,noreferrer");
+      return;
+    }
+    const lista = (ultimoEstado && ultimoEstado.listaEquipes) || [];
+    if (!lista.length) {
+      alert("Não há dados filtrados para baixar no momento.");
+      return;
+    }
+    const cabecalho = ["SUPERVISOR", "EQUIPE", "PROCESSO", "TIPO", "VEICULOS", "META_MENSAL", "PREVISTO", "REALIZADO", "DELTA_GAP"];
+    const linhas = lista.map(e => [
+      e.supervisor, e.equipe, e.processo, e.tipo, e.veiculo,
+      e.metaMensal.toFixed(2).replace(".", ","),
+      e.previsto.toFixed(2).replace(".", ","),
+      e.realizado.toFixed(2).replace(".", ","),
+      e.delta.toFixed(2).replace(".", ",")
+    ].map(v => `"${String(v || "").replace(/"/g, '""')}"`).join(";"));
+
+    const csv = "\uFEFF" + [cabecalho.join(";"), ...linhas].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `faturamento_ellca_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   // Movimento 3D bem suave
   document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
     const surface = wrap.querySelector(".card-surface");
@@ -1012,8 +1195,8 @@
       const rect = wrap.getBoundingClientRect();
       const nx = (e.clientX - rect.left) / rect.width - 0.5;
       const ny = (e.clientY - rect.top) / rect.height - 0.5;
-      surface.style.setProperty("--ry", `${(nx * 2.5).toFixed(2)}deg`);
-      surface.style.setProperty("--rx", `${(-ny * 2.5).toFixed(2)}deg`);
+      surface.style.setProperty("--ry", `${(nx * 2.4).toFixed(2)}deg`);
+      surface.style.setProperty("--rx", `${(-ny * 2.4).toFixed(2)}deg`);
     });
     wrap.addEventListener("mouseleave", () => {
       surface.style.setProperty("--ry", "0deg");
@@ -1035,6 +1218,7 @@
   }
 
   async function carregarDados() {
+    configurarMenuRodapeEPlanilha();
     const statusEl = document.getElementById("syncStatus");
     statusEl.style.display = "inline-flex";
 
@@ -1239,6 +1423,26 @@
   const corEixo = "#94a3b8";
   const corGrid = "rgba(255, 255, 255, 0.05)";
 
+  function criarGradienteVertical(ctx, topColor, bottomColor) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return topColor;
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, topColor);
+    g.addColorStop(1, bottomColor);
+    return g;
+  }
+
+  function criarGradienteHorizontal(ctx, startColor, endColor) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return startColor;
+    const g = c.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+    g.addColorStop(0, startColor);
+    g.addColorStop(1, endColor);
+    return g;
+  }
+
   function renderizarGraficoPrincipal(dados, datasUnicas, totalRealizado, totalDelta) {
     const ctx = document.getElementById("chartFaturamentoPrincipal");
     let labels = [];
@@ -1276,6 +1480,8 @@
     badgeDelta.textContent = `Gap ${fmtCompacto(totalDelta)}`;
     badgeDelta.className = (totalDelta <= 0 ? "pill-up" : "pill-down") + " tabular";
 
+    const maxVal = Math.max(0, ...valores);
+
     if (charts.principal) charts.principal.destroy();
     charts.principal = new Chart(ctx, {
       type: "line",
@@ -1284,35 +1490,41 @@
         datasets: [{
           label: "Faturamento (R$)",
           data: valores,
-          borderColor: "#3b82f6",
-          backgroundColor: "rgba(37, 99, 235, 0.16)",
+          borderColor: (c) => criarGradienteHorizontal(c, "#38bdf8", "#3b82f6"),
+          backgroundColor: (c) => criarGradienteVertical(c, "rgba(59, 130, 246, 0.34)", "rgba(37, 99, 235, 0.01)"),
           fill: true,
-          borderWidth: 2.3,
-          tension: 0.42,
-          pointRadius: 3.5,
-          pointHoverRadius: 5.5,
-          pointBackgroundColor: "#93c5fd",
-          pointBorderColor: "#2563eb",
+          borderWidth: 3,
+          tension: 0.44,
+          pointRadius: 4.5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: "#60a5fa",
+          pointBorderColor: "#eff6ff",
           pointBorderWidth: 2
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 22, right: 16, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
           datalabels: {
             align: "top",
-            color: "#cbd5e1",
+            offset: 6,
+            color: "#e2e8f0",
             font: { size: 9.5, weight: "600" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
           }
         },
         scales: {
-          x: { ticks: { color: corEixo, font: { size: 10.5 } }, grid: { color: corGrid } },
+          x: {
+            ticks: { color: corEixo, font: { size: 10.5 }, padding: 6 },
+            grid: { color: corGrid }
+          },
           y: {
             beginAtZero: true,
-            ticks: { color: corEixo, font: { size: 10.5 }, callback: v => (v / 1000) + "k" },
+            suggestedMax: maxVal * 1.2 || 1000,
+            ticks: { color: corEixo, font: { size: 10.5 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
             grid: { color: corGrid }
           }
         }
@@ -1335,17 +1547,19 @@
         labels: entries.map(e => e[0]),
         datasets: [{
           data: entries.map(e => e[1]),
-          backgroundColor: ["#2563eb", "#60a5fa", "#1e40af", "#34d399", "#94a3b8"],
+          backgroundColor: ["#3b82f6", "#38bdf8", "#1d4ed8", "#34d399", "#818cf8"],
           borderColor: "#0c111b",
-          borderWidth: 2
+          borderWidth: 2.5,
+          hoverOffset: 6
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: "60%",
+        layout: { padding: { top: 8, bottom: 8, left: 6, right: 8 } },
+        cutout: "62%",
         plugins: {
-          legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 10 }, boxWidth: 10 } },
+          legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 10 }, boxWidth: 10, padding: 10 } },
           datalabels: {
             color: "#ffffff",
             font: { size: 9.5, weight: "700" },
@@ -1362,6 +1576,7 @@
 
   function renderizarBarrasEquipes(listaEquipes) {
     const top5 = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 5);
+    const maxVal = Math.max(0, ...top5.map(e => e.realizado));
 
     if (charts.barrasEq) charts.barrasEq.destroy();
     charts.barrasEq = new Chart(document.getElementById("chartBarrasEquipes"), {
@@ -1371,21 +1586,38 @@
         datasets: [{
           label: "Realizado",
           data: top5.map(e => e.realizado),
-          backgroundColor: "#3b82f6",
-          borderRadius: 6
+          backgroundColor: (c) => criarGradienteHorizontal(c, "#2563eb", "#38bdf8"),
+          borderRadius: 8,
+          borderSkipped: false
         }]
       },
       options: {
         indexAxis: "y",
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 8, right: 44, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
-          datalabels: { anchor: "end", align: "right", color: "#cbd5e1", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
+          datalabels: {
+            anchor: "end",
+            align: "right",
+            offset: 6,
+            color: "#e2e8f0",
+            font: { size: 9.5, weight: "600" },
+            formatter: v => fmtCompacto(v)
+          }
         },
         scales: {
-          x: { beginAtZero: true, ticks: { color: corEixo, font: { size: 9.5 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
-          y: { ticks: { color: "#f8fafc", font: { size: 10, weight: "600" } }, grid: { display: false } }
+          x: {
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.22 || 1000,
+            ticks: { color: corEixo, font: { size: 9.5 }, padding: 6, callback: v => (v / 1000).toFixed(0) + "k" },
+            grid: { color: corGrid }
+          },
+          y: {
+            ticks: { color: "#f8fafc", font: { size: 10, weight: "600" }, padding: 6 },
+            grid: { display: false }
+          }
         }
       }
     });
@@ -1401,6 +1633,8 @@
       soma[nomesDias[new Date(y, m - 1, d).getDay()]] += r.valorDia;
     });
     const ativos = DIAS_SEMANA_ORDEM.filter(d => soma[d] > 0 || d !== "DOMINGO");
+    const valores = ativos.map(d => soma[d]);
+    const maxVal = Math.max(0, ...valores);
 
     if (charts.diaSem) charts.diaSem.destroy();
     charts.diaSem = new Chart(document.getElementById("chartDiaSemana"), {
@@ -1409,21 +1643,35 @@
         labels: ativos.map(d => abrev[d]),
         datasets: [{
           label: "Faturamento",
-          data: ativos.map(d => soma[d]),
-          backgroundColor: "#2563eb",
-          borderRadius: 6
+          data: valores,
+          backgroundColor: (c) => criarGradienteVertical(c, "#38bdf8", "#1d4ed8"),
+          borderRadius: 8,
+          borderSkipped: false
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 22, right: 12, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
-          datalabels: { anchor: "end", align: "top", color: "#cbd5e1", font: { size: 9, weight: "600" }, formatter: v => v > 0 ? fmtCompacto(v) : "" }
+          datalabels: {
+            anchor: "end",
+            align: "top",
+            offset: 5,
+            color: "#e2e8f0",
+            font: { size: 9.5, weight: "600" },
+            formatter: v => v > 0 ? fmtCompacto(v) : ""
+          }
         },
         scales: {
-          x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
-          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
+          x: { ticks: { color: corEixo, font: { size: 10 }, padding: 6 }, grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.22 || 1000,
+            ticks: { color: corEixo, font: { size: 10 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
+            grid: { color: corGrid }
+          }
         }
       }
     });
@@ -1438,6 +1686,7 @@
       porSup[s].realizado += e.realizado;
     });
     const entries = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado).slice(0, 6);
+    const maxVal = Math.max(0, ...entries.flatMap(e => [e[1].previsto, e[1].realizado]));
 
     if (charts.supComp) charts.supComp.destroy();
     charts.supComp = new Chart(document.getElementById("chartSupComparativo"), {
@@ -1445,20 +1694,26 @@
       data: {
         labels: entries.map(e => e[0]),
         datasets: [
-          { label: "Previsto", data: entries.map(e => e[1].previsto), backgroundColor: "#334155", borderRadius: 6 },
-          { label: "Realizado", data: entries.map(e => e[1].realizado), backgroundColor: "#3b82f6", borderRadius: 6 }
+          { label: "Previsto", data: entries.map(e => e[1].previsto), backgroundColor: "rgba(148, 163, 184, 0.35)", borderRadius: 7, borderSkipped: false },
+          { label: "Realizado", data: entries.map(e => e[1].realizado), backgroundColor: (c) => criarGradienteVertical(c, "#38bdf8", "#2563eb"), borderRadius: 7, borderSkipped: false }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: { padding: { top: 18, right: 12, left: 6, bottom: 4 } },
         plugins: {
-          legend: { labels: { color: "#cbd5e1", font: { size: 10 } } },
+          legend: { labels: { color: "#cbd5e1", font: { size: 10 }, padding: 12 } },
           datalabels: { display: false }
         },
         scales: {
-          x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
-          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
+          x: { ticks: { color: corEixo, font: { size: 10 }, padding: 6 }, grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.18 || 1000,
+            ticks: { color: corEixo, font: { size: 10 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
+            grid: { color: corGrid }
+          }
         }
       }
     });
@@ -1538,7 +1793,6 @@
       </tr>`;
   }
 
-  // Botão Esconder / Mostrar Menu
   document.getElementById("btnToggleMenu").addEventListener("click", () => {
     const oculto = document.body.classList.toggle("menu-hidden");
     const btn = document.getElementById("btnToggleMenu");
