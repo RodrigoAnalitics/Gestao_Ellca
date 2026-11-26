@@ -330,7 +330,7 @@
             border: 1px solid var(--ellca-border);
             box-shadow: 0 14px 36px rgba(0, 0, 0, 0.68);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
             gap: 12px;
             align-items: end;
             box-sizing: border-box;
@@ -984,7 +984,7 @@
                             <div>
                                 <div class="fat-kicker"><i class="fa-solid fa-bolt"></i> Pilar Gerencial • Diretoria & Coordenação Ellca</div>
                                 <h1>Controle Gerencial de Faturamento</h1>
-                                <p>Acompanhamento de Meta, Previsto e Realizado por Ano, Mês, Data, Trimestre, Supervisor e Equipe</p>
+                                <p>Acompanhamento de Meta, Previsto e Realizado por Ano, Mês, Data, Trimestre, Supervisor, Processo e Equipe</p>
                             </div>
                         </div>
 
@@ -1008,7 +1008,7 @@
                         </div>
                     </div>
 
-                    <!-- FILTROS MULTI-SELEÇÃO: ANO, MÊS, DATA, TRIMESTRE, SUPERVISOR, EQUIPE -->
+                    <!-- FILTROS MULTI-SELEÇÃO: ANO, MÊS, DATA, TRIMESTRE, SUPERVISOR, PROCESSO, EQUIPE -->
                     <div class="filters-card ellca-beam-card">
                         <div class="filter-field">
                             <label><i class="fa-solid fa-calendar"></i> Ano</label>
@@ -1033,6 +1033,11 @@
                         <div class="filter-field">
                             <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
                             <div class="ms-wrap" id="msSupervisor"></div>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-diagram-project"></i> Processo</label>
+                            <div class="ms-wrap" id="msProcesso"></div>
                         </div>
 
                         <div class="filter-field">
@@ -1190,7 +1195,7 @@
                                 <thead>
                                     <tr>
                                         <th>Equipe</th>
-                                        <th>Tipo</th>
+                                        <th>Processo</th>
                                         <th>Supervisor</th>
                                         <th class="num">Dias</th>
                                         <th class="num">Meta Período</th>
@@ -1416,7 +1421,7 @@
                     colData: findCol(['data', 'dt'], 0),
                     colPeriodo: findCol(['trimestre', 'periodo', 'semestre', 'competencia', 'referencia'], 1),
                     colEquipe: findCol(['equipe', 'prefixo', 'viatura'], 2),
-                    colTipo: findCol(['tipo', 'modalidade', 'categoria'], 3),
+                    colTipo: findCol(['processo', 'tipo', 'modalidade', 'categoria'], 3),
                     colSupervisor: findCol(['supervisor', 'lider', 'encarregado', 'coordenador'], 4),
                     colMeta: findCol(['meta', 'orcado', 'target'], 5),
                     colPrevisto: findCol(['previsto', 'programado', 'projecao'], 6),
@@ -1582,6 +1587,7 @@
             const msData = new MultiSelectFiltro('msData', 'Todas as Datas', aplicarFiltros);
             const msTrimestre = new MultiSelectFiltro('msTrimestre', 'Todos os Trimestres', aplicarFiltros);
             const msSupervisor = new MultiSelectFiltro('msSupervisor', 'Todos os Supervisores', aplicarFiltros);
+            const msProcesso = new MultiSelectFiltro('msProcesso', 'Todos os Processos', aplicarFiltros);
             const msEquipe = new MultiSelectFiltro('msEquipe', 'Todas as Equipes', aplicarFiltros);
 
             function carregarDadosPlanilha() {
@@ -1720,6 +1726,9 @@
                     .sort();
                 msSupervisor.setOptions(supervisores);
 
+                const processos = [...new Set(dados.map(d => d.tipo))].filter(Boolean).sort();
+                msProcesso.setOptions(processos);
+
                 const equipes = [...new Set(dados.map(d => d.equipe))].filter(Boolean).sort();
                 msEquipe.setOptions(equipes);
             }
@@ -1730,6 +1739,7 @@
                 const selDatas = msData.getSelectedValues();
                 const selTrimestres = msTrimestre.getSelectedValues();
                 const selSups = msSupervisor.getSelectedValues();
+                const selProcessos = msProcesso.getSelectedValues();
                 const selEquipes = msEquipe.getSelectedValues();
 
                 registrosFiltrados = todosRegistros.filter(r => {
@@ -1738,6 +1748,7 @@
                     if (selDatas.length > 0 && !selDatas.includes(r.data)) return false;
                     if (selTrimestres.length > 0 && !selTrimestres.includes(r.trimestre)) return false;
                     if (selSups.length > 0 && !selSups.includes(r.supervisor)) return false;
+                    if (selProcessos.length > 0 && !selProcessos.includes(r.tipo)) return false;
                     if (selEquipes.length > 0 && !selEquipes.includes(r.equipe)) return false;
                     return true;
                 });
@@ -2193,15 +2204,15 @@
                     alert('Não há dados filtrados para exportar.');
                     return;
                 }
-                const cabecalho = ['Ano', 'Mes', 'Data', 'Trimestre', 'Supervisor', 'Equipe', 'Tipo', 'Meta', 'Previsto', 'Realizado'];
+                const cabecalho = ['Ano', 'Mes', 'Data', 'Trimestre', 'Supervisor', 'Processo', 'Equipe', 'Meta', 'Previsto', 'Realizado'];
                 const linhas = registrosFiltrados.map(r => [
                     r.ano,
                     NOMES_MESES[parseInt(r.mesNum, 10)] || r.mesNum,
                     r.dataBR,
                     r.trimestre,
                     r.supervisor,
-                    r.equipe,
                     r.tipo,
+                    r.equipe,
                     r.meta.toFixed(2).replace('.', ','),
                     r.previsto.toFixed(2).replace('.', ','),
                     r.realizado.toFixed(2).replace('.', ',')
@@ -2223,6 +2234,7 @@
                 msData.clearSelection();
                 msTrimestre.clearSelection();
                 msSupervisor.clearSelection();
+                msProcesso.clearSelection();
                 msEquipe.clearSelection();
                 aplicarFiltros();
             });
