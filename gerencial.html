@@ -18,10 +18,9 @@
             --ellca-navy-panel: rgba(8, 20, 48, 0.85);
             --ellca-blue: #00d4ff;
             --ellca-blue-royal: #0284c7;
+            --ellca-blue-dark: #1d4ed8;
             --ellca-blue-bright: #38bdf8;
             --ellca-cyan-glow: rgba(0, 212, 255, 0.35);
-            --ellca-emerald: #10b981;
-            --ellca-emerald-light: #34d399;
             --ellca-red: #f87171;
             --ellca-border: rgba(0, 212, 255, 0.28);
             --ellca-border-strong: rgba(0, 212, 255, 0.55);
@@ -217,9 +216,9 @@
             border-radius: 50px;
             font-size: 10.5px;
             font-weight: 700;
-            background: rgba(16, 185, 129, 0.16);
-            border: 1px solid rgba(16, 185, 129, 0.48);
-            color: #6ee7b7;
+            background: rgba(0, 212, 255, 0.16);
+            border: 1px solid rgba(0, 212, 255, 0.48);
+            color: #7dd3fc;
         }
 
         .sync-badge.warn {
@@ -274,7 +273,7 @@
             border-color: #ffffff;
         }
 
-        /* ================= BARRA DE FILTROS MULTI-SELEÇÃO (ELLCA DARK) ================= */
+        /* ================= BARRA DE FILTROS (MANTENDO OS FILTROS ANTERIORES + MULTI PERÍODO) ================= */
         .filter-bar-ellca {
             position: relative;
             z-index: 30;
@@ -506,7 +505,7 @@
             color: #ffffff;
         }
 
-        /* ================= KPIS EXECUTIVOS (PALETA ELLCA AZUL & ESMERALDA) ================= */
+        /* ================= KPIS EXECUTIVOS (TONS DE AZUL ELLCA) ================= */
         .exec-kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -538,22 +537,22 @@
             background: linear-gradient(90deg, transparent, var(--ellca-blue), transparent);
         }
 
-        .exec-kpi.cyan-accent {
+        .exec-kpi.blue-accent {
             border-color: rgba(0, 212, 255, 0.48);
             background: linear-gradient(145deg, rgba(4, 14, 34, 0.95) 0%, rgba(6, 48, 82, 0.72) 100%);
         }
 
-        .exec-kpi.cyan-accent::after {
+        .exec-kpi.blue-accent::after {
             background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
         }
 
-        .exec-kpi.emerald-accent {
-            border-color: rgba(16, 185, 129, 0.46);
-            background: linear-gradient(145deg, rgba(4, 18, 22, 0.95) 0%, rgba(6, 56, 48, 0.68) 100%);
+        .exec-kpi.royal-accent {
+            border-color: rgba(56, 189, 248, 0.46);
+            background: linear-gradient(145deg, rgba(4, 14, 36, 0.95) 0%, rgba(12, 42, 88, 0.74) 100%);
         }
 
-        .exec-kpi.emerald-accent::after {
-            background: linear-gradient(90deg, transparent, #34d399, transparent);
+        .exec-kpi.royal-accent::after {
+            background: linear-gradient(90deg, transparent, #1d4ed8, #38bdf8, transparent);
         }
 
         .exec-kpi-top {
@@ -570,10 +569,6 @@
         .exec-kpi-top i {
             font-size: 15px;
             color: var(--ellca-blue);
-        }
-
-        .exec-kpi.emerald-accent .exec-kpi-top i {
-            color: var(--ellca-emerald-light);
         }
 
         .exec-kpi-val {
@@ -607,7 +602,7 @@
         .mini-bar-fill {
             height: 100%;
             border-radius: 99px;
-            background: linear-gradient(90deg, #0284c7, #00d4ff, #34d399);
+            background: linear-gradient(90deg, #1d4ed8, #0284c7, #00d4ff);
             transition: width 0.5s ease;
         }
 
@@ -777,15 +772,15 @@
         }
 
         .pill-ok {
-            background: rgba(16, 185, 129, 0.18);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.45);
+            background: rgba(0, 212, 255, 0.20);
+            color: #7dd3fc;
+            border: 1px solid rgba(0, 212, 255, 0.55);
         }
 
         .pill-warn {
-            background: rgba(0, 212, 255, 0.16);
-            color: #7dd3fc;
-            border: 1px solid rgba(0, 212, 255, 0.42);
+            background: rgba(29, 78, 216, 0.25);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.45);
         }
 
         .pill-low {
@@ -945,11 +940,11 @@
                         </div>
                     </div>
 
-                    <!-- BARRA DE FILTROS COM PERÍODO MULTI-SELEÇÃO -->
+                    <!-- BARRA DE FILTROS -->
                     <div class="filter-bar-ellca">
-                        <!-- MULTI-SELECT DE PERÍODO -->
+                        <!-- PERÍODO MULTI-SELEÇÃO -->
                         <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-week"></i> Período (Múltiplo)</label>
+                            <label><i class="fa-solid fa-calendar-week"></i> Período</label>
                             <div class="multi-select-box" id="multiPeriodoBox">
                                 <button type="button" class="multi-select-trigger" id="multiPeriodoTrigger">
                                     <span class="multi-select-label" id="multiPeriodoLabel">Todos os Períodos</span>
@@ -990,7 +985,7 @@
 
                     <!-- KPIS EXECUTIVOS -->
                     <div class="exec-kpi-grid">
-                        <div class="exec-kpi cyan-accent">
+                        <div class="exec-kpi blue-accent">
                             <div class="exec-kpi-top">
                                 <span>Meta Faturamento</span>
                                 <i class="fa-solid fa-bullseye"></i>
@@ -1014,24 +1009,24 @@
                             </div>
                         </div>
 
-                        <div class="exec-kpi emerald-accent">
+                        <div class="exec-kpi royal-accent">
                             <div class="exec-kpi-top">
                                 <span>Faturamento Realizado</span>
                                 <i class="fa-solid fa-circle-check"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiRealizado" style="color:#34d399;">R$ 0,00</div>
+                            <div class="exec-kpi-val" id="kpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
                             <div class="exec-kpi-sub">
                                 <span id="kpiGapPrev">Gap vs Previsto: R$ 0,00</span>
                                 <span id="kpiGapMeta">Gap vs Meta: R$ 0,00</span>
                             </div>
                         </div>
 
-                        <div class="exec-kpi cyan-accent">
+                        <div class="exec-kpi blue-accent">
                             <div class="exec-kpi-top">
                                 <span>Atingimento (Real / Prev)</span>
                                 <i class="fa-solid fa-gauge-high"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiPctPrev" style="color:#00d4ff;">0,0%</div>
+                            <div class="exec-kpi-val" id="kpiPctPrev" style="color:#38bdf8;">0,0%</div>
                             <div class="exec-kpi-sub">
                                 <span id="kpiPctMeta">Sobre Meta Total: 0,0%</span>
                                 <span>Alvo: 100%</span>
@@ -1358,7 +1353,6 @@
                 const container = document.getElementById('multiPeriodoOptions');
                 const todosPeriodos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))].sort();
 
-                // Mantém apenas períodos válidos que ainda existem na base
                 periodosSelecionados = new Set([...periodosSelecionados].filter(p => todosPeriodos.includes(p)));
 
                 container.innerHTML = todosPeriodos.map(p => {
@@ -1454,7 +1448,6 @@
                 const totPrev = filtrados.reduce((s, r) => s + r.previsto, 0);
                 const totReal = filtrados.reduce((s, r) => s + r.realizado, 0);
 
-                // Soma a meta única por equipe+período para não duplicar metas mensais repetidas dia a dia
                 const metaUnicaMap = new Map();
                 filtrados.forEach(r => {
                     const chaveMeta = `${r.periodo}||${r.equipe}`;
@@ -1501,12 +1494,12 @@
                 if (chartEvolucao) chartEvolucao.destroy();
 
                 const gradReal = ctx1.createLinearGradient(0, 0, 0, 290);
-                gradReal.addColorStop(0, 'rgba(16, 185, 129, 0.36)');
-                gradReal.addColorStop(1, 'rgba(16, 185, 129, 0.01)');
+                gradReal.addColorStop(0, 'rgba(0, 212, 255, 0.36)');
+                gradReal.addColorStop(1, 'rgba(0, 212, 255, 0.01)');
 
                 const gradPrev = ctx1.createLinearGradient(0, 0, 0, 290);
-                gradPrev.addColorStop(0, 'rgba(0, 212, 255, 0.25)');
-                gradPrev.addColorStop(1, 'rgba(0, 212, 255, 0.01)');
+                gradPrev.addColorStop(0, 'rgba(29, 78, 216, 0.32)');
+                gradPrev.addColorStop(1, 'rgba(29, 78, 216, 0.02)');
 
                 chartEvolucao = new Chart(ctx1, {
                     type: 'line',
@@ -1516,25 +1509,25 @@
                             {
                                 label: 'Realizado (R$)',
                                 data: diasOrdenados.map(d => d.real),
-                                borderColor: '#34d399',
+                                borderColor: '#00d4ff',
                                 backgroundColor: gradReal,
                                 borderWidth: 2.8,
                                 fill: true,
                                 tension: 0.32,
                                 pointRadius: 3.5,
-                                pointBackgroundColor: '#34d399'
+                                pointBackgroundColor: '#00d4ff'
                             },
                             {
                                 label: 'Previsto (R$)',
                                 data: diasOrdenados.map(d => d.prev),
-                                borderColor: '#00d4ff',
+                                borderColor: '#1d4ed8',
                                 backgroundColor: gradPrev,
                                 borderDash: [6, 4],
-                                borderWidth: 2.2,
+                                borderWidth: 2.4,
                                 fill: true,
                                 tension: 0.32,
                                 pointRadius: 3,
-                                pointBackgroundColor: '#00d4ff'
+                                pointBackgroundColor: '#2563eb'
                             }
                         ]
                     },
@@ -1581,13 +1574,13 @@
                             {
                                 label: 'Realizado',
                                 data: topEq.map(([, v]) => v.real),
-                                backgroundColor: '#10b981',
+                                backgroundColor: '#00d4ff',
                                 borderRadius: 6
                             },
                             {
                                 label: 'Previsto',
                                 data: topEq.map(([, v]) => v.prev),
-                                backgroundColor: 'rgba(0, 212, 255, 0.65)',
+                                backgroundColor: '#1d4ed8',
                                 borderRadius: 6
                             }
                         ]
@@ -1640,11 +1633,11 @@
                             <div class="rank-row">
                                 <div class="rank-row-top">
                                     <span>${nome} <small style="color:#94a3b8;">(${info.eqs.size} eq.)</small></span>
-                                    <span style="color:#34d399;">Real: ${fmtBRL(info.real)}</span>
+                                    <span style="color:#00d4ff;">Real: ${fmtBRL(info.real)}</span>
                                 </div>
                                 <div class="rank-row-metrics">
-                                    <span>Previsto: <strong style="color:#38bdf8;">${fmtBRL(info.prev)}</strong></span>
-                                    <span>Atingimento: <strong style="color:#00d4ff;">${pct.toFixed(1).replace('.', ',')}%</strong></span>
+                                    <span>Previsto: <strong style="color:#60a5fa;">${fmtBRL(info.prev)}</strong></span>
+                                    <span>Atingimento: <strong style="color:#38bdf8;">${pct.toFixed(1).replace('.', ',')}%</strong></span>
                                 </div>
                                 <div class="mini-bar">
                                     <div class="mini-bar-fill" style="width:${Math.min(100, pct)}%;"></div>
@@ -1681,8 +1674,8 @@
                             <td>${r.supervisor}</td>
                             <td>${fmtBRL(r.meta)}</td>
                             <td>${fmtBRL(r.previsto)}</td>
-                            <td style="color:#34d399; font-weight:700;">${fmtBRL(r.realizado)}</td>
-                            <td style="color:${gap >= 0 ? '#6ee7b7' : '#fca5a5'};">${fmtBRL(gap)}</td>
+                            <td style="color:#00d4ff; font-weight:700;">${fmtBRL(r.realizado)}</td>
+                            <td style="color:${gap >= 0 ? '#7dd3fc' : '#fca5a5'};">${fmtBRL(gap)}</td>
                             <td><span class="pill-badge ${cls}">${pct.toFixed(1).replace('.', ',')}%</span></td>
                         </tr>
                     `;
