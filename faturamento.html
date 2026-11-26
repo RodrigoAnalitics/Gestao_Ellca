@@ -3,358 +3,899 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal Ellca — Painel de Faturamento</title>
+  <title>🌀Ellca — Painel de Faturamento e Metas</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
     :root {
-      --bg-page: #061026;
-      --card-grad: linear-gradient(180deg, #0b1c40 0%, #16326b 100%);
-      --header-grad: linear-gradient(90deg, #07122b 0%, #1d3c7a 50%, #07122b 100%);
-      --accent-cyan: #00d2ff;
-      --bar-blue: #2b4499;
-      --bar-cyan: #00b4d8;
-      --text-light: #ffffff;
-      --text-muted: #94a3b8;
-      --border-glow: rgba(0, 210, 255, 0.35);
+      --bg-void: #02040a;
+      --bg-card: #0a1122;
+      --bg-card-hover: #0e1830;
+      --sidebar-grad: linear-gradient(180deg, #060d1f 0%, #09183a 65%, #050a18 100%);
+      --banner-grad: linear-gradient(90deg, #070e21 0%, #0f214d 45%, #060c1c 100%);
+      --border-subtle: rgba(110, 145, 255, 0.22);
+      --border-glow: rgba(96, 165, 250, 0.45);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-blue: #3b82f6;
+      --accent-indigo: #6366f1;
+      --accent-purple: #8b5cf6;
+      --accent-emerald: #10b981;
+      --accent-rose: #ef4444;
+      --accent-cyan: #06b6d4;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    }
 
     body {
-      background-color: var(--bg-page);
-      color: var(--text-light);
-      padding: 16px;
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      padding: 14px;
+      min-height: 100vh;
     }
 
-    /* TOPO */
+    /* BANNER SUPERIOR */
     .top-banner {
-      background: var(--header-grad);
-      border: 1px solid var(--border-glow);
-      border-radius: 10px;
-      padding: 12px 20px;
-      display: grid;
-      grid-template-columns: 160px 1fr 1fr auto 1fr 1fr;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .brand {
-      font-size: 26px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .brand span { color: var(--accent-cyan); }
-
-    .banner-title {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-align: center;
-      padding: 0 12px;
-      text-transform: uppercase;
-    }
-
-    .kpi-top-box {
-      background: rgba(5, 14, 36, 0.85);
-      border: 1.5px solid rgba(255, 255, 255, 0.45);
-      border-radius: 8px;
-      padding: 8px 12px;
-      text-align: center;
-    }
-    .kpi-top-box.highlight {
-      background: var(--card-grad);
-      border-color: var(--accent-cyan);
-    }
-    .kpi-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #cbd5e1;
-      margin-bottom: 4px;
-    }
-    .kpi-value {
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    /* BARRA DE FILTROS E KPIS SECUNDÁRIOS */
-    .controls-row {
+      background: var(--banner-grad);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 14px 24px;
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     }
 
-    .filters {
+    .banner-left {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
       gap: 10px;
     }
 
-    .filter-pill {
-      background: var(--card-grad);
-      border: 1px solid var(--border-glow);
-      border-radius: 8px;
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.45);
+    }
+
+    .brand-title-block .sub {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #cbd5e1;
+      text-transform: uppercase;
+    }
+
+    .brand-title-block .main {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+    }
+
+    .banner-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(148, 163, 184, 0.25);
+    }
+
+    .banner-tagline h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .banner-tagline p {
+      font-size: 11.5px;
+      color: #60a5fa;
+      margin-top: 2px;
+    }
+
+    /* FILTROS NO TOPO */
+    .banner-filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-box {
+      background: rgba(10, 17, 34, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
       padding: 6px 12px;
       display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
+      flex-direction: column;
+      min-width: 115px;
+    }
+
+    .filter-box label {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-secondary);
       font-weight: 700;
     }
 
-    .filter-pill select, .filter-pill input {
+    .filter-box select {
       background: transparent;
       border: none;
-      color: var(--accent-cyan);
+      color: #ffffff;
+      font-size: 12.5px;
       font-weight: 700;
-      font-size: 12px;
       outline: none;
       cursor: pointer;
+      margin-top: 2px;
     }
-    .filter-pill select option { background: #0b1c40; color: #fff; }
 
-    .mini-kpis {
+    .filter-box select option {
+      background: #0a1122;
+      color: #ffffff;
+    }
+
+    .banner-right-badge {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
       gap: 10px;
+      padding-left: 10px;
     }
 
-    .mini-kpi-card {
-      background: var(--card-grad);
-      border: 1px solid var(--border-glow);
-      border-radius: 8px;
-      padding: 8px 18px;
-      text-align: center;
-      min-width: 145px;
+    .badge-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 28px;
     }
-    .mini-kpi-card .kpi-value { font-size: 19px; }
-
-    /* PAINÉIS E GRÁFICOS */
-    .panel-card {
-      background: #ffffff;
-      color: #0f172a;
-      border-radius: 10px;
-      padding: 14px 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-      margin-bottom: 14px;
+    .badge-bars span {
+      width: 6px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #38bdf8, #6366f1);
     }
+    .badge-bars span:nth-child(1) { height: 12px; }
+    .badge-bars span:nth-child(2) { height: 20px; }
+    .badge-bars span:nth-child(3) { height: 28px; }
 
-    .section-bar {
-      background: var(--header-grad);
-      color: #fff;
-      text-align: center;
-      font-size: 12px;
+    .banner-right-text {
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.6px;
-      padding: 7px 12px;
+      color: #e2e8f0;
+      line-height: 1.3;
+    }
+
+    /* LAYOUT PRINCIPAL: SIDEBAR + CONTEÚDO */
+    .workspace {
+      display: grid;
+      grid-template-columns: 205px 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    /* SIDEBAR ESQUERDA */
+    .sidebar {
+      background: var(--sidebar-grad);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 760px;
+    }
+
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #cbd5e1;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      background: rgba(59, 130, 246, 0.12);
+      color: #ffffff;
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.45) 0%, rgba(79, 70, 229, 0.25) 100%);
+      border-color: var(--border-glow);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
       border-radius: 6px;
-      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .sidebar-footer {
+      text-align: center;
+      padding: 10px 6px;
+    }
+
+    .sidebar-quote {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #cbd5e1;
+      font-style: italic;
+      margin-bottom: 22px;
+    }
+
+    .sidebar-bars {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 7px;
+      height: 46px;
+    }
+
+    .sidebar-bars span {
+      width: 12px;
+      border-radius: 5px;
+      background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    }
+    .sidebar-bars span:nth-child(1) { height: 20px; }
+    .sidebar-bars span:nth-child(2) { height: 32px; }
+    .sidebar-bars span:nth-child(3) { height: 46px; }
+
+    /* ÁREA DOS CARDS E GRÁFICOS */
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .view-section {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .view-section.active {
+      display: flex;
+    }
+
+    /* LINHA 1: 4 KPIS PRINCIPAIS (ESTILO REFERÊNCIA) */
+    .kpi-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 108px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .kpi-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+    }
+
+    .kpi-card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .kpi-circle-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .icon-emerald { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.45); }
+    .icon-blue    { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.45); }
+    .icon-purple  { background: rgba(139, 92, 246, 0.2); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.45); }
+    .icon-rose    { background: rgba(239, 68, 68, 0.2);  color: #f87171; border: 1px solid rgba(239, 68, 68, 0.45); }
+
+    .kpi-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      color: var(--text-secondary);
       text-transform: uppercase;
     }
 
-    .grid-2 {
+    .kpi-main-number {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .kpi-sub-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 10.5px;
+      color: var(--text-secondary);
+    }
+
+    /* CARTÕES DE GRÁFICOS E TABELAS */
+    .dash-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-header-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: #e2e8f0;
+      text-transform: uppercase;
+    }
+
+    .card-header-title span.ico {
+      color: #60a5fa;
+      font-size: 14px;
+    }
+
+    .card-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(59, 130, 246, 0.16);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    /* GRIDS DE PAINEL */
+    .grid-mid {
       display: grid;
-      grid-template-columns: 38% 1fr;
+      grid-template-columns: 1.5fr 1fr 0.85fr;
       gap: 14px;
-      margin-bottom: 14px;
     }
 
     .grid-bottom {
       display: grid;
-      grid-template-columns: 38% 1fr;
+      grid-template-columns: 1fr 1.2fr 0.9fr;
       gap: 14px;
     }
 
-    /* TABELAS */
+    /* MINI LISTA / TOP EQUIPES & OPERACIONAL */
+    .metric-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .metric-row {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-row .lbl {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .metric-row .val {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #60a5fa;
+    }
+
+    /* TABELAS DARK GLASS */
+    .table-wrap {
+      overflow: auto;
+      max-height: 290px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 11.5px;
     }
+
     thead th {
-      background: #1d3c7a;
-      color: #fff;
-      padding: 8px 10px;
       text-align: left;
+      padding: 9px 10px;
+      color: #93c5fd;
       font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 28, 60, 0.65);
+      position: sticky;
+      top: 0;
     }
-    thead th.num, tbody td.num, tfoot td.num { text-align: right; }
+
+    thead th.num, tbody td.num, tfoot td.num {
+      text-align: right;
+    }
+
     tbody td {
-      padding: 8px 10px;
-      border-bottom: 1px solid #e2e8f0;
-      color: #1e293b;
+      padding: 9px 10px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.09);
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    tbody tr:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    tfoot td {
+      padding: 9px 10px;
+      font-weight: 800;
+      color: #ffffff;
+      background: rgba(30, 58, 138, 0.35);
+      border-top: 1px solid var(--border-glow);
+    }
+
+    /* CARD MOTIVACIONAL / RESUMO INFERIOR DIREITO (IGUAL AO PRINT) */
+    .promo-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: center;
+      background: linear-gradient(135deg, #0b142b 0%, #111f42 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .promo-banner-box {
+      height: 100%;
+      min-height: 120px;
+      border-radius: 10px;
+      background: linear-gradient(160deg, rgba(37, 99, 235, 0.35), rgba(124, 58, 237, 0.45)),
+                  radial-gradient(circle at top right, #38bdf8, #090f24);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .promo-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 11.5px;
+      color: #e2e8f0;
       font-weight: 600;
     }
-    tbody tr:nth-child(even) { background: #f8fafc; }
-    tfoot td {
-      background: #e2e8f0;
+
+    .promo-checklist div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .promo-checklist span.chk {
+      color: #38bdf8;
       font-weight: 800;
-      padding: 8px 10px;
-      color: #0f172a;
     }
 
-    .table-scroll {
-      max-height: 360px;
-      overflow: auto;
+    /* BARRA DE PROGRESSO ATINGIMENTO */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      border-radius: 99px;
+      transition: width 0.4s ease;
     }
 
-    .positive { color: #16a34a !important; }
-    .negative { color: #dc2626 !important; }
+    .text-green { color: #34d399 !important; }
+    .text-red   { color: #f87171 !important; }
+    .text-cyan  { color: #38bdf8 !important; }
 
-    @media (max-width: 1100px) {
-      .top-banner { grid-template-columns: 1fr; text-align: center; }
-      .grid-2, .grid-bottom { grid-template-columns: 1fr; }
+    /* LOADING OVERLAY */
+    #loadingBar {
+      display: none;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      color: #60a5fa;
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid var(--border-glow);
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 1200px) {
+      .workspace { grid-template-columns: 1fr; }
+      .sidebar { min-height: auto; flex-direction: row; align-items: center; }
+      .sidebar-footer { display: none; }
+      .nav-list { flex-direction: row; flex-wrap: wrap; }
+      .kpi-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-mid, .grid-bottom { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-grid-4 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- CABEÇALHO SUPERIOR -->
+  <!-- BANNER SUPERIOR -->
   <header class="top-banner">
-    <div class="brand"><span>🌀</span>Ellca</div>
+    <div class="banner-left">
+      <div class="brand-logo">
+        <div class="logo-icon">🌀</div>
+        <div class="brand-title-block">
+          <div class="sub">GESTÃO OPERACIONAL</div>
+          <div class="main" id="tituloProcesso">FAT. SUSTENTAÇÃO</div>
+        </div>
+      </div>
 
-    <div class="kpi-top-box">
-      <div class="kpi-label">Meta Mensal (R$)</div>
-      <div class="kpi-value" id="kpiMetaMensal">R$ 0,00</div>
+      <div class="banner-divider"></div>
+
+      <div class="banner-tagline">
+        <h2>Mais controle, melhores decisões.</h2>
+        <p>Acompanhamento de Metas, Previsto e Realizado em tempo real.</p>
+      </div>
     </div>
 
-    <div class="kpi-top-box">
-      <div class="kpi-label">Previsto (R$)</div>
-      <div class="kpi-value" id="kpiPrevisto">R$ 0,00</div>
-    </div>
-
-    <div class="banner-title" id="tituloProcesso">FAT. SUSTENTAÇÃO</div>
-
-    <div class="kpi-top-box highlight">
-      <div class="kpi-label">Realizado (R$)</div>
-      <div class="kpi-value" id="kpiRealizado">R$ 0,00</div>
-    </div>
-
-    <div class="kpi-top-box highlight">
-      <div class="kpi-label">Delta (Gap R$)</div>
-      <div class="kpi-value" id="kpiDelta">R$ 0,00</div>
-    </div>
-  </header>
-
-  <!-- FILTROS E INDICADORES OPERACIONAIS -->
-  <section class="controls-row">
-    <div class="filters">
-      <div class="filter-pill">
-        <span>PROCESSO:</span>
+    <!-- FILTROS INTEGRADOS -->
+    <div class="banner-filters">
+      <div class="filter-box">
+        <label>Processo</label>
         <select id="filtroProcesso"></select>
       </div>
-      <div class="filter-pill">
-        <span>ANO:</span>
+      <div class="filter-box">
+        <label>Ano</label>
         <select id="filtroAno"></select>
       </div>
-      <div class="filter-pill">
-        <span>MÊS:</span>
+      <div class="filter-box">
+        <label>Mês</label>
         <select id="filtroMes"></select>
       </div>
-      <div class="filter-pill">
-        <span>DATA:</span>
+      <div class="filter-box">
+        <label>Data</label>
         <select id="filtroData">
-          <option value="TODOS">Todas as datas</option>
+          <option value="TODOS">Todas</option>
         </select>
       </div>
     </div>
 
-    <div class="mini-kpis">
-      <div class="mini-kpi-card">
-        <div class="kpi-label">Dias Trabalhados</div>
-        <div class="kpi-value" id="kpiDiasTrab">0</div>
+    <div class="banner-right-badge">
+      <div class="badge-bars">
+        <span></span><span></span><span></span>
       </div>
-      <div class="mini-kpi-card">
-        <div class="kpi-label">Qtd. Equipes</div>
-        <div class="kpi-value" id="kpiQtdEquipes">0</div>
-      </div>
-      <div class="mini-kpi-card">
-        <div class="kpi-label">Fat. Equipe Dia (R$)</div>
-        <div class="kpi-value" id="kpiFatEquipeDia">R$ 0,00</div>
+      <div class="banner-right-text">
+        Meta &amp; Performance<br/>Ellca Engenharia
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- GRÁFICO SÉRIE TEMPORAL -->
-  <section class="panel-card">
-    <div style="height: 230px;">
-      <canvas id="chartTemporal"></canvas>
-    </div>
-  </section>
+  <div id="loadingBar">⏳ Sincronizando dados com a planilha Gestão Ellca - Faturamento...</div>
 
-  <!-- LINHA INTERMEDIÁRIA: SUPERVISOR + DIA DA SEMANA -->
-  <section class="grid-2">
-    <div class="panel-card" style="margin-bottom:0;">
-      <div class="section-bar">Serviços Previstos e Realizados x Supervisor</div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>SUPERVISOR</th>
-              <th class="num">META (R$)</th>
-              <th class="num">PREVISTO (R$)</th>
-              <th class="num">REALIZADO (R$)</th>
-            </tr>
-          </thead>
-          <tbody id="tbodySupervisor"></tbody>
-          <tfoot id="tfootSupervisor"></tfoot>
-        </table>
-      </div>
-    </div>
+  <!-- WORKSPACE COM BARRA LATERAL E PAINEL -->
+  <div class="workspace">
 
-    <div class="panel-card" style="margin-bottom:0;">
-      <div class="section-bar">Faturamento Parcial R$ x Dia da Semana</div>
-      <div style="height: 240px;">
-        <canvas id="chartDiaSemana"></canvas>
-      </div>
-    </div>
-  </section>
+    <!-- SIDEBAR ESQUERDA -->
+    <aside class="sidebar">
+      <nav class="nav-list">
+        <button class="nav-btn active" onclick="trocarAba('visaoGeral', this)">
+          <span class="nav-icon">🏠</span> Visão Geral
+        </button>
+        <button class="nav-btn" onclick="trocarAba('analiseEquipes', this)">
+          <span class="nav-icon">📊</span> Análise por Equipe
+        </button>
+        <button class="nav-btn" onclick="trocarAba('tabelaCompleta', this)">
+          <span class="nav-icon">🎯</span> Tabela Detalhada
+        </button>
+      </nav>
 
-  <!-- LINHA INFERIOR: EQUIPE + TABELA RESUMO COMPLETA -->
-  <section class="grid-bottom">
-    <div class="panel-card" style="margin-bottom:0;">
-      <div class="section-bar">Faturamento R$ x Equipe (Previsto vs Realizado)</div>
-      <div style="height: 360px;">
-        <canvas id="chartEquipe"></canvas>
+      <div class="sidebar-footer">
+        <p class="sidebar-quote">
+          "Precisão nos dados é a ponte entre o planejamento e a meta atingida."
+        </p>
+        <div class="sidebar-bars">
+          <span></span><span></span><span></span>
+        </div>
       </div>
-    </div>
+    </aside>
 
-    <div class="panel-card" style="margin-bottom:0;">
-      <div class="section-bar">Resumo Detalhado por Equipe</div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>SUPERVISOR</th>
-              <th>EQUIPE</th>
-              <th>TIPO</th>
-              <th>VEÍCULOS</th>
-              <th class="num">META MENSAL</th>
-              <th class="num">PREVISTO</th>
-              <th class="num">REALIZADO</th>
-              <th class="num">DELTA</th>
-            </tr>
-          </thead>
-          <tbody id="tbodyResumo"></tbody>
-        </table>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="content-area">
+
+      <!-- =============================================================== -->
+      <!-- ABA 1: VISÃO GERAL                                              -->
+      <!-- =============================================================== -->
+      <div id="visaoGeral" class="view-section active">
+
+        <!-- LINHA 1: 4 CARDS DE KPI -->
+        <section class="kpi-grid-4">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-circle-icon icon-emerald">💰</div>
+              <div class="kpi-title">Meta Mensal (R$)</div>
+            </div>
+            <div class="kpi-main-number" id="kpiMetaMensal">R$ 0,00</div>
+            <div class="kpi-sub-footer">
+              <span>Equipes únicas no mês</span>
+              <span class="text-cyan" id="infoDiasUteis">22 dias úteis</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-circle-icon icon-blue">📅</div>
+              <div class="kpi-title">Previsto Proporcional</div>
+            </div>
+            <div class="kpi-main-number" id="kpiPrevisto">R$ 0,00</div>
+            <div class="kpi-sub-footer">
+              <span>Ritmo esperado até hoje</span>
+              <span id="infoDiasTrab">0 dias trab.</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-circle-icon icon-purple">📈</div>
+              <div class="kpi-title">Realizado (R$)</div>
+            </div>
+            <div class="kpi-main-number" id="kpiRealizado">R$ 0,00</div>
+            <div class="kpi-sub-footer">
+              <span>Atingimento vs Previsto</span>
+              <span class="text-green" id="kpiPctAtingimento">0,0%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-circle-icon icon-rose">🎯</div>
+              <div class="kpi-title">Delta / Gap (R$)</div>
+            </div>
+            <div class="kpi-main-number" id="kpiDelta">R$ 0,00</div>
+            <div class="kpi-sub-footer">
+              <span>Previsto - Realizado</span>
+              <span id="kpiStatusBadge">No ritmo</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- LINHA 2: SÉRIE TEMPORAL + DIA DA SEMANA + INDICADORES OPERACIONAIS -->
+        <section class="grid-mid">
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-header-title"><span class="ico">📉</span> Faturamento Diário Realizado (R$)</div>
+              <span class="card-badge">Série Temporal</span>
+            </div>
+            <div style="height: 225px;">
+              <canvas id="chartTemporal"></canvas>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-header-title"><span class="ico">📊</span> Faturamento por Dia da Semana</div>
+            </div>
+            <div style="height: 225px;">
+              <canvas id="chartDiaSemana"></canvas>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-header-title"><span class="ico">⚡</span> Indicadores Operacionais</div>
+            </div>
+            <div class="metric-list">
+              <div class="metric-row">
+                <span class="lbl">Dias Trabalhados</span>
+                <span class="val" id="cardDiasTrab">0</span>
+              </div>
+              <div class="metric-row">
+                <span class="lbl">Qtd. Equipes Ativas</span>
+                <span class="val" id="cardQtdEquipes">0</span>
+              </div>
+              <div class="metric-row">
+                <span class="lbl">Fat. Médio Equipe/Dia</span>
+                <span class="val text-green" id="cardFatEquipeDia">R$ 0,00</span>
+              </div>
+              <div class="metric-row">
+                <span class="lbl">Dias Úteis do Mês</span>
+                <span class="val text-cyan" id="cardDiasUteis">22</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LINHA 3: PREVISTO X REALIZADO EQUIPE + SUPERVISORES + PAINEL META -->
+        <section class="grid-bottom">
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-header-title"><span class="ico">🎯</span> Previsto x Realizado por Equipe</div>
+            </div>
+            <div style="height: 230px;">
+              <canvas id="chartEquipeMini"></canvas>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <div class="card-header-title"><span class="ico">👷</span> Desempenho por Supervisor</div>
+            </div>
+            <div class="table-wrap" style="max-height: 230px;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Supervisor</th>
+                    <th class="num">Meta</th>
+                    <th class="num">Previsto</th>
+                    <th class="num">Realizado</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodySupervisor"></tbody>
+                <tfoot id="tfootSupervisor"></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <div class="promo-card">
+            <div class="promo-banner-box">
+              “Grandes resultados começam com o controle diário de cada equipe.”
+            </div>
+            <div class="promo-checklist">
+              <div><span class="chk">✓</span> <span id="resumoMetaTxt">Meta: R$ 0,00</span></div>
+              <div><span class="chk">✓</span> <span id="resumoRealTxt">Realizado: R$ 0,00</span></div>
+              <div><span class="chk">✓</span> <span id="resumoGapTxt">Gap: R$ 0,00</span></div>
+              <div>
+                <div style="width:100%;">
+                  <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8;">
+                    <span>Progresso da Meta Mensal</span>
+                    <span id="pctMetaMensalTxt">0%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" id="barraProgressoMeta" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-  </section>
+
+      <!-- =============================================================== -->
+      <!-- ABA 2: ANÁLISE EXPANDIDA POR EQUIPE                             -->
+      <!-- =============================================================== -->
+      <div id="analiseEquipes" class="view-section">
+        <div class="dash-card">
+          <div class="card-header">
+            <div class="card-header-title"><span class="ico">📊</span> Comparativo Completo: Previsto vs. Realizado por Equipe</div>
+            <span class="card-badge">Todas as Equipes Filtradas</span>
+          </div>
+          <div style="height: 480px;">
+            <canvas id="chartEquipeFull"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- ABA 3: TABELA RESUMO COMPLETA                                   -->
+      <!-- =============================================================== -->
+      <div id="tabelaCompleta" class="view-section">
+        <div class="dash-card">
+          <div class="card-header">
+            <div class="card-header-title"><span class="ico">📋</span> Tabela Consolidada por Equipe e Processo</div>
+            <span class="card-badge" id="badgeTotalLinhas">0 equipes</span>
+          </div>
+          <div class="table-wrap" style="max-height: 540px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Supervisor</th>
+                  <th>Equipe</th>
+                  <th>Processo</th>
+                  <th>Tipo</th>
+                  <th>Veículos</th>
+                  <th class="num">Meta Mensal</th>
+                  <th class="num">Previsto</th>
+                  <th class="num">Realizado</th>
+                  <th class="num">Delta (Gap)</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyResumo"></tbody>
+              <tfoot id="tfootResumo"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
 
 <script>
   // =========================================================================
   // 1. CONFIGURAÇÃO EDITÁVEL (ALTERE AQUI OS DIAS ÚTEIS DE CADA MÊS: 22 OU 23)
   // =========================================================================
-  const API_URL = "https://script.google.com/macros/s/AKfycby-C5gwZ69tDDn3b8CLyy8zHl8vgt8F2jtieYQMZG88UL-DclgnBwWA-gk4HqQwbWyt/exec";
+  const API_URL = "COLE_AQUI_A_URL_DO_SEU_APPS_SCRIPT";
 
   const DIAS_UTEIS_MES = {
     1: 22,  // Janeiro
@@ -393,7 +934,7 @@
   });
 
   const fmtCompacto = (v) => {
-    if (v >= 1000) return "R$ " + (v / 1000).toFixed(2).replace(".", ",") + " mil";
+    if (Math.abs(v) >= 1000) return "R$ " + (v / 1000).toFixed(1).replace(".", ",") + "k";
     return fmtBRL(v);
   };
 
@@ -407,15 +948,25 @@
     return String(t || "").trim().toUpperCase();
   }
 
+  function trocarAba(idAba, btn) {
+    document.querySelectorAll(".view-section").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".nav-btn").forEach(el => el.classList.remove("active"));
+    document.getElementById(idAba).classList.add("active");
+    btn.classList.add("active");
+  }
+
   // =========================================================================
   // 2. CARREGAMENTO E INICIALIZAÇÃO DOS FILTROS
   // =========================================================================
   async function iniciarDashboard() {
+    const loader = document.getElementById("loadingBar");
+    loader.style.display = "block";
+
     try {
       const resp = await fetch(API_URL);
       const json = await resp.json();
 
-      rawFaturamento = json.faturamento.map(r => {
+      rawFaturamento = (json.faturamento || []).map(r => {
         const dtStr = String(r["DATA"]);
         const [ano, mes, dia] = dtStr.split("-").map(Number);
         return {
@@ -449,8 +1000,10 @@
       popularFiltros();
       atualizarPainel();
     } catch (err) {
-      console.error("Erro ao carregar dados da planilha:", err);
-      alert("Não foi possível carregar os dados. Verifique a URL do Apps Script.");
+      console.error("Erro ao carregar dados:", err);
+      alert("Não foi possível carregar os dados da planilha. Verifique a URL do Apps Script.");
+    } finally {
+      loader.style.display = "none";
     }
   }
 
@@ -494,7 +1047,7 @@
     )].sort();
 
     const selData = document.getElementById("filtroData");
-    selData.innerHTML = `<option value="TODOS">Todas (${datas.length} dias)</option>` +
+    selData.innerHTML = `<option value="TODOS">Todas (${datas.length}d)</option>` +
       datas.map(d => {
         const [y, m, day] = d.split("-");
         return `<option value="${d}">${day}/${m}/${y}</option>`;
@@ -513,7 +1066,6 @@
     document.getElementById("tituloProcesso").textContent =
       procSel === "TODOS" ? "FAT. CONSOLIDADO" : `FAT. ${procSel}`;
 
-    // Filtra lançamentos de Faturamento
     const dadosFiltrados = rawFaturamento.filter(r =>
       r.ano === anoSel &&
       r.mes === mesSel &&
@@ -521,15 +1073,13 @@
       (dataSel === "TODOS" || r.data === dataSel)
     );
 
-    // Dias úteis configurados para o mês e datas únicas trabalhadas no período
     const diasUteis = DIAS_UTEIS_MES[mesSel] || 22;
     const datasUnicas = [...new Set(dadosFiltrados.map(r => r.data))].sort();
     const diasTrabalhados = datasUnicas.length;
 
-    // Agrupamento por Equipe + Processo (considerando equipes únicas no ano/mês/processo)
+    // Agrupa equipes únicas por PROCESSO + EQUIPE
     const mapaEquipes = new Map();
 
-    // Primeiro carrega as metas únicas cadastradas (se existirem para o filtro)
     const metasFiltradas = rawMetas.filter(m =>
       m.ano === anoSel &&
       m.mes === mesSel &&
@@ -546,13 +1096,11 @@
           tipo: m.tipo,
           veiculo: m.veiculo,
           metaMensal: m.valorMeta,
-          realizado: 0,
-          diasEquipe: new Set()
+          realizado: 0
         });
       }
     });
 
-    // Complementa com os dados de Faturamento (garantindo equipes únicas mesmo se não houver linha na aba Metas)
     dadosFiltrados.forEach(r => {
       const chave = `${r.processo}|${r.equipe}`;
       if (!mapaEquipes.has(chave)) {
@@ -563,8 +1111,7 @@
           tipo: r.tipo,
           veiculo: r.veiculo,
           metaMensal: r.valorMensal,
-          realizado: 0,
-          diasEquipe: new Set()
+          realizado: 0
         });
       }
       const item = mapaEquipes.get(chave);
@@ -572,17 +1119,14 @@
       if (!item.tipo) item.tipo = r.tipo;
       if (!item.veiculo) item.veiculo = r.veiculo;
       item.realizado += r.valorDia;
-      item.diasEquipe.add(r.data);
     });
 
-    // Calcula Previsto e Delta por equipe
     const listaEquipes = Array.from(mapaEquipes.values()).map(eq => {
       const previsto = diasUteis > 0 ? (eq.metaMensal / diasUteis) * diasTrabalhados : 0;
       const delta = previsto - eq.realizado;
       return { ...eq, previsto, delta };
     });
 
-    // Totais Gerais
     const totalMetaMensal = listaEquipes.reduce((s, e) => s + e.metaMensal, 0);
     const totalPrevisto = diasUteis > 0 ? (totalMetaMensal / diasUteis) * diasTrabalhados : 0;
     const totalRealizado = dadosFiltrados.reduce((s, r) => s + r.valorDia, 0);
@@ -592,33 +1136,57 @@
       ? totalRealizado / (qtdEquipes * diasTrabalhados)
       : 0;
 
-    // Atualiza Cards
+    const pctPrevisto = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
+    const pctMetaTotal = totalMetaMensal > 0 ? (totalRealizado / totalMetaMensal) * 100 : 0;
+
+    // Atualiza Cards Principais
     document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
+    document.getElementById("infoDiasUteis").textContent = `${diasUteis} dias úteis`;
+
     document.getElementById("kpiPrevisto").textContent = fmtBRL(totalPrevisto);
+    document.getElementById("infoDiasTrab").textContent = `${diasTrabalhados} dias trab.`;
+
     document.getElementById("kpiRealizado").textContent = fmtBRL(totalRealizado);
+    document.getElementById("kpiPctAtingimento").textContent = pctPrevisto.toFixed(1).replace(".", ",") + "%";
 
     const elDelta = document.getElementById("kpiDelta");
     elDelta.textContent = fmtBRL(totalDelta);
-    elDelta.className = "kpi-value " + (totalDelta <= 0 ? "positive" : "negative");
+    elDelta.className = "kpi-main-number " + (totalDelta <= 0 ? "text-green" : "text-red");
 
-    document.getElementById("kpiDiasTrab").textContent = diasTrabalhados;
-    document.getElementById("kpiQtdEquipes").textContent = qtdEquipes;
-    document.getElementById("kpiFatEquipeDia").textContent = fmtBRL(fatEquipeDia);
+    const elBadge = document.getElementById("kpiStatusBadge");
+    elBadge.textContent = totalDelta <= 0 ? "Meta atingida" : "Abaixo do previsto";
+    elBadge.className = totalDelta <= 0 ? "text-green" : "text-red";
+
+    // Atualiza Card Operacional & Resumo Inferior
+    document.getElementById("cardDiasTrab").textContent = diasTrabalhados;
+    document.getElementById("cardQtdEquipes").textContent = qtdEquipes;
+    document.getElementById("cardFatEquipeDia").textContent = fmtBRL(fatEquipeDia);
+    document.getElementById("cardDiasUteis").textContent = diasUteis;
+
+    document.getElementById("resumoMetaTxt").textContent = `Meta: ${fmtCompacto(totalMetaMensal)}`;
+    document.getElementById("resumoRealTxt").textContent = `Realizado: ${fmtCompacto(totalRealizado)}`;
+    document.getElementById("resumoGapTxt").textContent = `Gap: ${fmtCompacto(totalDelta)}`;
+    document.getElementById("pctMetaMensalTxt").textContent = pctMetaTotal.toFixed(1).replace(".", ",") + "%";
+    document.getElementById("barraProgressoMeta").style.width = Math.min(pctMetaTotal, 100) + "%";
 
     renderizarGraficoTemporal(dadosFiltrados, datasUnicas);
-    renderizarTabelaSupervisor(listaEquipes);
     renderizarGraficoDiaSemana(dadosFiltrados);
-    renderizarGraficoEquipe(listaEquipes);
+    renderizarGraficoEquipe(listaEquipes, "chartEquipeMini", true);
+    renderizarGraficoEquipe(listaEquipes, "chartEquipeFull", false);
+    renderizarTabelaSupervisor(listaEquipes);
     renderizarTabelaResumo(listaEquipes);
   }
 
   // =========================================================================
-  // 4. GRÁFICOS E TABELAS
+  // 4. GRÁFICOS DARK MODE (CHART.JS)
   // =========================================================================
+  const corTextoEixo = "#94a3b8";
+  const corGridDark = "rgba(148, 163, 184, 0.1)";
+
   function renderizarGraficoTemporal(dados, datasUnicas) {
     const labels = datasUnicas.map(d => {
       const [, m, dia] = d.split("-");
-      return `${Number(dia)}-${Number(m)}`;
+      return `${Number(dia)}/${Number(m)}`;
     });
 
     const valores = datasUnicas.map(d =>
@@ -633,29 +1201,147 @@
         datasets: [{
           label: "Realizado (R$)",
           data: valores,
-          borderColor: "#2b4499",
-          backgroundColor: "#2b4499",
+          borderColor: "#38bdf8",
+          backgroundColor: "rgba(56, 189, 248, 0.15)",
+          fill: true,
           borderWidth: 2.5,
-          pointRadius: 4,
-          tension: 0.15
+          pointBackgroundColor: "#60a5fa",
+          pointRadius: 3.5,
+          tension: 0.25
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { position: "top", align: "start" },
+          legend: { display: false },
           datalabels: {
             align: "top",
-            color: "#1e293b",
-            font: { size: 10, weight: "bold" },
+            color: "#e2e8f0",
+            font: { size: 9.5, weight: "bold" },
             formatter: (v) => fmtCompacto(v)
           }
         },
         scales: {
+          x: { ticks: { color: corTextoEixo, font: { size: 10 } }, grid: { color: corGridDark } },
           y: {
             beginAtZero: true,
-            ticks: { callback: (v) => (v / 1000) + " mil" }
+            ticks: { color: corTextoEixo, font: { size: 10 }, callback: (v) => (v / 1000) + "k" },
+            grid: { color: corGridDark }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarGraficoDiaSemana(dados) {
+    const nomesDias = [
+      "DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA",
+      "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"
+    ];
+    const abrevDias = {
+      "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA",
+      "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM"
+    };
+
+    const somaPorDia = {};
+    DIAS_SEMANA_ORDEM.forEach(d => somaPorDia[d] = 0);
+
+    dados.forEach(r => {
+      const [y, m, d] = r.data.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      somaPorDia[nomesDias[dt.getDay()]] += r.valorDia;
+    });
+
+    const diasAtivos = DIAS_SEMANA_ORDEM.filter(d => somaPorDia[d] > 0 || d !== "DOMINGO");
+    const labels = diasAtivos.map(d => abrevDias[d]);
+    const valores = diasAtivos.map(d => somaPorDia[d]);
+
+    if (charts.diaSemana) charts.diaSemana.destroy();
+    charts.diaSemana = new Chart(document.getElementById("chartDiaSemana"), {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "Faturamento R$",
+          data: valores,
+          backgroundColor: "#6366f1",
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: "end",
+            align: "top",
+            color: "#cbd5e1",
+            font: { size: 9.5, weight: "bold" },
+            formatter: (v) => v > 0 ? fmtCompacto(v) : ""
+          }
+        },
+        scales: {
+          x: { ticks: { color: corTextoEixo, font: { size: 10 } }, grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            ticks: { color: corTextoEixo, font: { size: 10 }, callback: (v) => (v / 1000) + "k" },
+            grid: { color: corGridDark }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarGraficoEquipe(listaEquipes, canvasId, limitarTop) {
+    const ordenadas = [...listaEquipes].sort((a, b) => b.realizado - a.realizado);
+    const recorte = limitarTop ? ordenadas.slice(0, 6) : ordenadas;
+    const labels = recorte.map(e => e.equipe);
+
+    if (charts[canvasId]) charts[canvasId].destroy();
+    charts[canvasId] = new Chart(document.getElementById(canvasId), {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Realizado",
+            data: recorte.map(e => e.realizado),
+            backgroundColor: "#3b82f6",
+            borderRadius: 4
+          },
+          {
+            label: "Previsto",
+            data: recorte.map(e => e.previsto),
+            backgroundColor: "#10b981",
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#cbd5e1", font: { size: 10.5 } } },
+          datalabels: {
+            anchor: "end",
+            align: "right",
+            color: "#e2e8f0",
+            font: { size: 9, weight: "bold" },
+            formatter: (v) => fmtCompacto(v)
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: { color: corTextoEixo, font: { size: 10 }, callback: (v) => (v / 1000) + "k" },
+            grid: { color: corGridDark }
+          },
+          y: {
+            ticks: { color: "#e2e8f0", font: { size: 10.5, weight: "600" } },
+            grid: { display: false }
           }
         }
       }
@@ -665,7 +1351,7 @@
   function renderizarTabelaSupervisor(listaEquipes) {
     const porSup = {};
     listaEquipes.forEach(e => {
-      const sup = e.supervisor.split(" ")[0]; // Normaliza primeiro nome se necessário
+      const sup = e.supervisor.split(" ")[0];
       if (!porSup[sup]) porSup[sup] = { meta: 0, previsto: 0, realizado: 0 };
       porSup[sup].meta += e.metaMensal;
       porSup[sup].previsto += e.previsto;
@@ -679,131 +1365,52 @@
       totM += v.meta; totP += v.previsto; totR += v.realizado;
       return `
         <tr>
-          <td>${sup}</td>
-          <td class="num">${fmtBRL(v.meta)}</td>
-          <td class="num">${fmtBRL(v.previsto)}</td>
-          <td class="num">${fmtBRL(v.realizado)}</td>
+          <td><strong>${sup}</strong></td>
+          <td class="num">${fmtCompacto(v.meta)}</td>
+          <td class="num">${fmtCompacto(v.previsto)}</td>
+          <td class="num text-cyan">${fmtCompacto(v.realizado)}</td>
         </tr>`;
     }).join("");
 
     document.getElementById("tfootSupervisor").innerHTML = `
       <tr>
-        <td>Total geral</td>
-        <td class="num">${fmtBRL(totM)}</td>
-        <td class="num">${fmtBRL(totP)}</td>
-        <td class="num">${fmtBRL(totR)}</td>
+        <td>Total Geral</td>
+        <td class="num">${fmtCompacto(totM)}</td>
+        <td class="num">${fmtCompacto(totP)}</td>
+        <td class="num text-green">${fmtCompacto(totR)}</td>
       </tr>`;
-  }
-
-  function renderizarGraficoDiaSemana(dados) {
-    const nomesDias = [
-      "DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA",
-      "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"
-    ];
-
-    const somaPorDia = {};
-    DIAS_SEMANA_ORDEM.forEach(d => somaPorDia[d] = 0);
-
-    dados.forEach(r => {
-      const [y, m, d] = r.data.split("-").map(Number);
-      const dt = new Date(y, m - 1, d);
-      const nomeDia = nomesDias[dt.getDay()];
-      somaPorDia[nomeDia] = (somaPorDia[nomeDia] || 0) + r.valorDia;
-    });
-
-    const labels = DIAS_SEMANA_ORDEM.filter(d => somaPorDia[d] > 0 || d !== "DOMINGO");
-    const valores = labels.map(d => somaPorDia[d]);
-
-    if (charts.diaSemana) charts.diaSemana.destroy();
-    charts.diaSemana = new Chart(document.getElementById("chartDiaSemana"), {
-      type: "bar",
-      data: {
-        labels,
-        datasets: [{
-          label: "Faturamento / Dia R$",
-          data: valores,
-          backgroundColor: "#2b4499",
-          borderRadius: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: "top", align: "start" },
-          datalabels: {
-            anchor: "end",
-            align: "bottom",
-            color: "#ffffff",
-            font: { size: 10, weight: "bold" },
-            formatter: (v) => v > 0 ? fmtCompacto(v) : ""
-          }
-        },
-        scales: { y: { beginAtZero: true } }
-      }
-    });
-  }
-
-  function renderizarGraficoEquipe(listaEquipes) {
-    const ordenadas = [...listaEquipes].sort((a, b) => a.equipe.localeCompare(b.equipe));
-    const labels = ordenadas.map(e => e.equipe);
-
-    if (charts.equipe) charts.equipe.destroy();
-    charts.equipe = new Chart(document.getElementById("chartEquipe"), {
-      type: "bar",
-      data: {
-        labels,
-        datasets: [
-          {
-            label: "REALIZADO (R$)",
-            data: ordenadas.map(e => e.realizado),
-            backgroundColor: "#2b4499"
-          },
-          {
-            label: "PREVISTO (R$)",
-            data: ordenadas.map(e => e.previsto),
-            backgroundColor: "#00b4d8"
-          }
-        ]
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: "top" },
-          datalabels: {
-            anchor: "end",
-            align: "left",
-            color: "#ffffff",
-            font: { size: 10, weight: "bold" },
-            formatter: (v) => fmtCompacto(v)
-          }
-        },
-        scales: {
-          x: {
-            beginAtZero: true,
-            ticks: { callback: (v) => (v / 1000) + " mil" }
-          }
-        }
-      }
-    });
   }
 
   function renderizarTabelaResumo(listaEquipes) {
     const ordenadas = [...listaEquipes].sort((a, b) => a.equipe.localeCompare(b.equipe));
-    document.getElementById("tbodyResumo").innerHTML = ordenadas.map(e => `
+    document.getElementById("badgeTotalLinhas").textContent = `${ordenadas.length} equipes`;
+
+    let totM = 0, totP = 0, totR = 0, totD = 0;
+
+    document.getElementById("tbodyResumo").innerHTML = ordenadas.map(e => {
+      totM += e.metaMensal; totP += e.previsto; totR += e.realizado; totD += e.delta;
+      return `
+        <tr>
+          <td>${e.supervisor}</td>
+          <td><strong>${e.equipe}</strong></td>
+          <td>${e.processo}</td>
+          <td>${e.tipo}</td>
+          <td>${e.veiculo}</td>
+          <td class="num">${fmtBRL(e.metaMensal)}</td>
+          <td class="num">${fmtBRL(e.previsto)}</td>
+          <td class="num text-cyan">${fmtBRL(e.realizado)}</td>
+          <td class="num ${e.delta <= 0 ? 'text-green' : 'text-red'}">${fmtBRL(e.delta)}</td>
+        </tr>`;
+    }).join("");
+
+    document.getElementById("tfootResumo").innerHTML = `
       <tr>
-        <td>${e.supervisor}</td>
-        <td>${e.equipe}</td>
-        <td>${e.tipo}</td>
-        <td>${e.veiculo}</td>
-        <td class="num">${fmtBRL(e.metaMensal)}</td>
-        <td class="num">${fmtBRL(e.previsto)}</td>
-        <td class="num">${fmtBRL(e.realizado)}</td>
-        <td class="num ${e.delta <= 0 ? 'positive' : 'negative'}">${fmtBRL(e.delta)}</td>
-      </tr>
-    `).join("");
+        <td colspan="5">TOTAL CONSOLIDADO</td>
+        <td class="num">${fmtBRL(totM)}</td>
+        <td class="num">${fmtBRL(totP)}</td>
+        <td class="num text-cyan">${fmtBRL(totR)}</td>
+        <td class="num ${totD <= 0 ? 'text-green' : 'text-red'}">${fmtBRL(totD)}</td>
+      </tr>`;
   }
 
   iniciarDashboard();
