@@ -1,1412 +1,1738 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | PORTAL GERENCIAL & GOVERNANÇA EXECUTIVA</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles_index.css">
-
-    <style>
-        :root {
-            --ellca-navy-deep: #020817;
-            --ellca-navy-card: rgba(6, 15, 36, 0.90);
-            --ellca-navy-panel: rgba(8, 20, 48, 0.85);
-            --ellca-blue: #00d4ff;
-            --ellca-blue-royal: #0284c7;
-            --ellca-blue-dark: #1d4ed8;
-            --ellca-blue-bright: #38bdf8;
-            --ellca-cyan-glow: rgba(0, 212, 255, 0.35);
-            --ellca-green: #34d399;
-            --ellca-red: #f87171;
-            --ellca-border: rgba(0, 212, 255, 0.28);
-            --ellca-border-strong: rgba(0, 212, 255, 0.55);
-        }
-
-        html, body {
-            height: auto !important;
-            min-height: 100dvh;
-            margin: 0;
-            padding: 0;
-            background: var(--ellca-navy-deep);
-            color: #f8fafc;
-            font-family: 'Montserrat', sans-serif;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 212, 255, 0.35) transparent;
-        }
-
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar,
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        html::-webkit-scrollbar-track,
-        body::-webkit-scrollbar-track,
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        html::-webkit-scrollbar-thumb,
-        body::-webkit-scrollbar-thumb,
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 212, 255, 0.35);
-            border-radius: 999px;
-        }
-
-        html::-webkit-scrollbar-thumb:hover,
-        body::-webkit-scrollbar-thumb:hover,
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 212, 255, 0.65);
-        }
-
-        .desktop-view {
-            min-height: 100dvh;
-            height: auto !important;
-            overflow: visible !important;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .container {
-            flex: 1;
-            width: 100% !important;
-            height: auto !important;
-            min-height: 100dvh;
-            overflow: visible !important;
-            position: relative;
-        }
-
-        .container .item,
-        .container .item.active {
-            position: relative !important;
-            width: 100% !important;
-            height: auto !important;
-            min-height: 100dvh;
-            overflow: visible !important;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
-        .navbar,
-        .footer-bar {
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
-        }
-
-        body.bars-collapsed .navbar {
-            transform: translateY(-110%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        body.bars-collapsed .footer-bar {
-            transform: translateY(110%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .ger-wrapper {
-            position: relative;
-            z-index: 5;
-            width: 100%;
-            max-width: 1560px;
-            margin: 0 auto;
-            padding: 92px 24px 76px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-sizing: border-box;
-            transition: padding 0.32s ease;
-        }
-
-        body.bars-collapsed .ger-wrapper {
-            padding: 20px 24px 36px 24px;
-        }
-
-        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS ================= */
-        @property --ellca-border-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        @keyframes ellcaBorderBeam {
-            0% { --ellca-border-angle: 0deg; }
-            100% { --ellca-border-angle: 360deg; }
-        }
-
-        .ellca-beam-card {
-            position: relative;
-        }
-
-        .ellca-beam-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 1.5px;
-            background: conic-gradient(
-                from var(--ellca-border-angle),
-                transparent 0deg,
-                transparent 295deg,
-                rgba(0, 212, 255, 0.18) 325deg,
-                rgba(56, 189, 248, 0.65) 348deg,
-                rgba(0, 212, 255, 0.15) 360deg
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            animation: ellcaBorderBeam 9s linear infinite;
-            z-index: 2;
-        }
-
-        .ellca-beam-card:nth-child(2)::before { animation-delay: -2.2s; }
-        .ellca-beam-card:nth-child(3)::before { animation-delay: -4.5s; }
-        .ellca-beam-card:nth-child(4)::before { animation-delay: -6.7s; }
-
-        /* ================= CABEÇALHO IDENTIDADE ELLCA DARK ================= */
-        .ger-header {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding: 20px 26px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(2, 8, 23, 0.96) 0%, rgba(7, 25, 62, 0.90) 55%, rgba(0, 72, 118, 0.85) 100%);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid var(--ellca-border-strong);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.82), inset 0 1px 0 rgba(0, 212, 255, 0.32);
-            box-sizing: border-box;
-        }
-
-        .ger-title-group {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            min-width: 0;
-        }
-
-        .ger-icon-box {
-            width: 52px;
-            height: 52px;
-            border-radius: 15px;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(2, 132, 199, 0.12));
-            border: 1px solid rgba(0, 212, 255, 0.68);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--ellca-blue);
-            font-size: 22px;
-            box-shadow: 0 0 26px rgba(0, 212, 255, 0.35);
-        }
-
-        .ger-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--ellca-blue);
-            margin-bottom: 4px;
-        }
-
-        .ger-title-group h1 {
-            font-size: 21px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .ger-title-group p {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            margin: 4px 0 0 0;
-            line-height: 1.45;
-        }
-
-        .ger-actions {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .sync-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 8px 14px;
-            border-radius: 50px;
-            font-size: 10.5px;
-            font-weight: 700;
-            background: rgba(0, 212, 255, 0.16);
-            border: 1px solid rgba(0, 212, 255, 0.48);
-            color: #7dd3fc;
-        }
-
-        .sync-badge.warn {
-            background: rgba(245, 158, 11, 0.16);
-            border-color: rgba(245, 158, 11, 0.48);
-            color: #fcd34d;
-        }
-
-        .btn-ellca {
-            padding: 9px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            background: rgba(0, 212, 255, 0.12);
-            color: #e0f2fe;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: all 0.25s ease;
-            text-decoration: none;
-        }
-
-        .btn-ellca:hover {
-            background: var(--ellca-blue);
-            border-color: #ffffff;
-            color: #020817;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .btn-ellca.primary {
-            background: linear-gradient(135deg, #0284c7, #00d4ff);
-            border-color: #7dd3fc;
-            color: #020817;
-            font-weight: 800;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.35);
-        }
-
-        .btn-ellca.primary:hover {
-            background: linear-gradient(135deg, #00d4ff, #7dd3fc);
-            color: #020817;
-            box-shadow: 0 0 26px rgba(0, 212, 255, 0.65);
-        }
-
-        .btn-ellca.active-mode {
-            background: var(--ellca-blue);
-            color: #020817;
-            border-color: #ffffff;
-        }
-
-        /* ================= KPIS SÍNTESE DIRETORIA ================= */
-        .exec-kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 14px;
-        }
-
-        .exec-kpi {
-            position: relative;
-            padding: 17px 19px;
-            border-radius: 16px;
-            background: linear-gradient(145deg, rgba(4, 12, 30, 0.94) 0%, rgba(10, 28, 62, 0.80) 100%);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 212, 255, 0.24);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            overflow: hidden;
-            min-width: 0;
-        }
-
-        .exec-kpi::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--ellca-blue), transparent);
-        }
-
-        .exec-kpi.blue-accent {
-            border-color: rgba(0, 212, 255, 0.42);
-            background: linear-gradient(145deg, rgba(4, 14, 34, 0.95) 0%, rgba(6, 48, 82, 0.72) 100%);
-        }
-
-        .exec-kpi.blue-accent::after {
-            background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
-        }
-
-        .exec-kpi.royal-accent {
-            border-color: rgba(56, 189, 248, 0.40);
-            background: linear-gradient(145deg, rgba(4, 14, 36, 0.95) 0%, rgba(12, 42, 88, 0.74) 100%);
-        }
-
-        .exec-kpi.royal-accent::after {
-            background: linear-gradient(90deg, transparent, #1d4ed8, #38bdf8, transparent);
-        }
-
-        .exec-kpi-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            color: #94a3b8;
-        }
-
-        .exec-kpi-top i {
-            font-size: 15px;
-            color: var(--ellca-blue);
-        }
-
-        .exec-kpi-val {
-            font-size: 21px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .exec-kpi-sub {
-            font-size: 11px;
-            color: #cbd5e1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .gap-positivo {
-            color: #34d399 !important;
-            font-weight: 800;
-        }
-
-        .gap-negativo {
-            color: #f87171 !important;
-            font-weight: 800;
-        }
-
-        .mini-bar {
-            width: 100%;
-            height: 5px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-        }
-
-        .mini-bar-fill {
-            height: 100%;
-            border-radius: 99px;
-            background: linear-gradient(90deg, #1d4ed8, #0284c7, #00d4ff);
-            transition: width 0.5s ease;
-        }
-
-        /* ================= SEÇÃO DE PILARES EXECUTIVOS ================= */
-        .section-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 4px 4px;
-        }
-
-        .section-bar h2 {
-            margin: 0;
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #f8fafc;
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-
-        .section-bar h2 i {
-            color: var(--ellca-blue);
-        }
-
-        .section-bar span {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        .pilares-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-            gap: 18px;
-        }
-
-        .pilar-card {
-            position: relative;
-            padding: 22px 24px;
-            border-radius: 20px;
-            background: linear-gradient(155deg, rgba(4, 12, 30, 0.94) 0%, rgba(9, 25, 58, 0.86) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(0, 212, 255, 0.22);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 16px;
-            transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
-            overflow: hidden;
-        }
-
-        .pilar-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 212, 255, 0.65);
-            box-shadow: 0 22px 46px rgba(0, 0, 0, 0.85), 0 0 28px rgba(0, 212, 255, 0.18);
-        }
-
-        .pilar-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
-        }
-
-        .pilar-card.destaque-ativo {
-            border-color: rgba(0, 212, 255, 0.52);
-            background: linear-gradient(155deg, rgba(3, 14, 36, 0.96) 0%, rgba(6, 46, 82, 0.82) 100%);
-        }
-
-        .pilar-card-head {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .pilar-icon-wrap {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .pilar-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.22), rgba(29, 78, 216, 0.22));
-            border: 1px solid rgba(0, 212, 255, 0.55);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--ellca-blue);
-            font-size: 20px;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
-        }
-
-        .pilar-tag {
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 1.3px;
-            text-transform: uppercase;
-            color: var(--ellca-blue);
-            margin-bottom: 3px;
-            display: block;
-        }
-
-        .pilar-card-head h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .status-pill {
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .status-pill.live {
-            background: rgba(16, 185, 129, 0.18);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.45);
-        }
-
-        .status-pill.ready {
-            background: rgba(0, 212, 255, 0.16);
-            color: #7dd3fc;
-            border: 1px solid rgba(0, 212, 255, 0.45);
-        }
-
-        .status-pill.soon {
-            background: rgba(29, 78, 216, 0.25);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.45);
-        }
-
-        .pilar-desc {
-            margin: 0;
-            font-size: 12px;
-            line-height: 1.55;
-            color: #cbd5e1;
-        }
-
-        .pilar-metrics {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-            padding: 12px 14px;
-            border-radius: 12px;
-            background: rgba(2, 8, 23, 0.65);
-            border: 1px solid rgba(0, 212, 255, 0.16);
-        }
-
-        .pilar-metric-item {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            min-width: 0;
-        }
-
-        .pilar-metric-item span {
-            font-size: 9.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            color: #94a3b8;
-        }
-
-        .pilar-metric-item strong {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: #f8fafc;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .pilar-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding-top: 6px;
-        }
-
-        .pilar-footer .btn-ellca {
-            width: 100%;
-            padding: 11px 16px;
-            font-size: 11px;
-        }
-
-        /* ================= ACESSO RÁPIDO OPERACIONAL ================= */
-        .quick-bar-card {
-            padding: 18px 22px;
-            border-radius: 18px;
-            background: rgba(4, 12, 30, 0.90);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--ellca-border);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
-
-        .quick-bar-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .quick-bar-info i {
-            font-size: 18px;
-            color: var(--ellca-blue);
-        }
-
-        .quick-bar-info strong {
-            display: block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            color: #ffffff;
-        }
-
-        .quick-bar-info span {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        .quick-bar-links {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .footer-greeting {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: rgba(255, 255, 255, 0.72);
-        }
-
-        .footer-greeting strong {
-            color: #ffffff;
-        }
-
-        @media (max-width: 1024px) {
-            .container .item,
-            .container .item.active {
-                background-attachment: scroll;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .ger-wrapper {
-                padding: 76px 12px 68px 12px;
-                gap: 14px;
-            }
-            body.bars-collapsed .ger-wrapper {
-                padding: 14px 12px 24px 12px;
-            }
-            .ger-header {
-                padding: 14px 16px;
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .ger-actions {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 8px;
-            }
-            .sync-badge {
-                grid-column: 1 / -1;
-                justify-content: center;
-            }
-            .exec-kpi-grid,
-            .pilares-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ellca — Portal Gerencial & Governança Executiva</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @property --border-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes borderGlide {
+      to { --border-angle: 360deg; }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #050811;
+      background-image:
+        radial-gradient(ellipse 72% 52% at 14% 4%, rgba(37, 99, 235, 0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 62% 46% at 88% 10%, rgba(56, 189, 248, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.20) 0%, transparent 65%);
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 16px 24px 28px;
+      overflow-x: hidden;
+    }
+
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
+
+    .dashboard-container {
+      max-width: 1520px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
+    .top-navbar-collapse {
+      max-height: 90px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      transition: max-height 0.32s ease, opacity 0.25s ease, transform 0.28s ease, margin 0.28s ease;
+    }
+
+    body.menu-hidden .top-navbar-collapse {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      margin-bottom: -16px;
+    }
+
+    .top-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 4px 2px;
+    }
+
+    .nav-brand-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.4px;
+      background: transparent;
+    }
+
+    .brand-logo img {
+      height: 38px;
+      width: auto;
+      max-width: 155px;
+      object-fit: contain;
+      display: block;
+      background: transparent;
+    }
+
+    .brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 20px;
+      color: #60a5fa;
+    }
+
+    .module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #38bdf8;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+    }
+
+    .module-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
+
+    .user-avatar-ring {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-size: 11.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .top-nav-link {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .top-nav-link:hover,
+    .top-nav-link.active {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    .btn-back-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.75);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.18);
+    }
+
+    /* ================= HERO BANNER ULTRA-PREMIUM ================= */
+    .hero-banner {
+      position: relative;
+      border-radius: 20px;
+      padding: 22px 26px;
+      background: linear-gradient(135deg, rgba(16, 36, 70, 0.80) 0%, rgba(11, 20, 40, 0.86) 55%, rgba(15, 32, 64, 0.80) 100%);
+      backdrop-filter: blur(22px) saturate(145%);
+      -webkit-backdrop-filter: blur(22px) saturate(145%);
+      border: 1px solid rgba(96, 165, 250, 0.34);
+      box-shadow:
+        0 20px 44px rgba(0, 0, 0, 0.58),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -65px;
+      right: -45px;
+      width: 300px;
+      height: 210px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.20) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-top-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .hero-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.38), rgba(14, 165, 233, 0.18));
+      border: 1px solid rgba(96, 165, 250, 0.48);
+      box-shadow: 0 8px 22px rgba(37, 99, 235, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 3px;
+    }
+
+    .hero-main-title {
+      font-size: 20.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+
+    .hero-logo-transparent {
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+
+    .hero-logo-transparent:hover { transform: scale(1.02); }
+
+    .hero-logo-transparent img {
+      height: 46px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      display: block;
+      background: transparent;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    }
+
+    .hero-logo-fallback {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      font-size: 21px;
+      font-weight: 800;
+      color: #60a5fa;
+    }
+
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 13px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    .live-badge {
+      height: 35px;
+      padding: 0 14px;
+      border-radius: 9px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: #34d399;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .live-badge.warn {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(251, 191, 36, 0.42);
+      color: #fcd34d;
+    }
+
+    .hero-btn {
+      height: 35px;
+      padding: 0 15px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .hero-btn-blue {
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #93c5fd;
+    }
+
+    .hero-btn-blue:hover {
+      background: rgba(37, 99, 235, 0.38);
+      color: #ffffff;
+    }
+
+    .hero-btn-cyan {
+      background: rgba(14, 165, 233, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #bae6fd;
+    }
+
+    .hero-btn-cyan:hover {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-menu-toggle {
+      background: #34d399;
+      border: 1px solid #6ee7b7;
+      color: #042f2e;
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+    }
+
+    .hero-btn-menu-toggle:hover { filter: brightness(1.06); }
+
+    body.menu-hidden .hero-btn-menu-toggle {
+      background: rgba(30, 58, 138, 0.48);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #e0f2fe;
+      box-shadow: none;
+    }
+
+    /* ================= CARDS GLASSMORPHISM + TILT 3D + FEIXE DE LUZ ================= */
+    .card-3d-wrap {
+      perspective: 1400px;
+      height: 100%;
+    }
+
+    .card-surface {
+      --border-glow: #38bdf8;
+      --border-soft: #1d4ed8;
+      position: relative;
+      border-radius: 18px;
+      background: linear-gradient(160deg, rgba(16, 25, 44, 0.76) 0%, rgba(7, 12, 23, 0.86) 100%);
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.60),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 24px rgba(56, 189, 248, 0.04);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .card-surface:hover {
+      border-color: rgba(56, 189, 248, 0.38);
+      box-shadow:
+        0 22px 46px rgba(0, 0, 0, 0.70),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 0 30px rgba(56, 189, 248, 0.10);
+    }
+
+    .card-surface::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 19px;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--border-angle),
+        transparent 0deg,
+        transparent 288deg,
+        var(--border-soft) 318deg,
+        var(--border-glow) 342deg,
+        rgba(147, 197, 253, 0.82) 354deg,
+        transparent 360deg
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderGlide 11s linear infinite;
+      opacity: 0.55;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 3;
+    }
+
+    .card-surface:hover::before { opacity: 0.92; }
+
+    .card-3d-wrap:nth-child(2) .card-surface::before { animation-delay: -2.4s; }
+    .card-3d-wrap:nth-child(3) .card-surface::before { animation-delay: -4.8s; }
+    .card-3d-wrap:nth-child(4) .card-surface::before { animation-delay: -7.2s; }
+
+    /* ACENTOS SUAVES NOS 4 KPIS DO TOPO */
+    .card-surface.kpi-tint-meta {
+      --border-glow: #38bdf8;
+      --border-soft: #0284c7;
+      background: linear-gradient(155deg, rgba(14, 116, 144, 0.25) 0%, rgba(15, 23, 42, 0.82) 52%, rgba(7, 12, 23, 0.90) 100%);
+      border-color: rgba(56, 189, 248, 0.26);
+    }
+
+    .card-surface.kpi-tint-prev {
+      --border-glow: #60a5fa;
+      --border-soft: #2563eb;
+      background: linear-gradient(155deg, rgba(30, 58, 138, 0.28) 0%, rgba(15, 23, 42, 0.82) 52%, rgba(7, 12, 23, 0.90) 100%);
+      border-color: rgba(96, 165, 250, 0.26);
+    }
+
+    .card-surface.kpi-tint-real {
+      --border-glow: #34d399;
+      --border-soft: #059669;
+      background: linear-gradient(155deg, rgba(6, 95, 70, 0.28) 0%, rgba(15, 23, 42, 0.82) 52%, rgba(7, 12, 23, 0.90) 100%);
+      border-color: rgba(52, 211, 153, 0.28);
+    }
+
+    .card-surface.kpi-tint-ader {
+      --border-glow: #818cf8;
+      --border-soft: #4f46e5;
+      background: linear-gradient(155deg, rgba(49, 46, 129, 0.28) 0%, rgba(15, 23, 42, 0.82) 52%, rgba(7, 12, 23, 0.90) 100%);
+      border-color: rgba(129, 140, 248, 0.26);
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 2;
+      padding: 18px 20px;
+      border-radius: 17px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* ================= KPIS SÍNTESE DIRETORIA ================= */
+    .exec-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi-label-top {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kpi-icon-pill {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.34);
+      color: #7dd3fc;
+    }
+
+    .kpi-icon-pill.emerald {
+      background: rgba(52, 211, 153, 0.16);
+      border-color: rgba(52, 211, 153, 0.34);
+      color: #6ee7b7;
+    }
+
+    .kpi-icon-pill.indigo {
+      background: rgba(129, 140, 248, 0.16);
+      border-color: rgba(129, 140, 248, 0.34);
+      color: #a5b4fc;
+    }
+
+    .exec-kpi-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .exec-kpi-sub {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .gap-positivo { color: #34d399 !important; font-weight: 700; }
+    .gap-negativo { color: #f87171 !important; font-weight: 700; }
+
+    .mini-bar {
+      margin-top: 8px;
+      width: 100%;
+      height: 5px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .mini-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #2563eb, #38bdf8, #34d399);
+      transition: width 0.5s ease;
+    }
+
+    /* ================= TÍTULO DA SEÇÃO DE PILARES ================= */
+    .section-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 4px 2px 0;
+    }
+
+    .section-bar h2 {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .section-bar h2 i { color: #38bdf8; }
+    .section-bar span { font-size: 11.5px; color: #94a3b8; }
+
+    /* ================= GRADE DE PILARES EXECUTIVOS ================= */
+    .pilares-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(345px, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .card-surface.pilar-featured {
+      --border-glow: #34d399;
+      --border-soft: #0284c7;
+      background: linear-gradient(155deg, rgba(14, 116, 144, 0.24) 0%, rgba(12, 24, 48, 0.84) 55%, rgba(6, 11, 22, 0.92) 100%);
+      border-color: rgba(56, 189, 248, 0.36);
+    }
+
+    .pilar-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pilar-icon-wrap {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .pilar-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      flex-shrink: 0;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.32), rgba(14, 165, 233, 0.16));
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #38bdf8;
+      font-size: 19px;
+    }
+
+    .pilar-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 3px;
+      display: block;
+    }
+
+    .pilar-card-head h3 {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.1px;
+    }
+
+    .status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-pill.live {
+      background: rgba(16, 185, 129, 0.16);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.38);
+    }
+
+    .status-pill.ready {
+      background: rgba(56, 189, 248, 0.16);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.38);
+    }
+
+    .status-pill.soon {
+      background: rgba(99, 102, 241, 0.18);
+      color: #a5b4fc;
+      border: 1px solid rgba(129, 140, 248, 0.38);
+    }
+
+    .pilar-desc {
+      margin: 13px 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: #cbd5e1;
+    }
+
+    .pilar-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: rgba(5, 9, 20, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pilar-metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .pilar-metric-item span {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+
+    .pilar-metric-item strong {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pilar-footer {
+      margin-top: 14px;
+    }
+
+    .btn-pilar-cta {
+      width: 100%;
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      background: rgba(37, 99, 235, 0.20);
+      color: #e0f2fe;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pilar-cta:hover {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.30);
+    }
+
+    .btn-pilar-cta.primary {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.26);
+    }
+
+    .btn-pilar-cta.primary:hover {
+      filter: brightness(1.08);
+    }
+
+    /* ================= BARRA DE NAVEGAÇÃO RÁPIDA ================= */
+    .quick-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .quick-bar-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quick-bar-info i {
+      font-size: 19px;
+      color: #38bdf8;
+    }
+
+    .quick-bar-info strong {
+      display: block;
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+    }
+
+    .quick-bar-info span {
+      font-size: 11.5px;
+      color: #94a3b8;
+    }
+
+    .quick-bar-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    /* ================= RODAPÉ OFICIAL PADRONIZADO ================= */
+    .ellca-official-footer {
+      margin-top: 4px;
+      padding: 12px 4px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text strong {
+      color: #f8fafc;
+      font-weight: 700;
+    }
+
+    .btn-footer-support {
+      height: 30px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-footer-support:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    @media (max-width: 1120px) {
+      .exec-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      body { padding: 12px 14px 22px; }
+      .exec-kpi-grid,
+      .pilares-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
-<body class="bars-collapsed">
-    <script>
-        (function validarAcessoGerencial() {
-            if (sessionStorage.getItem('ellca_auth') !== 'true') {
-                window.location.replace('login.html');
-                return;
-            }
-            const setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]');
-            if (!setores.includes('todos') && !setores.includes('gerencial')) {
-                alert('Acesso restrito à Diretoria e Coordenação.');
-                window.location.replace('home.html');
-            }
-        })();
-    </script>
+<body>
+  <!-- VALIDAÇÃO DE ACESSO GERENCIAL -->
+  <script>
+    (function validarAcessoGerencial() {
+      if (sessionStorage.getItem('ellca_auth') !== 'true') {
+        window.location.replace('login.html');
+        return;
+      }
+      let setores = [];
+      try {
+        setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]')
+          .map(s => String(s).trim().toLowerCase());
+      } catch (e) {
+        setores = [];
+      }
+      if (!setores.includes('todos') && !setores.includes('gerencial')) {
+        alert('Acesso restrito à Diretoria e Coordenação.');
+        window.location.replace('home.html');
+      }
+    })();
+  </script>
 
-    <div class="desktop-view">
-        <!-- NAVBAR -->
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
-                </a>
-            </div>
+  <div class="dashboard-container">
 
-            <div class="mobile-header-actions">
-                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <button type="button" class="menu-mobile-btn" id="btnMenuMobileGer" aria-label="Abrir Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
+    <!-- 1. BARRA SUPERIOR -->
+    <div class="top-navbar-collapse">
+      <header class="top-navbar">
+        <div class="nav-brand-side">
+          <a href="home.html" class="brand-logo" title="Ellca">
+            <img src="img/logo_ellca.png" alt="Logo Ellca"
+                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+            <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
+          </a>
 
-            <div class="nav-content" id="navContentGer">
-                <div class="nav-status">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text">GOVERNANÇA EXECUTIVA • DIRETORIA ELLCA</span>
-                </div>
+          <span class="module-pill">
+            <span class="dot"></span>
+            GOVERNANÇA EXECUTIVA · DIRETORIA ELLCA
+          </span>
 
-                <div class="nav-links">
-                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
-                    <a href="supervisor.html" class="nav-item">SUPERVISÃO <i class="fa-solid fa-user-shield"></i></a>
-                    <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
-                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
-                    <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
-
-                    <div class="nav-actions-group">
-                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- CONTAINER PRINCIPAL -->
-        <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(2, 8, 23, 0.90), rgba(4, 14, 36, 0.84)), url('img/Card_gerencial.jpg');">
-                <div class="ger-wrapper">
-
-                    <!-- CABEÇALHO -->
-                    <div class="ger-header ellca-beam-card">
-                        <div class="ger-title-group">
-                            <div class="ger-icon-box">
-                                <i class="fa-solid fa-crown"></i>
-                            </div>
-                            <div>
-                                <div class="ger-kicker"><i class="fa-solid fa-bolt"></i> Sala de Comando • Diretoria & Coordenação Ellca</div>
-                                <h1>Portal Gerencial & Pilares Executivos</h1>
-                                <p>Visão consolidada de Governança, Receita, Produtividade Operacional, Frota e Indicadores Estratégicos</p>
-                            </div>
-                        </div>
-
-                        <div class="ger-actions">
-                            <span class="sync-badge" id="syncBadgeGer">
-                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Indicadores...
-                            </span>
-                            <button type="button" class="btn-ellca" id="btnRefreshGer" title="Atualizar indicadores executivos">
-                                <i class="fa-solid fa-rotate"></i> Atualizar
-                            </button>
-                            <button type="button" class="btn-ellca" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
-                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
-                                <span id="textToggleBars">Mostrar Menu</span>
-                            </button>
-                            <a href="home.html" class="btn-ellca primary" title="Voltar para a Home">
-                                <i class="fa-solid fa-house-user"></i> Voltar à Home
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- RESUMO EXECUTIVO EM TEMPO REAL (SINCRONIZADO COM FATURAMENTO) -->
-                    <div class="exec-kpi-grid">
-                        <div class="exec-kpi blue-accent ellca-beam-card">
-                            <div class="exec-kpi-top">
-                                <span>Meta Global Faturamento</span>
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gerKpiMeta" style="color:#38bdf8;">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span>Base consolidada</span>
-                                <span id="gerKpiEquipes">0 equipes</span>
-                            </div>
-                        </div>
-
-                        <div class="exec-kpi ellca-beam-card">
-                            <div class="exec-kpi-top">
-                                <span>Previsto Acumulado</span>
-                                <i class="fa-solid fa-chart-line"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gerKpiPrevisto">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span>Proporcional aos dias</span>
-                                <span id="gerKpiDias">0 dias</span>
-                            </div>
-                        </div>
-
-                        <div class="exec-kpi royal-accent ellca-beam-card">
-                            <div class="exec-kpi-top">
-                                <span>Faturamento Realizado</span>
-                                <i class="fa-solid fa-sack-dollar"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gerKpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span id="gerKpiGapPrev">Gap Prev: R$ 0,00</span>
-                                <span id="gerKpiGapMeta">Gap Meta: R$ 0,00</span>
-                            </div>
-                        </div>
-
-                        <div class="exec-kpi blue-accent ellca-beam-card">
-                            <div class="exec-kpi-top">
-                                <span>Aderência Executiva</span>
-                                <i class="fa-solid fa-gauge-high"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gerKpiPct" style="color:#38bdf8;">0,0%</div>
-                            <div class="exec-kpi-sub">
-                                <span id="gerKpiPctMeta">Sobre Meta: 0,0%</span>
-                                <span>Alvo: 100%</span>
-                            </div>
-                            <div class="mini-bar">
-                                <div class="mini-bar-fill" id="gerKpiBar" style="width: 0%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TÍTULO DA GRADE DE PILARES -->
-                    <div class="section-bar">
-                        <h2><i class="fa-solid fa-layer-group"></i> Pilares Estratégicos de Governança</h2>
-                        <span>Selecione um pilar para abrir o painel analítico detalhado</span>
-                    </div>
-
-                    <!-- CARDS DOS PILARES GERENCIAIS -->
-                    <div class="pilares-grid">
-
-                        <!-- PILAR 1: FATURAMENTO -->
-                        <div class="pilar-card destaque-ativo ellca-beam-card">
-                            <div>
-                                <div class="pilar-card-head">
-                                    <div class="pilar-icon-wrap">
-                                        <div class="pilar-icon">
-                                            <i class="fa-solid fa-sack-dollar"></i>
-                                        </div>
-                                        <div>
-                                            <span class="pilar-tag">Pilar 01 • Receita</span>
-                                            <h3>Faturamento & Recebíveis</h3>
-                                        </div>
-                                    </div>
-                                    <span class="status-pill live"><i class="fa-solid fa-circle"></i> Ao Vivo</span>
-                                </div>
-
-                                <p class="pilar-desc" style="margin-top:14px;">
-                                    Controle executivo de Meta, Previsto Proporcional e Faturamento Realizado por período, supervisor, equipe e dia da semana.
-                                </p>
-                            </div>
-
-                            <div class="pilar-metrics">
-                                <div class="pilar-metric-item">
-                                    <span>Realizado Total</span>
-                                    <strong id="cardFatReal" style="color:#00d4ff;">R$ 0,00</strong>
-                                </div>
-                                <div class="pilar-metric-item">
-                                    <span>Gap Previsto</span>
-                                    <strong id="cardFatGap">R$ 0,00</strong>
-                                </div>
-                            </div>
-
-                            <div class="pilar-footer">
-                                <a href="faturamento.html" class="btn-ellca primary">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Painel de Faturamento
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- PILAR 2: PRODUTIVIDADE & OPERAÇÃO -->
-                        <div class="pilar-card ellca-beam-card">
-                            <div>
-                                <div class="pilar-card-head">
-                                    <div class="pilar-icon-wrap">
-                                        <div class="pilar-icon">
-                                            <i class="fa-solid fa-industry"></i>
-                                        </div>
-                                        <div>
-                                            <span class="pilar-tag">Pilar 02 • Operação</span>
-                                            <h3>Produção & Eficiência</h3>
-                                        </div>
-                                    </div>
-                                    <span class="status-pill ready">Integrado</span>
-                                </div>
-
-                                <p class="pilar-desc" style="margin-top:14px;">
-                                    Acompanhamento de produtividade diária das equipes em campo, cumprimento de programação e indicadores operacionais.
-                                </p>
-                            </div>
-
-                            <div class="pilar-metrics">
-                                <div class="pilar-metric-item">
-                                    <span>Equipes Monitoradas</span>
-                                    <strong id="cardProdEq" style="color:#38bdf8;">0 equipes</strong>
-                                </div>
-                                <div class="pilar-metric-item">
-                                    <span>Aderência Meta</span>
-                                    <strong id="cardProdPct">0,0%</strong>
-                                </div>
-                            </div>
-
-                            <div class="pilar-footer">
-                                <a href="producao.html" class="btn-ellca">
-                                    <i class="fa-solid fa-chart-column"></i> Acessar Painel de Produção
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- PILAR 3: SUPERVISÃO & CAMPO -->
-                        <div class="pilar-card ellca-beam-card">
-                            <div>
-                                <div class="pilar-card-head">
-                                    <div class="pilar-icon-wrap">
-                                        <div class="pilar-icon">
-                                            <i class="fa-solid fa-user-shield"></i>
-                                        </div>
-                                        <div>
-                                            <span class="pilar-tag">Pilar 03 • Liderança</span>
-                                            <h3>Supervisão & Inspeções</h3>
-                                        </div>
-                                    </div>
-                                    <span class="status-pill ready">Integrado</span>
-                                </div>
-
-                                <p class="pilar-desc" style="margin-top:14px;">
-                                    Gestão por supervisor, desempenho de equipes subordinadas, inspeções de campo e conformidade operacional.
-                                </p>
-                            </div>
-
-                            <div class="pilar-metrics">
-                                <div class="pilar-metric-item">
-                                    <span>Supervisores Ativos</span>
-                                    <strong id="cardSupCount" style="color:#38bdf8;">0 líderes</strong>
-                                </div>
-                                <div class="pilar-metric-item">
-                                    <span>Líder Destaque</span>
-                                    <strong id="cardSupTop">-</strong>
-                                </div>
-                            </div>
-
-                            <div class="pilar-footer">
-                                <a href="supervisor.html" class="btn-ellca">
-                                    <i class="fa-solid fa-clipboard-check"></i> Acessar Painel de Supervisão
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- PILAR 4: INDICADORES BI & DASHBOARDS -->
-                        <div class="pilar-card ellca-beam-card">
-                            <div>
-                                <div class="pilar-card-head">
-                                    <div class="pilar-icon-wrap">
-                                        <div class="pilar-icon">
-                                            <i class="fa-solid fa-chart-pie"></i>
-                                        </div>
-                                        <div>
-                                            <span class="pilar-tag">Pilar 04 • Analytics</span>
-                                            <h3>Dashboards Setoriais BI</h3>
-                                        </div>
-                                    </div>
-                                    <span class="status-pill ready">Integrado</span>
-                                </div>
-
-                                <p class="pilar-desc" style="margin-top:14px;">
-                                    Central de inteligência com painéis executivos de SESMT, Frota, Almoxarifado, RH, DP, Programação e Infraestrutura.
-                                </p>
-                            </div>
-
-                            <div class="pilar-metrics">
-                                <div class="pilar-metric-item">
-                                    <span>Setores Conectados</span>
-                                    <strong style="color:#38bdf8;">12 Áreas</strong>
-                                </div>
-                                <div class="pilar-metric-item">
-                                    <span>Motor BI</span>
-                                    <strong>Looker & Web</strong>
-                                </div>
-                            </div>
-
-                            <div class="pilar-footer">
-                                <a href="dashboard.html" class="btn-ellca">
-                                    <i class="fa-solid fa-chart-line"></i> Abrir Central de Dashboards
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- PILAR 5: FROTA & LOGÍSTICA -->
-                        <div class="pilar-card ellca-beam-card">
-                            <div>
-                                <div class="pilar-card-head">
-                                    <div class="pilar-icon-wrap">
-                                        <div class="pilar-icon">
-                                            <i class="fa-solid fa-truck-fast"></i>
-                                        </div>
-                                        <div>
-                                            <span class="pilar-tag">Pilar 05 • Ativos</span>
-                                            <h3>Frota & Disponibilidade</h3>
-                                        </div>
-                                    </div>
-                                    <span class="status-pill soon">Consolidado</span>
-                                </div>
-
-                                <p class="pilar-desc" style="margin-top:14px;">
-                                    Monitoramento de disponibilidade mecânica, custo por quilômetro, abastecimento e alocação de viaturas por modalidade.
-                                </p>
-                            </div>
-
-                            <div class="pilar-metrics">
-                                <div class="pilar-metric-item">
-                                    <span>Modalidades Ativas</span>
-                                    <strong id="cardTiposCount" style="color:#38bdf8;">0 tipos</strong>
-                                </div>
-                                <div class="pilar-metric-item">
-                                    <span>Status Operacional</span>
-                                    <strong style="color:#34d399;">Monitorado</strong>
-                                </div>
-                            </div>
-
-                            <div class="pilar-footer">
-                                <a href="dashboard.html" class="btn-ellca">
-                                    <i class="fa-solid fa-truck-pickup"></i> Consultar Indicadores de Frota
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- PILAR 6: SESMT & SEGURANÇA -->
-                        <div class="pilar-card ellca-beam-card">
-                            <div>
-                                <div class="pilar-card-head">
-                                    <div class="pilar-icon-wrap">
-                                        <div class="pilar-icon">
-                                            <i class="fa-solid fa-helmet-safety"></i>
-                                        </div>
-                                        <div>
-                                            <span class="pilar-tag">Pilar 06 • Governança</span>
-                                            <h3>SESMT & Compliance</h3>
-                                        </div>
-                                    </div>
-                                    <span class="status-pill soon">Consolidado</span>
-                                </div>
-
-                                <p class="pilar-desc" style="margin-top:14px;">
-                                    Acompanhamento de segurança do trabalho, auditorias de campo, controle de EPIs e conformidade normativa das operações.
-                                </p>
-                            </div>
-
-                            <div class="pilar-metrics">
-                                <div class="pilar-metric-item">
-                                    <span>Governança</span>
-                                    <strong style="color:#38bdf8;">100% Rastreável</strong>
-                                </div>
-                                <div class="pilar-metric-item">
-                                    <span>Padrão Operacional</span>
-                                    <strong style="color:#34d399;">Ativo</strong>
-                                </div>
-                            </div>
-
-                            <div class="pilar-footer">
-                                <a href="dashboard.html" class="btn-ellca">
-                                    <i class="fa-solid fa-shield-halved"></i> Consultar Indicadores SESMT
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- BARRA DE NAVEGAÇÃO RÁPIDA -->
-                    <div class="quick-bar-card ellca-beam-card">
-                        <div class="quick-bar-info">
-                            <i class="fa-solid fa-compass"></i>
-                            <div>
-                                <strong>Acesso Rápido aos Módulos do Portal</strong>
-                                <span>Navegue diretamente entre os ambientes operacionais e executivos da ELLCA</span>
-                            </div>
-                        </div>
-
-                        <div class="quick-bar-links">
-                            <a href="faturamento.html" class="btn-ellca primary"><i class="fa-solid fa-sack-dollar"></i> Faturamento</a>
-                            <a href="producao.html" class="btn-ellca"><i class="fa-solid fa-industry"></i> Produção</a>
-                            <a href="supervisor.html" class="btn-ellca"><i class="fa-solid fa-user-shield"></i> Supervisão</a>
-                            <a href="dashboard.html" class="btn-ellca"><i class="fa-solid fa-chart-pie"></i> Dashboards</a>
-                            <a href="home.html" class="btn-ellca"><i class="fa-solid fa-house-user"></i> Home</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- RODAPÉ -->
-            <footer class="footer-bar">
-                <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
-                    <span class="separator">•</span>
-                    <span>Módulo: <strong>Portal Gerencial & Governança Executiva</strong></span>
-                </div>
-                <div class="footer-actions">
-                    <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                        <i class="fa-solid fa-headset"></i> Suporte
-                    </button>
-                    <span class="separator">•</span>
-                    <span class="footer-greeting"><i class="fa-solid fa-user-check"></i> Olá, <strong id="footerUserName">Rodrigo Lopes</strong></span>
-                </div>
-            </footer>
+          <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
+
+        <nav class="nav-links-side" aria-label="Menu do Portal">
+          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house"></i> HOME</a>
+          <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
+          <a href="producao.html" class="top-nav-link"><i class="fa-solid fa-industry"></i> PRODUÇÃO</a>
+          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARDS</a>
+          <a href="gerencial.html" class="top-nav-link active"><i class="fa-solid fa-crown"></i> GERENCIAL</a>
+          <a href="home.html" class="btn-back-circle" title="Voltar para Home"><i class="fa-solid fa-arrow-left"></i></a>
+        </nav>
+      </header>
     </div>
 
-    <script>
-        (function iniciarPortalGerencial() {
-            const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
-            const ABA_NOME = 'Faturamento';
+    <!-- 2. BANNER HERO ULTRA-PREMIUM COM LOGO TRANSPARENTE -->
+    <section class="hero-banner">
+      <div class="hero-top-split">
+        <div class="hero-title-row">
+          <div class="hero-icon-box">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <div class="hero-kicker"><i class="fa-solid fa-bolt"></i> Sala de Comando · Diretoria & Coordenação Ellca</div>
+            <h1 class="hero-main-title">PORTAL GERENCIAL & PILARES EXECUTIVOS</h1>
+            <p class="hero-subtitle">Visão consolidada de Governança, Receita, Estrutura Operacional, Produtividade e Indicadores Estratégicos</p>
+          </div>
+        </div>
 
-            const footerUserName = document.getElementById('footerUserName');
-            const nomeSessao =
-                sessionStorage.getItem('ellca_user_name') ||
-                localStorage.getItem('ellca_user_name') ||
-                'Rodrigo Lopes';
-            if (footerUserName) footerUserName.textContent = nomeSessao;
+        <a href="home.html" class="hero-logo-transparent" title="Ellca">
+          <img src="img/logo_ellca.png" alt="Logo Ellca"
+               onerror="this.style.display='none'; document.getElementById('heroLogoFallback').style.display='inline-flex';" />
+          <span id="heroLogoFallback" class="hero-logo-fallback">🌀Ellca</span>
+        </a>
+      </div>
 
-            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      <div class="hero-actions-row">
+        <span class="live-badge tabular" id="syncBadgeGer">
+          <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Indicadores...
+        </span>
 
-            const parseNum = (v) => {
-                if (typeof v === 'number') return isFinite(v) ? v : 0;
-                if (!v) return 0;
-                let s = String(v).replace(/R\$/g, '').replace(/\s/g, '').trim();
-                if (s.includes(',') && s.includes('.')) {
-                    s = s.replace(/\./g, '').replace(',', '.');
-                } else if (s.includes(',')) {
-                    s = s.replace(',', '.');
-                }
-                const n = parseFloat(s.replace(/[^\d.-]/g, ''));
-                return isFinite(n) ? n : 0;
+        <button type="button" class="hero-btn hero-btn-blue" id="btnRefreshGer" title="Atualizar indicadores executivos">
+          <i class="fa-solid fa-rotate"></i> ATUALIZAR
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">OCULTAR MENU</span>
+        </button>
+
+        <a href="home.html" class="hero-btn hero-btn-cyan" style="margin-left:auto;">
+          <i class="fa-solid fa-house-user"></i> VOLTAR À HOME
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. RESUMO EXECUTIVO EM TEMPO REAL (4 KPIS COM ACENTOS SUAVES) -->
+    <div class="exec-kpi-grid tabular">
+      <div class="card-3d-wrap">
+        <div class="card-surface kpi-tint-meta">
+          <div class="card-body">
+            <div class="kpi-label-top">
+              <span>Meta Global Faturamento</span>
+              <span class="kpi-icon-pill"><i class="fa-solid fa-bullseye"></i></span>
+            </div>
+            <div class="exec-kpi-val" id="gerKpiMeta" style="color:#38bdf8;">R$ 0,00</div>
+            <div class="exec-kpi-sub">
+              <span>Base consolidada</span>
+              <span id="gerKpiEquipes">0 equipes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-3d-wrap">
+        <div class="card-surface kpi-tint-prev">
+          <div class="card-body">
+            <div class="kpi-label-top">
+              <span>Previsto Acumulado</span>
+              <span class="kpi-icon-pill"><i class="fa-solid fa-chart-line"></i></span>
+            </div>
+            <div class="exec-kpi-val" id="gerKpiPrevisto">R$ 0,00</div>
+            <div class="exec-kpi-sub">
+              <span>Proporcional aos dias</span>
+              <span id="gerKpiDias">0 dias</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-3d-wrap">
+        <div class="card-surface kpi-tint-real">
+          <div class="card-body">
+            <div class="kpi-label-top">
+              <span>Faturamento Realizado</span>
+              <span class="kpi-icon-pill emerald"><i class="fa-solid fa-sack-dollar"></i></span>
+            </div>
+            <div class="exec-kpi-val" id="gerKpiRealizado" style="color:#34d399;">R$ 0,00</div>
+            <div class="exec-kpi-sub">
+              <span id="gerKpiGapPrev">Gap Prev: R$ 0,00</span>
+              <span id="gerKpiGapMeta">Gap Meta: R$ 0,00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-3d-wrap">
+        <div class="card-surface kpi-tint-ader">
+          <div class="card-body">
+            <div class="kpi-label-top">
+              <span>Aderência Executiva</span>
+              <span class="kpi-icon-pill indigo"><i class="fa-solid fa-gauge-high"></i></span>
+            </div>
+            <div class="exec-kpi-val" id="gerKpiPct" style="color:#a5b4fc;">0,0%</div>
+            <div class="exec-kpi-sub">
+              <span id="gerKpiPctMeta">Sobre Meta: 0,0%</span>
+              <span>Alvo: 100%</span>
+            </div>
+            <div class="mini-bar">
+              <div class="mini-bar-fill" id="gerKpiBar" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. TÍTULO DA GRADE DE PILARES -->
+    <div class="section-bar">
+      <h2><i class="fa-solid fa-layer-group"></i> Pilares Estratégicos de Governança</h2>
+      <span>Selecione um pilar para abrir o painel analítico detalhado</span>
+    </div>
+
+    <!-- 5. CARDS DOS PILARES GERENCIAIS (INCLUINDO ESTRUTURA) -->
+    <div class="pilares-grid tabular">
+
+      <!-- PILAR 01: FATURAMENTO -->
+      <div class="card-3d-wrap">
+        <div class="card-surface pilar-featured">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 01 • Receita</span>
+                    <h3>Faturamento & Recebíveis</h3>
+                  </div>
+                </div>
+                <span class="status-pill live"><i class="fa-solid fa-circle" style="font-size:7px;"></i> Ao Vivo</span>
+              </div>
+
+              <p class="pilar-desc">
+                Controle executivo de Meta, Previsto Proporcional e Faturamento Realizado por período, supervisor, equipe e dia da semana.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Realizado Total</span>
+                  <strong id="cardFatReal" style="color:#38bdf8;">R$ 0,00</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Gap Previsto</span>
+                  <strong id="cardFatGap">R$ 0,00</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="faturamento.html" class="btn-pilar-cta primary">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Painel de Faturamento
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILAR 02: ESTRUTURA & CAPACIDADE (NOVO CARD INTEGRADO) -->
+      <div class="card-3d-wrap">
+        <div class="card-surface pilar-featured">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-sitemap"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 02 • Estrutura</span>
+                    <h3>Estrutura & Capacidade</h3>
+                  </div>
+                </div>
+                <span class="status-pill live"><i class="fa-solid fa-circle" style="font-size:7px;"></i> Ao Vivo</span>
+              </div>
+
+              <p class="pilar-desc">
+                Dimensionamento operacional por processo, disponibilidade de equipes em campo, frota alocada, oficina, férias e mobilizações.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Equipes Ativas</span>
+                  <strong id="cardEstAtivas" style="color:#34d399;">0 / 0 eq.</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Disponibilidade</span>
+                  <strong id="cardEstDisp" style="color:#38bdf8;">0,0%</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="estrutura.html" class="btn-pilar-cta primary">
+                  <i class="fa-solid fa-sitemap"></i> Acessar Painel de Estrutura
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILAR 03: PRODUTIVIDADE & OPERAÇÃO -->
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-industry"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 03 • Operação</span>
+                    <h3>Produção & Eficiência</h3>
+                  </div>
+                </div>
+                <span class="status-pill ready">Integrado</span>
+              </div>
+
+              <p class="pilar-desc">
+                Acompanhamento de produtividade diária das equipes em campo, cumprimento de programação e indicadores operacionais.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Equipes Monitoradas</span>
+                  <strong id="cardProdEq" style="color:#38bdf8;">0 equipes</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Aderência Meta</span>
+                  <strong id="cardProdPct">0,0%</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="producao.html" class="btn-pilar-cta">
+                  <i class="fa-solid fa-chart-column"></i> Acessar Painel de Produção
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILAR 04: SUPERVISÃO & CAMPO -->
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-user-shield"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 04 • Liderança</span>
+                    <h3>Supervisão & Inspeções</h3>
+                  </div>
+                </div>
+                <span class="status-pill ready">Integrado</span>
+              </div>
+
+              <p class="pilar-desc">
+                Gestão por supervisor, desempenho de equipes subordinadas, inspeções de campo e conformidade operacional.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Supervisores Ativos</span>
+                  <strong id="cardSupCount" style="color:#38bdf8;">0 líderes</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Líder Destaque</span>
+                  <strong id="cardSupTop">-</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="supervisor.html" class="btn-pilar-cta">
+                  <i class="fa-solid fa-clipboard-check"></i> Acessar Painel de Supervisão
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILAR 05: INDICADORES BI & DASHBOARDS -->
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 05 • Analytics</span>
+                    <h3>Dashboards Setoriais BI</h3>
+                  </div>
+                </div>
+                <span class="status-pill ready">Integrado</span>
+              </div>
+
+              <p class="pilar-desc">
+                Central de inteligência com painéis executivos de SESMT, Frota, Almoxarifado, RH, DP, Programação e Infraestrutura.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Setores Conectados</span>
+                  <strong style="color:#38bdf8;">12 Áreas</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Motor BI</span>
+                  <strong>Looker & Web</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="dashboard.html" class="btn-pilar-cta">
+                  <i class="fa-solid fa-chart-line"></i> Abrir Central de Dashboards
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILAR 06: FROTA & LOGÍSTICA -->
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-truck-fast"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 06 • Ativos</span>
+                    <h3>Frota & Disponibilidade</h3>
+                  </div>
+                </div>
+                <span class="status-pill soon">Consolidado</span>
+              </div>
+
+              <p class="pilar-desc">
+                Monitoramento de disponibilidade mecânica, custo por quilômetro, abastecimento e alocação de viaturas por modalidade.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Modalidades Ativas</span>
+                  <strong id="cardTiposCount" style="color:#38bdf8;">0 tipos</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Status Operacional</span>
+                  <strong style="color:#34d399;">Monitorado</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="dashboard.html" class="btn-pilar-cta">
+                  <i class="fa-solid fa-truck-pickup"></i> Consultar Indicadores de Frota
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILAR 07: SESMT & SEGURANÇA -->
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div>
+              <div class="pilar-card-head">
+                <div class="pilar-icon-wrap">
+                  <div class="pilar-icon">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                  </div>
+                  <div>
+                    <span class="pilar-tag">Pilar 07 • Governança</span>
+                    <h3>SESMT & Compliance</h3>
+                  </div>
+                </div>
+                <span class="status-pill soon">Consolidado</span>
+              </div>
+
+              <p class="pilar-desc">
+                Acompanhamento de segurança do trabalho, auditorias de campo, controle de EPIs e conformidade normativa das operações.
+              </p>
+            </div>
+
+            <div>
+              <div class="pilar-metrics">
+                <div class="pilar-metric-item">
+                  <span>Governança</span>
+                  <strong style="color:#38bdf8;">100% Rastreável</strong>
+                </div>
+                <div class="pilar-metric-item">
+                  <span>Padrão Operacional</span>
+                  <strong style="color:#34d399;">Ativo</strong>
+                </div>
+              </div>
+
+              <div class="pilar-footer">
+                <a href="dashboard.html" class="btn-pilar-cta">
+                  <i class="fa-solid fa-shield-halved"></i> Consultar Indicadores SESMT
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 6. BARRA DE NAVEGAÇÃO RÁPIDA -->
+    <div class="card-3d-wrap">
+      <div class="card-surface">
+        <div class="card-body">
+          <div class="quick-bar-inner">
+            <div class="quick-bar-info">
+              <i class="fa-solid fa-compass"></i>
+              <div>
+                <strong>Acesso Rápido aos Módulos do Portal</strong>
+                <span>Navegue diretamente entre os ambientes operacionais e executivos da ELLCA</span>
+              </div>
+            </div>
+
+            <div class="quick-bar-links">
+              <a href="faturamento.html" class="hero-btn hero-btn-cyan"><i class="fa-solid fa-sack-dollar"></i> Faturamento</a>
+              <a href="estrutura.html" class="hero-btn hero-btn-cyan"><i class="fa-solid fa-sitemap"></i> Estrutura</a>
+              <a href="producao.html" class="hero-btn hero-btn-blue"><i class="fa-solid fa-industry"></i> Produção</a>
+              <a href="supervisor.html" class="hero-btn hero-btn-blue"><i class="fa-solid fa-user-shield"></i> Supervisão</a>
+              <a href="dashboard.html" class="hero-btn hero-btn-blue"><i class="fa-solid fa-chart-pie"></i> Dashboards</a>
+              <a href="home.html" class="hero-btn hero-btn-blue"><i class="fa-solid fa-house-user"></i> Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. RODAPÉ OFICIAL PADRONIZADO -->
+    <footer class="ellca-official-footer">
+      <span class="footer-system-text">
+        <i class="fa-solid fa-shield-halved" style="color:#64748b;"></i>
+        Sistema ELLCA <strong>v2.5.0</strong> · Módulo: <strong>Portal Gerencial & Governança Executiva</strong> · Olá, <strong id="footerUserName">Rodrigo Lopes</strong>
+      </span>
+      <a href="#suporte" id="btnSuporteFooter" class="btn-footer-support">
+        <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
+      </a>
+    </footer>
+
+  </div>
+
+  <script>
+    (function iniciarPortalGerencial() {
+      const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
+      const ABA_NOME = 'Faturamento';
+      const ESTRUTURA_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHybDzDjWlikLTZuehRMGzKYiWjPzydHXJ0yLprFA0t17WZCt40tkqhm78XMmuFyk/exec';
+
+      // Identificação do usuário na sessão
+      const nomeSessao =
+        sessionStorage.getItem('ellca_user_name') ||
+        localStorage.getItem('ellca_user_name') ||
+        'Rodrigo Lopes';
+      const footerUserName = document.getElementById('footerUserName');
+      if (footerUserName) footerUserName.textContent = nomeSessao;
+
+      const iniciais = nomeSessao.trim().split(/\s+/).slice(0, 2).map(p => p[0]).join('').toUpperCase() || 'RL';
+      const avatarEl = document.getElementById('userAvatarInitials');
+      if (avatarEl) {
+        avatarEl.textContent = iniciais;
+        avatarEl.title = nomeSessao;
+      }
+
+      // Efeito Tilt 3D nos cards
+      document.querySelectorAll('.card-3d-wrap').forEach(wrap => {
+        const surface = wrap.querySelector('.card-surface');
+        if (!surface) return;
+        wrap.addEventListener('mousemove', (e) => {
+          const rect = wrap.getBoundingClientRect();
+          const nx = (e.clientX - rect.left) / rect.width - 0.5;
+          const ny = (e.clientY - rect.top) / rect.height - 0.5;
+          surface.style.setProperty('--ry', `${(nx * 2.2).toFixed(2)}deg`);
+          surface.style.setProperty('--rx', `${(-ny * 2.2).toFixed(2)}deg`);
+        });
+        wrap.addEventListener('mouseleave', () => {
+          surface.style.setProperty('--ry', '0deg');
+          surface.style.setProperty('--rx', '0deg');
+        });
+      });
+
+      const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      const parseNum = (v) => {
+        if (typeof v === 'number') return isFinite(v) ? v : 0;
+        if (!v) return 0;
+        let s = String(v).replace(/R\$/g, '').replace(/\s/g, '').trim();
+        if (s.includes(',') && s.includes('.')) {
+          s = s.replace(/\./g, '').replace(',', '.');
+        } else if (s.includes(',')) {
+          s = s.replace(',', '.');
+        }
+        const n = parseFloat(s.replace(/[^\d.-]/g, ''));
+        return isFinite(n) ? n : 0;
+      };
+
+      function normalizarTexto(s) {
+        return String(s || '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .trim();
+      }
+
+      function parseDataCell(cell) {
+        if (!cell) return '';
+        const rawV = String(cell.v ?? '');
+        const rawF = String(cell.f ?? '');
+        const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
+        if (mDate) {
+          const y = mDate[1];
+          const mo = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
+          const d = String(parseInt(mDate[3], 10)).padStart(2, '0');
+          return `${y}-${mo}-${d}`;
+        }
+        const str = (rawF || rawV).trim();
+        let m = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+        if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+        m = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+        if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+        return str;
+      }
+
+      function mapearColunas(cols, rows) {
+        const headers = cols.map((c, idx) => ({
+          idx,
+          label: normalizarTexto(c && (c.label || c.id || ''))
+        }));
+
+        const temLabels = headers.some(h => h.label.length > 1 && !/^[a-z]$/.test(h.label));
+        let startRow = 0;
+
+        if (!temLabels && rows.length > 0 && rows[0].c) {
+          rows[0].c.forEach((cell, idx) => {
+            headers[idx] = {
+              idx,
+              label: normalizarTexto(cell && (cell.f || cell.v || ''))
             };
+          });
+          startRow = 1;
+        }
 
-            function normalizarTexto(s) {
-                return String(s || '')
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .toLowerCase()
-                    .trim();
+        const findCol = (keywords, fallbackIdx) => {
+          for (const kw of keywords) {
+            const found = headers.find(h => h.label === kw || h.label.includes(kw));
+            if (found) return found.idx;
+          }
+          return fallbackIdx;
+        };
+
+        return {
+          startRow,
+          colData: findCol(['data', 'dt'], 0),
+          colPeriodo: findCol(['periodo', 'mes', 'competencia', 'referencia'], 1),
+          colEquipe: findCol(['equipe', 'prefixo', 'viatura'], 2),
+          colTipo: findCol(['tipo', 'modalidade', 'categoria'], 3),
+          colSupervisor: findCol(['supervisor', 'lider', 'encarregado', 'coordenador'], 4),
+          colMeta: findCol(['meta', 'orcado', 'target'], 5),
+          colPrevisto: findCol(['previsto', 'programado', 'projecao'], 6),
+          colRealizado: findCol(['realizado', 'faturado', 'executado', 'producao', 'valor'], 7)
+        };
+      }
+
+      function aplicarCorGap(el, valorGap, prefixo) {
+        el.textContent = prefixo ? `${prefixo}: ${fmtBRL(valorGap)}` : fmtBRL(valorGap);
+        el.classList.remove('gap-positivo', 'gap-negativo');
+        el.classList.add(valorGap >= 0 ? 'gap-positivo' : 'gap-negativo');
+      }
+
+      async function carregarResumoEstrutura() {
+        try {
+          const resp = await fetch(ESTRUTURA_APPS_SCRIPT_URL, { cache: 'no-store' });
+          const json = await resp.json();
+          if (!json || !Array.isArray(json.rows)) return;
+
+          const chaveDataIso = (dtStr) => {
+            const m = String(dtStr || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+            return m ? `${m[3]}-${m[2]}-${m[1]}` : String(dtStr || '');
+          };
+
+          let ultimaDataValida = '';
+          const lista = json.rows.slice(1).map(row => {
+            let dt = String(row[0] || '').trim();
+            if (dt) ultimaDataValida = dt;
+            else dt = ultimaDataValida;
+            const eq = String(row[3] || '').trim().toUpperCase();
+            const ativo = parseNum(row[7]);
+            return { dt, eq, ativo };
+          }).filter(x => x.eq && x.eq !== 'EQUIPE');
+
+          const datasUnicas = [...new Set(lista.map(r => r.dt).filter(Boolean))]
+            .sort((a, b) => chaveDataIso(a).localeCompare(chaveDataIso(b)));
+          const dataRecente = datasUnicas[datasUnicas.length - 1] || '';
+          const baseAtual = dataRecente ? lista.filter(r => r.dt === dataRecente) : lista;
+
+          const totalEq = baseAtual.length;
+          const ativasEq = baseAtual.reduce((s, r) => s + r.ativo, 0);
+          const dispPct = totalEq > 0 ? (ativasEq / totalEq) * 100 : 0;
+
+          document.getElementById('cardEstAtivas').textContent = `${ativasEq} / ${totalEq} eq.`;
+          document.getElementById('cardEstDisp').textContent = `${dispPct.toFixed(1).replace('.', ',')}%`;
+        } catch (err) {
+          console.warn('Falha ao sincronizar resumo de Estrutura:', err);
+        }
+      }
+
+      function carregarResumoGerencial() {
+        const badge = document.getElementById('syncBadgeGer');
+        badge.className = 'live-badge tabular';
+        badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
+
+        carregarResumoEstrutura();
+
+        const cbName = 'cbGer_' + Math.random().toString(36).slice(2, 9);
+        const script = document.createElement('script');
+        const timer = setTimeout(() => {
+          delete window[cbName];
+          if (script.parentNode) script.parentNode.removeChild(script);
+          badge.className = 'live-badge warn tabular';
+          badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido';
+        }, 9000);
+
+        window[cbName] = function (json) {
+          clearTimeout(timer);
+          delete window[cbName];
+          if (script.parentNode) script.parentNode.removeChild(script);
+
+          if (!json || json.status === 'error' || !json.table) {
+            badge.className = 'live-badge warn tabular';
+            badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita';
+            return;
+          }
+
+          const cols = json.table.cols || [];
+          const rawRows = json.table.rows || [];
+          const mapa = mapearColunas(cols, rawRows);
+
+          let totPrev = 0;
+          let totReal = 0;
+          const metaUnicaMap = new Map();
+          const equipesSet = new Set();
+          const diasSet = new Set();
+          const tiposSet = new Set();
+          const supMap = {};
+
+          for (let i = mapa.startRow; i < rawRows.length; i++) {
+            const c = rawRows[i].c || [];
+            const getStr = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
+              ? String(c[idx].f || c[idx].v).trim()
+              : '';
+            const getVal = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
+              ? parseNum(c[idx].v)
+              : 0;
+
+            const dataIso = parseDataCell(c[mapa.colData]);
+            const equipe = getStr(mapa.colEquipe).toUpperCase();
+            const periodo = getStr(mapa.colPeriodo).toUpperCase() || (dataIso ? dataIso.slice(0, 7) : 'GERAL');
+            const meta = getVal(mapa.colMeta);
+            const previsto = getVal(mapa.colPrevisto);
+            const realizado = getVal(mapa.colRealizado);
+
+            if (!dataIso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
+            if (normalizarTexto(equipe) === 'equipe' || normalizarTexto(equipe) === 'total') continue;
+
+            let tipo = getStr(mapa.colTipo).toUpperCase();
+            if (!tipo && equipe) {
+              const mTipo = equipe.match(/\b(LV|MK|LD|LM|LE|MT|AT)\b/);
+              tipo = mTipo ? mTipo[1] : 'PADRÃO';
             }
+            const sup = getStr(mapa.colSupervisor).toUpperCase() || 'NÃO INFORMADO';
 
-            function parseDataCell(cell) {
-                if (!cell) return '';
-                const rawV = String(cell.v ?? '');
-                const rawF = String(cell.f ?? '');
-                const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
-                if (mDate) {
-                    const y = mDate[1];
-                    const mo = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
-                    const d = String(parseInt(mDate[3], 10)).padStart(2, '0');
-                    return `${y}-${mo}-${d}`;
-                }
-                const str = (rawF || rawV).trim();
-                let m = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
-                if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
-                m = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-                if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
-                return str;
-            }
+            totPrev += previsto;
+            totReal += realizado;
 
-            function mapearColunas(cols, rows) {
-                const headers = cols.map((c, idx) => ({
-                    idx,
-                    label: normalizarTexto(c && (c.label || c.id || ''))
-                }));
+            if (equipe) equipesSet.add(equipe);
+            if (dataIso) diasSet.add(dataIso);
+            if (tipo) tiposSet.add(tipo);
 
-                const temLabels = headers.some(h => h.label.length > 1 && !/^[a-z]$/.test(h.label));
-                let startRow = 0;
+            const chaveMeta = `${periodo}||${equipe}`;
+            const atualMeta = metaUnicaMap.get(chaveMeta) || 0;
+            if (meta > atualMeta) metaUnicaMap.set(chaveMeta, meta);
 
-                if (!temLabels && rows.length > 0 && rows[0].c) {
-                    rows[0].c.forEach((cell, idx) => {
-                        headers[idx] = {
-                            idx,
-                            label: normalizarTexto(cell && (cell.f || cell.v || ''))
-                        };
-                    });
-                    startRow = 1;
-                }
+            supMap[sup] = (supMap[sup] || 0) + realizado;
+          }
 
-                const findCol = (keywords, fallbackIdx) => {
-                    for (const kw of keywords) {
-                        const found = headers.find(h => h.label === kw || h.label.includes(kw));
-                        if (found) return found.idx;
-                    }
-                    return fallbackIdx;
-                };
+          const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
+          const gapPrev = totReal - totPrev;
+          const gapMeta = totReal - totMeta;
+          const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
+          const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
 
-                return {
-                    startRow,
-                    colData: findCol(['data', 'dt'], 0),
-                    colPeriodo: findCol(['periodo', 'mes', 'competencia', 'referencia'], 1),
-                    colEquipe: findCol(['equipe', 'prefixo', 'viatura'], 2),
-                    colTipo: findCol(['tipo', 'modalidade', 'categoria'], 3),
-                    colSupervisor: findCol(['supervisor', 'lider', 'encarregado', 'coordenador'], 4),
-                    colMeta: findCol(['meta', 'orcado', 'target'], 5),
-                    colPrevisto: findCol(['previsto', 'programado', 'projecao'], 6),
-                    colRealizado: findCol(['realizado', 'faturado', 'executado', 'producao', 'valor'], 7)
-                };
-            }
+          document.getElementById('gerKpiMeta').textContent = fmtBRL(totMeta);
+          document.getElementById('gerKpiEquipes').textContent = `${equipesSet.size} equipes`;
 
-            function aplicarCorGap(el, valorGap, prefixo) {
-                el.textContent = prefixo ? `${prefixo}: ${fmtBRL(valorGap)}` : fmtBRL(valorGap);
-                el.classList.remove('gap-positivo', 'gap-negativo');
-                el.classList.add(valorGap >= 0 ? 'gap-positivo' : 'gap-negativo');
-            }
+          document.getElementById('gerKpiPrevisto').textContent = fmtBRL(totPrev);
+          document.getElementById('gerKpiDias').textContent = `${diasSet.size} dias`;
 
-            function carregarResumoGerencial() {
-                const badge = document.getElementById('syncBadgeGer');
-                badge.className = 'sync-badge';
-                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
+          document.getElementById('gerKpiRealizado').textContent = fmtBRL(totReal);
+          aplicarCorGap(document.getElementById('gerKpiGapPrev'), gapPrev, 'Gap Prev');
+          aplicarCorGap(document.getElementById('gerKpiGapMeta'), gapMeta, 'Gap Meta');
 
-                const cbName = 'cbGer_' + Math.random().toString(36).slice(2, 9);
-                const script = document.createElement('script');
-                const timer = setTimeout(() => {
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-                    badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido';
-                }, 9000);
+          document.getElementById('gerKpiPct').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
+          document.getElementById('gerKpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
+          document.getElementById('gerKpiBar').style.width = `${Math.min(100, pctPrev)}%`;
 
-                window[cbName] = function (json) {
-                    clearTimeout(timer);
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
+          // Mini-métricas nos cards dos pilares
+          document.getElementById('cardFatReal').textContent = fmtBRL(totReal);
+          aplicarCorGap(document.getElementById('cardFatGap'), gapPrev, '');
 
-                    if (!json || json.status === 'error' || !json.table) {
-                        badge.className = 'sync-badge warn';
-                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita';
-                        return;
-                    }
+          document.getElementById('cardProdEq').textContent = `${equipesSet.size} equipes`;
+          document.getElementById('cardProdPct').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
 
-                    const cols = json.table.cols || [];
-                    const rawRows = json.table.rows || [];
-                    const mapa = mapearColunas(cols, rawRows);
+          const supOrdenados = Object.entries(supMap).sort((a, b) => b[1] - a[1]);
+          document.getElementById('cardSupCount').textContent = `${supOrdenados.length} líderes`;
+          document.getElementById('cardSupTop').textContent = supOrdenados.length > 0 ? supOrdenados[0][0] : '-';
 
-                    let totPrev = 0;
-                    let totReal = 0;
-                    const metaUnicaMap = new Map();
-                    const equipesSet = new Set();
-                    const diasSet = new Set();
-                    const tiposSet = new Set();
-                    const supMap = {};
+          document.getElementById('cardTiposCount').textContent = `${tiposSet.size} tipos`;
 
-                    for (let i = mapa.startRow; i < rawRows.length; i++) {
-                        const c = rawRows[i].c || [];
-                        const getStr = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
-                            ? String(c[idx].f || c[idx].v).trim()
-                            : '';
-                        const getVal = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
-                            ? parseNum(c[idx].v)
-                            : 0;
+          const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          badge.className = 'live-badge tabular';
+          badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo · ${hora}`;
+        };
 
-                        const dataIso = parseDataCell(c[mapa.colData]);
-                        const equipe = getStr(mapa.colEquipe).toUpperCase();
-                        const periodo = getStr(mapa.colPeriodo).toUpperCase() || (dataIso ? dataIso.slice(0, 7) : 'GERAL');
-                        const meta = getVal(mapa.colMeta);
-                        const previsto = getVal(mapa.colPrevisto);
-                        const realizado = getVal(mapa.colRealizado);
+        script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
+        script.onerror = () => {
+          clearTimeout(timer);
+          badge.className = 'live-badge warn tabular';
+          badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão';
+        };
+        document.body.appendChild(script);
+      }
 
-                        if (!dataIso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
-                        if (normalizarTexto(equipe) === 'equipe' || normalizarTexto(equipe) === 'total') continue;
+      document.getElementById('btnRefreshGer')?.addEventListener('click', carregarResumoGerencial);
 
-                        let tipo = getStr(mapa.colTipo).toUpperCase();
-                        if (!tipo && equipe) {
-                            const mTipo = equipe.match(/\b(LV|MK|LD|LM|LE|MT|AT)\b/);
-                            tipo = mTipo ? mTipo[1] : 'PADRÃO';
-                        }
-                        const sup = getStr(mapa.colSupervisor).toUpperCase() || 'NÃO INFORMADO';
+      document.getElementById('btnSuporteFooter')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Suporte TI / BI Ellca — Rodrigo.lopes@ellca2.com.br');
+      });
 
-                        totPrev += previsto;
-                        totReal += realizado;
+      const btnToggleMenu = document.getElementById('btnToggleMenu');
+      const iconToggleMenu = document.getElementById('iconToggleMenu');
+      const txtToggleMenu = document.getElementById('txtToggleMenu');
 
-                        if (equipe) equipesSet.add(equipe);
-                        if (dataIso) diasSet.add(dataIso);
-                        if (tipo) tiposSet.add(tipo);
+      btnToggleMenu?.addEventListener('click', () => {
+        const oculto = document.body.classList.toggle('menu-hidden');
+        if (oculto) {
+          iconToggleMenu.className = 'fa-solid fa-bars';
+          txtToggleMenu.textContent = 'MOSTRAR MENU';
+        } else {
+          iconToggleMenu.className = 'fa-solid fa-eye-slash';
+          txtToggleMenu.textContent = 'OCULTAR MENU';
+        }
+      });
 
-                        const chaveMeta = `${periodo}||${equipe}`;
-                        const atualMeta = metaUnicaMap.get(chaveMeta) || 0;
-                        if (meta > atualMeta) metaUnicaMap.set(chaveMeta, meta);
-
-                        supMap[sup] = (supMap[sup] || 0) + realizado;
-                    }
-
-                    const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
-                    const gapPrev = totReal - totPrev;
-                    const gapMeta = totReal - totMeta;
-                    const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
-                    const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
-
-                    document.getElementById('gerKpiMeta').textContent = fmtBRL(totMeta);
-                    document.getElementById('gerKpiEquipes').textContent = `${equipesSet.size} equipes`;
-
-                    document.getElementById('gerKpiPrevisto').textContent = fmtBRL(totPrev);
-                    document.getElementById('gerKpiDias').textContent = `${diasSet.size} dias`;
-
-                    document.getElementById('gerKpiRealizado').textContent = fmtBRL(totReal);
-                    aplicarCorGap(document.getElementById('gerKpiGapPrev'), gapPrev, 'Gap Prev');
-                    aplicarCorGap(document.getElementById('gerKpiGapMeta'), gapMeta, 'Gap Meta');
-
-                    document.getElementById('gerKpiPct').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
-                    document.getElementById('gerKpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
-                    document.getElementById('gerKpiBar').style.width = `${Math.min(100, pctPrev)}%`;
-
-                    // Preencher mini-métricas nos cards dos pilares
-                    document.getElementById('cardFatReal').textContent = fmtBRL(totReal);
-                    aplicarCorGap(document.getElementById('cardFatGap'), gapPrev, '');
-
-                    document.getElementById('cardProdEq').textContent = `${equipesSet.size} equipes`;
-                    document.getElementById('cardProdPct').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
-
-                    const supOrdenados = Object.entries(supMap).sort((a, b) => b[1] - a[1]);
-                    document.getElementById('cardSupCount').textContent = `${supOrdenados.length} líderes`;
-                    document.getElementById('cardSupTop').textContent = supOrdenados.length > 0 ? supOrdenados[0][0] : '-';
-
-                    document.getElementById('cardTiposCount').textContent = `${tiposSet.size} tipos`;
-
-                    const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    badge.className = 'sync-badge';
-                    badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Governança Ativa • ${hora}`;
-                };
-
-                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
-                script.onerror = () => {
-                    clearTimeout(timer);
-                    badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão';
-                };
-                document.body.appendChild(script);
-            }
-
-            document.getElementById('btnRefreshGer')?.addEventListener('click', carregarResumoGerencial);
-
-            const btnMenuMobile = document.getElementById('btnMenuMobileGer');
-            const navContent = document.getElementById('navContentGer');
-            btnMenuMobile?.addEventListener('click', () => navContent?.classList.toggle('ativo'));
-
-            document.querySelectorAll('.btn-voltar').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    window.location.href = btn.getAttribute('data-destino') || 'home.html';
-                });
-            });
-
-            const btnToggleBars = document.getElementById('btnToggleBars');
-            const iconToggleBars = document.getElementById('iconToggleBars');
-            const textToggleBars = document.getElementById('textToggleBars');
-            let collapsed = true;
-
-            btnToggleBars?.addEventListener('click', () => {
-                collapsed = !collapsed;
-                document.body.classList.toggle('bars-collapsed', collapsed);
-                btnToggleBars.classList.toggle('active-mode', !collapsed);
-                iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
-                textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
-            });
-
-            carregarResumoGerencial();
-        })();
-    </script>
-    <script src="script.js"></script>
+      carregarResumoGerencial();
+    })();
+  </script>
 </body>
+
 </html>
