@@ -517,15 +517,18 @@
 
     /* ================= PAINEL DE FILTROS COM VIDRO ================= */
     .filters-collapse {
-      max-height: 240px;
+      max-height: 460px;
       opacity: 1;
-      overflow: hidden;
+      overflow: visible;
       transition: max-height 0.34s ease, opacity 0.26s ease, margin 0.28s ease;
+      position: relative;
+      z-index: 40;
     }
 
     body.menu-hidden .filters-collapse {
       max-height: 0;
       opacity: 0;
+      overflow: hidden;
       pointer-events: none;
       margin-bottom: -15px;
     }
@@ -560,6 +563,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      position: relative;
     }
 
     .filter-field label {
@@ -595,6 +599,120 @@
     .filter-control:focus { border-color: #3b82f6; }
     .filter-control option { background: #0c111b; color: #f8fafc; }
 
+    /* SELETOR MÚLTIPLO DE DATAS (PERÍODOS) */
+    .multi-date-trigger {
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(6, 10, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 11px;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .multi-date-trigger:hover,
+    .multi-date-trigger.open {
+      border-color: #38bdf8;
+      background: rgba(11, 18, 34, 0.92);
+    }
+
+    .multi-date-trigger span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .multi-date-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 235px;
+      width: 100%;
+      max-height: 265px;
+      border-radius: 12px;
+      background: rgba(9, 15, 28, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.72);
+      padding: 8px;
+      z-index: 120;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .multi-date-dropdown.open { display: flex; }
+
+    .multi-date-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .multi-date-mini-btn {
+      flex: 1;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      background: rgba(56, 189, 248, 0.12);
+      color: #7dd3fc;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .multi-date-mini-btn:hover {
+      background: rgba(56, 189, 248, 0.25);
+      color: #ffffff;
+    }
+
+    .multi-date-list {
+      overflow-y: auto;
+      max-height: 195px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .multi-date-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #e2e8f0;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+
+    .multi-date-option:hover {
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .multi-date-option input[type="checkbox"] {
+      accent-color: #38bdf8;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+    }
+
     .btn-clear-filters {
       height: 36px;
       padding: 0 18px;
@@ -618,8 +736,16 @@
       color: #ffffff;
     }
 
-    .dias-badge-right {
+    /* BADGES DE DIAS ÚTEIS E DIAS TRABALHADOS LADO A LADO */
+    .dias-badges-group {
       margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dias-badge-item {
       height: 36px;
       padding: 0 14px;
       border-radius: 9px;
@@ -631,6 +757,12 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
+    }
+
+    .dias-badge-item.worked {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(52, 211, 153, 0.34);
+      color: #6ee7b7;
     }
 
     /* ================= CARDS COM EFEITO VIDRO PREMIUM ================= */
@@ -663,6 +795,56 @@
         0 20px 42px rgba(0, 0, 0, 0.65),
         inset 0 1px 0 rgba(255, 255, 255, 0.18),
         inset 0 0 28px rgba(56, 189, 248, 0.09);
+    }
+
+    /* ACENTOS BEM SUAVES PARA OS 3 CARDS DE KPI */
+    .card-surface.kpi-tint-meta {
+      --border-glow: #818cf8;
+      --border-soft: #4f46e5;
+      background: linear-gradient(155deg, rgba(49, 46, 129, 0.26) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(129, 140, 248, 0.24);
+    }
+
+    .card-surface.kpi-tint-previsto {
+      --border-glow: #38bdf8;
+      --border-soft: #0284c7;
+      background: linear-gradient(155deg, rgba(14, 116, 144, 0.24) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(56, 189, 248, 0.24);
+    }
+
+    .card-surface.kpi-tint-realizado {
+      --border-glow: #34d399;
+      --border-soft: #059669;
+      background: linear-gradient(155deg, rgba(6, 95, 70, 0.26) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(52, 211, 153, 0.26);
+    }
+
+    .kpi-icon-pill {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+    }
+
+    .kpi-icon-pill.meta {
+      background: rgba(129, 140, 248, 0.16);
+      border: 1px solid rgba(129, 140, 248, 0.32);
+      color: #a5b4fc;
+    }
+
+    .kpi-icon-pill.prev {
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      color: #7dd3fc;
+    }
+
+    .kpi-icon-pill.real {
+      background: rgba(52, 211, 153, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.32);
+      color: #6ee7b7;
     }
 
     .card-surface::before {
@@ -740,7 +922,7 @@
     .kpi-label-top {
       font-size: 12px;
       font-weight: 600;
-      color: #94a3b8;
+      color: #cbd5e1;
       margin-bottom: 8px;
       display: flex;
       align-items: center;
@@ -1321,7 +1503,7 @@
       </div>
     </section>
 
-    <!-- 3. PAINEL DE FILTROS -->
+    <!-- 3. PAINEL DE FILTROS COM MULTI-PERÍODO E CARD DE DIAS TRABALHADOS -->
     <div class="filters-collapse">
       <div class="filters-panel">
         <div class="filters-grid-top">
@@ -1337,10 +1519,23 @@
             <label><i class="fa-regular fa-calendar-check"></i> MÊS</label>
             <select id="filtroMes" class="filter-control"></select>
           </div>
-          <div class="filter-field">
-            <label><i class="fa-solid fa-calendar-day"></i> DATA</label>
-            <select id="filtroData" class="filter-control"><option value="TODOS">Todas as Datas</option></select>
+
+          <!-- SELETOR DE MÚLTIPLAS DATAS (PERÍODOS) -->
+          <div class="filter-field" id="multiDateWrapper">
+            <label><i class="fa-solid fa-calendar-day"></i> DATA / PERÍODOS</label>
+            <button type="button" class="multi-date-trigger" id="multiDateTrigger">
+              <span id="multiDateLabel">Todas as Datas</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-date-dropdown" id="multiDateDropdown">
+              <div class="multi-date-actions">
+                <button type="button" class="multi-date-mini-btn" id="btnMarcarTodasDatas">Todas</button>
+                <button type="button" class="multi-date-mini-btn" id="btnLimparDatas">Desmarcar</button>
+              </div>
+              <div class="multi-date-list" id="multiDateList"></div>
+            </div>
           </div>
+
           <div class="filter-field">
             <label><i class="fa-solid fa-user-tie"></i> SUPERVISOR</label>
             <select id="filtroSupervisor" class="filter-control"><option value="TODOS">Todos os Supervisores</option></select>
@@ -1361,8 +1556,13 @@
             <i class="fa-solid fa-filter-circle-xmark"></i> LIMPAR FILTROS
           </button>
 
-          <div class="dias-badge-right tabular" id="badgeDiasUteis">
-            <i class="fa-solid fa-business-time"></i> 22 Dias Úteis
+          <div class="dias-badges-group tabular">
+            <div class="dias-badge-item" id="badgeDiasUteis">
+              <i class="fa-solid fa-business-time"></i> 22 Dias Úteis
+            </div>
+            <div class="dias-badge-item worked" id="badgeDiasTrabalhados">
+              <i class="fa-solid fa-calendar-check"></i> 0 Dias Trabalhados
+            </div>
           </div>
         </div>
       </div>
@@ -1372,12 +1572,13 @@
     <div class="main-grid">
       <div class="left-column">
         <div class="top-kpis-grid tabular">
+          <!-- CARD META MENSAL COM ACENTO SUAVE ÍNDIGO -->
           <div class="card-3d-wrap">
-            <div class="card-surface">
+            <div class="card-surface kpi-tint-meta">
               <div class="card-body">
                 <div class="kpi-label-top">
                   <span>Meta Mensal</span>
-                  <i class="fa-solid fa-bullseye" style="color:#38bdf8;"></i>
+                  <span class="kpi-icon-pill meta"><i class="fa-solid fa-bullseye"></i></span>
                 </div>
                 <div class="kpi-val-main" id="kpiMetaMensal">R$ 0,00</div>
                 <div class="kpi-footer-meta">
@@ -1388,12 +1589,13 @@
             </div>
           </div>
 
+          <!-- CARD PREVISTO NO PERÍODO COM ACENTO SUAVE AZUL-CIANO -->
           <div class="card-3d-wrap">
-            <div class="card-surface">
+            <div class="card-surface kpi-tint-previsto">
               <div class="card-body">
                 <div class="kpi-label-top">
                   <span>Previsto no Período</span>
-                  <i class="fa-solid fa-calendar-check" style="color:#38bdf8;"></i>
+                  <span class="kpi-icon-pill prev"><i class="fa-solid fa-calendar-check"></i></span>
                 </div>
                 <div class="kpi-val-main" id="kpiPrevisto">R$ 0,00</div>
                 <div class="kpi-footer-meta">
@@ -1404,12 +1606,13 @@
             </div>
           </div>
 
+          <!-- CARD FATURAMENTO REALIZADO COM ACENTO SUAVE ESMERALDA -->
           <div class="card-3d-wrap">
-            <div class="card-surface">
+            <div class="card-surface kpi-tint-realizado">
               <div class="card-body">
                 <div class="kpi-label-top">
                   <span>Faturamento Realizado</span>
-                  <i class="fa-solid fa-coins" style="color:#34d399;"></i>
+                  <span class="kpi-icon-pill real"><i class="fa-solid fa-coins"></i></span>
                 </div>
                 <div class="kpi-val-main" id="kpiRealizado">R$ 0,00</div>
                 <div class="kpi-footer-meta">
@@ -1721,6 +1924,10 @@
   let charts = {};
   let ultimoEstado = null;
 
+  // Controle de múltipla seleção de datas (vazio = todas as datas do mês/processo)
+  let datasDisponiveisNoMes = [];
+  let datasSelecionadas = new Set();
+
   // Controle individual de rótulos por gráfico
   const rotulosAtivos = {
     principal: true,
@@ -1731,7 +1938,6 @@
 
   Chart.register(ChartDataLabels);
 
-  // Plugin sutil de brilho neon para linhas e barras
   const neonGlowPlugin = {
     id: "neonGlowPlugin",
     beforeDatasetDraw(chart, args) {
@@ -1960,6 +2166,67 @@
     }
   }
 
+  // =========================================================================
+  // CONTROLE DO SELETOR DE MÚLTIPLAS DATAS
+  // =========================================================================
+  function configurarDropdownMultiData() {
+    const trigger = document.getElementById("multiDateTrigger");
+    const dropdown = document.getElementById("multiDateDropdown");
+    const wrapper = document.getElementById("multiDateWrapper");
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const aberto = dropdown.classList.toggle("open");
+      trigger.classList.toggle("open", aberto);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!wrapper.contains(e.target)) {
+        dropdown.classList.remove("open");
+        trigger.classList.remove("open");
+      }
+    });
+
+    document.getElementById("btnMarcarTodasDatas").addEventListener("click", () => {
+      datasSelecionadas = new Set(datasDisponiveisNoMes);
+      sincronizarCheckboxesDatas();
+      atualizarDashboard();
+    });
+
+    document.getElementById("btnLimparDatas").addEventListener("click", () => {
+      datasSelecionadas.clear();
+      sincronizarCheckboxesDatas();
+      atualizarDashboard();
+    });
+  }
+
+  function sincronizarCheckboxesDatas() {
+    const listEl = document.getElementById("multiDateList");
+    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = datasSelecionadas.has(cb.value);
+    });
+    atualizarTextoTriggerDatas();
+  }
+
+  function atualizarTextoTriggerDatas() {
+    const labelEl = document.getElementById("multiDateLabel");
+    const total = datasDisponiveisNoMes.length;
+    const qtdSel = datasSelecionadas.size;
+
+    if (qtdSel === 0 || qtdSel === total) {
+      labelEl.textContent = `Todas (${total}d)`;
+    } else if (qtdSel === 1) {
+      const unica = [...datasSelecionadas][0];
+      const [y, m, d] = unica.split("-");
+      labelEl.textContent = `${d}/${m}/${y}`;
+    } else {
+      const ordenadas = [...datasSelecionadas].sort();
+      const primeira = ordenadas[0].split("-").slice(1).reverse().join("/");
+      const ultima = ordenadas[ordenadas.length - 1].split("-").slice(1).reverse().join("/");
+      labelEl.textContent = `${qtdSel} dias (${primeira}..${ultima})`;
+    }
+  }
+
   function popularFiltros() {
     const processos = [...new Set(rawFaturamento.map(r => r.processo))].sort();
     const anos = [...new Set(rawFaturamento.map(r => r.ano))].sort((a, b) => b - a);
@@ -1981,12 +2248,12 @@
     selTipo.innerHTML = `<option value="TODOS">Todos os Tipos</option>` +
       tipos.map(t => `<option value="${t}">${t}</option>`).join("");
 
+    configurarDropdownMultiData();
     atualizarOpcoesMes();
 
     selProc.addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
     selAno.addEventListener("change", () => { atualizarOpcoesMes(); atualizarDashboard(); });
     document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
-    document.getElementById("filtroData").addEventListener("change", atualizarDashboard);
     selSup.addEventListener("change", atualizarDashboard);
     selTipo.addEventListener("change", atualizarDashboard);
     document.getElementById("buscaRapida").addEventListener("input", atualizarDashboard);
@@ -2015,25 +2282,42 @@
     const mesSel = Number(document.getElementById("filtroMes").value);
     const procSel = document.getElementById("filtroProcesso").value;
 
-    const datas = [...new Set(
+    datasDisponiveisNoMes = [...new Set(
       rawFaturamento
         .filter(r => r.ano === anoSel && r.mes === mesSel && (procSel === "TODOS" || r.processo === procSel))
         .map(r => r.data)
     )].sort();
 
-    const selData = document.getElementById("filtroData");
-    selData.innerHTML = `<option value="TODOS">Todas (${datas.length}d)</option>` +
-      datas.map(d => {
-        const [y, m, day] = d.split("-");
-        return `<option value="${d}">${day}/${m}/${y}</option>`;
-      }).join("");
+    // Por padrão, todas as datas do período ficam ativas
+    datasSelecionadas = new Set(datasDisponiveisNoMes);
+
+    const listEl = document.getElementById("multiDateList");
+    listEl.innerHTML = datasDisponiveisNoMes.map(d => {
+      const [y, m, day] = d.split("-");
+      return `
+        <label class="multi-date-option">
+          <input type="checkbox" value="${d}" checked />
+          <span>${day}/${m}/${y}</span>
+        </label>
+      `;
+    }).join("");
+
+    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener("change", () => {
+        if (cb.checked) datasSelecionadas.add(cb.value);
+        else datasSelecionadas.delete(cb.value);
+        atualizarTextoTriggerDatas();
+        atualizarDashboard();
+      });
+    });
+
+    atualizarTextoTriggerDatas();
   }
 
   function atualizarDashboard() {
     const anoSel = Number(document.getElementById("filtroAno").value);
     const mesSel = Number(document.getElementById("filtroMes").value);
     const procSel = document.getElementById("filtroProcesso").value;
-    const dataSel = document.getElementById("filtroData").value;
     const supSel = document.getElementById("filtroSupervisor").value;
     const tipoSel = document.getElementById("filtroTipoEquipe").value;
     const termoBusca = document.getElementById("buscaRapida").value.trim().toLowerCase();
@@ -2047,9 +2331,10 @@
       (!termoBusca || `${r.equipe} ${r.supervisor} ${r.processo} ${r.veiculo} ${r.tipo}`.toLowerCase().includes(termoBusca))
     );
 
-    const dadosFiltrados = dataSel === "TODOS"
-      ? baseMesProcesso
-      : baseMesProcesso.filter(r => r.data === dataSel);
+    const filtrarPorDatas = datasSelecionadas.size > 0 && datasSelecionadas.size < datasDisponiveisNoMes.length;
+    const dadosFiltrados = filtrarPorDatas
+      ? baseMesProcesso.filter(r => datasSelecionadas.has(r.data))
+      : baseMesProcesso;
 
     const diasUteis = DIAS_UTEIS_MES[mesSel] || 22;
     const datasUnicas = [...new Set(dadosFiltrados.map(r => r.data))].sort();
@@ -2087,7 +2372,10 @@
     const pctPrevisto = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
     const pctMetaMensal = totalMetaMensal > 0 ? (totalRealizado / totalMetaMensal) * 100 : 0;
 
+    // Atualiza os dois cardzinhos de dias no painel de filtros
     document.getElementById("badgeDiasUteis").innerHTML = `<i class="fa-solid fa-business-time"></i> ${diasUteis} Dias Úteis`;
+    document.getElementById("badgeDiasTrabalhados").innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${diasTrabalhados} ${diasTrabalhados === 1 ? "Dia Trabalhado" : "Dias Trabalhados"}`;
+
     document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
     document.getElementById("subEquipes").textContent = `${qtdEquipes} equipes`;
     document.getElementById("subDiasBase").textContent = `Base ${diasUteis}d`;
@@ -2106,7 +2394,6 @@
     document.getElementById("pctMetaMensalTxt").textContent = `${pctMetaMensal.toFixed(0)}% meta`;
     document.getElementById("statusRitmoTxt").textContent = totalDelta <= 0 ? "Acima do ritmo previsto" : "Abaixo do ritmo previsto";
 
-    // Atualiza o velocímetro ampliado (comprimento do arco = 314)
     const arcoLen = 314;
     const fracMeta = Math.min(Math.max(pctMetaMensal / 100, 0), 1);
     document.getElementById("gaugeArcPath").style.strokeDashoffset = (arcoLen * (1 - fracMeta)).toFixed(1);
@@ -2147,7 +2434,6 @@
 
   const corEixo = "#94a3b8";
 
-  // AZUL NEON DO REALIZADO
   function criarDegradeNeonVertical(ctx) {
     const { chart } = ctx;
     const { ctx: c, chartArea } = chart;
@@ -2181,7 +2467,6 @@
     return g;
   }
 
-  // COR MAIS ESCURA DO PREVISTO (PRETO + AZUL ESCURO SUAVE)
   function criarDegradePrevistoVertical(ctx) {
     const { chart } = ctx;
     const { ctx: c, chartArea } = chart;
@@ -2329,7 +2614,6 @@
     });
   }
 
-  // ANÉIS MAIS GROSSOS (cutout: "46%")
   function renderizarAneisTipos(dados) {
     const porTipo = {};
     dados.forEach(r => {
