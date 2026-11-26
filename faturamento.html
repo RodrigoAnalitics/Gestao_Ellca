@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌀Ellca — Faturamento &amp; Metas | Command Center</title>
+  <title>🌀Ellca — Dashboard Faturamento</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -17,7 +17,7 @@
       inherits: false;
     }
 
-    @keyframes borderSpin {
+    @keyframes borderGlide {
       to {
         --border-angle: 360deg;
       }
@@ -27,18 +27,18 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
-      background-color: #04060b;
+      background-color: #080510;
       background-image:
-        radial-gradient(ellipse 65% 45% at 15% 8%, rgba(37, 99, 235, 0.22) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 40% at 85% 12%, rgba(196, 181, 253, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 50% at 50% 95%, rgba(56, 189, 248, 0.12) 0%, transparent 65%);
+        radial-gradient(ellipse 60% 45% at 18% 8%, rgba(124, 58, 237, 0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 45% at 88% 18%, rgba(168, 85, 247, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 95%, rgba(79, 70, 229, 0.14) 0%, transparent 65%);
       color: #f8fafc;
       min-height: 100vh;
-      padding: 16px 20px 32px;
+      padding: 20px 24px 36px;
       overflow-x: hidden;
     }
 
@@ -46,52 +46,245 @@
       font-variant-numeric: tabular-nums;
     }
 
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: #04060b; }
-    ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.35); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.7); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #080510; }
+    ::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.35); border-radius: 999px; }
 
-    .portal-shell {
-      max-width: 1540px;
+    .dashboard-container {
+      max-width: 1480px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
 
-    /* ================= EFEITO 3D + LINHA PERCORRENDO A BORDA ================= */
-    .hud-3d-shell {
-      perspective: 1200px;
-      transform-style: preserve-3d;
+    /* ================= TOPBAR (SEM MENU LATERAL) ================= */
+    .top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
     }
 
-    .hud-border-runner {
-      --line-color: #38bdf8;
-      --line-secondary: #818cf8;
-      position: relative;
-      border-radius: 20px;
-      background: #080c14;
+    .header-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-orb {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #8b5cf6, #c084fc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.45);
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .nav-pills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: rgba(20, 14, 36, 0.85);
+      padding: 5px;
+      border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.72);
-      transform-style: preserve-3d;
-      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0px);
-      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
     }
 
-    .hud-border-runner::before {
+    .nav-pill {
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      color: #a1a1aa;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-pill:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-pill.active {
+      background: #ffffff;
+      color: #090612;
+      font-weight: 700;
+      box-shadow: 0 2px 12px rgba(255, 255, 255, 0.22);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(21, 15, 38, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 999px;
+      padding: 7px 14px;
+      min-width: 210px;
+    }
+
+    .search-box i {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      color: #f8fafc;
+      font-size: 12px;
+      outline: none;
+      width: 100%;
+    }
+
+    .icon-action-btn {
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(21, 15, 38, 0.9);
+      color: #e5e7eb;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .icon-action-btn:hover {
+      border-color: rgba(192, 132, 252, 0.55);
+      background: rgba(139, 92, 246, 0.18);
+      color: #ffffff;
+    }
+
+    #syncStatus {
+      display: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: #d8b4fe;
+      background: rgba(139, 92, 246, 0.18);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    /* ================= BARRA DE FILTROS COMPACTA ================= */
+    .filters-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(18, 13, 33, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      padding: 6px 13px;
+      font-size: 11.5px;
+    }
+
+    .filter-pill span {
+      color: #9ca3af;
+      font-weight: 600;
+    }
+
+    .filter-pill select {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .filter-pill select option {
+      background: #120d21;
+      color: #ffffff;
+    }
+
+    .dias-badge {
+      margin-left: auto;
+      background: rgba(139, 92, 246, 0.16);
+      border: 1px solid rgba(192, 132, 252, 0.32);
+      color: #e9d5ff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* ================= CARD 3D SUAVE + LINHA NA BORDA ================= */
+    .card-3d-wrap {
+      perspective: 1400px;
+    }
+
+    .card-surface {
+      --border-glow: #a855f7;
+      --border-soft: #6366f1;
+      position: relative;
+      border-radius: 22px;
+      background: #110c21;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease;
+    }
+
+    .card-surface::before {
       content: "";
       position: absolute;
-      inset: -1.5px;
-      border-radius: 21px;
-      padding: 1.5px;
+      inset: -1px;
+      border-radius: 23px;
+      padding: 1px;
       background: conic-gradient(
         from var(--border-angle),
         transparent 0deg,
-        transparent 260deg,
-        var(--line-secondary) 295deg,
-        var(--line-color) 325deg,
-        #ffffff 342deg,
-        var(--line-color) 356deg,
+        transparent 285deg,
+        var(--border-soft) 315deg,
+        var(--border-glow) 340deg,
+        rgba(255, 255, 255, 0.75) 352deg,
         transparent 360deg
       );
       -webkit-mask:
@@ -99,783 +292,515 @@
         linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      animation: borderSpin 6.5s linear infinite;
-      opacity: 0.72;
+      animation: borderGlide 11s linear infinite;
+      opacity: 0.52;
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
 
-    .hud-border-runner:hover {
-      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(56, 189, 248, 0.14);
+    .card-surface:hover::before {
+      opacity: 0.85;
     }
 
-    .hud-border-runner:hover::before {
-      opacity: 1;
-      animation-duration: 4s;
+    .card-surface.violet-spotlight {
+      background:
+        radial-gradient(circle at 82% 18%, rgba(168, 85, 247, 0.42) 0%, rgba(109, 40, 217, 0.22) 38%, rgba(17, 12, 33, 0.96) 78%);
     }
 
-    .hud-border-runner.gold {
-      --line-color: #f59e0b;
-      --line-secondary: #fde047;
-    }
-
-    .hud-border-runner.emerald {
-      --line-color: #10b981;
-      --line-secondary: #38bdf8;
-    }
-
-    .hud-border-runner.lilac {
-      --line-color: #c4b5fd;
-      --line-secondary: #60a5fa;
-    }
-
-    .hud-inner {
+    .card-body {
       position: relative;
       z-index: 2;
-      border-radius: 19px;
-      background: radial-gradient(circle at 12% 0%, rgba(56, 189, 248, 0.08), transparent 48%),
-                  linear-gradient(180deg, rgba(13, 18, 29, 0.96) 0%, rgba(7, 10, 18, 0.98) 100%);
       padding: 18px 20px;
+      border-radius: 21px;
       height: 100%;
     }
 
-    /* ================= TOPBAR & NAVEGAÇÃO ENTRE PÁGINAS ================= */
-    .fit-topbar {
+    /* ================= LAYOUT PRINCIPAL (ESQUERDA + DIREITA) ================= */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.72fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 3 KPIS DO TOPO (IGUAL À FOTO) */
+    .top-kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .kpi-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 500;
+      color: #d1d5db;
+      margin-bottom: 12px;
+    }
+
+    .kpi-card-head i {
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    .kpi-big-value {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      color: #ffffff;
+    }
+
+    .kpi-sub-row {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .badge-pos {
+      background: rgba(16, 185, 129, 0.16);
+      color: #34d399;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    .badge-neg {
+      background: rgba(244, 63, 94, 0.16);
+      color: #fb7185;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    /* GRÁFICO PRINCIPAL DE LINHA SUAVE */
+    .chart-card-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      padding: 12px 18px;
-      border-radius: 22px;
-      background: #080c14;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.75);
+      margin-bottom: 10px;
     }
 
-    .fit-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: #ffffff;
-    }
-
-    .fit-brand-mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #c4b5fd, #38bdf8);
-      color: #05070d;
-      font-weight: 900;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 18px rgba(196, 181, 253, 0.35);
-    }
-
-    .fit-brand h1 {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-    }
-
-    .fit-brand span {
-      display: block;
-      font-size: 10px;
-      color: #94a3b8;
-      font-weight: 500;
-    }
-
-    .fit-nav-pills {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: #0d121d;
-      padding: 5px;
+    .seg-toggle {
+      display: inline-flex;
+      background: rgba(9, 6, 18, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      max-width: 680px;
-      overflow-x: auto;
-      scrollbar-width: none;
+      padding: 3px;
+      gap: 2px;
     }
 
-    .fit-nav-pills::-webkit-scrollbar { display: none; }
-
-    .fit-pill-link {
+    .seg-btn {
       border: none;
       background: transparent;
-      color: #94a3b8;
+      color: #9ca3af;
       font-size: 11px;
-      font-weight: 700;
-      padding: 6px 13px;
+      font-weight: 600;
+      padding: 5px 12px;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      white-space: nowrap;
+      transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .fit-pill-link:hover {
+    .seg-btn.active {
+      background: rgba(255, 255, 255, 0.14);
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
+      font-weight: 700;
     }
 
-    .fit-pill-link.active {
-      background: #ffffff;
-      color: #060911;
-      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.22);
+    /* CARDS INFERIORES (TOP EQUIPES / SUPERVISORES) */
+    .bottom-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
     }
 
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+    .mini-rank-card {
+      background: rgba(24, 17, 46, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      padding: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    .btn-pill-action {
-      padding: 8px 13px;
+    .mini-rank-card:hover {
+      background: rgba(36, 25, 68, 0.9);
+      border-color: rgba(192, 132, 252, 0.4);
+    }
+
+    /* PAINEL DIREITO: RESUMO + IA + POSIÇÕES */
+    .ai-insight-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(9, 6, 18, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #e9d5ff;
+    }
+
+    .ai-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 9px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: #121826;
-      color: #e2e8f0;
-      font-size: 10.5px;
+      border: none;
+      background: #ffffff;
+      color: #090612;
+      font-size: 11.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.22s ease;
-      text-decoration: none;
-    }
-
-    .btn-pill-action:hover {
-      border-color: #38bdf8;
-      color: #ffffff;
-      background: rgba(56, 189, 248, 0.16);
-    }
-
-    .btn-pill-action.active {
-      background: #ffffff;
-      color: #05070d;
-      border-color: #ffffff;
-    }
-
-    #loadingBadge {
-      display: none;
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #6ee7b7;
-      background: rgba(16, 185, 129, 0.14);
-      border: 1px solid rgba(16, 185, 129, 0.38);
-      padding: 7px 12px;
-      border-radius: 999px;
-    }
-
-    /* ================= TÍTULO & FILTROS ================= */
-    .hero-strip {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .hero-title {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.4px;
-    }
-
-    .hero-title span {
-      font-weight: 400;
-      color: #94a3b8;
-    }
-
-    .filter-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-      gap: 10px;
-    }
-
-    .filter-field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .filter-field label {
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.7px;
-      text-transform: uppercase;
-      color: #94a3b8;
-    }
-
-    .filter-field select {
-      width: 100%;
-      padding: 8px 11px;
-      border-radius: 12px;
-      background: #070a12;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #f8fafc;
-      font-size: 11.5px;
-      font-weight: 600;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .filter-field select:focus {
-      border-color: #c4b5fd;
-    }
-
-    .dias-uteis-chip {
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .dias-uteis-pill {
-      width: 100%;
-      height: 33px;
-      border-radius: 12px;
-      background: rgba(196, 181, 253, 0.14);
-      border: 1px solid rgba(196, 181, 253, 0.35);
-      color: #ede9fe;
-      font-size: 11px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
+      transition: opacity 0.2s ease;
     }
 
-    .view-pane { display: none; flex-direction: column; gap: 16px; }
-    .view-pane.active { display: flex; }
-
-    /* ================= GRID SUPERIOR (SÉRIE TEMPORAL + CALENDÁRIO) ================= */
-    .fit-hero-grid {
-      display: grid;
-      grid-template-columns: 1.55fr 1fr;
-      gap: 16px;
+    .ai-btn:hover {
+      opacity: 0.92;
     }
 
-    .fit-kpis-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .mini-kpi-box {
-      background: #060910;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 11px 12px;
-    }
-
-    .mini-kpi-box small {
-      display: block;
-      font-size: 9.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #94a3b8;
-      margin-bottom: 4px;
-    }
-
-    .mini-kpi-box strong {
-      font-size: 16px;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .mini-kpi-box span {
-      display: block;
-      font-size: 10px;
-      color: #64748b;
-      margin-top: 3px;
-    }
-
-    /* CALENDÁRIO MENSAL */
-    .fit-calendar-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      gap: 12px;
-    }
-
-    .fit-cal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .fit-cal-badge {
-      background: #060910;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #f8fafc;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 999px;
-    }
-
-    .fit-cal-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: #060910;
-      color: #cbd5e1;
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .fit-cal-btn:hover {
-      border-color: #fde047;
-      color: #ffffff;
-    }
-
-    .fit-cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-    }
-
-    .fit-cal-day {
-      aspect-ratio: 1 / 1;
-      border-radius: 9px;
-      background: #060910;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      color: #64748b;
-      font-size: 10.5px;
-      font-weight: 600;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .fit-cal-day.has-fat {
-      color: #e2e8f0;
-      border-color: rgba(253, 224, 71, 0.25);
-    }
-
-    .fit-cal-day.has-fat::after {
-      content: "";
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: #fde047;
-      margin-top: 2px;
-    }
-
-    .fit-cal-day.active-day {
-      background: #fde047;
-      color: #070910;
-      font-weight: 800;
-      border-color: #fde047;
-      box-shadow: 0 0 14px rgba(253, 224, 71, 0.4);
-    }
-
-    .fit-cal-day.active-day::after {
-      background: #070910;
-    }
-
-    .fit-cal-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #060910;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 10px 14px;
-    }
-
-    /* ================= LINHA INFERIOR (3 COLUNAS) ================= */
-    .fit-bottom-three {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr 1.35fr;
-      gap: 16px;
-    }
-
-    .sup-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 245px;
-      overflow-y: auto;
-    }
-
-    .sup-row-card {
+    .position-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 9px 11px;
-      border-radius: 13px;
-      background: #060910;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
     }
 
-    .sup-avatar {
-      width: 32px;
-      height: 32px;
+    .position-row:hover,
+    .position-row.selected {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .pos-icon {
+      width: 34px;
+      height: 34px;
       border-radius: 10px;
-      background: rgba(196, 181, 253, 0.16);
-      border: 1px solid rgba(196, 181, 253, 0.35);
-      color: #ede9fe;
-      font-size: 11px;
-      font-weight: 800;
+      background: rgba(255, 255, 255, 0.07);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 13px;
+      color: #d8b4fe;
       flex-shrink: 0;
     }
 
-    .sup-badge-val {
-      padding: 5px 10px;
-      border-radius: 9px;
-      background: #121826;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 11px;
-      font-weight: 800;
-      color: #38bdf8;
-      white-space: nowrap;
-    }
-
-    /* BOLHAS DE ATINGIMENTO / PROCESSOS */
-    .bubbles-stage {
-      position: relative;
-      height: 240px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .bubble-circle {
-      position: absolute;
-      border-radius: 50%;
-      display: flex;
+    /* ABAS SECUNDÁRIAS (EQUIPES / TABELA) */
+    .secondary-section {
+      display: none;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #05070d;
-      font-weight: 800;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
-      transition: transform 0.25s ease;
+      gap: 16px;
     }
 
-    .bubble-circle:hover { transform: scale(1.06); }
+    .secondary-section.active {
+      display: flex;
+    }
 
-    .b-lg { width: 116px; height: 116px; left: 20%; top: 24%; background: #c4b5fd; font-size: 18px; z-index: 2; }
-    .b-md { width: 84px; height: 84px; right: 16%; top: 12%; background: #38bdf8; font-size: 14px; z-index: 3; }
-    .b-sm { width: 78px; height: 78px; right: 20%; bottom: 10%; background: #fde047; font-size: 13px; z-index: 2; }
-    .bubble-circle small { font-size: 9px; font-weight: 700; opacity: 0.85; margin-top: 2px; }
-
-    /* TABELAS */
-    .table-wrap {
+    .table-scroll {
       overflow: auto;
-      max-height: 245px;
+      max-height: 460px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 11.5px;
+      font-size: 12px;
     }
 
     thead th {
       text-align: left;
-      padding: 8px 10px;
-      font-size: 9.5px;
-      font-weight: 700;
+      padding: 9px 10px;
+      font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: #94a3b8;
+      color: #9ca3af;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: sticky;
       top: 0;
-      background: #0d121d;
+      background: #110c21;
     }
 
     thead th.num, tbody td.num, tfoot td.num { text-align: right; }
 
     tbody td {
-      padding: 8px 10px;
+      padding: 9px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: #e2e8f0;
+      color: #e5e7eb;
     }
 
-    tbody tr:hover { background: rgba(196, 181, 253, 0.06); }
+    tbody tr:hover { background: rgba(168, 85, 247, 0.08); }
 
     tfoot td {
-      padding: 8px 10px;
-      font-weight: 800;
+      padding: 9px 10px;
+      font-weight: 700;
       color: #ffffff;
-      border-top: 1px solid rgba(196, 181, 253, 0.35);
-      background: rgba(196, 181, 253, 0.08);
+      border-top: 1px solid rgba(192, 132, 252, 0.35);
+      background: rgba(168, 85, 247, 0.12);
     }
 
-    .c-cyan    { color: #38bdf8 !important; }
     .c-emerald { color: #34d399 !important; }
     .c-rose    { color: #fb7185 !important; }
-    .c-lilac   { color: #c4b5fd !important; }
+    .c-purple  { color: #c084fc !important; }
 
     @media (max-width: 1120px) {
-      .fit-hero-grid,
-      .fit-bottom-three,
-      .fit-kpis-row {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .fit-hero-grid,
-      .fit-bottom-three,
-      .fit-kpis-row {
-        grid-template-columns: 1fr;
-      }
+      .main-grid { grid-template-columns: 1fr; }
+      .top-kpis-grid, .bottom-mini-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div class="portal-shell">
+  <div class="dashboard-container">
 
-    <!-- TOPBAR COM LIGAÇÕES PARA OUTRAS PÁGINAS DO PORTAL -->
-    <header class="fit-topbar">
-      <a href="index.html" class="fit-brand">
-        <div class="fit-brand-mark">🌀</div>
-        <div>
-          <h1>Ellca Portal</h1>
-          <span>Faturamento &amp; Metas</span>
+    <!-- TOPBAR (SEM MENU LATERAL) -->
+    <header class="top-header">
+      <div class="header-left">
+        <a href="index.html" class="brand-logo">
+          <span class="brand-orb">🌀</span>
+          <span>Ellca</span>
+        </a>
+
+        <h1 class="page-title">Dashboard Faturamento</h1>
+
+        <nav class="nav-pills" id="portalNavLinks"></nav>
+      </div>
+
+      <div class="header-right">
+        <span id="syncStatus"><i class="fa-solid fa-circle-notch fa-spin"></i> Carregando...</span>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="buscaRapida" placeholder="Buscar equipe ou supervisor..." />
         </div>
-      </a>
 
-      <nav class="fit-nav-pills" id="portalLinksNav" aria-label="Páginas do Portal"></nav>
+        <button type="button" class="icon-action-btn" id="btnAtualizarDados" title="Atualizar dados">
+          <i class="fa-solid fa-rotate"></i> Atualizar
+        </button>
 
-      <div class="topbar-actions">
-        <span id="loadingBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...</span>
-        <button type="button" class="btn-pill-action active" onclick="mudarView('viewGeral', this)">
-          <i class="fa-solid fa-chart-line"></i> Visão Geral
-        </button>
-        <button type="button" class="btn-pill-action" onclick="mudarView('viewEquipes', this)">
-          <i class="fa-solid fa-bars-progress"></i> Equipes
-        </button>
-        <button type="button" class="btn-pill-action" onclick="mudarView('viewTabela', this)">
-          <i class="fa-solid fa-table"></i> Resumo
+        <button type="button" class="icon-action-btn" id="btnAlternarDetalhe" title="Alternar visão">
+          <i class="fa-solid fa-table-cells"></i> <span id="lblAlternarDetalhe">Tabela Completa</span>
         </button>
       </div>
     </header>
 
-    <!-- CABEÇALHO DO MÓDULO -->
-    <div class="hero-strip">
-      <h2 class="hero-title tabular" id="tituloProcesso">FAT. SUSTENTAÇÃO <span>| Painel de Metas</span></h2>
-      <span style="font-size:11.5px; color:#94a3b8;" id="subResumoTopo">Base calculada diretamente da aba Faturamento</span>
-    </div>
-
-    <!-- FILTROS EM CARD 3D COM LINHA NA BORDA -->
-    <div class="hud-3d-shell">
-      <div class="hud-border-runner lilac">
-        <div class="hud-inner">
-          <div class="filter-grid">
-            <div class="filter-field">
-              <label for="filtroProcesso">Processo</label>
-              <select id="filtroProcesso"></select>
-            </div>
-            <div class="filter-field">
-              <label for="filtroAno">Ano</label>
-              <select id="filtroAno"></select>
-            </div>
-            <div class="filter-field">
-              <label for="filtroMes">Mês</label>
-              <select id="filtroMes"></select>
-            </div>
-            <div class="filter-field">
-              <label for="filtroData">Data</label>
-              <select id="filtroData"><option value="TODOS">Todas</option></select>
-            </div>
-            <div class="dias-uteis-chip">
-              <div class="dias-uteis-pill tabular" id="badgeDiasUteisTop">
-                <i class="fa-solid fa-briefcase"></i> 22 Dias Úteis
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- FILTROS -->
+    <div class="filters-strip">
+      <div class="filter-pill">
+        <span>Processo</span>
+        <select id="filtroProcesso"></select>
       </div>
+      <div class="filter-pill">
+        <span>Ano</span>
+        <select id="filtroAno"></select>
+      </div>
+      <div class="filter-pill">
+        <span>Mês</span>
+        <select id="filtroMes"></select>
+      </div>
+      <div class="filter-pill">
+        <span>Data</span>
+        <select id="filtroData"><option value="TODOS">Todas</option></select>
+      </div>
+      <div class="filter-pill">
+        <span>Supervisor</span>
+        <select id="filtroSupervisor"><option value="TODOS">Todos</option></select>
+      </div>
+      <div class="dias-badge tabular" id="badgeDiasUteis">22 Dias Úteis</div>
     </div>
 
     <!-- =============================================================== -->
-    <!-- VIEW 1: VISÃO GERAL                                             -->
+    <!-- VISÃO PRINCIPAL (INSPIRADA NA FOTO)                             -->
     <!-- =============================================================== -->
-    <div id="viewGeral" class="view-pane active">
+    <div id="secPrincipal" class="secondary-section active">
+      <div class="main-grid">
 
-      <section class="fit-hero-grid">
-        <!-- BLOCO ESQUERDO: 4 KPIS + SÉRIE TEMPORAL -->
-        <div class="hud-3d-shell">
-          <div class="hud-border-runner">
-            <div class="hud-inner">
-              <div class="fit-kpis-row tabular">
-                <div class="mini-kpi-box">
-                  <small>Meta Mensal</small>
-                  <strong id="kpiMetaMensal">R$ 0,00</strong>
-                  <span id="tagQtdEquipes">0 equipes</span>
-                </div>
-                <div class="mini-kpi-box">
-                  <small>Previsto</small>
-                  <strong class="c-lilac" id="kpiPrevisto">R$ 0,00</strong>
-                  <span id="tagDiasTrab">0 dias trab.</span>
-                </div>
-                <div class="mini-kpi-box">
-                  <small>Realizado</small>
-                  <strong class="c-emerald" id="kpiRealizado">R$ 0,00</strong>
-                  <span id="subPctPrevisto">0,0% previsto</span>
-                </div>
-                <div class="mini-kpi-box">
-                  <small>Delta (Gap)</small>
-                  <strong id="kpiDelta">R$ 0,00</strong>
-                  <span id="tagFatDia">R$ 0/eq/dia</span>
-                </div>
-              </div>
+        <!-- COLUNA ESQUERDA -->
+        <div class="left-column">
 
-              <div style="height: 215px; width: 100%;">
-                <canvas id="chartTemporal"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- BLOCO DIREITO: CALENDÁRIO DE DIAS + ATINGIMENTO -->
-        <div class="hud-3d-shell">
-          <div class="hud-border-runner gold">
-            <div class="hud-inner">
-              <div class="fit-calendar-box">
-                <div class="fit-cal-head">
-                  <span class="fit-cal-badge tabular" id="calMesLabel">NOVEMBRO 2026</span>
-                  <div style="display:flex; gap:6px;">
-                    <button type="button" class="fit-cal-btn" id="btnLimparDataCal" title="Mostrar todas as datas">
-                      <i class="fa-solid fa-rotate-left"></i>
-                    </button>
+          <!-- 3 KPIS PRINCIPAIS -->
+          <div class="top-kpis-grid tabular">
+            <div class="card-3d-wrap">
+              <div class="card-surface">
+                <div class="card-body">
+                  <div class="kpi-card-head">
+                    <span>Meta Mensal</span>
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                  </div>
+                  <div class="kpi-big-value" id="kpiMetaMensal">R$ 0,00</div>
+                  <div class="kpi-sub-row">
+                    <span id="subEquipes">0 equipes ativas</span>
+                    <span id="subDiasBase">Base 22d</span>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <div class="fit-cal-grid" id="calDiasGrid"></div>
+            <div class="card-3d-wrap">
+              <div class="card-surface">
+                <div class="card-body">
+                  <div class="kpi-card-head">
+                    <span>Previsto no Período</span>
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                  </div>
+                  <div class="kpi-big-value" id="kpiPrevisto">R$ 0,00</div>
+                  <div class="kpi-sub-row">
+                    <span id="subDiasTrab">0 dias trabalhados</span>
+                    <span id="subRitmoEsperado">Ritmo base</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                <div class="fit-cal-footer tabular">
+            <div class="card-3d-wrap">
+              <div class="card-surface">
+                <div class="card-body">
+                  <div class="kpi-card-head">
+                    <span>Faturamento Realizado</span>
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                  </div>
+                  <div class="kpi-big-value" id="kpiRealizado">R$ 0,00</div>
+                  <div class="kpi-sub-row">
+                    <span id="subFatDia">R$ 0/eq/dia</span>
+                    <span class="badge-pos tabular" id="badgePctPrev">0,0%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRÁFICO PRINCIPAL DE LINHA SUAVE -->
+          <div class="card-3d-wrap">
+            <div class="card-surface">
+              <div class="card-body">
+                <div class="chart-card-top tabular">
                   <div>
-                    <div style="font-size:18px; font-weight:800; color:#fff;" id="calPctMeta">0%</div>
-                    <div style="font-size:10px; color:#94a3b8;" id="calSubInfo">Atingimento da Meta Mensal</div>
+                    <div style="font-size:12.5px; color:#9ca3af; font-weight:600;" id="tituloCurva">Realizado Acumulado &amp; Diário</div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
+                      <span style="font-size:28px; font-weight:700; letter-spacing:-0.6px;" id="valorDestaqueCurva">R$ 0,00</span>
+                      <span class="badge-pos" id="badgeDeltaCurva">Delta R$ 0,00</span>
+                    </div>
                   </div>
-                  <div style="width:36px; height:36px; border-radius:11px; background:rgba(253,224,71,0.14); color:#fde047; display:flex; align-items:center; justify-content:center;">
-                    <i class="fa-solid fa-gauge-high"></i>
+
+                  <div class="seg-toggle" id="seletorSerie">
+                    <button type="button" class="seg-btn active" data-serie="diario">Diário</button>
+                    <button type="button" class="seg-btn" data-serie="acumulado">Acumulado</button>
+                    <button type="button" class="seg-btn" data-serie="diaSemana">Dia Semana</button>
                   </div>
+                </div>
+
+                <div style="height: 255px; width: 100%;">
+                  <canvas id="chartFaturamentoPrincipal"></canvas>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- LINHA INFERIOR: SUPERVISORES + BOLHAS + DIA DA SEMANA -->
-      <section class="fit-bottom-three">
-        <div class="hud-3d-shell">
-          <div class="hud-border-runner lilac">
-            <div class="hud-inner">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                <span style="font-size:12.5px; font-weight:700;">Supervisor &amp; Realizado</span>
-                <span style="font-size:10px; color:#94a3b8;">Meta vs Real</span>
-              </div>
-              <div class="sup-list tabular" id="listaSupervisorCards"></div>
-            </div>
-          </div>
+          <!-- CARDS INFERIORES DE DESTAQUE -->
+          <div class="bottom-mini-grid tabular" id="cardsDestaquesInferiores"></div>
+
         </div>
 
-        <div class="hud-3d-shell">
-          <div class="hud-border-runner emerald">
-            <div class="hud-inner">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
-                <span style="font-size:12.5px; font-weight:700;">Top Equipes (Share)</span>
-                <span style="font-size:10px; color:#94a3b8;">Realizado</span>
-              </div>
-              <div class="bubbles-stage tabular">
-                <div class="bubble-circle b-lg" id="bEquipes1"><span>0%</span><small>-</small></div>
-                <div class="bubble-circle b-md" id="bEquipes2"><span>0%</span><small>-</small></div>
-                <div class="bubble-circle b-sm" id="bEquipes3"><span>0%</span><small>-</small></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- COLUNA DIREITA (SPOTLIGHT ROXO + IA + POSIÇÕES) -->
+        <div class="right-column">
 
-        <div class="hud-3d-shell">
-          <div class="hud-border-runner">
-            <div class="hud-inner">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                <span style="font-size:12.5px; font-weight:700;">Faturamento por Dia da Semana</span>
-                <span style="font-size:10px; color:#94a3b8;">R$</span>
-              </div>
-              <div style="height: 225px;">
-                <canvas id="chartDiaSemana"></canvas>
+          <!-- CARD DESTAQUE ROXO COM INSIGHT DE IA -->
+          <div class="card-3d-wrap">
+            <div class="card-surface violet-spotlight">
+              <div class="card-body tabular">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                  <span style="font-size:12.5px; font-weight:600; color:#f3e8ff;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Resumo Executivo &amp; IA
+                  </span>
+                  <span style="font-size:11px; color:#e9d5ff; font-weight:700;" id="pctMetaMensalTxt">0% da meta</span>
+                </div>
+
+                <div style="display:flex; align-items:baseline; gap:10px;">
+                  <span style="font-size:28px; font-weight:800; letter-spacing:-0.6px;" id="kpiRealizadoSide">R$ 0,00</span>
+                  <span class="badge-pos" id="badgeStatusRitmo">No ritmo</span>
+                </div>
+
+                <div class="ai-insight-box" id="textoInsightIA">
+                  Carregando leitura inteligente de ritmo, gap financeiro e destaque operacional...
+                </div>
+
+                <button type="button" class="ai-btn" id="btnGerarInsightIA">
+                  <i class="fa-solid fa-sparkles"></i> Atualizar Leitura da IA
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- COMPARATIVO RÁPIDO POR EQUIPE -->
-      <div class="hud-3d-shell">
-        <div class="hud-border-runner emerald">
-          <div class="hud-inner">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-              <span style="font-size:12.5px; font-weight:700;">Faturamento por Equipe — Previsto x Realizado</span>
-              <span style="font-size:10px; color:#94a3b8;">Comparativo</span>
-            </div>
-            <div style="height: 260px;">
-              <canvas id="chartEquipeMini"></canvas>
+          <!-- CARD POSIÇÕES / SUPERVISORES -->
+          <div class="card-3d-wrap">
+            <div class="card-surface">
+              <div class="card-body tabular">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                  <span style="font-size:14px; font-weight:700;">Supervisores</span>
+                  <span style="font-size:11px; color:#9ca3af;">Clique para filtrar</span>
+                </div>
+
+                <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:6px; max-height:310px; overflow-y:auto;"></div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
 
     <!-- =============================================================== -->
-    <!-- VIEW 2: COMPARATIVO EXPANDIDO POR EQUIPE                        -->
+    <!-- VISÃO DETALHADA (COMPARATIVO POR EQUIPE + TABELA CONSOLIDADA) -->
     <!-- =============================================================== -->
-    <div id="viewEquipes" class="view-pane">
-      <div class="hud-3d-shell">
-        <div class="hud-border-runner">
-          <div class="hud-inner">
+    <div id="secTabelaCompleta" class="secondary-section">
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-              <span style="font-size:13.5px; font-weight:800;">Faturamento por Equipe — Previsto vs Realizado</span>
-              <span style="font-size:11px; color:#94a3b8;" id="badgeEquipesCount">0 equipes</span>
+              <span style="font-size:14px; font-weight:700;">Faturamento por Equipe — Previsto x Realizado</span>
+              <span style="font-size:11px; color:#9ca3af;" id="qtdEquipesGraf">0 equipes</span>
             </div>
-            <div style="height: 500px;">
-              <canvas id="chartEquipeFull"></canvas>
+            <div style="height: 360px;">
+              <canvas id="chartEquipesDetalhe"></canvas>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- =============================================================== -->
-    <!-- VIEW 3: TABELA RESUMO CONSOLIDADA                               -->
-    <!-- =============================================================== -->
-    <div id="viewTabela" class="view-pane">
-      <div class="hud-3d-shell">
-        <div class="hud-border-runner emerald">
-          <div class="hud-inner">
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body tabular">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-              <span style="font-size:13.5px; font-weight:800;">Tabela Resumo com Todas as Informações</span>
-              <span style="font-size:11px; color:#94a3b8;" id="badgeTabelaCount">0 registros</span>
+              <span style="font-size:14px; font-weight:700;">Tabela Resumo Consolidada</span>
+              <span style="font-size:11px; color:#9ca3af;" id="qtdLinhasTabela">0 registros</span>
             </div>
-            <div class="table-wrap tabular" style="max-height: 540px;">
+            <div class="table-scroll">
               <table>
                 <thead>
                   <tr>
@@ -903,7 +828,7 @@
 
 <script>
   // =========================================================================
-  // 1. CONFIGURAÇÃO EDITÁVEL (API, DIAS ÚTEIS E LIGAÇÕES DO PORTAL)
+  // 1. CONFIGURAÇÃO EDITÁVEL
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/AKfycbwhFjFhTamq91OcNe2nuK8T_qQQgBD5Eu_rrpeVBlz59kA-i21G5ZIM53Nyu7bORKDw/exec";
 
@@ -912,15 +837,13 @@
     7: 23, 8: 22, 9: 22, 10: 22, 11: 21, 12: 22
   };
 
-  const PAGINAS_PORTAL = [
-    { label: "Home", href: "home.html" },
+  const LINKS_PAGINAS = [
+    { label: "Visão Geral", href: "#visao", action: () => mostrarSecao("principal") },
     { label: "Programação", href: "programacao.html" },
     { label: "Faturamento", href: "faturamento.html", active: true },
-    { label: "Dashboard", href: "dashboard.html" },
     { label: "Medição", href: "medicao.html" },
     { label: "SESMT", href: "sesmt.html" },
-    { label: "Frota", href: "frota.html" },
-    { label: "Gerencial", href: "gerencial.html" }
+    { label: "Frota", href: "frota.html" }
   ];
 
   const NOMES_MESES = [
@@ -934,32 +857,63 @@
   ];
 
   let rawFaturamento = [];
+  let serieAtiva = "diario";
+  let variacaoIA = 0;
   let charts = {};
+  let ultimoEstado = null;
 
   Chart.register(ChartDataLabels);
 
-  // Efeito 3D dinâmico no mouse
-  document.querySelectorAll('.hud-3d-shell').forEach(shell => {
-    const card = shell.querySelector('.hud-border-runner');
-    if (!card) return;
-    shell.addEventListener('mousemove', (e) => {
-      const rect = shell.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.setProperty('--ry', `${(x * 4.5).toFixed(2)}deg`);
-      card.style.setProperty('--rx', `${(-y * 4.5).toFixed(2)}deg`);
+  // Movimento 3D bem suave (máx ~1.6 deg)
+  document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
+    const surface = wrap.querySelector(".card-surface");
+    if (!surface) return;
+    wrap.addEventListener("mousemove", (e) => {
+      const rect = wrap.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      surface.style.setProperty("--ry", `${(nx * 3.2).toFixed(2)}deg`);
+      surface.style.setProperty("--rx", `${(-ny * 3.2).toFixed(2)}deg`);
     });
-    shell.addEventListener('mouseleave', () => {
-      card.style.setProperty('--ry', '0deg');
-      card.style.setProperty('--rx', '0deg');
+    wrap.addEventListener("mouseleave", () => {
+      surface.style.setProperty("--ry", "0deg");
+      surface.style.setProperty("--rx", "0deg");
     });
   });
 
-  function renderizarLinksPortal() {
-    const nav = document.getElementById("portalLinksNav");
-    nav.innerHTML = PAGINAS_PORTAL.map(p => `
-      <a href="${p.href}" class="fit-pill-link ${p.active ? "active" : ""}">${p.label}</a>
-    `).join("");
+  function renderizarLinksTopbar() {
+    const nav = document.getElementById("portalNavLinks");
+    nav.innerHTML = LINKS_PAGINAS.map((item, idx) => {
+      if (item.action) {
+        return `<button type="button" class="nav-pill ${item.active ? "active" : ""}" data-nav-idx="${idx}">${item.label}</button>`;
+      }
+      return `<a href="${item.href}" class="nav-pill ${item.active ? "active" : ""}">${item.label}</a>`;
+    }).join("");
+
+    nav.querySelectorAll("button[data-nav-idx]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.getAttribute("data-nav-idx"));
+        if (LINKS_PAGINAS[idx] && LINKS_PAGINAS[idx].action) {
+          LINKS_PAGINAS[idx].action();
+        }
+      });
+    });
+  }
+
+  function mostrarSecao(tipo) {
+    const secPrin = document.getElementById("secPrincipal");
+    const secTab = document.getElementById("secTabelaCompleta");
+    const lblBtn = document.getElementById("lblAlternarDetalhe");
+
+    if (tipo === "tabela") {
+      secPrin.classList.remove("active");
+      secTab.classList.add("active");
+      lblBtn.textContent = "Voltar ao Painel";
+    } else {
+      secTab.classList.remove("active");
+      secPrin.classList.add("active");
+      lblBtn.textContent = "Tabela Completa";
+    }
   }
 
   const fmtBRL = (v) => Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -975,17 +929,10 @@
     return String(t || "").trim().toUpperCase();
   }
 
-  function mudarView(idView, btn) {
-    document.querySelectorAll(".view-pane").forEach(el => el.classList.remove("active"));
-    document.querySelectorAll(".topbar-actions .btn-pill-action").forEach(el => el.classList.remove("active"));
-    document.getElementById(idView).classList.add("active");
-    btn.classList.add("active");
-  }
-
-  async function iniciarDashboard() {
-    renderizarLinksPortal();
-    const badge = document.getElementById("loadingBadge");
-    badge.style.display = "inline-flex";
+  async function carregarDados() {
+    renderizarLinksTopbar();
+    const statusEl = document.getElementById("syncStatus");
+    statusEl.style.display = "inline-flex";
 
     try {
       const resp = await fetch(API_URL);
@@ -1010,18 +957,19 @@
       }).filter(r => r.ano && r.mes && r.equipe);
 
       popularFiltros();
-      atualizarPainel();
+      atualizarDashboard();
     } catch (err) {
-      console.error("Erro ao carregar dados:", err);
-      alert("Não foi possível carregar os dados da planilha. Verifique a URL do Apps Script.");
+      console.error("Erro ao carregar API:", err);
+      alert("Erro ao conectar na API do Apps Script. Confira a URL configurada.");
     } finally {
-      badge.style.display = "none";
+      statusEl.style.display = "none";
     }
   }
 
   function popularFiltros() {
     const processos = [...new Set(rawFaturamento.map(r => r.processo))].sort();
     const anos = [...new Set(rawFaturamento.map(r => r.ano))].sort((a, b) => b - a);
+    const supervisores = [...new Set(rawFaturamento.map(r => r.supervisor).filter(Boolean))].sort();
 
     const selProc = document.getElementById("filtroProcesso");
     selProc.innerHTML = `<option value="TODOS">TODOS</option>` +
@@ -1030,16 +978,18 @@
     const selAno = document.getElementById("filtroAno");
     selAno.innerHTML = anos.map(a => `<option value="${a}">${a}</option>`).join("");
 
+    const selSup = document.getElementById("filtroSupervisor");
+    selSup.innerHTML = `<option value="TODOS">Todos</option>` +
+      supervisores.map(s => `<option value="${s}">${s}</option>`).join("");
+
     atualizarOpcoesMes();
 
-    selProc.addEventListener("change", () => { atualizarOpcoesData(); atualizarPainel(); });
-    selAno.addEventListener("change", () => { atualizarOpcoesMes(); atualizarPainel(); });
-    document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarPainel(); });
-    document.getElementById("filtroData").addEventListener("change", atualizarPainel);
-    document.getElementById("btnLimparDataCal").addEventListener("click", () => {
-      document.getElementById("filtroData").value = "TODOS";
-      atualizarPainel();
-    });
+    selProc.addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
+    selAno.addEventListener("change", () => { atualizarOpcoesMes(); atualizarDashboard(); });
+    document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
+    document.getElementById("filtroData").addEventListener("change", atualizarDashboard);
+    selSup.addEventListener("change", atualizarDashboard);
+    document.getElementById("buscaRapida").addEventListener("input", atualizarDashboard);
   }
 
   function atualizarOpcoesMes() {
@@ -1069,18 +1019,20 @@
       }).join("");
   }
 
-  function atualizarPainel() {
+  function atualizarDashboard() {
     const anoSel = Number(document.getElementById("filtroAno").value);
     const mesSel = Number(document.getElementById("filtroMes").value);
     const procSel = document.getElementById("filtroProcesso").value;
     const dataSel = document.getElementById("filtroData").value;
-
-    const nomeTitulo = procSel === "TODOS" ? "FAT. CONSOLIDADO" : `FAT. ${procSel}`;
-    document.getElementById("tituloProcesso").innerHTML = `${nomeTitulo} <span>| ${NOMES_MESES[mesSel]} ${anoSel}</span>`;
-    document.getElementById("calMesLabel").textContent = `${NOMES_MESES[mesSel]} ${anoSel}`;
+    const supSel = document.getElementById("filtroSupervisor").value;
+    const termoBusca = document.getElementById("buscaRapida").value.trim().toLowerCase();
 
     const baseMesProcesso = rawFaturamento.filter(r =>
-      r.ano === anoSel && r.mes === mesSel && (procSel === "TODOS" || r.processo === procSel)
+      r.ano === anoSel &&
+      r.mes === mesSel &&
+      (procSel === "TODOS" || r.processo === procSel) &&
+      (supSel === "TODOS" || r.supervisor === supSel) &&
+      (!termoBusca || `${r.equipe} ${r.supervisor} ${r.processo} ${r.veiculo}`.toLowerCase().includes(termoBusca))
     );
 
     const dadosFiltrados = dataSel === "TODOS"
@@ -1123,106 +1075,113 @@
     const pctPrevisto = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
     const pctMetaMensal = totalMetaMensal > 0 ? (totalRealizado / totalMetaMensal) * 100 : 0;
 
-    document.getElementById("badgeDiasUteisTop").innerHTML = `<i class="fa-solid fa-briefcase"></i> ${diasUteis} Dias Úteis`;
+    document.getElementById("badgeDiasUteis").textContent = `${diasUteis} Dias Úteis`;
     document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
-    document.getElementById("tagQtdEquipes").textContent = `${qtdEquipes} equipes`;
+    document.getElementById("subEquipes").textContent = `${qtdEquipes} equipes ativas`;
+    document.getElementById("subDiasBase").textContent = `Base ${diasUteis}d`;
+
     document.getElementById("kpiPrevisto").textContent = fmtBRL(totalPrevisto);
-    document.getElementById("tagDiasTrab").textContent = `${diasTrabalhados} dias trab.`;
+    document.getElementById("subDiasTrab").textContent = `${diasTrabalhados} dias trabalhados`;
+
     document.getElementById("kpiRealizado").textContent = fmtBRL(totalRealizado);
-    document.getElementById("subPctPrevisto").textContent = `${pctPrevisto.toFixed(1).replace(".", ",")}% previsto`;
-    document.getElementById("tagFatDia").textContent = `${fmtCompacto(fatEquipeDia)}/eq/dia`;
+    document.getElementById("kpiRealizadoSide").textContent = fmtBRL(totalRealizado);
+    document.getElementById("subFatDia").textContent = `${fmtCompacto(fatEquipeDia)}/eq/dia`;
 
-    const elDelta = document.getElementById("kpiDelta");
-    elDelta.textContent = fmtBRL(totalDelta);
-    elDelta.className = totalDelta <= 0 ? "c-emerald" : "c-rose";
+    const badgePct = document.getElementById("badgePctPrev");
+    badgePct.textContent = `${pctPrevisto.toFixed(1).replace(".", ",")}%`;
+    badgePct.className = (pctPrevisto >= 100 ? "badge-pos" : "badge-neg") + " tabular";
 
-    document.getElementById("calPctMeta").textContent = pctMetaMensal.toFixed(0) + "%";
-    document.getElementById("calSubInfo").textContent = `${diasTrabalhados}d trab. • ${qtdEquipes} equipes`;
+    document.getElementById("pctMetaMensalTxt").textContent = `${pctMetaMensal.toFixed(0)}% da meta`;
 
-    renderizarCalendario(anoSel, mesSel, baseMesProcesso, dataSel);
-    renderizarBolhasEquipes(listaEquipes, totalRealizado);
-    renderizarGraficoTemporal(dadosFiltrados, datasUnicas);
-    renderizarGraficoDiaSemana(dadosFiltrados);
-    renderizarGraficoEquipe(listaEquipes, "chartEquipeMini", true);
-    renderizarGraficoEquipe(listaEquipes, "chartEquipeFull", false);
-    renderizarListaSupervisor(listaEquipes);
+    const badgeRitmo = document.getElementById("badgeStatusRitmo");
+    badgeRitmo.textContent = totalDelta <= 0 ? "Acima do ritmo" : "Atenção ao gap";
+    badgeRitmo.className = totalDelta <= 0 ? "badge-pos" : "badge-neg";
+
+    ultimoEstado = {
+      procSel, mesSel, anoSel, totalMetaMensal, totalPrevisto,
+      totalRealizado, totalDelta, pctPrevisto, pctMetaMensal,
+      diasTrabalhados, diasUteis, qtdEquipes, listaEquipes
+    };
+
+    atualizarTextoIA();
+    renderizarGraficoPrincipal(dadosFiltrados, datasUnicas, totalRealizado, totalDelta);
+    renderizarCardsInferiores(listaEquipes);
+    renderizarListaSupervisores(listaEquipes);
+    renderizarGraficoEquipesDetalhe(listaEquipes);
     renderizarTabelaResumo(listaEquipes);
   }
 
-  function renderizarCalendario(ano, mes, baseMesProcesso, dataAtiva) {
-    const grid = document.getElementById("calDiasGrid");
-    const diasNoMes = new Date(ano, mes, 0).getDate();
-    const diasComDados = new Set(baseMesProcesso.map(r => r.data));
-    const mesStr = String(mes).padStart(2, "0");
+  function atualizarTextoIA() {
+    if (!ultimoEstado) return;
+    const { procSel, totalRealizado, totalPrevisto, totalDelta, pctPrevisto, diasTrabalhados, diasUteis, listaEquipes } = ultimoEstado;
+    const topEq = [...listaEquipes].sort((a, b) => b.realizado - a.realizado)[0];
+    const nomeTop = topEq ? topEq.equipe : "sem destaque";
+    const valTop = topEq ? fmtCompacto(topEq.realizado) : "R$ 0";
 
-    let html = "";
-    for (let dia = 1; dia <= 31; dia++) {
-      if (dia <= diasNoMes) {
-        const diaStr = String(dia).padStart(2, "0");
-        const iso = `${ano}-${mesStr}-${diaStr}`;
-        const hasFat = diasComDados.has(iso);
-        const isActive = dataAtiva === iso;
-        html += `<div class="fit-cal-day ${hasFat ? "has-fat" : ""} ${isActive ? "active-day" : ""}" data-iso="${iso}">${dia}</div>`;
-      } else {
-        html += `<div class="fit-cal-day" style="opacity:0.22; cursor:default;">${dia}</div>`;
-      }
-    }
-    grid.innerHTML = html;
+    const mensagens = [
+      `<strong>Leitura IA (${procSel === "TODOS" ? "Consolidado" : procSel}):</strong> Com ${diasTrabalhados} de ${diasUteis} dias úteis computados, o realizado está em <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Destaque da carteira: <strong>${nomeTop}</strong> (${valTop}).`,
+      `<strong>Diagnóstico de Ritmo IA:</strong> O gap atual frente ao previsto é de <strong>${fmtBRL(Math.abs(totalDelta))}</strong> (${totalDelta <= 0 ? "superávit operacional" : "déficit a recuperar"}). Priorizar faturamento diário nas equipes com menor cobertura acelera o fechamento do mês.`,
+      `<strong>Projeção Inteligente IA:</strong> Mantendo a média atual por dia útil, a carteira tende a entregar <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong> no mês. Acompanhe o desempenho diário de <strong>${nomeTop}</strong> para sustentar o ritmo.`
+    ];
 
-    grid.querySelectorAll(".fit-cal-day[data-iso]").forEach(el => {
-      el.addEventListener("click", () => {
-        const iso = el.getAttribute("data-iso");
-        const selData = document.getElementById("filtroData");
-        const existe = [...selData.options].some(o => o.value === iso);
-        if (existe) {
-          selData.value = (selData.value === iso) ? "TODOS" : iso;
-          atualizarPainel();
-        }
+    document.getElementById("textoInsightIA").innerHTML = mensagens[variacaoIA % mensagens.length];
+  }
+
+  function renderizarGraficoPrincipal(dados, datasUnicas, totalRealizado, totalDelta) {
+    const ctx = document.getElementById("chartFaturamentoPrincipal");
+    let labels = [];
+    let valores = [];
+
+    if (serieAtiva === "diaSemana") {
+      const nomesDias = ["DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"];
+      const abrev = { "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA", "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM" };
+      const soma = {};
+      DIAS_SEMANA_ORDEM.forEach(d => soma[d] = 0);
+      dados.forEach(r => {
+        const [y, m, d] = r.data.split("-").map(Number);
+        soma[nomesDias[new Date(y, m - 1, d).getDay()]] += r.valorDia;
       });
-    });
-  }
+      const ativos = DIAS_SEMANA_ORDEM.filter(d => soma[d] > 0 || d !== "DOMINGO");
+      labels = ativos.map(d => abrev[d]);
+      valores = ativos.map(d => soma[d]);
+      document.getElementById("tituloCurva").textContent = "Faturamento por Dia da Semana";
+    } else {
+      labels = datasUnicas.map(d => {
+        const [, m, dia] = d.split("-");
+        return `${Number(dia)}/${Number(m)}`;
+      });
+      let acc = 0;
+      valores = datasUnicas.map(d => {
+        const diaVal = dados.filter(r => r.data === d).reduce((s, r) => s + r.valorDia, 0);
+        acc += diaVal;
+        return serieAtiva === "acumulado" ? acc : diaVal;
+      });
+      document.getElementById("tituloCurva").textContent = serieAtiva === "acumulado" ? "Faturamento Acumulado" : "Faturamento Diário";
+    }
 
-  function renderizarBolhasEquipes(listaEquipes, totalRealizado) {
-    const top3 = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 3);
-    const ids = ["bEquipes1", "bEquipes2", "bEquipes3"];
-    ids.forEach((id, idx) => {
-      const el = document.getElementById(id);
-      const item = top3[idx];
-      if (item && totalRealizado > 0) {
-        const pct = Math.round((item.realizado / totalRealizado) * 100);
-        el.innerHTML = `<span>${pct}%</span><small>${item.equipe.slice(0, 9)}</small>`;
-      } else {
-        el.innerHTML = `<span>0%</span><small>-</small>`;
-      }
-    });
-  }
+    document.getElementById("valorDestaqueCurva").textContent = fmtBRL(totalRealizado);
+    const badgeDelta = document.getElementById("badgeDeltaCurva");
+    badgeDelta.textContent = `Gap ${fmtCompacto(totalDelta)}`;
+    badgeDelta.className = totalDelta <= 0 ? "badge-pos tabular" : "badge-neg tabular";
 
-  const corEixo = "#94a3b8";
-  const corGrid = "rgba(255, 255, 255, 0.06)";
-
-  function renderizarGraficoTemporal(dados, datasUnicas) {
-    const labels = datasUnicas.map(d => {
-      const [, m, dia] = d.split("-");
-      return `${Number(dia)}/${Number(m)}`;
-    });
-    const valores = datasUnicas.map(d => dados.filter(r => r.data === d).reduce((s, r) => s + r.valorDia, 0));
-
-    if (charts.temporal) charts.temporal.destroy();
-    charts.temporal = new Chart(document.getElementById("chartTemporal"), {
+    if (charts.principal) charts.principal.destroy();
+    charts.principal = new Chart(ctx, {
       type: "line",
       data: {
         labels,
         datasets: [{
-          label: "Realizado (R$)",
+          label: "Faturamento (R$)",
           data: valores,
-          borderColor: "#c4b5fd",
-          backgroundColor: "rgba(196, 181, 253, 0.14)",
+          borderColor: "#a855f7",
+          backgroundColor: "rgba(168, 85, 247, 0.14)",
           fill: true,
           borderWidth: 2.4,
-          pointBackgroundColor: "#ffffff",
-          pointBorderColor: "#c4b5fd",
-          pointRadius: 3.5,
-          tension: 0.36
+          tension: 0.42,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: "#e9d5ff",
+          pointBorderColor: "#9333ea",
+          pointBorderWidth: 2
         }]
       },
       options: {
@@ -1230,68 +1189,120 @@
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          datalabels: { align: "top", color: "#e2e8f0", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
+          datalabels: {
+            align: "top",
+            color: "#e5e7eb",
+            font: { size: 9.5, weight: "600" },
+            formatter: v => v > 0 ? fmtCompacto(v) : ""
+          }
         },
         scales: {
-          x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { color: corGrid } },
-          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
+          x: { ticks: { color: "#9ca3af", font: { size: 10.5 } }, grid: { color: "rgba(255,255,255,0.05)" } },
+          y: {
+            beginAtZero: true,
+            ticks: { color: "#9ca3af", font: { size: 10.5 }, callback: v => (v / 1000) + "k" },
+            grid: { color: "rgba(255,255,255,0.05)" }
+          }
         }
       }
     });
   }
 
-  function renderizarGraficoDiaSemana(dados) {
-    const nomesDias = ["DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"];
-    const abrev = { "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA", "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM" };
-    const somaPorDia = {};
-    DIAS_SEMANA_ORDEM.forEach(d => somaPorDia[d] = 0);
+  function renderizarCardsInferiores(listaEquipes) {
+    const top3 = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 3);
+    const container = document.getElementById("cardsDestaquesInferiores");
 
-    dados.forEach(r => {
-      const [y, m, d] = r.data.split("-").map(Number);
-      const dt = new Date(y, m - 1, d);
-      somaPorDia[nomesDias[dt.getDay()]] += r.valorDia;
-    });
+    if (top3.length === 0) {
+      container.innerHTML = `<div style="color:#9ca3af; font-size:12px;">Nenhuma equipe encontrada.</div>`;
+      return;
+    }
 
-    const ativos = DIAS_SEMANA_ORDEM.filter(d => somaPorDia[d] > 0 || d !== "DOMINGO");
-    if (charts.diaSemana) charts.diaSemana.destroy();
-    charts.diaSemana = new Chart(document.getElementById("chartDiaSemana"), {
-      type: "bar",
-      data: {
-        labels: ativos.map(d => abrev[d]),
-        datasets: [{
-          label: "Faturamento",
-          data: ativos.map(d => somaPorDia[d]),
-          backgroundColor: ["#c4b5fd", "#38bdf8", "#fde047", "#34d399", "#818cf8", "#f472b6"],
-          borderRadius: 9
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          datalabels: { anchor: "end", align: "top", color: "#cbd5e1", font: { size: 9.5, weight: "600" }, formatter: v => v > 0 ? fmtCompacto(v) : "" }
-        },
-        scales: {
-          x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
-          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
-        }
-      }
+    container.innerHTML = top3.map(eq => {
+      const pct = eq.previsto > 0 ? (eq.realizado / eq.previsto) * 100 : 0;
+      const ok = pct >= 100;
+      return `
+        <div class="mini-rank-card" title="Filtrar supervisor ${eq.supervisor}">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <strong style="font-size:12.5px; color:#fff;">${eq.equipe}</strong>
+            <span style="font-size:10px; color:#9ca3af;">${eq.processo.slice(0, 8)}</span>
+          </div>
+          <div style="font-size:11px; color:#9ca3af; margin-bottom:10px;">Sup: ${eq.supervisor.split(" ")[0] || "-"}</div>
+          <div style="display:flex; align-items:baseline; justify-content:space-between;">
+            <div>
+              <div style="font-size:14px; font-weight:700; color:#fff;">${fmtCompacto(eq.realizado)}</div>
+              <div style="font-size:10px; color:#9ca3af;">Prev: ${fmtCompacto(eq.previsto)}</div>
+            </div>
+            <span class="${ok ? "badge-pos" : "badge-neg"} tabular">${pct.toFixed(0)}%</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    container.querySelectorAll(".mini-rank-card").forEach((card, idx) => {
+      card.addEventListener("click", () => {
+        const sup = top3[idx].supervisor;
+        const sel = document.getElementById("filtroSupervisor");
+        sel.value = sel.value === sup ? "TODOS" : sup;
+        atualizarDashboard();
+      });
     });
   }
 
-  function renderizarGraficoEquipe(listaEquipes, canvasId, limitarTop) {
+  function renderizarListaSupervisores(listaEquipes) {
+    const porSup = {};
+    listaEquipes.forEach(e => {
+      const sup = e.supervisor || "NÃO INFORMADO";
+      if (!porSup[sup]) porSup[sup] = { meta: 0, realizado: 0 };
+      porSup[sup].meta += e.metaMensal;
+      porSup[sup].realizado += e.realizado;
+    });
+
+    const supAtual = document.getElementById("filtroSupervisor").value;
+    const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
+
+    const wrap = document.getElementById("listaSupervisoresRight");
+    wrap.innerHTML = linhas.map(([sup, v]) => {
+      const iniciais = sup.split(" ").slice(0, 2).map(p => p[0]).join("");
+      const pct = v.meta > 0 ? ((v.realizado / v.meta) * 100).toFixed(0) : "0";
+      return `
+        <div class="position-row ${supAtual === sup ? "selected" : ""}" data-sup="${sup}">
+          <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+            <div class="pos-icon">${iniciais || "SP"}</div>
+            <div style="min-width:0;">
+              <div style="font-size:12.5px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sup}</div>
+              <div style="font-size:10.5px; color:#9ca3af;">Meta: ${fmtCompacto(v.meta)}</div>
+            </div>
+          </div>
+          <div style="text-align:right; flex-shrink:0;">
+            <div style="font-size:12.5px; font-weight:700; color:#fff;">${fmtCompacto(v.realizado)}</div>
+            <div style="font-size:10.5px; color:#c084fc; font-weight:600;">${pct}% meta</div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    wrap.querySelectorAll(".position-row").forEach(row => {
+      row.addEventListener("click", () => {
+        const sup = row.getAttribute("data-sup");
+        const sel = document.getElementById("filtroSupervisor");
+        sel.value = sel.value === sup ? "TODOS" : sup;
+        atualizarDashboard();
+      });
+    });
+  }
+
+  function renderizarGraficoEquipesDetalhe(listaEquipes) {
     const ordenadas = [...listaEquipes].sort((a, b) => b.realizado - a.realizado);
-    const recorte = limitarTop ? ordenadas.slice(0, 6) : ordenadas;
+    document.getElementById("qtdEquipesGraf").textContent = `${ordenadas.length} equipes`;
 
-    if (charts[canvasId]) charts[canvasId].destroy();
-    charts[canvasId] = new Chart(document.getElementById(canvasId), {
+    if (charts.equipesDet) charts.equipesDet.destroy();
+    charts.equipesDet = new Chart(document.getElementById("chartEquipesDetalhe"), {
       type: "bar",
       data: {
-        labels: recorte.map(e => e.equipe),
+        labels: ordenadas.map(e => e.equipe),
         datasets: [
-          { label: "Realizado", data: recorte.map(e => e.realizado), backgroundColor: "#38bdf8", borderRadius: 6 },
-          { label: "Previsto", data: recorte.map(e => e.previsto), backgroundColor: "rgba(196, 181, 253, 0.35)", borderRadius: 6 }
+          { label: "Realizado", data: ordenadas.map(e => e.realizado), backgroundColor: "#a855f7", borderRadius: 6 },
+          { label: "Previsto", data: ordenadas.map(e => e.previsto), backgroundColor: "rgba(255,255,255,0.22)", borderRadius: 6 }
         ]
       },
       options: {
@@ -1299,45 +1310,20 @@
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: "#cbd5e1", font: { size: 10.5 } } },
-          datalabels: { anchor: "end", align: "right", color: "#e2e8f0", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
+          legend: { labels: { color: "#e5e7eb", font: { size: 11 } } },
+          datalabels: { anchor: "end", align: "right", color: "#e5e7eb", font: { size: 9.5 }, formatter: v => fmtCompacto(v) }
         },
         scales: {
-          x: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
+          x: { beginAtZero: true, ticks: { color: "#9ca3af", callback: v => (v / 1000) + "k" }, grid: { color: "rgba(255,255,255,0.05)" } },
           y: { ticks: { color: "#f8fafc", font: { size: 10.5, weight: "600" } }, grid: { display: false } }
         }
       }
     });
   }
 
-  function renderizarListaSupervisor(listaEquipes) {
-    const porSup = {};
-    listaEquipes.forEach(e => {
-      const sup = e.supervisor.split(" ")[0] || "SUP";
-      if (!porSup[sup]) porSup[sup] = { meta: 0, realizado: 0 };
-      porSup[sup].meta += e.metaMensal;
-      porSup[sup].realizado += e.realizado;
-    });
-
-    const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
-    document.getElementById("listaSupervisorCards").innerHTML = linhas.map(([sup, v]) => `
-      <div class="sup-row-card">
-        <div style="display:flex; align-items:center; gap:9px;">
-          <div class="sup-avatar">${sup.slice(0, 2)}</div>
-          <div>
-            <div style="font-size:12px; font-weight:700;">${sup}</div>
-            <div style="font-size:10px; color:#94a3b8;">Meta: ${fmtCompacto(v.meta)}</div>
-          </div>
-        </div>
-        <div class="sup-badge-val">${fmtCompacto(v.realizado)}</div>
-      </div>
-    `).join("");
-  }
-
   function renderizarTabelaResumo(listaEquipes) {
     const ordenadas = [...listaEquipes].sort((a, b) => a.equipe.localeCompare(b.equipe));
-    document.getElementById("badgeEquipesCount").textContent = `${ordenadas.length} equipes`;
-    document.getElementById("badgeTabelaCount").textContent = `${ordenadas.length} registros`;
+    document.getElementById("qtdLinhasTabela").textContent = `${ordenadas.length} registros`;
 
     let totM = 0, totP = 0, totR = 0, totD = 0;
     document.getElementById("tbodyResumo").innerHTML = ordenadas.map(e => {
@@ -1351,7 +1337,7 @@
           <td>${e.veiculo}</td>
           <td class="num">${fmtBRL(e.metaMensal)}</td>
           <td class="num">${fmtBRL(e.previsto)}</td>
-          <td class="num c-cyan">${fmtBRL(e.realizado)}</td>
+          <td class="num c-purple">${fmtBRL(e.realizado)}</td>
           <td class="num ${e.delta <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(e.delta)}</td>
         </tr>`;
     }).join("");
@@ -1361,12 +1347,34 @@
         <td colspan="5">TOTAL CONSOLIDADO</td>
         <td class="num">${fmtBRL(totM)}</td>
         <td class="num">${fmtBRL(totP)}</td>
-        <td class="num c-cyan">${fmtBRL(totR)}</td>
+        <td class="num c-purple">${fmtBRL(totR)}</td>
         <td class="num ${totD <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(totD)}</td>
       </tr>`;
   }
 
-  iniciarDashboard();
+  // Eventos dos botões
+  document.querySelectorAll("#seletorSerie .seg-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#seletorSerie .seg-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      serieAtiva = btn.getAttribute("data-serie");
+      atualizarDashboard();
+    });
+  });
+
+  document.getElementById("btnGerarInsightIA").addEventListener("click", () => {
+    variacaoIA += 1;
+    atualizarTextoIA();
+  });
+
+  document.getElementById("btnAtualizarDados").addEventListener("click", carregarDados);
+
+  document.getElementById("btnAlternarDetalhe").addEventListener("click", () => {
+    const estaNaTabela = document.getElementById("secTabelaCompleta").classList.contains("active");
+    mostrarSecao(estaNaTabela ? "principal" : "tabela");
+  });
+
+  carregarDados();
 </script>
 </body>
 </html>
