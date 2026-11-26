@@ -21,6 +21,7 @@
             --ellca-blue-dark: #1d4ed8;
             --ellca-blue-bright: #38bdf8;
             --ellca-cyan-glow: rgba(0, 212, 255, 0.35);
+            --ellca-green: #34d399;
             --ellca-red: #f87171;
             --ellca-border: rgba(0, 212, 255, 0.28);
             --ellca-border-strong: rgba(0, 212, 255, 0.55);
@@ -132,6 +133,48 @@
         body.bars-collapsed .fat-wrapper {
             padding: 20px 24px 36px 24px;
         }
+
+        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS (ESTILO HOME ELLCA) ================= */
+        @property --ellca-border-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes ellcaBorderBeam {
+            0% { --ellca-border-angle: 0deg; }
+            100% { --ellca-border-angle: 360deg; }
+        }
+
+        .ellca-beam-card {
+            position: relative;
+        }
+
+        .ellca-beam-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: conic-gradient(
+                from var(--ellca-border-angle),
+                transparent 0deg,
+                transparent 295deg,
+                rgba(0, 212, 255, 0.18) 325deg,
+                rgba(56, 189, 248, 0.65) 348deg,
+                rgba(0, 212, 255, 0.15) 360deg
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: ellcaBorderBeam 9s linear infinite;
+            z-index: 2;
+        }
+
+        .ellca-beam-card:nth-child(2)::before { animation-delay: -2.2s; }
+        .ellca-beam-card:nth-child(3)::before { animation-delay: -4.5s; }
+        .ellca-beam-card:nth-child(4)::before { animation-delay: -6.7s; }
 
         /* ================= CABEÇALHO IDENTIDADE ELLCA DARK ================= */
         .fat-header {
@@ -273,7 +316,7 @@
             border-color: #ffffff;
         }
 
-        /* ================= BARRA DE FILTROS (MANTENDO OS FILTROS ANTERIORES + MULTI PERÍODO) ================= */
+        /* ================= BARRA DE FILTROS ================= */
         .filter-bar-ellca {
             position: relative;
             z-index: 30;
@@ -505,7 +548,7 @@
             color: #ffffff;
         }
 
-        /* ================= KPIS EXECUTIVOS (TONS DE AZUL ELLCA) ================= */
+        /* ================= KPIS EXECUTIVOS ================= */
         .exec-kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -518,7 +561,7 @@
             border-radius: 16px;
             background: linear-gradient(145deg, rgba(4, 12, 30, 0.94) 0%, rgba(10, 28, 62, 0.80) 100%);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 212, 255, 0.26);
+            border: 1px solid rgba(0, 212, 255, 0.24);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
             display: flex;
             flex-direction: column;
@@ -538,7 +581,7 @@
         }
 
         .exec-kpi.blue-accent {
-            border-color: rgba(0, 212, 255, 0.48);
+            border-color: rgba(0, 212, 255, 0.42);
             background: linear-gradient(145deg, rgba(4, 14, 34, 0.95) 0%, rgba(6, 48, 82, 0.72) 100%);
         }
 
@@ -547,7 +590,7 @@
         }
 
         .exec-kpi.royal-accent {
-            border-color: rgba(56, 189, 248, 0.46);
+            border-color: rgba(56, 189, 248, 0.40);
             background: linear-gradient(145deg, rgba(4, 14, 36, 0.95) 0%, rgba(12, 42, 88, 0.74) 100%);
         }
 
@@ -591,6 +634,16 @@
             flex-wrap: wrap;
         }
 
+        .gap-positivo {
+            color: #34d399 !important;
+            font-weight: 800;
+        }
+
+        .gap-negativo {
+            color: #f87171 !important;
+            font-weight: 800;
+        }
+
         .mini-bar {
             width: 100%;
             height: 5px;
@@ -610,6 +663,12 @@
         .charts-grid {
             display: grid;
             grid-template-columns: 1.55fr 1fr;
+            gap: 16px;
+        }
+
+        .charts-secondary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 16px;
         }
 
@@ -661,6 +720,10 @@
             position: relative;
             width: 100%;
             height: 310px;
+        }
+
+        .chart-canvas-wrap.compact {
+            height: 270px;
         }
 
         /* ================= RANKINGS E TABELA DETALHADA ================= */
@@ -772,9 +835,9 @@
         }
 
         .pill-ok {
-            background: rgba(0, 212, 255, 0.20);
-            color: #7dd3fc;
-            border: 1px solid rgba(0, 212, 255, 0.55);
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.45);
         }
 
         .pill-warn {
@@ -846,6 +909,9 @@
             .chart-canvas-wrap {
                 height: 250px;
             }
+            .chart-canvas-wrap.compact {
+                height: 230px;
+            }
         }
     </style>
 </head>
@@ -911,7 +977,7 @@
                 <div class="fat-wrapper">
 
                     <!-- CABEÇALHO -->
-                    <div class="fat-header">
+                    <div class="fat-header ellca-beam-card">
                         <div class="fat-title-group">
                             <div class="fat-icon-box">
                                 <i class="fa-solid fa-sack-dollar"></i>
@@ -941,7 +1007,7 @@
                     </div>
 
                     <!-- BARRA DE FILTROS -->
-                    <div class="filter-bar-ellca">
+                    <div class="filter-bar-ellca ellca-beam-card">
                         <!-- PERÍODO MULTI-SELEÇÃO -->
                         <div class="filter-field">
                             <label><i class="fa-solid fa-calendar-week"></i> Período</label>
@@ -985,7 +1051,7 @@
 
                     <!-- KPIS EXECUTIVOS -->
                     <div class="exec-kpi-grid">
-                        <div class="exec-kpi blue-accent">
+                        <div class="exec-kpi blue-accent ellca-beam-card">
                             <div class="exec-kpi-top">
                                 <span>Meta Faturamento</span>
                                 <i class="fa-solid fa-bullseye"></i>
@@ -997,7 +1063,7 @@
                             </div>
                         </div>
 
-                        <div class="exec-kpi">
+                        <div class="exec-kpi ellca-beam-card">
                             <div class="exec-kpi-top">
                                 <span>Previsto Acumulado</span>
                                 <i class="fa-solid fa-chart-line"></i>
@@ -1009,19 +1075,19 @@
                             </div>
                         </div>
 
-                        <div class="exec-kpi royal-accent">
+                        <div class="exec-kpi royal-accent ellca-beam-card">
                             <div class="exec-kpi-top">
                                 <span>Faturamento Realizado</span>
                                 <i class="fa-solid fa-circle-check"></i>
                             </div>
                             <div class="exec-kpi-val" id="kpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
                             <div class="exec-kpi-sub">
-                                <span id="kpiGapPrev">Gap vs Previsto: R$ 0,00</span>
-                                <span id="kpiGapMeta">Gap vs Meta: R$ 0,00</span>
+                                <span id="kpiGapPrev">Gap Prev: R$ 0,00</span>
+                                <span id="kpiGapMeta">Gap Meta: R$ 0,00</span>
                             </div>
                         </div>
 
-                        <div class="exec-kpi blue-accent">
+                        <div class="exec-kpi blue-accent ellca-beam-card">
                             <div class="exec-kpi-top">
                                 <span>Atingimento (Real / Prev)</span>
                                 <i class="fa-solid fa-gauge-high"></i>
@@ -1039,7 +1105,7 @@
 
                     <!-- GRÁFICOS EXECUTIVOS -->
                     <div class="charts-grid">
-                        <div class="chart-card">
+                        <div class="chart-card ellca-beam-card">
                             <div class="chart-card-head">
                                 <h3><i class="fa-solid fa-chart-area"></i> Evolução Diária — Previsto vs. Realizado</h3>
                                 <span id="chartTimelineBadge">Série temporal filtrada</span>
@@ -1049,7 +1115,7 @@
                             </div>
                         </div>
 
-                        <div class="chart-card">
+                        <div class="chart-card ellca-beam-card">
                             <div class="chart-card-head">
                                 <h3><i class="fa-solid fa-ranking-star"></i> Top Equipes — Realizado vs. Previsto</h3>
                                 <span>Maiores faturamentos no período</span>
@@ -1060,9 +1126,22 @@
                         </div>
                     </div>
 
+                    <!-- GRÁFICO POR DIA DA SEMANA -->
+                    <div class="charts-secondary-grid">
+                        <div class="chart-card ellca-beam-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-calendar-days"></i> Performance por Dia da Semana — Realizado vs. Previsto</h3>
+                                <span>Acumulado por dia útil e fim de semana</span>
+                            </div>
+                            <div class="chart-canvas-wrap compact">
+                                <canvas id="chartDiaSemana"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- RANKINGS CONSOLIDADOS -->
                     <div class="rankings-grid">
-                        <div class="chart-card">
+                        <div class="chart-card ellca-beam-card">
                             <div class="chart-card-head">
                                 <h3><i class="fa-solid fa-user-shield"></i> Consolidado por Supervisor</h3>
                                 <span>Meta • Previsto • Realizado</span>
@@ -1070,7 +1149,7 @@
                             <div class="rank-list" id="rankSupList"></div>
                         </div>
 
-                        <div class="chart-card">
+                        <div class="chart-card ellca-beam-card">
                             <div class="chart-card-head">
                                 <h3><i class="fa-solid fa-truck-fast"></i> Consolidado por Tipo de Equipe</h3>
                                 <span>Participação e Aderência</span>
@@ -1080,7 +1159,7 @@
                     </div>
 
                     <!-- TABELA ANALÍTICA DETALHADA -->
-                    <div class="table-card">
+                    <div class="table-card ellca-beam-card">
                         <div class="chart-card-head">
                             <h3><i class="fa-solid fa-table-list"></i> Detalhamento Analítico de Faturamento</h3>
                             <span id="tableRowsCount">0 registros exibidos</span>
@@ -1136,6 +1215,7 @@
             let periodosSelecionados = new Set();
             let chartEvolucao = null;
             let chartEquipes = null;
+            let chartDiaSemana = null;
 
             const footerUserName = document.getElementById('footerUserName');
             const nomeSessao =
@@ -1196,6 +1276,14 @@
                     return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
                 }
                 return { iso: str, br: str };
+            }
+
+            function obterDiaSemanaIdx(iso) {
+                if (!iso) return -1;
+                const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/);
+                if (!m) return -1;
+                const dt = new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
+                return isNaN(dt.getTime()) ? -1 : dt.getDay(); // 0=Dom .. 6=Sáb
             }
 
             function mapearColunas(cols, rows) {
@@ -1296,6 +1384,7 @@
                         parsed.push({
                             dataIso: dtInfo.iso,
                             dataBr: dtInfo.br || dtInfo.iso || '-',
+                            diaSemanaIdx: obterDiaSemanaIdx(dtInfo.iso),
                             periodo,
                             equipe: equipe || 'NÃO INFORMADA',
                             tipo: tipo || 'PADRÃO',
@@ -1430,6 +1519,16 @@
                 fill('fFilterTipo', baseRegistros.map(r => r.tipo), 'Todos os Tipos');
             }
 
+            function aplicarCorGap(el, valorGap, prefixo) {
+                el.textContent = `${prefixo}: ${fmtBRL(valorGap)}`;
+                el.classList.remove('gap-positivo', 'gap-negativo');
+                if (valorGap >= 0) {
+                    el.classList.add('gap-positivo');
+                } else {
+                    el.classList.add('gap-negativo');
+                }
+            }
+
             function atualizarDashboard() {
                 const dataVal = document.getElementById('fFilterData').value;
                 const supVal = document.getElementById('fFilterSup').value;
@@ -1461,6 +1560,9 @@
                 const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
                 const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
 
+                const gapPrev = totReal - totPrev;
+                const gapMeta = totReal - totMeta;
+
                 document.getElementById('kpiMeta').textContent = fmtBRL(totMeta);
                 document.getElementById('kpiEquipesAtivas').textContent = `${equipesSet.size} equipes`;
 
@@ -1468,8 +1570,8 @@
                 document.getElementById('kpiDiasCount').textContent = `${diasSet.size} dias`;
 
                 document.getElementById('kpiRealizado').textContent = fmtBRL(totReal);
-                document.getElementById('kpiGapPrev').textContent = `Gap Prev: ${fmtBRL(totReal - totPrev)}`;
-                document.getElementById('kpiGapMeta').textContent = `Gap Meta: ${fmtBRL(totReal - totMeta)}`;
+                aplicarCorGap(document.getElementById('kpiGapPrev'), gapPrev, 'Gap Prev');
+                aplicarCorGap(document.getElementById('kpiGapMeta'), gapMeta, 'Gap Meta');
 
                 document.getElementById('kpiPctPrev').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
                 document.getElementById('kpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
@@ -1481,6 +1583,7 @@
             }
 
             function renderGraficos(lista) {
+                // 1. Evolução Diária (Azul Elétrico + Azul Escuro)
                 const porDia = {};
                 lista.forEach(r => {
                     const k = r.dataIso || r.dataBr || 'Sem Data';
@@ -1554,6 +1657,7 @@
                     }
                 });
 
+                // 2. Top Equipes (Azul Elétrico + Azul Escuro)
                 const porEq = {};
                 lista.forEach(r => {
                     if (!porEq[r.equipe]) porEq[r.equipe] = { prev: 0, real: 0 };
@@ -1607,6 +1711,83 @@
                         }
                     }
                 });
+
+                // 3. Performance por Dia da Semana (Segunda a Domingo — Azul Elétrico + Azul Escuro)
+                const ordemDias = [
+                    { idx: 1, nome: 'Segunda-feira' },
+                    { idx: 2, nome: 'Terça-feira' },
+                    { idx: 3, nome: 'Quarta-feira' },
+                    { idx: 4, nome: 'Quinta-feira' },
+                    { idx: 5, nome: 'Sexta-feira' },
+                    { idx: 6, nome: 'Sábado' },
+                    { idx: 0, nome: 'Domingo' }
+                ];
+
+                const somaDia = {
+                    0: { prev: 0, real: 0 },
+                    1: { prev: 0, real: 0 },
+                    2: { prev: 0, real: 0 },
+                    3: { prev: 0, real: 0 },
+                    4: { prev: 0, real: 0 },
+                    5: { prev: 0, real: 0 },
+                    6: { prev: 0, real: 0 }
+                };
+
+                lista.forEach(r => {
+                    if (r.diaSemanaIdx >= 0 && r.diaSemanaIdx <= 6) {
+                        somaDia[r.diaSemanaIdx].prev += r.previsto;
+                        somaDia[r.diaSemanaIdx].real += r.realizado;
+                    }
+                });
+
+                const ctx3 = document.getElementById('chartDiaSemana').getContext('2d');
+                if (chartDiaSemana) chartDiaSemana.destroy();
+                chartDiaSemana = new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: ordemDias.map(d => d.nome),
+                        datasets: [
+                            {
+                                label: 'Realizado (R$)',
+                                data: ordemDias.map(d => somaDia[d.idx].real),
+                                backgroundColor: '#00d4ff',
+                                borderRadius: 7,
+                                maxBarThickness: 42
+                            },
+                            {
+                                label: 'Previsto (R$)',
+                                data: ordemDias.map(d => somaDia[d.idx].prev),
+                                backgroundColor: '#1d4ed8',
+                                borderRadius: 7,
+                                maxBarThickness: 42
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
+                            tooltip: {
+                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
+                                borderColor: 'rgba(0, 212, 255, 0.5)',
+                                borderWidth: 1,
+                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#f8fafc', font: { size: 11, weight: '700' } },
+                                grid: { display: false }
+                            },
+                            y: {
+                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
+                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
+                            }
+                        }
+                    }
+                });
             }
 
             function renderRankings(lista) {
@@ -1629,6 +1810,8 @@
 
                     el.innerHTML = sorted.map(([nome, info]) => {
                         const pct = info.prev > 0 ? (info.real / info.prev) * 100 : 0;
+                        const gap = info.real - info.prev;
+                        const gapColor = gap >= 0 ? '#34d399' : '#f87171';
                         return `
                             <div class="rank-row">
                                 <div class="rank-row-top">
@@ -1637,6 +1820,7 @@
                                 </div>
                                 <div class="rank-row-metrics">
                                     <span>Previsto: <strong style="color:#60a5fa;">${fmtBRL(info.prev)}</strong></span>
+                                    <span>Gap: <strong style="color:${gapColor};">${fmtBRL(gap)}</strong></span>
                                     <span>Atingimento: <strong style="color:#38bdf8;">${pct.toFixed(1).replace('.', ',')}%</strong></span>
                                 </div>
                                 <div class="mini-bar">
@@ -1675,7 +1859,7 @@
                             <td>${fmtBRL(r.meta)}</td>
                             <td>${fmtBRL(r.previsto)}</td>
                             <td style="color:#00d4ff; font-weight:700;">${fmtBRL(r.realizado)}</td>
-                            <td style="color:${gap >= 0 ? '#7dd3fc' : '#fca5a5'};">${fmtBRL(gap)}</td>
+                            <td style="color:${gap >= 0 ? '#34d399' : '#f87171'}; font-weight:700;">${fmtBRL(gap)}</td>
                             <td><span class="pill-badge ${cls}">${pct.toFixed(1).replace('.', ',')}%</span></td>
                         </tr>
                     `;
