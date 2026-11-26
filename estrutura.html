@@ -1,1045 +1,3207 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELLCA | ESTRUTURA — RESUMO & LOOKER STUDIO</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ellca — Dashboard Estrutura Processo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <style>
+    @property --border-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
 
-    <!-- =====================================================================
-         [TUTORIAL PASSO 1] DEPENDÊNCIAS EXTERNAS E FOLHA DE ESTILO PRINCIPAL
-         - Fonte Montserrat (Google Fonts)
-         - Ícones Font Awesome 6.4.0
-         - styles_index.css (deve estar na MESMA pasta raiz que estrutura.html)
-         ===================================================================== -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles_index.css">
+    @keyframes borderGlide {
+      to { --border-angle: 360deg; }
+    }
 
-    <!-- =====================================================================
-         [TUTORIAL PASSO 2] ESTILOS ESPECÍFICOS DO DASHBOARD ESTRUTURA
-         ===================================================================== -->
-    <style>
-        html, body {
-            height: auto;
-            min-height: 100vh;
-            overflow-y: auto !important;
-            overflow-x: hidden;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
 
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            height: auto !important;
-            overflow: visible !important;
-        }
+    body {
+      background-color: #050811;
+      background-image:
+        radial-gradient(ellipse 70% 50% at 15% 4%, rgba(37, 99, 235, 0.24) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 45% at 88% 12%, rgba(56, 189, 248, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%);
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 16px 24px 24px;
+      overflow-x: hidden;
+    }
 
-        .container .item.active {
-            position: relative !important;
-            width: 100%;
-            min-height: 100vh;
-            height: auto !important;
-            overflow: visible !important;
-            display: block;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
+    .tabular { font-variant-numeric: tabular-nums; }
 
-        .navbar,
-        .footer-bar {
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
-        }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.38); border-radius: 999px; }
 
-        body.bars-collapsed .navbar {
-            transform: translateY(-110%);
-            opacity: 0;
-            pointer-events: none;
-        }
+    .dashboard-container {
+      max-width: 1500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-        body.bars-collapsed .footer-bar {
-            transform: translateY(110%);
-            opacity: 0;
-            pointer-events: none;
-        }
+    /* ================= TOOLTIP MODERNO FLUTUANTE (GLASSMORPHISM) ================= */
+    #ellcaModernTooltip {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      min-width: 195px;
+      max-width: 270px;
+      padding: 11px 14px;
+      border-radius: 13px;
+      background: linear-gradient(155deg, rgba(13, 22, 42, 0.92) 0%, rgba(6, 11, 24, 0.96) 100%);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.68),
+        0 0 18px rgba(56, 189, 248, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      color: #f8fafc;
+      font-size: 11.5px;
+      opacity: 0;
+      transform: translateY(6px) scale(0.97);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
 
-        .est-wrapper {
-            position: relative;
-            z-index: 5;
-            width: 100%;
-            max-width: 1380px;
-            margin: 0 auto;
-            padding: 88px 24px 76px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            transition: padding 0.32s ease;
-        }
+    #ellcaModernTooltip.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
 
-        body.bars-collapsed .est-wrapper {
-            padding: 20px 24px 36px 24px;
-        }
+    .tt-header {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      padding-bottom: 6px;
+      margin-bottom: 7px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
 
-        /* Cabeçalho Superior */
-        .est-header-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 14px;
-            padding: 16px 22px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.9) 0%, rgba(12, 36, 84, 0.72) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.36);
-            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.65);
-        }
+    .tt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 4px;
+    }
 
-        .est-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+    .tt-label-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #cbd5e1;
+      font-weight: 600;
+      font-size: 11px;
+    }
 
-        .est-brand-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(0, 212, 255, 0.14);
-            border: 1px solid rgba(0, 212, 255, 0.4);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
+    .tt-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
 
-        .est-brand h1 {
-            font-size: 19px;
-            font-weight: 900;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            color: #fff;
-            margin: 0 0 3px 0;
-        }
+    .tt-val {
+      font-weight: 800;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+    }
 
-        .est-brand p {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            margin: 0;
-        }
+    .tt-footer-pill {
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
 
-        .est-actions {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    /* ================= BARRA SUPERIOR ================= */
+    .top-navbar-collapse {
+      max-height: 90px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      transition: max-height 0.32s ease, opacity 0.25s ease, transform 0.28s ease, margin 0.28s ease;
+    }
 
-        .est-select {
-            background: rgba(4, 10, 24, 0.88);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 700;
-            outline: none;
-            cursor: pointer;
-        }
+    body.menu-hidden .top-navbar-collapse {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      margin-bottom: -15px;
+    }
 
-        .est-select:hover,
-        .est-select:focus {
-            border-color: var(--primary);
-        }
+    .top-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 4px 2px 4px;
+    }
 
-        .btn-exec {
-            padding: 9px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.42);
-            background: rgba(0, 212, 255, 0.12);
-            color: #fff;
-            font-size: 10.5px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            text-decoration: none;
-            transition: all 0.25s ease;
-        }
+    .nav-brand-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-        .btn-exec:hover {
-            background: rgba(0, 212, 255, 0.26);
-            border-color: var(--primary);
-            box-shadow: 0 0 16px rgba(0, 212, 255, 0.35);
-        }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.4px;
+      background: transparent;
+    }
 
-        .btn-exec.active-tab {
-            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-            color: #030712;
-            border-color: var(--primary);
-        }
+    .brand-logo img {
+      height: 38px;
+      width: auto;
+      max-width: 155px;
+      object-fit: contain;
+      display: block;
+      background: transparent;
+    }
 
-        /* KPIs da Aba Estrutura Processo */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
+    .brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 20px;
+      color: #60a5fa;
+    }
 
-        .kpi-card {
-            padding: 18px 20px;
-            border-radius: 16px;
-            background: linear-gradient(148deg, rgba(2, 4, 10, 0.82) 0%, rgba(10, 32, 74, 0.56) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            border-top: 1px solid rgba(255, 255, 255, 0.32);
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            transition: transform 0.25s ease, border-color 0.25s ease;
-        }
+    .module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
 
-        .kpi-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(0, 212, 255, 0.65);
-        }
+    .module-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
 
-        .kpi-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 10.5px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            color: #94a3b8;
-        }
+    .user-avatar-ring {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-size: 11.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
+    }
 
-        .kpi-num {
-            font-size: 28px;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1.1;
-        }
+    .nav-links-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
 
-        .kpi-pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
+    .top-nav-link {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
 
-        .pill-tag {
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 9.5px;
-            background: rgba(12, 36, 84, 0.55);
-            border: 1px solid rgba(46, 115, 225, 0.4);
-            color: #7ab8ff;
-        }
+    .top-nav-link:hover {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+    }
 
-        .pill-ok {
-            background: rgba(46, 204, 113, 0.16);
-            border-color: rgba(46, 204, 113, 0.42);
-            color: #2ecc71;
-        }
+    .btn-back-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.75);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
 
-        .pill-warn {
-            background: rgba(241, 196, 15, 0.16);
-            border-color: rgba(241, 196, 15, 0.42);
-            color: #f1c40f;
-        }
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.18);
+    }
 
-        .pill-danger {
-            background: rgba(239, 68, 68, 0.16);
-            border-color: rgba(239, 68, 68, 0.42);
-            color: #f87171;
-        }
+    /* ================= BANNER HERO PREMIUM COM LOGO TRANSPARENTE ================= */
+    .hero-banner {
+      position: relative;
+      border-radius: 18px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(16, 36, 70, 0.78) 0%, rgba(11, 20, 40, 0.84) 55%, rgba(15, 32, 64, 0.78) 100%);
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      border: 1px solid rgba(96, 165, 250, 0.30);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow: hidden;
+    }
 
-        /* Painéis de Distribuição & Tabela */
-        .panels-3col {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.15fr;
-            gap: 16px;
-        }
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 280px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-        .glass-panel {
-            padding: 18px 20px;
-            border-radius: 16px;
-            background: linear-gradient(150deg, rgba(3, 7, 16, 0.86) 0%, rgba(10, 32, 74, 0.54) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.26);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.58);
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
+    .hero-top-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
 
-        .panel-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-        }
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-        .panel-head h3 {
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 0;
-        }
+    .hero-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.35), rgba(14, 165, 233, 0.16));
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
 
-        .panel-head span {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--primary);
-        }
+    .hero-main-title {
+      font-size: 19.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
 
-        .bar-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 240px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
+    .hero-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
 
-        .bar-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+    .hero-logo-transparent {
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      text-decoration: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
 
-        .bar-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            font-weight: 700;
-            color: #e2e8f0;
-        }
+    .hero-logo-transparent:hover { transform: scale(1.02); }
 
-        .bar-track {
-            width: 100%;
-            height: 7px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-        }
+    .hero-logo-transparent img {
+      height: 44px;
+      width: auto;
+      max-width: 175px;
+      object-fit: contain;
+      display: block;
+      background: transparent;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    }
 
-        .bar-fill {
-            height: 100%;
-            border-radius: 50px;
-            background: linear-gradient(90deg, var(--accent), var(--primary));
-            transition: width 0.5s ease;
-        }
+    .hero-logo-fallback {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #60a5fa;
+    }
 
-        .table-scroll {
-            width: 100%;
-            max-height: 310px;
-            overflow: auto;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      position: relative;
+      z-index: 2;
+    }
 
-        .est-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            text-align: left;
-        }
+    .live-badge {
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 9px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: #34d399;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
 
-        .est-table thead th {
-            position: sticky;
-            top: 0;
-            background: rgba(6, 18, 42, 0.96);
-            color: var(--primary);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            padding: 10px 12px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
-        }
+    .hero-btn {
+      height: 34px;
+      padding: 0 15px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
 
-        .est-table tbody td {
-            padding: 9px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            color: #e2e8f0;
-        }
+    .hero-btn-blue {
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #93c5fd;
+    }
 
-        .est-table tbody tr:hover {
-            background: rgba(0, 212, 255, 0.08);
-        }
+    .hero-btn-blue:hover {
+      background: rgba(37, 99, 235, 0.38);
+      color: #ffffff;
+    }
 
-        /* Bloco Looker Studio */
-        .looker-card {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: linear-gradient(150deg, rgba(3, 7, 16, 0.9) 0%, rgba(10, 32, 74, 0.58) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.36);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.68);
-        }
+    .hero-btn-cyan {
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      color: #bae6fd;
+    }
 
-        .looker-frame-wrap {
-            position: relative;
-            width: 100%;
-            height: 76vh;
-            min-height: 540px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            background: rgba(2, 5, 12, 0.94);
-        }
+    .hero-btn-cyan:hover {
+      background: rgba(14, 165, 233, 0.32);
+      color: #ffffff;
+    }
 
-        .looker-frame-wrap iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            display: block;
-        }
+    .hero-btn-menu-toggle {
+      background: #34d399;
+      border: 1px solid #6ee7b7;
+      color: #042f2e;
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+    }
 
-        .looker-empty {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 24px;
-            gap: 12px;
-            color: #cbd5e1;
-        }
+    .hero-btn-menu-toggle:hover { filter: brightness(1.06); }
 
-        .looker-empty input {
-            width: 100%;
-            max-width: 440px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.4);
-            background: rgba(4, 10, 24, 0.92);
-            color: #fff;
-            font-size: 11.5px;
-            outline: none;
-        }
+    body.menu-hidden .hero-btn-menu-toggle {
+      background: rgba(30, 58, 138, 0.48);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #e0f2fe;
+      box-shadow: none;
+    }
 
-        .hidden-section {
-            display: none !important;
-        }
+    .hero-btn-gold {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.48);
+      color: #fde047;
+    }
 
-        @media (max-width: 1100px) {
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .panels-3col {
-                grid-template-columns: 1fr;
-            }
-        }
+    .hero-btn-gold:hover {
+      background: rgba(234, 179, 8, 0.28);
+      color: #fef08a;
+    }
 
-        @media (max-width: 768px) {
-            .est-wrapper {
-                padding: 76px 14px 64px 14px;
-            }
-            body.bars-collapsed .est-wrapper {
-                padding: 14px 14px 28px 14px;
-            }
-            .kpi-grid {
-                grid-template-columns: 1fr;
-            }
-            .looker-frame-wrap {
-                height: 65vh;
-                min-height: 420px;
-            }
-        }
-    </style>
+    .mode-switch-group {
+      margin-left: auto;
+      display: inline-flex;
+      background: rgba(6, 10, 20, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .mode-btn {
+      height: 28px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .mode-btn.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      color: #040d1e;
+    }
+
+    /* BOTÃO COMPACTO INDIVIDUAL DE RÓTULOS DENTRO DE CADA GRÁFICO */
+    .btn-chart-label {
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 7px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #7dd3fc;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.18s ease;
+    }
+
+    .btn-chart-label:hover {
+      background: rgba(56, 189, 248, 0.26);
+      color: #ffffff;
+    }
+
+    .btn-chart-label.off {
+      background: rgba(15, 23, 42, 0.55);
+      border-color: rgba(148, 163, 184, 0.22);
+      color: #64748b;
+    }
+
+    /* ================= PAINEL DE FILTROS COM MULTI-SELEÇÃO EM TODOS ================= */
+    .filters-collapse {
+      max-height: 460px;
+      opacity: 1;
+      overflow: visible;
+      transition: max-height 0.34s ease, opacity 0.26s ease, margin 0.28s ease;
+      position: relative;
+      z-index: 40;
+    }
+
+    body.menu-hidden .filters-collapse {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+      margin-bottom: -15px;
+    }
+
+    .filters-panel {
+      background: rgba(13, 19, 34, 0.72);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .filters-grid-top {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .filters-grid-bottom {
+      display: flex;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+
+    .filter-field label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-field label i {
+      color: #38bdf8;
+      font-size: 10.5px;
+    }
+
+    .filter-control {
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(6, 10, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 11px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s ease;
+    }
+
+    .filter-control:focus { border-color: #3b82f6; }
+
+    /* SELETOR MÚLTIPLO PADRÃO PARA TODOS OS FILTROS */
+    .multi-select-trigger {
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(6, 10, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 11px;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .multi-select-trigger:hover,
+    .multi-select-trigger.open {
+      border-color: #38bdf8;
+      background: rgba(11, 18, 34, 0.92);
+    }
+
+    .multi-select-trigger span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .multi-select-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 230px;
+      width: 100%;
+      max-height: 270px;
+      border-radius: 12px;
+      background: rgba(9, 15, 28, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.72);
+      padding: 8px;
+      z-index: 120;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .multi-select-dropdown.open { display: flex; }
+
+    .multi-select-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .multi-select-mini-btn {
+      flex: 1;
+      height: 25px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.34);
+      background: rgba(56, 189, 248, 0.14);
+      color: #7dd3fc;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .multi-select-mini-btn:hover {
+      background: rgba(56, 189, 248, 0.28);
+      color: #ffffff;
+    }
+
+    .multi-select-mini-btn.uncheck {
+      border-color: rgba(96, 165, 250, 0.28);
+      background: rgba(30, 58, 138, 0.24);
+      color: #93c5fd;
+    }
+
+    .multi-select-mini-btn.uncheck:hover {
+      background: rgba(37, 99, 235, 0.36);
+      color: #ffffff;
+    }
+
+    .multi-select-list {
+      overflow-y: auto;
+      max-height: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .multi-select-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #e2e8f0;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+
+    .multi-select-option:hover {
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .multi-select-option input[type="checkbox"] {
+      accent-color: #38bdf8;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .multi-select-option span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-clear-filters {
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 9px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-clear-filters:hover {
+      background: rgba(239, 68, 68, 0.28);
+      color: #ffffff;
+    }
+
+    .dias-badges-group {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dias-badge-item {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9px;
+      background: rgba(37, 99, 235, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.34);
+      color: #93c5fd;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dias-badge-item.worked {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(52, 211, 153, 0.34);
+      color: #6ee7b7;
+    }
+
+    /* ================= CARDS COM EFEITO VIDRO PREMIUM ================= */
+    .card-3d-wrap {
+      perspective: 1400px;
+      height: 100%;
+    }
+
+    .card-surface {
+      --border-glow: #38bdf8;
+      --border-soft: #1d4ed8;
+      position: relative;
+      border-radius: 17px;
+      background: linear-gradient(160deg, rgba(16, 25, 44, 0.74) 0%, rgba(7, 12, 23, 0.84) 100%);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.58),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 24px rgba(56, 189, 248, 0.04);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+      height: 100%;
+    }
+
+    .card-surface:hover {
+      border-color: rgba(56, 189, 248, 0.32);
+      box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 0 28px rgba(56, 189, 248, 0.09);
+    }
+
+    /* ACENTOS SUAVES NOS 4 CARDS DE KPI */
+    .card-surface.kpi-tint-total {
+      --border-glow: #38bdf8;
+      --border-soft: #0284c7;
+      background: linear-gradient(155deg, rgba(14, 116, 144, 0.24) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(56, 189, 248, 0.24);
+    }
+
+    .card-surface.kpi-tint-ativo {
+      --border-glow: #34d399;
+      --border-soft: #059669;
+      background: linear-gradient(155deg, rgba(6, 95, 70, 0.26) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(52, 211, 153, 0.26);
+    }
+
+    .card-surface.kpi-tint-oficina {
+      --border-glow: #fbbf24;
+      --border-soft: #d97706;
+      background: linear-gradient(155deg, rgba(146, 64, 14, 0.24) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(251, 191, 36, 0.24);
+    }
+
+    .card-surface.kpi-tint-ferias {
+      --border-glow: #818cf8;
+      --border-soft: #4f46e5;
+      background: linear-gradient(155deg, rgba(49, 46, 129, 0.26) 0%, rgba(15, 23, 42, 0.80) 52%, rgba(7, 12, 23, 0.88) 100%);
+      border-color: rgba(129, 140, 248, 0.24);
+    }
+
+    .kpi-icon-pill {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+    }
+
+    .kpi-icon-pill.total {
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      color: #7dd3fc;
+    }
+
+    .kpi-icon-pill.ativo {
+      background: rgba(52, 211, 153, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.32);
+      color: #6ee7b7;
+    }
+
+    .kpi-icon-pill.oficina {
+      background: rgba(251, 191, 36, 0.16);
+      border: 1px solid rgba(251, 191, 36, 0.32);
+      color: #fcd34d;
+    }
+
+    .kpi-icon-pill.ferias {
+      background: rgba(129, 140, 248, 0.16);
+      border: 1px solid rgba(129, 140, 248, 0.32);
+      color: #a5b4fc;
+    }
+
+    .card-surface::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 18px;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--border-angle),
+        transparent 0deg,
+        transparent 288deg,
+        var(--border-soft) 318deg,
+        var(--border-glow) 342deg,
+        rgba(147, 197, 253, 0.8) 354deg,
+        transparent 360deg
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderGlide 12s linear infinite;
+      opacity: 0.5;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .card-surface:hover::before { opacity: 0.88; }
+
+    .card-body {
+      position: relative;
+      z-index: 2;
+      padding: 16px 18px;
+      border-radius: 16px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* ================= LAYOUT PRINCIPAL ================= */
+    .top-kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.62fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .left-column,
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .card-header-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      color: #f8fafc;
+    }
+
+    .card-header-sub {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .kpi-label-top {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kpi-val-main {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: #ffffff;
+    }
+
+    .kpi-footer-meta {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .pill-up {
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    .pill-warn {
+      color: #fcd34d;
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(251, 191, 36, 0.28);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    .pill-down {
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.16);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    .pill-info {
+      color: #93c5fd;
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(96, 165, 250, 0.28);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    .line-legend-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .line-legend-inline span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot-blue { width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
+    .dot-amber { width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+
+    .chart-header-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    /* ================= DESTAQUE DE FOTO & INFO DO SUPERVISOR ================= */
+    .sup-profile-spotlight {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.14) 0%, rgba(7, 13, 28, 0.78) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .sup-profile-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .sup-photo-frame {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.32);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .sup-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sup-photo-initials {
+      font-size: 14px;
+      font-weight: 800;
+      color: #7dd3fc;
+      letter-spacing: 0.3px;
+    }
+
+    .sup-profile-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sup-profile-role {
+      font-size: 10.5px;
+      color: #7dd3fc;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .sup-profile-meta {
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .sup-profile-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .sup-profile-val {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .sup-profile-badge {
+      display: inline-block;
+      margin-top: 3px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.32);
+      color: #34d399;
+    }
+
+    .sup-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 11px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .sup-item:hover,
+    .sup-item.active {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.32);
+    }
+
+    .sup-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.34);
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .sup-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ANÉIS CONCÊNTRICOS */
+    .rings-widget-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 245px;
+    }
+
+    .rings-canvas-box {
+      position: relative;
+      width: 184px;
+      height: 184px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rings-center-label {
+      position: absolute;
+      text-align: center;
+      pointer-events: none;
+      max-width: 78px;
+      line-height: 1.15;
+    }
+
+    .rings-center-val {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .rings-center-sub {
+      font-size: 8.5px;
+      color: #94a3b8;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .rings-bottom-legend {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: left;
+    }
+
+    .ring-leg-val {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .ring-leg-name {
+      font-size: 10px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ring-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .mid-charts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    /* VELOCÍMETRO DE DISPONIBILIDADE */
+    .gauge-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 245px;
+    }
+
+    .gauge-svg-wrap {
+      position: relative;
+      width: 240px;
+      height: 142px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .gauge-center-txt {
+      position: absolute;
+      bottom: 6px;
+      text-align: center;
+    }
+
+    .gauge-pct {
+      font-size: 27px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .gauge-sub {
+      font-size: 10.5px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .gauge-bottom-pair {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+      font-size: 11px;
+    }
+
+    .ai-box {
+      margin-top: 10px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      background: rgba(6, 10, 20, 0.65);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      font-size: 11.5px;
+      line-height: 1.52;
+      color: #cbd5e1;
+    }
+
+    .btn-ai-refresh {
+      margin-top: 10px;
+      width: 100%;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: rgba(37, 99, 235, 0.22);
+      color: #eff6ff;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-ai-refresh:hover { background: #2563eb; color: #ffffff; }
+
+    .table-wrap { overflow: auto; max-height: 410px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+    thead th {
+      text-align: left;
+      padding: 9px 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #94a3b8;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      background: rgba(13, 20, 36, 0.96);
+    }
+
+    tbody td {
+      padding: 8.5px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+
+    tbody tr:hover { background: rgba(59, 130, 246, 0.08); }
+
+    /* PAINEL LOOKER STUDIO PADRONIZADO */
+    .looker-frame-wrap {
+      position: relative;
+      width: 100%;
+      height: 74vh;
+      min-height: 520px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      background: rgba(4, 8, 18, 0.94);
+    }
+
+    .looker-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .hidden-section { display: none !important; }
+
+    .c-blue    { color: #38bdf8 !important; }
+    .c-emerald { color: #34d399 !important; }
+    .c-amber   { color: #fbbf24 !important; }
+
+    /* ================= RODAPÉ OFICIAL ================= */
+    .ellca-official-footer {
+      margin-top: 6px;
+      padding: 12px 4px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text strong {
+      color: #f8fafc;
+      font-weight: 700;
+    }
+
+    .btn-footer-support {
+      height: 30px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-footer-support:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    @media (max-width: 1180px) {
+      .filters-grid-top { grid-template-columns: repeat(3, 1fr); }
+      .top-kpis-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 1120px) {
+      .main-grid,
+      .mid-charts-grid,
+      .bottom-two-grid { grid-template-columns: 1fr !important; }
+    }
+
+    @media (max-width: 680px) {
+      .filters-grid-top { grid-template-columns: repeat(2, 1fr); }
+      .top-kpis-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="bars-collapsed">
-    <!-- =====================================================================
-         [TUTORIAL PASSO 3] PROTEÇÃO DE ROTA E PERMISSÃO POR SETOR
-         ===================================================================== -->
-    <script>
-        if (sessionStorage.getItem('ellca_auth') !== 'true') {
-            window.location.replace('login.html');
-        }
+  <!-- PROTEÇÃO DE ROTA E PERMISSÃO POR SETOR -->
+  <script>
+    if (sessionStorage.getItem('ellca_auth') !== 'true') {
+      window.location.replace('login.html');
+    }
 
-        (function validarPermissaoEstrutura() {
-            let setores = [];
-            try {
-                setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]')
-                    .map(s => String(s).trim().toLowerCase());
-            } catch (e) {
-                setores = [];
-            }
+    (function validarPermissaoEstrutura() {
+      let setores = [];
+      try {
+        setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]')
+          .map(s => String(s).trim().toLowerCase());
+      } catch (e) {
+        setores = [];
+      }
 
-            const autorizado = setores.includes('todos') || setores.includes('estrutura');
-            if (!autorizado) {
-                alert('Acesso restrito: seu usuário não possui permissão para acessar o módulo Estrutura.');
-                window.location.replace('dashboard.html');
-            }
-        })();
-    </script>
+      const autorizado = setores.includes('todos') || setores.includes('estrutura');
+      if (!autorizado) {
+        alert('Acesso restrito: seu usuário não possui permissão para acessar o módulo Estrutura.');
+        window.location.replace('dashboard.html');
+      }
+    })();
+  </script>
 
-    <!-- =====================================================================
-         [TUTORIAL PASSO 4] NAVBAR GLOBAL DO PORTAL
-         ===================================================================== -->
-    <nav class="navbar">
-        <div class="logo">
-            <a href="index.html">
-                <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
-            </a>
+  <!-- TOOLTIP MODERNO FLUTUANTE -->
+  <div id="ellcaModernTooltip"></div>
+
+  <div class="dashboard-container">
+
+    <!-- 1. BARRA SUPERIOR -->
+    <div class="top-navbar-collapse">
+      <header class="top-navbar">
+        <div class="nav-brand-side">
+          <a href="home.html" class="brand-logo" title="Ellca">
+            <img src="img/logo_ellca.png" alt="Logo Ellca"
+                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+            <span id="logoFallback" class="brand-fallback">
+              <span>🌀Ellca</span>
+            </span>
+          </a>
+
+          <span class="module-pill">
+            <span class="dot"></span>
+            ESTRUTURA · PROCESSO & FROTA
+          </span>
+
+          <span class="user-avatar-ring" title="Rodrigo Lopes">RL</span>
         </div>
 
-        <div class="mobile-header-actions">
-            <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="dashboard.html" title="Voltar para Dashboards">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <button type="button" class="menu-mobile-btn" aria-label="Abrir Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
-
-        <div class="nav-content">
-            <div class="nav-status">
-                <span class="pulse-dot"></span>
-                <span class="status-text">ESTRUTURA • ONLINE</span>
-            </div>
-
-            <div class="nav-links">
-                <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
-                <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
-                <a href="planilha.html" class="nav-item">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
-
-                <div class="nav-actions-group">
-                    <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="dashboard.html" title="Voltar para Dashboards">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- =====================================================================
-         [TUTORIAL PASSO 5] CONTAINER PRINCIPAL & FILTROS DO SITE
-         ===================================================================== -->
-    <div class="container">
-        <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('img/Capa_home.jpg');">
-            <div class="est-wrapper">
-
-                <!-- CABEÇALHO E FILTROS DINÂMICOS NO SITE -->
-                <div class="est-header-card">
-                    <div class="est-brand">
-                        <div class="est-brand-icon"><i class="fa-solid fa-sitemap"></i></div>
-                        <div>
-                            <h1>Dashboard Estrutura</h1>
-                            <p id="lblStatusPlanilha">Conectando via Apps Script à base completa...</p>
-                        </div>
-                    </div>
-
-                    <div class="est-actions">
-                        <select id="filtroData" class="est-select" title="Filtrar por Data">
-                            <option value="TODAS">Data: Todas</option>
-                        </select>
-
-                        <select id="filtroProcesso" class="est-select" title="Filtrar por Processo">
-                            <option value="TODOS">Processo: Todos</option>
-                        </select>
-
-                        <select id="filtroSupervisor" class="est-select" title="Filtrar por Supervisor">
-                            <option value="TODOS">Supervisor: Todos</option>
-                        </select>
-
-                        <select id="filtroStatus" class="est-select" title="Filtrar por Status">
-                            <option value="TODOS">Status: Todos</option>
-                            <option value="ATIVO">Status: Ativo</option>
-                            <option value="OFICINA">Status: Oficina</option>
-                            <option value="FERIAS">Status: Férias</option>
-                            <option value="MOBILIZAR">Status: Mobilizar</option>
-                        </select>
-
-                        <button type="button" class="btn-exec" id="btnLimparFiltros" title="Resetar todos os filtros">
-                            <i class="fa-solid fa-filter-circle-xmark"></i> Limpar
-                        </button>
-
-                        <button type="button" class="btn-exec active-tab" data-mode="ambos">
-                            <i class="fa-solid fa-layer-group"></i> Tudo
-                        </button>
-                        <button type="button" class="btn-exec" data-mode="resumo">
-                            <i class="fa-solid fa-chart-simple"></i> Resumo
-                        </button>
-                        <button type="button" class="btn-exec" data-mode="looker">
-                            <i class="fa-solid fa-chart-pie"></i> Looker
-                        </button>
-
-                        <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu e rodapé">
-                            <i class="fa-solid fa-bars" id="iconToggleBars"></i>
-                            <span id="textToggleBars">Menu</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ===========================================================
-                     [TUTORIAL PASSO 6] SEÇÃO 1 — RESUMO DA ABA "ESTRUTURA PROCESSO"
-                     =========================================================== -->
-                <div id="blocoResumo" style="display:flex; flex-direction:column; gap:18px;">
-
-                    <div class="kpi-grid">
-                        <div class="kpi-card">
-                            <div class="kpi-top">
-                                <span>Total de Equipes</span>
-                                <i class="fa-solid fa-truck-pickup" style="color:var(--primary);"></i>
-                            </div>
-                            <div class="kpi-num" id="kpiTotal">--</div>
-                            <div class="kpi-pills" id="pillsTotal">
-                                <span class="pill-tag pill-ok">Ativo: --</span>
-                                <span class="pill-tag pill-warn">Mobilizar: --</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card">
-                            <div class="kpi-top">
-                                <span>Equipes Ativas</span>
-                                <i class="fa-solid fa-circle-check" style="color:#2ecc71;"></i>
-                            </div>
-                            <div class="kpi-num" id="kpiAtivo">--</div>
-                            <div class="kpi-pills" id="pillsAtivo">
-                                <span class="pill-tag pill-ok">Disponibilidade: --%</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card">
-                            <div class="kpi-top">
-                                <span>Em Oficina</span>
-                                <i class="fa-solid fa-screwdriver-wrench" style="color:#f1c40f;"></i>
-                            </div>
-                            <div class="kpi-num" id="kpiOficina">--</div>
-                            <div class="kpi-pills">
-                                <span class="pill-tag pill-warn">Manutenção / Frota</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card">
-                            <div class="kpi-top">
-                                <span>Férias & Mobilizar</span>
-                                <i class="fa-solid fa-calendar-days" style="color:#7ab8ff;"></i>
-                            </div>
-                            <div class="kpi-num" id="kpiFeriasMob">--</div>
-                            <div class="kpi-pills" id="pillsFeriasMob">
-                                <span class="pill-tag">Férias: --</span>
-                                <span class="pill-tag pill-danger">Mobilizar: --</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panels-3col">
-                        <div class="glass-panel">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-diagram-project" style="color:var(--primary);"></i> Por Processo</h3>
-                                <span id="lblRefData">Atual</span>
-                            </div>
-                            <div class="bar-list" id="listaProcessos"></div>
-                        </div>
-
-                        <div class="glass-panel">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-truck-front" style="color:var(--primary);"></i> Tipo de Veículo</h3>
-                                <span>Frota</span>
-                            </div>
-                            <div class="bar-list" id="listaVeiculos"></div>
-                        </div>
-
-                        <div class="glass-panel">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-user-tie" style="color:var(--primary);"></i> Por Supervisor</h3>
-                                <span>Gestão</span>
-                            </div>
-                            <div class="bar-list" id="listaSupervisores"></div>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel">
-                        <div class="panel-head">
-                            <h3><i class="fa-solid fa-table-list" style="color:var(--primary);"></i> Equipes — Estrutura Processo</h3>
-                            <span id="lblQtdLinhas">0 linhas</span>
-                        </div>
-                        <div class="table-scroll">
-                            <table class="est-table">
-                                <thead>
-                                    <tr>
-                                        <th>Data</th>
-                                        <th>Processo</th>
-                                        <th>Supervisor</th>
-                                        <th>Equipe</th>
-                                        <th>Veículo</th>
-                                        <th>Equipamento</th>
-                                        <th>Estrutura da Equipe</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="corpoTabela">
-                                    <tr><td colspan="8" style="text-align:center; padding:16px; color:#94a3b8;">Carregando dados da planilha...</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===========================================================
-                     [TUTORIAL PASSO 7] SEÇÃO 2 — PAINEL INTERATIVO LOOKER STUDIO
-                     =========================================================== -->
-                <div class="looker-card" id="blocoLooker">
-                    <div class="panel-head" style="border-bottom:none; padding-bottom:4px;">
-                        <h3><i class="fa-solid fa-chart-line" style="color:var(--primary);"></i> Painel Looker Studio — Estrutura</h3>
-                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <button type="button" class="btn-exec" id="btnTelaCheia">
-                                <i class="fa-solid fa-expand"></i> Tela Cheia
-                            </button>
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-exec" id="linkAbrirExterno">
-                                <i class="fa-solid fa-up-right-from-square"></i> Abrir Externo
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="looker-frame-wrap" id="lookerContainer">
-                        <iframe id="lookerIframe" src="" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" style="display:none;"></iframe>
-
-                        <div class="looker-empty" id="lookerConfig">
-                            <i class="fa-solid fa-chart-pie" style="font-size:34px; color:var(--primary);"></i>
-                            <strong style="color:#fff; font-size:14px;">Link de Incorporação do Looker Studio</strong>
-                            <span style="font-size:11.5px; max-width:480px;">Cole o link <code>/embed/reporting/...</code> do Looker Studio abaixo ou fixe direto na constante <code>LOOKER_URL_FIXA</code> no código:</span>
-                            <input type="url" id="campoLookerUrl" placeholder="https://lookerstudio.google.com/embed/reporting/...">
-                            <button type="button" class="btn-exec active-tab" id="btnCarregarLooker">
-                                <i class="fa-solid fa-check"></i> Carregar Relatório
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- RODAPÉ -->
-        <footer class="footer-bar">
-            <div class="footer-info">
-                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
-                <span class="separator">•</span>
-                <span>Módulo: <strong>Dashboard Estrutura</strong></span>
-            </div>
-            <div class="footer-actions">
-                <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                    <i class="fa-solid fa-headset"></i> Suporte
-                </button>
-            </div>
-        </footer>
+        <nav class="nav-links-side" aria-label="Menu do Portal">
+          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house"></i> HOME</a>
+          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARDS</a>
+          <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
+          <a href="dashboard.html" class="btn-back-circle" title="Voltar"><i class="fa-solid fa-arrow-left"></i></a>
+        </nav>
+      </header>
     </div>
 
-    <!-- =====================================================================
-         [TUTORIAL PASSO 8] SCRIPT DE INTEGRAÇÃO VIA GOOGLE APPS SCRIPT
-         - Lê 100% da aba "Estrutura Processo" via fetch() no Apps Script,
-           ignorando filtros aplicados na planilha.
-         ===================================================================== -->
-    <script>
-        (function () {
-            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHybDzDjWlikLTZuehRMGzKYiWjPzydHXJ0yLprFA0t17WZCt40tkqhm78XMmuFyk/exec';
+    <!-- 2. BANNER HERO PREMIUM COM LOGO TRANSPARENTE -->
+    <section class="hero-banner">
+      <div class="hero-top-split">
+        <div class="hero-title-row">
+          <div class="hero-icon-box">
+            <i class="fa-solid fa-sitemap"></i>
+          </div>
+          <div>
+            <h1 class="hero-main-title">DASHBOARD ESTRUTURA — PROCESSOS, EQUIPES & FROTA</h1>
+            <p class="hero-subtitle" id="lblStatusPlanilha">Conectando via Apps Script à aba Estrutura Processo...</p>
+          </div>
+        </div>
 
-            // Cole o link /embed/reporting/... do Looker Studio aqui se quiser deixar fixo:
-            const LOOKER_URL_FIXA = localStorage.getItem('https://datastudio.google.com:/embed/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F') || '';
+        <a href="home.html" class="hero-logo-transparent" title="Ellca">
+          <img src="img/logo_ellca.png" alt="Logo Ellca"
+               onerror="this.style.display='none'; document.getElementById('heroLogoFallback').style.display='inline-flex';" />
+          <span id="heroLogoFallback" class="hero-logo-fallback">🌀Ellca</span>
+        </a>
+      </div>
 
-            let registros = [];
+      <div class="hero-actions-row">
+        <span class="live-badge tabular" id="liveClockBadge">
+          <i class="fa-solid fa-circle-check"></i>
+          <span id="liveClockTxt">Ao Vivo · --:--</span>
+        </span>
 
-            const num = (v) => {
-                if (typeof v === 'number') return v;
-                if (!v) return 0;
-                return parseFloat(String(v).replace(/[^\d.-]/g, '')) || 0;
-            };
+        <button type="button" class="hero-btn hero-btn-blue" id="btnAtualizarDados">
+          <i class="fa-solid fa-rotate"></i> ATUALIZAR
+        </button>
 
-            const chaveDataIso = (dtStr) => {
-                const m = String(dtStr || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-                return m ? `${m[3]}-${m[2]}-${m[1]}` : String(dtStr || '');
-            };
+        <button type="button" class="hero-btn hero-btn-cyan" id="btnBaixarPlanilha">
+          <i class="fa-solid fa-file-csv"></i> EXPORTAR CSV
+        </button>
 
-            function processarMatriz(matriz) {
-                let ultimaDataValida = '';
-                let ultimaAtt = '';
+        <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">OCULTAR MENU</span>
+        </button>
 
-                registros = matriz.slice(1).map(row => {
-                    let dt = String(row[0] || '').trim();
-                    if (dt) {
-                        ultimaDataValida = dt;
-                    } else {
-                        dt = ultimaDataValida;
-                    }
+        <a href="https://docs.google.com/spreadsheets/d/1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo/edit?gid=369952144#gid=369952144"
+           id="linkEditarPlanilha" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-gold">
+          <i class="fa-solid fa-pen-to-square"></i> PREENCHER NA PLANILHA
+        </a>
 
-                    const proc = String(row[1] || '').trim().toUpperCase();
-                    const sup = String(row[2] || '').trim().toUpperCase();
-                    const eq = String(row[3] || '').trim().toUpperCase();
-                    const veic = String(row[4] || '').trim().toUpperCase();
-                    const equip = String(row[5] || '').trim().toUpperCase();
-                    const estEq = String(row[6] || '').trim();
-                    const ativo = num(row[7]);
-                    const mob = num(row[8]);
-                    const oficina = num(row[9]);
-                    const ferias = num(row[10]);
-                    const att = String(row[11] || '').trim();
-                    if (att && !ultimaAtt) ultimaAtt = att;
+        <div class="mode-switch-group" id="seletorModoView">
+          <button type="button" class="mode-btn active" data-mode="ambos">
+            <i class="fa-solid fa-layer-group"></i> Tudo
+          </button>
+          <button type="button" class="mode-btn" data-mode="resumo">
+            <i class="fa-solid fa-chart-simple"></i> Resumo
+          </button>
+          <button type="button" class="mode-btn" data-mode="looker">
+            <i class="fa-solid fa-chart-pie"></i> Looker
+          </button>
+        </div>
+      </div>
+    </section>
 
-                    let statusKey = 'ATIVO';
-                    if (oficina > 0) statusKey = 'OFICINA';
-                    else if (ferias > 0) statusKey = 'FERIAS';
-                    else if (mob > 0) statusKey = 'MOBILIZAR';
+    <!-- 3. PAINEL DE FILTROS — TODOS COM MULTI-SELEÇÃO (TODAS / DESMARCAR) -->
+    <div class="filters-collapse">
+      <div class="filters-panel">
+        <div class="filters-grid-top">
 
-                    return { dt, proc, sup, eq, veic, equip, estEq, ativo, mob, oficina, ferias, statusKey };
-                }).filter(x => x.eq && x.eq !== 'EQUIPE');
+          <!-- DATA / PERÍODOS -->
+          <div class="filter-field" data-ms-field="data">
+            <label><i class="fa-solid fa-calendar-day"></i> DATA / PERÍODOS</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_data">
+              <span id="msLabel_data">Todas as Datas</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_data">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="data">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="data">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_data"></div>
+            </div>
+          </div>
 
-                document.getElementById('lblStatusPlanilha').textContent = ultimaAtt
-                    ? `Apps Script conectado (base completa) • ${registros.length} registros • Atualizado em ${ultimaAtt}`
-                    : `Apps Script conectado (base completa) • ${registros.length} registros`;
+          <!-- PROCESSO -->
+          <div class="filter-field" data-ms-field="processo">
+            <label><i class="fa-solid fa-layer-group"></i> PROCESSO</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_processo">
+              <span id="msLabel_processo">Todos os Processos</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_processo">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="processo">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="processo">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_processo"></div>
+            </div>
+          </div>
 
-                preencherFiltros();
-                atualizarResumo();
-            }
+          <!-- SUPERVISOR -->
+          <div class="filter-field" data-ms-field="supervisor">
+            <label><i class="fa-solid fa-user-tie"></i> SUPERVISOR</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_supervisor">
+              <span id="msLabel_supervisor">Todos os Supervisores</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_supervisor">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="supervisor">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="supervisor">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_supervisor"></div>
+            </div>
+          </div>
 
-            async function carregarDados() {
-                try {
-                    const resp = await fetch(APPS_SCRIPT_URL, { cache: 'no-store' });
-                    const json = await resp.json();
-                    if (json && Array.isArray(json.rows)) {
-                        processarMatriz(json.rows);
-                    } else if (json && json.error) {
-                        document.getElementById('lblStatusPlanilha').textContent = `Erro no Apps Script: ${json.error}`;
-                    } else {
-                        throw new Error('Resposta inválida do Apps Script.');
-                    }
-                } catch (err) {
-                    console.error(err);
-                    document.getElementById('lblStatusPlanilha').textContent =
-                        'Erro ao conectar no Apps Script. Verifique se a implantação está publicada para "Qualquer pessoa".';
-                }
-            }
+          <!-- TIPO DE VEÍCULO -->
+          <div class="filter-field" data-ms-field="veiculo">
+            <label><i class="fa-solid fa-truck-pickup"></i> VEÍCULO</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_veiculo">
+              <span id="msLabel_veiculo">Todos os Veículos</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_veiculo">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="veiculo">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="veiculo">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_veiculo"></div>
+            </div>
+          </div>
 
-            function preencherFiltros() {
-                const selData = document.getElementById('filtroData');
-                const selProc = document.getElementById('filtroProcesso');
-                const selSup = document.getElementById('filtroSupervisor');
-                const selStatus = document.getElementById('filtroStatus');
+          <!-- STATUS -->
+          <div class="filter-field" data-ms-field="status">
+            <label><i class="fa-solid fa-signal"></i> STATUS</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_status">
+              <span id="msLabel_status">Todos os Status</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_status">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="status">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="status">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_status"></div>
+            </div>
+          </div>
 
-                const datasUnicas = [...new Set(registros.map(r => r.dt).filter(Boolean))]
-                    .sort((a, b) => chaveDataIso(a).localeCompare(chaveDataIso(b)));
+        </div>
 
-                datasUnicas.forEach(d => {
-                    const o = document.createElement('option');
-                    o.value = d;
-                    o.textContent = `Data: ${d}`;
-                    selData.appendChild(o);
-                });
+        <div class="filters-grid-bottom">
+          <div class="filter-field" style="min-width: 250px;">
+            <label><i class="fa-solid fa-magnifying-glass"></i> BUSCA RÁPIDA</label>
+            <input type="text" id="buscaRapida" class="filter-control" placeholder="Equipe, Supervisor, Equipamento, Função..." />
+          </div>
 
-                if (datasUnicas.length > 0) {
-                    selData.value = datasUnicas[datasUnicas.length - 1];
-                }
+          <button type="button" class="btn-clear-filters" id="btnLimparFiltros">
+            <i class="fa-solid fa-filter-circle-xmark"></i> LIMPAR FILTROS
+          </button>
 
-                [...new Set(registros.map(r => r.proc).filter(Boolean))].sort().forEach(p => {
-                    const o = document.createElement('option');
-                    o.value = p;
-                    o.textContent = `Processo: ${p}`;
-                    selProc.appendChild(o);
-                });
+          <div class="dias-badges-group tabular">
+            <div class="dias-badge-item" id="badgeDatasRef">
+              <i class="fa-regular fa-calendar-check"></i> 0 Datas Filtradas
+            </div>
+            <div class="dias-badge-item worked" id="badgeEquipesAtivas">
+              <i class="fa-solid fa-truck-pickup"></i> 0 Equipes Ativas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                [...new Set(registros.map(r => r.sup).filter(Boolean))].sort().forEach(s => {
-                    const o = document.createElement('option');
-                    o.value = s;
-                    o.textContent = `Supervisor: ${s}`;
-                    selSup.appendChild(o);
-                });
+    <!-- ===========================================================
+         SEÇÃO 1 — RESUMO ESTRUTURA PROCESSO (PADRONIZADO)
+         =========================================================== -->
+    <div id="blocoResumo" style="display:flex; flex-direction:column; gap:16px;">
 
-                selData.addEventListener('change', atualizarResumo);
-                selProc.addEventListener('change', atualizarResumo);
-                selSup.addEventListener('change', atualizarResumo);
-                selStatus.addEventListener('change', atualizarResumo);
+      <!-- 4 KPIS COM ACENTOS SUAVES -->
+      <div class="top-kpis-grid tabular">
+        <div class="card-3d-wrap">
+          <div class="card-surface kpi-tint-total">
+            <div class="card-body">
+              <div class="kpi-label-top">
+                <span>Total de Equipes</span>
+                <span class="kpi-icon-pill total"><i class="fa-solid fa-truck-pickup"></i></span>
+              </div>
+              <div class="kpi-val-main" id="kpiTotal">0</div>
+              <div class="kpi-footer-meta" id="pillsTotal">
+                <span class="pill-up">Ativo: 0</span>
+                <span class="pill-warn">Mobilizar: 0</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                document.getElementById('btnLimparFiltros').addEventListener('click', () => {
-                    selData.value = 'TODAS';
-                    selProc.value = 'TODOS';
-                    selSup.value = 'TODOS';
-                    selStatus.value = 'TODOS';
-                    atualizarResumo();
-                });
-            }
+        <div class="card-3d-wrap">
+          <div class="card-surface kpi-tint-ativo">
+            <div class="card-body">
+              <div class="kpi-label-top">
+                <span>Equipes Ativas</span>
+                <span class="kpi-icon-pill ativo"><i class="fa-solid fa-circle-check"></i></span>
+              </div>
+              <div class="kpi-val-main" id="kpiAtivo">0</div>
+              <div class="kpi-footer-meta" id="pillsAtivo">
+                <span>Operação normal</span>
+                <span class="pill-up">0,0% disp.</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            function renderBarras(id, mapa, total) {
-                const el = document.getElementById(id);
-                const itens = Object.entries(mapa).sort((a, b) => b[1] - a[1]);
-                if (!itens.length) {
-                    el.innerHTML = `<div style="font-size:11px; color:#94a3b8;">Sem dados para o filtro.</div>`;
-                    return;
-                }
-                el.innerHTML = itens.map(([nome, qtd]) => {
-                    const pct = total > 0 ? Math.round((qtd / total) * 100) : 0;
-                    return `
-                        <div class="bar-item">
-                            <div class="bar-row">
-                                <span>${nome}</span>
-                                <span style="color:var(--primary);">${qtd} (${pct}%)</span>
-                            </div>
-                            <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-                        </div>
-                    `;
-                }).join('');
-            }
+        <div class="card-3d-wrap">
+          <div class="card-surface kpi-tint-oficina">
+            <div class="card-body">
+              <div class="kpi-label-top">
+                <span>Em Oficina</span>
+                <span class="kpi-icon-pill oficina"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+              </div>
+              <div class="kpi-val-main" id="kpiOficina">0</div>
+              <div class="kpi-footer-meta">
+                <span>Manutenção / Frota</span>
+                <span class="pill-warn" id="badgePctOficina">0,0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            function atualizarResumo() {
-                const fData = document.getElementById('filtroData').value;
-                const fProc = document.getElementById('filtroProcesso').value;
-                const fSup = document.getElementById('filtroSupervisor').value;
-                const fStatus = document.getElementById('filtroStatus').value;
+        <div class="card-3d-wrap">
+          <div class="card-surface kpi-tint-ferias">
+            <div class="card-body">
+              <div class="kpi-label-top">
+                <span>Férias & Mobilizar</span>
+                <span class="kpi-icon-pill ferias"><i class="fa-solid fa-calendar-days"></i></span>
+              </div>
+              <div class="kpi-val-main" id="kpiFeriasMob">0</div>
+              <div class="kpi-footer-meta" id="pillsFeriasMob">
+                <span class="pill-info">Férias: 0</span>
+                <span class="pill-down">Mobilizar: 0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                const filtrados = registros.filter(r => {
-                    const okData = fData === 'TODAS' || r.dt === fData;
-                    const okProc = fProc === 'TODOS' || r.proc === fProc;
-                    const okSup = fSup === 'TODOS' || r.sup === fSup;
-                    const okStatus = fStatus === 'TODOS' || r.statusKey === fStatus;
-                    return okData && okProc && okSup && okStatus;
-                });
+      <!-- GRADE PRINCIPAL: EVOLUÇÃO + IA + SUPERVISORES -->
+      <div class="main-grid">
+        <div class="left-column">
+          <div class="card-3d-wrap" style="flex:1;">
+            <div class="card-surface">
+              <div class="card-body">
+                <div class="chart-header-bar tabular">
+                  <div>
+                    <div class="card-header-sub">Evolução Histórica da Estrutura por Data</div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
+                      <span style="font-size:24px; font-weight:700; letter-spacing:-0.4px;" id="valorDestaqueCurva">0 equipes</span>
+                      <span class="pill-up" id="badgeDispCurva">0,0% ativas</span>
+                    </div>
+                    <div class="line-legend-inline">
+                      <span><i class="dot-blue"></i> Equipes Ativas</span>
+                      <span><i class="dot-amber"></i> Oficina / Férias / Mobilizar</span>
+                    </div>
+                  </div>
 
-                const total = filtrados.length;
-                const ativo = filtrados.reduce((a, b) => a + b.ativo, 0);
-                const oficina = filtrados.reduce((a, b) => a + b.oficina, 0);
-                const ferias = filtrados.reduce((a, b) => a + b.ferias, 0);
-                const mob = filtrados.reduce((a, b) => a + b.mob, 0);
-                const disp = total > 0 ? ((ativo / total) * 100).toFixed(1) : '0.0';
+                  <button type="button" class="btn-chart-label" data-chart-label="principal" title="Mostrar ou ocultar rótulos deste gráfico">
+                    <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+                  </button>
+                </div>
 
-                document.getElementById('lblRefData').textContent = fData === 'TODAS' ? 'Todas as Datas' : fData;
-                document.getElementById('kpiTotal').textContent = total;
-                document.getElementById('kpiAtivo').textContent = ativo;
-                document.getElementById('kpiOficina').textContent = oficina;
-                document.getElementById('kpiFeriasMob').textContent = ferias + mob;
+                <div style="height: 295px; width: 100%;">
+                  <canvas id="chartEstruturaEvolucao"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                document.getElementById('pillsTotal').innerHTML = `
-                    <span class="pill-tag pill-ok">Ativo: ${ativo}</span>
-                    <span class="pill-tag pill-warn">Mobilizar: ${mob}</span>
-                `;
-                document.getElementById('pillsAtivo').innerHTML = `
-                    <span class="pill-tag pill-ok">Disponibilidade: ${disp}%</span>
-                `;
-                document.getElementById('pillsFeriasMob').innerHTML = `
-                    <span class="pill-tag">Férias: ${ferias}</span>
-                    <span class="pill-tag pill-danger">Mobilizar: ${mob}</span>
-                `;
+        <div class="right-column">
+          <!-- ANÁLISE INTELIGENTE (IA) -->
+          <div class="card-3d-wrap">
+            <div class="card-surface">
+              <div class="card-body tabular">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                  <span class="card-header-title" style="color:#7dd3fc;">
+                    <i class="fa-solid fa-microchip"></i> Análise Inteligente (IA)
+                  </span>
+                  <span class="pill-up" id="pctDispBadge">0% disp.</span>
+                </div>
 
-                const mProc = {}, mVeic = {}, mSup = {};
-                filtrados.forEach(r => {
-                    if (r.proc) mProc[r.proc] = (mProc[r.proc] || 0) + 1;
-                    if (r.veic) mVeic[r.veic] = (mVeic[r.veic] || 0) + 1;
-                    if (r.sup) mSup[r.sup] = (mSup[r.sup] || 0) + 1;
-                });
+                <div style="display:flex; align-items:baseline; gap:10px;">
+                  <span style="font-size:23px; font-weight:800; letter-spacing:-0.4px;" id="kpiAtivoSide">0 ativas</span>
+                  <span style="font-size:11px; color:#94a3b8;" id="statusFrotaTxt">Disponibilidade operacional</span>
+                </div>
 
-                renderBarras('listaProcessos', mProc, total);
-                renderBarras('listaVeiculos', mVeic, total);
-                renderBarras('listaSupervisores', mSup, total);
+                <div class="ai-box" id="textoInsightIA">
+                  Carregando leitura automática da estrutura operacional...
+                </div>
 
-                document.getElementById('lblQtdLinhas').textContent = `${filtrados.length} equipes`;
-                const tbody = document.getElementById('corpoTabela');
-                if (!filtrados.length) {
-                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:16px; color:#94a3b8;">Nenhum registro encontrado para os filtros selecionados.</td></tr>`;
-                } else {
-                    tbody.innerHTML = filtrados.map(r => {
-                        let st = `<span class="pill-tag pill-ok">ATIVO</span>`;
-                        if (r.statusKey === 'OFICINA') st = `<span class="pill-tag pill-warn">OFICINA</span>`;
-                        else if (r.statusKey === 'FERIAS') st = `<span class="pill-tag">FÉRIAS</span>`;
-                        else if (r.statusKey === 'MOBILIZAR') st = `<span class="pill-tag pill-danger">MOBILIZAR</span>`;
+                <button type="button" class="btn-ai-refresh" id="btnGerarInsightIA">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Nova Leitura IA
+                </button>
+              </div>
+            </div>
+          </div>
 
-                        return `
-                            <tr>
-                                <td>${r.dt}</td>
-                                <td><strong>${r.proc}</strong></td>
-                                <td>${r.sup}</td>
-                                <td style="color:var(--primary); font-weight:800;">${r.eq}</td>
-                                <td>${r.veic}</td>
-                                <td>${r.equip}</td>
-                                <td>${r.estEq}</td>
-                                <td>${st}</td>
-                            </tr>
-                        `;
-                    }).join('');
-                }
-            }
+          <!-- SUPERVISORES -->
+          <div class="card-3d-wrap" style="flex:1;">
+            <div class="card-surface">
+              <div class="card-body tabular">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                  <span class="card-header-title">Supervisores</span>
+                  <span class="card-header-sub">Clique p/ filtrar</span>
+                </div>
 
-            // Alternância de visualização (Tudo / Resumo / Looker)
-            const blocoResumo = document.getElementById('blocoResumo');
-            const blocoLooker = document.getElementById('blocoLooker');
-            document.querySelectorAll('.btn-exec[data-mode]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.btn-exec[data-mode]').forEach(b => b.classList.remove('active-tab'));
-                    btn.classList.add('active-tab');
-                    const mode = btn.dataset.mode;
-                    blocoResumo.classList.toggle('hidden-section', mode === 'looker');
-                    blocoLooker.classList.toggle('hidden-section', mode === 'resumo');
-                });
-            });
+                <div class="sup-profile-spotlight" id="supSpotlightCard">
+                  <div class="sup-profile-left">
+                    <div class="sup-photo-frame" id="supPhotoFrame">
+                      <img id="supPhotoImg" src="" alt="Foto Supervisor" style="display:none;" />
+                      <span class="sup-photo-initials" id="supPhotoInitials">SP</span>
+                    </div>
+                    <div style="min-width:0;">
+                      <div class="sup-profile-name" id="supSpotlightName">Visão Geral · Supervisão</div>
+                      <div class="sup-profile-role" id="supSpotlightRole">Estrutura Operacional · Ellca</div>
+                      <div class="sup-profile-meta" id="supSpotlightMeta">Selecione um supervisor abaixo</div>
+                    </div>
+                  </div>
+                  <div class="sup-profile-right">
+                    <div class="sup-profile-val" id="supSpotlightVal">0 eq.</div>
+                    <span class="sup-profile-badge" id="supSpotlightBadge">0% ativas</span>
+                  </div>
+                </div>
 
-            // Configuração do Looker Studio
-            const iframe = document.getElementById('lookerIframe');
-            const configBox = document.getElementById('lookerConfig');
-            const campoUrl = document.getElementById('campoLookerUrl');
-            const linkExterno = document.getElementById('linkAbrirExterno');
+                <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:4px; max-height:190px; overflow-y:auto;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            function setLooker(url) {
-                if (!url) return;
-                const embed = url.replace('lookerstudio.google.com/reporting/', 'lookerstudio.google.com/embed/reporting/');
-                iframe.src = embed;
-                iframe.style.display = 'block';
-                configBox.style.display = 'none';
-                linkExterno.href = embed.replace('/embed/reporting/', '/reporting/');
-                localStorage.setItem('ellca_looker_estrutura_embed', embed);
-            }
+      <!-- GRADE MÉDIA: VELOCÍMETRO DISPONIBILIDADE + ANÉIS STATUS + POR PROCESSO -->
+      <div class="mid-charts-grid tabular">
+        <!-- VELOCÍMETRO DE DISPONIBILIDADE -->
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+                <span class="card-header-title">Índice de Disponibilidade</span>
+                <span class="card-header-sub" style="color:#38bdf8;">Frota & Equipes</span>
+              </div>
 
-            if (LOOKER_URL_FIXA) setLooker(LOOKER_URL_FIXA);
+              <div class="gauge-box">
+                <div class="gauge-svg-wrap">
+                  <svg viewBox="0 0 240 140" width="236" height="138">
+                    <defs>
+                      <linearGradient id="blueGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#091326" />
+                        <stop offset="32%" stop-color="#1d4ed8" />
+                        <stop offset="72%" stop-color="#38bdf8" />
+                        <stop offset="100%" stop-color="#34d399" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 20 120 A 100 100 0 0 1 220 120"
+                          fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="16" stroke-linecap="round" />
+                    <path id="gaugeArcPath" d="M 20 120 A 100 100 0 0 1 220 120"
+                          fill="none" stroke="url(#blueGaugeGrad)" stroke-width="16"
+                          stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round" />
+                  </svg>
+                  <div class="gauge-center-txt">
+                    <div class="gauge-pct" id="gaugePctValue">0%</div>
+                    <div class="gauge-sub">Equipes Ativas</div>
+                  </div>
+                </div>
 
-            document.getElementById('btnCarregarLooker').addEventListener('click', () => {
-                setLooker(campoUrl.value.trim());
-            });
+                <div class="gauge-bottom-pair">
+                  <div>
+                    <strong style="color:#fff;" id="gaugeIndispTxt">0 eq.</strong>
+                    <div style="font-size:10px; color:#94a3b8;">Indisponíveis</div>
+                  </div>
+                  <div>
+                    <strong class="c-emerald" id="gaugeAtivoRatioTxt">0 / 0</strong>
+                    <div style="font-size:10px; color:#94a3b8;">Ativas / Total</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            document.getElementById('btnTelaCheia').addEventListener('click', () => {
-                const wrap = document.getElementById('lookerContainer');
-                if (wrap.requestFullscreen) wrap.requestFullscreen();
-            });
+        <!-- ANÉIS POR STATUS -->
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+                <span class="card-header-title">Distribuição por Status</span>
+                <span class="card-header-sub" style="background:rgba(6,10,20,0.65); border:1px solid rgba(255,255,255,0.09); padding:3px 9px; border-radius:7px;">Operacional</span>
+              </div>
 
-            // Recolher/exibir Navbar e Rodapé
-            const btnToggle = document.getElementById('btnToggleBars');
-            let recolhido = true;
-            btnToggle.addEventListener('click', () => {
-                recolhido = !recolhido;
-                document.body.classList.toggle('bars-collapsed', recolhido);
-                document.getElementById('iconToggleBars').className = recolhido ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
-                document.getElementById('textToggleBars').textContent = recolhido ? 'Menu' : 'Ocultar';
-            });
+              <div class="rings-widget-wrap">
+                <div class="rings-canvas-box">
+                  <canvas id="chartAneisStatus"></canvas>
+                  <div class="rings-center-label">
+                    <div class="rings-center-val" id="ringsTotalCenter">0</div>
+                    <div class="rings-center-sub">Total Eq.</div>
+                  </div>
+                </div>
 
-            carregarDados();
-        })();
-    </script>
+                <div class="rings-bottom-legend" id="ringsLegendBottom"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <!-- =====================================================================
-         [TUTORIAL PASSO 9] SCRIPT GLOBAL DO PORTAL (script.js)
-         ===================================================================== -->
-    <script src="script.js"></script>
+        <!-- POR PROCESSO (BARRAS HORIZONTAIS) -->
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span class="card-header-title">Equipes por Processo</span>
+                <button type="button" class="btn-chart-label" data-chart-label="barrasProc" title="Mostrar ou ocultar rótulos deste gráfico">
+                  <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+                </button>
+              </div>
+              <div style="height: 245px; width: 100%;">
+                <canvas id="chartBarrasProcessos"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRADE INFERIOR: POR VEÍCULO + ATIVO VS INDISPONÍVEL POR SUPERVISOR -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;" class="bottom-two-grid">
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span class="card-header-title">Distribuição por Tipo de Veículo</span>
+                <button type="button" class="btn-chart-label" data-chart-label="barrasVeic" title="Mostrar ou ocultar rótulos deste gráfico">
+                  <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+                </button>
+              </div>
+              <div style="height: 225px; width: 100%;">
+                <canvas id="chartBarrasVeiculos"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span class="card-header-title">Ativas x Indisponíveis por Supervisor</span>
+                <button type="button" class="btn-chart-label" data-chart-label="supComp" title="Mostrar ou ocultar rótulos deste gráfico">
+                  <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+                </button>
+              </div>
+              <div style="height: 225px; width: 100%;">
+                <canvas id="chartSupComparativo"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABELA CONSOLIDADA -->
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body tabular">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+              <span class="card-header-title">Detalhamento de Equipes — Estrutura Processo</span>
+              <span class="card-header-sub" id="lblQtdLinhas">0 linhas</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Processo</th>
+                    <th>Supervisor</th>
+                    <th>Equipe</th>
+                    <th>Veículo</th>
+                    <th>Equipamento</th>
+                    <th>Estrutura da Equipe</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="corpoTabela">
+                  <tr><td colspan="8" style="text-align:center; padding:18px; color:#94a3b8;">Carregando dados da planilha...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===========================================================
+         SEÇÃO 2 — PAINEL INTERATIVO LOOKER STUDIO
+         =========================================================== -->
+    <div class="card-3d-wrap" id="blocoLooker">
+      <div class="card-surface">
+        <div class="card-body">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <span class="card-header-title" style="display:flex; align-items:center; gap:8px;">
+              <i class="fa-solid fa-chart-line" style="color:#38bdf8;"></i> Painel Looker Studio — Estrutura Processo
+            </span>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="hero-btn hero-btn-blue" id="btnTelaCheia">
+                <i class="fa-solid fa-expand"></i> TELA CHEIA
+              </button>
+              <a href="https://lookerstudio.google.com/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F"
+                 target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-cyan" id="linkAbrirExterno">
+                <i class="fa-solid fa-up-right-from-square"></i> ABRIR EXTERNO
+              </a>
+            </div>
+          </div>
+
+          <div class="looker-frame-wrap" id="lookerContainer">
+            <iframe id="lookerIframe"
+                    src="https://lookerstudio.google.com/embed/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F"
+                    allowfullscreen
+                    sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RODAPÉ OFICIAL -->
+    <footer class="ellca-official-footer">
+      <span class="footer-system-text">
+        <i class="fa-solid fa-shield-halved" style="color:#64748b;"></i>
+        Sistema ELLCA <strong>v2.5.0</strong> · Módulo: <strong>Estrutura Processo</strong>
+      </span>
+      <a href="#suporte" id="btnSuporteFooter" class="btn-footer-support">
+        <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
+      </a>
+    </footer>
+
+  </div>
+
+<script>
+  // =========================================================================
+  // 1. LINKS CONFIGURADOS
+  // =========================================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHybDzDjWlikLTZuehRMGzKYiWjPzydHXJ0yLprFA0t17WZCt40tkqhm78XMmuFyk/exec";
+  const PLANILHA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo/edit?gid=369952144#gid=369952144";
+  const LOOKER_EMBED_URL = "https://lookerstudio.google.com/embed/reporting/8e7e6849-5e2a-4e2a-aad7-83d4735c05cd/page/5jm7F";
+
+  const FOTOS_SUPERVISORES = {
+    // "NOME DO SUPERVISOR": "img/supervisores/nome.jpg"
+  };
+
+  const STATUS_OPCOES = [
+    { valor: "ATIVO", rotulo: "ATIVO" },
+    { valor: "OFICINA", rotulo: "OFICINA" },
+    { valor: "FERIAS", rotulo: "FÉRIAS" },
+    { valor: "MOBILIZAR", rotulo: "MOBILIZAR" }
+  ];
+
+  let registros = [];
+  let variacaoIA = 0;
+  let charts = {};
+  let ultimoEstado = null;
+
+  const multiFiltros = {
+    data:       { disponiveis: [], selecionados: new Set(), nomeTodos: "Todas as Datas" },
+    processo:   { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Processos" },
+    supervisor: { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Supervisores" },
+    veiculo:    { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Veículos" },
+    status:     { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Status" }
+  };
+
+  const rotulosAtivos = {
+    principal: true,
+    barrasProc: true,
+    barrasVeic: true,
+    supComp: true
+  };
+
+  Chart.register(ChartDataLabels);
+
+  const neonGlowPlugin = {
+    id: "neonGlowPlugin",
+    beforeDatasetDraw(chart, args) {
+      const { ctx } = chart;
+      if (chart.config.type === "doughnut") return;
+      if (args.index === 0 || (chart.config.type === "bar" && args.index === chart.data.datasets.length - 1)) {
+        ctx.save();
+        ctx.shadowColor = "rgba(56, 189, 248, 0.36)";
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+      }
+    },
+    afterDatasetDraw(chart) {
+      chart.ctx.restore();
+    }
+  };
+  Chart.register(neonGlowPlugin);
+
+  // =========================================================================
+  // TOOLTIP EXTERNO MODERNO EM VIDRO FOSCO
+  // =========================================================================
+  function externalModernTooltip(context) {
+    const { chart, tooltip } = context;
+    const el = document.getElementById("ellcaModernTooltip");
+
+    if (tooltip.opacity === 0) {
+      el.classList.remove("visible");
+      return;
+    }
+
+    const title = (tooltip.title && tooltip.title[0]) || "";
+    const dataPoints = tooltip.dataPoints || [];
+    if (!dataPoints.length) return;
+
+    let rowsHtml = "";
+    let totalItem = 0;
+
+    dataPoints.forEach(dp => {
+      if (chart.config.type === "doughnut" && dp.dataIndex === 1) return;
+      const label = dp.dataset.label || dp.label || "";
+      const rawVal = typeof dp.parsed === "object" && dp.parsed !== null
+        ? (chart.options.indexAxis === "y" ? dp.parsed.x : dp.parsed.y)
+        : dp.parsed;
+
+      totalItem += Number(rawVal || 0);
+      const isWarn = label.toLowerCase().includes("indisp") || label.toLowerCase().includes("oficina");
+      const dotColor = isWarn ? "#fbbf24" : "#38bdf8";
+
+      rowsHtml += `
+        <div class="tt-row">
+          <span class="tt-label-wrap">
+            <span class="tt-dot" style="background:${dotColor}; box-shadow:0 0 8px ${dotColor};"></span>
+            <span>${label}</span>
+          </span>
+          <span class="tt-val">${rawVal} eq.</span>
+        </div>
+      `;
+    });
+
+    let footerHtml = "";
+    if (dataPoints.length > 1 && totalItem > 0) {
+      footerHtml = `
+        <div class="tt-footer-pill">
+          <span>Total no Grupo</span>
+          <strong style="color:#38bdf8;">${totalItem} equipes</strong>
+        </div>
+      `;
+    }
+
+    el.innerHTML = `
+      <div class="tt-header">
+        <span>${title || "Detalhe"}</span>
+        <i class="fa-solid fa-sitemap" style="color:#38bdf8; font-size:10px;"></i>
+      </div>
+      ${rowsHtml}
+      ${footerHtml}
+    `;
+
+    const rect = chart.canvas.getBoundingClientRect();
+    const ttWidth = el.offsetWidth || 210;
+    const ttHeight = el.offsetHeight || 95;
+
+    let left = rect.left + tooltip.caretX + 14;
+    let top = rect.top + tooltip.caretY - ttHeight / 2;
+
+    if (left + ttWidth > window.innerWidth - 14) {
+      left = rect.left + tooltip.caretX - ttWidth - 14;
+    }
+    if (top < 12) top = 12;
+    if (top + ttHeight > window.innerHeight - 12) {
+      top = window.innerHeight - ttHeight - 12;
+    }
+
+    el.style.left = `${left}px`;
+    el.style.top = `${top}px`;
+    el.classList.add("visible");
+  }
+
+  function obterCaminhoFotoSupervisor(nome) {
+    if (!nome) return "";
+    if (FOTOS_SUPERVISORES[nome]) return FOTOS_SUPERVISORES[nome];
+    const slug = nome
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase().trim().replace(/[^a-z0-9]+/g, "_");
+    return `img/supervisores/${slug}.jpg`;
+  }
+
+  function atualizarRelogioAoVivo() {
+    const agora = new Date();
+    const hh = String(agora.getHours()).padStart(2, "0");
+    const mm = String(agora.getMinutes()).padStart(2, "0");
+    document.getElementById("liveClockTxt").textContent = `Ao Vivo · ${hh}:${mm}`;
+  }
+  atualizarRelogioAoVivo();
+  setInterval(atualizarRelogioAoVivo, 30000);
+
+  function configurarAcoesGlobais() {
+    document.getElementById("linkEditarPlanilha").href = PLANILHA_EDIT_URL;
+
+    document.getElementById("btnBaixarPlanilha").addEventListener("click", () => {
+      const lista = (ultimoEstado && ultimoEstado.filtrados) || [];
+      if (!lista.length) {
+        alert("Não há dados filtrados para exportar no momento.");
+        return;
+      }
+      const cabecalho = ["DATA", "PROCESSO", "SUPERVISOR", "EQUIPE", "VEICULO", "EQUIPAMENTO", "ESTRUTURA_EQUIPE", "STATUS"];
+      const linhas = lista.map(r => [
+        r.dt, r.proc, r.sup, r.eq, r.veic, r.equip, r.estEq, r.statusKey
+      ].map(v => `"${String(v || "").replace(/"/g, '""')}"`).join(";"));
+
+      const csv = "\uFEFF" + [cabecalho.join(";"), ...linhas].join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `estrutura_processo_ellca_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("btnSuporteFooter").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Suporte TI / BI Ellca — Rodrigo.lopes@ellca2.com.br");
+    });
+
+    // Alternância Tudo / Resumo / Looker
+    const blocoResumo = document.getElementById("blocoResumo");
+    const blocoLooker = document.getElementById("blocoLooker");
+    document.querySelectorAll("#seletorModoView .mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#seletorModoView .mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const mode = btn.getAttribute("data-mode");
+        blocoResumo.classList.toggle("hidden-section", mode === "looker");
+        blocoLooker.classList.toggle("hidden-section", mode === "resumo");
+      });
+    });
+
+    document.getElementById("btnTelaCheia").addEventListener("click", () => {
+      const wrap = document.getElementById("lookerContainer");
+      if (wrap.requestFullscreen) wrap.requestFullscreen();
+    });
+  }
+
+  document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
+    const surface = wrap.querySelector(".card-surface");
+    if (!surface) return;
+    wrap.addEventListener("mousemove", (e) => {
+      const rect = wrap.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      surface.style.setProperty("--ry", `${(nx * 2.4).toFixed(2)}deg`);
+      surface.style.setProperty("--rx", `${(-ny * 2.4).toFixed(2)}deg`);
+    });
+    wrap.addEventListener("mouseleave", () => {
+      surface.style.setProperty("--ry", "0deg");
+      surface.style.setProperty("--rx", "0deg");
+    });
+  });
+
+  const num = (v) => {
+    if (typeof v === "number") return v;
+    if (!v) return 0;
+    return parseFloat(String(v).replace(/[^\d.-]/g, "")) || 0;
+  };
+
+  const chaveDataIso = (dtStr) => {
+    const m = String(dtStr || "").match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : String(dtStr || "");
+  };
+
+  // =========================================================================
+  // MOTOR GENÉRICO DE MULTI-SELEÇÃO PARA TODOS OS FILTROS
+  // =========================================================================
+  function configurarDropdownsMultiSelect() {
+    Object.keys(multiFiltros).forEach(campo => {
+      const trigger = document.getElementById(`msTrigger_${campo}`);
+      const dropdown = document.getElementById(`msDropdown_${campo}`);
+
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const jaAberto = dropdown.classList.contains("open");
+        fecharTodosDropdownsMulti();
+        if (!jaAberto) {
+          dropdown.classList.add("open");
+          trigger.classList.add("open");
+        }
+      });
+
+      dropdown.addEventListener("click", (e) => e.stopPropagation());
+    });
+
+    document.addEventListener("click", fecharTodosDropdownsMulti);
+
+    document.querySelectorAll("[data-ms-all]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const campo = btn.getAttribute("data-ms-all");
+        const st = multiFiltros[campo];
+        st.selecionados = new Set(st.disponiveis.map(item => String(item.valor)));
+        sincronizarCheckboxesMulti(campo);
+        atualizarDashboard();
+      });
+    });
+
+    document.querySelectorAll("[data-ms-none]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const campo = btn.getAttribute("data-ms-none");
+        multiFiltros[campo].selecionados.clear();
+        sincronizarCheckboxesMulti(campo);
+        atualizarDashboard();
+      });
+    });
+  }
+
+  function fecharTodosDropdownsMulti() {
+    document.querySelectorAll(".multi-select-dropdown").forEach(d => d.classList.remove("open"));
+    document.querySelectorAll(".multi-select-trigger").forEach(t => t.classList.remove("open"));
+  }
+
+  function renderizarOpcoesMulti(campo, opcoes, valoresIniciais) {
+    const st = multiFiltros[campo];
+    st.disponiveis = opcoes;
+    if (valoresIniciais) {
+      st.selecionados = new Set(valoresIniciais.map(String));
+    } else {
+      st.selecionados = new Set(opcoes.map(o => String(o.valor)));
+    }
+
+    const listEl = document.getElementById(`msList_${campo}`);
+    listEl.innerHTML = opcoes.map(op => {
+      const valStr = String(op.valor);
+      const checked = st.selecionados.has(valStr) ? "checked" : "";
+      return `
+        <label class="multi-select-option">
+          <input type="checkbox" value="${valStr}" ${checked} />
+          <span title="${op.rotulo}">${op.rotulo}</span>
+        </label>
+      `;
+    }).join("");
+
+    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener("change", () => {
+        if (cb.checked) st.selecionados.add(cb.value);
+        else st.selecionados.delete(cb.value);
+        atualizarTextoTriggerMulti(campo);
+        atualizarDashboard();
+      });
+    });
+
+    atualizarTextoTriggerMulti(campo);
+  }
+
+  function sincronizarCheckboxesMulti(campo) {
+    const st = multiFiltros[campo];
+    const listEl = document.getElementById(`msList_${campo}`);
+    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = st.selecionados.has(cb.value);
+    });
+    atualizarTextoTriggerMulti(campo);
+  }
+
+  function atualizarTextoTriggerMulti(campo) {
+    const st = multiFiltros[campo];
+    const labelEl = document.getElementById(`msLabel_${campo}`);
+    const total = st.disponiveis.length;
+    const qtdSel = st.selecionados.size;
+
+    if (total === 0) {
+      labelEl.textContent = "Sem opções";
+      return;
+    }
+
+    if (qtdSel === 0 || qtdSel === total) {
+      labelEl.textContent = `${st.nomeTodos} (${total})`;
+      return;
+    }
+
+    const selecionadosOrdenados = st.disponiveis.filter(o => st.selecionados.has(String(o.valor)));
+    if (qtdSel === 1) {
+      labelEl.textContent = selecionadosOrdenados[0].rotulo;
+    } else if (qtdSel === 2) {
+      labelEl.textContent = `${selecionadosOrdenados[0].rotulo}, ${selecionadosOrdenados[1].rotulo}`;
+    } else {
+      labelEl.textContent = `${qtdSel} selecionados`;
+    }
+  }
+
+  function obterValoresAtivosMulti(campo) {
+    const st = multiFiltros[campo];
+    if (st.selecionados.size === 0 || st.selecionados.size === st.disponiveis.length) {
+      return new Set(st.disponiveis.map(o => String(o.valor)));
+    }
+    return st.selecionados;
+  }
+
+  function processarMatriz(matriz) {
+    let ultimaDataValida = "";
+    let ultimaAtt = "";
+
+    registros = matriz.slice(1).map(row => {
+      let dt = String(row[0] || "").trim();
+      if (dt) {
+        ultimaDataValida = dt;
+      } else {
+        dt = ultimaDataValida;
+      }
+
+      const proc = String(row[1] || "").trim().toUpperCase();
+      const sup = String(row[2] || "").trim().toUpperCase();
+      const eq = String(row[3] || "").trim().toUpperCase();
+      const veic = String(row[4] || "").trim().toUpperCase();
+      const equip = String(row[5] || "").trim().toUpperCase();
+      const estEq = String(row[6] || "").trim();
+      const ativo = num(row[7]);
+      const mob = num(row[8]);
+      const oficina = num(row[9]);
+      const ferias = num(row[10]);
+      const att = String(row[11] || "").trim();
+      if (att && !ultimaAtt) ultimaAtt = att;
+
+      let statusKey = "ATIVO";
+      if (oficina > 0) statusKey = "OFICINA";
+      else if (ferias > 0) statusKey = "FERIAS";
+      else if (mob > 0) statusKey = "MOBILIZAR";
+
+      return { dt, proc, sup, eq, veic, equip, estEq, ativo, mob, oficina, ferias, statusKey };
+    }).filter(x => x.eq && x.eq !== "EQUIPE");
+
+    document.getElementById("lblStatusPlanilha").textContent = ultimaAtt
+      ? `Aba "Estrutura Processo" conectada • ${registros.length} registros • Atualizado em ${ultimaAtt}`
+      : `Aba "Estrutura Processo" conectada • ${registros.length} registros`;
+
+    popularFiltros();
+    atualizarDashboard();
+  }
+
+  async function carregarDados() {
+    const btnAtualizar = document.getElementById("btnAtualizarDados");
+    btnAtualizar.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ATUALIZANDO...`;
+
+    try {
+      const resp = await fetch(APPS_SCRIPT_URL, { cache: "no-store" });
+      const json = await resp.json();
+      if (json && Array.isArray(json.rows)) {
+        processarMatriz(json.rows);
+      } else if (json && json.error) {
+        document.getElementById("lblStatusPlanilha").textContent = `Erro no Apps Script: ${json.error}`;
+      } else {
+        throw new Error("Resposta inválida do Apps Script.");
+      }
+      atualizarRelogioAoVivo();
+    } catch (err) {
+      console.error(err);
+      document.getElementById("lblStatusPlanilha").textContent =
+        'Erro ao conectar no Apps Script. Verifique se a implantação está publicada para "Qualquer pessoa".';
+    } finally {
+      btnAtualizar.innerHTML = `<i class="fa-solid fa-rotate"></i> ATUALIZAR`;
+    }
+  }
+
+  function popularFiltros() {
+    const datasUnicas = [...new Set(registros.map(r => r.dt).filter(Boolean))]
+      .sort((a, b) => chaveDataIso(a).localeCompare(chaveDataIso(b)));
+    const processos = [...new Set(registros.map(r => r.proc).filter(Boolean))].sort();
+    const supervisores = [...new Set(registros.map(r => r.sup).filter(Boolean))].sort();
+    const veiculos = [...new Set(registros.map(r => r.veic).filter(Boolean))].sort();
+
+    configurarDropdownsMultiSelect();
+
+    // Seleciona por padrão a data mais recente da planilha (com opção de marcar várias)
+    const dataPadrao = datasUnicas.length ? [datasUnicas[datasUnicas.length - 1]] : [];
+
+    renderizarOpcoesMulti("data", datasUnicas.map(d => ({ valor: d, rotulo: d })), dataPadrao);
+    renderizarOpcoesMulti("processo", processos.map(p => ({ valor: p, rotulo: p })));
+    renderizarOpcoesMulti("supervisor", supervisores.map(s => ({ valor: s, rotulo: s })));
+    renderizarOpcoesMulti("veiculo", veiculos.map(v => ({ valor: v, rotulo: v })));
+    renderizarOpcoesMulti("status", STATUS_OPCOES);
+
+    document.getElementById("buscaRapida").addEventListener("input", atualizarDashboard);
+
+    document.getElementById("btnLimparFiltros").addEventListener("click", () => {
+      renderizarOpcoesMulti("data", datasUnicas.map(d => ({ valor: d, rotulo: d })), dataPadrao);
+      renderizarOpcoesMulti("processo", processos.map(p => ({ valor: p, rotulo: p })));
+      renderizarOpcoesMulti("supervisor", supervisores.map(s => ({ valor: s, rotulo: s })));
+      renderizarOpcoesMulti("veiculo", veiculos.map(v => ({ valor: v, rotulo: v })));
+      renderizarOpcoesMulti("status", STATUS_OPCOES);
+      document.getElementById("buscaRapida").value = "";
+      atualizarDashboard();
+    });
+  }
+
+  function atualizarDashboard() {
+    const datasAtivas = obterValoresAtivosMulti("data");
+    const procsAtivos = obterValoresAtivosMulti("processo");
+    const supsAtivos = obterValoresAtivosMulti("supervisor");
+    const veicsAtivos = obterValoresAtivosMulti("veiculo");
+    const statusAtivos = obterValoresAtivosMulti("status");
+    const termoBusca = document.getElementById("buscaRapida").value.trim().toLowerCase();
+
+    const filtrados = registros.filter(r =>
+      datasAtivas.has(r.dt) &&
+      procsAtivos.has(r.proc) &&
+      supsAtivos.has(r.sup) &&
+      veicsAtivos.has(r.veic) &&
+      statusAtivos.has(r.statusKey) &&
+      (!termoBusca || `${r.dt} ${r.proc} ${r.sup} ${r.eq} ${r.veic} ${r.equip} ${r.estEq} ${r.statusKey}`.toLowerCase().includes(termoBusca))
+    );
+
+    const total = filtrados.length;
+    const ativo = filtrados.reduce((a, b) => a + b.ativo, 0);
+    const oficina = filtrados.reduce((a, b) => a + b.oficina, 0);
+    const ferias = filtrados.reduce((a, b) => a + b.ferias, 0);
+    const mob = filtrados.reduce((a, b) => a + b.mob, 0);
+    const indisp = oficina + ferias + mob;
+
+    const dispNum = total > 0 ? (ativo / total) * 100 : 0;
+    const oficinaPct = total > 0 ? (oficina / total) * 100 : 0;
+    const datasUnicasFiltradas = [...new Set(filtrados.map(r => r.dt).filter(Boolean))];
+
+    document.getElementById("badgeDatasRef").innerHTML = `<i class="fa-regular fa-calendar-check"></i> ${datasUnicasFiltradas.length} ${datasUnicasFiltradas.length === 1 ? "Data Filtrada" : "Datas Filtradas"}`;
+    document.getElementById("badgeEquipesAtivas").innerHTML = `<i class="fa-solid fa-truck-pickup"></i> ${ativo} Equipes Ativas`;
+
+    document.getElementById("kpiTotal").textContent = total;
+    document.getElementById("kpiAtivo").textContent = ativo;
+    document.getElementById("kpiOficina").textContent = oficina;
+    document.getElementById("kpiFeriasMob").textContent = ferias + mob;
+
+    document.getElementById("pillsTotal").innerHTML = `
+      <span class="pill-up">Ativo: ${ativo}</span>
+      <span class="pill-warn">Mobilizar: ${mob}</span>
+    `;
+    document.getElementById("pillsAtivo").innerHTML = `
+      <span>Disponibilidade</span>
+      <span class="pill-up">${dispNum.toFixed(1).replace(".", ",")}%</span>
+    `;
+    document.getElementById("badgePctOficina").textContent = `${oficinaPct.toFixed(1).replace(".", ",")}%`;
+    document.getElementById("pillsFeriasMob").innerHTML = `
+      <span class="pill-info">Férias: ${ferias}</span>
+      <span class="pill-down">Mobilizar: ${mob}</span>
+    `;
+
+    // Side IA & Velocímetro
+    document.getElementById("pctDispBadge").textContent = `${dispNum.toFixed(0)}% disp.`;
+    document.getElementById("kpiAtivoSide").textContent = `${ativo} ativas`;
+    document.getElementById("statusFrotaTxt").textContent = `de ${total} equipes mapeadas`;
+
+    const arcoLen = 314;
+    const fracDisp = Math.min(Math.max(dispNum / 100, 0), 1);
+    document.getElementById("gaugeArcPath").style.strokeDashoffset = (arcoLen * (1 - fracDisp)).toFixed(1);
+    document.getElementById("gaugePctValue").textContent = `${dispNum.toFixed(0)}%`;
+    document.getElementById("gaugeIndispTxt").textContent = `${indisp} eq.`;
+    document.getElementById("gaugeAtivoRatioTxt").textContent = `${ativo} / ${total}`;
+
+    ultimoEstado = { filtrados, total, ativo, oficina, ferias, mob, indisp, dispNum };
+
+    atualizarTextoIA();
+    renderizarGraficoEvolucao(filtrados, total, dispNum);
+    renderizarAneisStatus(total, ativo, oficina, ferias, mob);
+    renderizarBarrasProcessos(filtrados);
+    renderizarBarrasVeiculos(filtrados);
+    renderizarSupComparativo(filtrados);
+    renderizarListaSupervisores(filtrados);
+    renderizarTabela(filtrados);
+  }
+
+  function atualizarTextoIA() {
+    if (!ultimoEstado) return;
+    const { filtrados, total, ativo, oficina, ferias, mob, dispNum } = ultimoEstado;
+
+    const porProc = {};
+    filtrados.forEach(r => { if (r.proc) porProc[r.proc] = (porProc[r.proc] || 0) + 1; });
+    const topProc = Object.entries(porProc).sort((a, b) => b[1] - a[1])[0];
+    const nomeTopProc = topProc ? topProc[0] : "sem processo";
+    const qtdTopProc = topProc ? topProc[1] : 0;
+
+    const leituras = [
+      `<strong>IA • Disponibilidade Operacional:</strong> De <strong>${total} equipes</strong> na estrutura filtrada, <strong>${ativo} estão ativas</strong> (${dispNum.toFixed(1).replace(".", ",")}% de prontidão). O processo com maior efetivo é <strong>${nomeTopProc}</strong> (${qtdTopProc} equipes).`,
+      `<strong>IA • Indisponibilidade & Frota:</strong> Há <strong>${oficina} equipes em oficina</strong>, <strong>${ferias} em férias</strong> e <strong>${mob} aguardando mobilização</strong>. Priorizar o retorno da oficina recupera imediatamente a capacidade de campo.`,
+      `<strong>IA • Cobertura de Supervisão:</strong> A estrutura atual mantém <strong>${ativo} frentes produtivas</strong> distribuídas entre os supervisores selecionados. Clique em qualquer supervisor ao lado para auditar suas equipes e veículos.`
+    ];
+
+    document.getElementById("textoInsightIA").innerHTML = leituras[variacaoIA % leituras.length];
+  }
+
+  const corEixo = "#94a3b8";
+
+  function criarDegradeNeonVertical(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "#2563eb";
+    const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+    g.addColorStop(0, "#1d4ed8");
+    g.addColorStop(0.55, "#2563eb");
+    g.addColorStop(1, "#38bdf8");
+    return g;
+  }
+
+  function criarDegradeNeonHorizontal(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "#2563eb";
+    const g = c.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+    g.addColorStop(0, "#1d4ed8");
+    g.addColorStop(0.55, "#2563eb");
+    g.addColorStop(1, "#38bdf8");
+    return g;
+  }
+
+  function criarDegradeAreaNeon(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "rgba(37, 99, 235, 0.34)";
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, "rgba(56, 189, 248, 0.44)");
+    g.addColorStop(0.55, "rgba(37, 99, 235, 0.16)");
+    g.addColorStop(1, "rgba(5, 9, 20, 0.0)");
+    return g;
+  }
+
+  function criarDegradeAmberVertical(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "#d97706";
+    const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+    g.addColorStop(0, "#78350f");
+    g.addColorStop(0.55, "#d97706");
+    g.addColorStop(1, "#fbbf24");
+    return g;
+  }
+
+  function criarDegradeAreaAmber(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "rgba(251, 191, 36, 0.18)";
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, "rgba(251, 191, 36, 0.28)");
+    g.addColorStop(0.65, "rgba(180, 83, 9, 0.12)");
+    g.addColorStop(1, "rgba(5, 8, 17, 0.0)");
+    return g;
+  }
+
+  function renderizarGraficoEvolucao(filtrados, total, dispNum) {
+    // Agrupa por data usando a base com os filtros de processo/supervisor/veículo/status ativos
+    const procsAtivos = obterValoresAtivosMulti("processo");
+    const supsAtivos = obterValoresAtivosMulti("supervisor");
+    const veicsAtivos = obterValoresAtivosMulti("veiculo");
+    const statusAtivos = obterValoresAtivosMulti("status");
+    const termoBusca = document.getElementById("buscaRapida").value.trim().toLowerCase();
+
+    const baseHistorica = registros.filter(r =>
+      procsAtivos.has(r.proc) &&
+      supsAtivos.has(r.sup) &&
+      veicsAtivos.has(r.veic) &&
+      statusAtivos.has(r.statusKey) &&
+      (!termoBusca || `${r.dt} ${r.proc} ${r.sup} ${r.eq} ${r.veic} ${r.equip} ${r.estEq} ${r.statusKey}`.toLowerCase().includes(termoBusca))
+    );
+
+    const porData = {};
+    baseHistorica.forEach(r => {
+      if (!r.dt) return;
+      if (!porData[r.dt]) porData[r.dt] = { ativas: 0, indisp: 0 };
+      porData[r.dt].ativas += r.ativo;
+      porData[r.dt].indisp += (r.oficina + r.ferias + r.mob);
+    });
+
+    const datasOrd = Object.keys(porData).sort((a, b) => chaveDataIso(a).localeCompare(chaveDataIso(b)));
+    const labels = datasOrd.map(d => d.slice(0, 5));
+    const serieAtivas = datasOrd.map(d => porData[d].ativas);
+    const serieIndisp = datasOrd.map(d => porData[d].indisp);
+
+    document.getElementById("valorDestaqueCurva").textContent = `${total} ${total === 1 ? "equipe" : "equipes"}`;
+    const badgeDisp = document.getElementById("badgeDispCurva");
+    badgeDisp.textContent = `${dispNum.toFixed(1).replace(".", ",")}% ativas`;
+    badgeDisp.className = (dispNum >= 80 ? "pill-up" : "pill-warn") + " tabular";
+
+    const maxVal = Math.max(0, ...serieAtivas, ...serieIndisp);
+
+    if (charts.principal) charts.principal.destroy();
+    charts.principal = new Chart(document.getElementById("chartEstruturaEvolucao"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Equipes Ativas",
+            data: serieAtivas,
+            borderColor: "#38bdf8",
+            backgroundColor: (c) => criarDegradeAreaNeon(c),
+            fill: true,
+            borderWidth: 2.5,
+            tension: 0.4,
+            pointRadius: datasOrd.length <= 15 ? 3.5 : 0,
+            pointHoverRadius: 5.5,
+            pointBackgroundColor: "#38bdf8",
+            pointBorderColor: "#050914",
+            pointBorderWidth: 1.5
+          },
+          {
+            label: "Indisponíveis",
+            data: serieIndisp,
+            borderColor: "#fbbf24",
+            backgroundColor: (c) => criarDegradeAreaAmber(c),
+            fill: true,
+            borderWidth: 1.8,
+            tension: 0.4,
+            pointRadius: datasOrd.length <= 15 ? 3 : 0,
+            pointHoverRadius: 4.5,
+            pointBackgroundColor: "#fbbf24",
+            pointBorderColor: "#050914",
+            pointBorderWidth: 1.2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        layout: { padding: { top: 24, right: 16, left: 6, bottom: 4 } },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            display: (c) => rotulosAtivos.principal && c.datasetIndex === 0 && serieAtivas.length <= 16,
+            align: "top",
+            offset: 6,
+            color: "#e0f2fe",
+            font: { size: 9.5, weight: "700" },
+            formatter: v => v > 0 ? v : ""
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
+          }
+        },
+        scales: {
+          x: {
+            border: { display: false },
+            ticks: { color: corEixo, font: { size: 10.5 }, padding: 6 },
+            grid: { display: false }
+          },
+          y: {
+            border: { display: false },
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.24 || 10,
+            ticks: { color: corEixo, font: { size: 10.5 }, padding: 8, precision: 0 },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarAneisStatus(total, ativo, oficina, ferias, mob) {
+    const totalBase = total || 1;
+    document.getElementById("ringsTotalCenter").textContent = total;
+
+    const itens = [
+      { nome: "ATIVO", val: ativo, cor: "#34d399", borda: "rgba(110, 231, 183, 0.55)" },
+      { nome: "OFICINA", val: oficina, cor: "#fbbf24", borda: "rgba(253, 224, 71, 0.50)" },
+      { nome: "FÉRIAS / MOB.", val: ferias + mob, cor: "#38bdf8", borda: "rgba(125, 211, 252, 0.50)" }
+    ];
+
+    const trilhaFundo = "rgba(8, 14, 28, 0.72)";
+    const datasets = itens.map(it => ({
+      label: it.nome,
+      data: [it.val, Math.max(totalBase - it.val, 0) || (it.val === 0 ? 1 : 0)],
+      backgroundColor: [it.cor, trilhaFundo],
+      borderColor: [it.borda, "rgba(12, 18, 32, 0.85)"],
+      borderWidth: 1,
+      borderRadius: [14, 0]
+    }));
+
+    document.getElementById("ringsLegendBottom").innerHTML = itens.map(it => `
+      <div>
+        <div class="ring-leg-val">${it.val} eq.</div>
+        <div class="ring-leg-name" title="${it.nome}">
+          <span class="ring-dot" style="background:${it.cor}; box-shadow:0 0 6px ${it.cor};"></span>
+          <span>${it.nome}</span>
+        </div>
+      </div>
+    `).join("");
+
+    if (charts.pizza) charts.pizza.destroy();
+    charts.pizza = new Chart(document.getElementById("chartAneisStatus"), {
+      type: "doughnut",
+      data: {
+        labels: ["Equipes", "Restante"],
+        datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        rotation: -115,
+        cutout: "46%",
+        plugins: {
+          legend: { display: false },
+          datalabels: { display: false },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarBarrasProcessos(filtrados) {
+    const porProc = {};
+    filtrados.forEach(r => {
+      if (r.proc) porProc[r.proc] = (porProc[r.proc] || 0) + 1;
+    });
+    const top = Object.entries(porProc).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    const maxVal = Math.max(0, ...top.map(e => e[1]));
+
+    if (charts.barrasProc) charts.barrasProc.destroy();
+    charts.barrasProc = new Chart(document.getElementById("chartBarrasProcessos"), {
+      type: "bar",
+      data: {
+        labels: top.map(e => e[0]),
+        datasets: [{
+          label: "Equipes",
+          data: top.map(e => e[1]),
+          backgroundColor: (c) => criarDegradeNeonHorizontal(c),
+          borderColor: "rgba(56, 189, 248, 0.45)",
+          borderWidth: 0.8,
+          borderRadius: 8,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 8, right: 38, left: 6, bottom: 4 } },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            display: () => rotulosAtivos.barrasProc,
+            anchor: "end",
+            align: "right",
+            offset: 6,
+            color: "#e0f2fe",
+            font: { size: 9.5, weight: "700" },
+            formatter: v => v
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
+          }
+        },
+        scales: {
+          x: {
+            border: { display: false },
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.25 || 5,
+            ticks: { color: corEixo, font: { size: 9.5 }, padding: 6, precision: 0 },
+            grid: { display: false }
+          },
+          y: {
+            border: { display: false },
+            ticks: { color: "#f8fafc", font: { size: 10, weight: "600" }, padding: 6 },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarBarrasVeiculos(filtrados) {
+    const porVeic = {};
+    filtrados.forEach(r => {
+      if (r.veic) porVeic[r.veic] = (porVeic[r.veic] || 0) + 1;
+    });
+    const entries = Object.entries(porVeic).sort((a, b) => b[1] - a[1]).slice(0, 7);
+    const maxVal = Math.max(0, ...entries.map(e => e[1]));
+
+    if (charts.barrasVeic) charts.barrasVeic.destroy();
+    charts.barrasVeic = new Chart(document.getElementById("chartBarrasVeiculos"), {
+      type: "bar",
+      data: {
+        labels: entries.map(e => e[0]),
+        datasets: [{
+          label: "Equipes",
+          data: entries.map(e => e[1]),
+          backgroundColor: (c) => criarDegradeNeonVertical(c),
+          borderColor: "rgba(56, 189, 248, 0.45)",
+          borderWidth: 0.8,
+          borderRadius: 8,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 24, right: 12, left: 6, bottom: 4 } },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            display: () => rotulosAtivos.barrasVeic,
+            anchor: "end",
+            align: "top",
+            offset: 5,
+            color: "#e0f2fe",
+            font: { size: 9.5, weight: "700" },
+            formatter: v => v > 0 ? v : ""
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
+          }
+        },
+        scales: {
+          x: {
+            border: { display: false },
+            ticks: { color: corEixo, font: { size: 10 }, padding: 6 },
+            grid: { display: false }
+          },
+          y: {
+            border: { display: false },
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.24 || 5,
+            ticks: { color: corEixo, font: { size: 10 }, padding: 8, precision: 0 },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarSupComparativo(filtrados) {
+    const porSup = {};
+    filtrados.forEach(r => {
+      const s = (r.sup || "SUP").split(" ")[0];
+      if (!porSup[s]) porSup[s] = { ativas: 0, indisp: 0 };
+      porSup[s].ativas += r.ativo;
+      porSup[s].indisp += (r.oficina + r.ferias + r.mob);
+    });
+    const entries = Object.entries(porSup).sort((a, b) => b[1].ativas - a[1].ativas).slice(0, 6);
+    const maxVal = Math.max(0, ...entries.flatMap(e => [e[1].ativas, e[1].indisp]));
+
+    if (charts.supComp) charts.supComp.destroy();
+    charts.supComp = new Chart(document.getElementById("chartSupComparativo"), {
+      type: "bar",
+      data: {
+        labels: entries.map(e => e[0]),
+        datasets: [
+          {
+            label: "Indisponíveis",
+            data: entries.map(e => e[1].indisp),
+            backgroundColor: (c) => criarDegradeAmberVertical(c),
+            borderColor: "rgba(251, 191, 36, 0.35)",
+            borderWidth: 0.8,
+            borderRadius: 7,
+            borderSkipped: false
+          },
+          {
+            label: "Equipes Ativas",
+            data: entries.map(e => e[1].ativas),
+            backgroundColor: (c) => criarDegradeNeonVertical(c),
+            borderColor: "rgba(56, 189, 248, 0.45)",
+            borderWidth: 0.8,
+            borderRadius: 7,
+            borderSkipped: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        layout: { padding: { top: 22, right: 12, left: 6, bottom: 4 } },
+        plugins: {
+          legend: { labels: { color: "#cbd5e1", font: { size: 10 }, padding: 12 } },
+          datalabels: {
+            display: (c) => rotulosAtivos.supComp && c.datasetIndex === 1,
+            anchor: "end",
+            align: "top",
+            offset: 4,
+            color: "#e0f2fe",
+            font: { size: 9, weight: "700" },
+            formatter: v => v > 0 ? v : ""
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
+          }
+        },
+        scales: {
+          x: {
+            border: { display: false },
+            ticks: { color: corEixo, font: { size: 10 }, padding: 6 },
+            grid: { display: false }
+          },
+          y: {
+            border: { display: false },
+            beginAtZero: true,
+            suggestedMax: maxVal * 1.24 || 5,
+            ticks: { color: corEixo, font: { size: 10 }, padding: 8, precision: 0 },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarListaSupervisores(filtrados) {
+    const porSup = {};
+    filtrados.forEach(r => {
+      const sup = r.sup || "NÃO INFORMADO";
+      if (!porSup[sup]) porSup[sup] = { total: 0, ativas: 0, processos: new Set() };
+      porSup[sup].total += 1;
+      porSup[sup].ativas += r.ativo;
+      if (r.proc) porSup[sup].processos.add(r.proc);
+    });
+
+    const stSup = multiFiltros.supervisor;
+    const isUnicoSup = stSup.selecionados.size === 1;
+    const supUnico = isUnicoSup ? [...stSup.selecionados][0] : null;
+    const linhas = Object.entries(porSup).sort((a, b) => b[1].total - a[1].total);
+
+    const destaqueEntry = supUnico && porSup[supUnico]
+      ? [supUnico, porSup[supUnico]]
+      : linhas[0];
+
+    const imgEl = document.getElementById("supPhotoImg");
+    const initEl = document.getElementById("supPhotoInitials");
+
+    if (destaqueEntry) {
+      const [nomeDestaque, dadosDest] = destaqueEntry;
+      const iniciais = nomeDestaque.split(" ").slice(0, 2).map(p => p[0]).join("") || "SP";
+      const pctDest = dadosDest.total > 0 ? ((dadosDest.ativas / dadosDest.total) * 100).toFixed(0) : "0";
+      const procsTxt = [...dadosDest.processos].join(" · ") || "Operação Ellca";
+
+      document.getElementById("supSpotlightName").textContent = nomeDestaque;
+      document.getElementById("supSpotlightRole").textContent = supUnico
+        ? `Supervisor Selecionado · ${procsTxt}`
+        : `Maior Efetivo · ${procsTxt}`;
+      document.getElementById("supSpotlightMeta").textContent = `${dadosDest.ativas} ativas de ${dadosDest.total} equipes`;
+      document.getElementById("supSpotlightVal").textContent = `${dadosDest.total} eq.`;
+      document.getElementById("supSpotlightBadge").textContent = `${pctDest}% ativas`;
+
+      initEl.textContent = iniciais;
+      initEl.style.display = "inline";
+      imgEl.style.display = "none";
+      imgEl.onload = () => {
+        imgEl.style.display = "block";
+        initEl.style.display = "none";
+      };
+      imgEl.onerror = () => {
+        imgEl.style.display = "none";
+        initEl.style.display = "inline";
+      };
+      imgEl.src = obterCaminhoFotoSupervisor(nomeDestaque);
+    }
+
+    const wrap = document.getElementById("listaSupervisoresRight");
+    wrap.innerHTML = linhas.map(([sup, v]) => {
+      const iniciais = sup.split(" ").slice(0, 2).map(p => p[0]).join("") || "SP";
+      const pct = v.total > 0 ? ((v.ativas / v.total) * 100).toFixed(0) : "0";
+      const fotoSrc = obterCaminhoFotoSupervisor(sup);
+      const isAtivo = stSup.selecionados.size < stSup.disponiveis.length && stSup.selecionados.has(sup);
+      return `
+        <div class="sup-item ${isAtivo ? "active" : ""}" data-sup="${sup}">
+          <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+            <div class="sup-avatar">
+              <img src="${fotoSrc}" alt="${sup}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+              <span style="display:none;">${iniciais}</span>
+            </div>
+            <div style="min-width:0;">
+              <div style="font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sup}</div>
+              <div style="font-size:10px; color:#94a3b8;">${v.ativas} ativas · Total: ${v.total} eq.</div>
+            </div>
+          </div>
+          <div style="text-align:right; flex-shrink:0;">
+            <div style="font-size:12px; font-weight:700; color:#fff;">${v.total} eq.</div>
+            <div style="font-size:10px; color:#38bdf8; font-weight:600;">${pct}% ativas</div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    wrap.querySelectorAll(".sup-item").forEach(row => {
+      row.addEventListener("click", () => {
+        const sup = row.getAttribute("data-sup");
+        if (stSup.selecionados.size === 1 && stSup.selecionados.has(sup)) {
+          stSup.selecionados = new Set(stSup.disponiveis.map(o => String(o.valor)));
+        } else {
+          stSup.selecionados = new Set([sup]);
+        }
+        sincronizarCheckboxesMulti("supervisor");
+        atualizarDashboard();
+      });
+    });
+  }
+
+  function renderizarTabela(filtrados) {
+    document.getElementById("lblQtdLinhas").textContent = `${filtrados.length} registros`;
+    const tbody = document.getElementById("corpoTabela");
+    if (!filtrados.length) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:18px; color:#94a3b8;">Nenhum registro encontrado para os filtros selecionados.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtrados.map(r => {
+      let st = `<span class="pill-up">ATIVO</span>`;
+      if (r.statusKey === "OFICINA") st = `<span class="pill-warn">OFICINA</span>`;
+      else if (r.statusKey === "FERIAS") st = `<span class="pill-info">FÉRIAS</span>`;
+      else if (r.statusKey === "MOBILIZAR") st = `<span class="pill-down">MOBILIZAR</span>`;
+
+      return `
+        <tr>
+          <td>${r.dt}</td>
+          <td><strong>${r.proc}</strong></td>
+          <td>${r.sup}</td>
+          <td class="c-blue" style="font-weight:800;">${r.eq}</td>
+          <td>${r.veic}</td>
+          <td>${r.equip}</td>
+          <td>${r.estEq}</td>
+          <td>${st}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // BOTÕES INDIVIDUAIS PARA ATIVAR / RETIRAR RÓTULOS DE CADA GRÁFICO
+  document.querySelectorAll("[data-chart-label]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const chave = btn.getAttribute("data-chart-label");
+      rotulosAtivos[chave] = !rotulosAtivos[chave];
+      btn.classList.toggle("off", !rotulosAtivos[chave]);
+      if (charts[chave]) charts[chave].update();
+    });
+  });
+
+  document.getElementById("btnToggleMenu").addEventListener("click", () => {
+    const oculto = document.body.classList.toggle("menu-hidden");
+    const ico = document.getElementById("iconToggleMenu");
+    const txt = document.getElementById("txtToggleMenu");
+    if (oculto) {
+      ico.className = "fa-solid fa-bars";
+      txt.textContent = "MOSTRAR MENU";
+    } else {
+      ico.className = "fa-solid fa-eye-slash";
+      txt.textContent = "OCULTAR MENU";
+    }
+  });
+
+  document.getElementById("btnGerarInsightIA").addEventListener("click", () => {
+    variacaoIA += 1;
+    atualizarTextoIA();
+  });
+
+  document.getElementById("btnAtualizarDados").addEventListener("click", carregarDados);
+
+  configurarAcoesGlobais();
+  carregarDados();
+</script>
 </body>
-
 </html>
