@@ -29,29 +29,30 @@
     }
 
     body {
-      background-color: #060911;
+      background-color: #050811;
       background-image:
-        radial-gradient(ellipse 65% 45% at 18% 6%, rgba(37, 99, 235, 0.17) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 40% at 85% 15%, rgba(59, 130, 246, 0.11) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 50% at 50% 96%, rgba(29, 78, 216, 0.13) 0%, transparent 65%);
+        radial-gradient(ellipse 70% 50% at 15% 4%, rgba(37, 99, 235, 0.24) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 45% at 88% 12%, rgba(56, 189, 248, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%);
       color: #f8fafc;
       min-height: 100vh;
-      padding: 16px 24px 22px;
+      padding: 16px 24px 24px;
       overflow-x: hidden;
     }
 
     .tabular { font-variant-numeric: tabular-nums; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #060911; }
-    ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.35); border-radius: 999px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.38); border-radius: 999px; }
 
     .dashboard-container {
       max-width: 1500px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 15px;
     }
 
     /* ================= BARRA SUPERIOR (MENU ATIVO / OCULTO) ================= */
@@ -68,7 +69,7 @@
       opacity: 0;
       transform: translateY(-10px);
       pointer-events: none;
-      margin-bottom: -14px;
+      margin-bottom: -15px;
     }
 
     .top-navbar {
@@ -77,7 +78,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      padding: 4px 2px 6px;
+      padding: 4px 2px 4px;
     }
 
     .nav-brand-side {
@@ -151,14 +152,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-left: 16px;
+      margin-left: 10px;
     }
 
     .nav-links-side {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 14px;
     }
 
     .top-nav-link {
@@ -171,18 +172,14 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 8px;
+      padding: 6px 9px;
       border-radius: 8px;
       transition: color 0.2s ease, background 0.2s ease;
     }
 
     .top-nav-link:hover {
       color: #38bdf8;
-      background: rgba(56, 189, 248, 0.08);
-    }
-
-    .top-nav-link.active {
-      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
     }
 
     .btn-back-circle {
@@ -205,16 +202,43 @@
       background: rgba(56, 189, 248, 0.18);
     }
 
-    /* ================= BANNER HERO + AÇÕES (IGUAL À REFERÊNCIA) ================= */
+    /* ================= BANNER HERO PREMIUM COM LOGO + VIDRO ================= */
     .hero-banner {
-      border-radius: 16px;
-      padding: 18px 22px;
-      background: linear-gradient(135deg, rgba(13, 35, 68, 0.92) 0%, rgba(10, 22, 44, 0.95) 55%, rgba(12, 28, 56, 0.92) 100%);
-      border: 1px solid rgba(59, 130, 246, 0.34);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+      position: relative;
+      border-radius: 18px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(16, 36, 70, 0.78) 0%, rgba(11, 20, 40, 0.84) 55%, rgba(15, 32, 64, 0.78) 100%);
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      border: 1px solid rgba(96, 165, 250, 0.30);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 15px;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 280px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-top-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
     }
 
     .hero-title-row {
@@ -224,21 +248,22 @@
     }
 
     .hero-icon-box {
-      width: 42px;
-      height: 42px;
-      border-radius: 11px;
-      background: rgba(37, 99, 235, 0.24);
-      border: 1px solid rgba(96, 165, 250, 0.4);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.35), rgba(14, 165, 233, 0.16));
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       color: #60a5fa;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
     .hero-main-title {
-      font-size: 19px;
+      font-size: 19.5px;
       font-weight: 800;
       letter-spacing: 0.2px;
       color: #ffffff;
@@ -248,7 +273,36 @@
     .hero-subtitle {
       font-size: 12px;
       color: #94a3b8;
-      margin-top: 2px;
+      margin-top: 3px;
+    }
+
+    .hero-logo-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(7, 12, 24, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      text-decoration: none;
+    }
+
+    .hero-logo-card img {
+      height: 32px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .hero-logo-fallback {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      font-size: 17px;
+      font-weight: 800;
+      color: #60a5fa;
     }
 
     .hero-actions-row {
@@ -256,6 +310,10 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      position: relative;
+      z-index: 2;
     }
 
     .live-badge {
@@ -310,7 +368,6 @@
       color: #ffffff;
     }
 
-    /* Botão Toggle Menu: OCULTAR MENU (esmeralda) vs MOSTRAR MENU (azul escuro) */
     .hero-btn-menu-toggle {
       background: #34d399;
       border: 1px solid #6ee7b7;
@@ -318,12 +375,10 @@
       box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
     }
 
-    .hero-btn-menu-toggle:hover {
-      filter: brightness(1.06);
-    }
+    .hero-btn-menu-toggle:hover { filter: brightness(1.06); }
 
     body.menu-hidden .hero-btn-menu-toggle {
-      background: rgba(30, 58, 138, 0.45);
+      background: rgba(30, 58, 138, 0.48);
       border: 1px solid rgba(96, 165, 250, 0.45);
       color: #e0f2fe;
       box-shadow: none;
@@ -340,7 +395,7 @@
       color: #fef08a;
     }
 
-    /* ================= PAINEL DE FILTROS (ESTILO DA IMAGEM) ================= */
+    /* ================= PAINEL DE FILTROS COM VIDRO ================= */
     .filters-collapse {
       max-height: 240px;
       opacity: 1;
@@ -352,18 +407,20 @@
       max-height: 0;
       opacity: 0;
       pointer-events: none;
-      margin-bottom: -14px;
+      margin-bottom: -15px;
     }
 
     .filters-panel {
-      background: #0c111b;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(13, 19, 34, 0.72);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 16px;
       padding: 14px 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .filters-grid-top {
@@ -404,7 +461,7 @@
     .filter-control {
       height: 36px;
       border-radius: 9px;
-      background: #070b14;
+      background: rgba(6, 10, 20, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #f8fafc;
       font-size: 12px;
@@ -415,14 +472,8 @@
       transition: border-color 0.2s ease;
     }
 
-    .filter-control:focus {
-      border-color: #3b82f6;
-    }
-
-    .filter-control option {
-      background: #0c111b;
-      color: #f8fafc;
-    }
+    .filter-control:focus { border-color: #3b82f6; }
+    .filter-control option { background: #0c111b; color: #f8fafc; }
 
     .btn-clear-filters {
       height: 36px;
@@ -452,7 +503,7 @@
       height: 36px;
       padding: 0 14px;
       border-radius: 9px;
-      background: rgba(37, 99, 235, 0.14);
+      background: rgba(37, 99, 235, 0.16);
       border: 1px solid rgba(59, 130, 246, 0.34);
       color: #93c5fd;
       font-size: 11.5px;
@@ -462,7 +513,7 @@
       gap: 7px;
     }
 
-    /* ================= CARD 3D SUAVE + LINHA NA BORDA ================= */
+    /* ================= CARDS COM EFEITO VIDRO PREMIUM (GLASSMORPHISM) ================= */
     .card-3d-wrap {
       perspective: 1400px;
       height: 100%;
@@ -472,20 +523,33 @@
       --border-glow: #3b82f6;
       --border-soft: #1d4ed8;
       position: relative;
-      border-radius: 16px;
-      background: #0c111b;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
+      border-radius: 17px;
+      background: linear-gradient(160deg, rgba(18, 27, 46, 0.72) 0%, rgba(10, 16, 29, 0.80) 100%);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 24px rgba(59, 130, 246, 0.04);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 0.35s ease-out, box-shadow 0.3s ease;
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
       height: 100%;
+    }
+
+    .card-surface:hover {
+      border-color: rgba(96, 165, 250, 0.28);
+      box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.62),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 0 28px rgba(59, 130, 246, 0.08);
     }
 
     .card-surface::before {
       content: "";
       position: absolute;
       inset: -1px;
-      border-radius: 17px;
+      border-radius: 18px;
       padding: 1px;
       background: conic-gradient(
         from var(--border-angle),
@@ -493,25 +557,25 @@
         transparent 288deg,
         var(--border-soft) 318deg,
         var(--border-glow) 342deg,
-        rgba(147, 197, 253, 0.7) 354deg,
+        rgba(147, 197, 253, 0.75) 354deg,
         transparent 360deg
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       animation: borderGlide 12s linear infinite;
-      opacity: 0.45;
+      opacity: 0.48;
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
 
-    .card-surface:hover::before { opacity: 0.8; }
+    .card-surface:hover::before { opacity: 0.85; }
 
     .card-body {
       position: relative;
       z-index: 2;
       padding: 16px 18px;
-      border-radius: 15px;
+      border-radius: 16px;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -540,9 +604,22 @@
       gap: 14px;
     }
 
+    .card-header-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      color: #f8fafc;
+    }
+
+    .card-header-sub {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
     .kpi-label-top {
-      font-size: 11.5px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
       color: #94a3b8;
       margin-bottom: 8px;
       display: flex;
@@ -551,9 +628,9 @@
     }
 
     .kpi-val-main {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.4px;
       color: #ffffff;
     }
 
@@ -563,12 +640,13 @@
       align-items: center;
       justify-content: space-between;
       font-size: 11px;
-      color: #64748b;
+      color: #94a3b8;
     }
 
     .pill-up {
       color: #34d399;
-      background: rgba(16, 185, 129, 0.14);
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.25);
       padding: 2px 8px;
       border-radius: 999px;
       font-weight: 700;
@@ -577,14 +655,14 @@
 
     .pill-down {
       color: #f87171;
-      background: rgba(248, 113, 113, 0.14);
+      background: rgba(248, 113, 113, 0.16);
+      border: 1px solid rgba(248, 113, 113, 0.25);
       padding: 2px 8px;
       border-radius: 999px;
       font-weight: 700;
       font-size: 10.5px;
     }
 
-    /* LEGENDA DUPLA LINHA (ESTILO IMAGE_43D782) */
     .line-legend-inline {
       display: inline-flex;
       align-items: center;
@@ -615,8 +693,8 @@
 
     .seg-group {
       display: inline-flex;
-      background: #070a12;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(6, 10, 20, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 9px;
       padding: 3px;
       gap: 2px;
@@ -635,12 +713,12 @@
     }
 
     .seg-btn.active {
-      background: #1e293b;
+      background: rgba(37, 99, 235, 0.35);
       color: #ffffff;
       font-weight: 700;
     }
 
-    /* ANÉIS CONCÊNTRICOS (ESTILO IMAGE_43D782) */
+    /* ANÉIS CONCÊNTRICOS (PROPORÇÃO REFINADA PARA O TEXTO CENTRAL) */
     .rings-widget-wrap {
       display: flex;
       flex-direction: column;
@@ -651,8 +729,8 @@
 
     .rings-canvas-box {
       position: relative;
-      width: 170px;
-      height: 170px;
+      width: 168px;
+      height: 168px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -662,33 +740,37 @@
       position: absolute;
       text-align: center;
       pointer-events: none;
+      max-width: 82px;
+      line-height: 1.15;
     }
 
     .rings-center-val {
-      font-size: 19px;
+      font-size: 14.5px;
       font-weight: 800;
       color: #ffffff;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.3px;
     }
 
     .rings-center-sub {
-      font-size: 9.5px;
+      font-size: 9px;
       color: #94a3b8;
       font-weight: 600;
+      margin-top: 2px;
     }
 
     .rings-bottom-legend {
       width: 100%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 8px;
       padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       text-align: left;
     }
 
     .ring-leg-val {
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 700;
       color: #ffffff;
     }
 
@@ -698,6 +780,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
+      margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -741,10 +824,10 @@
     }
 
     .gauge-pct {
-      font-size: 25px;
+      font-size: 23px;
       font-weight: 800;
       color: #ffffff;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.4px;
     }
 
     .gauge-sub {
@@ -768,8 +851,8 @@
       margin-top: 10px;
       padding: 12px 13px;
       border-radius: 12px;
-      background: #070a12;
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: rgba(6, 10, 20, 0.65);
+      border: 1px solid rgba(59, 130, 246, 0.24);
       font-size: 11.5px;
       line-height: 1.52;
       color: #cbd5e1;
@@ -781,7 +864,7 @@
       padding: 9px 14px;
       border-radius: 10px;
       border: 1px solid rgba(59, 130, 246, 0.45);
-      background: rgba(37, 99, 235, 0.18);
+      background: rgba(37, 99, 235, 0.22);
       color: #eff6ff;
       font-size: 11.5px;
       font-weight: 700;
@@ -807,14 +890,14 @@
     }
 
     .sup-item:hover,
-    .sup-item.active { background: rgba(59, 130, 246, 0.14); }
+    .sup-item.active { background: rgba(59, 130, 246, 0.16); }
 
     .sup-avatar {
       width: 32px;
       height: 32px;
       border-radius: 9px;
-      background: rgba(37, 99, 235, 0.18);
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.34);
       color: #93c5fd;
       font-size: 11px;
       font-weight: 700;
@@ -838,7 +921,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: sticky;
       top: 0;
-      background: #0c111b;
+      background: rgba(13, 20, 36, 0.96);
     }
 
     thead th.num, tbody td.num, tfoot td.num { text-align: right; }
@@ -849,21 +932,21 @@
       color: #e2e8f0;
     }
 
-    tbody tr:hover { background: rgba(59, 130, 246, 0.07); }
+    tbody tr:hover { background: rgba(59, 130, 246, 0.08); }
 
     tfoot td {
       padding: 9px 10px;
       font-weight: 700;
       color: #ffffff;
       border-top: 1px solid rgba(59, 130, 246, 0.35);
-      background: rgba(37, 99, 235, 0.12);
+      background: rgba(37, 99, 235, 0.14);
     }
 
     .c-blue    { color: #60a5fa !important; }
     .c-emerald { color: #34d399 !important; }
     .c-rose    { color: #f87171 !important; }
 
-    /* ================= RODAPÉ EXATO DA IMAGEM (IMAGE_442D9C) ================= */
+    /* ================= RODAPÉ OFICIAL ================= */
     .ellca-official-footer {
       margin-top: 6px;
       padding: 12px 4px 4px;
@@ -960,16 +1043,24 @@
       </header>
     </div>
 
-    <!-- 2. BANNER HERO DO DASHBOARD + BOTÕES DE AÇÃO -->
+    <!-- 2. BANNER HERO PREMIUM COM LOGO DA EMPRESA -->
     <section class="hero-banner">
-      <div class="hero-title-row">
-        <div class="hero-icon-box">
-          <i class="fa-solid fa-chart-line"></i>
+      <div class="hero-top-split">
+        <div class="hero-title-row">
+          <div class="hero-icon-box">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <h1 class="hero-main-title">DASHBOARD DE FATURAMENTO — PREVISTO VS. REALIZADO</h1>
+            <p class="hero-subtitle">Acompanhamento de faturamento diário, metas por equipe, aderência financeira e projeção mensal</p>
+          </div>
         </div>
-        <div>
-          <h1 class="hero-main-title">DASHBOARD DE FATURAMENTO — PREVISTO VS. REALIZADO</h1>
-          <p class="hero-subtitle">Acompanhamento de faturamento diário, metas por equipe, aderência financeira e projeção mensal</p>
-        </div>
+
+        <a href="home.html" class="hero-logo-card" title="Ellca">
+          <img src="img/logo_ellca.png" alt="Logo Ellca"
+               onerror="this.style.display='none'; document.getElementById('heroLogoFallback').style.display='inline-flex';" />
+          <span id="heroLogoFallback" class="hero-logo-fallback">🌀Ellca</span>
+        </a>
       </div>
 
       <div class="hero-actions-row">
@@ -997,7 +1088,7 @@
       </div>
     </section>
 
-    <!-- 3. PAINEL DE FILTROS (RECOLHE JUNTO COM O MENU) -->
+    <!-- 3. PAINEL DE FILTROS -->
     <div class="filters-collapse">
       <div class="filters-panel">
         <div class="filters-grid-top">
@@ -1044,7 +1135,7 @@
       </div>
     </div>
 
-    <!-- 4. GRADE PRINCIPAL: ESQUERDA (3 KPIS + CURVA DUPLA) | DIREITA (IA + SUPERVISORES) -->
+    <!-- 4. GRADE PRINCIPAL -->
     <div class="main-grid">
       <div class="left-column">
         <div class="top-kpis-grid tabular">
@@ -1097,15 +1188,14 @@
           </div>
         </div>
 
-        <!-- GRÁFICO DE LINHA COM EFEITO DE DUPLA ONDA AZUL + PRATA -->
         <div class="card-3d-wrap" style="flex:1;">
           <div class="card-surface">
             <div class="card-body">
               <div class="chart-header-bar tabular">
                 <div>
-                  <div style="font-size:11.5px; color:#94a3b8; font-weight:600;" id="tituloCurva">Faturamento Total no Período</div>
+                  <div class="card-header-sub" id="tituloCurva">Faturamento Total no Período</div>
                   <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
-                    <span style="font-size:26px; font-weight:700; letter-spacing:-0.5px;" id="valorDestaqueCurva">R$ 0,00</span>
+                    <span style="font-size:24px; font-weight:700; letter-spacing:-0.4px;" id="valorDestaqueCurva">R$ 0,00</span>
                     <span class="pill-up" id="badgeDeltaCurva">+0,0%</span>
                   </div>
                   <div class="line-legend-inline">
@@ -1134,14 +1224,14 @@
           <div class="card-surface">
             <div class="card-body tabular">
               <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span style="font-size:12.5px; font-weight:700; color:#93c5fd;">
+                <span class="card-header-title" style="color:#93c5fd;">
                   <i class="fa-solid fa-microchip"></i> Análise Inteligente (IA)
                 </span>
                 <span class="pill-up" id="pctMetaMensalTxt">0% meta</span>
               </div>
 
               <div style="display:flex; align-items:baseline; gap:10px;">
-                <span style="font-size:26px; font-weight:800; letter-spacing:-0.5px;" id="kpiRealizadoSide">R$ 0,00</span>
+                <span style="font-size:23px; font-weight:800; letter-spacing:-0.4px;" id="kpiRealizadoSide">R$ 0,00</span>
                 <span style="font-size:11px; color:#94a3b8;" id="statusRitmoTxt">No ritmo</span>
               </div>
 
@@ -1160,8 +1250,8 @@
           <div class="card-surface">
             <div class="card-body tabular">
               <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                <span style="font-size:13.5px; font-weight:700;">Supervisores</span>
-                <span style="font-size:11px; color:#64748b;">Clique p/ filtrar</span>
+                <span class="card-header-title">Supervisores</span>
+                <span class="card-header-sub">Clique p/ filtrar</span>
               </div>
 
               <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:270px; overflow-y:auto;"></div>
@@ -1171,14 +1261,14 @@
       </div>
     </div>
 
-    <!-- 5. GRADE MÉDIA: VELOCÍMETRO + ANÉIS CONCÊNTRICOS (SETORES) + BARRAS POR EQUIPE -->
+    <!-- 5. GRADE MÉDIA -->
     <div class="mid-charts-grid tabular">
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:13px; font-weight:700;">Velocímetro da Meta</span>
-              <span style="font-size:10.5px; color:#60a5fa; font-weight:600;">Mensal</span>
+              <span class="card-header-title">Velocímetro da Meta</span>
+              <span class="card-header-sub" style="color:#60a5fa;">Mensal</span>
             </div>
 
             <div class="gauge-box">
@@ -1218,13 +1308,13 @@
         </div>
       </div>
 
-      <!-- GRÁFICO DE SETORES EM ANÉIS CONCÊNTRICOS (ESTILO IMAGE_43D782) -->
+      <!-- ANÉIS CONCÊNTRICOS COM TEXTO CENTRAL PROPORCIONAL -->
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
-              <span style="font-size:13px; font-weight:700;">Faturamento por Tipo</span>
-              <span style="font-size:10.5px; color:#94a3b8; background:#070a12; border:1px solid rgba(255,255,255,0.08); padding:3px 9px; border-radius:7px;">Top 3 tipos</span>
+              <span class="card-header-title">Faturamento por Tipo</span>
+              <span class="card-header-sub" style="background:rgba(6,10,20,0.65); border:1px solid rgba(255,255,255,0.09); padding:3px 9px; border-radius:7px;">Top 3 tipos</span>
             </div>
 
             <div class="rings-widget-wrap">
@@ -1246,8 +1336,8 @@
         <div class="card-surface">
           <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:13px; font-weight:700;">Top Equipes (Barras)</span>
-              <span style="font-size:10.5px; color:#94a3b8;">Realizado</span>
+              <span class="card-header-title">Top Equipes (Barras)</span>
+              <span class="card-header-sub">Realizado</span>
             </div>
             <div style="height: 225px; width: 100%;">
               <canvas id="chartBarrasEquipes"></canvas>
@@ -1257,14 +1347,14 @@
       </div>
     </div>
 
-    <!-- 6. GRADE INFERIOR: BARRAS DIA DA SEMANA + PREVISTO X REALIZADO -->
+    <!-- 6. GRADE INFERIOR -->
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;" class="bottom-two-grid">
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:13px; font-weight:700;">Faturamento por Dia da Semana</span>
-              <span style="font-size:10.5px; color:#94a3b8;">R$ Realizado</span>
+              <span class="card-header-title">Faturamento por Dia da Semana</span>
+              <span class="card-header-sub">R$ Realizado</span>
             </div>
             <div style="height: 225px; width: 100%;">
               <canvas id="chartDiaSemana"></canvas>
@@ -1277,8 +1367,8 @@
         <div class="card-surface">
           <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:13px; font-weight:700;">Previsto x Realizado por Supervisor</span>
-              <span style="font-size:10.5px; color:#94a3b8;">Comparativo</span>
+              <span class="card-header-title">Previsto x Realizado por Supervisor</span>
+              <span class="card-header-sub">Comparativo</span>
             </div>
             <div style="height: 225px; width: 100%;">
               <canvas id="chartSupComparativo"></canvas>
@@ -1288,13 +1378,13 @@
       </div>
     </div>
 
-    <!-- 7. TABELA CONSOLIDADA DE FATURAMENTO -->
+    <!-- 7. TABELA CONSOLIDADA -->
     <div class="card-3d-wrap">
       <div class="card-surface">
         <div class="card-body tabular">
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <span style="font-size:13.5px; font-weight:700;">Detalhamento de Faturamento por Equipe</span>
-            <span style="font-size:11px; color:#94a3b8;" id="qtdLinhasTabela">0 registros</span>
+            <span class="card-header-title">Detalhamento de Faturamento por Equipe</span>
+            <span class="card-header-sub" id="qtdLinhasTabela">0 registros</span>
           </div>
           <div class="table-wrap">
             <table>
@@ -1319,7 +1409,7 @@
       </div>
     </div>
 
-    <!-- 8. RODAPÉ EXATO DA REFERÊNCIA -->
+    <!-- 8. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <span class="footer-system-text">
         <i class="fa-solid fa-shield-halved" style="color:#64748b;"></i>
@@ -1338,7 +1428,7 @@
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/AKfycbwhFjFhTamq91OcNe2nuK8T_qQQgBD5Eu_rrpeVBlz59kA-i21G5ZIM53Nyu7bORKDw/exec";
   const PLANILHA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk/edit?gid=0#gid=0";
-  const PLANILHA_EXPORT_URL = ""; // Opcional: link direto .xlsx/.csv; se vazio, gera CSV filtrado
+  const PLANILHA_EXPORT_URL = "";
 
   const DIAS_UTEIS_MES = {
     1: 22, 2: 20, 3: 22, 4: 22, 5: 21, 6: 22,
@@ -1417,7 +1507,6 @@
     });
   }
 
-  // Movimento 3D suave nos cards
   document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
     const surface = wrap.querySelector(".card-surface");
     if (!surface) return;
@@ -1692,9 +1781,6 @@
     return g;
   }
 
-  // =========================================================================
-  // GRÁFICO DE LINHA COM EFEITO DA IMAGEM 1 (DUPLA CURVA AZUL + PRATA + TOOLTIP)
-  // =========================================================================
   function renderizarGraficoPrincipal(dados, datasUnicas, totalMetaMensal, diasUteis, totalRealizado, pctPrevisto) {
     const ctx = document.getElementById("chartFaturamentoPrincipal");
     let labels = [];
@@ -1756,7 +1842,7 @@
             label: "Realizado",
             data: serieRealizado,
             borderColor: "#2563eb",
-            backgroundColor: (c) => criarGradienteVertical(c, "rgba(37, 99, 235, 0.36)", "rgba(37, 99, 235, 0.0)"),
+            backgroundColor: (c) => criarGradienteVertical(c, "rgba(37, 99, 235, 0.38)", "rgba(37, 99, 235, 0.0)"),
             fill: true,
             borderWidth: 2.8,
             tension: 0.45,
@@ -1825,9 +1911,7 @@
     });
   }
 
-  // =========================================================================
-  // GRÁFICO DE SETORES EM ANÉIS CONCÊNTRICOS (EFEITO DA IMAGEM 1)
-  // =========================================================================
+  // ANÉIS CONCÊNTRICOS COM CORTE INTERNO MAIOR (58%) PARA NÃO COLAR NO TEXTO CENTRAL
   function renderizarAneisTipos(dados) {
     const porTipo = {};
     dados.forEach(r => {
@@ -1851,9 +1935,9 @@
         label: item ? item[0] : "Sem dados",
         data: [val, resto || (val === 0 ? 1 : 0)],
         backgroundColor: [coresAnel[idx], trilhaFundo],
-        borderColor: "#0c111b",
-        borderWidth: 3,
-        borderRadius: [20, 0]
+        borderColor: "rgba(12, 18, 32, 0.9)",
+        borderWidth: 2.5,
+        borderRadius: [18, 0]
       };
     });
 
@@ -1883,7 +1967,7 @@
         responsive: true,
         maintainAspectRatio: false,
         rotation: -115,
-        cutout: "48%",
+        cutout: "58%",
         plugins: {
           legend: { display: false },
           datalabels: { display: false },
@@ -2123,7 +2207,6 @@
       </tr>`;
   }
 
-  // Alternar OCULTAR MENU (ativo) <-> MOSTRAR MENU (oculto)
   document.getElementById("btnToggleMenu").addEventListener("click", () => {
     const oculto = document.body.classList.toggle("menu-hidden");
     const ico = document.getElementById("iconToggleMenu");
