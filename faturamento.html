@@ -1,2274 +1,812 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | CONTROLE GERENCIAL DE FATURAMENTO</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles_index.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-
-    <style>
-        :root {
-            --ellca-navy-deep: #020817;
-            --ellca-navy-card: rgba(6, 15, 36, 0.90);
-            --ellca-navy-panel: rgba(8, 20, 48, 0.85);
-            --ellca-blue: #00d4ff;
-            --ellca-blue-royal: #0284c7;
-            --ellca-blue-dark: #1d4ed8;
-            --ellca-blue-bright: #38bdf8;
-            --ellca-cyan-glow: rgba(0, 212, 255, 0.35);
-            --ellca-green: #34d399;
-            --ellca-red: #f87171;
-            --ellca-border: rgba(0, 212, 255, 0.28);
-            --ellca-border-strong: rgba(0, 212, 255, 0.55);
-        }
-
-        html, body {
-            height: auto !important;
-            min-height: 100dvh;
-            margin: 0;
-            padding: 0;
-            background: var(--ellca-navy-deep);
-            color: #f8fafc;
-            font-family: 'Montserrat', sans-serif;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 212, 255, 0.35) transparent;
-        }
-
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar,
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        html::-webkit-scrollbar-track,
-        body::-webkit-scrollbar-track,
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        html::-webkit-scrollbar-thumb,
-        body::-webkit-scrollbar-thumb,
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 212, 255, 0.35);
-            border-radius: 999px;
-        }
-
-        html::-webkit-scrollbar-thumb:hover,
-        body::-webkit-scrollbar-thumb:hover,
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 212, 255, 0.65);
-        }
-
-        .desktop-view {
-            min-height: 100dvh;
-            height: auto !important;
-            overflow: visible !important;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .container {
-            flex: 1;
-            width: 100% !important;
-            height: auto !important;
-            min-height: 100dvh;
-            overflow: visible !important;
-            position: relative;
-        }
-
-        .container .item,
-        .container .item.active {
-            position: relative !important;
-            width: 100% !important;
-            height: auto !important;
-            min-height: 100dvh;
-            overflow: visible !important;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* ================= NAVBAR E RODAPÉ ENCOLHIDOS ================= */
-        .navbar,
-        .footer-bar {
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
-        }
-
-        body.bars-collapsed .navbar {
-            transform: translateY(-110%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        body.bars-collapsed .footer-bar {
-            transform: translateY(110%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .fat-wrapper {
-            position: relative;
-            z-index: 5;
-            width: 100%;
-            max-width: 1560px;
-            margin: 0 auto;
-            padding: 92px 24px 76px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            box-sizing: border-box;
-            transition: padding 0.32s ease;
-        }
-
-        body.bars-collapsed .fat-wrapper {
-            padding: 20px 24px 36px 24px;
-        }
-
-        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS ================= */
-        @property --ellca-border-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        @keyframes ellcaBorderBeam {
-            0% { --ellca-border-angle: 0deg; }
-            100% { --ellca-border-angle: 360deg; }
-        }
-
-        .ellca-beam-card {
-            position: relative;
-        }
-
-        .ellca-beam-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 1.5px;
-            background: conic-gradient(
-                from var(--ellca-border-angle),
-                transparent 0deg,
-                transparent 295deg,
-                rgba(0, 212, 255, 0.18) 325deg,
-                rgba(56, 189, 248, 0.65) 348deg,
-                rgba(0, 212, 255, 0.15) 360deg
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            animation: ellcaBorderBeam 9s linear infinite;
-            z-index: 2;
-        }
-
-        .ellca-beam-card:nth-child(2)::before { animation-delay: -2.2s; }
-        .ellca-beam-card:nth-child(3)::before { animation-delay: -4.5s; }
-        .ellca-beam-card:nth-child(4)::before { animation-delay: -6.7s; }
-
-        /* ================= CABEÇALHO IDENTIDADE ELLCA DARK ================= */
-        .fat-header {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding: 20px 26px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(2, 8, 23, 0.96) 0%, rgba(7, 25, 62, 0.90) 55%, rgba(0, 72, 118, 0.85) 100%);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid var(--ellca-border-strong);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.82), inset 0 1px 0 rgba(0, 212, 255, 0.32);
-            box-sizing: border-box;
-        }
-
-        .fat-title-group {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            min-width: 0;
-        }
-
-        .fat-icon-box {
-            width: 52px;
-            height: 52px;
-            border-radius: 15px;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(2, 132, 199, 0.12));
-            border: 1px solid rgba(0, 212, 255, 0.68);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--ellca-blue);
-            font-size: 22px;
-            box-shadow: 0 0 26px rgba(0, 212, 255, 0.35);
-        }
-
-        .fat-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--ellca-blue);
-            margin-bottom: 4px;
-        }
-
-        .fat-title-group h1 {
-            font-size: 21px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .fat-title-group p {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            margin: 4px 0 0 0;
-            line-height: 1.45;
-        }
-
-        .fat-actions {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .sync-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 8px 14px;
-            border-radius: 50px;
-            font-size: 10.5px;
-            font-weight: 700;
-            background: rgba(0, 212, 255, 0.16);
-            border: 1px solid rgba(0, 212, 255, 0.48);
-            color: #7dd3fc;
-        }
-
-        .sync-badge.warn {
-            background: rgba(245, 158, 11, 0.16);
-            border-color: rgba(245, 158, 11, 0.48);
-            color: #fcd34d;
-        }
-
-        .btn-ellca {
-            padding: 9px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            background: rgba(0, 212, 255, 0.12);
-            color: #e0f2fe;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: all 0.25s ease;
-            text-decoration: none;
-        }
-
-        .btn-ellca:hover {
-            background: var(--ellca-blue);
-            border-color: #ffffff;
-            color: #020817;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .btn-ellca.primary {
-            background: linear-gradient(135deg, #0284c7, #00d4ff);
-            border-color: #7dd3fc;
-            color: #020817;
-            font-weight: 800;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.35);
-        }
-
-        .btn-ellca.primary:hover {
-            background: linear-gradient(135deg, #00d4ff, #7dd3fc);
-            color: #020817;
-            box-shadow: 0 0 26px rgba(0, 212, 255, 0.65);
-        }
-
-        .btn-ellca.active-mode {
-            background: var(--ellca-blue);
-            color: #020817;
-            border-color: #ffffff;
-        }
-
-        /* ================= PAINEL DE FILTROS MULTI-SELEÇÃO ================= */
-        .filters-card {
-            position: relative;
-            z-index: 30;
-            padding: 16px 20px;
-            border-radius: 18px;
-            background: rgba(4, 12, 30, 0.90);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid var(--ellca-border);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.68);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-            gap: 12px;
-            align-items: end;
-            box-sizing: border-box;
-        }
-
-        .filter-field {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 0;
-        }
-
-        .filter-field label {
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            color: #7dd3fc;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ================= MULTI-SELECT DROPDOWN CUSTOMIZADO ================= */
-        .ms-wrap {
-            position: relative;
-            width: 100%;
-        }
-
-        .ms-trigger {
-            width: 100%;
-            height: 39px;
-            padding: 0 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            background: rgba(2, 8, 23, 0.92);
-            color: #f8fafc;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            cursor: pointer;
-            box-sizing: border-box;
-            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
-        }
-
-        .ms-trigger:hover,
-        .ms-wrap.open .ms-trigger {
-            border-color: var(--ellca-blue);
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.28);
-            background: rgba(5, 16, 40, 0.98);
-        }
-
-        .ms-wrap.has-selection .ms-trigger {
-            border-color: rgba(0, 212, 255, 0.65);
-            background: rgba(0, 212, 255, 0.12);
-        }
-
-        .ms-label-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: left;
-            flex: 1;
-        }
-
-        .ms-badge-count {
-            background: var(--ellca-blue);
-            color: #020817;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 1px 7px;
-            border-radius: 999px;
-            flex-shrink: 0;
-        }
-
-        .ms-chevron {
-            font-size: 10px;
-            color: #7dd3fc;
-            transition: transform 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .ms-wrap.open .ms-chevron {
-            transform: rotate(180deg);
-        }
-
-        .ms-dropdown {
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            min-width: 100%;
-            width: max-content;
-            max-width: 300px;
-            background: rgba(3, 11, 28, 0.98);
-            border: 1px solid rgba(0, 212, 255, 0.55);
-            border-radius: 12px;
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.92), 0 0 24px rgba(0, 212, 255, 0.22);
-            z-index: 999;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-        }
-
-        .ms-wrap.open .ms-dropdown {
-            display: flex;
-        }
-
-        .ms-search-box {
-            padding: 8px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.18);
-            background: rgba(2, 8, 23, 0.95);
-        }
-
-        .ms-search-box input {
-            width: 100%;
-            height: 31px;
-            padding: 0 10px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 212, 255, 0.25);
-            background: rgba(8, 20, 48, 0.85);
-            color: #f8fafc;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        .ms-search-box input:focus {
-            border-color: var(--ellca-blue);
-        }
-
-        .ms-actions-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6px 10px;
-            background: rgba(0, 212, 255, 0.08);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.16);
-            gap: 8px;
-        }
-
-        .ms-mini-btn {
-            background: transparent;
-            border: none;
-            color: #38bdf8;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            padding: 2px 4px;
-        }
-
-        .ms-mini-btn:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-
-        .ms-options-list {
-            max-height: 220px;
-            overflow-y: auto;
-            padding: 5px;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .ms-option-item {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            padding: 7px 9px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 11.5px;
-            font-weight: 600;
-            color: #e2e8f0;
-            transition: background 0.15s ease;
-            user-select: none;
-        }
-
-        .ms-option-item:hover {
-            background: rgba(0, 212, 255, 0.16);
-            color: #ffffff;
-        }
-
-        .ms-option-item input[type="checkbox"] {
-            width: 15px;
-            height: 15px;
-            accent-color: #00d4ff;
-            cursor: pointer;
-            flex-shrink: 0;
-            margin: 0;
-        }
-
-        .ms-option-item span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .ms-empty {
-            padding: 12px;
-            text-align: center;
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        /* ================= KPIS GERENCIAIS ================= */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-            gap: 14px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .kpi-card {
-            position: relative;
-            padding: 17px 19px;
-            border-radius: 16px;
-            background: linear-gradient(145deg, rgba(4, 12, 30, 0.94) 0%, rgba(10, 28, 62, 0.80) 100%);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 212, 255, 0.24);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-            overflow: hidden;
-            min-width: 0;
-        }
-
-        .kpi-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--ellca-blue), transparent);
-        }
-
-        .kpi-card.blue-accent {
-            border-color: rgba(0, 212, 255, 0.42);
-            background: linear-gradient(145deg, rgba(4, 14, 34, 0.95) 0%, rgba(6, 48, 82, 0.72) 100%);
-        }
-
-        .kpi-card.blue-accent::after {
-            background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
-        }
-
-        .kpi-card.royal-accent {
-            border-color: rgba(56, 189, 248, 0.40);
-            background: linear-gradient(145deg, rgba(4, 14, 36, 0.95) 0%, rgba(12, 42, 88, 0.74) 100%);
-        }
-
-        .kpi-card.royal-accent::after {
-            background: linear-gradient(90deg, transparent, #1d4ed8, #38bdf8, transparent);
-        }
-
-        .kpi-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            color: #94a3b8;
-        }
-
-        .kpi-top i {
-            font-size: 15px;
-            color: var(--ellca-blue);
-        }
-
-        .kpi-value {
-            font-size: 21px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .kpi-sub {
-            font-size: 11px;
-            color: #cbd5e1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .gap-positivo {
-            color: #34d399 !important;
-            font-weight: 800;
-        }
-
-        .gap-negativo {
-            color: #f87171 !important;
-            font-weight: 800;
-        }
-
-        .kpi-progress {
-            width: 100%;
-            height: 5px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            margin-top: 2px;
-        }
-
-        .kpi-progress-bar {
-            height: 100%;
-            border-radius: 99px;
-            background: linear-gradient(90deg, #1d4ed8, #0284c7, #00d4ff);
-            transition: width 0.5s ease;
-        }
-
-        /* ================= GRÁFICOS BI & BOTÃO RÓTULOS ================= */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-            gap: 16px;
-        }
-
-        .charts-grid-bottom {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 16px;
-        }
-
-        .panel-card {
-            position: relative;
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: rgba(4, 12, 30, 0.90);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.24);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            min-width: 0;
-            box-sizing: border-box;
-        }
-
-        .panel-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.16);
-        }
-
-        .panel-head h3 {
-            margin: 0;
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .panel-head h3 i {
-            color: var(--ellca-blue);
-        }
-
-        .panel-head-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .panel-head-right > span {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        .btn-chart-labels {
-            padding: 5px 11px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 212, 255, 0.42);
-            background: rgba(0, 212, 255, 0.10);
-            color: #7dd3fc;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-chart-labels:hover {
-            border-color: #00d4ff;
-            background: rgba(0, 212, 255, 0.22);
-            color: #ffffff;
-        }
-
-        .btn-chart-labels.active {
-            background: linear-gradient(135deg, #0284c7, #00d4ff);
-            border-color: #7dd3fc;
-            color: #020817;
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.4);
-        }
-
-        .chart-box {
-            position: relative;
-            width: 100%;
-            height: 290px;
-        }
-
-        /* ================= TABELA ANALÍTICA ================= */
-        .table-wrap {
-            width: 100%;
-            max-height: 440px;
-            overflow: auto;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 212, 255, 0.20);
-        }
-
-        table.fat-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            text-align: left;
-        }
-
-        table.fat-table thead th {
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            background: #04122b;
-            color: #7dd3fc;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            padding: 12px 14px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.35);
-            white-space: nowrap;
-        }
-
-        table.fat-table tbody td {
-            padding: 11px 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            color: #e2e8f0;
-            white-space: nowrap;
-        }
-
-        table.fat-table tbody tr:hover {
-            background: rgba(0, 212, 255, 0.09);
-        }
-
-        .num {
-            text-align: right;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .badge-tipo {
-            display: inline-block;
-            padding: 3px 9px;
-            border-radius: 999px;
-            font-size: 10px;
-            font-weight: 800;
-            background: rgba(0, 212, 255, 0.16);
-            color: #7dd3fc;
-            border: 1px solid rgba(0, 212, 255, 0.42);
-        }
-
-        .pill-ok {
-            color: #34d399;
-            font-weight: 800;
-        }
-
-        .pill-warn {
-            color: #38bdf8;
-            font-weight: 800;
-        }
-
-        .pill-bad {
-            color: #f87171;
-            font-weight: 800;
-        }
-
-        .footer-greeting {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: rgba(255, 255, 255, 0.72);
-        }
-
-        .footer-greeting strong {
-            color: #ffffff;
-        }
-
-        @media (max-width: 1120px) {
-            .charts-grid,
-            .charts-grid-bottom {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .container .item,
-            .container .item.active {
-                background-attachment: scroll;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .fat-wrapper {
-                padding: 76px 12px 68px 12px;
-                gap: 14px;
-            }
-
-            body.bars-collapsed .fat-wrapper {
-                padding: 14px 12px 24px 12px;
-            }
-
-            .fat-header {
-                padding: 14px 16px;
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .fat-title-group h1 {
-                font-size: 16px;
-            }
-
-            .fat-actions {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 8px;
-            }
-
-            .sync-badge {
-                grid-column: 1 / -1;
-                justify-content: center;
-            }
-
-            .filters-card {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                padding: 14px;
-                gap: 10px;
-            }
-
-            .filters-card .filter-field:last-child {
-                grid-column: 1 / -1;
-            }
-
-            .kpi-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .chart-box {
-                height: 250px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Ellca — Painel de Faturamento</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <style>
+    :root {
+      --bg-page: #061026;
+      --card-grad: linear-gradient(180deg, #0b1c40 0%, #16326b 100%);
+      --header-grad: linear-gradient(90deg, #07122b 0%, #1d3c7a 50%, #07122b 100%);
+      --accent-cyan: #00d2ff;
+      --bar-blue: #2b4499;
+      --bar-cyan: #00b4d8;
+      --text-light: #ffffff;
+      --text-muted: #94a3b8;
+      --border-glow: rgba(0, 210, 255, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-light);
+      padding: 16px;
+    }
+
+    /* TOPO */
+    .top-banner {
+      background: var(--header-grad);
+      border: 1px solid var(--border-glow);
+      border-radius: 10px;
+      padding: 12px 20px;
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr auto 1fr 1fr;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .brand {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand span { color: var(--accent-cyan); }
+
+    .banner-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-align: center;
+      padding: 0 12px;
+      text-transform: uppercase;
+    }
+
+    .kpi-top-box {
+      background: rgba(5, 14, 36, 0.85);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    .kpi-top-box.highlight {
+      background: var(--card-grad);
+      border-color: var(--accent-cyan);
+    }
+    .kpi-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .kpi-value {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    /* BARRA DE FILTROS E KPIS SECUNDÁRIOS */
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-pill {
+      background: var(--card-grad);
+      border: 1px solid var(--border-glow);
+      border-radius: 8px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .filter-pill select, .filter-pill input {
+      background: transparent;
+      border: none;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-pill select option { background: #0b1c40; color: #fff; }
+
+    .mini-kpis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .mini-kpi-card {
+      background: var(--card-grad);
+      border: 1px solid var(--border-glow);
+      border-radius: 8px;
+      padding: 8px 18px;
+      text-align: center;
+      min-width: 145px;
+    }
+    .mini-kpi-card .kpi-value { font-size: 19px; }
+
+    /* PAINÉIS E GRÁFICOS */
+    .panel-card {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 10px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      margin-bottom: 14px;
+    }
+
+    .section-bar {
+      background: var(--header-grad);
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 38% 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .grid-bottom {
+      display: grid;
+      grid-template-columns: 38% 1fr;
+      gap: 14px;
+    }
+
+    /* TABELAS */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    thead th {
+      background: #1d3c7a;
+      color: #fff;
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 700;
+    }
+    thead th.num, tbody td.num, tfoot td.num { text-align: right; }
+    tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tfoot td {
+      background: #e2e8f0;
+      font-weight: 800;
+      padding: 8px 10px;
+      color: #0f172a;
+    }
+
+    .table-scroll {
+      max-height: 360px;
+      overflow: auto;
+    }
+
+    .positive { color: #16a34a !important; }
+    .negative { color: #dc2626 !important; }
+
+    @media (max-width: 1100px) {
+      .top-banner { grid-template-columns: 1fr; text-align: center; }
+      .grid-2, .grid-bottom { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="bars-collapsed">
-    <script>
-        (function validarAcessoFaturamento() {
-            if (sessionStorage.getItem('ellca_auth') !== 'true') {
-                window.location.replace('login.html');
-                return;
-            }
-            const setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]');
-            if (!setores.includes('todos') && !setores.includes('gerencial')) {
-                alert('Acesso restrito à Diretoria e Coordenação.');
-                window.location.replace('home.html');
-            }
-        })();
-    </script>
+  <!-- CABEÇALHO SUPERIOR -->
+  <header class="top-banner">
+    <div class="brand"><span>🌀</span>Ellca</div>
 
-    <div class="desktop-view">
-        <!-- NAVBAR -->
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
-                </a>
-            </div>
-
-            <div class="mobile-header-actions">
-                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="gerencial.html" title="Voltar para Gerencial">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <button type="button" class="menu-mobile-btn" id="btnMenuMobileFat" aria-label="Abrir Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
-
-            <div class="nav-content" id="navContentFat">
-                <div class="nav-status">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text">PILAR GERENCIAL • FATURAMENTO</span>
-                </div>
-
-                <div class="nav-links">
-                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
-                    <a href="supervisor.html" class="nav-item">SUPERVISÃO <i class="fa-solid fa-user-shield"></i></a>
-                    <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
-                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
-                    <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
-
-                    <div class="nav-actions-group">
-                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="gerencial.html" title="Voltar para Pilares Gerenciais">
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- CONTAINER PRINCIPAL -->
-        <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(2, 8, 23, 0.90), rgba(4, 14, 36, 0.84)), url('img/Card_gerencial.jpg');">
-                <div class="fat-wrapper">
-
-                    <!-- CABEÇALHO -->
-                    <div class="fat-header ellca-beam-card">
-                        <div class="fat-title-group">
-                            <div class="fat-icon-box">
-                                <i class="fa-solid fa-sack-dollar"></i>
-                            </div>
-                            <div>
-                                <div class="fat-kicker"><i class="fa-solid fa-bolt"></i> Pilar Gerencial • Diretoria & Coordenação Ellca</div>
-                                <h1>Controle Gerencial de Faturamento</h1>
-                                <p>Acompanhamento de Meta, Previsto e Realizado por Ano, Mês, Data, Trimestre, Supervisor, Processo e Equipe</p>
-                            </div>
-                        </div>
-
-                        <div class="fat-actions">
-                            <span class="sync-badge" id="syncBadge">
-                                <i class="fa-solid fa-circle-notch fa-spin"></i> Conectando ao Google Sheets...
-                            </span>
-                            <button type="button" class="btn-ellca" id="btnRefreshFat" title="Sincronizar planilha agora">
-                                <i class="fa-solid fa-rotate"></i> Atualizar
-                            </button>
-                            <button type="button" class="btn-ellca" id="btnExportCsv" title="Baixar dados filtrados em CSV">
-                                <i class="fa-solid fa-file-csv"></i> Exportar CSV
-                            </button>
-                            <button type="button" class="btn-ellca" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
-                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
-                                <span id="textToggleBars">Mostrar Menu</span>
-                            </button>
-                            <a href="gerencial.html" class="btn-ellca primary" title="Voltar para Pilares Gerenciais">
-                                <i class="fa-solid fa-arrow-left"></i> Pilares
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- FILTROS MULTI-SELEÇÃO: ANO, MÊS, DATA, TRIMESTRE, SUPERVISOR, PROCESSO, EQUIPE -->
-                    <div class="filters-card ellca-beam-card">
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
-                            <div class="ms-wrap" id="msAno"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
-                            <div class="ms-wrap" id="msMes"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-day"></i> Data</label>
-                            <div class="ms-wrap" id="msData"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-layer-group"></i> Trimestre</label>
-                            <div class="ms-wrap" id="msTrimestre"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
-                            <div class="ms-wrap" id="msSupervisor"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-diagram-project"></i> Processo</label>
-                            <div class="ms-wrap" id="msProcesso"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-users-gear"></i> Equipe</label>
-                            <div class="ms-wrap" id="msEquipe"></div>
-                        </div>
-
-                        <div class="filter-field">
-                            <button type="button" class="btn-ellca" id="btnLimparFiltros" style="width: 100%; height: 39px; justify-content: center;">
-                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- KPIS -->
-                    <div class="kpi-grid">
-                        <div class="kpi-card blue-accent ellca-beam-card">
-                            <div class="kpi-top">
-                                <span>Meta do Período</span>
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiMeta" style="color:#38bdf8;">R$ 0,00</div>
-                            <div class="kpi-sub">
-                                <span id="kpiMetaSub">Soma das equipes filtradas</span>
-                                <span id="kpiQtdEquipes">0 equipes</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card ellca-beam-card">
-                            <div class="kpi-top">
-                                <span>Previsto Acumulado</span>
-                                <i class="fa-solid fa-chart-line"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiPrevisto">R$ 0,00</div>
-                            <div class="kpi-sub">
-                                <span>Proporcional aos dias</span>
-                                <span id="kpiQtdDias">0 dias</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card royal-accent ellca-beam-card">
-                            <div class="kpi-top">
-                                <span>Faturamento Realizado</span>
-                                <i class="fa-solid fa-sack-dollar"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
-                            <div class="kpi-sub">
-                                <span id="kpiGapPrevisto">Gap Previsto: R$ 0,00</span>
-                                <span id="kpiGapMeta">Gap Meta: R$ 0,00</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card blue-accent ellca-beam-card">
-                            <div class="kpi-top">
-                                <span>Aderência ao Previsto</span>
-                                <i class="fa-solid fa-gauge-high"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiPctPrevisto" style="color:#38bdf8;">0,0%</div>
-                            <div class="kpi-sub">
-                                <span id="kpiPctMeta">Sobre Meta Total: 0,0%</span>
-                                <span>Alvo: 100%</span>
-                            </div>
-                            <div class="kpi-progress">
-                                <div class="kpi-progress-bar" id="kpiProgressBar" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card ellca-beam-card">
-                            <div class="kpi-top">
-                                <span>Média Diária Realizada</span>
-                                <i class="fa-solid fa-calendar-check"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiMediaDia">R$ 0,00</div>
-                            <div class="kpi-sub">
-                                <span id="kpiTicketEquipe">Média/Equipe: R$ 0,00</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GRÁFICOS LINHA 1 -->
-                    <div class="charts-grid">
-                        <div class="panel-card ellca-beam-card">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-chart-area"></i> Evolução Diária: Previsto vs Realizado</h3>
-                                <div class="panel-head-right">
-                                    <span id="lblPeriodoGrafico">Consolidado por data</span>
-                                    <button type="button" class="btn-chart-labels active" data-chart="evolucao" title="Ativar ou desativar rótulos de dados">
-                                        <i class="fa-solid fa-tag"></i> <span>Rótulos: ON</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="chart-box">
-                                <canvas id="chartEvolucaoDiaria"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="panel-card ellca-beam-card">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-user-shield"></i> Realizado vs Previsto por Supervisor</h3>
-                                <div class="panel-head-right">
-                                    <span>Por liderança</span>
-                                    <button type="button" class="btn-chart-labels active" data-chart="supervisor" title="Ativar ou desativar rótulos de dados">
-                                        <i class="fa-solid fa-tag"></i> <span>Rótulos: ON</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="chart-box">
-                                <canvas id="chartSupervisor"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GRÁFICOS LINHA 2 -->
-                    <div class="charts-grid-bottom">
-                        <div class="panel-card ellca-beam-card">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-ranking-star"></i> Top 10 Equipes por Faturamento Realizado</h3>
-                                <div class="panel-head-right">
-                                    <span>Ranking operacional</span>
-                                    <button type="button" class="btn-chart-labels active" data-chart="topEquipes" title="Ativar ou desativar rótulos de dados">
-                                        <i class="fa-solid fa-tag"></i> <span>Rótulos: ON</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="chart-box">
-                                <canvas id="chartTopEquipes"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="panel-card ellca-beam-card">
-                            <div class="panel-head">
-                                <h3><i class="fa-solid fa-calendar-week"></i> Média de Faturamento por Dia da Semana</h3>
-                                <div class="panel-head-right">
-                                    <span>Seg a Dom</span>
-                                    <button type="button" class="btn-chart-labels active" data-chart="diaSemana" title="Ativar ou desativar rótulos de dados">
-                                        <i class="fa-solid fa-tag"></i> <span>Rótulos: ON</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="chart-box">
-                                <canvas id="chartDiaSemana"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TABELA DETALHADA -->
-                    <div class="panel-card ellca-beam-card">
-                        <div class="panel-head">
-                            <h3><i class="fa-solid fa-table-list"></i> Consolidado Analítico por Equipe</h3>
-                            <span id="lblContagemLinhas">0 equipes listadas</span>
-                        </div>
-
-                        <div class="table-wrap">
-                            <table class="fat-table">
-                                <thead>
-                                    <tr>
-                                        <th>Equipe</th>
-                                        <th>Processo</th>
-                                        <th>Supervisor</th>
-                                        <th class="num">Dias</th>
-                                        <th class="num">Meta Período</th>
-                                        <th class="num">Previsto Acum.</th>
-                                        <th class="num">Realizado</th>
-                                        <th class="num">Gap Previsto</th>
-                                        <th class="num">% Previsto</th>
-                                        <th class="num">% Meta</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbodyFaturamento">
-                                    <tr>
-                                        <td colspan="10" style="text-align:center; padding:24px; color:#94a3b8;">
-                                            Carregando dados de faturamento...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- RODAPÉ -->
-            <footer class="footer-bar">
-                <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
-                    <span class="separator">•</span>
-                    <span>Módulo: <strong>Controle Gerencial de Faturamento</strong></span>
-                </div>
-                <div class="footer-actions">
-                    <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                        <i class="fa-solid fa-headset"></i> Suporte
-                    </button>
-                    <span class="separator">•</span>
-                    <span class="footer-greeting"><i class="fa-solid fa-user-check"></i> Olá, <strong id="footerUserName">Rodrigo Lopes</strong></span>
-                </div>
-            </footer>
-        </div>
+    <div class="kpi-top-box">
+      <div class="kpi-label">Meta Mensal (R$)</div>
+      <div class="kpi-value" id="kpiMetaMensal">R$ 0,00</div>
     </div>
 
-    <script>
-        (function iniciarModuloFaturamento() {
-            if (typeof ChartDataLabels !== 'undefined') {
-                Chart.register(ChartDataLabels);
-            }
-
-            const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
-            const ABA_NOME = 'Faturamento';
-
-            const NOMES_MESES = [
-                '',
-                'JANEIRO',
-                'FEVEREIRO',
-                'MARÇO',
-                'ABRIL',
-                'MAIO',
-                'JUNHO',
-                'JULHO',
-                'AGOSTO',
-                'SETEMBRO',
-                'OUTUBRO',
-                'NOVEMBRO',
-                'DEZEMBRO'
-            ];
-
-            const NOMES_DIAS_SEMANA = [
-                'Domingo',
-                'Segunda-feira',
-                'Terça-feira',
-                'Quarta-feira',
-                'Quinta-feira',
-                'Sexta-feira',
-                'Sábado'
-            ];
-
-            const NOMES_DIAS_CURTOS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-            const ORDEM_DIAS_EXIBICAO = [1, 2, 3, 4, 5, 6, 0];
-
-            const footerUserName = document.getElementById('footerUserName');
-            const nomeSessao =
-                sessionStorage.getItem('ellca_user_name') ||
-                localStorage.getItem('ellca_user_name') ||
-                'Rodrigo Lopes';
-            if (footerUserName) footerUserName.textContent = nomeSessao;
-
-            let todosRegistros = [];
-            let registrosFiltrados = [];
-            let charts = {};
-
-            const estadoRotulos = {
-                evolucao: true,
-                supervisor: true,
-                topEquipes: true,
-                diaSemana: true
-            };
-
-            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-            const fmtBRLCompacto = (v) => {
-                const n = Number(v) || 0;
-                if (Math.abs(n) >= 1000000) return 'R$ ' + (n / 1000000).toFixed(2).replace('.', ',') + 'M';
-                if (Math.abs(n) >= 1000) return 'R$ ' + (n / 1000).toFixed(1).replace('.', ',') + 'k';
-                return 'R$ ' + Math.round(n);
-            };
-
-            const parseNum = (v) => {
-                if (typeof v === 'number') return isFinite(v) ? v : 0;
-                if (!v) return 0;
-                let s = String(v).replace(/R\$/g, '').replace(/\s/g, '').trim();
-                if (s.includes(',') && s.includes('.')) {
-                    s = s.replace(/\./g, '').replace(',', '.');
-                } else if (s.includes(',')) {
-                    s = s.replace(',', '.');
-                }
-                const n = parseFloat(s.replace(/[^\d.-]/g, ''));
-                return isFinite(n) ? n : 0;
-            };
-
-            function normalizarTexto(s) {
-                return String(s || '')
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .toLowerCase()
-                    .trim();
-            }
-
-            function extrairTrimestre(periodoBruto, dataIso) {
-                const p = normalizarTexto(periodoBruto);
-                if (p) {
-                    const mNum = p.match(/(?:^|\b|t|trim|trimestre|s|sem|semestre[\s\-_:]*)([1-4])(?:\b|º|o)/i) || p.match(/\b([1-4])\b/);
-                    if (mNum) return `${mNum[1]}º TRIMESTRE`;
-                }
-                if (dataIso && /^\d{4}-\d{2}/.test(dataIso)) {
-                    const mes = parseInt(dataIso.slice(5, 7), 10);
-                    if (mes >= 1 && mes <= 3) return '1º TRIMESTRE';
-                    if (mes >= 4 && mes <= 6) return '2º TRIMESTRE';
-                    if (mes >= 7 && mes <= 9) return '3º TRIMESTRE';
-                    if (mes >= 10 && mes <= 12) return '4º TRIMESTRE';
-                }
-                return '1º TRIMESTRE';
-            }
-
-            function ehNomeDeSupervisor(valor) {
-                const t = normalizarTexto(valor);
-                if (!t) return false;
-                if (/^\d+$/.test(t)) return false;
-                if (/^(sem|semestre|periodo|trim|trimestre)\s*[1-4]$/i.test(t)) return false;
-                if (/^\d{4}[-/]\d{2}$/.test(t)) return false;
-                if (/^(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)/i.test(t) && t.length <= 8) return false;
-                return /[a-z]{3,}/.test(t);
-            }
-
-            function obterDiaSemana(dataIso) {
-                if (!dataIso || !/^\d{4}-\d{2}-\d{2}$/.test(dataIso)) {
-                    return { idx: -1, nome: 'NÃO INFORMADO', curto: '-' };
-                }
-                const [y, m, d] = dataIso.split('-').map(Number);
-                const dt = new Date(y, m - 1, d);
-                const idx = dt.getDay();
-                return {
-                    idx,
-                    nome: NOMES_DIAS_SEMANA[idx].toUpperCase(),
-                    curto: NOMES_DIAS_CURTOS[idx]
-                };
-            }
-
-            function formatarDataBR(iso) {
-                if (!iso || !iso.includes('-')) return iso || '-';
-                const [y, m, d] = iso.split('-');
-                return `${d}/${m}/${y}`;
-            }
-
-            function parseDataCell(cell) {
-                if (!cell) return '';
-                const rawV = String(cell.v ?? '');
-                const rawF = String(cell.f ?? '');
-                const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
-                if (mDate) {
-                    const y = mDate[1];
-                    const mo = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
-                    const d = String(parseInt(mDate[3], 10)).padStart(2, '0');
-                    return `${y}-${mo}-${d}`;
-                }
-                const str = (rawF || rawV).trim();
-                let m = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
-                if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
-                m = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-                if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
-                return str;
-            }
-
-            function mapearColunas(cols, rows) {
-                const headers = cols.map((c, idx) => ({
-                    idx,
-                    label: normalizarTexto(c && (c.label || c.id || ''))
-                }));
-
-                const temLabels = headers.some(h => h.label.length > 1 && !/^[a-z]$/.test(h.label));
-                let startRow = 0;
-
-                if (!temLabels && rows.length > 0 && rows[0].c) {
-                    rows[0].c.forEach((cell, idx) => {
-                        headers[idx] = {
-                            idx,
-                            label: normalizarTexto(cell && (cell.f || cell.v || ''))
-                        };
-                    });
-                    startRow = 1;
-                }
-
-                const findCol = (keywords, fallbackIdx) => {
-                    for (const kw of keywords) {
-                        const found = headers.find(h => h.label === kw || h.label.includes(kw));
-                        if (found) return found.idx;
-                    }
-                    return fallbackIdx;
-                };
-
-                return {
-                    startRow,
-                    colData: findCol(['data', 'dt'], 0),
-                    colPeriodo: findCol(['trimestre', 'periodo', 'semestre', 'competencia', 'referencia'], 1),
-                    colEquipe: findCol(['equipe', 'prefixo', 'viatura'], 2),
-                    colTipo: findCol(['processo', 'tipo', 'modalidade', 'categoria'], 3),
-                    colSupervisor: findCol(['supervisor', 'lider', 'encarregado', 'coordenador'], 4),
-                    colMeta: findCol(['meta', 'orcado', 'target'], 5),
-                    colPrevisto: findCol(['previsto', 'programado', 'projecao'], 6),
-                    colRealizado: findCol(['realizado', 'faturado', 'executado', 'producao', 'valor'], 7)
-                };
-            }
-
-            /* ================= COMPONENTE MULTI-SELECT ================= */
-            class MultiSelectFiltro {
-                constructor(containerId, placeholderTodos, onChangeCallback) {
-                    this.container = document.getElementById(containerId);
-                    this.placeholderTodos = placeholderTodos;
-                    this.onChangeCallback = onChangeCallback;
-                    this.options = [];
-                    this.selected = new Set();
-                    this.searchTerm = '';
-                    this.renderBase();
-                }
-
-                renderBase() {
-                    this.container.innerHTML = `
-                        <button type="button" class="ms-trigger">
-                            <span class="ms-label-text">${this.placeholderTodos}</span>
-                            <span class="ms-badge-count" style="display:none;">0</span>
-                            <i class="fa-solid fa-chevron-down ms-chevron"></i>
-                        </button>
-                        <div class="ms-dropdown">
-                            <div class="ms-search-box">
-                                <input type="text" placeholder="Pesquisar...">
-                            </div>
-                            <div class="ms-actions-bar">
-                                <button type="button" class="ms-mini-btn" data-act="all">Selecionar Todos</button>
-                                <button type="button" class="ms-mini-btn" data-act="none">Limpar</button>
-                            </div>
-                            <div class="ms-options-list"></div>
-                        </div>
-                    `;
-
-                    this.triggerBtn = this.container.querySelector('.ms-trigger');
-                    this.labelEl = this.container.querySelector('.ms-label-text');
-                    this.badgeEl = this.container.querySelector('.ms-badge-count');
-                    this.searchInput = this.container.querySelector('.ms-search-box input');
-                    this.listEl = this.container.querySelector('.ms-options-list');
-
-                    this.triggerBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const estavaAberto = this.container.classList.contains('open');
-                        document.querySelectorAll('.ms-wrap.open').forEach(el => el.classList.remove('open'));
-                        if (!estavaAberto) {
-                            this.container.classList.add('open');
-                            this.searchInput.focus();
-                        }
-                    });
-
-                    this.container.querySelector('.ms-dropdown').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                    });
-
-                    this.searchInput.addEventListener('input', () => {
-                        this.searchTerm = normalizarTexto(this.searchInput.value);
-                        this.renderOptions();
-                    });
-
-                    this.container.querySelector('[data-act="all"]').addEventListener('click', () => {
-                        this.options.forEach(opt => this.selected.add(opt.value));
-                        this.updateTriggerLabel();
-                        this.renderOptions();
-                        this.onChangeCallback();
-                    });
-
-                    this.container.querySelector('[data-act="none"]').addEventListener('click', () => {
-                        this.selected.clear();
-                        this.updateTriggerLabel();
-                        this.renderOptions();
-                        this.onChangeCallback();
-                    });
-                }
-
-                setOptions(optionsList) {
-                    this.options = optionsList.map(item =>
-                        typeof item === 'string' ? { value: item, label: item } : item
-                    );
-                    const validValues = new Set(this.options.map(o => o.value));
-                    this.selected.forEach(v => {
-                        if (!validValues.has(v)) this.selected.delete(v);
-                    });
-                    this.updateTriggerLabel();
-                    this.renderOptions();
-                }
-
-                clearSelection() {
-                    this.selected.clear();
-                    this.searchTerm = '';
-                    if (this.searchInput) this.searchInput.value = '';
-                    this.updateTriggerLabel();
-                    this.renderOptions();
-                }
-
-                getSelectedValues() {
-                    return Array.from(this.selected);
-                }
-
-                updateTriggerLabel() {
-                    const count = this.selected.size;
-                    if (count === 0) {
-                        this.labelEl.textContent = this.placeholderTodos;
-                        this.badgeEl.style.display = 'none';
-                        this.container.classList.remove('has-selection');
-                    } else if (count === 1) {
-                        const val = Array.from(this.selected)[0];
-                        const opt = this.options.find(o => o.value === val);
-                        this.labelEl.textContent = opt ? opt.label : val;
-                        this.badgeEl.style.display = 'none';
-                        this.container.classList.add('has-selection');
-                    } else {
-                        this.labelEl.textContent = `${count} selecionados`;
-                        this.badgeEl.textContent = count;
-                        this.badgeEl.style.display = 'inline-block';
-                        this.container.classList.add('has-selection');
-                    }
-                }
-
-                renderOptions() {
-                    const filtradas = this.options.filter(opt =>
-                        !this.searchTerm || normalizarTexto(opt.label).includes(this.searchTerm)
-                    );
-
-                    if (filtradas.length === 0) {
-                        this.listEl.innerHTML = `<div class="ms-empty">Nenhuma opção encontrada</div>`;
-                        return;
-                    }
-
-                    this.listEl.innerHTML = filtradas.map(opt => {
-                        const checked = this.selected.has(opt.value) ? 'checked' : '';
-                        return `
-                            <label class="ms-option-item">
-                                <input type="checkbox" value="${opt.value.replace(/"/g, '&quot;')}" ${checked}>
-                                <span title="${opt.label.replace(/"/g, '&quot;')}">${opt.label}</span>
-                            </label>
-                        `;
-                    }).join('');
-
-                    this.listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                        cb.addEventListener('change', () => {
-                            if (cb.checked) {
-                                this.selected.add(cb.value);
-                            } else {
-                                this.selected.delete(cb.value);
-                            }
-                            this.updateTriggerLabel();
-                            this.onChangeCallback();
-                        });
-                    });
-                }
-            }
-
-            document.addEventListener('click', () => {
-                document.querySelectorAll('.ms-wrap.open').forEach(el => el.classList.remove('open'));
-            });
-
-            const msAno = new MultiSelectFiltro('msAno', 'Todos os Anos', aplicarFiltros);
-            const msMes = new MultiSelectFiltro('msMes', 'Todos os Meses', aplicarFiltros);
-            const msData = new MultiSelectFiltro('msData', 'Todas as Datas', aplicarFiltros);
-            const msTrimestre = new MultiSelectFiltro('msTrimestre', 'Todos os Trimestres', aplicarFiltros);
-            const msSupervisor = new MultiSelectFiltro('msSupervisor', 'Todos os Supervisores', aplicarFiltros);
-            const msProcesso = new MultiSelectFiltro('msProcesso', 'Todos os Processos', aplicarFiltros);
-            const msEquipe = new MultiSelectFiltro('msEquipe', 'Todas as Equipes', aplicarFiltros);
-
-            function carregarDadosPlanilha() {
-                const badge = document.getElementById('syncBadge');
-                badge.className = 'sync-badge';
-                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
-
-                const cbName = 'cbFat_' + Math.random().toString(36).slice(2, 9);
-                const script = document.createElement('script');
-                const timer = setTimeout(() => {
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-                    badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido';
-                }, 9000);
-
-                window[cbName] = function (json) {
-                    clearTimeout(timer);
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-
-                    if (!json || json.status === 'error' || !json.table) {
-                        badge.className = 'sync-badge warn';
-                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita';
-                        return;
-                    }
-
-                    const cols = json.table.cols || [];
-                    const rawRows = json.table.rows || [];
-                    const mapa = mapearColunas(cols, rawRows);
-                    const lista = [];
-
-                    for (let i = mapa.startRow; i < rawRows.length; i++) {
-                        const c = rawRows[i].c || [];
-                        const getStr = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
-                            ? String(c[idx].f || c[idx].v).trim()
-                            : '';
-                        const getVal = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
-                            ? parseNum(c[idx].v)
-                            : 0;
-
-                        const dataIso = parseDataCell(c[mapa.colData]);
-                        const equipe = getStr(mapa.colEquipe).toUpperCase();
-                        const periodoRaw = getStr(mapa.colPeriodo).toUpperCase();
-                        const supRaw = getStr(mapa.colSupervisor).toUpperCase();
-
-                        const meta = getVal(mapa.colMeta);
-                        const previsto = getVal(mapa.colPrevisto);
-                        const realizado = getVal(mapa.colRealizado);
-
-                        if (!dataIso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
-                        if (normalizarTexto(equipe) === 'equipe' || normalizarTexto(equipe) === 'total') continue;
-
-                        let tipo = getStr(mapa.colTipo).toUpperCase();
-                        if (!tipo && equipe) {
-                            const mTipo = equipe.match(/\b(LV|MK|LD|LM|LE|MT|AT)\b/);
-                            tipo = mTipo ? mTipo[1] : 'PADRÃO';
-                        }
-
-                        let supervisor = supRaw;
-                        let periodoCampo = periodoRaw;
-
-                        if (!ehNomeDeSupervisor(supervisor) && ehNomeDeSupervisor(periodoCampo)) {
-                            supervisor = periodoCampo;
-                            periodoCampo = '';
-                        }
-
-                        if (!supervisor || !ehNomeDeSupervisor(supervisor)) {
-                            supervisor = 'NÃO INFORMADO';
-                        }
-
-                        const ano = (dataIso && /^\d{4}/.test(dataIso)) ? dataIso.slice(0, 4) : 'N/I';
-                        const mesNum = (dataIso && /^\d{4}-\d{2}/.test(dataIso)) ? dataIso.slice(5, 7) : '';
-                        const trimestre = extrairTrimestre(periodoCampo, dataIso);
-                        const diaSem = obterDiaSemana(dataIso);
-
-                        lista.push({
-                            data: dataIso,
-                            dataBR: formatarDataBR(dataIso),
-                            ano,
-                            mesNum,
-                            trimestre,
-                            equipe: equipe || 'SEM PREFIXO',
-                            tipo: tipo || 'PADRÃO',
-                            supervisor,
-                            diaSemanaIdx: diaSem.idx,
-                            diaSemanaNome: diaSem.nome,
-                            diaSemanaCurto: diaSem.curto,
-                            meta,
-                            previsto,
-                            realizado
-                        });
-                    }
-
-                    todosRegistros = lista;
-                    popularFiltros(lista);
-                    aplicarFiltros();
-
-                    const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    badge.className = 'sync-badge';
-                    badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Sincronizado • ${hora} (${lista.length} reg.)`;
-                };
-
-                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
-                script.onerror = () => {
-                    clearTimeout(timer);
-                    badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão';
-                };
-                document.body.appendChild(script);
-            }
-
-            function popularFiltros(dados) {
-                const anos = [...new Set(dados.map(d => d.ano))].filter(a => a && a !== 'N/I').sort().reverse();
-                msAno.setOptions(anos);
-
-                const mesesPresentes = [...new Set(dados.map(d => d.mesNum))].filter(Boolean).sort();
-                const mesesOpts = mesesPresentes.map(m => ({
-                    value: m,
-                    label: `${m} - ${NOMES_MESES[parseInt(m, 10)] || m}`
-                }));
-                msMes.setOptions(mesesOpts);
-
-                const datasUnicas = [...new Set(dados.map(d => d.data))].filter(Boolean).sort().reverse();
-                const datasOpts = datasUnicas.map(iso => ({
-                    value: iso,
-                    label: formatarDataBR(iso)
-                }));
-                msData.setOptions(datasOpts);
-
-                const trimestresBase = ['1º TRIMESTRE', '2º TRIMESTRE', '3º TRIMESTRE', '4º TRIMESTRE'];
-                msTrimestre.setOptions(trimestresBase);
-
-                const supervisores = [...new Set(dados.map(d => d.supervisor))]
-                    .filter(s => s && ehNomeDeSupervisor(s))
-                    .sort();
-                msSupervisor.setOptions(supervisores);
-
-                const processos = [...new Set(dados.map(d => d.tipo))].filter(Boolean).sort();
-                msProcesso.setOptions(processos);
-
-                const equipes = [...new Set(dados.map(d => d.equipe))].filter(Boolean).sort();
-                msEquipe.setOptions(equipes);
-            }
-
-            function aplicarFiltros() {
-                const selAnos = msAno.getSelectedValues();
-                const selMeses = msMes.getSelectedValues();
-                const selDatas = msData.getSelectedValues();
-                const selTrimestres = msTrimestre.getSelectedValues();
-                const selSups = msSupervisor.getSelectedValues();
-                const selProcessos = msProcesso.getSelectedValues();
-                const selEquipes = msEquipe.getSelectedValues();
-
-                registrosFiltrados = todosRegistros.filter(r => {
-                    if (selAnos.length > 0 && !selAnos.includes(r.ano)) return false;
-                    if (selMeses.length > 0 && !selMeses.includes(r.mesNum)) return false;
-                    if (selDatas.length > 0 && !selDatas.includes(r.data)) return false;
-                    if (selTrimestres.length > 0 && !selTrimestres.includes(r.trimestre)) return false;
-                    if (selSups.length > 0 && !selSups.includes(r.supervisor)) return false;
-                    if (selProcessos.length > 0 && !selProcessos.includes(r.tipo)) return false;
-                    if (selEquipes.length > 0 && !selEquipes.includes(r.equipe)) return false;
-                    return true;
-                });
-
-                atualizarDashboard(registrosFiltrados);
-            }
-
-            function aplicarCorGap(el, valorGap, prefixo) {
-                el.textContent = `${prefixo}: ${fmtBRL(valorGap)}`;
-                el.classList.remove('gap-positivo', 'gap-negativo');
-                el.classList.add(valorGap >= 0 ? 'gap-positivo' : 'gap-negativo');
-            }
-
-            function atualizarDashboard(dados) {
-                let totPrev = 0;
-                let totReal = 0;
-                const metaUnicaMap = new Map();
-                const equipesSet = new Set();
-                const diasSet = new Set();
-
-                dados.forEach(r => {
-                    totPrev += r.previsto;
-                    totReal += r.realizado;
-                    equipesSet.add(r.equipe);
-                    if (r.data) diasSet.add(r.data);
-
-                    const chaveMeta = `${r.ano}-${r.mesNum}||${r.equipe}`;
-                    const atualMeta = metaUnicaMap.get(chaveMeta) || 0;
-                    if (r.meta > atualMeta) metaUnicaMap.set(chaveMeta, r.meta);
-                });
-
-                const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
-                const gapPrev = totReal - totPrev;
-                const gapMeta = totReal - totMeta;
-                const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
-                const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
-                const qtdDias = diasSet.size || 1;
-                const qtdEquipes = equipesSet.size || 1;
-
-                document.getElementById('kpiMeta').textContent = fmtBRL(totMeta);
-                document.getElementById('kpiQtdEquipes').textContent = `${equipesSet.size} equipes`;
-
-                document.getElementById('kpiPrevisto').textContent = fmtBRL(totPrev);
-                document.getElementById('kpiQtdDias').textContent = `${diasSet.size} dias`;
-
-                document.getElementById('kpiRealizado').textContent = fmtBRL(totReal);
-                aplicarCorGap(document.getElementById('kpiGapPrevisto'), gapPrev, 'Gap Previsto');
-                aplicarCorGap(document.getElementById('kpiGapMeta'), gapMeta, 'Gap Meta');
-
-                document.getElementById('kpiPctPrevisto').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiPctMeta').textContent = `Sobre Meta Total: ${pctMeta.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiProgressBar').style.width = `${Math.min(100, pctPrev)}%`;
-
-                document.getElementById('kpiMediaDia').textContent = fmtBRL(totReal / qtdDias);
-                document.getElementById('kpiTicketEquipe').textContent = `Média/Equipe: ${fmtBRL(totReal / qtdEquipes)}`;
-
-                renderGraficos(dados);
-                renderTabela(dados);
-            }
-
-            function destruirChart(id) {
-                if (charts[id]) {
-                    charts[id].destroy();
-                    delete charts[id];
-                }
-            }
-
-            function renderGraficos(dados) {
-                const fontBase = { family: 'Montserrat', size: 11, weight: '600' };
-                const gridColor = 'rgba(0, 212, 255, 0.12)';
-                const tickColor = '#94a3b8';
-
-                const dlConfigLinha = {
-                    display: () => estadoRotulos.evolucao ? 'auto' : false,
-                    align: 'top',
-                    anchor: 'end',
-                    offset: 4,
-                    color: '#e0f2fe',
-                    backgroundColor: 'rgba(2, 8, 23, 0.78)',
-                    borderColor: 'rgba(0, 212, 255, 0.45)',
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    padding: { top: 2, bottom: 2, left: 5, right: 5 },
-                    font: { family: 'Montserrat', size: 9.5, weight: '800' },
-                    formatter: (v) => v > 0 ? fmtBRLCompacto(v) : ''
-                };
-
-                const dlConfigBarra = (chartKey) => ({
-                    display: () => estadoRotulos[chartKey],
-                    color: '#f8fafc',
-                    font: { family: 'Montserrat', size: 9.5, weight: '800' },
-                    formatter: (v) => v > 0 ? fmtBRLCompacto(v) : ''
-                });
-
-                // 1. Evolução Diária
-                const porData = {};
-                dados.forEach(r => {
-                    const k = r.data || 'S/D';
-                    if (!porData[k]) porData[k] = { prev: 0, real: 0 };
-                    porData[k].prev += r.previsto;
-                    porData[k].real += r.realizado;
-                });
-                const datasOrd = Object.keys(porData).sort();
-
-                destruirChart('evolucao');
-                charts.evolucao = new Chart(document.getElementById('chartEvolucaoDiaria'), {
-                    type: 'line',
-                    data: {
-                        labels: datasOrd.map(d => formatarDataBR(d).slice(0, 5)),
-                        datasets: [
-                            {
-                                label: 'Realizado (R$)',
-                                data: datasOrd.map(d => porData[d].real),
-                                borderColor: '#00d4ff',
-                                backgroundColor: 'rgba(0, 212, 255, 0.22)',
-                                borderWidth: 3,
-                                pointRadius: 4,
-                                pointBackgroundColor: '#00d4ff',
-                                tension: 0.35,
-                                fill: true,
-                                datalabels: {
-                                    ...dlConfigLinha,
-                                    color: '#00d4ff'
-                                }
-                            },
-                            {
-                                label: 'Previsto (R$)',
-                                data: datasOrd.map(d => porData[d].prev),
-                                borderColor: '#38bdf8',
-                                backgroundColor: 'transparent',
-                                borderWidth: 2,
-                                borderDash: [6, 4],
-                                pointRadius: 3,
-                                tension: 0.35,
-                                datalabels: {
-                                    ...dlConfigLinha,
-                                    align: 'bottom',
-                                    color: '#93c5fd'
-                                }
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        layout: { padding: { top: 24, right: 16, left: 6, bottom: 4 } },
-                        plugins: {
-                            legend: { labels: { color: '#f8fafc', font: fontBase } },
-                            tooltip: {
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
-                            }
-                        },
-                        scales: {
-                            x: { ticks: { color: tickColor, font: fontBase }, grid: { color: gridColor } },
-                            y: {
-                                grace: '14%',
-                                ticks: {
-                                    color: tickColor,
-                                    font: fontBase,
-                                    callback: (v) => fmtBRLCompacto(v)
-                                },
-                                grid: { color: gridColor }
-                            }
-                        }
-                    }
-                });
-
-                // 2. Por Supervisor
-                const porSup = {};
-                dados.forEach(r => {
-                    if (!porSup[r.supervisor]) porSup[r.supervisor] = { prev: 0, real: 0 };
-                    porSup[r.supervisor].prev += r.previsto;
-                    porSup[r.supervisor].real += r.realizado;
-                });
-                const supsOrd = Object.keys(porSup).sort((a, b) => porSup[b].real - porSup[a].real);
-
-                destruirChart('supervisor');
-                charts.supervisor = new Chart(document.getElementById('chartSupervisor'), {
-                    type: 'bar',
-                    data: {
-                        labels: supsOrd,
-                        datasets: [
-                            {
-                                label: 'Previsto',
-                                data: supsOrd.map(s => porSup[s].prev),
-                                backgroundColor: 'rgba(29, 78, 216, 0.72)',
-                                borderColor: '#3b82f6',
-                                borderWidth: 1,
-                                borderRadius: 6,
-                                datalabels: {
-                                    ...dlConfigBarra('supervisor'),
-                                    anchor: 'end',
-                                    align: 'top',
-                                    offset: 2,
-                                    color: '#93c5fd'
-                                }
-                            },
-                            {
-                                label: 'Realizado',
-                                data: supsOrd.map(s => porSup[s].real),
-                                backgroundColor: 'rgba(0, 212, 255, 0.85)',
-                                borderColor: '#00d4ff',
-                                borderWidth: 1,
-                                borderRadius: 6,
-                                datalabels: {
-                                    ...dlConfigBarra('supervisor'),
-                                    anchor: 'end',
-                                    align: 'top',
-                                    offset: 2,
-                                    color: '#00d4ff'
-                                }
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        layout: { padding: { top: 24, right: 8 } },
-                        plugins: {
-                            legend: { labels: { color: '#f8fafc', font: fontBase } },
-                            tooltip: {
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
-                            }
-                        },
-                        scales: {
-                            x: { ticks: { color: tickColor, font: fontBase }, grid: { display: false } },
-                            y: {
-                                grace: '16%',
-                                ticks: {
-                                    color: tickColor,
-                                    font: fontBase,
-                                    callback: (v) => fmtBRLCompacto(v)
-                                },
-                                grid: { color: gridColor }
-                            }
-                        }
-                    }
-                });
-
-                // 3. Top 10 Equipes
-                const porEq = {};
-                dados.forEach(r => {
-                    porEq[r.equipe] = (porEq[r.equipe] || 0) + r.realizado;
-                });
-                const topEq = Object.entries(porEq).sort((a, b) => b[1] - a[1]).slice(0, 10);
-
-                destruirChart('topEquipes');
-                charts.topEquipes = new Chart(document.getElementById('chartTopEquipes'), {
-                    type: 'bar',
-                    data: {
-                        labels: topEq.map(e => e[0]),
-                        datasets: [{
-                            label: 'Realizado (R$)',
-                            data: topEq.map(e => e[1]),
-                            backgroundColor: 'rgba(2, 132, 199, 0.85)',
-                            borderColor: '#00d4ff',
-                            borderWidth: 1,
-                            borderRadius: 6,
-                            datalabels: {
-                                ...dlConfigBarra('topEquipes'),
-                                anchor: 'end',
-                                align: 'right',
-                                offset: 4,
-                                color: '#e0f2fe'
-                            }
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        layout: { padding: { right: 56 } },
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: { label: (ctx) => `Realizado: ${fmtBRL(ctx.parsed.x)}` }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grace: '15%',
-                                ticks: {
-                                    color: tickColor,
-                                    font: fontBase,
-                                    callback: (v) => fmtBRLCompacto(v)
-                                },
-                                grid: { color: gridColor }
-                            },
-                            y: { ticks: { color: '#f8fafc', font: fontBase }, grid: { display: false } }
-                        }
-                    }
-                });
-
-                // 4. Média por Dia da Semana
-                const mapaDiaSem = {};
-                ORDEM_DIAS_EXIBICAO.forEach(idx => {
-                    mapaDiaSem[idx] = { somaReal: 0, datasUnicas: new Set() };
-                });
-
-                dados.forEach(r => {
-                    if (r.diaSemanaIdx >= 0 && mapaDiaSem[r.diaSemanaIdx]) {
-                        mapaDiaSem[r.diaSemanaIdx].somaReal += r.realizado;
-                        if (r.data) mapaDiaSem[r.diaSemanaIdx].datasUnicas.add(r.data);
-                    }
-                });
-
-                const labelsDias = ORDEM_DIAS_EXIBICAO.map(idx => NOMES_DIAS_CURTOS[idx].toUpperCase());
-                const mediasDias = ORDEM_DIAS_EXIBICAO.map(idx => {
-                    const info = mapaDiaSem[idx];
-                    const qtdDatas = info.datasUnicas.size;
-                    return qtdDatas > 0 ? info.somaReal / qtdDatas : 0;
-                });
-                const ocorrenciasDias = ORDEM_DIAS_EXIBICAO.map(idx => mapaDiaSem[idx].datasUnicas.size);
-
-                destruirChart('diaSemana');
-                charts.diaSemana = new Chart(document.getElementById('chartDiaSemana'), {
-                    type: 'bar',
-                    data: {
-                        labels: labelsDias,
-                        datasets: [{
-                            label: 'Média Diária (R$)',
-                            data: mediasDias,
-                            backgroundColor: ORDEM_DIAS_EXIBICAO.map(idx =>
-                                idx === 0
-                                    ? 'rgba(29, 78, 216, 0.50)'
-                                    : idx === 6
-                                        ? 'rgba(2, 132, 199, 0.72)'
-                                        : 'rgba(0, 212, 255, 0.85)'
-                            ),
-                            borderColor: '#38bdf8',
-                            borderWidth: 1,
-                            borderRadius: 7,
-                            datalabels: {
-                                ...dlConfigBarra('diaSemana'),
-                                anchor: 'end',
-                                align: 'top',
-                                offset: 3,
-                                color: '#e0f2fe'
-                            }
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        layout: { padding: { top: 24, right: 8 } },
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: {
-                                    title: (items) => {
-                                        const pos = items[0].dataIndex;
-                                        const diaIdx = ORDEM_DIAS_EXIBICAO[pos];
-                                        return `${NOMES_DIAS_SEMANA[diaIdx]} (${ocorrenciasDias[pos]} dias apurados)`;
-                                    },
-                                    label: (ctx) => `Média Faturada: ${fmtBRL(ctx.parsed.y)}`
-                                }
-                            }
-                        },
-                        scales: {
-                            x: { ticks: { color: '#f8fafc', font: fontBase }, grid: { display: false } },
-                            y: {
-                                grace: '16%',
-                                ticks: {
-                                    color: tickColor,
-                                    font: fontBase,
-                                    callback: (v) => fmtBRLCompacto(v)
-                                },
-                                grid: { color: gridColor }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Toggle individual de rótulos dentro de cada gráfico
-            document.querySelectorAll('.btn-chart-labels').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const key = btn.getAttribute('data-chart');
-                    estadoRotulos[key] = !estadoRotulos[key];
-                    const ativo = estadoRotulos[key];
-
-                    btn.classList.toggle('active', ativo);
-                    btn.querySelector('span').textContent = ativo ? 'Rótulos: ON' : 'Rótulos: OFF';
-
-                    if (charts[key]) {
-                        charts[key].update();
-                    }
-                });
-            });
-
-            function renderTabela(dados) {
-                const tbody = document.getElementById('tbodyFaturamento');
-                const mapaEq = {};
-
-                dados.forEach(r => {
-                    if (!mapaEq[r.equipe]) {
-                        mapaEq[r.equipe] = {
-                            equipe: r.equipe,
-                            tipo: r.tipo,
-                            supervisor: r.supervisor,
-                            dias: new Set(),
-                            metaPorMes: new Map(),
-                            prev: 0,
-                            real: 0
-                        };
-                    }
-                    if (r.data) mapaEq[r.equipe].dias.add(r.data);
-                    const chaveMes = `${r.ano}-${r.mesNum}`;
-                    const metaAtual = mapaEq[r.equipe].metaPorMes.get(chaveMes) || 0;
-                    if (r.meta > metaAtual) mapaEq[r.equipe].metaPorMes.set(chaveMes, r.meta);
-                    mapaEq[r.equipe].prev += r.previsto;
-                    mapaEq[r.equipe].real += r.realizado;
-                });
-
-                const lista = Object.values(mapaEq).map(item => ({
-                    ...item,
-                    meta: [...item.metaPorMes.values()].reduce((s, v) => s + v, 0)
-                })).sort((a, b) => b.real - a.real);
-
-                document.getElementById('lblContagemLinhas').textContent = `${lista.length} equipes listadas`;
-
-                if (lista.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:24px; color:#94a3b8;">Nenhum registro encontrado para os filtros aplicados.</td></tr>`;
-                    return;
-                }
-
-                tbody.innerHTML = lista.map(item => {
-                    const gap = item.real - item.prev;
-                    const pctPrev = item.prev > 0 ? (item.real / item.prev) * 100 : 0;
-                    const pctMeta = item.meta > 0 ? (item.real / item.meta) * 100 : 0;
-                    const clsPct = pctPrev >= 100 ? 'pill-ok' : (pctPrev >= 85 ? 'pill-warn' : 'pill-bad');
-                    const clsGap = gap >= 0 ? 'gap-positivo' : 'gap-negativo';
-
-                    return `
-                        <tr>
-                            <td><strong>${item.equipe}</strong></td>
-                            <td><span class="badge-tipo">${item.tipo}</span></td>
-                            <td>${item.supervisor}</td>
-                            <td class="num">${item.dias.size}</td>
-                            <td class="num">${fmtBRL(item.meta)}</td>
-                            <td class="num">${fmtBRL(item.prev)}</td>
-                            <td class="num" style="color:#00d4ff;"><strong>${fmtBRL(item.real)}</strong></td>
-                            <td class="num ${clsGap}">${fmtBRL(gap)}</td>
-                            <td class="num ${clsPct}">${pctPrev.toFixed(1).replace('.', ',')}%</td>
-                            <td class="num">${pctMeta.toFixed(1).replace('.', ',')}%</td>
-                        </tr>
-                    `;
-                }).join('');
-            }
-
-            function exportarCsv() {
-                if (!registrosFiltrados.length) {
-                    alert('Não há dados filtrados para exportar.');
-                    return;
-                }
-                const cabecalho = ['Ano', 'Mes', 'Data', 'Trimestre', 'Supervisor', 'Processo', 'Equipe', 'Meta', 'Previsto', 'Realizado'];
-                const linhas = registrosFiltrados.map(r => [
-                    r.ano,
-                    NOMES_MESES[parseInt(r.mesNum, 10)] || r.mesNum,
-                    r.dataBR,
-                    r.trimestre,
-                    r.supervisor,
-                    r.tipo,
-                    r.equipe,
-                    r.meta.toFixed(2).replace('.', ','),
-                    r.previsto.toFixed(2).replace('.', ','),
-                    r.realizado.toFixed(2).replace('.', ',')
-                ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(';'));
-
-                const csvContent = '\uFEFF' + [cabecalho.join(';'), ...linhas].join('\n');
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `faturamento_ellca_${new Date().toISOString().slice(0, 10)}.csv`;
-                a.click();
-                URL.revokeObjectURL(url);
-            }
-
-            document.getElementById('btnLimparFiltros')?.addEventListener('click', () => {
-                msAno.clearSelection();
-                msMes.clearSelection();
-                msData.clearSelection();
-                msTrimestre.clearSelection();
-                msSupervisor.clearSelection();
-                msProcesso.clearSelection();
-                msEquipe.clearSelection();
-                aplicarFiltros();
-            });
-
-            document.getElementById('btnRefreshFat')?.addEventListener('click', carregarDadosPlanilha);
-            document.getElementById('btnExportCsv')?.addEventListener('click', exportarCsv);
-
-            const btnMenuMobile = document.getElementById('btnMenuMobileFat');
-            const navContent = document.getElementById('navContentFat');
-            btnMenuMobile?.addEventListener('click', () => navContent?.classList.toggle('ativo'));
-
-            document.querySelectorAll('.btn-voltar').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    window.location.href = btn.getAttribute('data-destino') || 'gerencial.html';
-                });
-            });
-
-            const btnToggleBars = document.getElementById('btnToggleBars');
-            const iconToggleBars = document.getElementById('iconToggleBars');
-            const textToggleBars = document.getElementById('textToggleBars');
-            let collapsed = true;
-
-            btnToggleBars?.addEventListener('click', () => {
-                collapsed = !collapsed;
-                document.body.classList.toggle('bars-collapsed', collapsed);
-                btnToggleBars.classList.toggle('active-mode', !collapsed);
-                iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
-                textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
-            });
-
-            carregarDadosPlanilha();
-        })();
-    </script>
-    <script src="script.js"></script>
+    <div class="kpi-top-box">
+      <div class="kpi-label">Previsto (R$)</div>
+      <div class="kpi-value" id="kpiPrevisto">R$ 0,00</div>
+    </div>
+
+    <div class="banner-title" id="tituloProcesso">FAT. SUSTENTAÇÃO</div>
+
+    <div class="kpi-top-box highlight">
+      <div class="kpi-label">Realizado (R$)</div>
+      <div class="kpi-value" id="kpiRealizado">R$ 0,00</div>
+    </div>
+
+    <div class="kpi-top-box highlight">
+      <div class="kpi-label">Delta (Gap R$)</div>
+      <div class="kpi-value" id="kpiDelta">R$ 0,00</div>
+    </div>
+  </header>
+
+  <!-- FILTROS E INDICADORES OPERACIONAIS -->
+  <section class="controls-row">
+    <div class="filters">
+      <div class="filter-pill">
+        <span>PROCESSO:</span>
+        <select id="filtroProcesso"></select>
+      </div>
+      <div class="filter-pill">
+        <span>ANO:</span>
+        <select id="filtroAno"></select>
+      </div>
+      <div class="filter-pill">
+        <span>MÊS:</span>
+        <select id="filtroMes"></select>
+      </div>
+      <div class="filter-pill">
+        <span>DATA:</span>
+        <select id="filtroData">
+          <option value="TODOS">Todas as datas</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mini-kpis">
+      <div class="mini-kpi-card">
+        <div class="kpi-label">Dias Trabalhados</div>
+        <div class="kpi-value" id="kpiDiasTrab">0</div>
+      </div>
+      <div class="mini-kpi-card">
+        <div class="kpi-label">Qtd. Equipes</div>
+        <div class="kpi-value" id="kpiQtdEquipes">0</div>
+      </div>
+      <div class="mini-kpi-card">
+        <div class="kpi-label">Fat. Equipe Dia (R$)</div>
+        <div class="kpi-value" id="kpiFatEquipeDia">R$ 0,00</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRÁFICO SÉRIE TEMPORAL -->
+  <section class="panel-card">
+    <div style="height: 230px;">
+      <canvas id="chartTemporal"></canvas>
+    </div>
+  </section>
+
+  <!-- LINHA INTERMEDIÁRIA: SUPERVISOR + DIA DA SEMANA -->
+  <section class="grid-2">
+    <div class="panel-card" style="margin-bottom:0;">
+      <div class="section-bar">Serviços Previstos e Realizados x Supervisor</div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>SUPERVISOR</th>
+              <th class="num">META (R$)</th>
+              <th class="num">PREVISTO (R$)</th>
+              <th class="num">REALIZADO (R$)</th>
+            </tr>
+          </thead>
+          <tbody id="tbodySupervisor"></tbody>
+          <tfoot id="tfootSupervisor"></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel-card" style="margin-bottom:0;">
+      <div class="section-bar">Faturamento Parcial R$ x Dia da Semana</div>
+      <div style="height: 240px;">
+        <canvas id="chartDiaSemana"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINHA INFERIOR: EQUIPE + TABELA RESUMO COMPLETA -->
+  <section class="grid-bottom">
+    <div class="panel-card" style="margin-bottom:0;">
+      <div class="section-bar">Faturamento R$ x Equipe (Previsto vs Realizado)</div>
+      <div style="height: 360px;">
+        <canvas id="chartEquipe"></canvas>
+      </div>
+    </div>
+
+    <div class="panel-card" style="margin-bottom:0;">
+      <div class="section-bar">Resumo Detalhado por Equipe</div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>SUPERVISOR</th>
+              <th>EQUIPE</th>
+              <th>TIPO</th>
+              <th>VEÍCULOS</th>
+              <th class="num">META MENSAL</th>
+              <th class="num">PREVISTO</th>
+              <th class="num">REALIZADO</th>
+              <th class="num">DELTA</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyResumo"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+<script>
+  // =========================================================================
+  // 1. CONFIGURAÇÃO EDITÁVEL (ALTERE AQUI OS DIAS ÚTEIS DE CADA MÊS: 22 OU 23)
+  // =========================================================================
+  const API_URL = "https://script.google.com/macros/s/AKfycby-C5gwZ69tDDn3b8CLyy8zHl8vgt8F2jtieYQMZG88UL-DclgnBwWA-gk4HqQwbWyt/exec";
+
+  const DIAS_UTEIS_MES = {
+    1: 22,  // Janeiro
+    2: 20,  // Fevereiro
+    3: 22,  // Março
+    4: 22,  // Abril
+    5: 21,  // Maio
+    6: 22,  // Junho
+    7: 23,  // Julho
+    8: 22,  // Agosto
+    9: 22,  // Setembro
+    10: 22, // Outubro
+    11: 21, // Novembro
+    12: 22  // Dezembro
+  };
+
+  const NOMES_MESES = [
+    "", "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO",
+    "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"
+  ];
+
+  const DIAS_SEMANA_ORDEM = [
+    "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA",
+    "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO", "DOMINGO"
+  ];
+
+  let rawFaturamento = [];
+  let rawMetas = [];
+  let charts = {};
+
+  Chart.register(ChartDataLabels);
+
+  const fmtBRL = (v) => Number(v || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+  const fmtCompacto = (v) => {
+    if (v >= 1000) return "R$ " + (v / 1000).toFixed(2).replace(".", ",") + " mil";
+    return fmtBRL(v);
+  };
+
+  function parseNumero(val) {
+    if (typeof val === "number") return val;
+    if (!val) return 0;
+    return parseFloat(String(val).replace(/[R$\s.]/g, "").replace(",", ".")) || 0;
+  }
+
+  function normTexto(t) {
+    return String(t || "").trim().toUpperCase();
+  }
+
+  // =========================================================================
+  // 2. CARREGAMENTO E INICIALIZAÇÃO DOS FILTROS
+  // =========================================================================
+  async function iniciarDashboard() {
+    try {
+      const resp = await fetch(API_URL);
+      const json = await resp.json();
+
+      rawFaturamento = json.faturamento.map(r => {
+        const dtStr = String(r["DATA"]);
+        const [ano, mes, dia] = dtStr.split("-").map(Number);
+        return {
+          data: dtStr,
+          ano,
+          mes,
+          dia,
+          supervisor: normTexto(r["SUPERVISOR"]),
+          equipe: normTexto(r["EQUIPE"]),
+          tipo: normTexto(r["TIPO"]),
+          veiculo: normTexto(r["VEÍCULOS"]),
+          descricao: normTexto(r["DESCRIÇÕES PESSOAIS / FUNÇÕES"]),
+          valorMensal: parseNumero(r["VALOR MENSAL"]),
+          valorDia: parseNumero(r["VALOR / DIA"]),
+          processo: normTexto(r["PROCESSO"])
+        };
+      });
+
+      rawMetas = (json.metas || []).map(r => ({
+        ano: Number(r["ANO"]),
+        mesNome: normTexto(r["MÊS"]),
+        mes: NOMES_MESES.indexOf(normTexto(r["MÊS"])),
+        processo: normTexto(r["PROCESSO"]),
+        supervisor: normTexto(r["SUPERVISOR"]),
+        equipe: normTexto(r["EQUIPE"]),
+        tipo: normTexto(r["TIPO"]),
+        veiculo: normTexto(r["VEÍCULO"]),
+        valorMeta: parseNumero(r["VALOR (R$)"])
+      }));
+
+      popularFiltros();
+      atualizarPainel();
+    } catch (err) {
+      console.error("Erro ao carregar dados da planilha:", err);
+      alert("Não foi possível carregar os dados. Verifique a URL do Apps Script.");
+    }
+  }
+
+  function popularFiltros() {
+    const processos = [...new Set(rawFaturamento.map(r => r.processo))].sort();
+    const anos = [...new Set(rawFaturamento.map(r => r.ano))].sort((a, b) => b - a);
+
+    const selProc = document.getElementById("filtroProcesso");
+    selProc.innerHTML = `<option value="TODOS">TODOS</option>` +
+      processos.map(p => `<option value="${p}" ${p === "SUSTENTAÇÃO" ? "selected" : ""}>${p}</option>`).join("");
+
+    const selAno = document.getElementById("filtroAno");
+    selAno.innerHTML = anos.map(a => `<option value="${a}">${a}</option>`).join("");
+
+    atualizarOpcoesMes();
+
+    selProc.addEventListener("change", () => { atualizarOpcoesData(); atualizarPainel(); });
+    selAno.addEventListener("change", () => { atualizarOpcoesMes(); atualizarPainel(); });
+    document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarPainel(); });
+    document.getElementById("filtroData").addEventListener("change", atualizarPainel);
+  }
+
+  function atualizarOpcoesMes() {
+    const anoSel = Number(document.getElementById("filtroAno").value);
+    const mesesDisp = [...new Set(rawFaturamento.filter(r => r.ano === anoSel).map(r => r.mes))].sort((a, b) => b - a);
+
+    const selMes = document.getElementById("filtroMes");
+    selMes.innerHTML = mesesDisp.map(m => `<option value="${m}">${NOMES_MESES[m]}</option>`).join("");
+    atualizarOpcoesData();
+  }
+
+  function atualizarOpcoesData() {
+    const anoSel = Number(document.getElementById("filtroAno").value);
+    const mesSel = Number(document.getElementById("filtroMes").value);
+    const procSel = document.getElementById("filtroProcesso").value;
+
+    const datas = [...new Set(
+      rawFaturamento
+        .filter(r => r.ano === anoSel && r.mes === mesSel && (procSel === "TODOS" || r.processo === procSel))
+        .map(r => r.data)
+    )].sort();
+
+    const selData = document.getElementById("filtroData");
+    selData.innerHTML = `<option value="TODOS">Todas (${datas.length} dias)</option>` +
+      datas.map(d => {
+        const [y, m, day] = d.split("-");
+        return `<option value="${d}">${day}/${m}/${y}</option>`;
+      }).join("");
+  }
+
+  // =========================================================================
+  // 3. CÁLCULOS E ATUALIZAÇÃO DE TODOS OS VISUAIS
+  // =========================================================================
+  function atualizarPainel() {
+    const anoSel = Number(document.getElementById("filtroAno").value);
+    const mesSel = Number(document.getElementById("filtroMes").value);
+    const procSel = document.getElementById("filtroProcesso").value;
+    const dataSel = document.getElementById("filtroData").value;
+
+    document.getElementById("tituloProcesso").textContent =
+      procSel === "TODOS" ? "FAT. CONSOLIDADO" : `FAT. ${procSel}`;
+
+    // Filtra lançamentos de Faturamento
+    const dadosFiltrados = rawFaturamento.filter(r =>
+      r.ano === anoSel &&
+      r.mes === mesSel &&
+      (procSel === "TODOS" || r.processo === procSel) &&
+      (dataSel === "TODOS" || r.data === dataSel)
+    );
+
+    // Dias úteis configurados para o mês e datas únicas trabalhadas no período
+    const diasUteis = DIAS_UTEIS_MES[mesSel] || 22;
+    const datasUnicas = [...new Set(dadosFiltrados.map(r => r.data))].sort();
+    const diasTrabalhados = datasUnicas.length;
+
+    // Agrupamento por Equipe + Processo (considerando equipes únicas no ano/mês/processo)
+    const mapaEquipes = new Map();
+
+    // Primeiro carrega as metas únicas cadastradas (se existirem para o filtro)
+    const metasFiltradas = rawMetas.filter(m =>
+      m.ano === anoSel &&
+      m.mes === mesSel &&
+      (procSel === "TODOS" || m.processo === procSel)
+    );
+
+    metasFiltradas.forEach(m => {
+      const chave = `${m.processo}|${m.equipe}`;
+      if (!mapaEquipes.has(chave)) {
+        mapaEquipes.set(chave, {
+          supervisor: m.supervisor,
+          equipe: m.equipe,
+          processo: m.processo,
+          tipo: m.tipo,
+          veiculo: m.veiculo,
+          metaMensal: m.valorMeta,
+          realizado: 0,
+          diasEquipe: new Set()
+        });
+      }
+    });
+
+    // Complementa com os dados de Faturamento (garantindo equipes únicas mesmo se não houver linha na aba Metas)
+    dadosFiltrados.forEach(r => {
+      const chave = `${r.processo}|${r.equipe}`;
+      if (!mapaEquipes.has(chave)) {
+        mapaEquipes.set(chave, {
+          supervisor: r.supervisor,
+          equipe: r.equipe,
+          processo: r.processo,
+          tipo: r.tipo,
+          veiculo: r.veiculo,
+          metaMensal: r.valorMensal,
+          realizado: 0,
+          diasEquipe: new Set()
+        });
+      }
+      const item = mapaEquipes.get(chave);
+      if (!item.metaMensal && r.valorMensal) item.metaMensal = r.valorMensal;
+      if (!item.tipo) item.tipo = r.tipo;
+      if (!item.veiculo) item.veiculo = r.veiculo;
+      item.realizado += r.valorDia;
+      item.diasEquipe.add(r.data);
+    });
+
+    // Calcula Previsto e Delta por equipe
+    const listaEquipes = Array.from(mapaEquipes.values()).map(eq => {
+      const previsto = diasUteis > 0 ? (eq.metaMensal / diasUteis) * diasTrabalhados : 0;
+      const delta = previsto - eq.realizado;
+      return { ...eq, previsto, delta };
+    });
+
+    // Totais Gerais
+    const totalMetaMensal = listaEquipes.reduce((s, e) => s + e.metaMensal, 0);
+    const totalPrevisto = diasUteis > 0 ? (totalMetaMensal / diasUteis) * diasTrabalhados : 0;
+    const totalRealizado = dadosFiltrados.reduce((s, r) => s + r.valorDia, 0);
+    const totalDelta = totalPrevisto - totalRealizado;
+    const qtdEquipes = listaEquipes.length;
+    const fatEquipeDia = (qtdEquipes > 0 && diasTrabalhados > 0)
+      ? totalRealizado / (qtdEquipes * diasTrabalhados)
+      : 0;
+
+    // Atualiza Cards
+    document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
+    document.getElementById("kpiPrevisto").textContent = fmtBRL(totalPrevisto);
+    document.getElementById("kpiRealizado").textContent = fmtBRL(totalRealizado);
+
+    const elDelta = document.getElementById("kpiDelta");
+    elDelta.textContent = fmtBRL(totalDelta);
+    elDelta.className = "kpi-value " + (totalDelta <= 0 ? "positive" : "negative");
+
+    document.getElementById("kpiDiasTrab").textContent = diasTrabalhados;
+    document.getElementById("kpiQtdEquipes").textContent = qtdEquipes;
+    document.getElementById("kpiFatEquipeDia").textContent = fmtBRL(fatEquipeDia);
+
+    renderizarGraficoTemporal(dadosFiltrados, datasUnicas);
+    renderizarTabelaSupervisor(listaEquipes);
+    renderizarGraficoDiaSemana(dadosFiltrados);
+    renderizarGraficoEquipe(listaEquipes);
+    renderizarTabelaResumo(listaEquipes);
+  }
+
+  // =========================================================================
+  // 4. GRÁFICOS E TABELAS
+  // =========================================================================
+  function renderizarGraficoTemporal(dados, datasUnicas) {
+    const labels = datasUnicas.map(d => {
+      const [, m, dia] = d.split("-");
+      return `${Number(dia)}-${Number(m)}`;
+    });
+
+    const valores = datasUnicas.map(d =>
+      dados.filter(r => r.data === d).reduce((s, r) => s + r.valorDia, 0)
+    );
+
+    if (charts.temporal) charts.temporal.destroy();
+    charts.temporal = new Chart(document.getElementById("chartTemporal"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "Realizado (R$)",
+          data: valores,
+          borderColor: "#2b4499",
+          backgroundColor: "#2b4499",
+          borderWidth: 2.5,
+          pointRadius: 4,
+          tension: 0.15
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "top", align: "start" },
+          datalabels: {
+            align: "top",
+            color: "#1e293b",
+            font: { size: 10, weight: "bold" },
+            formatter: (v) => fmtCompacto(v)
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { callback: (v) => (v / 1000) + " mil" }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarTabelaSupervisor(listaEquipes) {
+    const porSup = {};
+    listaEquipes.forEach(e => {
+      const sup = e.supervisor.split(" ")[0]; // Normaliza primeiro nome se necessário
+      if (!porSup[sup]) porSup[sup] = { meta: 0, previsto: 0, realizado: 0 };
+      porSup[sup].meta += e.metaMensal;
+      porSup[sup].previsto += e.previsto;
+      porSup[sup].realizado += e.realizado;
+    });
+
+    const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
+    let totM = 0, totP = 0, totR = 0;
+
+    document.getElementById("tbodySupervisor").innerHTML = linhas.map(([sup, v]) => {
+      totM += v.meta; totP += v.previsto; totR += v.realizado;
+      return `
+        <tr>
+          <td>${sup}</td>
+          <td class="num">${fmtBRL(v.meta)}</td>
+          <td class="num">${fmtBRL(v.previsto)}</td>
+          <td class="num">${fmtBRL(v.realizado)}</td>
+        </tr>`;
+    }).join("");
+
+    document.getElementById("tfootSupervisor").innerHTML = `
+      <tr>
+        <td>Total geral</td>
+        <td class="num">${fmtBRL(totM)}</td>
+        <td class="num">${fmtBRL(totP)}</td>
+        <td class="num">${fmtBRL(totR)}</td>
+      </tr>`;
+  }
+
+  function renderizarGraficoDiaSemana(dados) {
+    const nomesDias = [
+      "DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA",
+      "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"
+    ];
+
+    const somaPorDia = {};
+    DIAS_SEMANA_ORDEM.forEach(d => somaPorDia[d] = 0);
+
+    dados.forEach(r => {
+      const [y, m, d] = r.data.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      const nomeDia = nomesDias[dt.getDay()];
+      somaPorDia[nomeDia] = (somaPorDia[nomeDia] || 0) + r.valorDia;
+    });
+
+    const labels = DIAS_SEMANA_ORDEM.filter(d => somaPorDia[d] > 0 || d !== "DOMINGO");
+    const valores = labels.map(d => somaPorDia[d]);
+
+    if (charts.diaSemana) charts.diaSemana.destroy();
+    charts.diaSemana = new Chart(document.getElementById("chartDiaSemana"), {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "Faturamento / Dia R$",
+          data: valores,
+          backgroundColor: "#2b4499",
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "top", align: "start" },
+          datalabels: {
+            anchor: "end",
+            align: "bottom",
+            color: "#ffffff",
+            font: { size: 10, weight: "bold" },
+            formatter: (v) => v > 0 ? fmtCompacto(v) : ""
+          }
+        },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  }
+
+  function renderizarGraficoEquipe(listaEquipes) {
+    const ordenadas = [...listaEquipes].sort((a, b) => a.equipe.localeCompare(b.equipe));
+    const labels = ordenadas.map(e => e.equipe);
+
+    if (charts.equipe) charts.equipe.destroy();
+    charts.equipe = new Chart(document.getElementById("chartEquipe"), {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "REALIZADO (R$)",
+            data: ordenadas.map(e => e.realizado),
+            backgroundColor: "#2b4499"
+          },
+          {
+            label: "PREVISTO (R$)",
+            data: ordenadas.map(e => e.previsto),
+            backgroundColor: "#00b4d8"
+          }
+        ]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "top" },
+          datalabels: {
+            anchor: "end",
+            align: "left",
+            color: "#ffffff",
+            font: { size: 10, weight: "bold" },
+            formatter: (v) => fmtCompacto(v)
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: { callback: (v) => (v / 1000) + " mil" }
+          }
+        }
+      }
+    });
+  }
+
+  function renderizarTabelaResumo(listaEquipes) {
+    const ordenadas = [...listaEquipes].sort((a, b) => a.equipe.localeCompare(b.equipe));
+    document.getElementById("tbodyResumo").innerHTML = ordenadas.map(e => `
+      <tr>
+        <td>${e.supervisor}</td>
+        <td>${e.equipe}</td>
+        <td>${e.tipo}</td>
+        <td>${e.veiculo}</td>
+        <td class="num">${fmtBRL(e.metaMensal)}</td>
+        <td class="num">${fmtBRL(e.previsto)}</td>
+        <td class="num">${fmtBRL(e.realizado)}</td>
+        <td class="num ${e.delta <= 0 ? 'positive' : 'negative'}">${fmtBRL(e.delta)}</td>
+      </tr>
+    `).join("");
+  }
+
+  iniciarDashboard();
+</script>
 </body>
-
 </html>
