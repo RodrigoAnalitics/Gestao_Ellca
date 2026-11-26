@@ -3,54 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌀Ellca — Command Center Premium | Faturamento &amp; Metas</title>
+  <title>🌀Ellca — Faturamento &amp; Metas | Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
-    :root {
-      --bg-void: #03060c;
-      --bg-elevated: #080f1e;
-      --glass-surface: rgba(12, 20, 36, 0.68);
-      --glass-surface-hover: rgba(18, 30, 54, 0.82);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-border-active: rgba(56, 189, 248, 0.48);
-      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-dim: #64748b;
-      --cyan: #38bdf8;
-      --cyan-soft: rgba(56, 189, 248, 0.14);
-      --blue: #3b82f6;
-      --indigo: #6366f1;
-      --emerald: #10b981;
-      --emerald-soft: rgba(16, 185, 129, 0.14);
-      --amber: #f59e0b;
-      --rose: #f43f5e;
-      --rose-soft: rgba(244, 63, 94, 0.14);
-      --radius-xl: 22px;
-      --radius-lg: 16px;
-      --radius-md: 12px;
+    @property --border-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes borderSpin {
+      to {
+        --border-angle: 360deg;
+      }
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
-      background-color: var(--bg-void);
+      background-color: #04060b;
       background-image:
-        radial-gradient(ellipse 65% 45% at 15% 10%, rgba(37, 99, 235, 0.24) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 40% at 85% 15%, rgba(56, 189, 248, 0.16) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 50% at 50% 95%, rgba(99, 102, 241, 0.14) 0%, transparent 65%);
-      color: var(--text-primary);
+        radial-gradient(ellipse 65% 45% at 15% 8%, rgba(37, 99, 235, 0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 40% at 85% 12%, rgba(196, 181, 253, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 50% at 50% 95%, rgba(56, 189, 248, 0.12) 0%, transparent 65%);
+      color: #f8fafc;
       min-height: 100vh;
-      padding: 14px 18px 28px;
+      padding: 16px 20px 32px;
       overflow-x: hidden;
     }
 
@@ -58,959 +46,881 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* BARRA SUPERIOR DO PORTAL (LIGAÇÕES ENTRE PÁGINAS & ÁREAS) */
-    .portal-topbar {
-      max-width: 1680px;
-      margin: 0 auto 14px;
-      background: rgba(9, 15, 28, 0.78);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border: 1px solid var(--glass-border);
-      border-radius: 999px;
-      padding: 7px 14px;
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #04060b; }
+    ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.35); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.7); }
+
+    .portal-shell {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* ================= EFEITO 3D + LINHA PERCORRENDO A BORDA ================= */
+    .hud-3d-shell {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    .hud-border-runner {
+      --line-color: #38bdf8;
+      --line-secondary: #818cf8;
+      position: relative;
+      border-radius: 20px;
+      background: #080c14;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.72);
+      transform-style: preserve-3d;
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0px);
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    }
+
+    .hud-border-runner::before {
+      content: "";
+      position: absolute;
+      inset: -1.5px;
+      border-radius: 21px;
+      padding: 1.5px;
+      background: conic-gradient(
+        from var(--border-angle),
+        transparent 0deg,
+        transparent 260deg,
+        var(--line-secondary) 295deg,
+        var(--line-color) 325deg,
+        #ffffff 342deg,
+        var(--line-color) 356deg,
+        transparent 360deg
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderSpin 6.5s linear infinite;
+      opacity: 0.72;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .hud-border-runner:hover {
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(56, 189, 248, 0.14);
+    }
+
+    .hud-border-runner:hover::before {
+      opacity: 1;
+      animation-duration: 4s;
+    }
+
+    .hud-border-runner.gold {
+      --line-color: #f59e0b;
+      --line-secondary: #fde047;
+    }
+
+    .hud-border-runner.emerald {
+      --line-color: #10b981;
+      --line-secondary: #38bdf8;
+    }
+
+    .hud-border-runner.lilac {
+      --line-color: #c4b5fd;
+      --line-secondary: #60a5fa;
+    }
+
+    .hud-inner {
+      position: relative;
+      z-index: 2;
+      border-radius: 19px;
+      background: radial-gradient(circle at 12% 0%, rgba(56, 189, 248, 0.08), transparent 48%),
+                  linear-gradient(180deg, rgba(13, 18, 29, 0.96) 0%, rgba(7, 10, 18, 0.98) 100%);
+      padding: 18px 20px;
+      height: 100%;
+    }
+
+    /* ================= TOPBAR & NAVEGAÇÃO ENTRE PÁGINAS ================= */
+    .fit-topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      padding: 12px 18px;
+      border-radius: 22px;
+      background: #080c14;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.75);
     }
 
-    .portal-brand-link {
+    .fit-brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-decoration: none;
-      color: var(--text-primary);
-      padding: 4px 10px 4px 4px;
-      border-radius: 999px;
-      transition: background 0.2s ease;
-      flex-shrink: 0;
+      color: #ffffff;
     }
 
-    .portal-brand-link:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .brand-chip {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #2563eb, #38bdf8);
+    .fit-brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #c4b5fd, #38bdf8);
+      color: #05070d;
+      font-weight: 900;
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 18px rgba(196, 181, 253, 0.35);
     }
 
-    .brand-name {
+    .fit-brand h1 {
+      font-size: 15px;
       font-weight: 800;
-      font-size: 14px;
-      letter-spacing: -0.3px;
+      letter-spacing: 0.4px;
     }
 
-    .brand-tag {
+    .fit-brand span {
+      display: block;
       font-size: 10px;
-      color: var(--cyan);
-      font-weight: 600;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
+      color: #94a3b8;
+      font-weight: 500;
     }
 
-    .portal-nav-scroll {
+    .fit-nav-pills {
       display: flex;
       align-items: center;
       gap: 4px;
+      background: #0d121d;
+      padding: 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      max-width: 680px;
       overflow-x: auto;
       scrollbar-width: none;
-      padding: 2px 0;
     }
 
-    .portal-nav-scroll::-webkit-scrollbar {
-      display: none;
-    }
+    .fit-nav-pills::-webkit-scrollbar { display: none; }
 
-    .page-link {
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 6px 12px;
+    .fit-pill-link {
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 13px;
       border-radius: 999px;
-      white-space: nowrap;
+      cursor: pointer;
       transition: all 0.2s ease;
-      border: 1px solid transparent;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
-    .page-link:hover {
+    .fit-pill-link:hover {
       color: #ffffff;
       background: rgba(255, 255, 255, 0.06);
     }
 
-    .page-link.active {
-      color: #ffffff;
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.55), rgba(56, 189, 248, 0.25));
-      border-color: var(--glass-border-active);
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+    .fit-pill-link.active {
+      background: #ffffff;
+      color: #060911;
+      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.22);
     }
 
-    .topbar-right-actions {
+    .topbar-actions {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-shrink: 0;
+      flex-wrap: wrap;
     }
 
-    .btn-ghost-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      color: var(--text-primary);
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 6px 12px;
+    .btn-pill-action {
+      padding: 8px 13px;
       border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #121826;
+      color: #e2e8f0;
+      font-size: 10.5px;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .btn-ghost-pill:hover {
-      border-color: var(--glass-border-active);
-      background: rgba(56, 189, 248, 0.12);
-    }
-
-    /* SHELL PRINCIPAL: RAIL FLUTUANTE + PALCO */
-    .app-shell {
-      display: grid;
-      grid-template-columns: 62px 1fr;
-      gap: 18px;
-      max-width: 1680px;
-      margin: 0 auto;
-    }
-
-    .icon-rail {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 6px;
-    }
-
-    .rail-dock {
-      background: var(--glass-surface);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border: 1px solid var(--glass-border);
-      border-radius: 34px;
-      padding: 8px 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: var(--glass-shadow);
-    }
-
-    .rail-btn, .rail-anchor {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
       transition: all 0.22s ease;
-      position: relative;
+      text-decoration: none;
     }
 
-    .rail-btn:hover, .rail-anchor:hover {
+    .btn-pill-action:hover {
+      border-color: #38bdf8;
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      transform: translateY(-1px);
+      background: rgba(56, 189, 248, 0.16);
     }
 
-    .rail-btn.active {
-      background: linear-gradient(135deg, #38bdf8, #2563eb);
-      color: #ffffff;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+    .btn-pill-action.active {
+      background: #ffffff;
+      color: #05070d;
+      border-color: #ffffff;
     }
 
-    .rail-sep {
-      width: 24px;
-      height: 1px;
-      background: var(--glass-border);
-      margin: 2px auto;
+    #loadingBadge {
+      display: none;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.38);
+      padding: 7px 12px;
+      border-radius: 999px;
     }
 
-    .rail-btn::after, .rail-anchor::after {
-      content: attr(data-tip);
-      position: absolute;
-      left: 54px;
-      background: #0b1324;
-      color: #f8fafc;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 6px 11px;
-      border-radius: 9px;
-      border: 1px solid var(--glass-border-active);
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(-6px);
-      transition: all 0.18s ease;
-      z-index: 80;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    .rail-btn:hover::after, .rail-anchor:hover::after {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .rail-live-badge {
+    /* ================= TÍTULO & FILTROS ================= */
+    .hero-strip {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      margin-top: 20px;
-    }
-
-    .pulse-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--emerald);
-      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-      animation: pulseLive 2.2s infinite;
-    }
-
-    @keyframes pulseLive {
-      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.65); }
-      70% { box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
-
-    /* PALCO DE CONTEÚDO */
-    .main-stage {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      min-width: 0;
-    }
-
-    .hero-command-bar {
-      display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 4px 2px;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.1px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 4px;
-    }
-
-    .hero-heading {
-      font-size: 27px;
-      font-weight: 700;
-      letter-spacing: -0.6px;
-      line-height: 1.15;
-    }
-
-    .hero-heading span.light {
-      font-weight: 300;
-      color: var(--text-secondary);
-    }
-
-    .filter-dock {
-      display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      background: var(--glass-surface);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border: 1px solid var(--glass-border);
-      border-radius: 999px;
-      padding: 6px 10px;
-      box-shadow: var(--glass-shadow);
+      gap: 12px;
     }
 
-    .filter-chip {
+    .hero-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .hero-title span {
+      font-weight: 400;
+      color: #94a3b8;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 10px;
+    }
+
+    .filter-field {
       display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
-      padding: 5px 12px;
-      font-size: 11.5px;
-      transition: border-color 0.2s ease;
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .filter-chip:hover {
-      border-color: rgba(56, 189, 248, 0.3);
-    }
-
-    .filter-chip label {
-      color: var(--text-secondary);
-      font-weight: 600;
-    }
-
-    .filter-chip select {
-      background: transparent;
-      border: none;
-      color: #ffffff;
+    .filter-field label {
+      font-size: 9.5px;
       font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      outline: none;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: #94a3b8;
     }
 
-    .filter-chip select option {
-      background: #0b1324;
-      color: #ffffff;
+    .filter-field select {
+      width: 100%;
+      padding: 8px 11px;
+      border-radius: 12px;
+      background: #070a12;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-size: 11.5px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .filter-field select:focus {
+      border-color: #c4b5fd;
+    }
+
+    .dias-uteis-chip {
+      display: flex;
+      align-items: flex-end;
     }
 
     .dias-uteis-pill {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(37, 99, 235, 0.25));
-      border: 1px solid var(--glass-border-active);
-      color: #e0f2fe;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 999px;
+      width: 100%;
+      height: 33px;
+      border-radius: 12px;
+      background: rgba(196, 181, 253, 0.14);
+      border: 1px solid rgba(196, 181, 253, 0.35);
+      color: #ede9fe;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .view-pane { display: none; flex-direction: column; gap: 16px; }
     .view-pane.active { display: flex; }
 
-    /* CARTÕES PREMIUM GLASSMORPHISM */
-    .glass-panel {
-      background: var(--glass-surface);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-xl);
-      padding: 18px 20px;
-      box-shadow: var(--glass-shadow);
-      transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
-      position: relative;
+    /* ================= GRID SUPERIOR (SÉRIE TEMPORAL + CALENDÁRIO) ================= */
+    .fit-hero-grid {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 16px;
     }
 
-    .glass-panel:hover {
-      border-color: rgba(255, 255, 255, 0.16);
-      background: var(--glass-surface-hover);
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+    .fit-kpis-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
       margin-bottom: 14px;
     }
 
-    .panel-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .mini-kpi-box {
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 11px 12px;
     }
 
-    .icon-badge {
-      width: 34px;
-      height: 34px;
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-    }
-
-    .panel-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #f1f5f9;
-      letter-spacing: -0.1px;
-    }
-
-    .panel-subtitle {
-      font-size: 11px;
-      color: var(--text-dim);
-      font-weight: 500;
-    }
-
-    /* 4 KPIS PRINCIPAIS */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .kpi-metric {
-      font-size: 27px;
+    .mini-kpi-box small {
+      display: block;
+      font-size: 9.5px;
       font-weight: 700;
-      letter-spacing: -0.7px;
-      color: #ffffff;
-      margin: 8px 0 10px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 4px;
     }
 
-    .kpi-footer {
+    .mini-kpi-box strong {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .mini-kpi-box span {
+      display: block;
+      font-size: 10px;
+      color: #64748b;
+      margin-top: 3px;
+    }
+
+    /* CALENDÁRIO MENSAL */
+    .fit-calendar-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      gap: 12px;
+    }
+
+    .fit-cal-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 11.5px;
-      color: var(--text-secondary);
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .pill-status {
-      font-size: 10.5px;
+    .fit-cal-badge {
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 6px 12px;
       border-radius: 999px;
     }
 
-    .pill-emerald { background: var(--emerald-soft); color: #34d399; }
-    .pill-rose    { background: var(--rose-soft); color: #fb7185; }
-    .pill-cyan    { background: var(--cyan-soft); color: #7dd3fc; }
-
-    /* GRID CENTRAL: TOPOLOGIA RADIAL + SÉRIE TEMPORAL + GAUGE */
-    .mid-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 1.35fr 0.92fr;
-      gap: 14px;
-    }
-
-    .topology-box {
-      width: 100%;
-      height: 270px;
-      display: flex;
+    .fit-cal-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #060910;
+      color: #cbd5e1;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
     }
 
-    .topology-box svg {
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
-
-    .gauge-box {
-      height: 270px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 4px;
-    }
-
-    .gauge-dial {
-      position: relative;
-      width: 235px;
-      height: 138px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .gauge-readout {
-      position: absolute;
-      bottom: 8px;
-      text-align: center;
-    }
-
-    .gauge-number {
-      font-size: 33px;
-      font-weight: 800;
-      letter-spacing: -1px;
+    .fit-cal-btn:hover {
+      border-color: #fde047;
       color: #ffffff;
     }
 
-    .gauge-caption {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.9px;
-      color: var(--text-secondary);
+    .fit-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
     }
 
-    .gauge-kpis-row {
-      width: 100%;
+    .fit-cal-day {
+      aspect-ratio: 1 / 1;
+      border-radius: 9px;
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      color: #64748b;
+      font-size: 10.5px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .fit-cal-day.has-fat {
+      color: #e2e8f0;
+      border-color: rgba(253, 224, 71, 0.25);
+    }
+
+    .fit-cal-day.has-fat::after {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #fde047;
+      margin-top: 2px;
+    }
+
+    .fit-cal-day.active-day {
+      background: #fde047;
+      color: #070910;
+      font-weight: 800;
+      border-color: #fde047;
+      box-shadow: 0 0 14px rgba(253, 224, 71, 0.4);
+    }
+
+    .fit-cal-day.active-day::after {
+      background: #070910;
+    }
+
+    .fit-cal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 10px 14px;
+    }
+
+    /* ================= LINHA INFERIOR (3 COLUNAS) ================= */
+    .fit-bottom-three {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1.05fr 0.95fr 1.35fr;
+      gap: 16px;
+    }
+
+    .sup-list {
+      display: flex;
+      flex-direction: column;
       gap: 8px;
-      padding-top: 12px;
-      border-top: 1px solid var(--glass-border);
-      text-align: center;
+      max-height: 245px;
+      overflow-y: auto;
     }
 
-    .g-val { font-size: 14px; font-weight: 700; }
-    .g-lbl { font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
-
-    /* GRID INFERIOR: DIA DA SEMANA + SUPERVISOR + EQUIPES */
-    .bottom-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1.15fr;
-      gap: 14px;
+    .sup-row-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 11px;
+      border-radius: 13px;
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
+
+    .sup-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(196, 181, 253, 0.16);
+      border: 1px solid rgba(196, 181, 253, 0.35);
+      color: #ede9fe;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sup-badge-val {
+      padding: 5px 10px;
+      border-radius: 9px;
+      background: #121826;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      white-space: nowrap;
+    }
+
+    /* BOLHAS DE ATINGIMENTO / PROCESSOS */
+    .bubbles-stage {
+      position: relative;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bubble-circle {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #05070d;
+      font-weight: 800;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+      transition: transform 0.25s ease;
+    }
+
+    .bubble-circle:hover { transform: scale(1.06); }
+
+    .b-lg { width: 116px; height: 116px; left: 20%; top: 24%; background: #c4b5fd; font-size: 18px; z-index: 2; }
+    .b-md { width: 84px; height: 84px; right: 16%; top: 12%; background: #38bdf8; font-size: 14px; z-index: 3; }
+    .b-sm { width: 78px; height: 78px; right: 20%; bottom: 10%; background: #fde047; font-size: 13px; z-index: 2; }
+    .bubble-circle small { font-size: 9px; font-weight: 700; opacity: 0.85; margin-top: 2px; }
 
     /* TABELAS */
-    .table-scroller {
+    .table-wrap {
       overflow: auto;
-      max-height: 255px;
+      max-height: 245px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 11.5px;
     }
 
     thead th {
       text-align: left;
-      padding: 9px 10px;
-      font-size: 10px;
+      padding: 8px 10px;
+      font-size: 9.5px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.7px;
-      color: var(--text-secondary);
-      border-bottom: 1px solid var(--glass-border);
+      letter-spacing: 0.6px;
+      color: #94a3b8;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: sticky;
       top: 0;
-      background: rgba(10, 17, 32, 0.96);
-      z-index: 2;
+      background: #0d121d;
     }
 
     thead th.num, tbody td.num, tfoot td.num { text-align: right; }
 
     tbody td {
-      padding: 9px 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       color: #e2e8f0;
     }
 
-    tbody tr:hover {
-      background: rgba(56, 189, 248, 0.05);
-    }
+    tbody tr:hover { background: rgba(196, 181, 253, 0.06); }
 
     tfoot td {
-      padding: 9px 10px;
-      font-weight: 700;
+      padding: 8px 10px;
+      font-weight: 800;
       color: #ffffff;
-      border-top: 1px solid var(--glass-border-active);
-      background: rgba(56, 189, 248, 0.08);
+      border-top: 1px solid rgba(196, 181, 253, 0.35);
+      background: rgba(196, 181, 253, 0.08);
     }
 
-    .c-cyan    { color: var(--cyan) !important; }
-    .c-emerald { color: var(--emerald) !important; }
-    .c-rose    { color: var(--rose) !important; }
-    .c-amber   { color: var(--amber) !important; }
+    .c-cyan    { color: #38bdf8 !important; }
+    .c-emerald { color: #34d399 !important; }
+    .c-rose    { color: #fb7185 !important; }
+    .c-lilac   { color: #c4b5fd !important; }
 
-    #syncIndicator {
-      display: none;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--cyan);
-      background: var(--cyan-soft);
-      border: 1px solid var(--glass-border-active);
-      padding: 6px 14px;
-      border-radius: 999px;
+    @media (max-width: 1120px) {
+      .fit-hero-grid,
+      .fit-bottom-three,
+      .fit-kpis-row {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
-    @media (max-width: 1280px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .mid-grid, .bottom-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 820px) {
-      .portal-topbar { border-radius: 20px; flex-wrap: wrap; }
-      .app-shell { grid-template-columns: 1fr; }
-      .icon-rail { flex-direction: row; padding-top: 0; }
-      .rail-dock { flex-direction: row; border-radius: 999px; }
-      .rail-sep { width: 1px; height: 22px; margin: auto 4px; }
-      .rail-live-badge { display: none; }
-      .kpi-grid { grid-template-columns: 1fr; }
+    @media (max-width: 720px) {
+      .fit-hero-grid,
+      .fit-bottom-three,
+      .fit-kpis-row {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- BARRA SUPERIOR DE NAVEGAÇÃO DO PORTAL -->
-  <header class="portal-topbar">
-    <a href="#top" class="portal-brand-link" data-route="home">
-      <div class="brand-chip">🌀</div>
-      <div>
-        <div class="brand-name">Ellca Portal</div>
-        <div class="brand-tag">Gestão Integrada</div>
-      </div>
-    </a>
+  <div class="portal-shell">
 
-    <nav class="portal-nav-scroll" id="portalNav" aria-label="Navegação do Portal"></nav>
-
-    <div class="topbar-right-actions">
-      <span id="syncIndicator">⟳ Sincronizando...</span>
-      <button class="btn-ghost-pill" onclick="atualizarPainel()" title="Recalcular dados">↻ Atualizar</button>
-    </div>
-  </header>
-
-  <div class="app-shell">
-
-    <!-- RAIL LATERAL FLUTUANTE -->
-    <aside class="icon-rail">
-      <div class="rail-dock">
-        <button class="rail-btn active" data-tip="Visão Geral (HUD)" onclick="mudarView('viewGeral', this)">⌂</button>
-        <button class="rail-btn" data-tip="Comparativo por Equipe" onclick="mudarView('viewEquipes', this)">📊</button>
-        <button class="rail-btn" data-tip="Tabela Consolidada" onclick="mudarView('viewTabela', this)">📋</button>
-        <div class="rail-sep"></div>
-        <a class="rail-anchor" data-tip="Medição & Faturamento" href="#medicao" data-route="medicao">📐</a>
-        <a class="rail-anchor" data-tip="SESMT & Segurança" href="#sesmt" data-route="sesmt">🦺</a>
-        <a class="rail-anchor" data-tip="Frota & Operação" href="#frota" data-route="frota">🚛</a>
-      </div>
-
-      <div class="rail-live-badge" title="Dados em tempo real via Google Sheets">
-        <div class="pulse-dot"></div>
-      </div>
-    </aside>
-
-    <!-- PALCO PRINCIPAL -->
-    <main class="main-stage">
-
-      <!-- CABEÇALHO DO PAINEL + FILTROS -->
-      <section class="hero-command-bar">
+    <!-- TOPBAR COM LIGAÇÕES PARA OUTRAS PÁGINAS DO PORTAL -->
+    <header class="fit-topbar">
+      <a href="index.html" class="fit-brand">
+        <div class="fit-brand-mark">🌀</div>
         <div>
-          <div class="hero-eyebrow">⚡ ELLCA REVENUE COMMAND • GLASS EDITION</div>
-          <h1 class="hero-heading tabular" id="tituloProcesso">FAT. SUSTENTAÇÃO <span class="light">| Painel de Metas</span></h1>
+          <h1>Ellca Portal</h1>
+          <span>Faturamento &amp; Metas</span>
+        </div>
+      </a>
+
+      <nav class="fit-nav-pills" id="portalLinksNav" aria-label="Páginas do Portal"></nav>
+
+      <div class="topbar-actions">
+        <span id="loadingBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...</span>
+        <button type="button" class="btn-pill-action active" onclick="mudarView('viewGeral', this)">
+          <i class="fa-solid fa-chart-line"></i> Visão Geral
+        </button>
+        <button type="button" class="btn-pill-action" onclick="mudarView('viewEquipes', this)">
+          <i class="fa-solid fa-bars-progress"></i> Equipes
+        </button>
+        <button type="button" class="btn-pill-action" onclick="mudarView('viewTabela', this)">
+          <i class="fa-solid fa-table"></i> Resumo
+        </button>
+      </div>
+    </header>
+
+    <!-- CABEÇALHO DO MÓDULO -->
+    <div class="hero-strip">
+      <h2 class="hero-title tabular" id="tituloProcesso">FAT. SUSTENTAÇÃO <span>| Painel de Metas</span></h2>
+      <span style="font-size:11.5px; color:#94a3b8;" id="subResumoTopo">Base calculada diretamente da aba Faturamento</span>
+    </div>
+
+    <!-- FILTROS EM CARD 3D COM LINHA NA BORDA -->
+    <div class="hud-3d-shell">
+      <div class="hud-border-runner lilac">
+        <div class="hud-inner">
+          <div class="filter-grid">
+            <div class="filter-field">
+              <label for="filtroProcesso">Processo</label>
+              <select id="filtroProcesso"></select>
+            </div>
+            <div class="filter-field">
+              <label for="filtroAno">Ano</label>
+              <select id="filtroAno"></select>
+            </div>
+            <div class="filter-field">
+              <label for="filtroMes">Mês</label>
+              <select id="filtroMes"></select>
+            </div>
+            <div class="filter-field">
+              <label for="filtroData">Data</label>
+              <select id="filtroData"><option value="TODOS">Todas</option></select>
+            </div>
+            <div class="dias-uteis-chip">
+              <div class="dias-uteis-pill tabular" id="badgeDiasUteisTop">
+                <i class="fa-solid fa-briefcase"></i> 22 Dias Úteis
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- VIEW 1: VISÃO GERAL                                             -->
+    <!-- =============================================================== -->
+    <div id="viewGeral" class="view-pane active">
+
+      <section class="fit-hero-grid">
+        <!-- BLOCO ESQUERDO: 4 KPIS + SÉRIE TEMPORAL -->
+        <div class="hud-3d-shell">
+          <div class="hud-border-runner">
+            <div class="hud-inner">
+              <div class="fit-kpis-row tabular">
+                <div class="mini-kpi-box">
+                  <small>Meta Mensal</small>
+                  <strong id="kpiMetaMensal">R$ 0,00</strong>
+                  <span id="tagQtdEquipes">0 equipes</span>
+                </div>
+                <div class="mini-kpi-box">
+                  <small>Previsto</small>
+                  <strong class="c-lilac" id="kpiPrevisto">R$ 0,00</strong>
+                  <span id="tagDiasTrab">0 dias trab.</span>
+                </div>
+                <div class="mini-kpi-box">
+                  <small>Realizado</small>
+                  <strong class="c-emerald" id="kpiRealizado">R$ 0,00</strong>
+                  <span id="subPctPrevisto">0,0% previsto</span>
+                </div>
+                <div class="mini-kpi-box">
+                  <small>Delta (Gap)</small>
+                  <strong id="kpiDelta">R$ 0,00</strong>
+                  <span id="tagFatDia">R$ 0/eq/dia</span>
+                </div>
+              </div>
+
+              <div style="height: 215px; width: 100%;">
+                <canvas id="chartTemporal"></canvas>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="filter-dock">
-          <div class="filter-chip">
-            <label for="filtroProcesso">Processo</label>
-            <select id="filtroProcesso"></select>
+        <!-- BLOCO DIREITO: CALENDÁRIO DE DIAS + ATINGIMENTO -->
+        <div class="hud-3d-shell">
+          <div class="hud-border-runner gold">
+            <div class="hud-inner">
+              <div class="fit-calendar-box">
+                <div class="fit-cal-head">
+                  <span class="fit-cal-badge tabular" id="calMesLabel">NOVEMBRO 2026</span>
+                  <div style="display:flex; gap:6px;">
+                    <button type="button" class="fit-cal-btn" id="btnLimparDataCal" title="Mostrar todas as datas">
+                      <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="fit-cal-grid" id="calDiasGrid"></div>
+
+                <div class="fit-cal-footer tabular">
+                  <div>
+                    <div style="font-size:18px; font-weight:800; color:#fff;" id="calPctMeta">0%</div>
+                    <div style="font-size:10px; color:#94a3b8;" id="calSubInfo">Atingimento da Meta Mensal</div>
+                  </div>
+                  <div style="width:36px; height:36px; border-radius:11px; background:rgba(253,224,71,0.14); color:#fde047; display:flex; align-items:center; justify-content:center;">
+                    <i class="fa-solid fa-gauge-high"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="filter-chip">
-            <label for="filtroAno">Ano</label>
-            <select id="filtroAno"></select>
-          </div>
-          <div class="filter-chip">
-            <label for="filtroMes">Mês</label>
-            <select id="filtroMes"></select>
-          </div>
-          <div class="filter-chip">
-            <label for="filtroData">Data</label>
-            <select id="filtroData"><option value="TODOS">Todas</option></select>
-          </div>
-          <div class="dias-uteis-pill tabular" id="badgeDiasUteisTop">22 Dias Úteis</div>
         </div>
       </section>
 
-      <!-- =============================================================== -->
-      <!-- VIEW 1: VISÃO GERAL                                             -->
-      <!-- =============================================================== -->
-      <div id="viewGeral" class="view-pane active">
-
-        <!-- 4 KPIS PRINCIPAIS -->
-        <section class="kpi-grid">
-          <div class="glass-panel">
-            <div class="panel-head" style="margin-bottom:4px;">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-cyan">💎</div>
-                <span class="panel-title">Meta Mensal</span>
+      <!-- LINHA INFERIOR: SUPERVISORES + BOLHAS + DIA DA SEMANA -->
+      <section class="fit-bottom-three">
+        <div class="hud-3d-shell">
+          <div class="hud-border-runner lilac">
+            <div class="hud-inner">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                <span style="font-size:12.5px; font-weight:700;">Supervisor &amp; Realizado</span>
+                <span style="font-size:10px; color:#94a3b8;">Meta vs Real</span>
               </div>
-              <span class="panel-subtitle tabular" id="tagQtdEquipes">0 equipes</span>
-            </div>
-            <div class="kpi-metric tabular" id="kpiMetaMensal">R$ 0,00</div>
-            <div class="kpi-footer">
-              <span>Equipes únicas no mês/processo</span>
-              <span class="pill-status pill-cyan tabular" id="subDiasUteis">Base 22d</span>
+              <div class="sup-list tabular" id="listaSupervisorCards"></div>
             </div>
           </div>
+        </div>
 
-          <div class="glass-panel">
-            <div class="panel-head" style="margin-bottom:4px;">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-amber">⏱️</div>
-                <span class="panel-title">Previsto</span>
+        <div class="hud-3d-shell">
+          <div class="hud-border-runner emerald">
+            <div class="hud-inner">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span style="font-size:12.5px; font-weight:700;">Top Equipes (Share)</span>
+                <span style="font-size:10px; color:#94a3b8;">Realizado</span>
               </div>
-              <span class="panel-subtitle tabular" id="tagDiasTrab">0 dias trab.</span>
-            </div>
-            <div class="kpi-metric tabular" id="kpiPrevisto">R$ 0,00</div>
-            <div class="kpi-footer">
-              <span>(Meta / Dias Úteis) × Dias Trab.</span>
-              <span class="c-amber">Ritmo esperado</span>
-            </div>
-          </div>
-
-          <div class="glass-panel">
-            <div class="panel-head" style="margin-bottom:4px;">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-emerald">⚡</div>
-                <span class="panel-title">Realizado</span>
-              </div>
-              <span class="panel-subtitle tabular" id="tagFatDia">R$ 0/eq/dia</span>
-            </div>
-            <div class="kpi-metric tabular" id="kpiRealizado">R$ 0,00</div>
-            <div class="kpi-footer">
-              <span>Soma Valor / Dia</span>
-              <span class="pill-status pill-emerald tabular" id="subPctPrevisto">0,0%</span>
-            </div>
-          </div>
-
-          <div class="glass-panel">
-            <div class="panel-head" style="margin-bottom:4px;">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-rose">🎯</div>
-                <span class="panel-title">Delta (Gap)</span>
-              </div>
-              <span class="panel-subtitle">Previsto - Realizado</span>
-            </div>
-            <div class="kpi-metric tabular" id="kpiDelta">R$ 0,00</div>
-            <div class="kpi-footer">
-              <span>Desvio vs previsto</span>
-              <span class="pill-status pill-emerald" id="subStatusDelta">No ritmo</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- GRID CENTRAL: TOPOLOGIA + SÉRIE TEMPORAL + GAUGE -->
-        <section class="mid-grid">
-          <div class="glass-panel">
-            <div class="panel-head">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-cyan">🕸️</div>
-                <span class="panel-title">Topologia de Faturamento</span>
-              </div>
-              <span class="panel-subtitle">Processo → Equipes</span>
-            </div>
-            <div class="topology-box" id="topologyContainer"></div>
-          </div>
-
-          <div class="glass-panel">
-            <div class="panel-head">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-cyan">📈</div>
-                <span class="panel-title">Série Temporal Realizado</span>
-              </div>
-              <span class="panel-subtitle">Eixo X: Data • Eixo Y: Realizado</span>
-            </div>
-            <div style="height: 270px;">
-              <canvas id="chartTemporal"></canvas>
-            </div>
-          </div>
-
-          <div class="glass-panel">
-            <div class="panel-head">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-emerald">🧭</div>
-                <span class="panel-title">Atingimento da Meta</span>
-              </div>
-              <span class="panel-subtitle">Mensal</span>
-            </div>
-            <div class="gauge-box">
-              <div class="gauge-dial">
-                <svg viewBox="0 0 240 140" width="235" height="138">
-                  <defs>
-                    <linearGradient id="ellcaGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#3b82f6" />
-                      <stop offset="55%" stop-color="#38bdf8" />
-                      <stop offset="100%" stop-color="#10b981" />
-                    </linearGradient>
-                  </defs>
-                  <path d="M 20 120 A 100 100 0 0 1 220 120"
-                        fill="none" stroke="rgba(255,255,255,0.11)" stroke-width="14"
-                        stroke-dasharray="3 5" stroke-linecap="round" />
-                  <path id="gaugeArc" d="M 20 120 A 100 100 0 0 1 220 120"
-                        fill="none" stroke="url(#ellcaGaugeGrad)" stroke-width="14"
-                        stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round" />
-                  <path d="M 55 112 Q 85 96, 120 112 T 185 112" fill="none" stroke="rgba(56,189,248,0.35)" stroke-width="1.5"/>
-                  <path d="M 55 118 Q 85 130, 120 118 T 185 118" fill="none" stroke="rgba(16,185,129,0.35)" stroke-width="1.5"/>
-                </svg>
-                <div class="gauge-readout">
-                  <div class="gauge-number tabular" id="gaugePctText">0%</div>
-                  <div class="gauge-caption">Da Meta Mensal</div>
-                </div>
-              </div>
-
-              <div class="gauge-kpis-row tabular">
-                <div>
-                  <div class="g-val c-cyan" id="statDiasTrab">0</div>
-                  <div class="g-lbl">Dias Trab.</div>
-                </div>
-                <div>
-                  <div class="g-val" id="statQtdEquipes">0</div>
-                  <div class="g-lbl">Equipes</div>
-                </div>
-                <div>
-                  <div class="g-val c-emerald" id="statMediaDia">R$ 0</div>
-                  <div class="g-lbl">Fat/Eq/Dia</div>
-                </div>
+              <div class="bubbles-stage tabular">
+                <div class="bubble-circle b-lg" id="bEquipes1"><span>0%</span><small>-</small></div>
+                <div class="bubble-circle b-md" id="bEquipes2"><span>0%</span><small>-</small></div>
+                <div class="bubble-circle b-sm" id="bEquipes3"><span>0%</span><small>-</small></div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <!-- GRID INFERIOR: DIA DA SEMANA + SUPERVISOR + EQUIPES -->
-        <section class="bottom-grid">
-          <div class="glass-panel">
-            <div class="panel-head">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-amber">📅</div>
-                <span class="panel-title">Faturamento por Dia da Semana</span>
+        <div class="hud-3d-shell">
+          <div class="hud-border-runner">
+            <div class="hud-inner">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                <span style="font-size:12.5px; font-weight:700;">Faturamento por Dia da Semana</span>
+                <span style="font-size:10px; color:#94a3b8;">R$</span>
               </div>
-            </div>
-            <div style="height: 245px;">
-              <canvas id="chartDiaSemana"></canvas>
+              <div style="height: 225px;">
+                <canvas id="chartDiaSemana"></canvas>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div class="glass-panel">
-            <div class="panel-head">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-cyan">👷</div>
-                <span class="panel-title">Supervisor, Meta e Realizado</span>
-              </div>
+      <!-- COMPARATIVO RÁPIDO POR EQUIPE -->
+      <div class="hud-3d-shell">
+        <div class="hud-border-runner emerald">
+          <div class="hud-inner">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+              <span style="font-size:12.5px; font-weight:700;">Faturamento por Equipe — Previsto x Realizado</span>
+              <span style="font-size:10px; color:#94a3b8;">Comparativo</span>
             </div>
-            <div class="table-scroller tabular">
+            <div style="height: 260px;">
+              <canvas id="chartEquipeMini"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- VIEW 2: COMPARATIVO EXPANDIDO POR EQUIPE                        -->
+    <!-- =============================================================== -->
+    <div id="viewEquipes" class="view-pane">
+      <div class="hud-3d-shell">
+        <div class="hud-border-runner">
+          <div class="hud-inner">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+              <span style="font-size:13.5px; font-weight:800;">Faturamento por Equipe — Previsto vs Realizado</span>
+              <span style="font-size:11px; color:#94a3b8;" id="badgeEquipesCount">0 equipes</span>
+            </div>
+            <div style="height: 500px;">
+              <canvas id="chartEquipeFull"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- VIEW 3: TABELA RESUMO CONSOLIDADA                               -->
+    <!-- =============================================================== -->
+    <div id="viewTabela" class="view-pane">
+      <div class="hud-3d-shell">
+        <div class="hud-border-runner emerald">
+          <div class="hud-inner">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+              <span style="font-size:13.5px; font-weight:800;">Tabela Resumo com Todas as Informações</span>
+              <span style="font-size:11px; color:#94a3b8;" id="badgeTabelaCount">0 registros</span>
+            </div>
+            <div class="table-wrap tabular" style="max-height: 540px;">
               <table>
                 <thead>
                   <tr>
                     <th>Supervisor</th>
-                    <th class="num">Meta</th>
+                    <th>Equipe</th>
+                    <th>Processo</th>
+                    <th>Tipo</th>
+                    <th>Veículos</th>
+                    <th class="num">Meta Mensal</th>
+                    <th class="num">Previsto</th>
                     <th class="num">Realizado</th>
+                    <th class="num">Delta (Gap)</th>
                   </tr>
                 </thead>
-                <tbody id="tbodySupervisor"></tbody>
-                <tfoot id="tfootSupervisor"></tfoot>
+                <tbody id="tbodyResumo"></tbody>
+                <tfoot id="tfootResumo"></tfoot>
               </table>
             </div>
           </div>
-
-          <div class="glass-panel">
-            <div class="panel-head">
-              <div class="panel-title-wrap">
-                <div class="icon-badge c-emerald">🚛</div>
-                <span class="panel-title">Faturamento por Equipe</span>
-              </div>
-              <span class="panel-subtitle">Previsto vs Realizado</span>
-            </div>
-            <div style="height: 245px;">
-              <canvas id="chartEquipeMini"></canvas>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- =============================================================== -->
-      <!-- VIEW 2: COMPARATIVO EXPANDIDO POR EQUIPE                        -->
-      <!-- =============================================================== -->
-      <div id="viewEquipes" class="view-pane">
-        <div class="glass-panel">
-          <div class="panel-head">
-            <div class="panel-title-wrap">
-              <div class="icon-badge c-cyan">📊</div>
-              <span class="panel-title">Faturamento por Equipe — Previsto vs Realizado</span>
-            </div>
-            <span class="panel-subtitle tabular" id="badgeEquipesCount">0 equipes</span>
-          </div>
-          <div style="height: 510px;">
-            <canvas id="chartEquipeFull"></canvas>
-          </div>
         </div>
       </div>
+    </div>
 
-      <!-- =============================================================== -->
-      <!-- VIEW 3: TABELA RESUMO CONSOLIDADA                               -->
-      <!-- =============================================================== -->
-      <div id="viewTabela" class="view-pane">
-        <div class="glass-panel">
-          <div class="panel-head">
-            <div class="panel-title-wrap">
-              <div class="icon-badge c-emerald">📋</div>
-              <span class="panel-title">Tabela Resumo com Todas as Informações</span>
-            </div>
-            <span class="panel-subtitle tabular" id="badgeTabelaCount">0 registros</span>
-          </div>
-          <div class="table-scroller tabular" style="max-height: 550px;">
-            <table>
-              <thead>
-                <tr>
-                  <th>Supervisor</th>
-                  <th>Equipe</th>
-                  <th>Processo</th>
-                  <th>Tipo</th>
-                  <th>Veículos</th>
-                  <th class="num">Meta Mensal</th>
-                  <th class="num">Previsto</th>
-                  <th class="num">Realizado</th>
-                  <th class="num">Delta (Gap)</th>
-                </tr>
-              </thead>
-              <tbody id="tbodyResumo"></tbody>
-              <tfoot id="tfootResumo"></tfoot>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </main>
   </div>
 
 <script>
   // =========================================================================
-  // 1. CONFIGURAÇÃO EDITÁVEL (API, DIAS ÚTEIS E ROTAS DO PORTAL ELLCA)
+  // 1. CONFIGURAÇÃO EDITÁVEL (API, DIAS ÚTEIS E LIGAÇÕES DO PORTAL)
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/AKfycbwhFjFhTamq91OcNe2nuK8T_qQQgBD5Eu_rrpeVBlz59kA-i21G5ZIM53Nyu7bORKDw/exec";
 
-  // Ajuste aqui os dias úteis (22 ou 23) de cada mês
   const DIAS_UTEIS_MES = {
-    1: 22,  // Janeiro
-    2: 20,  // Fevereiro
-    3: 22,  // Março
-    4: 22,  // Abril
-    5: 21,  // Maio
-    6: 22,  // Junho
-    7: 23,  // Julho
-    8: 22,  // Agosto
-    9: 22,  // Setembro
-    10: 22, // Outubro
-    11: 21, // Novembro
-    12: 22  // Dezembro
+    1: 22, 2: 20, 3: 22, 4: 22, 5: 21, 6: 22,
+    7: 23, 8: 22, 9: 22, 10: 22, 11: 21, 12: 22
   };
 
-  // Links das páginas/módulos do portal (ajuste os caminhos relativos conforme seus arquivos HTML)
-  const ROTAS_PORTAL = [
-    { id: "home",         label: "Início",       href: "index.html" },
-    { id: "faturamento",  label: "Faturamento",  href: "faturamento.html", active: true },
-    { id: "medicao",      label: "Medição",      href: "medicao.html" },
-    { id: "sesmt",        label: "SESMT",        href: "sesmt.html" },
-    { id: "almoxarifado", label: "Almoxarifado", href: "almoxarifado.html" },
-    { id: "backoffice",   label: "Backoffice",   href: "backoffice.html" },
-    { id: "dp",           label: "DP",           href: "dp.html" },
-    { id: "rh",           label: "RH",           href: "rh.html" },
-    { id: "frota",        label: "Frota",        href: "frota.html" },
-    { id: "infra",        label: "Infraestrutura", href: "infraestrutura.html" },
-    { id: "produtividade",label: "Produtividade",href: "produtividade.html" },
-    { id: "programacao",  label: "Programação",  href: "programacao.html" },
-    { id: "projeto",      label: "Projeto",      href: "projeto.html" },
-    { id: "ti",           label: "TI",           href: "ti.html" },
-    { id: "supervisao",   label: "Supervisão",   href: "supervisao.html" }
+  const PAGINAS_PORTAL = [
+    { label: "Home", href: "home.html" },
+    { label: "Programação", href: "programacao.html" },
+    { label: "Faturamento", href: "faturamento.html", active: true },
+    { label: "Dashboard", href: "dashboard.html" },
+    { label: "Medição", href: "medicao.html" },
+    { label: "SESMT", href: "sesmt.html" },
+    { label: "Frota", href: "frota.html" },
+    { label: "Gerencial", href: "gerencial.html" }
   ];
 
   const NOMES_MESES = [
@@ -1028,15 +938,32 @@
 
   Chart.register(ChartDataLabels);
 
-  const fmtBRL = (v) => Number(v || 0).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
+  // Efeito 3D dinâmico no mouse
+  document.querySelectorAll('.hud-3d-shell').forEach(shell => {
+    const card = shell.querySelector('.hud-border-runner');
+    if (!card) return;
+    shell.addEventListener('mousemove', (e) => {
+      const rect = shell.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty('--ry', `${(x * 4.5).toFixed(2)}deg`);
+      card.style.setProperty('--rx', `${(-y * 4.5).toFixed(2)}deg`);
+    });
+    shell.addEventListener('mouseleave', () => {
+      card.style.setProperty('--ry', '0deg');
+      card.style.setProperty('--rx', '0deg');
+    });
   });
 
-  const fmtCompacto = (v) => {
-    if (Math.abs(v) >= 1000) return "R$ " + (v / 1000).toFixed(1).replace(".", ",") + "k";
-    return fmtBRL(v);
-  };
+  function renderizarLinksPortal() {
+    const nav = document.getElementById("portalLinksNav");
+    nav.innerHTML = PAGINAS_PORTAL.map(p => `
+      <a href="${p.href}" class="fit-pill-link ${p.active ? "active" : ""}">${p.label}</a>
+    `).join("");
+  }
+
+  const fmtBRL = (v) => Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  const fmtCompacto = (v) => Math.abs(v) >= 1000 ? "R$ " + (v / 1000).toFixed(1).replace(".", ",") + "k" : fmtBRL(v);
 
   function parseNumero(val) {
     if (typeof val === "number") return val;
@@ -1048,27 +975,17 @@
     return String(t || "").trim().toUpperCase();
   }
 
-  function renderizarNavegacaoPortal() {
-    const nav = document.getElementById("portalNav");
-    nav.innerHTML = ROTAS_PORTAL.map(r => `
-      <a href="${r.href}" class="page-link ${r.active ? "active" : ""}">${r.label}</a>
-    `).join("");
-  }
-
   function mudarView(idView, btn) {
     document.querySelectorAll(".view-pane").forEach(el => el.classList.remove("active"));
-    document.querySelectorAll(".rail-btn").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".topbar-actions .btn-pill-action").forEach(el => el.classList.remove("active"));
     document.getElementById(idView).classList.add("active");
     btn.classList.add("active");
   }
 
-  // =========================================================================
-  // 2. CARREGAMENTO DOS DADOS DA PLANILHA
-  // =========================================================================
   async function iniciarDashboard() {
-    renderizarNavegacaoPortal();
-    const syncEl = document.getElementById("syncIndicator");
-    syncEl.style.display = "inline-flex";
+    renderizarLinksPortal();
+    const badge = document.getElementById("loadingBadge");
+    badge.style.display = "inline-flex";
 
     try {
       const resp = await fetch(API_URL);
@@ -1080,9 +997,7 @@
         const [ano, mes, dia] = dtStr.split("-").map(Number);
         return {
           data: dtStr,
-          ano,
-          mes,
-          dia,
+          ano, mes, dia,
           supervisor: normTexto(r["SUPERVISOR"]),
           equipe: normTexto(r["EQUIPE"]),
           tipo: normTexto(r["TIPO"]),
@@ -1100,7 +1015,7 @@
       console.error("Erro ao carregar dados:", err);
       alert("Não foi possível carregar os dados da planilha. Verifique a URL do Apps Script.");
     } finally {
-      syncEl.style.display = "none";
+      badge.style.display = "none";
     }
   }
 
@@ -1121,12 +1036,15 @@
     selAno.addEventListener("change", () => { atualizarOpcoesMes(); atualizarPainel(); });
     document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarPainel(); });
     document.getElementById("filtroData").addEventListener("change", atualizarPainel);
+    document.getElementById("btnLimparDataCal").addEventListener("click", () => {
+      document.getElementById("filtroData").value = "TODOS";
+      atualizarPainel();
+    });
   }
 
   function atualizarOpcoesMes() {
     const anoSel = Number(document.getElementById("filtroAno").value);
     const mesesDisp = [...new Set(rawFaturamento.filter(r => r.ano === anoSel).map(r => r.mes))].sort((a, b) => b - a);
-
     const selMes = document.getElementById("filtroMes");
     selMes.innerHTML = mesesDisp.map(m => `<option value="${m}">${NOMES_MESES[m]}</option>`).join("");
     atualizarOpcoesData();
@@ -1151,9 +1069,6 @@
       }).join("");
   }
 
-  // =========================================================================
-  // 3. CÁLCULOS E ATUALIZAÇÃO DO PAINEL
-  // =========================================================================
   function atualizarPainel() {
     const anoSel = Number(document.getElementById("filtroAno").value);
     const mesSel = Number(document.getElementById("filtroMes").value);
@@ -1161,13 +1076,11 @@
     const dataSel = document.getElementById("filtroData").value;
 
     const nomeTitulo = procSel === "TODOS" ? "FAT. CONSOLIDADO" : `FAT. ${procSel}`;
-    document.getElementById("tituloProcesso").innerHTML =
-      `${nomeTitulo} <span class="light">| ${NOMES_MESES[mesSel]} ${anoSel}</span>`;
+    document.getElementById("tituloProcesso").innerHTML = `${nomeTitulo} <span>| ${NOMES_MESES[mesSel]} ${anoSel}</span>`;
+    document.getElementById("calMesLabel").textContent = `${NOMES_MESES[mesSel]} ${anoSel}`;
 
     const baseMesProcesso = rawFaturamento.filter(r =>
-      r.ano === anoSel &&
-      r.mes === mesSel &&
-      (procSel === "TODOS" || r.processo === procSel)
+      r.ano === anoSel && r.mes === mesSel && (procSel === "TODOS" || r.processo === procSel)
     );
 
     const dadosFiltrados = dataSel === "TODOS"
@@ -1179,29 +1092,20 @@
     const diasTrabalhados = datasUnicas.length;
 
     const mapaEquipes = new Map();
-
     baseMesProcesso.forEach(r => {
       const chave = `${r.processo}|${r.equipe}`;
       if (!mapaEquipes.has(chave)) {
         mapaEquipes.set(chave, {
-          supervisor: r.supervisor,
-          equipe: r.equipe,
-          processo: r.processo,
-          tipo: r.tipo,
-          veiculo: r.veiculo,
-          metaMensal: r.valorMensal,
-          realizado: 0
+          supervisor: r.supervisor, equipe: r.equipe, processo: r.processo,
+          tipo: r.tipo, veiculo: r.veiculo, metaMensal: r.valorMensal, realizado: 0
         });
       }
-      const item = mapaEquipes.get(chave);
-      if (r.valorMensal > 0) item.metaMensal = r.valorMensal;
+      if (r.valorMensal > 0) mapaEquipes.get(chave).metaMensal = r.valorMensal;
     });
 
     dadosFiltrados.forEach(r => {
       const chave = `${r.processo}|${r.equipe}`;
-      if (mapaEquipes.has(chave)) {
-        mapaEquipes.get(chave).realizado += r.valorDia;
-      }
+      if (mapaEquipes.has(chave)) mapaEquipes.get(chave).realizado += r.valorDia;
     });
 
     const listaEquipes = Array.from(mapaEquipes.values()).map(eq => {
@@ -1215,127 +1119,93 @@
     const totalRealizado = dadosFiltrados.reduce((s, r) => s + r.valorDia, 0);
     const totalDelta = totalPrevisto - totalRealizado;
     const qtdEquipes = listaEquipes.length;
-    const fatEquipeDia = (qtdEquipes > 0 && diasTrabalhados > 0)
-      ? totalRealizado / (qtdEquipes * diasTrabalhados)
-      : 0;
-
+    const fatEquipeDia = (qtdEquipes > 0 && diasTrabalhados > 0) ? totalRealizado / (qtdEquipes * diasTrabalhados) : 0;
     const pctPrevisto = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
     const pctMetaMensal = totalMetaMensal > 0 ? (totalRealizado / totalMetaMensal) * 100 : 0;
 
-    document.getElementById("badgeDiasUteisTop").textContent = `${diasUteis} Dias Úteis`;
+    document.getElementById("badgeDiasUteisTop").innerHTML = `<i class="fa-solid fa-briefcase"></i> ${diasUteis} Dias Úteis`;
     document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
     document.getElementById("tagQtdEquipes").textContent = `${qtdEquipes} equipes`;
-    document.getElementById("subDiasUteis").textContent = `Base ${diasUteis}d`;
-
     document.getElementById("kpiPrevisto").textContent = fmtBRL(totalPrevisto);
     document.getElementById("tagDiasTrab").textContent = `${diasTrabalhados} dias trab.`;
-
     document.getElementById("kpiRealizado").textContent = fmtBRL(totalRealizado);
+    document.getElementById("subPctPrevisto").textContent = `${pctPrevisto.toFixed(1).replace(".", ",")}% previsto`;
     document.getElementById("tagFatDia").textContent = `${fmtCompacto(fatEquipeDia)}/eq/dia`;
-    document.getElementById("subPctPrevisto").textContent = `${pctPrevisto.toFixed(1).replace(".", ",")}%`;
 
     const elDelta = document.getElementById("kpiDelta");
     elDelta.textContent = fmtBRL(totalDelta);
-    elDelta.className = "kpi-metric tabular " + (totalDelta <= 0 ? "c-emerald" : "c-rose");
+    elDelta.className = totalDelta <= 0 ? "c-emerald" : "c-rose";
 
-    const elStatusDelta = document.getElementById("subStatusDelta");
-    elStatusDelta.textContent = totalDelta <= 0 ? "No ritmo" : "Abaixo";
-    elStatusDelta.className = "pill-status " + (totalDelta <= 0 ? "pill-emerald" : "pill-rose");
+    document.getElementById("calPctMeta").textContent = pctMetaMensal.toFixed(0) + "%";
+    document.getElementById("calSubInfo").textContent = `${diasTrabalhados}d trab. • ${qtdEquipes} equipes`;
 
-    const arcoTotal = 314;
-    const frac = Math.min(Math.max(pctMetaMensal / 100, 0), 1);
-    document.getElementById("gaugeArc").style.strokeDashoffset = (arcoTotal * (1 - frac)).toFixed(1);
-    document.getElementById("gaugePctText").textContent = pctMetaMensal.toFixed(0) + "%";
-    document.getElementById("statDiasTrab").textContent = diasTrabalhados;
-    document.getElementById("statQtdEquipes").textContent = qtdEquipes;
-    document.getElementById("statMediaDia").textContent = fmtCompacto(fatEquipeDia);
-
-    renderizarTopologia(procSel, totalRealizado, listaEquipes);
+    renderizarCalendario(anoSel, mesSel, baseMesProcesso, dataSel);
+    renderizarBolhasEquipes(listaEquipes, totalRealizado);
     renderizarGraficoTemporal(dadosFiltrados, datasUnicas);
     renderizarGraficoDiaSemana(dadosFiltrados);
     renderizarGraficoEquipe(listaEquipes, "chartEquipeMini", true);
     renderizarGraficoEquipe(listaEquipes, "chartEquipeFull", false);
-    renderizarTabelaSupervisor(listaEquipes);
+    renderizarListaSupervisor(listaEquipes);
     renderizarTabelaResumo(listaEquipes);
   }
 
-  // =========================================================================
-  // 4. TOPOLOGIA, GRÁFICOS E TABELAS
-  // =========================================================================
-  function renderizarTopologia(procSel, totalRealizado, listaEquipes) {
-    const container = document.getElementById("topologyContainer");
-    const topEquipes = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 6);
+  function renderizarCalendario(ano, mes, baseMesProcesso, dataAtiva) {
+    const grid = document.getElementById("calDiasGrid");
+    const diasNoMes = new Date(ano, mes, 0).getDate();
+    const diasComDados = new Set(baseMesProcesso.map(r => r.data));
+    const mesStr = String(mes).padStart(2, "0");
 
-    if (topEquipes.length === 0) {
-      container.innerHTML = `<div style="color:#8b9bb4; font-size:12px;">Sem dados para exibir topologia.</div>`;
-      return;
+    let html = "";
+    for (let dia = 1; dia <= 31; dia++) {
+      if (dia <= diasNoMes) {
+        const diaStr = String(dia).padStart(2, "0");
+        const iso = `${ano}-${mesStr}-${diaStr}`;
+        const hasFat = diasComDados.has(iso);
+        const isActive = dataAtiva === iso;
+        html += `<div class="fit-cal-day ${hasFat ? "has-fat" : ""} ${isActive ? "active-day" : ""}" data-iso="${iso}">${dia}</div>`;
+      } else {
+        html += `<div class="fit-cal-day" style="opacity:0.22; cursor:default;">${dia}</div>`;
+      }
     }
+    grid.innerHTML = html;
 
-    const w = 420, h = 265;
-    const cx = 74, cy = h / 2;
-    const stepY = h / (topEquipes.length + 1);
-
-    let pathsSvg = "";
-    let nodesSvg = "";
-
-    topEquipes.forEach((eq, idx) => {
-      const ny = stepY * (idx + 1);
-      const nx = 245;
-      const atingiu = eq.realizado >= eq.previsto;
-      const corStatus = atingiu ? "#10b981" : "#f59e0b";
-
-      pathsSvg += `
-        <path d="M ${cx + 38} ${cy} C ${cx + 115} ${cy}, ${nx - 70} ${ny}, ${nx} ${ny}"
-              fill="none" stroke="rgba(56, 189, 248, 0.34)" stroke-width="1.5" />
-        <circle cx="${nx}" cy="${ny}" r="3.2" fill="${corStatus}" />
-      `;
-
-      nodesSvg += `
-        <g transform="translate(${nx + 6}, ${ny - 14})">
-          <rect width="164" height="28" rx="9" fill="rgba(12, 20, 36, 0.92)"
-                stroke="rgba(255,255,255,0.12)" stroke-width="1" />
-          <circle cx="12" cy="14" r="4" fill="${corStatus}" />
-          <text x="22" y="12" fill="#f8fafc" font-size="9.5" font-weight="700">${eq.equipe}</text>
-          <text x="22" y="22" fill="#38bdf8" font-size="9" font-weight="600">${fmtCompacto(eq.realizado)}</text>
-        </g>
-      `;
+    grid.querySelectorAll(".fit-cal-day[data-iso]").forEach(el => {
+      el.addEventListener("click", () => {
+        const iso = el.getAttribute("data-iso");
+        const selData = document.getElementById("filtroData");
+        const existe = [...selData.options].some(o => o.value === iso);
+        if (existe) {
+          selData.value = (selData.value === iso) ? "TODOS" : iso;
+          atualizarPainel();
+        }
+      });
     });
+  }
 
-    container.innerHTML = `
-      <svg viewBox="0 0 ${w} ${h}">
-        <defs>
-          <radialGradient id="orbGlowHud" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.48"/>
-            <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        ${pathsSvg}
-        <circle cx="${cx}" cy="${cy}" r="62" fill="url(#orbGlowHud)" />
-        <circle cx="${cx}" cy="${cy}" r="48" fill="none" stroke="rgba(56,189,248,0.28)" stroke-dasharray="3 3" />
-        <circle cx="${cx}" cy="${cy}" r="38" fill="rgba(9, 15, 28, 0.96)" stroke="#38bdf8" stroke-width="1.8" />
-        <text x="${cx}" y="${cy - 5}" text-anchor="middle" fill="#94a3b8" font-size="8" font-weight="700">
-          ${procSel === "TODOS" ? "GERAL" : procSel.slice(0, 11)}
-        </text>
-        <text x="${cx}" y="${cy + 10}" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="800">
-          ${fmtCompacto(totalRealizado)}
-        </text>
-        ${nodesSvg}
-      </svg>
-    `;
+  function renderizarBolhasEquipes(listaEquipes, totalRealizado) {
+    const top3 = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 3);
+    const ids = ["bEquipes1", "bEquipes2", "bEquipes3"];
+    ids.forEach((id, idx) => {
+      const el = document.getElementById(id);
+      const item = top3[idx];
+      if (item && totalRealizado > 0) {
+        const pct = Math.round((item.realizado / totalRealizado) * 100);
+        el.innerHTML = `<span>${pct}%</span><small>${item.equipe.slice(0, 9)}</small>`;
+      } else {
+        el.innerHTML = `<span>0%</span><small>-</small>`;
+      }
+    });
   }
 
   const corEixo = "#94a3b8";
-  const corGrid = "rgba(255, 255, 255, 0.055)";
+  const corGrid = "rgba(255, 255, 255, 0.06)";
 
   function renderizarGraficoTemporal(dados, datasUnicas) {
     const labels = datasUnicas.map(d => {
       const [, m, dia] = d.split("-");
       return `${Number(dia)}/${Number(m)}`;
     });
-
-    const valores = datasUnicas.map(d =>
-      dados.filter(r => r.data === d).reduce((s, r) => s + r.valorDia, 0)
-    );
+    const valores = datasUnicas.map(d => dados.filter(r => r.data === d).reduce((s, r) => s + r.valorDia, 0));
 
     if (charts.temporal) charts.temporal.destroy();
     charts.temporal = new Chart(document.getElementById("chartTemporal"), {
@@ -1345,14 +1215,14 @@
         datasets: [{
           label: "Realizado (R$)",
           data: valores,
-          borderColor: "#38bdf8",
-          backgroundColor: "rgba(56, 189, 248, 0.15)",
+          borderColor: "#c4b5fd",
+          backgroundColor: "rgba(196, 181, 253, 0.14)",
           fill: true,
-          borderWidth: 2.5,
+          borderWidth: 2.4,
           pointBackgroundColor: "#ffffff",
-          pointBorderColor: "#38bdf8",
+          pointBorderColor: "#c4b5fd",
           pointRadius: 3.5,
-          tension: 0.32
+          tension: 0.36
         }]
       },
       options: {
@@ -1360,35 +1230,19 @@
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          datalabels: {
-            align: "top",
-            color: "#e2e8f0",
-            font: { size: 9, weight: "600" },
-            formatter: (v) => fmtCompacto(v)
-          }
+          datalabels: { align: "top", color: "#e2e8f0", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
         },
         scales: {
           x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { color: corGrid } },
-          y: {
-            beginAtZero: true,
-            ticks: { color: corEixo, font: { size: 10 }, callback: (v) => (v / 1000) + "k" },
-            grid: { color: corGrid }
-          }
+          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
         }
       }
     });
   }
 
   function renderizarGraficoDiaSemana(dados) {
-    const nomesDias = [
-      "DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA",
-      "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"
-    ];
-    const abrev = {
-      "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA",
-      "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM"
-    };
-
+    const nomesDias = ["DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"];
+    const abrev = { "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA", "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM" };
     const somaPorDia = {};
     DIAS_SEMANA_ORDEM.forEach(d => somaPorDia[d] = 0);
 
@@ -1399,20 +1253,16 @@
     });
 
     const ativos = DIAS_SEMANA_ORDEM.filter(d => somaPorDia[d] > 0 || d !== "DOMINGO");
-    const labels = ativos.map(d => abrev[d]);
-    const valores = ativos.map(d => somaPorDia[d]);
-
     if (charts.diaSemana) charts.diaSemana.destroy();
     charts.diaSemana = new Chart(document.getElementById("chartDiaSemana"), {
       type: "bar",
       data: {
-        labels,
+        labels: ativos.map(d => abrev[d]),
         datasets: [{
           label: "Faturamento",
-          data: valores,
-          backgroundColor: "rgba(56, 189, 248, 0.78)",
-          hoverBackgroundColor: "#38bdf8",
-          borderRadius: 8
+          data: ativos.map(d => somaPorDia[d]),
+          backgroundColor: ["#c4b5fd", "#38bdf8", "#fde047", "#34d399", "#818cf8", "#f472b6"],
+          borderRadius: 9
         }]
       },
       options: {
@@ -1420,21 +1270,11 @@
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          datalabels: {
-            anchor: "end",
-            align: "top",
-            color: "#cbd5e1",
-            font: { size: 9.5, weight: "600" },
-            formatter: (v) => v > 0 ? fmtCompacto(v) : ""
-          }
+          datalabels: { anchor: "end", align: "top", color: "#cbd5e1", font: { size: 9.5, weight: "600" }, formatter: v => v > 0 ? fmtCompacto(v) : "" }
         },
         scales: {
           x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
-          y: {
-            beginAtZero: true,
-            ticks: { color: corEixo, font: { size: 10 }, callback: (v) => (v / 1000) + "k" },
-            grid: { color: corGrid }
-          }
+          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
         }
       }
     });
@@ -1443,26 +1283,15 @@
   function renderizarGraficoEquipe(listaEquipes, canvasId, limitarTop) {
     const ordenadas = [...listaEquipes].sort((a, b) => b.realizado - a.realizado);
     const recorte = limitarTop ? ordenadas.slice(0, 6) : ordenadas;
-    const labels = recorte.map(e => e.equipe);
 
     if (charts[canvasId]) charts[canvasId].destroy();
     charts[canvasId] = new Chart(document.getElementById(canvasId), {
       type: "bar",
       data: {
-        labels,
+        labels: recorte.map(e => e.equipe),
         datasets: [
-          {
-            label: "Realizado",
-            data: recorte.map(e => e.realizado),
-            backgroundColor: "#38bdf8",
-            borderRadius: 6
-          },
-          {
-            label: "Previsto",
-            data: recorte.map(e => e.previsto),
-            backgroundColor: "rgba(255, 255, 255, 0.22)",
-            borderRadius: 6
-          }
+          { label: "Realizado", data: recorte.map(e => e.realizado), backgroundColor: "#38bdf8", borderRadius: 6 },
+          { label: "Previsto", data: recorte.map(e => e.previsto), backgroundColor: "rgba(196, 181, 253, 0.35)", borderRadius: 6 }
         ]
       },
       options: {
@@ -1471,57 +1300,38 @@
         maintainAspectRatio: false,
         plugins: {
           legend: { labels: { color: "#cbd5e1", font: { size: 10.5 } } },
-          datalabels: {
-            anchor: "end",
-            align: "right",
-            color: "#e2e8f0",
-            font: { size: 9, weight: "600" },
-            formatter: (v) => fmtCompacto(v)
-          }
+          datalabels: { anchor: "end", align: "right", color: "#e2e8f0", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
         },
         scales: {
-          x: {
-            beginAtZero: true,
-            ticks: { color: corEixo, font: { size: 10 }, callback: (v) => (v / 1000) + "k" },
-            grid: { color: corGrid }
-          },
-          y: {
-            ticks: { color: "#f8fafc", font: { size: 10.5, weight: "600" } },
-            grid: { display: false }
-          }
+          x: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
+          y: { ticks: { color: "#f8fafc", font: { size: 10.5, weight: "600" } }, grid: { display: false } }
         }
       }
     });
   }
 
-  function renderizarTabelaSupervisor(listaEquipes) {
+  function renderizarListaSupervisor(listaEquipes) {
     const porSup = {};
     listaEquipes.forEach(e => {
-      const sup = e.supervisor.split(" ")[0];
+      const sup = e.supervisor.split(" ")[0] || "SUP";
       if (!porSup[sup]) porSup[sup] = { meta: 0, realizado: 0 };
       porSup[sup].meta += e.metaMensal;
       porSup[sup].realizado += e.realizado;
     });
 
     const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
-    let totM = 0, totR = 0;
-
-    document.getElementById("tbodySupervisor").innerHTML = linhas.map(([sup, v]) => {
-      totM += v.meta; totR += v.realizado;
-      return `
-        <tr>
-          <td><strong>${sup}</strong></td>
-          <td class="num">${fmtCompacto(v.meta)}</td>
-          <td class="num c-cyan">${fmtCompacto(v.realizado)}</td>
-        </tr>`;
-    }).join("");
-
-    document.getElementById("tfootSupervisor").innerHTML = `
-      <tr>
-        <td>Total Geral</td>
-        <td class="num">${fmtCompacto(totM)}</td>
-        <td class="num c-emerald">${fmtCompacto(totR)}</td>
-      </tr>`;
+    document.getElementById("listaSupervisorCards").innerHTML = linhas.map(([sup, v]) => `
+      <div class="sup-row-card">
+        <div style="display:flex; align-items:center; gap:9px;">
+          <div class="sup-avatar">${sup.slice(0, 2)}</div>
+          <div>
+            <div style="font-size:12px; font-weight:700;">${sup}</div>
+            <div style="font-size:10px; color:#94a3b8;">Meta: ${fmtCompacto(v.meta)}</div>
+          </div>
+        </div>
+        <div class="sup-badge-val">${fmtCompacto(v.realizado)}</div>
+      </div>
+    `).join("");
   }
 
   function renderizarTabelaResumo(listaEquipes) {
@@ -1530,7 +1340,6 @@
     document.getElementById("badgeTabelaCount").textContent = `${ordenadas.length} registros`;
 
     let totM = 0, totP = 0, totR = 0, totD = 0;
-
     document.getElementById("tbodyResumo").innerHTML = ordenadas.map(e => {
       totM += e.metaMensal; totP += e.previsto; totR += e.realizado; totD += e.delta;
       return `
@@ -1543,7 +1352,7 @@
           <td class="num">${fmtBRL(e.metaMensal)}</td>
           <td class="num">${fmtBRL(e.previsto)}</td>
           <td class="num c-cyan">${fmtBRL(e.realizado)}</td>
-          <td class="num ${e.delta <= 0 ? 'c-emerald' : 'c-rose'}">${fmtBRL(e.delta)}</td>
+          <td class="num ${e.delta <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(e.delta)}</td>
         </tr>`;
     }).join("");
 
@@ -1553,7 +1362,7 @@
         <td class="num">${fmtBRL(totM)}</td>
         <td class="num">${fmtBRL(totP)}</td>
         <td class="num c-cyan">${fmtBRL(totR)}</td>
-        <td class="num ${totD <= 0 ? 'c-emerald' : 'c-rose'}">${fmtBRL(totD)}</td>
+        <td class="num ${totD <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(totD)}</td>
       </tr>`;
   }
 
