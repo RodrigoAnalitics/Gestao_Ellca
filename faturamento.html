@@ -55,6 +55,93 @@
       gap: 15px;
     }
 
+    /* ================= TOOLTIP MODERNO FLUTUANTE (GLASSMORPHISM) ================= */
+    #ellcaModernTooltip {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      min-width: 195px;
+      max-width: 270px;
+      padding: 11px 14px;
+      border-radius: 13px;
+      background: linear-gradient(155deg, rgba(13, 22, 42, 0.92) 0%, rgba(6, 11, 24, 0.96) 100%);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.68),
+        0 0 18px rgba(56, 189, 248, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      color: #f8fafc;
+      font-size: 11.5px;
+      opacity: 0;
+      transform: translateY(6px) scale(0.97);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    #ellcaModernTooltip.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .tt-header {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      padding-bottom: 6px;
+      margin-bottom: 7px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .tt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .tt-label-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #cbd5e1;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .tt-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tt-val {
+      font-weight: 800;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+    }
+
+    .tt-footer-pill {
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
     /* ================= BARRA SUPERIOR ================= */
     .top-navbar-collapse {
       max-height: 90px;
@@ -372,25 +459,6 @@
       color: #ffffff;
     }
 
-    .hero-btn-neon {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.28), rgba(37, 99, 235, 0.32));
-      border: 1px solid rgba(56, 189, 248, 0.72);
-      color: #7dd3fc;
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.22);
-    }
-
-    .hero-btn-neon:hover {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.45), rgba(37, 99, 235, 0.48));
-      color: #ffffff;
-    }
-
-    .hero-btn-neon.off {
-      background: rgba(15, 23, 42, 0.55);
-      border-color: rgba(148, 163, 184, 0.3);
-      color: #94a3b8;
-      box-shadow: none;
-    }
-
     .hero-btn-menu-toggle {
       background: #34d399;
       border: 1px solid #6ee7b7;
@@ -416,6 +484,35 @@
     .hero-btn-gold:hover {
       background: rgba(234, 179, 8, 0.28);
       color: #fef08a;
+    }
+
+    /* BOTÃO COMPACTO INDIVIDUAL DE RÓTULOS DENTRO DE CADA GRÁFICO */
+    .btn-chart-label {
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 7px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #7dd3fc;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.18s ease;
+    }
+
+    .btn-chart-label:hover {
+      background: rgba(56, 189, 248, 0.26);
+      color: #ffffff;
+    }
+
+    .btn-chart-label.off {
+      background: rgba(15, 23, 42, 0.55);
+      border-color: rgba(148, 163, 184, 0.22);
+      color: #64748b;
     }
 
     /* ================= PAINEL DE FILTROS COM VIDRO ================= */
@@ -703,7 +800,7 @@
     }
 
     .dot-blue { width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
-    .dot-silver { width: 7px; height: 7px; border-radius: 50%; background: #64748b; }
+    .dot-prev { width: 7px; height: 7px; border-radius: 50%; background: #1e3a8a; border: 1px solid rgba(96, 165, 250, 0.45); }
 
     .chart-header-bar {
       display: flex;
@@ -877,19 +974,19 @@
       display: block;
     }
 
-    /* ANÉIS CONCÊNTRICOS */
+    /* ANÉIS CONCÊNTRICOS MAIS GROSSOS */
     .rings-widget-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 225px;
+      height: 245px;
     }
 
     .rings-canvas-box {
       position: relative;
-      width: 168px;
-      height: 168px;
+      width: 184px;
+      height: 184px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -899,19 +996,19 @@
       position: absolute;
       text-align: center;
       pointer-events: none;
-      max-width: 82px;
+      max-width: 78px;
       line-height: 1.15;
     }
 
     .rings-center-val {
-      font-size: 14.5px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: -0.3px;
     }
 
     .rings-center-sub {
-      font-size: 9px;
+      font-size: 8.5px;
       color: #94a3b8;
       font-weight: 600;
       margin-top: 2px;
@@ -959,38 +1056,40 @@
       align-items: stretch;
     }
 
+    /* VELOCÍMETRO MAIOR */
     .gauge-box {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 225px;
+      height: 245px;
     }
 
     .gauge-svg-wrap {
       position: relative;
-      width: 205px;
-      height: 122px;
+      width: 240px;
+      height: 142px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
+      margin-top: 6px;
     }
 
     .gauge-center-txt {
       position: absolute;
-      bottom: 4px;
+      bottom: 6px;
       text-align: center;
     }
 
     .gauge-pct {
-      font-size: 23px;
+      font-size: 27px;
       font-weight: 800;
       color: #ffffff;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.5px;
     }
 
     .gauge-sub {
-      font-size: 10px;
+      font-size: 10.5px;
       color: #94a3b8;
       font-weight: 600;
     }
@@ -1141,6 +1240,9 @@
 </head>
 <body>
 
+  <!-- TOOLTIP MODERNO FLUTUANTE -->
+  <div id="ellcaModernTooltip"></div>
+
   <div class="dashboard-container">
 
     <!-- 1. BARRA SUPERIOR -->
@@ -1205,11 +1307,6 @@
 
         <button type="button" class="hero-btn hero-btn-cyan" id="btnBaixarPlanilha">
           <i class="fa-solid fa-file-csv"></i> EXPORTAR CSV
-        </button>
-
-        <button type="button" class="hero-btn hero-btn-neon" id="btnToggleRotulos" title="Ativar ou desativar números nos gráficos">
-          <i class="fa-solid fa-tag" id="iconToggleRotulos"></i>
-          <span id="txtToggleRotulos">RÓTULOS: ON</span>
         </button>
 
         <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu">
@@ -1336,14 +1433,20 @@
                   </div>
                   <div class="line-legend-inline">
                     <span><i class="dot-blue"></i> Realizado</span>
-                    <span><i class="dot-silver"></i> Previsto</span>
+                    <span><i class="dot-prev"></i> Previsto</span>
                   </div>
                 </div>
 
-                <div class="seg-group" id="seletorSerie">
-                  <button type="button" class="seg-btn active" data-serie="diario">Diário</button>
-                  <button type="button" class="seg-btn" data-serie="acumulado">Acumulado</button>
-                  <button type="button" class="seg-btn" data-serie="diaSemana">Dia Semana</button>
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                  <button type="button" class="btn-chart-label" data-chart-label="principal" title="Mostrar ou ocultar rótulos deste gráfico">
+                    <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+                  </button>
+
+                  <div class="seg-group" id="seletorSerie">
+                    <button type="button" class="seg-btn active" data-serie="diario">Diário</button>
+                    <button type="button" class="seg-btn" data-serie="acumulado">Acumulado</button>
+                    <button type="button" class="seg-btn" data-serie="diaSemana">Dia Semana</button>
+                  </div>
                 </div>
               </div>
 
@@ -1418,30 +1521,31 @@
 
     <!-- 5. GRADE MÉDIA -->
     <div class="mid-charts-grid tabular">
+      <!-- VELOCÍMETRO DA META MAIOR -->
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
               <span class="card-header-title">Velocímetro da Meta</span>
               <span class="card-header-sub" style="color:#38bdf8;">Mensal</span>
             </div>
 
             <div class="gauge-box">
               <div class="gauge-svg-wrap">
-                <svg viewBox="0 0 220 125" width="205" height="118">
+                <svg viewBox="0 0 240 140" width="236" height="138">
                   <defs>
                     <linearGradient id="blueGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stop-color="#091326" />
-                      <stop offset="35%" stop-color="#1d4ed8" />
-                      <stop offset="75%" stop-color="#38bdf8" />
+                      <stop offset="32%" stop-color="#1d4ed8" />
+                      <stop offset="72%" stop-color="#38bdf8" />
                       <stop offset="100%" stop-color="#34d399" />
                     </linearGradient>
                   </defs>
-                  <path d="M 20 108 A 90 90 0 0 1 200 108"
-                        fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="13" stroke-linecap="round" />
-                  <path id="gaugeArcPath" d="M 20 108 A 90 90 0 0 1 200 108"
-                        fill="none" stroke="url(#blueGaugeGrad)" stroke-width="13"
-                        stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" />
+                  <path d="M 20 120 A 100 100 0 0 1 220 120"
+                        fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="16" stroke-linecap="round" />
+                  <path id="gaugeArcPath" d="M 20 120 A 100 100 0 0 1 220 120"
+                        fill="none" stroke="url(#blueGaugeGrad)" stroke-width="16"
+                        stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round" />
                 </svg>
                 <div class="gauge-center-txt">
                   <div class="gauge-pct" id="gaugePctValue">0%</div>
@@ -1464,10 +1568,11 @@
         </div>
       </div>
 
+      <!-- ANÉIS MAIS GROSSOS -->
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
               <span class="card-header-title">Faturamento por Tipo</span>
               <span class="card-header-sub" style="background:rgba(6,10,20,0.65); border:1px solid rgba(255,255,255,0.09); padding:3px 9px; border-radius:7px;">Top 3 tipos</span>
             </div>
@@ -1490,11 +1595,13 @@
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
               <span class="card-header-title">Top Equipes (Barras)</span>
-              <span class="card-header-sub">Realizado</span>
+              <button type="button" class="btn-chart-label" data-chart-label="barrasEq" title="Mostrar ou ocultar rótulos deste gráfico">
+                <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+              </button>
             </div>
-            <div style="height: 225px; width: 100%;">
+            <div style="height: 245px; width: 100%;">
               <canvas id="chartBarrasEquipes"></canvas>
             </div>
           </div>
@@ -1507,9 +1614,11 @@
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
               <span class="card-header-title">Faturamento por Dia da Semana</span>
-              <span class="card-header-sub">R$ Realizado</span>
+              <button type="button" class="btn-chart-label" data-chart-label="diaSem" title="Mostrar ou ocultar rótulos deste gráfico">
+                <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+              </button>
             </div>
             <div style="height: 225px; width: 100%;">
               <canvas id="chartDiaSemana"></canvas>
@@ -1521,9 +1630,11 @@
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
               <span class="card-header-title">Previsto x Realizado por Supervisor</span>
-              <span class="card-header-sub">Comparativo</span>
+              <button type="button" class="btn-chart-label" data-chart-label="supComp" title="Mostrar ou ocultar rótulos deste gráfico">
+                <i class="fa-solid fa-tag"></i> <span>Rótulos</span>
+              </button>
             </div>
             <div style="height: 225px; width: 100%;">
               <canvas id="chartSupComparativo"></canvas>
@@ -1606,10 +1717,17 @@
 
   let rawFaturamento = [];
   let serieAtiva = "diario";
-  let mostrarRotulos = true;
   let variacaoIA = 0;
   let charts = {};
   let ultimoEstado = null;
+
+  // Controle individual de rótulos por gráfico
+  const rotulosAtivos = {
+    principal: true,
+    barrasEq: true,
+    diaSem: true,
+    supComp: true
+  };
 
   Chart.register(ChartDataLabels);
 
@@ -1619,10 +1737,10 @@
     beforeDatasetDraw(chart, args) {
       const { ctx } = chart;
       if (chart.config.type === "doughnut") return;
-      if (args.index === 0 || chart.config.type === "bar") {
+      if (args.index === 0 || (chart.config.type === "bar" && args.index === chart.data.datasets.length - 1)) {
         ctx.save();
-        ctx.shadowColor = "rgba(56, 189, 248, 0.42)";
-        ctx.shadowBlur = 14;
+        ctx.shadowColor = "rgba(56, 189, 248, 0.36)";
+        ctx.shadowBlur = 12;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
       }
@@ -1632,6 +1750,91 @@
     }
   };
   Chart.register(neonGlowPlugin);
+
+  // =========================================================================
+  // TOOLTIP EXTERNO MODERNO EM VIDRO FOSCO (GLASSMORPHISM)
+  // =========================================================================
+  function externalModernTooltip(context) {
+    const { chart, tooltip } = context;
+    const el = document.getElementById("ellcaModernTooltip");
+
+    if (tooltip.opacity === 0) {
+      el.classList.remove("visible");
+      return;
+    }
+
+    const title = (tooltip.title && tooltip.title[0]) || "";
+    const dataPoints = tooltip.dataPoints || [];
+    if (!dataPoints.length) return;
+
+    let rowsHtml = "";
+    let valReal = null;
+    let valPrev = null;
+
+    dataPoints.forEach(dp => {
+      if (chart.config.type === "doughnut" && dp.dataIndex === 1) return;
+      const label = dp.dataset.label || dp.label || "";
+      const rawVal = typeof dp.parsed === "object" && dp.parsed !== null
+        ? (chart.options.indexAxis === "y" ? dp.parsed.x : dp.parsed.y)
+        : dp.parsed;
+
+      const isPrev = label.toLowerCase().includes("previsto");
+      const dotColor = isPrev ? "#3b82f6" : "#38bdf8";
+
+      if (isPrev) valPrev = rawVal;
+      else valReal = rawVal;
+
+      rowsHtml += `
+        <div class="tt-row">
+          <span class="tt-label-wrap">
+            <span class="tt-dot" style="background:${dotColor}; box-shadow:0 0 8px ${dotColor};"></span>
+            <span>${label}</span>
+          </span>
+          <span class="tt-val">${fmtBRL(rawVal)}</span>
+        </div>
+      `;
+    });
+
+    let footerHtml = "";
+    if (valReal !== null && valPrev !== null && valPrev > 0) {
+      const pct = ((valReal / valPrev) * 100).toFixed(1).replace(".", ",");
+      const corPct = valReal >= valPrev ? "#34d399" : "#f87171";
+      footerHtml = `
+        <div class="tt-footer-pill">
+          <span>Aderência</span>
+          <strong style="color:${corPct};">${pct}% do previsto</strong>
+        </div>
+      `;
+    }
+
+    el.innerHTML = `
+      <div class="tt-header">
+        <span>${title || "Detalhe"}</span>
+        <i class="fa-solid fa-chart-simple" style="color:#38bdf8; font-size:10px;"></i>
+      </div>
+      ${rowsHtml}
+      ${footerHtml}
+    `;
+
+    const rect = chart.canvas.getBoundingClientRect();
+    const ttWidth = el.offsetWidth || 210;
+    const ttHeight = el.offsetHeight || 95;
+
+    let left = rect.left + tooltip.caretX + 14;
+    let top = rect.top + tooltip.caretY - ttHeight / 2;
+
+    if (left + ttWidth > window.innerWidth - 14) {
+      left = rect.left + tooltip.caretX - ttWidth - 14;
+    }
+    if (top < 12) top = 12;
+    if (top + ttHeight > window.innerHeight - 12) {
+      top = window.innerHeight - ttHeight - 12;
+    }
+
+    el.style.left = `${left}px`;
+    el.style.top = `${top}px`;
+    el.classList.add("visible");
+  }
 
   function obterCaminhoFotoSupervisor(nome) {
     if (!nome) return "";
@@ -1903,7 +2106,8 @@
     document.getElementById("pctMetaMensalTxt").textContent = `${pctMetaMensal.toFixed(0)}% meta`;
     document.getElementById("statusRitmoTxt").textContent = totalDelta <= 0 ? "Acima do ritmo previsto" : "Abaixo do ritmo previsto";
 
-    const arcoLen = 283;
+    // Atualiza o velocímetro ampliado (comprimento do arco = 314)
+    const arcoLen = 314;
     const fracMeta = Math.min(Math.max(pctMetaMensal / 100, 0), 1);
     document.getElementById("gaugeArcPath").style.strokeDashoffset = (arcoLen * (1 - fracMeta)).toFixed(1);
     document.getElementById("gaugePctValue").textContent = `${pctMetaMensal.toFixed(0)}%`;
@@ -1943,38 +2147,15 @@
 
   const corEixo = "#94a3b8";
 
-  // DEGRADÊS MESCLANDO PRETO + AZUL ESCURO + AZUL NEON
+  // AZUL NEON DO REALIZADO
   function criarDegradeNeonVertical(ctx) {
     const { chart } = ctx;
     const { ctx: c, chartArea } = chart;
-    if (!chartArea) return "#1d4ed8";
+    if (!chartArea) return "#2563eb";
     const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-    g.addColorStop(0, "#050914");
-    g.addColorStop(0.45, "#172554");
-    g.addColorStop(0.82, "#2563eb");
+    g.addColorStop(0, "#1d4ed8");
+    g.addColorStop(0.55, "#2563eb");
     g.addColorStop(1, "#38bdf8");
-    return g;
-  }
-
-  function criarDegradeAreaNeon(ctx) {
-    const { chart } = ctx;
-    const { ctx: c, chartArea } = chart;
-    if (!chartArea) return "rgba(37, 99, 235, 0.28)";
-    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-    g.addColorStop(0, "rgba(56, 189, 248, 0.44)");
-    g.addColorStop(0.5, "rgba(23, 37, 84, 0.34)");
-    g.addColorStop(1, "rgba(5, 9, 20, 0.02)");
-    return g;
-  }
-
-  function criarDegradeAreaSecundaria(ctx) {
-    const { chart } = ctx;
-    const { ctx: c, chartArea } = chart;
-    if (!chartArea) return "rgba(30, 41, 59, 0.2)";
-    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-    g.addColorStop(0, "rgba(30, 58, 138, 0.24)");
-    g.addColorStop(0.6, "rgba(15, 23, 42, 0.16)");
-    g.addColorStop(1, "rgba(5, 9, 20, 0.0)");
     return g;
   }
 
@@ -1983,21 +2164,43 @@
     const { ctx: c, chartArea } = chart;
     if (!chartArea) return "#2563eb";
     const g = c.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
-    g.addColorStop(0, "#050914");
-    g.addColorStop(0.45, "#172554");
-    g.addColorStop(0.82, "#2563eb");
+    g.addColorStop(0, "#1d4ed8");
+    g.addColorStop(0.55, "#2563eb");
     g.addColorStop(1, "#38bdf8");
     return g;
   }
 
-  function criarDegradePretoAzulEscuroVertical(ctx) {
+  function criarDegradeAreaNeon(ctx) {
     const { chart } = ctx;
     const { ctx: c, chartArea } = chart;
-    if (!chartArea) return "#1e293b";
+    if (!chartArea) return "rgba(37, 99, 235, 0.34)";
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, "rgba(56, 189, 248, 0.44)");
+    g.addColorStop(0.55, "rgba(37, 99, 235, 0.16)");
+    g.addColorStop(1, "rgba(5, 9, 20, 0.0)");
+    return g;
+  }
+
+  // COR MAIS ESCURA DO PREVISTO (PRETO + AZUL ESCURO SUAVE)
+  function criarDegradePrevistoVertical(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "#0f172a";
     const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
     g.addColorStop(0, "#050811");
-    g.addColorStop(0.55, "#0f172a");
+    g.addColorStop(0.55, "#0d1b3e");
     g.addColorStop(1, "#1e3a8a");
+    return g;
+  }
+
+  function criarDegradeAreaPrevisto(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "rgba(30, 58, 138, 0.22)";
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, "rgba(30, 58, 138, 0.32)");
+    g.addColorStop(0.65, "rgba(10, 17, 36, 0.18)");
+    g.addColorStop(1, "rgba(5, 8, 17, 0.0)");
     return g;
   }
 
@@ -2064,25 +2267,27 @@
             borderColor: "#38bdf8",
             backgroundColor: (c) => criarDegradeAreaNeon(c),
             fill: true,
-            borderWidth: 2.8,
+            borderWidth: 2.5,
             tension: 0.45,
-            pointRadius: (c) => (c.dataIndex === 0 || c.dataIndex === serieRealizado.length - 1 || c.dataIndex === Math.floor(serieRealizado.length / 2) ? 4.5 : 2),
-            pointHoverRadius: 6.5,
+            pointRadius: 0,
+            pointHoverRadius: 5.5,
             pointBackgroundColor: "#38bdf8",
             pointBorderColor: "#050914",
-            pointBorderWidth: 1.8
+            pointBorderWidth: 1.5
           },
           {
             label: "Previsto",
             data: seriePrevisto,
-            borderColor: "rgba(96, 165, 250, 0.45)",
-            backgroundColor: (c) => criarDegradeAreaSecundaria(c),
+            borderColor: "rgba(30, 64, 175, 0.85)",
+            backgroundColor: (c) => criarDegradeAreaPrevisto(c),
             fill: true,
-            borderWidth: 1.8,
+            borderWidth: 1.6,
             tension: 0.45,
             pointRadius: 0,
             pointHoverRadius: 4.5,
-            pointBackgroundColor: "#93c5fd"
+            pointBackgroundColor: "#1d4ed8",
+            pointBorderColor: "#050914",
+            pointBorderWidth: 1.2
           }
         ]
       },
@@ -2094,7 +2299,7 @@
         plugins: {
           legend: { display: false },
           datalabels: {
-            display: (c) => mostrarRotulos && c.datasetIndex === 0 && serieRealizado.length <= 16,
+            display: (c) => rotulosAtivos.principal && c.datasetIndex === 0 && serieRealizado.length <= 16,
             align: "top",
             offset: 6,
             color: "#e0f2fe",
@@ -2102,17 +2307,8 @@
             formatter: v => v > 0 ? fmtCompacto(v) : ""
           },
           tooltip: {
-            backgroundColor: "#091122",
-            borderColor: "rgba(56, 189, 248, 0.45)",
-            borderWidth: 1,
-            titleColor: "#94a3b8",
-            bodyColor: "#ffffff",
-            padding: 12,
-            cornerRadius: 12,
-            displayColors: true,
-            callbacks: {
-              label: (ctx) => ` ${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}`
-            }
+            enabled: false,
+            external: externalModernTooltip
           }
         },
         scales: {
@@ -2133,6 +2329,7 @@
     });
   }
 
+  // ANÉIS MAIS GROSSOS (cutout: "46%")
   function renderizarAneisTipos(dados) {
     const porTipo = {};
     dados.forEach(r => {
@@ -2146,7 +2343,7 @@
     document.getElementById("ringsTotalCenter").textContent = fmtCompacto(totalGeral);
 
     const coresAnel = ["#38bdf8", "#2563eb", "#1e3a8a"];
-    const bordaAnel = ["#7dd3fc", "#60a5fa", "#3b82f6"];
+    const bordaAnel = ["rgba(125, 211, 252, 0.55)", "rgba(96, 165, 250, 0.45)", "rgba(59, 130, 246, 0.35)"];
     const trilhaFundo = "rgba(8, 14, 28, 0.72)";
 
     const datasets = [0, 1, 2].map(idx => {
@@ -2158,8 +2355,8 @@
         data: [val, resto || (val === 0 ? 1 : 0)],
         backgroundColor: [coresAnel[idx], trilhaFundo],
         borderColor: [bordaAnel[idx], "rgba(12, 18, 32, 0.85)"],
-        borderWidth: 1.5,
-        borderRadius: [18, 0]
+        borderWidth: 1,
+        borderRadius: [14, 0]
       };
     });
 
@@ -2189,21 +2386,13 @@
         responsive: true,
         maintainAspectRatio: false,
         rotation: -115,
-        cutout: "58%",
+        cutout: "46%",
         plugins: {
           legend: { display: false },
           datalabels: { display: false },
           tooltip: {
-            backgroundColor: "#091122",
-            borderColor: "rgba(56, 189, 248, 0.45)",
-            borderWidth: 1,
-            callbacks: {
-              label: (ctx) => {
-                if (ctx.dataIndex === 1) return null;
-                const pct = ((ctx.parsed / totalGeral) * 100).toFixed(1).replace(".", ",");
-                return ` ${ctx.dataset.label}: ${fmtBRL(ctx.parsed)} (${pct}%)`;
-              }
-            }
+            enabled: false,
+            external: externalModernTooltip
           }
         }
       }
@@ -2223,8 +2412,8 @@
           label: "Realizado",
           data: top5.map(e => e.realizado),
           backgroundColor: (c) => criarDegradeNeonHorizontal(c),
-          borderColor: "#38bdf8",
-          borderWidth: 1,
+          borderColor: "rgba(56, 189, 248, 0.45)",
+          borderWidth: 0.8,
           borderRadius: 8,
           borderSkipped: false
         }]
@@ -2237,13 +2426,17 @@
         plugins: {
           legend: { display: false },
           datalabels: {
-            display: () => mostrarRotulos,
+            display: () => rotulosAtivos.barrasEq,
             anchor: "end",
             align: "right",
             offset: 6,
             color: "#e0f2fe",
             font: { size: 9.5, weight: "700" },
             formatter: v => fmtCompacto(v)
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
           }
         },
         scales: {
@@ -2283,11 +2476,11 @@
       data: {
         labels: ativos.map(d => abrev[d]),
         datasets: [{
-          label: "Faturamento",
+          label: "Realizado",
           data: valores,
           backgroundColor: (c) => criarDegradeNeonVertical(c),
-          borderColor: "#38bdf8",
-          borderWidth: 1,
+          borderColor: "rgba(56, 189, 248, 0.45)",
+          borderWidth: 0.8,
           borderRadius: 8,
           borderSkipped: false
         }]
@@ -2299,13 +2492,17 @@
         plugins: {
           legend: { display: false },
           datalabels: {
-            display: () => mostrarRotulos,
+            display: () => rotulosAtivos.diaSem,
             anchor: "end",
             align: "top",
             offset: 5,
             color: "#e0f2fe",
             font: { size: 9.5, weight: "700" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
           }
         },
         scales: {
@@ -2346,9 +2543,9 @@
           {
             label: "Previsto",
             data: entries.map(e => e[1].previsto),
-            backgroundColor: (c) => criarDegradePretoAzulEscuroVertical(c),
-            borderColor: "rgba(96, 165, 250, 0.35)",
-            borderWidth: 1,
+            backgroundColor: (c) => criarDegradePrevistoVertical(c),
+            borderColor: "rgba(59, 130, 246, 0.32)",
+            borderWidth: 0.8,
             borderRadius: 7,
             borderSkipped: false
           },
@@ -2356,8 +2553,8 @@
             label: "Realizado",
             data: entries.map(e => e[1].realizado),
             backgroundColor: (c) => criarDegradeNeonVertical(c),
-            borderColor: "#38bdf8",
-            borderWidth: 1,
+            borderColor: "rgba(56, 189, 248, 0.45)",
+            borderWidth: 0.8,
             borderRadius: 7,
             borderSkipped: false
           }
@@ -2366,17 +2563,22 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
         layout: { padding: { top: 22, right: 12, left: 6, bottom: 4 } },
         plugins: {
           legend: { labels: { color: "#cbd5e1", font: { size: 10 }, padding: 12 } },
           datalabels: {
-            display: (c) => mostrarRotulos && c.datasetIndex === 1,
+            display: (c) => rotulosAtivos.supComp && c.datasetIndex === 1,
             anchor: "end",
             align: "top",
             offset: 4,
             color: "#e0f2fe",
             font: { size: 9, weight: "700" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
+          },
+          tooltip: {
+            enabled: false,
+            external: externalModernTooltip
           }
         },
         scales: {
@@ -2512,14 +2714,14 @@
       </tr>`;
   }
 
-  // BOTÃO ATIVAR / DESATIVAR RÓTULOS NOS GRÁFICOS
-  document.getElementById("btnToggleRotulos").addEventListener("click", () => {
-    mostrarRotulos = !mostrarRotulos;
-    const btn = document.getElementById("btnToggleRotulos");
-    const txt = document.getElementById("txtToggleRotulos");
-    btn.classList.toggle("off", !mostrarRotulos);
-    txt.textContent = mostrarRotulos ? "RÓTULOS: ON" : "RÓTULOS: OFF";
-    Object.values(charts).forEach(ch => { if (ch) ch.update(); });
+  // BOTÕES INDIVIDUAIS PARA ATIVAR / RETIRAR RÓTULOS DE CADA GRÁFICO
+  document.querySelectorAll("[data-chart-label]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const chave = btn.getAttribute("data-chart-label");
+      rotulosAtivos[chave] = !rotulosAtivos[chave];
+      btn.classList.toggle("off", !rotulosAtivos[chave]);
+      if (charts[chave]) charts[chave].update();
+    });
   });
 
   document.getElementById("btnToggleMenu").addEventListener("click", () => {
