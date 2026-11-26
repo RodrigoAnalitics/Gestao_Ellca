@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌀Ellca — Dashboard Faturamento</title>
+  <title>Ellca — Dashboard Faturamento</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -31,11 +31,11 @@
     }
 
     body {
-      background-color: #080510;
+      background-color: #060911;
       background-image:
-        radial-gradient(ellipse 60% 45% at 18% 8%, rgba(124, 58, 237, 0.22) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 45% at 88% 18%, rgba(168, 85, 247, 0.18) 0%, transparent 60%),
-        radial-gradient(ellipse 65% 50% at 50% 95%, rgba(79, 70, 229, 0.14) 0%, transparent 65%);
+        radial-gradient(ellipse 65% 45% at 18% 6%, rgba(37, 99, 235, 0.16) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 40% at 85% 15%, rgba(59, 130, 246, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 50% at 50% 96%, rgba(29, 78, 216, 0.12) 0%, transparent 65%);
       color: #f8fafc;
       min-height: 100vh;
       padding: 20px 24px 36px;
@@ -47,8 +47,8 @@
     }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #080510; }
-    ::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.35); border-radius: 999px; }
+    ::-webkit-scrollbar-track { background: #060911; }
+    ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.35); border-radius: 999px; }
 
     .dashboard-container {
       max-width: 1500px;
@@ -58,22 +58,22 @@
       gap: 16px;
     }
 
-    /* ================= CONTROLE MOSTRAR / ESCONDER MENU ================= */
+    /* ================= MOSTRAR / ESCONDER MENU ================= */
     .collapsible-chrome {
-      max-height: 360px;
+      max-height: 220px;
       opacity: 1;
       transform: translateY(0);
       overflow: hidden;
       transition: max-height 0.35s ease, opacity 0.28s ease, transform 0.32s ease, margin 0.32s ease;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     body.menu-hidden .collapsible-chrome {
       max-height: 0;
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-8px);
       pointer-events: none;
       margin-bottom: -16px;
     }
@@ -95,26 +95,43 @@
     }
 
     .brand-logo {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 9px;
+      gap: 10px;
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
-      font-size: 15px;
+      font-size: 16px;
       letter-spacing: -0.3px;
     }
 
-    .brand-orb {
-      width: 34px;
+    .brand-logo img {
       height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #8b5cf6, #c084fc);
-      display: flex;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 15px;
+      color: #ffffff;
+    }
+
+    .brand-fallback-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
-      box-shadow: 0 0 18px rgba(168, 85, 247, 0.45);
+      font-size: 15px;
     }
 
     .page-title {
@@ -129,9 +146,9 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 5px;
-      background: rgba(20, 14, 36, 0.85);
-      padding: 5px;
-      border-radius: 999px;
+      background: #0c111b;
+      padding: 4px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
@@ -139,25 +156,25 @@
       text-decoration: none;
       border: none;
       background: transparent;
-      color: #a1a1aa;
-      font-size: 11.5px;
+      color: #94a3b8;
+      font-size: 12px;
       font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 999px;
+      padding: 6px 15px;
+      border-radius: 9px;
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
     .nav-pill:hover {
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .nav-pill.active {
-      background: #ffffff;
-      color: #090612;
+      background: #2563eb;
+      color: #ffffff;
       font-weight: 700;
-      box-shadow: 0 2px 12px rgba(255, 255, 255, 0.22);
+      box-shadow: 0 2px 12px rgba(37, 99, 235, 0.35);
     }
 
     .header-right {
@@ -171,15 +188,15 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(21, 15, 38, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 999px;
-      padding: 7px 13px;
+      background: #0c111b;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 7px 12px;
       min-width: 195px;
     }
 
     .search-box i {
-      color: #9ca3af;
+      color: #64748b;
       font-size: 12px;
     }
 
@@ -195,10 +212,10 @@
     .icon-action-btn {
       height: 34px;
       padding: 0 13px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(21, 15, 38, 0.9);
-      color: #e5e7eb;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: #0c111b;
+      color: #e2e8f0;
       font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
@@ -209,29 +226,35 @@
     }
 
     .icon-action-btn:hover {
-      border-color: rgba(192, 132, 252, 0.55);
-      background: rgba(139, 92, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.55);
+      background: rgba(37, 99, 235, 0.16);
+      color: #ffffff;
+    }
+
+    .icon-action-btn.primary-blue {
+      background: #2563eb;
+      border-color: #3b82f6;
       color: #ffffff;
     }
 
     .icon-action-btn.toggled {
-      background: #ffffff;
-      color: #080510;
-      border-color: #ffffff;
+      background: #1d4ed8;
+      border-color: #60a5fa;
+      color: #ffffff;
     }
 
     #syncStatus {
       display: none;
       font-size: 11px;
       font-weight: 600;
-      color: #d8b4fe;
-      background: rgba(139, 92, 246, 0.18);
-      border: 1px solid rgba(192, 132, 252, 0.35);
+      color: #93c5fd;
+      background: rgba(37, 99, 235, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.35);
       padding: 6px 12px;
-      border-radius: 999px;
+      border-radius: 10px;
     }
 
-    /* ================= BARRA DE FILTROS COMPACTA ================= */
+    /* ================= FILTROS ================= */
     .filters-strip {
       display: flex;
       align-items: center;
@@ -243,22 +266,22 @@
       display: flex;
       align-items: center;
       gap: 7px;
-      background: rgba(18, 13, 33, 0.88);
+      background: #0c111b;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
-      padding: 6px 13px;
+      border-radius: 10px;
+      padding: 6px 12px;
       font-size: 11.5px;
     }
 
     .filter-pill span {
-      color: #9ca3af;
+      color: #94a3b8;
       font-weight: 600;
     }
 
     .filter-pill select {
       background: transparent;
       border: none;
-      color: #ffffff;
+      color: #f8fafc;
       font-weight: 700;
       font-size: 12px;
       cursor: pointer;
@@ -266,19 +289,19 @@
     }
 
     .filter-pill select option {
-      background: #120d21;
-      color: #ffffff;
+      background: #0c111b;
+      color: #f8fafc;
     }
 
     .dias-badge {
       margin-left: auto;
-      background: rgba(139, 92, 246, 0.16);
-      border: 1px solid rgba(192, 132, 252, 0.32);
-      color: #e9d5ff;
+      background: rgba(37, 99, 235, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.32);
+      color: #93c5fd;
       font-size: 11.5px;
       font-weight: 700;
       padding: 6px 14px;
-      border-radius: 999px;
+      border-radius: 10px;
     }
 
     /* ================= CARD 3D SUAVE + LINHA NA BORDA ================= */
@@ -288,13 +311,13 @@
     }
 
     .card-surface {
-      --border-glow: #a855f7;
-      --border-soft: #6366f1;
+      --border-glow: #3b82f6;
+      --border-soft: #1d4ed8;
       position: relative;
-      border-radius: 22px;
-      background: #110c21;
+      border-radius: 16px;
+      background: #0c111b;
       border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
       transition: transform 0.35s ease-out, box-shadow 0.3s ease;
       height: 100%;
@@ -304,15 +327,15 @@
       content: "";
       position: absolute;
       inset: -1px;
-      border-radius: 23px;
+      border-radius: 17px;
       padding: 1px;
       background: conic-gradient(
         from var(--border-angle),
         transparent 0deg,
-        transparent 285deg,
-        var(--border-soft) 315deg,
-        var(--border-glow) 340deg,
-        rgba(255, 255, 255, 0.75) 352deg,
+        transparent 288deg,
+        var(--border-soft) 318deg,
+        var(--border-glow) 342deg,
+        rgba(147, 197, 253, 0.7) 354deg,
         transparent 360deg
       );
       -webkit-mask:
@@ -320,36 +343,31 @@
         linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      animation: borderGlide 11s linear infinite;
-      opacity: 0.52;
+      animation: borderGlide 12s linear infinite;
+      opacity: 0.45;
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
 
     .card-surface:hover::before {
-      opacity: 0.85;
-    }
-
-    .card-surface.violet-spotlight {
-      background:
-        radial-gradient(circle at 82% 18%, rgba(168, 85, 247, 0.42) 0%, rgba(109, 40, 217, 0.22) 38%, rgba(17, 12, 33, 0.96) 78%);
+      opacity: 0.8;
     }
 
     .card-body {
       position: relative;
       z-index: 2;
       padding: 16px 18px;
-      border-radius: 21px;
+      border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    /* ================= LAYOUT PRINCIPAL SEM ESPAÇOS VAZIOS ================= */
+    /* ================= LAYOUT ESTILO DASHBRD X ================= */
     .main-grid {
       display: grid;
-      grid-template-columns: 1.65fr 1fr;
+      grid-template-columns: 1.62fr 1fr;
       gap: 16px;
       align-items: stretch;
     }
@@ -362,77 +380,71 @@
       height: 100%;
     }
 
-    /* 3 KPIS DO TOPO */
     .top-kpis-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
     }
 
-    .kpi-card-head {
+    .kpi-label-top {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 12px;
-      font-weight: 500;
-      color: #d1d5db;
-      margin-bottom: 10px;
     }
 
-    .kpi-card-head i {
-      color: #9ca3af;
-      font-size: 13px;
-    }
-
-    .kpi-big-value {
+    .kpi-val-main {
       font-size: 24px;
       font-weight: 700;
-      letter-spacing: -0.6px;
+      letter-spacing: -0.5px;
       color: #ffffff;
     }
 
-    .kpi-sub-row {
+    .kpi-footer-meta {
       margin-top: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 11px;
-      color: #9ca3af;
+      color: #64748b;
     }
 
-    .badge-pos {
-      background: rgba(16, 185, 129, 0.16);
+    .pill-up {
       color: #34d399;
-      padding: 2px 8px;
+      background: rgba(16, 185, 129, 0.14);
+      padding: 2px 7px;
       border-radius: 999px;
       font-weight: 700;
       font-size: 10.5px;
     }
 
-    .badge-neg {
-      background: rgba(244, 63, 94, 0.16);
-      color: #fb7185;
-      padding: 2px 8px;
+    .pill-down {
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.14);
+      padding: 2px 7px;
       border-radius: 999px;
       font-weight: 700;
       font-size: 10.5px;
     }
 
     /* GRÁFICO PRINCIPAL */
-    .chart-card-top {
+    .chart-header-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .seg-toggle {
+    .seg-group {
       display: inline-flex;
-      background: rgba(9, 6, 18, 0.85);
+      background: #070a12;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
+      border-radius: 9px;
       padding: 3px;
       gap: 2px;
     }
@@ -440,30 +452,30 @@
     .seg-btn {
       border: none;
       background: transparent;
-      color: #9ca3af;
+      color: #94a3b8;
       font-size: 11px;
       font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 999px;
+      padding: 5px 11px;
+      border-radius: 7px;
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
     .seg-btn.active {
-      background: rgba(255, 255, 255, 0.14);
+      background: #1e293b;
       color: #ffffff;
       font-weight: 700;
     }
 
-    /* GRADE DE GRÁFICOS VARIADOS (PIZZA, VELOCÍMETRO, SETORES, BARRAS) */
-    .charts-variety-grid {
+    /* GRADE INFERIOR (VELOCÍMETRO + PIZZA + BARRAS) */
+    .mid-charts-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       align-items: stretch;
     }
 
-    .gauge-stage {
+    .gauge-box {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -471,65 +483,65 @@
       height: 195px;
     }
 
-    .gauge-dial {
+    .gauge-svg-wrap {
       position: relative;
-      width: 210px;
-      height: 120px;
+      width: 205px;
+      height: 118px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
     }
 
-    .gauge-label-center {
+    .gauge-center-txt {
       position: absolute;
       bottom: 4px;
       text-align: center;
     }
 
-    .gauge-pct-big {
-      font-size: 26px;
+    .gauge-pct {
+      font-size: 25px;
       font-weight: 800;
       color: #ffffff;
-      letter-spacing: -0.6px;
+      letter-spacing: -0.5px;
     }
 
-    .gauge-pct-sub {
+    .gauge-sub {
       font-size: 10px;
-      color: #c4b5fd;
+      color: #94a3b8;
       font-weight: 600;
     }
 
-    .gauge-stats-mini {
+    .gauge-bottom-pair {
       width: 100%;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
       padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       text-align: center;
       font-size: 11px;
     }
 
-    /* PAINEL DIREITO: RESUMO + IA + POSIÇÕES */
-    .ai-insight-box {
+    /* COLUNA DIREITA */
+    .ai-box {
       margin-top: 10px;
       padding: 12px 13px;
-      border-radius: 14px;
-      background: rgba(9, 6, 18, 0.62);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 12px;
+      background: #070a12;
+      border: 1px solid rgba(59, 130, 246, 0.2);
       font-size: 11.5px;
-      line-height: 1.5;
-      color: #e9d5ff;
+      line-height: 1.52;
+      color: #cbd5e1;
     }
 
-    .ai-btn {
+    .btn-ai-refresh {
       margin-top: 10px;
       width: 100%;
       padding: 9px 14px;
-      border-radius: 999px;
-      border: none;
-      background: #ffffff;
-      color: #090612;
+      border-radius: 10px;
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      background: rgba(37, 99, 235, 0.18);
+      color: #eff6ff;
       font-size: 11.5px;
       font-weight: 700;
       cursor: pointer;
@@ -537,57 +549,49 @@
       align-items: center;
       justify-content: center;
       gap: 7px;
-      transition: opacity 0.2s ease;
+      transition: background 0.2s ease;
     }
 
-    .ai-btn:hover {
-      opacity: 0.92;
+    .btn-ai-refresh:hover {
+      background: #2563eb;
+      color: #ffffff;
     }
 
-    .position-row {
+    .sup-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
       padding: 9px 11px;
-      border-radius: 14px;
+      border-radius: 11px;
       cursor: pointer;
       transition: background 0.2s ease;
     }
 
-    .position-row:hover,
-    .position-row.selected {
-      background: rgba(255, 255, 255, 0.07);
+    .sup-item:hover,
+    .sup-item.active {
+      background: rgba(59, 130, 246, 0.14);
     }
 
-    .pos-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.07);
+    .sup-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: rgba(37, 99, 235, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #d8b4fe;
       flex-shrink: 0;
     }
 
-    /* ABAS SECUNDÁRIAS (EQUIPES / TABELA) */
-    .secondary-section {
-      display: none;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .secondary-section.active {
-      display: flex;
-    }
-
-    .table-scroll {
+    /* TABELA CONSOLIDADA INFERIOR */
+    .table-wrap {
       overflow: auto;
-      max-height: 460px;
+      max-height: 380px;
     }
 
     table {
@@ -602,38 +606,39 @@
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: #9ca3af;
+      color: #94a3b8;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: sticky;
       top: 0;
-      background: #110c21;
+      background: #0c111b;
     }
 
     thead th.num, tbody td.num, tfoot td.num { text-align: right; }
 
     tbody td {
-      padding: 9px 10px;
+      padding: 8.5px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: #e5e7eb;
+      color: #e2e8f0;
     }
 
-    tbody tr:hover { background: rgba(168, 85, 247, 0.08); }
+    tbody tr:hover { background: rgba(59, 130, 246, 0.07); }
 
     tfoot td {
       padding: 9px 10px;
       font-weight: 700;
       color: #ffffff;
-      border-top: 1px solid rgba(192, 132, 252, 0.35);
-      background: rgba(168, 85, 247, 0.12);
+      border-top: 1px solid rgba(59, 130, 246, 0.35);
+      background: rgba(37, 99, 235, 0.12);
     }
 
+    .c-blue    { color: #60a5fa !important; }
     .c-emerald { color: #34d399 !important; }
-    .c-rose    { color: #fb7185 !important; }
-    .c-purple  { color: #c084fc !important; }
+    .c-rose    { color: #f87171 !important; }
 
     @media (max-width: 1120px) {
       .main-grid,
-      .charts-variety-grid { grid-template-columns: 1fr; }
+      .mid-charts-grid,
+      .bottom-two-grid { grid-template-columns: 1fr !important; }
       .top-kpis-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -642,12 +647,16 @@
 
   <div class="dashboard-container">
 
-    <!-- BOTÃO FIXO DE MOSTRAR / ESCONDER MENU + TOPBAR -->
+    <!-- CABEÇALHO SUPERIOR (LOGO + TÍTULO + MOSTRAR/ESCONDER MENU) -->
     <div class="top-header">
       <div class="header-left">
-        <a href="index.html" class="brand-logo">
-          <span class="brand-orb">🌀</span>
-          <span>Ellca</span>
+        <a href="home.html" class="brand-logo" title="Ellca">
+          <img src="img/logo_ellca.png" alt="Logo Ellca"
+               onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+          <span id="logoFallback" class="brand-fallback">
+            <span class="brand-fallback-badge">🌀</span>
+            <span>Ellca</span>
+          </span>
         </a>
 
         <h1 class="page-title">Dashboard Faturamento</h1>
@@ -659,26 +668,25 @@
       </div>
 
       <div class="header-right">
-        <span id="syncStatus"><i class="fa-solid fa-circle-notch fa-spin"></i> Carregando...</span>
+        <span id="syncStatus"><i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...</span>
 
         <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" id="buscaRapida" placeholder="Buscar equipe ou supervisor..." />
         </div>
 
-        <button type="button" class="icon-action-btn" id="btnAtualizarDados" title="Atualizar dados">
+        <button type="button" class="icon-action-btn primary-blue" id="btnAtualizarDados" title="Atualizar dados">
           <i class="fa-solid fa-rotate"></i> Atualizar
-        </button>
-
-        <button type="button" class="icon-action-btn" id="btnAlternarDetalhe" title="Alternar visão">
-          <i class="fa-solid fa-table-cells"></i> <span id="lblAlternarDetalhe">Tabela Completa</span>
         </button>
       </div>
     </div>
 
-    <!-- ÁREA RECOLHÍVEL (NAVEGAÇÃO ENTRE PÁGINAS + FILTROS) -->
+    <!-- ÁREA RECOLHÍVEL: MENU (dashboard.html e home.html) + FILTROS -->
     <div class="collapsible-chrome" id="areaMenuFiltros">
-      <nav class="nav-pills" id="portalNavLinks"></nav>
+      <nav class="nav-pills" aria-label="Navegação">
+        <a href="dashboard.html" class="nav-pill active">Dashboard</a>
+        <a href="home.html" class="nav-pill">Home</a>
+      </nav>
 
       <div class="filters-strip">
         <div class="filter-pill">
@@ -705,258 +713,170 @@
       </div>
     </div>
 
-    <!-- =============================================================== -->
-    <!-- VISÃO PRINCIPAL                                                 -->
-    <!-- =============================================================== -->
-    <div id="secPrincipal" class="secondary-section active">
-
-      <!-- BLOCO SUPERIOR: ESQUERDA (3 KPIS + CURVA) | DIREITA (IA + SUPERVISORES) -->
-      <div class="main-grid">
-        <div class="left-column">
-          <div class="top-kpis-grid tabular">
-            <div class="card-3d-wrap">
-              <div class="card-surface">
-                <div class="card-body">
-                  <div class="kpi-card-head">
-                    <span>Meta Mensal</span>
-                    <i class="fa-solid fa-arrow-up-right"></i>
-                  </div>
-                  <div class="kpi-big-value" id="kpiMetaMensal">R$ 0,00</div>
-                  <div class="kpi-sub-row">
-                    <span id="subEquipes">0 equipes ativas</span>
-                    <span id="subDiasBase">Base 22d</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-3d-wrap">
-              <div class="card-surface">
-                <div class="card-body">
-                  <div class="kpi-card-head">
-                    <span>Previsto no Período</span>
-                    <i class="fa-solid fa-arrow-up-right"></i>
-                  </div>
-                  <div class="kpi-big-value" id="kpiPrevisto">R$ 0,00</div>
-                  <div class="kpi-sub-row">
-                    <span id="subDiasTrab">0 dias trabalhados</span>
-                    <span id="subRitmoEsperado">Ritmo base</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-3d-wrap">
-              <div class="card-surface">
-                <div class="card-body">
-                  <div class="kpi-card-head">
-                    <span>Faturamento Realizado</span>
-                    <i class="fa-solid fa-arrow-up-right"></i>
-                  </div>
-                  <div class="kpi-big-value" id="kpiRealizado">R$ 0,00</div>
-                  <div class="kpi-sub-row">
-                    <span id="subFatDia">R$ 0/eq/dia</span>
-                    <span class="badge-pos tabular" id="badgePctPrev">0,0%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-3d-wrap" style="flex:1;">
+    <!-- GRADE PRINCIPAL: ESQUERDA (3 KPIS + CURVA AZUL) | DIREITA (IA + SUPERVISORES) -->
+    <div class="main-grid">
+      <div class="left-column">
+        <div class="top-kpis-grid tabular">
+          <div class="card-3d-wrap">
             <div class="card-surface">
               <div class="card-body">
-                <div class="chart-card-top tabular">
-                  <div>
-                    <div style="font-size:12px; color:#9ca3af; font-weight:600;" id="tituloCurva">Faturamento Diário</div>
-                    <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
-                      <span style="font-size:27px; font-weight:700; letter-spacing:-0.6px;" id="valorDestaqueCurva">R$ 0,00</span>
-                      <span class="badge-pos" id="badgeDeltaCurva">Gap R$ 0,00</span>
-                    </div>
-                  </div>
-
-                  <div class="seg-toggle" id="seletorSerie">
-                    <button type="button" class="seg-btn active" data-serie="diario">Diário</button>
-                    <button type="button" class="seg-btn" data-serie="acumulado">Acumulado</button>
-                    <button type="button" class="seg-btn" data-serie="diaSemana">Dia Semana</button>
-                  </div>
+                <div class="kpi-label-top">
+                  <span>Meta Mensal</span>
+                  <i class="fa-solid fa-bullseye" style="color:#60a5fa;"></i>
                 </div>
-
-                <div style="height: 245px; width: 100%;">
-                  <canvas id="chartFaturamentoPrincipal"></canvas>
+                <div class="kpi-val-main" id="kpiMetaMensal">R$ 0,00</div>
+                <div class="kpi-footer-meta">
+                  <span id="subEquipes">0 equipes</span>
+                  <span id="subDiasBase">Base 22d</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="right-column">
           <div class="card-3d-wrap">
-            <div class="card-surface violet-spotlight">
-              <div class="card-body tabular">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                  <span style="font-size:12.5px; font-weight:600; color:#f3e8ff;">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Resumo Executivo &amp; IA
-                  </span>
-                  <span style="font-size:11px; color:#e9d5ff; font-weight:700;" id="pctMetaMensalTxt">0% da meta</span>
-                </div>
-
-                <div style="display:flex; align-items:baseline; gap:10px;">
-                  <span style="font-size:27px; font-weight:800; letter-spacing:-0.6px;" id="kpiRealizadoSide">R$ 0,00</span>
-                  <span class="badge-pos" id="badgeStatusRitmo">No ritmo</span>
-                </div>
-
-                <div class="ai-insight-box" id="textoInsightIA">
-                  Carregando análise inteligente de ritmo, gap e performance por equipe...
-                </div>
-
-                <button type="button" class="ai-btn" id="btnGerarInsightIA">
-                  <i class="fa-solid fa-sparkles"></i> Atualizar Leitura da IA
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-3d-wrap" style="flex:1;">
             <div class="card-surface">
-              <div class="card-body tabular">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                  <span style="font-size:14px; font-weight:700;">Supervisores</span>
-                  <span style="font-size:11px; color:#9ca3af;">Clique para filtrar</span>
+              <div class="card-body">
+                <div class="kpi-label-top">
+                  <span>Previsto no Período</span>
+                  <i class="fa-solid fa-calendar-check" style="color:#60a5fa;"></i>
                 </div>
-
-                <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:260px; overflow-y:auto;"></div>
+                <div class="kpi-val-main" id="kpiPrevisto">R$ 0,00</div>
+                <div class="kpi-footer-meta">
+                  <span id="subDiasTrab">0 dias trab.</span>
+                  <span>Ritmo linear</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- GRADE INFERIOR: VELOCÍMETRO + PIZZA/SETORES + BARRAS POR EQUIPE -->
-      <div class="charts-variety-grid tabular">
-        <!-- VELOCÍMETRO DE META -->
-        <div class="card-3d-wrap">
-          <div class="card-surface">
-            <div class="card-body">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span style="font-size:13px; font-weight:700;">Velocímetro da Meta</span>
-                <span style="font-size:10.5px; color:#c084fc; font-weight:600;">Mensal</span>
-              </div>
-
-              <div class="gauge-stage">
-                <div class="gauge-dial">
-                  <svg viewBox="0 0 220 125" width="210" height="120">
-                    <defs>
-                      <linearGradient id="violetGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#6366f1" />
-                        <stop offset="55%" stop-color="#a855f7" />
-                        <stop offset="100%" stop-color="#34d399" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M 20 108 A 90 90 0 0 1 200 108"
-                          fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="13" stroke-linecap="round" />
-                    <path id="gaugeArcPath" d="M 20 108 A 90 90 0 0 1 200 108"
-                          fill="none" stroke="url(#violetGaugeGrad)" stroke-width="13"
-                          stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" />
-                  </svg>
-                  <div class="gauge-label-center">
-                    <div class="gauge-pct-big" id="gaugePctValue">0%</div>
-                    <div class="gauge-pct-sub">Atingimento</div>
-                  </div>
+          <div class="card-3d-wrap">
+            <div class="card-surface">
+              <div class="card-body">
+                <div class="kpi-label-top">
+                  <span>Faturamento Realizado</span>
+                  <i class="fa-solid fa-coins" style="color:#34d399;"></i>
                 </div>
-
-                <div class="gauge-stats-mini">
-                  <div>
-                    <strong style="color:#fff;" id="gaugeDeltaTxt">R$ 0,00</strong>
-                    <div style="font-size:10px; color:#9ca3af;">Delta / Gap</div>
-                  </div>
-                  <div>
-                    <strong class="c-emerald" id="gaugePrevPctTxt">0%</strong>
-                    <div style="font-size:10px; color:#9ca3af;">Vs. Previsto</div>
-                  </div>
+                <div class="kpi-val-main" id="kpiRealizado">R$ 0,00</div>
+                <div class="kpi-footer-meta">
+                  <span id="subFatDia">R$ 0/eq/dia</span>
+                  <span class="pill-up tabular" id="badgePctPrev">0,0%</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- GRÁFICO DE PIZZA / SETORES POR TIPO -->
-        <div class="card-3d-wrap">
+        <div class="card-3d-wrap" style="flex:1;">
           <div class="card-surface">
             <div class="card-body">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span style="font-size:13px; font-weight:700;">Setores &amp; Tipos (Pizza)</span>
-                <span style="font-size:10.5px; color:#9ca3af;">Participação</span>
-              </div>
-              <div style="height: 195px; width: 100%;">
-                <canvas id="chartPizzaTipos"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
+              <div class="chart-header-bar tabular">
+                <div>
+                  <div style="font-size:11.5px; color:#94a3b8; font-weight:600;" id="tituloCurva">Faturamento Diário</div>
+                  <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
+                    <span style="font-size:26px; font-weight:700; letter-spacing:-0.5px;" id="valorDestaqueCurva">R$ 0,00</span>
+                    <span class="pill-up" id="badgeDeltaCurva">Gap R$ 0,00</span>
+                  </div>
+                </div>
 
-        <!-- GRÁFICO DE BARRAS TOP EQUIPES -->
-        <div class="card-3d-wrap">
-          <div class="card-surface">
-            <div class="card-body">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span style="font-size:13px; font-weight:700;">Top Equipes (Barras)</span>
-                <span style="font-size:10.5px; color:#9ca3af;">Realizado</span>
+                <div class="seg-group" id="seletorSerie">
+                  <button type="button" class="seg-btn active" data-serie="diario">Diário</button>
+                  <button type="button" class="seg-btn" data-serie="acumulado">Acumulado</button>
+                  <button type="button" class="seg-btn" data-serie="diaSemana">Dia Semana</button>
+                </div>
               </div>
-              <div style="height: 195px; width: 100%;">
-                <canvas id="chartBarrasEquipes"></canvas>
+
+              <div style="height: 245px; width: 100%;">
+                <canvas id="chartFaturamentoPrincipal"></canvas>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- FAIXA DE GRÁFICOS ADICIONAIS (DIA DA SEMANA + META VS REALIZADO POR SUPERVISOR) -->
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;" class="charts-extra-row">
+      <div class="right-column">
         <div class="card-3d-wrap">
           <div class="card-surface">
-            <div class="card-body">
+            <div class="card-body tabular">
               <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span style="font-size:13px; font-weight:700;">Setores por Dia da Semana</span>
-                <span style="font-size:10.5px; color:#9ca3af;">R$ Realizado</span>
+                <span style="font-size:12.5px; font-weight:700; color:#93c5fd;">
+                  <i class="fa-solid fa-microchip"></i> Análise Inteligente (IA)
+                </span>
+                <span class="pill-up" id="pctMetaMensalTxt">0% meta</span>
               </div>
-              <div style="height: 215px; width: 100%;">
-                <canvas id="chartSetoresDiaSemana"></canvas>
+
+              <div style="display:flex; align-items:baseline; gap:10px;">
+                <span style="font-size:26px; font-weight:800; letter-spacing:-0.5px;" id="kpiRealizadoSide">R$ 0,00</span>
+                <span style="font-size:11px; color:#94a3b8;" id="statusRitmoTxt">No ritmo</span>
               </div>
+
+              <div class="ai-box" id="textoInsightIA">
+                Carregando leitura automática do faturamento, ritmo diário e gap...
+              </div>
+
+              <button type="button" class="btn-ai-refresh" id="btnGerarInsightIA">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Nova Leitura IA
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="card-3d-wrap">
+        <div class="card-3d-wrap" style="flex:1;">
           <div class="card-surface">
-            <div class="card-body">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span style="font-size:13px; font-weight:700;">Previsto x Realizado por Supervisor</span>
-                <span style="font-size:10.5px; color:#9ca3af;">Comparativo</span>
+            <div class="card-body tabular">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                <span style="font-size:13.5px; font-weight:700;">Supervisores</span>
+                <span style="font-size:11px; color:#64748b;">Clique p/ filtrar</span>
               </div>
-              <div style="height: 215px; width: 100%;">
-                <canvas id="chartSupComparativo"></canvas>
-              </div>
+
+              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:255px; overflow-y:auto;"></div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- =============================================================== -->
-    <!-- VISÃO DETALHADA (COMPARATIVO POR EQUIPE + TABELA CONSOLIDADA) -->
-    <!-- =============================================================== -->
-    <div id="secTabelaCompleta" class="secondary-section">
+    <!-- GRADE MÉDIA: VELOCÍMETRO + PIZZA POR TIPO + BARRAS POR EQUIPE -->
+    <div class="mid-charts-grid tabular">
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-              <span style="font-size:14px; font-weight:700;">Faturamento por Equipe — Previsto x Realizado</span>
-              <span style="font-size:11px; color:#9ca3af;" id="qtdEquipesGraf">0 equipes</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-size:13px; font-weight:700;">Velocímetro da Meta</span>
+              <span style="font-size:10.5px; color:#60a5fa; font-weight:600;">Mensal</span>
             </div>
-            <div style="height: 360px;">
-              <canvas id="chartEquipesDetalhe"></canvas>
+
+            <div class="gauge-box">
+              <div class="gauge-svg-wrap">
+                <svg viewBox="0 0 220 125" width="205" height="118">
+                  <defs>
+                    <linearGradient id="blueGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#1d4ed8" />
+                      <stop offset="55%" stop-color="#3b82f6" />
+                      <stop offset="100%" stop-color="#34d399" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M 20 108 A 90 90 0 0 1 200 108"
+                        fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="13" stroke-linecap="round" />
+                  <path id="gaugeArcPath" d="M 20 108 A 90 90 0 0 1 200 108"
+                        fill="none" stroke="url(#blueGaugeGrad)" stroke-width="13"
+                        stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" />
+                </svg>
+                <div class="gauge-center-txt">
+                  <div class="gauge-pct" id="gaugePctValue">0%</div>
+                  <div class="gauge-sub">Meta Mensal</div>
+                </div>
+              </div>
+
+              <div class="gauge-bottom-pair">
+                <div>
+                  <strong style="color:#fff;" id="gaugeDeltaTxt">R$ 0,00</strong>
+                  <div style="font-size:10px; color:#94a3b8;">Gap / Delta</div>
+                </div>
+                <div>
+                  <strong class="c-emerald" id="gaugePrevPctTxt">0%</strong>
+                  <div style="font-size:10px; color:#94a3b8;">Vs. Previsto</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -964,30 +884,90 @@
 
       <div class="card-3d-wrap">
         <div class="card-surface">
-          <div class="card-body tabular">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-              <span style="font-size:14px; font-weight:700;">Tabela Resumo Consolidada</span>
-              <span style="font-size:11px; color:#9ca3af;" id="qtdLinhasTabela">0 registros</span>
+          <div class="card-body">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-size:13px; font-weight:700;">Faturamento por Tipo (Pizza)</span>
+              <span style="font-size:10.5px; color:#94a3b8;">Participação</span>
             </div>
-            <div class="table-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Supervisor</th>
-                    <th>Equipe</th>
-                    <th>Processo</th>
-                    <th>Tipo</th>
-                    <th>Veículos</th>
-                    <th class="num">Meta Mensal</th>
-                    <th class="num">Previsto</th>
-                    <th class="num">Realizado</th>
-                    <th class="num">Delta (Gap)</th>
-                  </tr>
-                </thead>
-                <tbody id="tbodyResumo"></tbody>
-                <tfoot id="tfootResumo"></tfoot>
-              </table>
+            <div style="height: 195px; width: 100%;">
+              <canvas id="chartPizzaTipos"></canvas>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-size:13px; font-weight:700;">Top Equipes (Barras)</span>
+              <span style="font-size:10.5px; color:#94a3b8;">Realizado</span>
+            </div>
+            <div style="height: 195px; width: 100%;">
+              <canvas id="chartBarrasEquipes"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRADE INFERIOR: BARRAS DIA DA SEMANA + PREVISTO X REALIZADO -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;" class="bottom-two-grid">
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-size:13px; font-weight:700;">Faturamento por Dia da Semana</span>
+              <span style="font-size:10.5px; color:#94a3b8;">R$ Realizado</span>
+            </div>
+            <div style="height: 215px; width: 100%;">
+              <canvas id="chartDiaSemana"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-size:13px; font-weight:700;">Previsto x Realizado por Supervisor</span>
+              <span style="font-size:10.5px; color:#94a3b8;">Comparativo</span>
+            </div>
+            <div style="height: 215px; width: 100%;">
+              <canvas id="chartSupComparativo"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABELA CONSOLIDADA DE FATURAMENTO -->
+    <div class="card-3d-wrap">
+      <div class="card-surface">
+        <div class="card-body tabular">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <span style="font-size:13.5px; font-weight:700;">Detalhamento de Faturamento por Equipe</span>
+            <span style="font-size:11px; color:#94a3b8;" id="qtdLinhasTabela">0 registros</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Supervisor</th>
+                  <th>Equipe</th>
+                  <th>Processo</th>
+                  <th>Tipo</th>
+                  <th>Veículos</th>
+                  <th class="num">Meta Mensal</th>
+                  <th class="num">Previsto</th>
+                  <th class="num">Realizado</th>
+                  <th class="num">Delta (Gap)</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyResumo"></tbody>
+              <tfoot id="tfootResumo"></tfoot>
+            </table>
           </div>
         </div>
       </div>
@@ -1005,15 +985,6 @@
     1: 22, 2: 20, 3: 22, 4: 22, 5: 21, 6: 22,
     7: 23, 8: 22, 9: 22, 10: 22, 11: 21, 12: 22
   };
-
-  const LINKS_PAGINAS = [
-    { label: "Visão Geral", href: "#visao", action: () => mostrarSecao("principal") },
-    { label: "Programação", href: "programacao.html" },
-    { label: "Faturamento", href: "faturamento.html", active: true },
-    { label: "Medição", href: "medicao.html" },
-    { label: "SESMT", href: "sesmt.html" },
-    { label: "Frota", href: "frota.html" }
-  ];
 
   const NOMES_MESES = [
     "", "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO",
@@ -1041,49 +1012,14 @@
       const rect = wrap.getBoundingClientRect();
       const nx = (e.clientX - rect.left) / rect.width - 0.5;
       const ny = (e.clientY - rect.top) / rect.height - 0.5;
-      surface.style.setProperty("--ry", `${(nx * 2.8).toFixed(2)}deg`);
-      surface.style.setProperty("--rx", `${(-ny * 2.8).toFixed(2)}deg`);
+      surface.style.setProperty("--ry", `${(nx * 2.5).toFixed(2)}deg`);
+      surface.style.setProperty("--rx", `${(-ny * 2.5).toFixed(2)}deg`);
     });
     wrap.addEventListener("mouseleave", () => {
       surface.style.setProperty("--ry", "0deg");
       surface.style.setProperty("--rx", "0deg");
     });
   });
-
-  function renderizarLinksTopbar() {
-    const nav = document.getElementById("portalNavLinks");
-    nav.innerHTML = LINKS_PAGINAS.map((item, idx) => {
-      if (item.action) {
-        return `<button type="button" class="nav-pill ${item.active ? "active" : ""}" data-nav-idx="${idx}">${item.label}</button>`;
-      }
-      return `<a href="${item.href}" class="nav-pill ${item.active ? "active" : ""}">${item.label}</a>`;
-    }).join("");
-
-    nav.querySelectorAll("button[data-nav-idx]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const idx = Number(btn.getAttribute("data-nav-idx"));
-        if (LINKS_PAGINAS[idx] && LINKS_PAGINAS[idx].action) {
-          LINKS_PAGINAS[idx].action();
-        }
-      });
-    });
-  }
-
-  function mostrarSecao(tipo) {
-    const secPrin = document.getElementById("secPrincipal");
-    const secTab = document.getElementById("secTabelaCompleta");
-    const lblBtn = document.getElementById("lblAlternarDetalhe");
-
-    if (tipo === "tabela") {
-      secPrin.classList.remove("active");
-      secTab.classList.add("active");
-      lblBtn.textContent = "Voltar ao Painel";
-    } else {
-      secTab.classList.remove("active");
-      secPrin.classList.add("active");
-      lblBtn.textContent = "Tabela Completa";
-    }
-  }
 
   const fmtBRL = (v) => Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   const fmtCompacto = (v) => Math.abs(v) >= 1000 ? "R$ " + (v / 1000).toFixed(1).replace(".", ",") + "k" : fmtBRL(v);
@@ -1099,7 +1035,6 @@
   }
 
   async function carregarDados() {
-    renderizarLinksTopbar();
     const statusEl = document.getElementById("syncStatus");
     statusEl.style.display = "inline-flex";
 
@@ -1246,11 +1181,11 @@
 
     document.getElementById("badgeDiasUteis").textContent = `${diasUteis} Dias Úteis`;
     document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
-    document.getElementById("subEquipes").textContent = `${qtdEquipes} equipes ativas`;
+    document.getElementById("subEquipes").textContent = `${qtdEquipes} equipes`;
     document.getElementById("subDiasBase").textContent = `Base ${diasUteis}d`;
 
     document.getElementById("kpiPrevisto").textContent = fmtBRL(totalPrevisto);
-    document.getElementById("subDiasTrab").textContent = `${diasTrabalhados} dias trabalhados`;
+    document.getElementById("subDiasTrab").textContent = `${diasTrabalhados} dias trab.`;
 
     document.getElementById("kpiRealizado").textContent = fmtBRL(totalRealizado);
     document.getElementById("kpiRealizadoSide").textContent = fmtBRL(totalRealizado);
@@ -1258,15 +1193,11 @@
 
     const badgePct = document.getElementById("badgePctPrev");
     badgePct.textContent = `${pctPrevisto.toFixed(1).replace(".", ",")}%`;
-    badgePct.className = (pctPrevisto >= 100 ? "badge-pos" : "badge-neg") + " tabular";
+    badgePct.className = (pctPrevisto >= 100 ? "pill-up" : "pill-down") + " tabular";
 
-    document.getElementById("pctMetaMensalTxt").textContent = `${pctMetaMensal.toFixed(0)}% da meta`;
+    document.getElementById("pctMetaMensalTxt").textContent = `${pctMetaMensal.toFixed(0)}% meta`;
+    document.getElementById("statusRitmoTxt").textContent = totalDelta <= 0 ? "Acima do ritmo previsto" : "Abaixo do ritmo previsto";
 
-    const badgeRitmo = document.getElementById("badgeStatusRitmo");
-    badgeRitmo.textContent = totalDelta <= 0 ? "Acima do ritmo" : "Atenção ao gap";
-    badgeRitmo.className = totalDelta <= 0 ? "badge-pos" : "badge-neg";
-
-    // Velocímetro
     const arcoLen = 283;
     const fracMeta = Math.min(Math.max(pctMetaMensal / 100, 0), 1);
     document.getElementById("gaugeArcPath").style.strokeDashoffset = (arcoLen * (1 - fracMeta)).toFixed(1);
@@ -1283,10 +1214,9 @@
     renderizarGraficoPrincipal(dadosFiltrados, datasUnicas, totalRealizado, totalDelta);
     renderizarPizzaTipos(dadosFiltrados);
     renderizarBarrasEquipes(listaEquipes);
-    renderizarSetoresDiaSemana(dadosFiltrados);
+    renderizarDiaSemana(dadosFiltrados);
     renderizarSupComparativo(listaEquipes);
     renderizarListaSupervisores(listaEquipes);
-    renderizarGraficoEquipesDetalhe(listaEquipes);
     renderizarTabelaResumo(listaEquipes);
   }
 
@@ -1297,16 +1227,16 @@
     const nomeTop = topEq ? topEq.equipe : "sem destaque";
     const valTop = topEq ? fmtCompacto(topEq.realizado) : "R$ 0";
 
-    const insights = [
-      `<strong>IA • Ritmo (${procSel === "TODOS" ? "Consolidado" : procSel}):</strong> Em ${diasTrabalhados}/${diasUteis} dias úteis, o realizado atingiu <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Destaque: <strong>${nomeTop}</strong> (${valTop}).`,
-      `<strong>IA • Gap &amp; Ação:</strong> O desvio frente ao previsto é de <strong>${fmtBRL(Math.abs(totalDelta))}</strong> (${totalDelta <= 0 ? "acima da meta parcial" : "gap a compensar"}). Reforçar lançamentos diários nas equipes abaixo do ritmo melhora o fechamento.`,
-      `<strong>IA • Projeção Mensal:</strong> Mantendo a média diária atual, a projeção estimada para o mês é de <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong>. Monitorar <strong>${nomeTop}</strong> ajuda a manter a tração.`
+    const leituras = [
+      `<strong>IA • Faturamento (${procSel === "TODOS" ? "Todos" : procSel}):</strong> Com ${diasTrabalhados}/${diasUteis} dias úteis, o realizado soma <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Maior realização: <strong>${nomeTop}</strong> (${valTop}).`,
+      `<strong>IA • Desvio (Gap):</strong> A diferença em relação ao previsto é de <strong>${fmtBRL(Math.abs(totalDelta))}</strong> (${totalDelta <= 0 ? "superávit no período" : "gap a cobrir"}). Focar nas equipes com menor cobertura diária ajuda a reduzir a distância.`,
+      `<strong>IA • Projeção:</strong> No ritmo médio atual por dia útil, o fechamento projetado do mês fica em <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong>. Manter a constância de <strong>${nomeTop}</strong> sustenta a meta.`
     ];
 
-    document.getElementById("textoInsightIA").innerHTML = insights[variacaoIA % insights.length];
+    document.getElementById("textoInsightIA").innerHTML = leituras[variacaoIA % leituras.length];
   }
 
-  const corEixo = "#9ca3af";
+  const corEixo = "#94a3b8";
   const corGrid = "rgba(255, 255, 255, 0.05)";
 
   function renderizarGraficoPrincipal(dados, datasUnicas, totalRealizado, totalDelta) {
@@ -1344,7 +1274,7 @@
     document.getElementById("valorDestaqueCurva").textContent = fmtBRL(totalRealizado);
     const badgeDelta = document.getElementById("badgeDeltaCurva");
     badgeDelta.textContent = `Gap ${fmtCompacto(totalDelta)}`;
-    badgeDelta.className = totalDelta <= 0 ? "badge-pos tabular" : "badge-neg tabular";
+    badgeDelta.className = (totalDelta <= 0 ? "pill-up" : "pill-down") + " tabular";
 
     if (charts.principal) charts.principal.destroy();
     charts.principal = new Chart(ctx, {
@@ -1354,15 +1284,15 @@
         datasets: [{
           label: "Faturamento (R$)",
           data: valores,
-          borderColor: "#a855f7",
-          backgroundColor: "rgba(168, 85, 247, 0.14)",
+          borderColor: "#3b82f6",
+          backgroundColor: "rgba(37, 99, 235, 0.16)",
           fill: true,
-          borderWidth: 2.4,
+          borderWidth: 2.3,
           tension: 0.42,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          pointBackgroundColor: "#e9d5ff",
-          pointBorderColor: "#9333ea",
+          pointRadius: 3.5,
+          pointHoverRadius: 5.5,
+          pointBackgroundColor: "#93c5fd",
+          pointBorderColor: "#2563eb",
           pointBorderWidth: 2
         }]
       },
@@ -1373,7 +1303,7 @@
           legend: { display: false },
           datalabels: {
             align: "top",
-            color: "#e5e7eb",
+            color: "#cbd5e1",
             font: { size: 9.5, weight: "600" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
           }
@@ -1405,17 +1335,17 @@
         labels: entries.map(e => e[0]),
         datasets: [{
           data: entries.map(e => e[1]),
-          backgroundColor: ["#a855f7", "#6366f1", "#38bdf8", "#34d399", "#f59e0b"],
-          borderColor: "#110c21",
+          backgroundColor: ["#2563eb", "#60a5fa", "#1e40af", "#34d399", "#94a3b8"],
+          borderColor: "#0c111b",
           borderWidth: 2
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: "56%",
+        cutout: "60%",
         plugins: {
-          legend: { position: "right", labels: { color: "#e5e7eb", font: { size: 10 }, boxWidth: 10 } },
+          legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 10 }, boxWidth: 10 } },
           datalabels: {
             color: "#ffffff",
             font: { size: 9.5, weight: "700" },
@@ -1441,7 +1371,7 @@
         datasets: [{
           label: "Realizado",
           data: top5.map(e => e.realizado),
-          backgroundColor: "#a855f7",
+          backgroundColor: "#3b82f6",
           borderRadius: 6
         }]
       },
@@ -1451,7 +1381,7 @@
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          datalabels: { anchor: "end", align: "right", color: "#e5e7eb", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
+          datalabels: { anchor: "end", align: "right", color: "#cbd5e1", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
         },
         scales: {
           x: { beginAtZero: true, ticks: { color: corEixo, font: { size: 9.5 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
@@ -1461,7 +1391,7 @@
     });
   }
 
-  function renderizarSetoresDiaSemana(dados) {
+  function renderizarDiaSemana(dados) {
     const nomesDias = ["DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"];
     const abrev = { "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA", "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM" };
     const soma = {};
@@ -1472,16 +1402,16 @@
     });
     const ativos = DIAS_SEMANA_ORDEM.filter(d => soma[d] > 0 || d !== "DOMINGO");
 
-    if (charts.setoresDia) charts.setoresDia.destroy();
-    charts.setoresDia = new Chart(document.getElementById("chartSetoresDiaSemana"), {
+    if (charts.diaSem) charts.diaSem.destroy();
+    charts.diaSem = new Chart(document.getElementById("chartDiaSemana"), {
       type: "bar",
       data: {
         labels: ativos.map(d => abrev[d]),
         datasets: [{
           label: "Faturamento",
           data: ativos.map(d => soma[d]),
-          backgroundColor: ["#8b5cf6", "#a855f7", "#6366f1", "#38bdf8", "#34d399", "#f59e0b"],
-          borderRadius: 8
+          backgroundColor: "#2563eb",
+          borderRadius: 6
         }]
       },
       options: {
@@ -1489,7 +1419,7 @@
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          datalabels: { anchor: "end", align: "top", color: "#e5e7eb", font: { size: 9, weight: "600" }, formatter: v => v > 0 ? fmtCompacto(v) : "" }
+          datalabels: { anchor: "end", align: "top", color: "#cbd5e1", font: { size: 9, weight: "600" }, formatter: v => v > 0 ? fmtCompacto(v) : "" }
         },
         scales: {
           x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
@@ -1515,15 +1445,15 @@
       data: {
         labels: entries.map(e => e[0]),
         datasets: [
-          { label: "Previsto", data: entries.map(e => e[1].previsto), backgroundColor: "rgba(255,255,255,0.22)", borderRadius: 6 },
-          { label: "Realizado", data: entries.map(e => e[1].realizado), backgroundColor: "#38bdf8", borderRadius: 6 }
+          { label: "Previsto", data: entries.map(e => e[1].previsto), backgroundColor: "#334155", borderRadius: 6 },
+          { label: "Realizado", data: entries.map(e => e[1].realizado), backgroundColor: "#3b82f6", borderRadius: 6 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: "#e5e7eb", font: { size: 10 } } },
+          legend: { labels: { color: "#cbd5e1", font: { size: 10 } } },
           datalabels: { display: false }
         },
         scales: {
@@ -1551,59 +1481,29 @@
       const iniciais = sup.split(" ").slice(0, 2).map(p => p[0]).join("");
       const pct = v.meta > 0 ? ((v.realizado / v.meta) * 100).toFixed(0) : "0";
       return `
-        <div class="position-row ${supAtual === sup ? "selected" : ""}" data-sup="${sup}">
+        <div class="sup-item ${supAtual === sup ? "active" : ""}" data-sup="${sup}">
           <div style="display:flex; align-items:center; gap:10px; min-width:0;">
-            <div class="pos-icon">${iniciais || "SP"}</div>
+            <div class="sup-avatar">${iniciais || "SP"}</div>
             <div style="min-width:0;">
               <div style="font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sup}</div>
-              <div style="font-size:10px; color:#9ca3af;">Meta: ${fmtCompacto(v.meta)}</div>
+              <div style="font-size:10px; color:#94a3b8;">Meta: ${fmtCompacto(v.meta)}</div>
             </div>
           </div>
           <div style="text-align:right; flex-shrink:0;">
             <div style="font-size:12px; font-weight:700; color:#fff;">${fmtCompacto(v.realizado)}</div>
-            <div style="font-size:10px; color:#c084fc; font-weight:600;">${pct}% meta</div>
+            <div style="font-size:10px; color:#60a5fa; font-weight:600;">${pct}% meta</div>
           </div>
         </div>
       `;
     }).join("");
 
-    wrap.querySelectorAll(".position-row").forEach(row => {
+    wrap.querySelectorAll(".sup-item").forEach(row => {
       row.addEventListener("click", () => {
         const sup = row.getAttribute("data-sup");
         const sel = document.getElementById("filtroSupervisor");
         sel.value = sel.value === sup ? "TODOS" : sup;
         atualizarDashboard();
       });
-    });
-  }
-
-  function renderizarGraficoEquipesDetalhe(listaEquipes) {
-    const ordenadas = [...listaEquipes].sort((a, b) => b.realizado - a.realizado);
-    document.getElementById("qtdEquipesGraf").textContent = `${ordenadas.length} equipes`;
-
-    if (charts.equipesDet) charts.equipesDet.destroy();
-    charts.equipesDet = new Chart(document.getElementById("chartEquipesDetalhe"), {
-      type: "bar",
-      data: {
-        labels: ordenadas.map(e => e.equipe),
-        datasets: [
-          { label: "Realizado", data: ordenadas.map(e => e.realizado), backgroundColor: "#a855f7", borderRadius: 6 },
-          { label: "Previsto", data: ordenadas.map(e => e.previsto), backgroundColor: "rgba(255,255,255,0.22)", borderRadius: 6 }
-        ]
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { labels: { color: "#e5e7eb", font: { size: 11 } } },
-          datalabels: { anchor: "end", align: "right", color: "#e5e7eb", font: { size: 9.5 }, formatter: v => fmtCompacto(v) }
-        },
-        scales: {
-          x: { beginAtZero: true, ticks: { color: corEixo, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
-          y: { ticks: { color: "#f8fafc", font: { size: 10.5, weight: "600" } }, grid: { display: false } }
-        }
-      }
     });
   }
 
@@ -1623,7 +1523,7 @@
           <td>${e.veiculo}</td>
           <td class="num">${fmtBRL(e.metaMensal)}</td>
           <td class="num">${fmtBRL(e.previsto)}</td>
-          <td class="num c-purple">${fmtBRL(e.realizado)}</td>
+          <td class="num c-blue">${fmtBRL(e.realizado)}</td>
           <td class="num ${e.delta <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(e.delta)}</td>
         </tr>`;
     }).join("");
@@ -1633,12 +1533,12 @@
         <td colspan="5">TOTAL CONSOLIDADO</td>
         <td class="num">${fmtBRL(totM)}</td>
         <td class="num">${fmtBRL(totP)}</td>
-        <td class="num c-purple">${fmtBRL(totR)}</td>
+        <td class="num c-blue">${fmtBRL(totR)}</td>
         <td class="num ${totD <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(totD)}</td>
       </tr>`;
   }
 
-  // Botão Mostrar / Esconder Menu
+  // Botão Esconder / Mostrar Menu
   document.getElementById("btnToggleMenu").addEventListener("click", () => {
     const oculto = document.body.classList.toggle("menu-hidden");
     const btn = document.getElementById("btnToggleMenu");
@@ -1655,7 +1555,6 @@
     }
   });
 
-  // Seletor de série do gráfico principal
   document.querySelectorAll("#seletorSerie .seg-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll("#seletorSerie .seg-btn").forEach(b => b.classList.remove("active"));
@@ -1671,11 +1570,6 @@
   });
 
   document.getElementById("btnAtualizarDados").addEventListener("click", carregarDados);
-
-  document.getElementById("btnAlternarDetalhe").addEventListener("click", () => {
-    const estaNaTabela = document.getElementById("secTabelaCompleta").classList.contains("active");
-    mostrarSecao(estaNaTabela ? "principal" : "tabela");
-  });
 
   carregarDados();
 </script>
