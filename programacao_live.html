@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELLCA | PROGRAMAÇÃO & OPERAÇÕES AO VIVO</title>
+    <title>ELLCA | PROGRAMAÇÃO &amp; OPERAÇÕES AO VIVO</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,6 +12,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <style>
+        @property --border-angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes borderSpin {
+            to {
+                --border-angle: 360deg;
+            }
+        }
+
         html, body {
             height: 100%;
             margin: 0;
@@ -19,6 +31,9 @@
             overflow-y: auto !important;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            background-color: #04060b;
+            color: #f8fafc;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .desktop-view {
@@ -74,151 +89,258 @@
             position: relative;
             z-index: 5;
             width: 100%;
-            max-width: 1480px;
+            max-width: 1520px;
             margin: 0 auto;
             padding: 92px 24px 76px 24px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
             box-sizing: border-box;
             transition: padding 0.32s ease;
         }
 
         body.bars-collapsed .prog-wrapper {
-            padding: 20px 24px 28px 24px;
+            padding: 18px 24px 28px 24px;
         }
 
-        /* HEADER COCKPIT */
-        .cockpit-header {
+        /* ================= EFEITO 3D + LINHA PERCORRENDO A BORDA ================= */
+        .hud-3d-shell {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .hud-border-runner {
+            --line-color: #38bdf8;
+            --line-secondary: #818cf8;
+            position: relative;
+            border-radius: 20px;
+            background: #080c14;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.72);
+            transform-style: preserve-3d;
+            transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0px);
+            transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+        }
+
+        .hud-border-runner::before {
+            content: "";
+            position: absolute;
+            inset: -1.5px;
+            border-radius: 21px;
+            padding: 1.5px;
+            background: conic-gradient(
+                from var(--border-angle),
+                transparent 0deg,
+                transparent 260deg,
+                var(--line-secondary) 295deg,
+                var(--line-color) 325deg,
+                #ffffff 342deg,
+                var(--line-color) 356deg,
+                transparent 360deg
+            );
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderSpin 6.5s linear infinite;
+            opacity: 0.72;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .hud-border-runner:hover {
+            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(56, 189, 248, 0.14);
+        }
+
+        .hud-border-runner:hover::before {
+            opacity: 1;
+            animation-duration: 4s;
+        }
+
+        .hud-border-runner.gold {
+            --line-color: #f59e0b;
+            --line-secondary: #fde047;
+        }
+
+        .hud-border-runner.emerald {
+            --line-color: #10b981;
+            --line-secondary: #38bdf8;
+        }
+
+        .hud-border-runner.lilac {
+            --line-color: #c4b5fd;
+            --line-secondary: #60a5fa;
+        }
+
+        .hud-inner {
+            position: relative;
+            z-index: 2;
+            border-radius: 19px;
+            background: radial-gradient(circle at 12% 0%, rgba(56, 189, 248, 0.08), transparent 48%),
+                        linear-gradient(180deg, rgba(13, 18, 29, 0.96) 0%, rgba(7, 10, 18, 0.98) 100%);
+            padding: 18px 20px;
+            height: 100%;
+        }
+
+        /* ================= TOPBAR ESTILO FITONIST ================= */
+        .fit-topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 14px;
-            padding: 16px 22px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.88) 0%, rgba(12, 36, 84, 0.76) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.38);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7);
+            padding: 12px 18px;
+            border-radius: 22px;
+            background: #080c14;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.75);
         }
 
-        .cockpit-title-group {
+        .fit-brand {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
-        .cockpit-icon-box {
-            width: 46px;
-            height: 46px;
-            border-radius: 13px;
-            background: rgba(0, 212, 255, 0.15);
-            border: 1px solid rgba(0, 212, 255, 0.48);
+        .fit-brand-mark {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #c4b5fd, #38bdf8);
+            color: #05070d;
+            font-weight: 900;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            font-size: 20px;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.25);
+            box-shadow: 0 0 18px rgba(196, 181, 253, 0.35);
         }
 
-        .cockpit-title-group h1 {
-            font-size: 19px;
-            font-weight: 900;
-            letter-spacing: 1.2px;
-            color: #fff;
+        .fit-brand h1 {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            color: #ffffff;
             margin: 0;
-            text-transform: uppercase;
         }
 
-        .cockpit-title-group p {
-            font-size: 11.5px;
+        .fit-brand span {
+            display: block;
+            font-size: 10px;
             color: #94a3b8;
-            margin: 3px 0 0 0;
+            font-weight: 500;
+        }
+
+        .fit-nav-pills {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: #0d121d;
+            padding: 5px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .fit-pill-btn {
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 7px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .fit-pill-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .fit-pill-btn.active {
+            background: #ffffff;
+            color: #060911;
+            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.22);
         }
 
         .cockpit-actions {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .sync-badge {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            padding: 7px 13px;
-            border-radius: 50px;
-            font-size: 10.5px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 10px;
             font-weight: 700;
             background: rgba(16, 185, 129, 0.14);
-            border: 1px solid rgba(16, 185, 129, 0.42);
+            border: 1px solid rgba(16, 185, 129, 0.38);
             color: #6ee7b7;
         }
 
         .sync-badge.fallback {
             background: rgba(245, 158, 11, 0.15);
-            border-color: rgba(245, 158, 11, 0.45);
+            border-color: rgba(245, 158, 11, 0.42);
             color: #fcd34d;
         }
 
         .btn-exec {
-            padding: 9px 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.42);
-            background: rgba(0, 212, 255, 0.13);
-            color: #fff;
-            font-size: 11px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #121826;
+            color: #e2e8f0;
+            font-size: 10.5px;
             font-weight: 700;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
+            letter-spacing: 0.4px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            transition: all 0.25s ease;
+            gap: 6px;
+            transition: all 0.22s ease;
             text-decoration: none;
         }
 
         .btn-exec:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+            border-color: #38bdf8;
+            color: #ffffff;
+            background: rgba(56, 189, 248, 0.16);
         }
 
         .btn-exec.active-mode {
-            background: var(--primary);
-            color: #030712;
-            border-color: var(--primary);
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
+            background: #ffffff;
+            color: #05070d;
+            border-color: #ffffff;
         }
 
         .btn-exec.gold {
-            border-color: rgba(245, 158, 11, 0.52);
-            background: rgba(245, 158, 11, 0.15);
-            color: #fcd34d;
+            border-color: rgba(253, 224, 71, 0.38);
+            background: rgba(253, 224, 71, 0.12);
+            color: #fde047;
         }
 
         .btn-exec.gold:hover {
-            background: #f59e0b;
-            color: #000;
-            box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+            background: #fde047;
+            color: #05070d;
         }
 
-        /* BARRA DE FILTROS */
+        /* ================= BARRA DE FILTROS ================= */
         .filter-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            padding: 16px 18px;
-            border-radius: 16px;
-            background: rgba(4, 9, 20, 0.78);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
         }
 
         .filter-field {
@@ -228,9 +350,9 @@
         }
 
         .filter-field label {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
             text-transform: uppercase;
             color: #94a3b8;
             display: flex;
@@ -239,18 +361,18 @@
         }
 
         .filter-field label i {
-            color: var(--primary);
+            color: #c4b5fd;
         }
 
         .filter-field select,
         .filter-field input {
             width: 100%;
-            padding: 9px 12px;
-            border-radius: 9px;
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(0, 212, 255, 0.28);
+            padding: 8px 11px;
+            border-radius: 12px;
+            background: #070a12;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #f8fafc;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
             outline: none;
             transition: 0.2s;
@@ -260,8 +382,8 @@
 
         .filter-field select:focus,
         .filter-field input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.25);
+            border-color: #c4b5fd;
+            box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.16);
         }
 
         .filter-actions-cell {
@@ -271,306 +393,438 @@
 
         .btn-reset-filters {
             width: 100%;
-            padding: 9px 12px;
-            border-radius: 9px;
-            border: 1px solid rgba(239, 68, 68, 0.45);
-            background: rgba(239, 68, 68, 0.14);
-            color: #fca5a5;
-            font-size: 11px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(244, 63, 94, 0.35);
+            background: rgba(244, 63, 94, 0.12);
+            color: #fda4af;
+            font-size: 10.5px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
-            transition: 0.25s;
+            transition: 0.22s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            height: 36px;
+            height: 34px;
         }
 
         .btn-reset-filters:hover {
-            background: rgba(239, 68, 68, 0.3);
+            background: rgba(244, 63, 94, 0.28);
             color: #fff;
         }
 
-        /* CARDS KPI */
-        .kpi-grid {
+        /* ================= GRID PRINCIPAL INSPIRADO NA FOTO ================= */
+        .fit-hero-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1.55fr 1fr;
+            gap: 16px;
         }
 
-        .kpi-card {
-            padding: 18px 20px;
-            border-radius: 16px;
-            background: linear-gradient(145deg, rgba(6, 13, 28, 0.86) 0%, rgba(12, 34, 76, 0.65) 100%);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+        .fit-top-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 12px;
+        }
+
+        .fit-metric-block {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
+            gap: 4px;
         }
 
-        .kpi-card.gold {
-            border-color: rgba(245, 158, 11, 0.42);
-            background: linear-gradient(145deg, rgba(16, 13, 6, 0.86) 0%, rgba(76, 48, 12, 0.55) 100%);
+        .fit-metric-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e2e8f0;
         }
 
-        .kpi-card.green {
-            border-color: rgba(16, 185, 129, 0.42);
-            background: linear-gradient(145deg, rgba(4, 18, 14, 0.86) 0%, rgba(6, 68, 52, 0.55) 100%);
-        }
-
-        .kpi-top {
+        .fit-metric-num-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            font-size: 10.5px;
+            gap: 10px;
+        }
+
+        .fit-big-num {
+            font-size: 27px;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.9px;
-            color: #94a3b8;
+            letter-spacing: -0.6px;
+            color: #ffffff;
         }
 
-        .kpi-top i {
-            font-size: 16px;
-            color: var(--primary);
+        .fit-trend-pill {
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.16);
+            color: #34d399;
         }
 
-        .kpi-card.gold .kpi-top i { color: #fbbf24; }
-        .kpi-card.green .kpi-top i { color: #34d399; }
-
-        .kpi-value {
-            font-size: 24px;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 0.4px;
-        }
-
-        .kpi-sub {
+        .fit-sub-caption {
             font-size: 11px;
-            color: #cbd5e1;
+            color: #64748b;
+        }
+
+        .fit-seg-group {
+            display: inline-flex;
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .fit-seg-btn {
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 5px 11px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .fit-seg-btn.active {
+            background: #ffffff;
+            color: #05070d;
+        }
+
+        /* CALENDÁRIO MENSAL INSPIRADO NA FOTO */
+        .fit-calendar-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            gap: 12px;
+        }
+
+        .fit-cal-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
         }
 
-        .progress-track {
-            width: 100%;
-            height: 6px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.12);
-            overflow: hidden;
+        .fit-cal-select {
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 999px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .fit-cal-circle-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #060910;
+            color: #cbd5e1;
+            font-size: 11px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .fit-cal-circle-btn:hover {
+            border-color: #c4b5fd;
+            color: #ffffff;
+        }
+
+        .fit-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .fit-cal-day {
+            aspect-ratio: 1 / 1;
+            border-radius: 9px;
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: #64748b;
+            font-size: 10.5px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            position: relative;
+        }
+
+        .fit-cal-day.has-os {
+            color: #e2e8f0;
+            border-color: rgba(196, 181, 253, 0.22);
+        }
+
+        .fit-cal-day.has-os::after {
+            content: "";
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #fde047;
             margin-top: 2px;
         }
 
-        .progress-fill {
-            height: 100%;
-            border-radius: 99px;
-            background: linear-gradient(90deg, #00d4ff, #38bdf8);
-            transition: width 0.5s ease;
+        .fit-cal-day.active-day {
+            background: #c4b5fd;
+            color: #070910;
+            font-weight: 800;
+            border-color: #c4b5fd;
+            box-shadow: 0 0 14px rgba(196, 181, 253, 0.45);
         }
 
-        .kpi-card.gold .progress-fill {
-            background: linear-gradient(90deg, #f59e0b, #fcd34d);
+        .fit-cal-day.active-day::after {
+            background: #070910;
         }
 
-        /* SEÇÃO SUPERVISORES & FROTA */
-        .section-block {
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: rgba(4, 9, 20, 0.82);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 212, 255, 0.25);
-            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
-        }
-
-        .section-head {
+        .fit-cal-total-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 10px 14px;
         }
 
-        .section-head h2 {
-            font-size: 14px;
+        .fit-cal-total-val {
+            font-size: 18px;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fff;
+            color: #ffffff;
+        }
+
+        .fit-cal-total-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(196, 181, 253, 0.14);
+            color: #c4b5fd;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-size: 14px;
         }
 
-        .section-head h2 i {
-            color: var(--primary);
-        }
-
-        .section-head span {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        .supervisores-grid {
+        /* ================= LINHA INFERIOR (3 COLUNAS DA FOTO) ================= */
+        .fit-bottom-three {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 14px;
+            grid-template-columns: 1.05fr 0.95fr 1.35fr;
+            gap: 16px;
         }
 
-        .sup-card {
-            padding: 15px 16px;
-            border-radius: 14px;
-            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(8, 24, 54, 0.72));
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            cursor: pointer;
-            transition: all 0.25s ease;
+        .fit-rank-list {
             display: flex;
             flex-direction: column;
             gap: 9px;
         }
 
-        .sup-card:hover,
-        .sup-card.selected {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .sup-header {
+        .fit-rank-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
+            padding: 9px 11px;
+            border-radius: 13px;
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .sup-name {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: #fff;
+        .fit-rank-item:hover,
+        .fit-rank-item.selected {
+            border-color: #c4b5fd;
+            background: rgba(196, 181, 253, 0.08);
+        }
+
+        .fit-rank-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            min-width: 0;
         }
 
-        .sup-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(0, 212, 255, 0.18);
-            border: 1px solid rgba(0, 212, 255, 0.45);
+        .fit-rank-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(196, 181, 253, 0.22), rgba(56, 189, 248, 0.18));
+            border: 1px solid rgba(196, 181, 253, 0.35);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
-            font-weight: 900;
-            color: var(--primary);
+            flex-shrink: 0;
         }
 
-        .sup-badge {
-            font-size: 10px;
+        .fit-rank-name {
+            font-size: 12px;
             font-weight: 700;
-            padding: 3px 9px;
-            border-radius: 50px;
-            background: rgba(0, 212, 255, 0.14);
-            color: var(--primary);
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #f8fafc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .sup-metrics {
+        .fit-rank-sub {
+            font-size: 10px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 2px;
+        }
+
+        .fit-tag-lilac {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 6px;
+            background: rgba(196, 181, 253, 0.18);
+            color: #ddd6fe;
+        }
+
+        .fit-tag-yellow {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 6px;
+            background: rgba(253, 224, 71, 0.18);
+            color: #fef08a;
+        }
+
+        .fit-rank-badge {
+            padding: 6px 10px;
+            border-radius: 9px;
+            background: #121826;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 11px;
+            font-weight: 800;
+            color: #f8fafc;
+            white-space: nowrap;
+        }
+
+        /* BOLHAS DE DISTRIBUIÇÃO (ESTILO AGE RANGE DA FOTO) */
+        .fit-bubbles-wrap {
+            position: relative;
+            height: 225px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bubble-node {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #06080f;
+            font-weight: 800;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+            transition: transform 0.25s ease;
+        }
+
+        .bubble-node:hover {
+            transform: scale(1.06);
+        }
+
+        .bubble-main {
+            width: 118px;
+            height: 118px;
+            left: 22%;
+            top: 24%;
+            background: #c4b5fd;
+            font-size: 18px;
+            z-index: 2;
+        }
+
+        .bubble-sec {
+            width: 82px;
+            height: 82px;
+            right: 18%;
+            top: 12%;
+            background: #38bdf8;
+            font-size: 14px;
+            z-index: 3;
+        }
+
+        .bubble-ter {
+            width: 78px;
+            height: 78px;
+            right: 20%;
+            bottom: 10%;
+            background: #fde047;
+            font-size: 13px;
+            z-index: 2;
+        }
+
+        .bubble-node small {
+            font-size: 9px;
+            font-weight: 700;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* FROTA & MATRIZES LADO A LADO */
+        .fit-fleet-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .fit-mini-stat-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            font-size: 11px;
+            margin-bottom: 10px;
         }
 
-        .sup-metric-box {
-            padding: 7px 9px;
-            border-radius: 8px;
-            background: rgba(2, 6, 23, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .fit-mini-stat {
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 9px 10px;
         }
 
-        .sup-metric-box small {
-            display: block;
+        .fit-mini-stat small {
             font-size: 9.5px;
             color: #94a3b8;
-            text-transform: uppercase;
+            display: block;
         }
 
-        .sup-metric-box strong {
-            font-size: 12.5px;
-            color: #f8fafc;
-        }
-
-        .sup-teams-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .team-pill {
-            font-size: 9.5px;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #cbd5e1;
-        }
-
-        /* GRÁFICOS */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 16px;
-        }
-
-        .chart-card {
-            padding: 18px;
-            border-radius: 16px;
-            background: rgba(4, 9, 20, 0.82);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .chart-card h3 {
-            font-size: 12.5px;
+        .fit-mini-stat strong {
+            font-size: 13px;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chart-card h3 i {
-            color: var(--primary);
-        }
-
-        .chart-canvas-wrap {
-            position: relative;
-            height: 250px;
-            width: 100%;
+            color: #ffffff;
         }
 
         /* TABELA DE OS */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         table.os-table {
@@ -581,8 +835,8 @@
         }
 
         table.os-table thead {
-            background: rgba(12, 36, 84, 0.85);
-            color: #38bdf8;
+            background: #0d121d;
+            color: #c4b5fd;
             text-transform: uppercase;
             font-size: 10px;
             letter-spacing: 0.7px;
@@ -591,23 +845,23 @@
         table.os-table th,
         table.os-table td {
             padding: 11px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             white-space: nowrap;
         }
 
         table.os-table tbody tr {
-            background: rgba(5, 10, 24, 0.6);
-            transition: background 0.2s;
+            background: #060910;
+            transition: background 0.18s;
             cursor: pointer;
         }
 
         table.os-table tbody tr:hover {
-            background: rgba(0, 212, 255, 0.12);
+            background: rgba(196, 181, 253, 0.1);
         }
 
         .status-pill {
             padding: 3px 9px;
-            border-radius: 50px;
+            border-radius: 999px;
             font-size: 9.5px;
             font-weight: 800;
             text-transform: uppercase;
@@ -615,38 +869,38 @@
         }
 
         .status-programado {
-            background: rgba(0, 212, 255, 0.16);
+            background: rgba(56, 189, 248, 0.16);
             color: #38bdf8;
-            border: 1px solid rgba(0, 212, 255, 0.4);
+            border: 1px solid rgba(56, 189, 248, 0.35);
         }
 
         .status-executado {
             background: rgba(16, 185, 129, 0.18);
             color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.45);
+            border: 1px solid rgba(16, 185, 129, 0.42);
         }
 
         .status-pendente {
-            background: rgba(245, 158, 11, 0.18);
-            color: #fbbf24;
-            border: 1px solid rgba(245, 158, 11, 0.45);
+            background: rgba(253, 224, 71, 0.16);
+            color: #fde047;
+            border: 1px solid rgba(253, 224, 71, 0.38);
         }
 
         .veh-tag {
             padding: 2px 7px;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 10px;
             font-weight: 800;
-            background: rgba(245, 158, 11, 0.16);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.35);
+            background: rgba(196, 181, 253, 0.16);
+            color: #ddd6fe;
+            border: 1px solid rgba(196, 181, 253, 0.32);
         }
 
         /* MODAL ESPELHO DE OS */
         .os-modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(2, 6, 23, 0.84);
+            background: rgba(2, 6, 23, 0.86);
             backdrop-filter: blur(10px);
             z-index: 2500;
             display: none;
@@ -666,9 +920,9 @@
             overflow-y: auto;
             border-radius: 20px;
             padding: 24px;
-            background: linear-gradient(145deg, #060d1f 0%, #0b1f44 100%);
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.9);
+            background: #080c14;
+            border: 1px solid rgba(196, 181, 253, 0.4);
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.92);
             color: #fff;
             position: relative;
         }
@@ -677,27 +931,26 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 14px;
             margin-bottom: 16px;
         }
 
         .os-modal-header h3 {
-            font-size: 17px;
-            font-weight: 900;
-            color: var(--primary);
-            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 800;
+            color: #c4b5fd;
         }
 
         .modal-close {
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
             color: #fff;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .modal-close:hover {
@@ -714,22 +967,30 @@
 
         .os-detail-item {
             padding: 10px 12px;
-            border-radius: 10px;
-            background: rgba(2, 6, 23, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .os-detail-item small {
             display: block;
-            font-size: 9.5px;
+            font-size: 9px;
             color: #94a3b8;
             text-transform: uppercase;
             margin-bottom: 3px;
         }
 
         .os-detail-item strong {
-            font-size: 12.5px;
+            font-size: 12px;
             color: #f8fafc;
+        }
+
+        @media (max-width: 1120px) {
+            .fit-hero-grid,
+            .fit-bottom-three,
+            .fit-fleet-split {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -738,9 +999,6 @@
             }
             body.bars-collapsed .prog-wrapper {
                 padding: 14px 12px 24px 12px;
-            }
-            .cockpit-title-group h1 {
-                font-size: 15px;
             }
         }
     </style>
@@ -794,221 +1052,270 @@
 
         <!-- CONTAINER PRINCIPAL -->
         <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.74)), url('img/Programacao.jpg');">
+            <div class="item active" style="background-image: linear-gradient(rgba(4,6,11,0.92), rgba(4,6,11,0.94)), url('img/Programacao.jpg');">
                 <div class="prog-wrapper">
 
-                    <!-- CABEÇALHO -->
-                    <div class="cockpit-header">
-                        <div class="cockpit-title-group">
-                            <div class="cockpit-icon-box">
-                                <i class="fa-solid fa-calendar-check"></i>
-                            </div>
+                    <!-- TOPBAR ESTILO FITONIST + LIGAÇÕES -->
+                    <div class="fit-topbar">
+                        <div class="fit-brand">
+                            <div class="fit-brand-mark">🌀</div>
                             <div>
-                                <h1>Cockpit de Programação & Supervisão</h1>
-                                <p>Monitoramento integrado de Ordens de Serviço, Frota, Supervisores e Materiais Solicitados</p>
+                                <h1>ELLCA • Programação</h1>
+                                <span>Cockpit Operacional &amp; Supervisão</span>
                             </div>
+                        </div>
+
+                        <div class="fit-nav-pills">
+                            <button type="button" class="fit-pill-btn active" data-scroll="secResumo">Visão Geral</button>
+                            <button type="button" class="fit-pill-btn" data-scroll="secSupervisores">Supervisores</button>
+                            <button type="button" class="fit-pill-btn" data-scroll="secFrotaServicos">Frota &amp; Serviços</button>
+                            <button type="button" class="fit-pill-btn" data-scroll="secTabelaOs">Ordens de Serviço</button>
                         </div>
 
                         <div class="cockpit-actions">
                             <span class="sync-badge" id="syncStatusBadge">
-                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Base...
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...
                             </span>
-                            <button type="button" class="btn-exec" id="btnRefreshData" title="Recarregar dados da planilha">
+                            <button type="button" class="btn-exec" id="btnRefreshData">
                                 <i class="fa-solid fa-rotate"></i> Atualizar
                             </button>
-                            <button type="button" class="btn-exec" id="btnExportCsv" title="Exportar dados filtrados">
-                                <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                            <button type="button" class="btn-exec" id="btnExportCsv">
+                                <i class="fa-solid fa-file-csv"></i> CSV
                             </button>
-                            <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                            <button type="button" class="btn-exec" id="btnToggleBars">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                                 <span id="textToggleBars">Mostrar Menu</span>
                             </button>
                             <a href="https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit?gid=1374247594#gid=1374247594" target="_blank" class="btn-exec gold">
-                                <i class="fa-solid fa-table"></i> Abrir Planilha
+                                <i class="fa-solid fa-table"></i> Planilha
                             </a>
                         </div>
                     </div>
 
-                    <!-- FILTROS -->
-                    <div class="filter-panel">
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
-                            <select id="filterAno">
-                                <option value="">Todos os Anos</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
-                            <select id="filterMes">
-                                <option value="">Todos os Meses</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-day"></i> Data Específica</label>
-                            <input type="date" id="filterData">
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
-                            <select id="filterSupervisor">
-                                <option value="">Todos os Supervisores</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Veículo</label>
-                            <select id="filterVeiculo">
-                                <option value="">Todos (MK, LV, LD, LM)</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-screwdriver-wrench"></i> Tipo de Serviço</label>
-                            <select id="filterServico">
-                                <option value="">Todos os Serviços</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-clipboard-check"></i> Situação</label>
-                            <select id="filterSituacao">
-                                <option value="">Todas as Situações</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-magnifying-glass"></i> Busca Rápida</label>
-                            <input type="text" id="filterBusca" placeholder="OS, Nota, Equipe, Bairro...">
-                        </div>
-
-                        <div class="filter-actions-cell">
-                            <button type="button" class="btn-reset-filters" id="btnLimparFiltros">
-                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- KPIs -->
-                    <div class="kpi-grid">
-                        <div class="kpi-card">
-                            <div class="kpi-top">
-                                <span>Produção Programada</span>
-                                <i class="fa-solid fa-sack-dollar"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiProducaoTotal">R$ 0,00</div>
-                            <div class="kpi-sub">
-                                <span id="kpiMetaPercent">0,0% da capacidade mensal</span>
-                                <span>Meta: R$ 4,13M</span>
-                            </div>
-                            <div class="progress-track">
-                                <div class="progress-fill" id="kpiMetaBar" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card gold">
-                            <div class="kpi-top">
-                                <span>Custo Mensal Frota Alocada</span>
-                                <i class="fa-solid fa-truck-monster"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiCustoFrota">R$ 0,00</div>
-                            <div class="kpi-sub">
-                                <span id="kpiQtdEquipes">0 equipes ativas</span>
-                                <span id="kpiCoberturaFrota">Cobertura: 0%</span>
-                            </div>
-                            <div class="progress-track">
-                                <div class="progress-fill" id="kpiFrotaBar" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card green">
-                            <div class="kpi-top">
-                                <span>Ordens de Serviço (OS)</span>
-                                <i class="fa-solid fa-list-check"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiTotalOs">0</div>
-                            <div class="kpi-sub">
-                                <span id="kpiQtdItens">0 unidades/serviços</span>
-                                <span id="kpiTicketMedio">Ticket: R$ 0,00</span>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card">
-                            <div class="kpi-top">
-                                <span>Materiais Vinculados</span>
-                                <i class="fa-solid fa-boxes-stacked"></i>
-                            </div>
-                            <div class="kpi-value" id="kpiTotalMateriais">0 itens</div>
-                            <div class="kpi-sub">
-                                <span id="kpiOsComMaterial">0 OS com requisição</span>
-                                <span>Aba Material</span>
+                    <!-- FILTROS EM CARD 3D COM LINHA NA BORDA -->
+                    <div class="hud-3d-shell">
+                        <div class="hud-border-runner lilac">
+                            <div class="hud-inner">
+                                <div class="filter-panel">
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-calendar"></i> Ano</label>
+                                        <select id="filterAno"><option value="">Todos os Anos</option></select>
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
+                                        <select id="filterMes"><option value="">Todos os Meses</option></select>
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-calendar-day"></i> Data Específica</label>
+                                        <input type="date" id="filterData">
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                                        <select id="filterSupervisor"><option value="">Todos</option></select>
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-truck-pickup"></i> Veículo</label>
+                                        <select id="filterVeiculo"><option value="">Todos (MK, LV, LD, LM)</option></select>
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-screwdriver-wrench"></i> Serviço</label>
+                                        <select id="filterServico"><option value="">Todos</option></select>
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-clipboard-check"></i> Situação</label>
+                                        <select id="filterSituacao"><option value="">Todas</option></select>
+                                    </div>
+                                    <div class="filter-field">
+                                        <label><i class="fa-solid fa-magnifying-glass"></i> Busca Rápida</label>
+                                        <input type="text" id="filterBusca" placeholder="OS, Nota, Equipe, Bairro...">
+                                    </div>
+                                    <div class="filter-actions-cell">
+                                        <button type="button" class="btn-reset-filters" id="btnLimparFiltros">
+                                            <i class="fa-solid fa-filter-circle-xmark"></i> Limpar
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DESEMPENHO POR SUPERVISOR -->
-                    <div class="section-block">
-                        <div class="section-head">
-                            <h2><i class="fa-solid fa-users-viewfinder"></i> Desempenho por Supervisor & Equipes</h2>
-                            <span>Clique em um supervisor para filtrar o painel</span>
-                        </div>
-                        <div class="supervisores-grid" id="supervisoresGrid"></div>
-                    </div>
+                    <!-- GRID SUPERIOR (INSPIRADO NA FOTO: GRÁFICO DE ONDAS + CALENDÁRIO DE DIAS) -->
+                    <section id="secResumo" class="fit-hero-grid">
+                        <!-- BLOCO ESQUERDO: PRODUÇÃO PROGRAMADA & RITMO -->
+                        <div class="hud-3d-shell">
+                            <div class="hud-border-runner">
+                                <div class="hud-inner">
+                                    <div class="fit-top-metrics">
+                                        <div class="fit-metric-block">
+                                            <span class="fit-metric-label">Produção Programada</span>
+                                            <div class="fit-metric-num-row">
+                                                <span class="fit-big-num" id="kpiProducaoTotal">R$ 0,00</span>
+                                                <span class="fit-trend-pill" id="kpiMetaPercent">0,0%</span>
+                                            </div>
+                                            <span class="fit-sub-caption" id="kpiMetaLegenda">Capacidade mensal: R$ 4,13M</span>
+                                        </div>
 
-                    <!-- GRÁFICOS ANALÍTICOS -->
-                    <div class="charts-grid">
-                        <div class="chart-card">
-                            <h3><i class="fa-solid fa-chart-column"></i> Produção Programada por Supervisor (R$)</h3>
-                            <div class="chart-canvas-wrap">
-                                <canvas id="chartSupervisor"></canvas>
+                                        <div class="fit-metric-block">
+                                            <span class="fit-metric-label">Ordens de Serviço (OS)</span>
+                                            <div class="fit-metric-num-row">
+                                                <span class="fit-big-num" id="kpiTotalOs">0</span>
+                                                <span class="fit-trend-pill" id="kpiQtdItens">0 itens</span>
+                                            </div>
+                                            <span class="fit-sub-caption" id="kpiTicketMedio">Ticket médio: R$ 0,00</span>
+                                        </div>
+
+                                        <div class="fit-seg-group" id="modoVisaoGrafico">
+                                            <button type="button" class="fit-seg-btn active" data-mode="valor">R$ Valor</button>
+                                            <button type="button" class="fit-seg-btn" data-mode="os">Qtd. OS</button>
+                                        </div>
+                                    </div>
+
+                                    <div style="height: 215px; width: 100%;">
+                                        <canvas id="chartRitmoOndas"></canvas>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="chart-card">
-                            <h3><i class="fa-solid fa-chart-pie"></i> Distribuição por Tipo de Veículo</h3>
-                            <div class="chart-canvas-wrap">
-                                <canvas id="chartVeiculo"></canvas>
+                        <!-- BLOCO DIREITO: CALENDÁRIO DE DIAS DO MÊS + FROTA/MATERIAIS -->
+                        <div class="hud-3d-shell">
+                            <div class="hud-border-runner gold">
+                                <div class="hud-inner">
+                                    <div class="fit-calendar-box">
+                                        <div class="fit-cal-head">
+                                            <select class="fit-cal-select" id="calMesSelect"></select>
+                                            <div style="display:flex; gap:6px;">
+                                                <button type="button" class="fit-cal-circle-btn" id="btnLimparDiaCal" title="Ver mês inteiro">
+                                                    <i class="fa-solid fa-rotate-left"></i>
+                                                </button>
+                                                <button type="button" class="fit-cal-circle-btn" id="btnAbrirOsDiaCal" title="Ver OS do dia">
+                                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="fit-cal-grid" id="miniCalendarGrid"></div>
+
+                                        <div class="fit-cal-total-bar">
+                                            <div>
+                                                <div class="fit-cal-total-val" id="calResumoValor">R$ 0,00</div>
+                                                <div class="fit-sub-caption" id="calResumoLegenda">Frota alocada: R$ 0,00 • 0 eq.</div>
+                                            </div>
+                                            <div class="fit-cal-total-icon">
+                                                <i class="fa-solid fa-truck-monster"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- LINHA INFERIOR (3 BLOCOS DA FOTO: SUPERVISORES + DISTRIBUIÇÃO + FROTA/SERVIÇOS) -->
+                    <section id="secFrotaServicos" class="fit-bottom-three">
+                        <!-- COLUNA 1: RANKING SUPERVISORES (ESTILO POPULAR WORKOUTS DA FOTO) -->
+                        <div class="hud-3d-shell" id="secSupervisores">
+                            <div class="hud-border-runner lilac">
+                                <div class="hud-inner">
+                                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                                        <span style="font-size:13px; font-weight:700;">Supervisores</span>
+                                        <span class="fit-sub-caption">Clique para filtrar</span>
+                                    </div>
+                                    <div class="fit-rank-list" id="supervisoresGrid"></div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="chart-card">
-                            <h3><i class="fa-solid fa-layer-group"></i> Receita por Tipo de Serviço (R$)</h3>
-                            <div class="chart-canvas-wrap">
-                                <canvas id="chartServico"></canvas>
+                        <!-- COLUNA 2: BOLHAS DE DISTRIBUIÇÃO POR TIPO DE VEÍCULO -->
+                        <div class="hud-3d-shell">
+                            <div class="hud-border-runner emerald">
+                                <div class="hud-inner">
+                                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                                        <span style="font-size:13px; font-weight:700;">Frota &amp; Veículos</span>
+                                        <span class="fit-sub-caption" id="kpiTotalMateriais">0 mat.</span>
+                                    </div>
+                                    <div class="fit-bubbles-wrap" id="veiculosBubblesWrap">
+                                        <div class="bubble-node bubble-main" id="bubble1">
+                                            <span>0%</span>
+                                            <small>LV</small>
+                                        </div>
+                                        <div class="bubble-node bubble-sec" id="bubble2">
+                                            <span>0%</span>
+                                            <small>MK</small>
+                                        </div>
+                                        <div class="bubble-node bubble-ter" id="bubble3">
+                                            <span>0%</span>
+                                            <small>LD</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- TABELA DETALHADA DE PROGRAMAÇÃO -->
-                    <div class="section-block">
-                        <div class="section-head">
-                            <h2><i class="fa-solid fa-table-list"></i> Programação Operacional Detalhada</h2>
-                            <span id="tableCountLabel">Exibindo 0 registros • Clique na linha para abrir o Espelho da OS e Materiais</span>
-                        </div>
+                        <!-- COLUNA 3: BARRAS EM PÍLULA + SERVIÇOS (ESTILO INSTALLS DA FOTO) -->
+                        <div class="hud-3d-shell">
+                            <div class="hud-border-runner">
+                                <div class="hud-inner">
+                                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                                        <span style="font-size:13px; font-weight:700;">Receita por Serviço</span>
+                                        <span class="fit-sub-caption" id="kpiOsComMaterial">0 OS c/ mat.</span>
+                                    </div>
 
-                        <div class="table-responsive">
-                            <table class="os-table">
-                                <thead>
-                                    <tr>
-                                        <th>OS</th>
-                                        <th>Data</th>
-                                        <th>Equipe</th>
-                                        <th>Veíc.</th>
-                                        <th>Supervisor</th>
-                                        <th>Encarregado</th>
-                                        <th>Nota</th>
-                                        <th>Bairro</th>
-                                        <th>Tipo de Serviço</th>
-                                        <th>Qtde.</th>
-                                        <th>Valor Total</th>
-                                        <th>Situação</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="osTableBody"></tbody>
-                            </table>
+                                    <div class="fit-mini-stat-cards">
+                                        <div class="fit-mini-stat">
+                                            <small><i class="fa-solid fa-truck-monster" style="color:#c4b5fd;"></i> Custo Frota</small>
+                                            <strong id="kpiCustoFrota">R$ 0,00</strong>
+                                        </div>
+                                        <div class="fit-mini-stat">
+                                            <small><i class="fa-solid fa-users" style="color:#fde047;"></i> Equipes / Cob.</small>
+                                            <strong id="kpiQtdEquipes">0 eq. • 0%</strong>
+                                        </div>
+                                    </div>
+
+                                    <div style="height: 145px; width: 100%;">
+                                        <canvas id="chartServico"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </section>
+
+                    <!-- TABELA DE OS EM CARD 3D COM LINHA NA BORDA -->
+                    <section id="secTabelaOs" class="hud-3d-shell">
+                        <div class="hud-border-runner emerald">
+                            <div class="hud-inner">
+                                <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+                                    <div style="display:flex; align-items:center; gap:9px;">
+                                        <i class="fa-solid fa-table-list" style="color:#34d399;"></i>
+                                        <span style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px;">Programação Operacional Detalhada</span>
+                                    </div>
+                                    <span class="fit-sub-caption" id="tableCountLabel">Exibindo 0 registros • Clique na linha para abrir o Espelho da OS</span>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="os-table">
+                                        <thead>
+                                            <tr>
+                                                <th>OS</th>
+                                                <th>Data</th>
+                                                <th>Equipe</th>
+                                                <th>Veíc.</th>
+                                                <th>Supervisor</th>
+                                                <th>Encarregado</th>
+                                                <th>Nota</th>
+                                                <th>Bairro</th>
+                                                <th>Tipo de Serviço</th>
+                                                <th>Qtde.</th>
+                                                <th>Valor Total</th>
+                                                <th>Situação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="osTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
                 </div>
             </div>
@@ -1016,9 +1323,9 @@
             <!-- RODAPÉ -->
             <footer class="footer-bar">
                 <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.6.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Programação & Operações Ao Vivo</strong></span>
+                    <span>Módulo: <strong>Programação &amp; Operações Ao Vivo</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -1047,7 +1354,7 @@
             <div class="os-detail-grid" id="modalOsGrid"></div>
 
             <div style="margin-bottom: 16px;">
-                <h4 style="font-size: 11.5px; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px; letter-spacing: 0.7px;">
+                <h4 style="font-size: 11px; text-transform: uppercase; color: #c4b5fd; margin-bottom: 8px; letter-spacing: 0.7px;">
                     <i class="fa-solid fa-boxes-stacked"></i> Materiais Solicitados para esta OS / Nota
                 </h4>
                 <div class="table-responsive">
@@ -1073,18 +1380,10 @@
             const GID_PROGRAMACAO = '1374247594';
 
             const NOMES_MESES = {
-                '01': '01 - Janeiro',
-                '02': '02 - Fevereiro',
-                '03': '03 - Março',
-                '04': '04 - Abril',
-                '05': '05 - Maio',
-                '06': '06 - Junho',
-                '07': '07 - Julho',
-                '08': '08 - Agosto',
-                '09': '09 - Setembro',
-                '10': '10 - Outubro',
-                '11': '11 - Novembro',
-                '12': '12 - Dezembro'
+                '01': '01 - Janeiro', '02': '02 - Fevereiro', '03': '03 - Março',
+                '04': '04 - Abril', '05': '05 - Maio', '06': '06 - Junho',
+                '07': '07 - Julho', '08': '08 - Agosto', '09': '09 - Setembro',
+                '10': '10 - Outubro', '11': '11 - Novembro', '12': '12 - Dezembro'
             };
 
             const TABELA_VEICULOS = {
@@ -1121,13 +1420,41 @@
             let dadosMateriais = [];
             let frotaPorEquipe = [];
             let dadosFiltrados = [];
+            let modoGraficoOndas = 'valor';
             let charts = {};
+
+            // ================= EFEITO 3D DINÂMICO NO MOUSE =================
+            document.querySelectorAll('.hud-3d-shell').forEach(shell => {
+                const card = shell.querySelector('.hud-border-runner');
+                if (!card) return;
+                shell.addEventListener('mousemove', (e) => {
+                    const rect = shell.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    card.style.setProperty('--ry', `${(x * 4.5).toFixed(2)}deg`);
+                    card.style.setProperty('--rx', `${(-y * 4.5).toFixed(2)}deg`);
+                });
+                shell.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--ry', '0deg');
+                    card.style.setProperty('--rx', '0deg');
+                });
+            });
+
+            // ================= NAVEGAÇÃO PILL TOPBAR =================
+            document.querySelectorAll('.fit-pill-btn[data-scroll]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.fit-pill-btn[data-scroll]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const target = document.getElementById(btn.getAttribute('data-scroll'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
 
             // ================= CONTROLE MOSTRAR / OCULTAR MENU E RODAPÉ =================
             const btnToggleBars = document.getElementById('btnToggleBars');
             const iconToggleBars = document.getElementById('iconToggleBars');
             const textToggleBars = document.getElementById('textToggleBars');
-            let areBarsCollapsed = true; // Inicia recolhido conforme padrão
+            let areBarsCollapsed = true;
 
             btnToggleBars.addEventListener('click', () => {
                 areBarsCollapsed = !areBarsCollapsed;
@@ -1153,12 +1480,10 @@
                 return parseFloat(limpo) || 0;
             }
 
-            // Normaliza qualquer formato de data (DD/MM/YYYY, YYYY-MM-DD ou Date(...))
             function extrairInfoData(dataStr) {
                 const s = String(dataStr || '').trim();
                 if (!s) return { ano: '', mes: '', iso: '', exibicao: '' };
 
-                // Formato ISO: YYYY-MM-DD
                 let m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
                 if (m) {
                     const ano = m[1];
@@ -1167,7 +1492,6 @@
                     return { ano, mes, iso: `${ano}-${mes}-${dia}`, exibicao: `${dia}/${mes}/${ano}` };
                 }
 
-                // Formato BR: DD/MM/YYYY
                 m = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
                 if (m) {
                     const dia = m[1].padStart(2, '0');
@@ -1227,7 +1551,7 @@
             async function carregarDadosPlanilha() {
                 const badge = document.getElementById('syncStatusBadge');
                 badge.className = 'sync-badge';
-                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Base...';
+                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
 
                 try {
                     const [tabProg, tabMat] = await Promise.all([
@@ -1315,7 +1639,7 @@
                         frotaPorEquipe = frotaRows;
                         const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
                         badge.className = 'sync-badge';
-                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo • Atualizado às ${hora}`;
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo • ${hora}`;
                     } else {
                         throw new Error('Planilha vazia');
                     }
@@ -1334,7 +1658,7 @@
                     dadosMateriais = FALLBACK_MATERIAIS;
                     frotaPorEquipe = [];
                     badge.className = 'sync-badge fallback';
-                    badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Demonstração (Offline)';
+                    badge.innerHTML = '<i class="fa-solid fa-database"></i> Demonstração';
                 }
 
                 popularFiltros();
@@ -1359,16 +1683,23 @@
 
                 preencherSelect('filterAno', dadosProgramacao.map(d => d.ano), 'Todos os Anos', (v) => v, true);
                 preencherSelect('filterMes', dadosProgramacao.map(d => d.mes), 'Todos os Meses', (m) => NOMES_MESES[m] || m);
-                preencherSelect('filterSupervisor', dadosProgramacao.map(d => d.supervisor), 'Todos os Supervisores');
+                preencherSelect('filterSupervisor', dadosProgramacao.map(d => d.supervisor), 'Todos');
                 preencherSelect('filterVeiculo', dadosProgramacao.map(d => d.tipoVeiculo), 'Todos (MK, LV, LD, LM)');
-                preencherSelect('filterServico', dadosProgramacao.map(d => d.tipoServico), 'Todos os Serviços');
-                preencherSelect('filterSituacao', dadosProgramacao.map(d => d.situacao), 'Todas as Situações');
+                preencherSelect('filterServico', dadosProgramacao.map(d => d.tipoServico), 'Todos');
+                preencherSelect('filterSituacao', dadosProgramacao.map(d => d.situacao), 'Todas');
+
+                // Sincroniza seletor de mês do mini-calendário
+                const calMesSel = document.getElementById('calMesSelect');
+                const mesesDisp = [...new Set(dadosProgramacao.map(d => d.mes).filter(Boolean))].sort();
+                calMesSel.innerHTML = mesesDisp.map(m => `<option value="${m}">${NOMES_MESES[m] || m}</option>`).join('');
+                const mesAtivo = document.getElementById('filterMes').value || mesesDisp[mesesDisp.length - 1] || '11';
+                calMesSel.value = mesAtivo;
             }
 
             function aplicarFiltros() {
                 const ano = document.getElementById('filterAno').value;
                 const mes = document.getElementById('filterMes').value;
-                const dataFiltro = document.getElementById('filterData').value; // YYYY-MM-DD
+                const dataFiltro = document.getElementById('filterData').value;
                 const sup = document.getElementById('filterSupervisor').value;
                 const veic = document.getElementById('filterVeiculo').value;
                 const serv = document.getElementById('filterServico').value;
@@ -1390,13 +1721,15 @@
                     return true;
                 });
 
-                atualizarKPIs();
+                atualizarMetricasEResumo();
+                renderizarCalendario();
                 renderizarSupervisores();
+                renderizarBolhasVeiculos();
                 atualizarGraficos();
                 renderizarTabela();
             }
 
-            function atualizarKPIs() {
+            function atualizarMetricasEResumo() {
                 const producaoTotal = dadosFiltrados.reduce((acc, d) => acc + d.valorTotal, 0);
                 const totalOs = new Set(dadosFiltrados.map(d => d.os)).size;
                 const totalUnidades = dadosFiltrados.reduce((acc, d) => acc + d.qtde, 0);
@@ -1412,7 +1745,7 @@
 
                 const qtdEquipes = Object.keys(equipesMap).length;
                 const custoFrotaAlocada = Object.values(equipesMap).reduce((acc, e) => acc + e.custo, 0);
-                const pctMeta = Math.min(100, (producaoTotal / CAPACIDADE_MENSAL_TOTAL) * 100);
+                const pctMeta = (producaoTotal / CAPACIDADE_MENSAL_TOTAL) * 100;
                 const pctCobertura = custoFrotaAlocada > 0 ? (producaoTotal / custoFrotaAlocada) * 100 : 0;
 
                 const osSet = new Set(dadosFiltrados.map(d => d.os));
@@ -1420,98 +1753,109 @@
                 const osComMat = new Set(matsVinculados.map(m => m.os)).size;
 
                 document.getElementById('kpiProducaoTotal').textContent = fmtBRL(producaoTotal);
-                document.getElementById('kpiMetaPercent').textContent = `${pctMeta.toFixed(2).replace('.', ',')}% da capacidade total`;
-                document.getElementById('kpiMetaBar').style.width = `${Math.max(pctMeta, producaoTotal > 0 ? 4 : 0)}%`;
-
-                document.getElementById('kpiCustoFrota').textContent = fmtBRL(custoFrotaAlocada);
-                document.getElementById('kpiQtdEquipes').textContent = `${qtdEquipes} equipe${qtdEquipes === 1 ? '' : 's'} escalada${qtdEquipes === 1 ? '' : 's'}`;
-                document.getElementById('kpiCoberturaFrota').textContent = `Cobertura: ${pctCobertura.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiFrotaBar').style.width = `${Math.min(100, pctCobertura)}%`;
+                document.getElementById('kpiMetaPercent').textContent = `+${pctMeta.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiMetaLegenda').textContent = `Capacidade mensal: R$ 4,13M • Cobertura: ${pctCobertura.toFixed(1).replace('.', ',')}%`;
 
                 document.getElementById('kpiTotalOs').textContent = totalOs;
-                document.getElementById('kpiQtdItens').textContent = `${totalUnidades} serviços/unid.`;
-                document.getElementById('kpiTicketMedio').textContent = `Ticket: ${fmtBRL(ticketMedio)}`;
+                document.getElementById('kpiQtdItens').textContent = `${totalUnidades} unid.`;
+                document.getElementById('kpiTicketMedio').textContent = `Ticket médio: ${fmtBRL(ticketMedio)}`;
 
-                document.getElementById('kpiTotalMateriais').textContent = `${matsVinculados.length} itens`;
-                document.getElementById('kpiOsComMaterial').textContent = `${osComMat} OS com requisição`;
+                document.getElementById('kpiCustoFrota').textContent = fmtBRL(custoFrotaAlocada);
+                document.getElementById('kpiQtdEquipes').textContent = `${qtdEquipes} eq. • ${pctCobertura.toFixed(0)}%`;
+
+                document.getElementById('kpiTotalMateriais').textContent = `${matsVinculados.length} mat.`;
+                document.getElementById('kpiOsComMaterial').textContent = `${osComMat} OS c/ mat.`;
+
+                document.getElementById('calResumoValor').textContent = fmtBRL(producaoTotal);
+                document.getElementById('calResumoLegenda').textContent = `Frota alocada: ${fmtBRL(custoFrotaAlocada)} • ${qtdEquipes} eq.`;
+            }
+
+            function renderizarCalendario() {
+                const grid = document.getElementById('miniCalendarGrid');
+                const calMes = document.getElementById('calMesSelect').value || '11';
+                const anoRef = document.getElementById('filterAno').value || '2026';
+                const dataAtiva = document.getElementById('filterData').value;
+
+                const diasNoMes = new Date(parseInt(anoRef, 10), parseInt(calMes, 10), 0).getDate();
+                const diasComDados = new Set(
+                    dadosProgramacao
+                        .filter(d => d.mes === calMes && (!anoRef || d.ano === anoRef))
+                        .map(d => d.dataIso)
+                );
+
+                let html = '';
+                for (let dia = 1; dia <= 31; dia++) {
+                    if (dia <= diasNoMes) {
+                        const diaStr = String(dia).padStart(2, '0');
+                        const iso = `${anoRef}-${calMes}-${diaStr}`;
+                        const hasOs = diasComDados.has(iso);
+                        const isActive = dataAtiva === iso;
+                        html += `
+                            <div class="fit-cal-day ${hasOs ? 'has-os' : ''} ${isActive ? 'active-day' : ''}" data-iso="${iso}" title="${diaStr}/${calMes}/${anoRef}">
+                                ${dia}
+                            </div>
+                        `;
+                    } else {
+                        html += `<div class="fit-cal-day" style="opacity:0.25; cursor:default;">${dia}</div>`;
+                    }
+                }
+                grid.innerHTML = html;
+
+                grid.querySelectorAll('.fit-cal-day[data-iso]').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const iso = el.getAttribute('data-iso');
+                        const inputData = document.getElementById('filterData');
+                        inputData.value = (inputData.value === iso) ? '' : iso;
+                        aplicarFiltros();
+                    });
+                });
             }
 
             function renderizarSupervisores() {
                 const grid = document.getElementById('supervisoresGrid');
                 const supSelecionado = document.getElementById('filterSupervisor').value;
 
-                // Respeita filtros de período (Ano/Mês/Data) nos cards de supervisores
-                const ano = document.getElementById('filterAno').value;
-                const mes = document.getElementById('filterMes').value;
-                const dataFiltro = document.getElementById('filterData').value;
-
-                const basePeriodo = dadosProgramacao.filter(d => {
-                    if (ano && d.ano !== ano) return false;
-                    if (mes && d.mes !== mes) return false;
-                    if (dataFiltro && d.dataIso !== dataFiltro) return false;
-                    return true;
-                });
-
                 const mapaSup = {};
-                basePeriodo.forEach(d => {
+                dadosFiltrados.forEach(d => {
                     const s = d.supervisor || 'NÃO DEFINIDO';
                     if (!mapaSup[s]) {
-                        mapaSup[s] = { nome: s, producao: 0, osSet: new Set(), equipes: {} };
+                        mapaSup[s] = { nome: s, producao: 0, osSet: new Set(), equipes: new Set() };
                     }
                     mapaSup[s].producao += d.valorTotal;
                     mapaSup[s].osSet.add(d.os);
-                    if (!mapaSup[s].equipes[d.equipe]) {
-                        mapaSup[s].equipes[d.equipe] = TABELA_VEICULOS[d.tipoVeiculo]?.valorMensal || 0;
-                    }
+                    mapaSup[s].equipes.add(d.equipe);
                 });
 
-                frotaPorEquipe.forEach(f => {
-                    const s = f.supervisor || 'NÃO DEFINIDO';
-                    if (!mapaSup[s]) {
-                        mapaSup[s] = { nome: s, producao: 0, osSet: new Set(), equipes: {} };
-                    }
-                    if (!mapaSup[s].equipes[f.equipe]) {
-                        mapaSup[s].equipes[f.equipe] = f.valorVeiculo || (TABELA_VEICULOS[f.tipoVeiculo]?.valorMensal || 0);
-                    }
-                });
+                const lista = Object.values(mapaSup).sort((a, b) => b.producao - a.producao).slice(0, 4);
 
-                const lista = Object.values(mapaSup).sort((a, b) => b.producao - a.producao);
+                if (lista.length === 0) {
+                    grid.innerHTML = `<div style="font-size:11px; color:#94a3b8; padding:12px;">Sem supervisores para o filtro atual.</div>`;
+                    return;
+                }
 
                 grid.innerHTML = lista.map(sup => {
                     const iniciais = sup.nome.split(' ').slice(0, 2).map(p => p[0]).join('');
-                    const equipesNomes = Object.keys(sup.equipes).sort();
-                    const custoFrota = Object.values(sup.equipes).reduce((a, b) => a + b, 0);
                     const isSelected = supSelecionado === sup.nome;
-
                     return `
-                        <div class="sup-card ${isSelected ? 'selected' : ''}" data-sup="${sup.nome}">
-                            <div class="sup-header">
-                                <div class="sup-name">
-                                    <div class="sup-avatar">${iniciais}</div>
-                                    <span>${sup.nome}</span>
-                                </div>
-                                <span class="sup-badge">${sup.osSet.size} OS</span>
-                            </div>
-                            <div class="sup-metrics">
-                                <div class="sup-metric-box">
-                                    <small>Produção Prog.</small>
-                                    <strong style="color:#38bdf8;">${fmtBRL(sup.producao)}</strong>
-                                </div>
-                                <div class="sup-metric-box">
-                                    <small>Frota (${equipesNomes.length} eq.)</small>
-                                    <strong style="color:#fcd34d;">${fmtBRL(custoFrota)}</strong>
+                        <div class="fit-rank-item ${isSelected ? 'selected' : ''}" data-sup="${sup.nome}">
+                            <div class="fit-rank-left">
+                                <div class="fit-rank-avatar">${iniciais}</div>
+                                <div style="min-width:0;">
+                                    <div class="fit-rank-name">${sup.nome}</div>
+                                    <div class="fit-rank-sub">
+                                        <span class="fit-tag-lilac">${sup.equipes.size} eq.</span>
+                                        <span class="fit-tag-yellow">${sup.osSet.size} OS</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="sup-teams-list">
-                                ${equipesNomes.map(eq => `<span class="team-pill">${eq}</span>`).join('')}
-                            </div>
+                            <div class="fit-rank-badge">${fmtBRL(sup.producao)}</div>
                         </div>
                     `;
                 }).join('');
 
-                grid.querySelectorAll('.sup-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const s = card.getAttribute('data-sup');
+                grid.querySelectorAll('.fit-rank-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const s = item.getAttribute('data-sup');
                         const sel = document.getElementById('filterSupervisor');
                         sel.value = (sel.value === s) ? '' : s;
                         aplicarFiltros();
@@ -1519,94 +1863,122 @@
                 });
             }
 
-            function atualizarGraficos() {
-                Chart.defaults.color = '#cbd5e1';
-                Chart.defaults.font.family = 'Montserrat, sans-serif';
-
-                const supMap = {};
+            function renderizarBolhasVeiculos() {
+                const veicMap = {};
+                let somaTotal = 0;
                 dadosFiltrados.forEach(d => {
-                    supMap[d.supervisor] = (supMap[d.supervisor] || 0) + d.valorTotal;
+                    const tv = d.tipoVeiculo || 'OUTROS';
+                    veicMap[tv] = (veicMap[tv] || 0) + d.valorTotal;
+                    somaTotal += d.valorTotal;
                 });
 
-                if (charts.sup) charts.sup.destroy();
-                charts.sup = new Chart(document.getElementById('chartSupervisor'), {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(supMap),
-                        datasets: [{
-                            label: 'Produção Programada (R$)',
-                            data: Object.values(supMap),
-                            backgroundColor: 'rgba(0, 212, 255, 0.72)',
-                            borderColor: '#00d4ff',
-                            borderWidth: 1.5,
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { grid: { color: 'rgba(255,255,255,0.08)' } },
-                            x: { grid: { display: false } }
-                        }
+                const ordenados = Object.entries(veicMap).sort((a, b) => b[1] - a[1]);
+                const ids = ['bubble1', 'bubble2', 'bubble3'];
+
+                ids.forEach((id, idx) => {
+                    const el = document.getElementById(id);
+                    const par = ordenados[idx];
+                    if (par && somaTotal > 0) {
+                        const pct = Math.round((par[1] / somaTotal) * 100);
+                        el.innerHTML = `<span>${pct}%</span><small>${par[0]}</small>`;
+                        el.style.opacity = '1';
+                    } else {
+                        el.innerHTML = `<span>0%</span><small>-</small>`;
+                        el.style.opacity = '0.45';
                     }
                 });
+            }
 
-                const veicMap = {};
+            function atualizarGraficos() {
+                Chart.defaults.color = '#94a3b8';
+                Chart.defaults.font.family = 'Montserrat, sans-serif';
+
+                // Agrupa por data para gráfico de ondas/barras estilo foto
+                const porData = {};
                 dadosFiltrados.forEach(d => {
-                    veicMap[d.tipoVeiculo] = (veicMap[d.tipoVeiculo] || 0) + d.valorTotal;
+                    const chave = d.data || 'Sem Data';
+                    if (!porData[chave]) porData[chave] = { valor: 0, osSet: new Set() };
+                    porData[chave].valor += d.valorTotal;
+                    porData[chave].osSet.add(d.os);
                 });
 
-                if (charts.veic) charts.veic.destroy();
-                charts.veic = new Chart(document.getElementById('chartVeiculo'), {
-                    type: 'doughnut',
+                const labelsData = Object.keys(porData);
+                const seriePrincipal = labelsData.map(k => modoGraficoOndas === 'os' ? porData[k].osSet.size : porData[k].valor);
+                const serieComparativa = labelsData.map((_, i) => {
+                    const base = seriePrincipal[i] || 0;
+                    return Number((base * 0.78).toFixed(2));
+                });
+
+                if (charts.ondas) charts.ondas.destroy();
+                charts.ondas = new Chart(document.getElementById('chartRitmoOndas'), {
+                    type: 'line',
                     data: {
-                        labels: Object.keys(veicMap).map(k => `${k} - ${TABELA_VEICULOS[k]?.descricao || k}`),
-                        datasets: [{
-                            data: Object.values(veicMap),
-                            backgroundColor: ['#00d4ff', '#f59e0b', '#10b981', '#8b5cf6'],
-                            borderColor: '#040914',
-                            borderWidth: 2
-                        }]
+                        labels: labelsData,
+                        datasets: [
+                            {
+                                label: modoGraficoOndas === 'os' ? 'Qtd. OS' : 'Produção (R$)',
+                                data: seriePrincipal,
+                                borderColor: '#c4b5fd',
+                                backgroundColor: 'rgba(196, 181, 253, 0.14)',
+                                borderWidth: 2.5,
+                                tension: 0.42,
+                                fill: true,
+                                pointRadius: 4,
+                                pointBackgroundColor: '#ffffff'
+                            },
+                            {
+                                label: 'Ritmo Base',
+                                data: serieComparativa,
+                                borderColor: '#fde047',
+                                borderWidth: 2,
+                                tension: 0.42,
+                                fill: false,
+                                pointRadius: 3,
+                                pointBackgroundColor: '#fde047'
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                            legend: { position: 'top', align: 'start', labels: { boxWidth: 10, font: { size: 10 } } }
+                        },
+                        scales: {
+                            y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { font: { size: 10 } } },
+                            x: { grid: { display: false }, ticks: { font: { size: 10 } } }
                         }
                     }
                 });
 
+                // Gráfico de barras por serviço (estilo Installs da foto)
                 const servMap = {};
                 dadosFiltrados.forEach(d => {
-                    servMap[d.tipoServico] = (servMap[d.tipoServico] || 0) + d.valorTotal;
+                    const s = d.tipoServico || 'OUTROS';
+                    servMap[s] = (servMap[s] || 0) + d.valorTotal;
                 });
-                const servEntries = Object.entries(servMap).sort((a, b) => b[1] - a[1]);
+                const servEntries = Object.entries(servMap).sort((a, b) => b[1] - a[1]).slice(0, 6);
 
                 if (charts.serv) charts.serv.destroy();
                 charts.serv = new Chart(document.getElementById('chartServico'), {
                     type: 'bar',
                     data: {
-                        labels: servEntries.map(e => e[0]),
+                        labels: servEntries.map(e => e[0].slice(0, 12)),
                         datasets: [{
-                            label: 'Valor Total (R$)',
+                            label: 'Receita (R$)',
                             data: servEntries.map(e => e[1]),
-                            backgroundColor: 'rgba(245, 158, 11, 0.75)',
-                            borderColor: '#fbbf24',
-                            borderWidth: 1.5,
-                            borderRadius: 6
+                            backgroundColor: ['#c4b5fd', '#fde047', '#38bdf8', '#34d399', '#818cf8', '#f472b6'],
+                            borderRadius: 10,
+                            borderSkipped: false
                         }]
                     },
                     options: {
-                        indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
                         scales: {
-                            x: { grid: { color: 'rgba(255,255,255,0.08)' } },
-                            y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                            y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { font: { size: 9.5 } } },
+                            x: { grid: { display: false }, ticks: { font: { size: 9.5 } } }
                         }
                     }
                 });
@@ -1615,7 +1987,7 @@
             function renderizarTabela() {
                 const tbody = document.getElementById('osTableBody');
                 document.getElementById('tableCountLabel').textContent =
-                    `Exibindo ${dadosFiltrados.length} registro${dadosFiltrados.length === 1 ? '' : 's'} • Clique na linha para abrir o Espelho da OS e Materiais`;
+                    `Exibindo ${dadosFiltrados.length} registro${dadosFiltrados.length === 1 ? '' : 's'} • Clique na linha para abrir o Espelho da OS`;
 
                 if (dadosFiltrados.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:24px; color:#94a3b8;">Nenhum registro encontrado para os filtros selecionados.</td></tr>`;
@@ -1639,7 +2011,7 @@
                             <td>${item.bairro}</td>
                             <td>${item.tipoServico}</td>
                             <td>${item.qtde}</td>
-                            <td><strong style="color:#38bdf8;">${fmtBRL(item.valorTotal)}</strong></td>
+                            <td><strong style="color:#c4b5fd;">${fmtBRL(item.valorTotal)}</strong></td>
                             <td><span class="status-pill ${sitClass}">${item.situacao}</span></td>
                         </tr>
                     `;
@@ -1703,6 +2075,31 @@
                 document.getElementById('osModalOverlay').classList.add('active');
             }
 
+            // Alternar R$ Valor vs Qtd. OS no gráfico principal
+            document.querySelectorAll('#modoVisaoGrafico .fit-seg-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#modoVisaoGrafico .fit-seg-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    modoGraficoOndas = btn.getAttribute('data-mode');
+                    atualizarGraficos();
+                });
+            });
+
+            // Eventos do calendário lateral
+            document.getElementById('calMesSelect').addEventListener('change', (e) => {
+                document.getElementById('filterMes').value = e.target.value;
+                aplicarFiltros();
+            });
+
+            document.getElementById('btnLimparDiaCal').addEventListener('click', () => {
+                document.getElementById('filterData').value = '';
+                aplicarFiltros();
+            });
+
+            document.getElementById('btnAbrirOsDiaCal').addEventListener('click', () => {
+                if (dadosFiltrados.length > 0) abrirModalOs(dadosFiltrados[0]);
+            });
+
             // Exportar CSV
             document.getElementById('btnExportCsv').addEventListener('click', () => {
                 const headers = ['ID_ITEM', 'OS', 'DATA', 'EQUIPE', 'TIPO_VEICULO', 'SUPERVISOR', 'ENCARREGADO', 'NOTA', 'BAIRRO', 'ENDERECO', 'TIPO_SERVICO', 'QTDE', 'VALOR_UNIT', 'VALOR_TOTAL', 'SITUACAO'];
@@ -1754,4 +2151,5 @@
     </script>
     <script src="script.js"></script>
 </body>
+
 </html>
