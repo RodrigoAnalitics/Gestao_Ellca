@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ELLCA | DASHBOARD EXECUTIVO DE FATURAMENTO</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>
+        html, body {
+            height: auto !important;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(245, 158, 11, 0.35) transparent;
+        }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.35); border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.65); }
+
+        .desktop-view {
+            min-height: 100dvh;
+            height: auto !important;
+            overflow: visible !important;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .container {
+            flex: 1;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 100dvh;
+            overflow: visible !important;
+            position: relative;
+        }
+
+        .container .item,
+        .container .item.active {
+            position: relative !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 100dvh;
+            overflow: visible !important;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .navbar, .footer-bar {
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+        }
+
+        body.bars-collapsed .navbar { transform: translateY(-110%); opacity: 0; pointer-events: none; }
+        body.bars-collapsed .footer-bar { transform: translateY(110%); opacity: 0; pointer-events: none; }
+
+        .fat-wrapper {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            max-width: 1560px;
+            margin: 0 auto;
+            padding: 92px 24px 76px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            box-sizing: border-box;
+            transition: padding 0.32s ease;
+        }
+
+        body.bars-collapsed .fat-wrapper { padding: 20px 24px 36px 24px; }
+
+        /* ================= CABEÇALHO PADRÃO OURO ================= */
+        .fat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 20px 26px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(6, 10, 22, 0.95) 0%, rgba(36, 26, 10, 0.88) 55%, rgba(10, 32, 72, 0.86) 100%);
+            backdrop-filter: blur(22px);
+            border: 1px solid rgba(245, 158, 11, 0.55);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(253, 224, 71, 0.28);
+        }
+
+        .fat-title-group { display: flex; align-items: center; gap: 16px; min-width: 0; }
+
+        .fat-icon-box {
+            width: 52px; height: 52px; border-radius: 15px; flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.30), rgba(251, 191, 36, 0.08));
+            border: 1px solid rgba(245, 158, 11, 0.70);
+            display: flex; align-items: center; justify-content: center;
+            color: #fbbf24; font-size: 22px;
+            box-shadow: 0 0 26px rgba(245, 158, 11, 0.32);
+        }
+
+        .exec-kicker {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: 9.5px; font-weight: 800; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #fbbf24; margin-bottom: 4px;
+        }
+
+        .fat-title-group h1 { font-size: 21px; font-weight: 900; letter-spacing: 1px; color: #fff; margin: 0; text-transform: uppercase; }
+        .fat-title-group p { font-size: 11.5px; color: #cbd5e1; margin: 4px 0 0 0; }
+
+        .fat-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+
+        .sync-badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 8px 14px; border-radius: 50px;
+            font-size: 10.5px; font-weight: 700;
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+        }
+
+        .sync-badge.fallback {
+            background: rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.45);
+            color: #fcd34d;
+        }
+
+        .btn-exec {
+            padding: 9px 14px; border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+            background: rgba(0, 212, 255, 0.12);
+            color: #fff; font-size: 11px; font-weight: 700;
+            letter-spacing: 0.7px; text-transform: uppercase;
+            cursor: pointer; display: inline-flex; align-items: center;
+            justify-content: center; gap: 7px; transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .btn-exec:hover { background: var(--primary); color: #000; box-shadow: 0 0 18px rgba(0, 212, 255, 0.45); }
+        .btn-exec.active-mode { background: #fbbf24; color: #030712; border-color: #fbbf24; }
+
+        .btn-exec.gold {
+            border-color: rgba(245, 158, 11, 0.68);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.26), rgba(217, 119, 6, 0.16));
+            color: #fde68a;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.22);
+        }
+
+        .btn-exec.gold:hover {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            border-color: #ffffff;
+            color: #030712;
+            box-shadow: 0 0 24px rgba(245, 158, 11, 0.55);
+        }
+
+        /* ================= BARRA DE FILTROS ================= */
+        .filter-bar-gold {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(5, 10, 22, 0.88);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(245, 158, 11, 0.32);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.62);
+        }
+
+        .filter-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+        .filter-field label {
+            font-size: 9.5px; font-weight: 800; letter-spacing: 0.9px;
+            text-transform: uppercase; color: #cbd5e1;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .filter-field label i { color: #fbbf24; }
+
+        .filter-field select,
+        .filter-field input {
+            width: 100%; height: 36px; padding: 0 11px; border-radius: 9px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            color: #f8fafc; font-size: 11.5px; font-weight: 600;
+            outline: none; transition: 0.2s; box-sizing: border-box;
+            color-scheme: dark;
+        }
+
+        .filter-field select:focus,
+        .filter-field input:focus { border-color: #fbbf24; box-shadow: 0 0 12px rgba(245, 158, 11, 0.25); }
+
+        .filter-actions-cell { display: flex; align-items: flex-end; }
+
+        .btn-reset-filters {
+            width: 100%; height: 36px; border-radius: 9px;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.14);
+            color: #fca5a5; font-size: 10.5px; font-weight: 800;
+            text-transform: uppercase; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            transition: 0.22s;
+        }
+        .btn-reset-filters:hover { background: rgba(239, 68, 68, 0.28); color: #fff; }
+
+        /* ================= 4 CARDS EXECUTIVOS ================= */
+        .kpi-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .exec-kpi {
+            position: relative;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(6, 12, 26, 0.92) 0%, rgba(14, 28, 56, 0.76) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6);
+            display: flex; flex-direction: column; gap: 8px;
+            overflow: hidden;
+        }
+
+        .exec-kpi::after {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+        }
+
+        .exec-kpi.gold-accent {
+            border-color: rgba(245, 158, 11, 0.48);
+            background: linear-gradient(145deg, rgba(18, 14, 6, 0.94) 0%, rgba(56, 38, 12, 0.68) 100%);
+        }
+        .exec-kpi.gold-accent::after { background: linear-gradient(90deg, transparent, #fbbf24, transparent); }
+
+        .exec-kpi.emerald-accent {
+            border-color: rgba(16, 185, 129, 0.48);
+            background: linear-gradient(145deg, rgba(5, 18, 15, 0.94) 0%, rgba(8, 58, 45, 0.65) 100%);
+        }
+        .exec-kpi.emerald-accent::after { background: linear-gradient(90deg, transparent, #34d399, transparent); }
+
+        .exec-kpi.cyan-accent {
+            border-color: rgba(0, 212, 255, 0.45);
+            background: linear-gradient(145deg, rgba(5, 16, 32, 0.94) 0%, rgba(12, 46, 82, 0.65) 100%);
+        }
+
+        .exec-kpi.rose-accent {
+            border-color: rgba(244, 63, 94, 0.45);
+            background: linear-gradient(145deg, rgba(24, 8, 14, 0.94) 0%, rgba(62, 16, 28, 0.65) 100%);
+        }
+        .exec-kpi.rose-accent::after { background: linear-gradient(90deg, transparent, #fb7185, transparent); }
+
+        .exec-kpi-top {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 10px; font-weight: 800; letter-spacing: 0.9px;
+            text-transform: uppercase; color: #94a3b8;
+        }
+        .exec-kpi-top i { font-size: 16px; color: #00d4ff; }
+        .exec-kpi.gold-accent .exec-kpi-top i { color: #fbbf24; }
+        .exec-kpi.emerald-accent .exec-kpi-top i { color: #34d399; }
+        .exec-kpi.rose-accent .exec-kpi-top i { color: #fb7185; }
+
+        .exec-kpi-val {
+            font-size: 24px; font-weight: 900; color: #fff;
+            letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .exec-kpi-sub {
+            font-size: 11px; color: #cbd5e1;
+            display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+        }
+
+        .mini-bar { width: 100%; height: 5px; border-radius: 99px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+        .mini-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #f59e0b, #fbbf24, #34d399); transition: width 0.5s ease; }
+
+        /* ================= GRID DE GRÁFICOS ================= */
+        .charts-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .chart-card {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(5, 10, 22, 0.88);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .chart-card.full-span {
+            grid-column: 1 / -1;
+        }
+
+        .chart-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .chart-card-head h3 {
+            margin: 0;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-card-head h3 i { color: #fbbf24; }
+        .chart-card-head span { font-size: 10.5px; color: #94a3b8; font-weight: 600; }
+
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 290px;
+        }
+
+        .chart-canvas-wrap.tall {
+            height: 360px;
+        }
+
+        /* ================= PÍLULAS DE PROCESSO (INSIGHT EXTRA) ================= */
+        .process-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 12px;
+        }
+
+        .process-pill-card {
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(6, 12, 26, 0.88);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .process-pill-card small {
+            font-size: 9.5px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.8px; color: #38bdf8;
+        }
+
+        .process-pill-card strong { font-size: 16px; font-weight: 900; color: #fff; }
+        .process-pill-card span { font-size: 10.5px; color: #94a3b8; }
+
+        /* ================= TABELA RESUMO EXECUTIVA ================= */
+        .table-card {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(5, 10, 22, 0.90);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(245, 158, 11, 0.34);
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.68);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .table-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .table-search {
+            height: 34px;
+            padding: 0 12px;
+            border-radius: 9px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fff;
+            font-size: 11.5px;
+            min-width: 240px;
+            outline: none;
+        }
+
+        .table-search:focus { border-color: #fbbf24; }
+
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            max-height: 440px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        table.exec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            text-align: left;
+        }
+
+        table.exec-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: #0b1328;
+            color: #fbbf24;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+            white-space: nowrap;
+        }
+
+        table.exec-table tbody td {
+            padding: 10px 14px;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            white-space: nowrap;
+        }
+
+        table.exec-table tbody tr:hover {
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        table.exec-table tfoot td {
+            position: sticky;
+            bottom: 0;
+            background: #0d1730;
+            color: #fff;
+            font-weight: 900;
+            padding: 11px 14px;
+            border-top: 1px solid rgba(245, 158, 11, 0.45);
+            white-space: nowrap;
+        }
+
+        .badge-pct {
+            padding: 3px 8px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .badge-pct.ok { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .badge-pct.warn { background: rgba(245, 158, 11, 0.18); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge-pct.bad { background: rgba(244, 63, 94, 0.18); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.4); }
+
+        /* ================= TELINHA LOOKER STUDIO GERENCIAL ================= */
+        .report-shell {
+            display: flex;
+            flex-direction: column;
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(3, 7, 16, 0.92);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
+            width: 100%;
+        }
+
+        .report-shell:fullscreen,
+        .report-shell:-webkit-full-screen {
+            border-radius: 0; border: none; background: #030712;
+        }
+
+        .report-shell:fullscreen .report-frame-container,
+        .report-shell:-webkit-full-screen .report-frame-container {
+            flex: 1; height: auto; min-height: 0;
+        }
+
+        .report-shell-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 10px; padding: 12px 18px;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.96), rgba(38, 28, 12, 0.88));
+            border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .report-shell-bar span {
+            font-size: 11px; font-weight: 800; letter-spacing: 0.8px;
+            text-transform: uppercase; color: #fcd34d;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .report-shell-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+        .report-frame-container {
+            width: 100%;
+            height: 62vh;
+            min-height: 460px;
+            position: relative;
+            background: #030712;
+        }
+
+        .report-frame-container iframe { width: 100%; height: 100%; border: none; display: block; }
+
+        .footer-greeting { display: inline-flex; align-items: center; gap: 5px; color: rgba(255, 255, 255, 0.72); }
+        .footer-greeting strong { color: #ffffff; }
+
+        @media (max-width: 1024px) {
+            .charts-grid-2 { grid-template-columns: minmax(0, 1fr); }
+            .container .item, .container .item.active { background-attachment: scroll; }
+        }
+
+        @media (max-width: 768px) {
+            .fat-wrapper { padding: 76px 12px 68px 12px; gap: 14px; }
+            body.bars-collapsed .fat-wrapper { padding: 14px 12px 24px 12px; }
+            .fat-header { padding: 14px 16px; flex-direction: column; align-items: stretch; }
+            .fat-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+            .sync-badge { grid-column: 1 / -1; justify-content: center; }
+            .filter-bar-gold { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px; }
+            .kpi-grid-4 { grid-template-columns: minmax(0, 1fr); }
+            .chart-canvas-wrap { height: 250px; }
+            .report-frame-container { height: 54vh; min-height: 360px; }
+        }
+    </style>
+</head>
+
+<body class="bars-collapsed">
+    <!-- BLOQUEIO DE SEGURANÇA -->
+    <script>
+        (function validarAcessoFaturamento() {
+            if (sessionStorage.getItem('ellca_auth') !== 'true') {
+                window.location.replace('login.html');
+                return;
+            }
+            const setores = JSON.parse(sessionStorage.getItem('ellca_user_setores') || '[]');
+            if (!setores.includes('todos') && !setores.includes('gerencial')) {
+                alert('Acesso restrito à Diretoria e Coordenação.');
+                window.location.replace('home.html');
+            }
+        })();
+    </script>
+
+    <div class="desktop-view">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
+                </a>
+            </div>
+
+            <div class="mobile-header-actions">
+                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="gerencial.html" title="Voltar para Sala Executiva">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button type="button" class="menu-mobile-btn" id="btnMenuMobileFat" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-content" id="navContentFat">
+                <div class="nav-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">PILAR FINANCEIRO • FATURAMENTO EXECUTIVO</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
+                    <a href="supervisor.html" class="nav-item">SUPERVISÃO <i class="fa-solid fa-user-shield"></i></a>
+                    <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
+                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
+                    <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
+
+                    <div class="nav-actions-group">
+                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="gerencial.html" title="Voltar para Sala Executiva">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTAINER PRINCIPAL -->
+        <div class="container">
+            <div class="item active" style="background-image: linear-gradient(rgba(2, 6, 16, 0.89), rgba(4, 10, 24, 0.82)), url('img/Card_gerencial.jpg');">
+                <div class="fat-wrapper">
+
+                    <!-- CABEÇALHO EXECUTIVO DE FATURAMENTO -->
+                    <header class="fat-header">
+                        <div class="fat-title-group">
+                            <div class="fat-icon-box">
+                                <i class="fa-solid fa-sack-dollar"></i>
+                            </div>
+                            <div>
+                                <div class="exec-kicker"><i class="fa-solid fa-crown"></i> Governança Financeira Ellca • Aba Faturamento</div>
+                                <h1>Dashboard Executivo de Faturamento</h1>
+                                <p>Acompanhamento de Meta Mensal, Previsto Proporcional, Realizado Diário, Gap e Performance por Equipe e Supervisor</p>
+                            </div>
+                        </div>
+
+                        <div class="fat-actions">
+                            <span class="sync-badge" id="syncBadgeFat">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Carregando Planilha...
+                            </span>
+                            <a href="gerencial.html" class="btn-exec gold">
+                                <i class="fa-solid fa-arrow-left"></i> Sala Executiva
+                            </a>
+                            <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec gold" title="Abrir Dashboard Gerencial no Looker Studio">
+                                <i class="fa-solid fa-chart-pie"></i> Looker Gerencial
+                            </a>
+                            <button type="button" class="btn-exec" id="btnToggleBarsFat">
+                                <i class="fa-solid fa-bars" id="iconToggleBarsFat"></i>
+                                <span id="textToggleBarsFat">Mostrar Menu</span>
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- BARRA DE FILTROS -->
+                    <section class="filter-bar-gold">
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
+                            <select id="fFilterAno"><option value="">Todos os Anos</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
+                            <select id="fFilterMes"><option value="">Todos os Meses</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data</label>
+                            <input type="date" id="fFilterData">
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-gears"></i> Processo</label>
+                            <select id="fFilterProcesso"><option value="">Todos os Processos</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                            <select id="fFilterSupervisor"><option value="">Todos os Supervisores</option></select>
+                        </div>
+                        <div class="filter-actions-cell">
+                            <button type="button" class="btn-reset-filters" id="btnLimparFiltrosFat">
+                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- 4 CARDS PRINCIPAIS: META MENSAL, PREVISTO, REALIZADO E GAP -->
+                    <section class="kpi-grid-4">
+                        <div class="exec-kpi gold-accent">
+                            <div class="exec-kpi-top">
+                                <span>Meta Mensal</span>
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="kpiMetaMensal" style="color:#fbbf24;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiQtdEquipes">0 equipes ativas</span>
+                                <span id="kpiTicketMeta">Média: R$ 0,00/eq</span>
+                            </div>
+                        </div>
+
+                        <div class="exec-kpi cyan-accent">
+                            <div class="exec-kpi-top">
+                                <span>Previsto (Período)</span>
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="kpiPrevisto" style="color:#38bdf8;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiDiasUteis">0 dias operacionais</span>
+                                <span id="kpiPctPrevMeta">0% da meta</span>
+                            </div>
+                        </div>
+
+                        <div class="exec-kpi emerald-accent">
+                            <div class="exec-kpi-top">
+                                <span>Realizado</span>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="kpiRealizado" style="color:#34d399;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiAtingMeta">0,0% da Meta Mensal</span>
+                                <span id="kpiMediaDia">Média: R$ 0,00/dia</span>
+                            </div>
+                            <div class="mini-bar">
+                                <div class="mini-bar-fill" id="kpiProgressBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="exec-kpi rose-accent" id="cardKpiGap">
+                            <div class="exec-kpi-top">
+                                <span>Gap (Realizado × Previsto)</span>
+                                <i class="fa-solid fa-scale-unbalanced"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="kpiGap" style="color:#fb7185;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiGapMeta">Saldo p/ Meta: R$ 0,00</span>
+                                <span id="kpiAderenciaPrev">Aderência: 0,0%</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- RESUMO RÁPIDO POR PROCESSO (INSIGHT EXECUTIVO) -->
+                    <section class="process-strip" id="processSummaryStrip"></section>
+
+                    <!-- GRÁFICOS EXECUTIVOS -->
+                    <section class="charts-grid-2">
+                        <!-- 1. SÉRIE TEMPORAL DO FATURAMENTO - DIA -->
+                        <div class="chart-card full-span">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-chart-line"></i> Série Temporal do Faturamento — Dia</h3>
+                                <span id="lblSerieTemporalInfo">Evolução diária do faturamento realizado (R$)</span>
+                            </div>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartSerieTemporal"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 2. META POR SUPERVISOR -->
+                        <div class="chart-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-user-shield"></i> Meta Mensal × Realizado por Supervisor</h3>
+                                <span>Consolidado por liderança</span>
+                            </div>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartMetaSupervisor"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 3. FATURAMENTO DIA DA SEMANA -->
+                        <div class="chart-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-calendar-week"></i> Faturamento por Dia da Semana</h3>
+                                <span>Volume acumulado & média por dia</span>
+                            </div>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartDiaSemana"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 4. FATURAMENTO POR EQUIPE X PREVISTO -->
+                        <div class="chart-card full-span">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-truck-fast"></i> Faturamento por Equipe × Previsto</h3>
+                                <span>Comparativo de entrega por equipe operacional</span>
+                            </div>
+                            <div class="chart-canvas-wrap tall">
+                                <canvas id="chartEquipePrevisto"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- TABELA RESUMO EXECUTIVA -->
+                    <section class="table-card">
+                        <div class="table-toolbar">
+                            <div class="chart-card-head" style="border:none; padding:0;">
+                                <h3><i class="fa-solid fa-table-list"></i> Tabela Resumo Consolidada por Equipe</h3>
+                                <span id="lblTotalLinhasTabela" style="margin-left:8px;">0 equipes</span>
+                            </div>
+
+                            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                <input type="text" id="inputBuscaTabela" class="table-search" placeholder="Buscar equipe, supervisor, veículo ou processo...">
+                                <button type="button" class="btn-exec gold" id="btnExportarCsv" style="padding:7px 12px; font-size:10px;">
+                                    <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-scroll">
+                            <table class="exec-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipe</th>
+                                        <th>Supervisor</th>
+                                        <th>Processo</th>
+                                        <th>Tipo / Frota</th>
+                                        <th>Dias</th>
+                                        <th>Meta Mensal</th>
+                                        <th>Previsto</th>
+                                        <th>Realizado</th>
+                                        <th>Gap (Real - Prev)</th>
+                                        <th>% Meta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyResumoFat"></tbody>
+                                <tfoot id="tfootResumoFat"></tfoot>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- TELINHA + LINK PARA LOOKER STUDIO DO DASHBOARD GERENCIAL -->
+                    <section class="report-shell" id="lookerShellFat">
+                        <div class="report-shell-bar">
+                            <span><i class="fa-solid fa-tv"></i> Telinha Executiva — Dashboard Gerencial (Looker Studio)</span>
+                            <div class="report-shell-actions">
+                                <button type="button" class="btn-exec gold" id="btnReloadLookerFat" style="padding:6px 11px; font-size:10px;">
+                                    <i class="fa-solid fa-rotate"></i> Recarregar
+                                </button>
+                                <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec gold" style="padding:6px 11px; font-size:10px;">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Dashboard Gerencial Completo
+                                </a>
+                                <button type="button" class="btn-exec" id="btnFullscreenLookerFat" style="padding:6px 11px; font-size:10px;">
+                                    <i class="fa-solid fa-expand" id="iconFsLookerFat"></i>
+                                    <span id="textFsLookerFat">Tela Cheia</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="report-frame-container">
+                            <iframe
+                                id="iframeLookerFat"
+                                src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d"
+                                allowfullscreen
+                                sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                            </iframe>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+            <!-- RODAPÉ -->
+            <footer class="footer-bar">
+                <div class="footer-info">
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+                    <span class="separator">•</span>
+                    <span>Módulo: <strong>Dashboard Executivo de Faturamento</strong></span>
+                </div>
+                <div class="footer-actions">
+                    <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+                        <i class="fa-solid fa-headset"></i> Suporte
+                    </button>
+                    <span class="separator">•</span>
+                    <span class="footer-greeting"><i class="fa-solid fa-user-check"></i> Olá, <strong id="footerUserNameFat">Rodrigo Lopes</strong></span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        (function iniciarDashboardFaturamento() {
+            const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
+            const ABA_NOME = 'Faturamento';
+
+            const NOMES_MESES = {
+                '01': '01 - Janeiro', '02': '02 - Fevereiro', '03': '03 - Março',
+                '04': '04 - Abril', '05': '05 - Maio', '06': '06 - Junho',
+                '07': '07 - Julho', '08': '08 - Agosto', '09': '09 - Setembro',
+                '10': '10 - Outubro', '11': '11 - Novembro', '12': '12 - Dezembro'
+            };
+
+            const DIAS_SEMANA_NOMES = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+            const ORDEM_DIAS_SEMANA = [1, 2, 3, 4, 5, 6, 0];
+
+            let registrosBrutos = [];
+            let resumoEquipesAtual = [];
+            let charts = {};
+
+            const nomeSessao = sessionStorage.getItem('ellca_user_name') || localStorage.getItem('ellca_user_name') || 'Rodrigo Lopes';
+            const footerEl = document.getElementById('footerUserNameFat');
+            if (footerEl) footerEl.textContent = nomeSessao;
+
+            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const fmtBRLCompact = (v) => {
+                const n = Number(v) || 0;
+                if (Math.abs(n) >= 1000000) return 'R$ ' + (n / 1000000).toFixed(2).replace('.', ',') + 'M';
+                if (Math.abs(n) >= 1000) return 'R$ ' + (n / 1000).toFixed(1).replace('.', ',') + 'k';
+                return fmtBRL(n);
+            };
+
+            const parseNum = (v) => {
+                if (typeof v === 'number') return v;
+                if (!v) return 0;
+                const clean = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
+                return parseFloat(clean) || 0;
+            };
+
+            function parseDataCell(cell) {
+                if (!cell) return { ano: '', mes: '', iso: '', br: '', diaSemana: -1 };
+                const rawV = String(cell.v || '');
+                const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
+                let ano = '', mes = '', dia = '';
+
+                if (mDate) {
+                    ano = mDate[1];
+                    mes = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
+                    dia = String(parseInt(mDate[3], 10)).padStart(2, '0');
+                } else {
+                    const txt = String(cell.f || rawV).trim();
+                    let m = txt.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+                    if (m) {
+                        dia = m[1].padStart(2, '0');
+                        mes = m[2].padStart(2, '0');
+                        ano = m[3];
+                    } else {
+                        m = txt.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+                        if (m) {
+                            ano = m[1];
+                            mes = m[2].padStart(2, '0');
+                            dia = m[3].padStart(2, '0');
+                        }
+                    }
+                }
+
+                if (!ano || !mes || !dia) return { ano: '', mes: '', iso: '', br: '', diaSemana: -1 };
+                const dt = new Date(Number(ano), Number(mes) - 1, Number(dia));
+                return {
+                    ano,
+                    mes,
+                    iso: `${ano}-${mes}-${dia}`,
+                    br: `${dia}/${mes}/${ano}`,
+                    diaSemana: dt.getDay()
+                };
+            }
+
+            // Contagem de dias úteis (Seg-Sex) no mês/ano para cálculo justo do Previsto
+            function contarDiasUteisMes(ano, mes) {
+                if (!ano || !mes) return 22;
+                const y = Number(ano), m = Number(mes) - 1;
+                const ultimoDia = new Date(y, m + 1, 0).getDate();
+                let uteis = 0;
+                for (let d = 1; d <= ultimoDia; d++) {
+                    const dw = new Date(y, m, d).getDay();
+                    if (dw !== 0 && dw !== 6) uteis++;
+                }
+                return uteis || 22;
+            }
+
+            // Controles de UI
+            document.getElementById('btnMenuMobileFat')?.addEventListener('click', () => {
+                document.getElementById('navContentFat')?.classList.toggle('ativo');
+            });
+
+            document.querySelectorAll('.btn-voltar').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    window.location.href = btn.getAttribute('data-destino') || 'gerencial.html';
+                });
+            });
+
+            let barsCollapsed = true;
+            document.getElementById('btnToggleBarsFat')?.addEventListener('click', () => {
+                barsCollapsed = !barsCollapsed;
+                document.body.classList.toggle('bars-collapsed', barsCollapsed);
+                document.getElementById('btnToggleBarsFat').classList.toggle('active-mode', !barsCollapsed);
+                document.getElementById('iconToggleBarsFat').className = barsCollapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
+                document.getElementById('textToggleBarsFat').textContent = barsCollapsed ? 'Mostrar Menu' : 'Ocultar Menu';
+            });
+
+            document.getElementById('btnReloadLookerFat')?.addEventListener('click', () => {
+                const ifr = document.getElementById('iframeLookerFat');
+                if (ifr) ifr.src = ifr.src;
+            });
+
+            document.getElementById('btnFullscreenLookerFat')?.addEventListener('click', () => {
+                const shell = document.getElementById('lookerShellFat');
+                if (!document.fullscreenElement) {
+                    shell.requestFullscreen?.().catch(e => console.warn(e));
+                } else {
+                    document.exitFullscreen?.();
+                }
+            });
+
+            document.addEventListener('fullscreenchange', () => {
+                const isFs = document.fullscreenElement === document.getElementById('lookerShellFat');
+                document.getElementById('iconFsLookerFat').className = isFs ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
+                document.getElementById('textFsLookerFat').textContent = isFs ? 'Sair Tela Cheia' : 'Tela Cheia';
+            });
+
+            // Carregamento da Planilha Google Sheets via GViz JSONP
+            function carregarPlanilhaFaturamento() {
+                const badge = document.getElementById('syncBadgeFat');
+                const cbName = 'cbFat_' + Math.random().toString(36).slice(2, 9);
+                const script = document.createElement('script');
+
+                const timer = setTimeout(() => {
+                    delete window[cbName];
+                    script.remove();
+                    badge.className = 'sync-badge fallback';
+                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido';
+                }, 12000);
+
+                window[cbName] = function (json) {
+                    clearTimeout(timer);
+                    delete window[cbName];
+                    script.remove();
+
+                    const lista = [];
+                    if (json && json.table && Array.isArray(json.table.rows)) {
+                        json.table.rows.forEach(r => {
+                            const c = r.c || [];
+                            const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
+                            const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
+
+                            const dtInfo = parseDataCell(c[0]);
+                            const supervisor = getStr(1).toUpperCase();
+                            const equipe = getStr(2).toUpperCase();
+
+                            if (dtInfo.iso && equipe && equipe !== 'EQUIPE') {
+                                lista.push({
+                                    ano: dtInfo.ano,
+                                    mes: dtInfo.mes,
+                                    dataIso: dtInfo.iso,
+                                    dataBr: dtInfo.br,
+                                    diaSemana: dtInfo.diaSemana,
+                                    supervisor: supervisor || 'NÃO INFORMADO',
+                                    equipe,
+                                    tipo: getStr(3).toUpperCase(),
+                                    veiculo: getStr(4).toUpperCase(),
+                                    funcao: getStr(5).toUpperCase(),
+                                    valorMensal: getNum(6),
+                                    valorDia: getNum(7),
+                                    processo: (getStr(8) || 'GERAL').toUpperCase()
+                                });
+                            }
+                        });
+                    }
+
+                    registrosBrutos = lista;
+
+                    if (registrosBrutos.length > 0) {
+                        const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        badge.className = 'sync-badge';
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo (${registrosBrutos.length.toLocaleString('pt-BR')} reg.) • ${hora}`;
+                    } else {
+                        badge.className = 'sync-badge fallback';
+                        badge.innerHTML = '<i class="fa-solid fa-database"></i> Sem registros lidos';
+                    }
+
+                    popularFiltros(true);
+                    atualizarDashboard();
+                };
+
+                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
+                script.onerror = () => {
+                    clearTimeout(timer);
+                    badge.className = 'sync-badge fallback';
+                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Erro de Conexão';
+                };
+                document.body.appendChild(script);
+            }
+
+            function popularFiltros(selecionarMaisRecente = false) {
+                const fill = (id, vals, labelAll, fmt = (v) => v, desc = false) => {
+                    const sel = document.getElementById(id);
+                    const prev = sel.value;
+                    sel.innerHTML = `<option value="">${labelAll}</option>`;
+                    const uniq = [...new Set(vals.filter(Boolean))].sort();
+                    if (desc) uniq.reverse();
+                    uniq.forEach(v => {
+                        const opt = document.createElement('option');
+                        opt.value = v;
+                        opt.textContent = fmt(v);
+                        sel.appendChild(opt);
+                    });
+                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+                };
+
+                fill('fFilterAno', registrosBrutos.map(d => d.ano), 'Todos os Anos', v => v, true);
+                fill('fFilterMes', registrosBrutos.map(d => d.mes), 'Todos os Meses', m => NOMES_MESES[m] || m);
+                fill('fFilterProcesso', registrosBrutos.map(d => d.processo), 'Todos os Processos');
+                fill('fFilterSupervisor', registrosBrutos.map(d => d.supervisor), 'Todos os Supervisores');
+
+                // Por padrão, posiciona no Ano e Mês mais recentes da base para a Meta Mensal já abrir calibrada
+                if (selecionarMaisRecente && registrosBrutos.length > 0) {
+                    const ordenados = [...registrosBrutos].sort((a, b) => b.dataIso.localeCompare(a.dataIso));
+                    const ultimo = ordenados[0];
+                    if (ultimo) {
+                        document.getElementById('fFilterAno').value = ultimo.ano;
+                        document.getElementById('fFilterMes').value = ultimo.mes;
+                    }
+                }
+            }
+
+            function atualizarDashboard() {
+                const ano = document.getElementById('fFilterAno').value;
+                const mes = document.getElementById('fFilterMes').value;
+                const dataVal = document.getElementById('fFilterData').value;
+                const processo = document.getElementById('fFilterProcesso').value;
+                const supervisor = document.getElementById('fFilterSupervisor').value;
+
+                const filtrados = registrosBrutos.filter(d => {
+                    if (ano && d.ano !== ano) return false;
+                    if (mes && d.mes !== mes) return false;
+                    if (dataVal && d.dataIso !== dataVal) return false;
+                    if (processo && d.processo !== processo) return false;
+                    if (supervisor && d.supervisor !== supervisor) return false;
+                    return true;
+                });
+
+                // Dias únicos presentes no recorte filtrado
+                const diasUnicos = [...new Set(filtrados.map(d => d.dataIso))].sort();
+                const qtdDiasRecorte = diasUnicos.length;
+
+                // Agrupamento por Equipe + Ano/Mês para não duplicar o VALOR MENSAL em cada dia
+                const metaPorCompetenciaEquipe = new Map();
+                filtrados.forEach(d => {
+                    const chaveComp = `${d.ano}-${d.mes}|${d.equipe}|${d.processo}`;
+                    if (!metaPorCompetenciaEquipe.has(chaveComp)) {
+                        metaPorCompetenciaEquipe.set(chaveComp, d.valorMensal);
+                    } else if (d.valorMensal > metaPorCompetenciaEquipe.get(chaveComp)) {
+                        metaPorCompetenciaEquipe.set(chaveComp, d.valorMensal);
+                    }
+                });
+
+                let metaMensalTotal = 0;
+                metaPorCompetenciaEquipe.forEach(v => { metaMensalTotal += v; });
+
+                // Agrupamento consolidado por Equipe
+                const mapaEquipes = {};
+                filtrados.forEach(d => {
+                    if (!mapaEquipes[d.equipe]) {
+                        mapaEquipes[d.equipe] = {
+                            equipe: d.equipe,
+                            supervisor: d.supervisor,
+                            processo: d.processo,
+                            tipo: d.tipo,
+                            veiculo: d.veiculo,
+                            diasSet: new Set(),
+                            competenciasMeta: new Map(),
+                            realizado: 0,
+                            somaValorDia: 0
+                        };
+                    }
+                    const item = mapaEquipes[d.equipe];
+                    item.supervisor = d.supervisor;
+                    item.processo = d.processo;
+                    if (d.tipo) item.tipo = d.tipo;
+                    if (d.veiculo) item.veiculo = d.veiculo;
+                    item.diasSet.add(d.dataIso);
+                    item.realizado += d.valorDia;
+                    item.somaValorDia += d.valorDia;
+
+                    const compKey = `${d.ano}-${d.mes}`;
+                    const prevM = item.competenciasMeta.get(compKey) || 0;
+                    if (d.valorMensal > prevM) item.competenciasMeta.set(compKey, d.valorMensal);
+                });
+
+                const diasUteisBase = (ano && mes) ? contarDiasUteisMes(ano, mes) : Math.max(qtdDiasRecorte, 22);
+
+                resumoEquipesAtual = Object.values(mapaEquipes).map(eq => {
+                    let metaEq = 0;
+                    eq.competenciasMeta.forEach(v => { metaEq += v; });
+                    const diasTrab = eq.diasSet.size;
+                    // Previsto proporcional aos dias operacionais do recorte
+                    const previstoEq = dataVal
+                        ? (metaEq / diasUteisBase)
+                        : (metaEq * Math.min(1, qtdDiasRecorte / diasUteisBase));
+                    const gapEq = eq.realizado - previstoEq;
+                    const pctMeta = metaEq > 0 ? (eq.realizado / metaEq) * 100 : 0;
+
+                    return {
+                        equipe: eq.equipe,
+                        supervisor: eq.supervisor,
+                        processo: eq.processo,
+                        tipo: eq.tipo || '-',
+                        veiculo: eq.veiculo || '-',
+                        dias: diasTrab,
+                        metaMensal: metaEq,
+                        previsto: previstoEq,
+                        realizado: eq.realizado,
+                        gap: gapEq,
+                        pctMeta
+                    };
+                }).sort((a, b) => b.realizado - a.realizado);
+
+                const previstoTotal = resumoEquipesAtual.reduce((acc, e) => acc + e.previsto, 0);
+                const realizadoTotal = resumoEquipesAtual.reduce((acc, e) => acc + e.realizado, 0);
+                const gapTotal = realizadoTotal - previstoTotal;
+                const qtdEquipes = resumoEquipesAtual.length;
+                const pctMetaGeral = metaMensalTotal > 0 ? (realizadoTotal / metaMensalTotal) * 100 : 0;
+                const pctPrevMeta = metaMensalTotal > 0 ? (previstoTotal / metaMensalTotal) * 100 : 0;
+                const aderenciaPrev = previstoTotal > 0 ? (realizadoTotal / previstoTotal) * 100 : 0;
+                const mediaDia = qtdDiasRecorte > 0 ? (realizadoTotal / qtdDiasRecorte) : 0;
+
+                // Atualiza os 4 Cards
+                document.getElementById('kpiMetaMensal').textContent = fmtBRL(metaMensalTotal);
+                document.getElementById('kpiQtdEquipes').textContent = `${qtdEquipes} equipes ativas`;
+                document.getElementById('kpiTicketMeta').textContent = `Média: ${fmtBRLCompact(qtdEquipes > 0 ? metaMensalTotal / qtdEquipes : 0)}/eq`;
+
+                document.getElementById('kpiPrevisto').textContent = fmtBRL(previstoTotal);
+                document.getElementById('kpiDiasUteis').textContent = `${qtdDiasRecorte} de ${diasUteisBase} dias úteis`;
+                document.getElementById('kpiPctPrevMeta').textContent = `${pctPrevMeta.toFixed(1).replace('.', ',')}% da meta`;
+
+                document.getElementById('kpiRealizado').textContent = fmtBRL(realizadoTotal);
+                document.getElementById('kpiAtingMeta').textContent = `${pctMetaGeral.toFixed(1).replace('.', ',')}% da Meta Mensal`;
+                document.getElementById('kpiMediaDia').textContent = `Média: ${fmtBRLCompact(mediaDia)}/dia`;
+                document.getElementById('kpiProgressBar').style.width = `${Math.min(100, pctMetaGeral)}%`;
+
+                const cardGap = document.getElementById('cardKpiGap');
+                const kpiGapEl = document.getElementById('kpiGap');
+                kpiGapEl.textContent = (gapTotal >= 0 ? '+ ' : '') + fmtBRL(gapTotal);
+                if (gapTotal >= 0) {
+                    cardGap.className = 'exec-kpi emerald-accent';
+                    kpiGapEl.style.color = '#34d399';
+                } else {
+                    cardGap.className = 'exec-kpi rose-accent';
+                    kpiGapEl.style.color = '#fb7185';
+                }
+                document.getElementById('kpiGapMeta').textContent = `Falta p/ Meta: ${fmtBRLCompact(Math.max(0, metaMensalTotal - realizadoTotal))}`;
+                document.getElementById('kpiAderenciaPrev').textContent = `Aderência: ${aderenciaPrev.toFixed(1).replace('.', ',')}%`;
+
+                renderProcessosStrip(filtrados, realizadoTotal);
+                renderGraficos(filtrados, resumoEquipesAtual, mediaDia);
+                renderTabelaResumo();
+            }
+
+            function renderProcessosStrip(filtrados, totalReal) {
+                const strip = document.getElementById('processSummaryStrip');
+                const mapProc = {};
+                filtrados.forEach(d => {
+                    if (!mapProc[d.processo]) mapProc[d.processo] = { real: 0, equipes: new Set() };
+                    mapProc[d.processo].real += d.valorDia;
+                    mapProc[d.processo].equipes.add(d.equipe);
+                });
+
+                const lista = Object.entries(mapProc).sort((a, b) => b[1].real - a[1].real);
+                strip.innerHTML = lista.map(([proc, info]) => {
+                    const share = totalReal > 0 ? (info.real / totalReal) * 100 : 0;
+                    return `
+                        <div class="process-pill-card">
+                            <small><i class="fa-solid fa-layer-group"></i> Processo: ${proc}</small>
+                            <strong>${fmtBRL(info.real)}</strong>
+                            <span>${info.equipes.size} equipes • ${share.toFixed(1).replace('.', ',')}% do faturamento</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function destruirChart(id) {
+                if (charts[id]) {
+                    charts[id].destroy();
+                    delete charts[id];
+                }
+            }
+
+            function renderGraficos(filtrados, resumoEquipes, mediaDia) {
+                Chart.defaults.color = '#cbd5e1';
+                Chart.defaults.font.family = "'Montserrat', sans-serif";
+                Chart.defaults.font.size = 11;
+
+                // 1. SÉRIE TEMPORAL DO FATURAMENTO - DIA
+                const mapDia = {};
+                filtrados.forEach(d => {
+                    if (!mapDia[d.dataIso]) mapDia[d.dataIso] = { br: d.dataBr.slice(0, 5), val: 0 };
+                    mapDia[d.dataIso].val += d.valorDia;
+                });
+                const diasOrdenados = Object.keys(mapDia).sort();
+                const labelsDia = diasOrdenados.map(k => mapDia[k].br);
+                const valoresDia = diasOrdenados.map(k => Number(mapDia[k].val.toFixed(2)));
+                const linhaMedia = diasOrdenados.map(() => Number(mediaDia.toFixed(2)));
+
+                document.getElementById('lblSerieTemporalInfo').textContent = `${diasOrdenados.length} dias faturados • Média diária: ${fmtBRL(mediaDia)}`;
+
+                destruirChart('serie');
+                const ctxSerie = document.getElementById('chartSerieTemporal').getContext('2d');
+                const gradSerie = ctxSerie.createLinearGradient(0, 0, 0, 280);
+                gradSerie.addColorStop(0, 'rgba(251, 191, 36, 0.38)');
+                gradSerie.addColorStop(1, 'rgba(251, 191, 36, 0.01)');
+
+                charts.serie = new Chart(ctxSerie, {
+                    type: 'line',
+                    data: {
+                        labels: labelsDia,
+                        datasets: [
+                            {
+                                label: 'Faturamento Realizado (R$)',
+                                data: valoresDia,
+                                borderColor: '#fbbf24',
+                                backgroundColor: gradSerie,
+                                borderWidth: 2.5,
+                                fill: true,
+                                tension: 0.32,
+                                pointRadius: 3.5,
+                                pointBackgroundColor: '#fbbf24'
+                            },
+                            {
+                                label: 'Média Diária (R$)',
+                                data: linhaMedia,
+                                borderColor: '#38bdf8',
+                                borderDash: [6, 6],
+                                borderWidth: 1.8,
+                                pointRadius: 0,
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { position: 'top' },
+                            tooltip: {
+                                callbacks: {
+                                    label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                            y: {
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { callback: (v) => fmtBRLCompact(v) }
+                            }
+                        }
+                    }
+                });
+
+                // 2. META POR SUPERVISOR
+                const mapSup = {};
+                resumoEquipes.forEach(eq => {
+                    if (!mapSup[eq.supervisor]) mapSup[eq.supervisor] = { meta: 0, real: 0 };
+                    mapSup[eq.supervisor].meta += eq.metaMensal;
+                    mapSup[eq.supervisor].real += eq.realizado;
+                });
+                const supsOrdenados = Object.entries(mapSup).sort((a, b) => b[1].meta - a[1].meta);
+
+                destruirChart('supervisor');
+                charts.supervisor = new Chart(document.getElementById('chartMetaSupervisor'), {
+                    type: 'bar',
+                    data: {
+                        labels: supsOrdenados.map(s => s[0]),
+                        datasets: [
+                            {
+                                label: 'Meta Mensal (R$)',
+                                data: supsOrdenados.map(s => Number(s[1].meta.toFixed(2))),
+                                backgroundColor: 'rgba(251, 191, 36, 0.82)',
+                                borderColor: '#fbbf24',
+                                borderWidth: 1,
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Realizado (R$)',
+                                data: supsOrdenados.map(s => Number(s[1].real.toFixed(2))),
+                                backgroundColor: 'rgba(52, 211, 153, 0.85)',
+                                borderColor: '#34d399',
+                                borderWidth: 1,
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: {
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { callback: (v) => fmtBRLCompact(v) }
+                            }
+                        }
+                    }
+                });
+
+                // 3. FATURAMENTO DIA DA SEMANA
+                const mapSemana = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+                filtrados.forEach(d => {
+                    if (d.diaSemana >= 0 && d.diaSemana <= 6) {
+                        mapSemana[d.diaSemana] += d.valorDia;
+                    }
+                });
+
+                const diasAtivosSemana = ORDEM_DIAS_SEMANA.filter(idx => mapSemana[idx] > 0 || (idx >= 1 && idx <= 6));
+
+                destruirChart('semana');
+                charts.semana = new Chart(document.getElementById('chartDiaSemana'), {
+                    type: 'bar',
+                    data: {
+                        labels: diasAtivosSemana.map(idx => DIAS_SEMANA_NOMES[idx]),
+                        datasets: [{
+                            label: 'Faturamento Acumulado (R$)',
+                            data: diasAtivosSemana.map(idx => Number(mapSemana[idx].toFixed(2))),
+                            backgroundColor: [
+                                'rgba(0, 212, 255, 0.78)',
+                                'rgba(56, 189, 248, 0.78)',
+                                'rgba(251, 191, 36, 0.82)',
+                                'rgba(245, 158, 11, 0.82)',
+                                'rgba(52, 211, 153, 0.82)',
+                                'rgba(167, 139, 250, 0.78)',
+                                'rgba(244, 114, 182, 0.75)'
+                            ],
+                            borderRadius: 7
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: { label: (ctx) => `Faturado: ${fmtBRL(ctx.parsed.y)}` }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: {
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { callback: (v) => fmtBRLCompact(v) }
+                            }
+                        }
+                    }
+                });
+
+                // 4. FATURAMENTO POR EQUIPE X PREVISTO
+                const topEquipes = resumoEquipes.slice(0, 25);
+                destruirChart('equipePrev');
+                charts.equipePrev = new Chart(document.getElementById('chartEquipePrevisto'), {
+                    type: 'bar',
+                    data: {
+                        labels: topEquipes.map(e => e.equipe),
+                        datasets: [
+                            {
+                                label: 'Realizado (R$)',
+                                data: topEquipes.map(e => Number(e.realizado.toFixed(2))),
+                                backgroundColor: 'rgba(52, 211, 153, 0.88)',
+                                borderRadius: 5
+                            },
+                            {
+                                label: 'Previsto (R$)',
+                                data: topEquipes.map(e => Number(e.previsto.toFixed(2))),
+                                backgroundColor: 'rgba(56, 189, 248, 0.65)',
+                                borderRadius: 5
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: {
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { callback: (v) => fmtBRLCompact(v) }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function renderTabelaResumo() {
+                const termo = (document.getElementById('inputBuscaTabela').value || '').trim().toUpperCase();
+                const linhas = resumoEquipesAtual.filter(e => {
+                    if (!termo) return true;
+                    return e.equipe.includes(termo) ||
+                           e.supervisor.includes(termo) ||
+                           e.processo.includes(termo) ||
+                           e.tipo.includes(termo) ||
+                           e.veiculo.includes(termo);
+                });
+
+                document.getElementById('lblTotalLinhasTabela').textContent = `${linhas.length} equipes listadas`;
+
+                const tbody = document.getElementById('tbodyResumoFat');
+                const tfoot = document.getElementById('tfootResumoFat');
+
+                if (linhas.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:20px; color:#94a3b8;">Nenhum registro encontrado para os filtros aplicados.</td></tr>`;
+                    tfoot.innerHTML = '';
+                    return;
+                }
+
+                tbody.innerHTML = linhas.map(e => {
+                    const clsPct = e.pctMeta >= 95 ? 'ok' : e.pctMeta >= 70 ? 'warn' : 'bad';
+                    const corGap = e.gap >= 0 ? '#34d399' : '#fb7185';
+                    return `
+                        <tr>
+                            <td><strong style="color:#fbbf24;">${e.equipe}</strong></td>
+                            <td>${e.supervisor}</td>
+                            <td>${e.processo}</td>
+                            <td title="${e.veiculo}">${e.tipo}</td>
+                            <td>${e.dias} d</td>
+                            <td>${fmtBRL(e.metaMensal)}</td>
+                            <td style="color:#38bdf8;">${fmtBRL(e.previsto)}</td>
+                            <td style="color:#34d399; font-weight:700;">${fmtBRL(e.realizado)}</td>
+                            <td style="color:${corGap}; font-weight:700;">${(e.gap >= 0 ? '+ ' : '') + fmtBRL(e.gap)}</td>
+                            <td><span class="badge-pct ${clsPct}">${e.pctMeta.toFixed(1).replace('.', ',')}%</span></td>
+                        </tr>
+                    `;
+                }).join('');
+
+                const totMeta = linhas.reduce((a, e) => a + e.metaMensal, 0);
+                const totPrev = linhas.reduce((a, e) => a + e.previsto, 0);
+                const totReal = linhas.reduce((a, e) => a + e.realizado, 0);
+                const totGap = totReal - totPrev;
+                const totPct = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
+
+                tfoot.innerHTML = `
+                    <tr>
+                        <td colspan="5">TOTAL CONSOLIDADO (${linhas.length} EQUIPES)</td>
+                        <td style="color:#fbbf24;">${fmtBRL(totMeta)}</td>
+                        <td style="color:#38bdf8;">${fmtBRL(totPrev)}</td>
+                        <td style="color:#34d399;">${fmtBRL(totReal)}</td>
+                        <td style="color:${totGap >= 0 ? '#34d399' : '#fb7185'};">${(totGap >= 0 ? '+ ' : '') + fmtBRL(totGap)}</td>
+                        <td>${totPct.toFixed(1).replace('.', ',')}%</td>
+                    </tr>
+                `;
+            }
+
+            // Exportar CSV da Tabela Resumo
+            document.getElementById('btnExportarCsv')?.addEventListener('click', () => {
+                if (!resumoEquipesAtual.length) return;
+                const cabecalho = ['Equipe', 'Supervisor', 'Processo', 'Tipo', 'Veiculo', 'Dias', 'Meta_Mensal', 'Previsto', 'Realizado', 'Gap', 'Pct_Meta'];
+                const linhasCsv = resumoEquipesAtual.map(e => [
+                    e.equipe, e.supervisor, e.processo, e.tipo, e.veiculo, e.dias,
+                    e.metaMensal.toFixed(2), e.previsto.toFixed(2), e.realizado.toFixed(2),
+                    e.gap.toFixed(2), e.pctMeta.toFixed(2)
+                ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(';'));
+
+                const blob = new Blob(['\uFEFF' + [cabecalho.join(';'), ...linhasCsv].join('\n')], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Ellca_Faturamento_Resumo_${new Date().toISOString().slice(0, 10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            // Eventos de Filtro e Busca
+            ['fFilterAno', 'fFilterMes', 'fFilterData', 'fFilterProcesso', 'fFilterSupervisor'].forEach(id => {
+                document.getElementById(id)?.addEventListener('change', atualizarDashboard);
+            });
+
+            document.getElementById('inputBuscaTabela')?.addEventListener('input', renderTabelaResumo);
+
+            document.getElementById('btnLimparFiltrosFat')?.addEventListener('click', () => {
+                ['fFilterAno', 'fFilterMes', 'fFilterData', 'fFilterProcesso', 'fFilterSupervisor'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+                document.getElementById('inputBuscaTabela').value = '';
+                atualizarDashboard();
+            });
+
+            carregarPlanilhaFaturamento();
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
