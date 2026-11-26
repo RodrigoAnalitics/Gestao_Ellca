@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | DASHBOARD EXECUTIVO DE FATURAMENTO</title>
+    <title>ELLCA | CONTROLE GERENCIAL DE FATURAMENTO</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
     <style>
         :root {
@@ -134,7 +135,7 @@
             padding: 20px 24px 36px 24px;
         }
 
-        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS (ESTILO HOME ELLCA) ================= */
+        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS ================= */
         @property --ellca-border-angle {
             syntax: '<angle>';
             initial-value: 0deg;
@@ -276,6 +277,7 @@
             border: 1px solid rgba(0, 212, 255, 0.45);
             background: rgba(0, 212, 255, 0.12);
             color: #e0f2fe;
+            font-family: 'Montserrat', sans-serif;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.7px;
@@ -316,20 +318,21 @@
             border-color: #ffffff;
         }
 
-        /* ================= BARRA DE FILTROS ================= */
-        .filter-bar-ellca {
+        /* ================= PAINEL DE FILTROS MULTI-SELEÇÃO ================= */
+        .filters-card {
             position: relative;
             z-index: 30;
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 12px;
-            padding: 15px 18px;
-            border-radius: 16px;
+            padding: 16px 20px;
+            border-radius: 18px;
             background: rgba(4, 12, 30, 0.90);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border: 1px solid var(--ellca-border);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.68);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 12px;
+            align-items: end;
             box-sizing: border-box;
         }
 
@@ -337,7 +340,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             min-width: 0;
         }
 
@@ -346,216 +349,231 @@
             font-weight: 800;
             letter-spacing: 0.9px;
             text-transform: uppercase;
-            color: #cbd5e1;
+            color: #7dd3fc;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
-        .filter-field label i {
-            color: var(--ellca-blue);
-        }
-
-        .filter-field select,
         .filter-field input {
             width: 100%;
-            min-width: 0;
-            height: 37px;
-            padding: 0 11px;
-            border-radius: 9px;
-            background: rgba(10, 22, 50, 0.92);
-            border: 1px solid rgba(0, 212, 255, 0.32);
+            height: 39px;
+            padding: 0 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            background: rgba(2, 8, 23, 0.92);
             color: #f8fafc;
             font-family: 'Montserrat', sans-serif;
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 600;
             outline: none;
-            transition: 0.2s;
             box-sizing: border-box;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .filter-field input:focus {
+            border-color: var(--ellca-blue);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.28);
+        }
+
+        .filter-field input[type="date"] {
             color-scheme: dark;
         }
 
-        .filter-field select:focus,
-        .filter-field input:focus {
-            border-color: var(--ellca-blue);
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.30);
-        }
-
-        /* ================= DROPDOWN MULTI-SELECT DE PERÍODO ================= */
-        .multi-select-box {
+        /* ================= MULTI-SELECT DROPDOWN CUSTOMIZADO ================= */
+        .ms-wrap {
             position: relative;
             width: 100%;
         }
 
-        .multi-select-trigger {
+        .ms-trigger {
             width: 100%;
-            height: 37px;
-            padding: 0 11px;
-            border-radius: 9px;
-            background: rgba(10, 22, 50, 0.92);
-            border: 1px solid rgba(0, 212, 255, 0.32);
+            height: 39px;
+            padding: 0 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            background: rgba(2, 8, 23, 0.92);
             color: #f8fafc;
             font-family: 'Montserrat', sans-serif;
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 8px;
             cursor: pointer;
-            transition: 0.2s;
             box-sizing: border-box;
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
         }
 
-        .multi-select-trigger:hover,
-        .multi-select-box.open .multi-select-trigger {
+        .ms-trigger:hover,
+        .ms-wrap.open .ms-trigger {
             border-color: var(--ellca-blue);
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.30);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.28);
+            background: rgba(5, 16, 40, 0.98);
         }
 
-        .multi-select-label {
+        .ms-wrap.has-selection .ms-trigger {
+            border-color: rgba(0, 212, 255, 0.65);
+            background: rgba(0, 212, 255, 0.10);
+        }
+
+        .ms-label-text {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             text-align: left;
+            flex: 1;
         }
 
-        .multi-select-badge {
-            padding: 2px 7px;
-            border-radius: 99px;
-            background: rgba(0, 212, 255, 0.22);
-            border: 1px solid rgba(0, 212, 255, 0.5);
-            color: #7dd3fc;
-            font-size: 9.5px;
+        .ms-badge-count {
+            background: var(--ellca-blue);
+            color: #020817;
+            font-size: 10px;
             font-weight: 800;
+            padding: 1px 7px;
+            border-radius: 999px;
             flex-shrink: 0;
         }
 
-        .multi-select-dropdown {
+        .ms-chevron {
+            font-size: 10px;
+            color: #7dd3fc;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .ms-wrap.open .ms-chevron {
+            transform: rotate(180deg);
+        }
+
+        .ms-dropdown {
             position: absolute;
             top: calc(100% + 6px);
             left: 0;
-            right: 0;
-            min-width: 245px;
-            max-height: 290px;
+            min-width: 100%;
+            width: max-content;
+            max-width: 300px;
+            background: rgba(3, 11, 28, 0.98);
+            border: 1px solid rgba(0, 212, 255, 0.55);
             border-radius: 12px;
-            background: rgba(4, 12, 30, 0.98);
-            backdrop-filter: blur(22px);
-            border: 1px solid var(--ellca-border-strong);
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.9);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.92), 0 0 24px rgba(0, 212, 255, 0.22);
+            z-index: 999;
             display: none;
             flex-direction: column;
-            z-index: 999;
             overflow: hidden;
+            backdrop-filter: blur(20px);
         }
 
-        .multi-select-box.open .multi-select-dropdown {
+        .ms-wrap.open .ms-dropdown {
             display: flex;
         }
 
-        .multi-select-actions {
+        .ms-search-box {
+            padding: 8px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.18);
+            background: rgba(2, 8, 23, 0.95);
+        }
+
+        .ms-search-box input {
+            width: 100%;
+            height: 31px;
+            padding: 0 10px;
+            font-size: 11px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            background: rgba(8, 20, 48, 0.85);
+            color: #f8fafc;
+        }
+
+        .ms-actions-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
-            padding: 8px 10px;
+            padding: 6px 10px;
             background: rgba(0, 212, 255, 0.08);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.16);
+            gap: 8px;
         }
 
-        .multi-select-actions button {
-            flex: 1;
-            padding: 5px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            background: rgba(0, 212, 255, 0.12);
-            color: #bae6fd;
+        .ms-mini-btn {
+            background: transparent;
+            border: none;
+            color: #38bdf8;
             font-family: 'Montserrat', sans-serif;
-            font-size: 9.5px;
-            font-weight: 700;
+            font-size: 10px;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: 0.18s;
+            padding: 2px 4px;
         }
 
-        .multi-select-actions button:hover {
-            background: var(--ellca-blue);
-            color: #020817;
+        .ms-mini-btn:hover {
+            color: #ffffff;
+            text-decoration: underline;
         }
 
-        .multi-select-options {
+        .ms-options-list {
+            max-height: 220px;
             overflow-y: auto;
-            padding: 6px;
+            padding: 5px;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
         }
 
-        .multi-option-item {
+        .ms-option-item {
             display: flex;
             align-items: center;
             gap: 9px;
             padding: 7px 9px;
             border-radius: 8px;
-            font-size: 11px;
+            cursor: pointer;
+            font-size: 11.5px;
             font-weight: 600;
             color: #e2e8f0;
-            cursor: pointer;
-            transition: 0.15s;
+            transition: background 0.15s ease;
             user-select: none;
         }
 
-        .multi-option-item:hover {
-            background: rgba(0, 212, 255, 0.14);
-        }
-
-        .multi-option-item input[type="checkbox"] {
-            width: 15px;
-            height: 15px;
-            accent-color: var(--ellca-blue);
-            cursor: pointer;
-            margin: 0;
-            flex-shrink: 0;
-        }
-
-        .filter-actions-cell {
-            display: flex;
-            align-items: flex-end;
-            min-width: 0;
-        }
-
-        .btn-reset-filters {
-            width: 100%;
-            height: 37px;
-            border-radius: 9px;
-            border: 1px solid rgba(248, 113, 113, 0.45);
-            background: rgba(239, 68, 68, 0.14);
-            color: #fca5a5;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: 0.22s;
-        }
-
-        .btn-reset-filters:hover {
-            background: rgba(239, 68, 68, 0.30);
+        .ms-option-item:hover {
+            background: rgba(0, 212, 255, 0.16);
             color: #ffffff;
         }
 
-        /* ================= KPIS EXECUTIVOS ================= */
-        .exec-kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 14px;
+        .ms-option-item input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: #00d4ff;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin: 0;
         }
 
-        .exec-kpi {
+        .ms-option-item span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ms-empty {
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* ================= KPIS GERENCIAIS ================= */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+            gap: 14px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .kpi-card {
             position: relative;
             padding: 17px 19px;
             border-radius: 16px;
@@ -570,7 +588,7 @@
             min-width: 0;
         }
 
-        .exec-kpi::after {
+        .kpi-card::after {
             content: "";
             position: absolute;
             top: 0;
@@ -580,25 +598,25 @@
             background: linear-gradient(90deg, transparent, var(--ellca-blue), transparent);
         }
 
-        .exec-kpi.blue-accent {
+        .kpi-card.blue-accent {
             border-color: rgba(0, 212, 255, 0.42);
             background: linear-gradient(145deg, rgba(4, 14, 34, 0.95) 0%, rgba(6, 48, 82, 0.72) 100%);
         }
 
-        .exec-kpi.blue-accent::after {
+        .kpi-card.blue-accent::after {
             background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
         }
 
-        .exec-kpi.royal-accent {
+        .kpi-card.royal-accent {
             border-color: rgba(56, 189, 248, 0.40);
             background: linear-gradient(145deg, rgba(4, 14, 36, 0.95) 0%, rgba(12, 42, 88, 0.74) 100%);
         }
 
-        .exec-kpi.royal-accent::after {
+        .kpi-card.royal-accent::after {
             background: linear-gradient(90deg, transparent, #1d4ed8, #38bdf8, transparent);
         }
 
-        .exec-kpi-top {
+        .kpi-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -609,12 +627,12 @@
             color: #94a3b8;
         }
 
-        .exec-kpi-top i {
+        .kpi-top i {
             font-size: 15px;
             color: var(--ellca-blue);
         }
 
-        .exec-kpi-val {
+        .kpi-value {
             font-size: 21px;
             font-weight: 900;
             color: #ffffff;
@@ -624,7 +642,7 @@
             text-overflow: ellipsis;
         }
 
-        .exec-kpi-sub {
+        .kpi-sub {
             font-size: 11px;
             color: #cbd5e1;
             display: flex;
@@ -644,158 +662,101 @@
             font-weight: 800;
         }
 
-        .mini-bar {
+        .kpi-progress {
             width: 100%;
             height: 5px;
             border-radius: 99px;
             background: rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            margin-top: 2px;
         }
 
-        .mini-bar-fill {
+        .kpi-progress-bar {
             height: 100%;
             border-radius: 99px;
             background: linear-gradient(90deg, #1d4ed8, #0284c7, #00d4ff);
             transition: width 0.5s ease;
         }
 
-        /* ================= GRÁFICOS INTERATIVOS ================= */
+        /* ================= GRÁFICOS BI ================= */
         .charts-grid {
             display: grid;
-            grid-template-columns: 1.55fr 1fr;
+            grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
             gap: 16px;
         }
 
-        .charts-secondary-grid {
+        .charts-grid-bottom {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             gap: 16px;
         }
 
-        .chart-card {
+        .panel-card {
+            position: relative;
             padding: 18px 20px;
             border-radius: 18px;
             background: rgba(4, 12, 30, 0.90);
             backdrop-filter: blur(18px);
-            border: 1px solid var(--ellca-border);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 212, 255, 0.24);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             min-width: 0;
+            box-sizing: border-box;
         }
 
-        .chart-card-head {
+        .panel-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
             flex-wrap: wrap;
+            gap: 8px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.14);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.16);
         }
 
-        .chart-card-head h3 {
+        .panel-head h3 {
             margin: 0;
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 800;
+            letter-spacing: 0.7px;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #f8fafc;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .chart-card-head h3 i {
+        .panel-head h3 i {
             color: var(--ellca-blue);
         }
 
-        .chart-card-head span {
-            font-size: 10.5px;
+        .panel-head span {
+            font-size: 11px;
             color: #94a3b8;
         }
 
-        .chart-canvas-wrap {
+        .chart-box {
             position: relative;
             width: 100%;
-            height: 310px;
+            height: 290px;
         }
 
-        .chart-canvas-wrap.compact {
-            height: 270px;
-        }
-
-        /* ================= RANKINGS E TABELA DETALHADA ================= */
-        .rankings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 16px;
-        }
-
-        .rank-list {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-            max-height: 360px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .rank-row {
-            padding: 10px 13px;
-            border-radius: 11px;
-            background: rgba(10, 24, 54, 0.68);
-            border: 1px solid rgba(0, 212, 255, 0.14);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .rank-row-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: #f8fafc;
-        }
-
-        .rank-row-metrics {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            font-size: 10.5px;
-            color: #94a3b8;
-            flex-wrap: wrap;
-        }
-
-        .table-card {
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: rgba(4, 12, 30, 0.92);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--ellca-border);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .table-scroll {
+        /* ================= TABELA ANALÍTICA ================= */
+        .table-wrap {
             width: 100%;
-            overflow-x: auto;
             max-height: 440px;
+            overflow: auto;
             border-radius: 12px;
-            border: 1px solid rgba(0, 212, 255, 0.16);
+            border: 1px solid rgba(0, 212, 255, 0.20);
         }
 
         table.fat-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 11.5px;
+            font-size: 12px;
             text-align: left;
         }
 
@@ -803,53 +764,57 @@
             position: sticky;
             top: 0;
             z-index: 2;
-            background: #06142e;
-            color: var(--ellca-blue);
+            background: #04122b;
+            color: #7dd3fc;
             font-size: 10px;
             font-weight: 800;
-            text-transform: uppercase;
             letter-spacing: 0.8px;
-            padding: 11px 12px;
+            text-transform: uppercase;
+            padding: 12px 14px;
             border-bottom: 1px solid rgba(0, 212, 255, 0.35);
             white-space: nowrap;
         }
 
         table.fat-table tbody td {
-            padding: 10px 12px;
+            padding: 11px 14px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             color: #e2e8f0;
             white-space: nowrap;
         }
 
         table.fat-table tbody tr:hover {
-            background: rgba(0, 212, 255, 0.08);
+            background: rgba(0, 212, 255, 0.09);
         }
 
-        .pill-badge {
+        .num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .badge-tipo {
             display: inline-block;
-            padding: 3px 8px;
+            padding: 3px 9px;
             border-radius: 999px;
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 800;
-            text-transform: uppercase;
+            background: rgba(0, 212, 255, 0.16);
+            color: #7dd3fc;
+            border: 1px solid rgba(0, 212, 255, 0.42);
         }
 
         .pill-ok {
-            background: rgba(16, 185, 129, 0.18);
             color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.45);
+            font-weight: 800;
         }
 
         .pill-warn {
-            background: rgba(29, 78, 216, 0.25);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.45);
+            color: #38bdf8;
+            font-weight: 800;
         }
 
-        .pill-low {
-            background: rgba(239, 68, 68, 0.18);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.42);
+        .pill-bad {
+            color: #f87171;
+            font-weight: 800;
         }
 
         .footer-greeting {
@@ -863,10 +828,14 @@
             color: #ffffff;
         }
 
-        @media (max-width: 1024px) {
-            .charts-grid {
+        @media (max-width: 1120px) {
+            .charts-grid,
+            .charts-grid-bottom {
                 grid-template-columns: 1fr;
             }
+        }
+
+        @media (max-width: 1024px) {
             .container .item,
             .container .item.active {
                 background-attachment: scroll;
@@ -876,41 +845,50 @@
         @media (max-width: 768px) {
             .fat-wrapper {
                 padding: 76px 12px 68px 12px;
-                gap: 12px;
+                gap: 14px;
             }
+
             body.bars-collapsed .fat-wrapper {
                 padding: 14px 12px 24px 12px;
             }
+
             .fat-header {
                 padding: 14px 16px;
                 flex-direction: column;
                 align-items: stretch;
             }
+
+            .fat-title-group h1 {
+                font-size: 16px;
+            }
+
             .fat-actions {
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 8px;
             }
+
             .sync-badge {
                 grid-column: 1 / -1;
                 justify-content: center;
             }
-            .filter-bar-ellca {
+
+            .filters-card {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                padding: 12px;
+                padding: 14px;
                 gap: 10px;
             }
-            .exec-kpi-grid {
+
+            .filters-card .filter-field:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .kpi-grid {
                 grid-template-columns: 1fr;
             }
-            .rankings-grid {
-                grid-template-columns: 1fr;
-            }
-            .chart-canvas-wrap {
+
+            .chart-box {
                 height: 250px;
-            }
-            .chart-canvas-wrap.compact {
-                height: 230px;
             }
         }
     </style>
@@ -952,7 +930,7 @@
             <div class="nav-content" id="navContentFat">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
-                    <span class="status-text">PILAR FATURAMENTO • GOVERNANÇA ELLCA</span>
+                    <span class="status-text">PILAR GERENCIAL • FATURAMENTO</span>
                 </div>
 
                 <div class="nav-links">
@@ -963,7 +941,7 @@
                     <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
 
                     <div class="nav-actions-group">
-                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="gerencial.html" title="Voltar para Gerencial">
+                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="gerencial.html" title="Voltar para Pilares Gerenciais">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                     </div>
@@ -983,212 +961,217 @@
                                 <i class="fa-solid fa-sack-dollar"></i>
                             </div>
                             <div>
-                                <div class="fat-kicker"><i class="fa-solid fa-bolt"></i> Pilar Receita & Recebíveis • Diretoria Ellca</div>
-                                <h1>Dashboard Executivo de Faturamento</h1>
-                                <p>Acompanhamento em tempo real de Meta, Previsto Proporcional, Realizado e Performance por Equipe</p>
+                                <div class="fat-kicker"><i class="fa-solid fa-bolt"></i> Pilar Gerencial • Diretoria & Coordenação Ellca</div>
+                                <h1>Controle Gerencial de Faturamento</h1>
+                                <p>Acompanhamento de Meta, Previsto e Realizado por Período (Semestres 1 a 4), Supervisor, Equipe e Dia</p>
                             </div>
                         </div>
 
                         <div class="fat-actions">
-                            <span class="sync-badge" id="syncBadgeFat">
-                                <i class="fa-solid fa-circle-notch fa-spin"></i> Conectando Planilha...
+                            <span class="sync-badge" id="syncBadge">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Conectando ao Google Sheets...
                             </span>
-                            <button type="button" class="btn-ellca" id="btnRefreshFat" title="Sincronizar novamente com Google Sheets">
+                            <button type="button" class="btn-ellca" id="btnRefreshFat" title="Sincronizar planilha agora">
                                 <i class="fa-solid fa-rotate"></i> Atualizar
+                            </button>
+                            <button type="button" class="btn-ellca" id="btnExportCsv" title="Baixar dados filtrados em CSV">
+                                <i class="fa-solid fa-file-csv"></i> Exportar CSV
                             </button>
                             <button type="button" class="btn-ellca" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                                 <span id="textToggleBars">Mostrar Menu</span>
                             </button>
-                            <a href="gerencial.html" class="btn-ellca primary" title="Retornar ao Lobby Gerencial">
-                                <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
+                            <a href="gerencial.html" class="btn-ellca primary" title="Voltar para Pilares Gerenciais">
+                                <i class="fa-solid fa-arrow-left"></i> Pilares
                             </a>
                         </div>
                     </div>
 
-                    <!-- BARRA DE FILTROS -->
-                    <div class="filter-bar-ellca ellca-beam-card">
+                    <!-- FILTROS MULTI-SELEÇÃO -->
+                    <div class="filters-card ellca-beam-card">
                         <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
-                            <select id="fFilterAno"><option value="">Todos os Anos</option></select>
-                        </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
-                            <select id="fFilterMes"><option value="">Todos os Meses</option></select>
-                        </div>
-                        <!-- PERÍODO MULTI-SELEÇÃO -->
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-week"></i> Período</label>
-                            <div class="multi-select-box" id="multiPeriodoBox">
-                                <button type="button" class="multi-select-trigger" id="multiPeriodoTrigger">
-                                    <span class="multi-select-label" id="multiPeriodoLabel">Todos os Períodos</span>
-                                    <span class="multi-select-badge" id="multiPeriodoCount">Todos</span>
-                                </button>
-                                <div class="multi-select-dropdown" id="multiPeriodoDropdown">
-                                    <div class="multi-select-actions">
-                                        <button type="button" id="btnSelectAllPeriodos">Marcar Todos</button>
-                                        <button type="button" id="btnClearPeriodos">Limpar</button>
-                                    </div>
-                                    <div class="multi-select-options" id="multiPeriodoOptions"></div>
-                                </div>
-                            </div>
+                            <label><i class="fa-solid fa-calendar-check"></i> Período (Semestres 1-4)</label>
+                            <div class="ms-wrap" id="msPeriodo"></div>
                         </div>
 
                         <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-day"></i> Data Específica</label>
-                            <input type="date" id="fFilterData">
-                        </div>
-                        <div class="filter-field">
                             <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
-                            <select id="fFilterSup"><option value="">Todos os Supervisores</option></select>
+                            <div class="ms-wrap" id="msSupervisor"></div>
                         </div>
+
                         <div class="filter-field">
-                            <label><i class="fa-solid fa-people-group"></i> Equipe</label>
-                            <select id="fFilterEquipe"><option value="">Todas as Equipes</option></select>
+                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo</label>
+                            <div class="ms-wrap" id="msTipo"></div>
                         </div>
+
                         <div class="filter-field">
-                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo / Modalidade</label>
-                            <select id="fFilterTipo"><option value="">Todos os Tipos</option></select>
+                            <label><i class="fa-solid fa-users-gear"></i> Equipe</label>
+                            <div class="ms-wrap" id="msEquipe"></div>
                         </div>
-                        <div class="filter-actions-cell">
-                            <button type="button" class="btn-reset-filters" id="btnLimparFiltrosFat">
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-week"></i> Dia da Semana</label>
+                            <div class="ms-wrap" id="msDiaSemana"></div>
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data Inicial</label>
+                            <input type="date" id="filtroDataIni">
+                        </div>
+
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data Final</label>
+                            <input type="date" id="filtroDataFim">
+                        </div>
+
+                        <div class="filter-field">
+                            <button type="button" class="btn-ellca" id="btnLimparFiltros" style="width: 100%; height: 39px; justify-content: center;">
                                 <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
                             </button>
                         </div>
                     </div>
 
-                    <!-- KPIS EXECUTIVOS -->
-                    <div class="exec-kpi-grid">
-                        <div class="exec-kpi blue-accent ellca-beam-card">
-                            <div class="exec-kpi-top">
-                                <span>Meta Faturamento</span>
+                    <!-- KPIS -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card blue-accent ellca-beam-card">
+                            <div class="kpi-top">
+                                <span>Meta do Período</span>
                                 <i class="fa-solid fa-bullseye"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiMeta" style="color:#38bdf8;">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span id="kpiMetaSub">Base consolidada do filtro</span>
-                                <span id="kpiEquipesAtivas">0 equipes</span>
+                            <div class="kpi-value" id="kpiMeta" style="color:#38bdf8;">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiMetaSub">Soma das equipes filtradas</span>
+                                <span id="kpiQtdEquipes">0 equipes</span>
                             </div>
                         </div>
 
-                        <div class="exec-kpi ellca-beam-card">
-                            <div class="exec-kpi-top">
+                        <div class="kpi-card ellca-beam-card">
+                            <div class="kpi-top">
                                 <span>Previsto Acumulado</span>
                                 <i class="fa-solid fa-chart-line"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiPrevisto">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span id="kpiPrevSub">Proporcional aos dias</span>
-                                <span id="kpiDiasCount">0 dias</span>
+                            <div class="kpi-value" id="kpiPrevisto">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span>Proporcional aos dias</span>
+                                <span id="kpiQtdDias">0 dias</span>
                             </div>
                         </div>
 
-                        <div class="exec-kpi royal-accent ellca-beam-card">
-                            <div class="exec-kpi-top">
+                        <div class="kpi-card royal-accent ellca-beam-card">
+                            <div class="kpi-top">
                                 <span>Faturamento Realizado</span>
-                                <i class="fa-solid fa-circle-check"></i>
+                                <i class="fa-solid fa-sack-dollar"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span id="kpiGapPrev">Gap Prev: R$ 0,00</span>
+                            <div class="kpi-value" id="kpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiGapPrevisto">Gap Previsto: R$ 0,00</span>
                                 <span id="kpiGapMeta">Gap Meta: R$ 0,00</span>
                             </div>
                         </div>
 
-                        <div class="exec-kpi blue-accent ellca-beam-card">
-                            <div class="exec-kpi-top">
-                                <span>Atingimento (Real / Prev)</span>
+                        <div class="kpi-card blue-accent ellca-beam-card">
+                            <div class="kpi-top">
+                                <span>Aderência ao Previsto</span>
                                 <i class="fa-solid fa-gauge-high"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiPctPrev" style="color:#38bdf8;">0,0%</div>
-                            <div class="exec-kpi-sub">
+                            <div class="kpi-value" id="kpiPctPrevisto" style="color:#38bdf8;">0,0%</div>
+                            <div class="kpi-sub">
                                 <span id="kpiPctMeta">Sobre Meta Total: 0,0%</span>
                                 <span>Alvo: 100%</span>
                             </div>
-                            <div class="mini-bar">
-                                <div class="mini-bar-fill" id="kpiBarFill" style="width: 0%;"></div>
+                            <div class="kpi-progress">
+                                <div class="kpi-progress-bar" id="kpiProgressBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card ellca-beam-card">
+                            <div class="kpi-top">
+                                <span>Média Diária Realizada</span>
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div class="kpi-value" id="kpiMediaDia">R$ 0,00</div>
+                            <div class="kpi-sub">
+                                <span id="kpiTicketEquipe">Média/Equipe: R$ 0,00</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- GRÁFICOS EXECUTIVOS -->
+                    <!-- GRÁFICOS LINHA 1 -->
                     <div class="charts-grid">
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-chart-area"></i> Evolução Diária — Previsto vs. Realizado</h3>
-                                <span id="chartTimelineBadge">Série temporal filtrada</span>
+                        <div class="panel-card ellca-beam-card">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-chart-area"></i> Evolução Diária: Previsto vs Realizado</h3>
+                                <span id="lblPeriodoGrafico">Consolidado por data</span>
                             </div>
-                            <div class="chart-canvas-wrap">
+                            <div class="chart-box">
                                 <canvas id="chartEvolucaoDiaria"></canvas>
                             </div>
                         </div>
 
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-ranking-star"></i> Top Equipes — Realizado vs. Previsto</h3>
-                                <span>Maiores faturamentos no período</span>
+                        <div class="panel-card ellca-beam-card">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-user-shield"></i> Realizado vs Previsto por Supervisor</h3>
+                                <span>Desempenho por liderança</span>
                             </div>
-                            <div class="chart-canvas-wrap">
-                                <canvas id="chartTopEquipes"></canvas>
+                            <div class="chart-box">
+                                <canvas id="chartSupervisor"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- GRÁFICO POR DIA DA SEMANA -->
-                    <div class="charts-secondary-grid">
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-calendar-days"></i> Performance por Dia da Semana — Realizado vs. Previsto</h3>
-                                <span>Acumulado por dia útil e fim de semana</span>
+                    <!-- GRÁFICOS LINHA 2 -->
+                    <div class="charts-grid-bottom">
+                        <div class="panel-card ellca-beam-card">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-ranking-star"></i> Top 10 Equipes por Faturamento Realizado</h3>
+                                <span>Ranking operacional</span>
                             </div>
-                            <div class="chart-canvas-wrap compact">
+                            <div class="chart-box">
+                                <canvas id="chartTopEquipes"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="panel-card ellca-beam-card">
+                            <div class="panel-head">
+                                <h3><i class="fa-solid fa-calendar-week"></i> Média de Faturamento por Dia da Semana</h3>
+                                <span>Produtividade média diária (Seg a Dom)</span>
+                            </div>
+                            <div class="chart-box">
                                 <canvas id="chartDiaSemana"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- RANKINGS CONSOLIDADOS -->
-                    <div class="rankings-grid">
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-user-shield"></i> Consolidado por Supervisor</h3>
-                                <span>Meta • Previsto • Realizado</span>
-                            </div>
-                            <div class="rank-list" id="rankSupList"></div>
+                    <!-- TABELA DETALHADA -->
+                    <div class="panel-card ellca-beam-card">
+                        <div class="panel-head">
+                            <h3><i class="fa-solid fa-table-list"></i> Consolidado Analítico por Equipe</h3>
+                            <span id="lblContagemLinhas">0 equipes listadas</span>
                         </div>
 
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-truck-fast"></i> Consolidado por Tipo de Equipe</h3>
-                                <span>Participação e Aderência</span>
-                            </div>
-                            <div class="rank-list" id="rankTipoList"></div>
-                        </div>
-                    </div>
-
-                    <!-- TABELA ANALÍTICA DETALHADA -->
-                    <div class="table-card ellca-beam-card">
-                        <div class="chart-card-head">
-                            <h3><i class="fa-solid fa-table-list"></i> Detalhamento Analítico de Faturamento</h3>
-                            <span id="tableRowsCount">0 registros exibidos</span>
-                        </div>
-                        <div class="table-scroll">
+                        <div class="table-wrap">
                             <table class="fat-table">
                                 <thead>
                                     <tr>
-                                        <th>Data</th>
-                                        <th>Período</th>
                                         <th>Equipe</th>
                                         <th>Tipo</th>
                                         <th>Supervisor</th>
-                                        <th>Meta</th>
-                                        <th>Previsto</th>
-                                        <th>Realizado</th>
-                                        <th>Gap (Real - Prev)</th>
-                                        <th>% Real/Prev</th>
+                                        <th class="num">Dias</th>
+                                        <th class="num">Meta Período</th>
+                                        <th class="num">Previsto Acum.</th>
+                                        <th class="num">Realizado</th>
+                                        <th class="num">Gap Previsto</th>
+                                        <th class="num">% Previsto</th>
+                                        <th class="num">% Meta</th>
                                     </tr>
                                 </thead>
-                                <tbody id="fatTableBody"></tbody>
+                                <tbody id="tbodyFaturamento">
+                                    <tr>
+                                        <td colspan="10" style="text-align:center; padding:24px; color:#94a3b8;">
+                                            Carregando dados de faturamento...
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -1201,7 +1184,7 @@
                 <div class="footer-info">
                     <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Dashboard Executivo de Faturamento</strong></span>
+                    <span>Módulo: <strong>Controle Gerencial de Faturamento</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -1215,15 +1198,26 @@
     </div>
 
     <script>
-        (function iniciarDashboardFaturamento() {
+        (function iniciarModuloFaturamento() {
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
             const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
             const ABA_NOME = 'Faturamento';
 
-            let baseRegistros = [];
-            let periodosSelecionados = new Set();
-            let chartEvolucao = null;
-            let chartEquipes = null;
-            let chartDiaSemana = null;
+            const NOMES_DIAS_SEMANA = [
+                'Domingo',
+                'Segunda-feira',
+                'Terça-feira',
+                'Quarta-feira',
+                'Quinta-feira',
+                'Sexta-feira',
+                'Sábado'
+            ];
+
+            const NOMES_DIAS_CURTOS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            const ORDEM_DIAS_EXIBICAO = [1, 2, 3, 4, 5, 6, 0];
 
             const footerUserName = document.getElementById('footerUserName');
             const nomeSessao =
@@ -1232,12 +1226,17 @@
                 'Rodrigo Lopes';
             if (footerUserName) footerUserName.textContent = nomeSessao;
 
+            let todosRegistros = [];
+            let registrosFiltrados = [];
+            let charts = {};
+
             const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            const fmtCompact = (v) => {
+
+            const fmtBRLCompacto = (v) => {
                 const n = Number(v) || 0;
                 if (Math.abs(n) >= 1000000) return 'R$ ' + (n / 1000000).toFixed(2).replace('.', ',') + 'M';
                 if (Math.abs(n) >= 1000) return 'R$ ' + (n / 1000).toFixed(1).replace('.', ',') + 'k';
-                return fmtBRL(n);
+                return 'R$ ' + Math.round(n);
             };
 
             const parseNum = (v) => {
@@ -1261,8 +1260,54 @@
                     .trim();
             }
 
+            function extrairSemestre(periodoBruto, dataIso) {
+                const p = normalizarTexto(periodoBruto);
+                if (p) {
+                    const mNum = p.match(/(?:^|\b|s|sem|semestre[\s\-_:]*)([1-4])(?:\b|º|o)/i) || p.match(/\b([1-4])\b/);
+                    if (mNum) return `SEMESTRE ${mNum[1]}`;
+                }
+                if (dataIso && /^\d{4}-\d{2}/.test(dataIso)) {
+                    const mes = parseInt(dataIso.slice(5, 7), 10);
+                    if (mes >= 1 && mes <= 3) return 'SEMESTRE 1';
+                    if (mes >= 4 && mes <= 6) return 'SEMESTRE 2';
+                    if (mes >= 7 && mes <= 9) return 'SEMESTRE 3';
+                    if (mes >= 10 && mes <= 12) return 'SEMESTRE 4';
+                }
+                return periodoBruto ? periodoBruto.toUpperCase() : 'SEMESTRE 1';
+            }
+
+            function ehNomeDeSupervisor(valor) {
+                const t = normalizarTexto(valor);
+                if (!t) return false;
+                if (/^\d+$/.test(t)) return false;
+                if (/^(sem|semestre|periodo|trimestre)\s*[1-4]$/i.test(t)) return false;
+                if (/^\d{4}[-/]\d{2}$/.test(t)) return false;
+                if (/^(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)/i.test(t) && t.length <= 8) return false;
+                return /[a-z]{3,}/.test(t);
+            }
+
+            function obterDiaSemana(dataIso) {
+                if (!dataIso || !/^\d{4}-\d{2}-\d{2}$/.test(dataIso)) {
+                    return { idx: -1, nome: 'NÃO INFORMADO', curto: '-' };
+                }
+                const [y, m, d] = dataIso.split('-').map(Number);
+                const dt = new Date(y, m - 1, d);
+                const idx = dt.getDay();
+                return {
+                    idx,
+                    nome: NOMES_DIAS_SEMANA[idx].toUpperCase(),
+                    curto: NOMES_DIAS_CURTOS[idx]
+                };
+            }
+
+            function formatarDataBR(iso) {
+                if (!iso || !iso.includes('-')) return iso || '-';
+                const [y, m, d] = iso.split('-');
+                return `${d}/${m}/${y}`;
+            }
+
             function parseDataCell(cell) {
-                if (!cell) return { iso: '', br: '' };
+                if (!cell) return '';
                 const rawV = String(cell.v ?? '');
                 const rawF = String(cell.f ?? '');
                 const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
@@ -1270,50 +1315,14 @@
                     const y = mDate[1];
                     const mo = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
                     const d = String(parseInt(mDate[3], 10)).padStart(2, '0');
-                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
+                    return `${y}-${mo}-${d}`;
                 }
                 const str = (rawF || rawV).trim();
                 let m = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
-                if (m) {
-                    const d = m[1].padStart(2, '0'), mo = m[2].padStart(2, '0'), y = m[3];
-                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
-                }
+                if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
                 m = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-                if (m) {
-                    const y = m[1], mo = m[2].padStart(2, '0'), d = m[3].padStart(2, '0');
-                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
-                }
-                return { iso: str, br: str };
-            }
-
-            const NOMES_MESES = {
-                '01': 'Janeiro',
-                '02': 'Fevereiro',
-                '03': 'Março',
-                '04': 'Abril',
-                '05': 'Maio',
-                '06': 'Junho',
-                '07': 'Julho',
-                '08': 'Agosto',
-                '09': 'Setembro',
-                '10': 'Outubro',
-                '11': 'Novembro',
-                '12': 'Dezembro'
-            };
-
-            function extrairAnoMes(iso) {
-                if (!iso) return { ano: '', mes: '' };
-                const m = String(iso).match(/^(\d{4})-(\d{2})/);
-                if (!m) return { ano: '', mes: '' };
-                return { ano: m[1], mes: m[2] };
-            }
-
-            function obterDiaSemanaIdx(iso) {
-                if (!iso) return -1;
-                const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/);
-                if (!m) return -1;
-                const dt = new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
-                return isNaN(dt.getTime()) ? -1 : dt.getDay(); // 0=Dom .. 6=Sáb
+                if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+                return str;
             }
 
             function mapearColunas(cols, rows) {
@@ -1346,7 +1355,7 @@
                 return {
                     startRow,
                     colData: findCol(['data', 'dt'], 0),
-                    colPeriodo: findCol(['periodo', 'mes', 'competencia', 'referencia'], 1),
+                    colPeriodo: findCol(['periodo', 'semestre', 'mes', 'competencia', 'referencia'], 1),
                     colEquipe: findCol(['equipe', 'prefixo', 'viatura'], 2),
                     colTipo: findCol(['tipo', 'modalidade', 'categoria'], 3),
                     colSupervisor: findCol(['supervisor', 'lider', 'encarregado', 'coordenador'], 4),
@@ -1356,8 +1365,167 @@
                 };
             }
 
-            function carregarFaturamento() {
-                const badge = document.getElementById('syncBadgeFat');
+            /* ================= COMPONENTE MULTI-SELECT ================= */
+            class MultiSelectFiltro {
+                constructor(containerId, placeholderTodos, onChangeCallback) {
+                    this.container = document.getElementById(containerId);
+                    this.placeholderTodos = placeholderTodos;
+                    this.onChangeCallback = onChangeCallback;
+                    this.options = [];
+                    this.selected = new Set();
+                    this.searchTerm = '';
+                    this.renderBase();
+                }
+
+                renderBase() {
+                    this.container.innerHTML = `
+                        <button type="button" class="ms-trigger">
+                            <span class="ms-label-text">${this.placeholderTodos}</span>
+                            <span class="ms-badge-count" style="display:none;">0</span>
+                            <i class="fa-solid fa-chevron-down ms-chevron"></i>
+                        </button>
+                        <div class="ms-dropdown">
+                            <div class="ms-search-box">
+                                <input type="text" placeholder="Pesquisar...">
+                            </div>
+                            <div class="ms-actions-bar">
+                                <button type="button" class="ms-mini-btn" data-act="all">Selecionar Todos</button>
+                                <button type="button" class="ms-mini-btn" data-act="none">Limpar</button>
+                            </div>
+                            <div class="ms-options-list"></div>
+                        </div>
+                    `;
+
+                    this.triggerBtn = this.container.querySelector('.ms-trigger');
+                    this.labelEl = this.container.querySelector('.ms-label-text');
+                    this.badgeEl = this.container.querySelector('.ms-badge-count');
+                    this.searchInput = this.container.querySelector('.ms-search-box input');
+                    this.listEl = this.container.querySelector('.ms-options-list');
+
+                    this.triggerBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const estavaAberto = this.container.classList.contains('open');
+                        document.querySelectorAll('.ms-wrap.open').forEach(el => el.classList.remove('open'));
+                        if (!estavaAberto) {
+                            this.container.classList.add('open');
+                            this.searchInput.focus();
+                        }
+                    });
+
+                    this.container.querySelector('.ms-dropdown').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+
+                    this.searchInput.addEventListener('input', () => {
+                        this.searchTerm = normalizarTexto(this.searchInput.value);
+                        this.renderOptions();
+                    });
+
+                    this.container.querySelector('[data-act="all"]').addEventListener('click', () => {
+                        this.options.forEach(opt => this.selected.add(opt.value));
+                        this.updateTriggerLabel();
+                        this.renderOptions();
+                        this.onChangeCallback();
+                    });
+
+                    this.container.querySelector('[data-act="none"]').addEventListener('click', () => {
+                        this.selected.clear();
+                        this.updateTriggerLabel();
+                        this.renderOptions();
+                        this.onChangeCallback();
+                    });
+                }
+
+                setOptions(optionsList) {
+                    this.options = optionsList.map(item =>
+                        typeof item === 'string' ? { value: item, label: item } : item
+                    );
+                    const validValues = new Set(this.options.map(o => o.value));
+                    this.selected.forEach(v => {
+                        if (!validValues.has(v)) this.selected.delete(v);
+                    });
+                    this.updateTriggerLabel();
+                    this.renderOptions();
+                }
+
+                clearSelection() {
+                    this.selected.clear();
+                    this.searchTerm = '';
+                    if (this.searchInput) this.searchInput.value = '';
+                    this.updateTriggerLabel();
+                    this.renderOptions();
+                }
+
+                getSelectedValues() {
+                    return Array.from(this.selected);
+                }
+
+                updateTriggerLabel() {
+                    const count = this.selected.size;
+                    if (count === 0) {
+                        this.labelEl.textContent = this.placeholderTodos;
+                        this.badgeEl.style.display = 'none';
+                        this.container.classList.remove('has-selection');
+                    } else if (count === 1) {
+                        const val = Array.from(this.selected)[0];
+                        const opt = this.options.find(o => o.value === val);
+                        this.labelEl.textContent = opt ? opt.label : val;
+                        this.badgeEl.style.display = 'none';
+                        this.container.classList.add('has-selection');
+                    } else {
+                        this.labelEl.textContent = `${count} selecionados`;
+                        this.badgeEl.textContent = count;
+                        this.badgeEl.style.display = 'inline-block';
+                        this.container.classList.add('has-selection');
+                    }
+                }
+
+                renderOptions() {
+                    const filtradas = this.options.filter(opt =>
+                        !this.searchTerm || normalizarTexto(opt.label).includes(this.searchTerm)
+                    );
+
+                    if (filtradas.length === 0) {
+                        this.listEl.innerHTML = `<div class="ms-empty">Nenhuma opção encontrada</div>`;
+                        return;
+                    }
+
+                    this.listEl.innerHTML = filtradas.map(opt => {
+                        const checked = this.selected.has(opt.value) ? 'checked' : '';
+                        return `
+                            <label class="ms-option-item">
+                                <input type="checkbox" value="${opt.value.replace(/"/g, '&quot;')}" ${checked}>
+                                <span title="${opt.label.replace(/"/g, '&quot;')}">${opt.label}</span>
+                            </label>
+                        `;
+                    }).join('');
+
+                    this.listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                        cb.addEventListener('change', () => {
+                            if (cb.checked) {
+                                this.selected.add(cb.value);
+                            } else {
+                                this.selected.delete(cb.value);
+                            }
+                            this.updateTriggerLabel();
+                            this.onChangeCallback();
+                        });
+                    });
+                }
+            }
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.ms-wrap.open').forEach(el => el.classList.remove('open'));
+            });
+
+            const msPeriodo = new MultiSelectFiltro('msPeriodo', 'Todos os Semestres (1-4)', aplicarFiltros);
+            const msSupervisor = new MultiSelectFiltro('msSupervisor', 'Todos os Supervisores', aplicarFiltros);
+            const msTipo = new MultiSelectFiltro('msTipo', 'Todos os Tipos', aplicarFiltros);
+            const msEquipe = new MultiSelectFiltro('msEquipe', 'Todas as Equipes', aplicarFiltros);
+            const msDiaSemana = new MultiSelectFiltro('msDiaSemana', 'Todos os Dias', aplicarFiltros);
+
+            function carregarDadosPlanilha() {
+                const badge = document.getElementById('syncBadge');
                 badge.className = 'sync-badge';
                 badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
 
@@ -1367,7 +1535,7 @@
                     delete window[cbName];
                     if (script.parentNode) script.parentNode.removeChild(script);
                     badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido (verifique permissão)';
+                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido';
                 }, 9000);
 
                 window[cbName] = function (json) {
@@ -1377,15 +1545,15 @@
 
                     if (!json || json.status === 'error' || !json.table) {
                         badge.className = 'sync-badge warn';
-                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita ou aba não encontrada';
+                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita';
                         return;
                     }
 
                     const cols = json.table.cols || [];
                     const rawRows = json.table.rows || [];
                     const mapa = mapearColunas(cols, rawRows);
+                    const lista = [];
 
-                    const parsed = [];
                     for (let i = mapa.startRow; i < rawRows.length; i++) {
                         const c = rawRows[i].c || [];
                         const getStr = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
@@ -1395,14 +1563,16 @@
                             ? parseNum(c[idx].v)
                             : 0;
 
-                        const dtInfo = parseDataCell(c[mapa.colData]);
+                        const dataIso = parseDataCell(c[mapa.colData]);
                         const equipe = getStr(mapa.colEquipe).toUpperCase();
-                        const periodo = getStr(mapa.colPeriodo).toUpperCase() || (dtInfo.iso ? dtInfo.iso.slice(0, 7) : 'GERAL');
+                        const periodoRaw = getStr(mapa.colPeriodo).toUpperCase();
+                        const supRaw = getStr(mapa.colSupervisor).toUpperCase();
+
                         const meta = getVal(mapa.colMeta);
                         const previsto = getVal(mapa.colPrevisto);
                         const realizado = getVal(mapa.colRealizado);
 
-                        if (!dtInfo.iso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
+                        if (!dataIso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
                         if (normalizarTexto(equipe) === 'equipe' || normalizarTexto(equipe) === 'total') continue;
 
                         let tipo = getStr(mapa.colTipo).toUpperCase();
@@ -1411,536 +1581,574 @@
                             tipo = mTipo ? mTipo[1] : 'PADRÃO';
                         }
 
-                        const { ano, mes } = extrairAnoMes(dtInfo.iso);
+                        // Garante que nomes de supervisores não caiam no filtro de Período (Semestres 1-4)
+                        let supervisor = supRaw;
+                        let periodoCampo = periodoRaw;
 
-                        parsed.push({
-                            dataIso: dtInfo.iso,
-                            dataBr: dtInfo.br || dtInfo.iso || '-',
-                            ano,
-                            mes,
-                            diaSemanaIdx: obterDiaSemanaIdx(dtInfo.iso),
+                        if (!ehNomeDeSupervisor(supervisor) && ehNomeDeSupervisor(periodoCampo)) {
+                            supervisor = periodoCampo;
+                            periodoCampo = '';
+                        }
+
+                        if (!supervisor || !ehNomeDeSupervisor(supervisor)) {
+                            supervisor = 'NÃO INFORMADO';
+                        }
+
+                        const periodo = extrairSemestre(periodoCampo, dataIso);
+                        const diaSem = obterDiaSemana(dataIso);
+
+                        lista.push({
+                            data: dataIso,
                             periodo,
-                            equipe: equipe || 'NÃO INFORMADA',
+                            equipe: equipe || 'SEM PREFIXO',
                             tipo: tipo || 'PADRÃO',
-                            supervisor: getStr(mapa.colSupervisor).toUpperCase() || 'NÃO INFORMADO',
+                            supervisor,
+                            diaSemanaIdx: diaSem.idx,
+                            diaSemanaNome: diaSem.nome,
+                            diaSemanaCurto: diaSem.curto,
                             meta,
                             previsto,
                             realizado
                         });
                     }
 
-                    baseRegistros = parsed;
-                    const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    if (baseRegistros.length > 0) {
-                        badge.className = 'sync-badge';
-                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo (${baseRegistros.length} reg.) • ${hora}`;
-                    } else {
-                        badge.className = 'sync-badge warn';
-                        badge.innerHTML = '<i class="fa-solid fa-circle-info"></i> Aba Faturamento sem registros lidos';
-                    }
+                    todosRegistros = lista;
+                    popularFiltros(lista);
+                    aplicarFiltros();
 
-                    popularFiltros();
-                    atualizarDashboard();
+                    const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    badge.className = 'sync-badge';
+                    badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Sincronizado • ${hora} (${lista.length} reg.)`;
                 };
 
                 script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
                 script.onerror = () => {
                     clearTimeout(timer);
                     badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão com Google Sheets';
+                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão';
                 };
                 document.body.appendChild(script);
             }
 
-            // ================= MULTI-SELECT DE PERÍODO =================
-            function atualizarResumoMultiPeriodo(todosPeriodos) {
-                const labelEl = document.getElementById('multiPeriodoLabel');
-                const countEl = document.getElementById('multiPeriodoCount');
-                const qtd = periodosSelecionados.size;
+            function popularFiltros(dados) {
+                const semestresBase = ['SEMESTRE 1', 'SEMESTRE 2', 'SEMESTRE 3', 'SEMESTRE 4'];
+                const periodosExtras = [...new Set(dados.map(d => d.periodo))]
+                    .filter(p => p && !semestresBase.includes(p))
+                    .sort();
+                msPeriodo.setOptions([...semestresBase, ...periodosExtras]);
 
-                if (qtd === 0 || qtd === todosPeriodos.length) {
-                    labelEl.textContent = 'Todos os Períodos';
-                    countEl.textContent = 'Todos';
-                } else if (qtd === 1) {
-                    const unico = [...periodosSelecionados][0];
-                    labelEl.textContent = unico;
-                    countEl.textContent = '1 sel.';
-                } else {
-                    const lista = [...periodosSelecionados];
-                    labelEl.textContent = lista.slice(0, 2).join(', ') + (qtd > 2 ? ` +${qtd - 2}` : '');
-                    countEl.textContent = `${qtd} sel.`;
-                }
+                const supervisores = [...new Set(dados.map(d => d.supervisor))]
+                    .filter(s => s && ehNomeDeSupervisor(s))
+                    .sort();
+                msSupervisor.setOptions(supervisores);
+
+                const tipos = [...new Set(dados.map(d => d.tipo))].filter(Boolean).sort();
+                msTipo.setOptions(tipos);
+
+                const equipes = [...new Set(dados.map(d => d.equipe))].filter(Boolean).sort();
+                msEquipe.setOptions(equipes);
+
+                const diasOpcoes = ORDEM_DIAS_EXIBICAO.map(idx => ({
+                    value: String(idx),
+                    label: NOMES_DIAS_SEMANA[idx].toUpperCase()
+                }));
+                msDiaSemana.setOptions(diasOpcoes);
             }
 
-            function popularMultiPeriodo() {
-                const container = document.getElementById('multiPeriodoOptions');
-                const todosPeriodos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))].sort();
+            function aplicarFiltros() {
+                const selPeriodos = msPeriodo.getSelectedValues();
+                const selSups = msSupervisor.getSelectedValues();
+                const selTipos = msTipo.getSelectedValues();
+                const selEquipes = msEquipe.getSelectedValues();
+                const selDias = msDiaSemana.getSelectedValues();
+                const dIni = document.getElementById('filtroDataIni').value;
+                const dFim = document.getElementById('filtroDataFim').value;
 
-                periodosSelecionados = new Set([...periodosSelecionados].filter(p => todosPeriodos.includes(p)));
-
-                container.innerHTML = todosPeriodos.map(p => {
-                    const checked = periodosSelecionados.has(p) ? 'checked' : '';
-                    return `
-                        <label class="multi-option-item">
-                            <input type="checkbox" value="${p}" ${checked}>
-                            <span>${p}</span>
-                        </label>
-                    `;
-                }).join('');
-
-                container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-                    chk.addEventListener('change', () => {
-                        if (chk.checked) {
-                            periodosSelecionados.add(chk.value);
-                        } else {
-                            periodosSelecionados.delete(chk.value);
-                        }
-                        atualizarResumoMultiPeriodo(todosPeriodos);
-                        atualizarDashboard();
-                    });
+                registrosFiltrados = todosRegistros.filter(r => {
+                    if (selPeriodos.length > 0 && !selPeriodos.includes(r.periodo)) return false;
+                    if (selSups.length > 0 && !selSups.includes(r.supervisor)) return false;
+                    if (selTipos.length > 0 && !selTipos.includes(r.tipo)) return false;
+                    if (selEquipes.length > 0 && !selEquipes.includes(r.equipe)) return false;
+                    if (selDias.length > 0 && !selDias.includes(String(r.diaSemanaIdx))) return false;
+                    if (dIni && r.data && r.data < dIni) return false;
+                    if (dFim && r.data && r.data > dFim) return false;
+                    return true;
                 });
 
-                atualizarResumoMultiPeriodo(todosPeriodos);
-            }
-
-            const multiBox = document.getElementById('multiPeriodoBox');
-            const multiTrigger = document.getElementById('multiPeriodoTrigger');
-
-            multiTrigger?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                multiBox.classList.toggle('open');
-            });
-
-            document.getElementById('multiPeriodoDropdown')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-
-            document.addEventListener('click', () => {
-                multiBox?.classList.remove('open');
-            });
-
-            document.getElementById('btnSelectAllPeriodos')?.addEventListener('click', () => {
-                const todos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))];
-                periodosSelecionados = new Set(todos);
-                popularMultiPeriodo();
-                atualizarDashboard();
-            });
-
-            document.getElementById('btnClearPeriodos')?.addEventListener('click', () => {
-                periodosSelecionados.clear();
-                popularMultiPeriodo();
-                atualizarDashboard();
-            });
-
-            function popularFiltros() {
-                popularMultiPeriodo();
-
-                const selAno = document.getElementById('fFilterAno');
-                const prevAno = selAno.value;
-                selAno.innerHTML = '<option value="">Todos os Anos</option>';
-                [...new Set(baseRegistros.map(r => r.ano).filter(Boolean))].sort().forEach(a => {
-                    const opt = document.createElement('option');
-                    opt.value = a;
-                    opt.textContent = a;
-                    selAno.appendChild(opt);
-                });
-                if ([...selAno.options].some(o => o.value === prevAno)) selAno.value = prevAno;
-
-                const selMes = document.getElementById('fFilterMes');
-                const prevMes = selMes.value;
-                selMes.innerHTML = '<option value="">Todos os Meses</option>';
-                [...new Set(baseRegistros.map(r => r.mes).filter(Boolean))].sort().forEach(m => {
-                    const opt = document.createElement('option');
-                    opt.value = m;
-                    opt.textContent = `${m} - ${NOMES_MESES[m] || m}`;
-                    selMes.appendChild(opt);
-                });
-                if ([...selMes.options].some(o => o.value === prevMes)) selMes.value = prevMes;
-
-                const fill = (id, vals, labelAll) => {
-                    const sel = document.getElementById(id);
-                    const prev = sel.value;
-                    sel.innerHTML = `<option value="">${labelAll}</option>`;
-                    [...new Set(vals.filter(Boolean))].sort().forEach(v => {
-                        const opt = document.createElement('option');
-                        opt.value = v;
-                        opt.textContent = v;
-                        sel.appendChild(opt);
-                    });
-                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
-                };
-
-                fill('fFilterSup', baseRegistros.map(r => r.supervisor), 'Todos os Supervisores');
-                fill('fFilterEquipe', baseRegistros.map(r => r.equipe), 'Todas as Equipes');
-                fill('fFilterTipo', baseRegistros.map(r => r.tipo), 'Todos os Tipos');
+                atualizarDashboard(registrosFiltrados);
             }
 
             function aplicarCorGap(el, valorGap, prefixo) {
                 el.textContent = `${prefixo}: ${fmtBRL(valorGap)}`;
                 el.classList.remove('gap-positivo', 'gap-negativo');
-                if (valorGap >= 0) {
-                    el.classList.add('gap-positivo');
-                } else {
-                    el.classList.add('gap-negativo');
+                el.classList.add(valorGap >= 0 ? 'gap-positivo' : 'gap-negativo');
+            }
+
+            function atualizarDashboard(dados) {
+                let totPrev = 0;
+                let totReal = 0;
+                const metaUnicaMap = new Map();
+                const equipesSet = new Set();
+                const diasSet = new Set();
+
+                dados.forEach(r => {
+                    totPrev += r.previsto;
+                    totReal += r.realizado;
+                    equipesSet.add(r.equipe);
+                    if (r.data) diasSet.add(r.data);
+
+                    const chaveMeta = `${r.periodo}||${r.equipe}`;
+                    const atualMeta = metaUnicaMap.get(chaveMeta) || 0;
+                    if (r.meta > atualMeta) metaUnicaMap.set(chaveMeta, r.meta);
+                });
+
+                const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
+                const gapPrev = totReal - totPrev;
+                const gapMeta = totReal - totMeta;
+                const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
+                const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
+                const qtdDias = diasSet.size || 1;
+                const qtdEquipes = equipesSet.size || 1;
+
+                document.getElementById('kpiMeta').textContent = fmtBRL(totMeta);
+                document.getElementById('kpiQtdEquipes').textContent = `${equipesSet.size} equipes`;
+
+                document.getElementById('kpiPrevisto').textContent = fmtBRL(totPrev);
+                document.getElementById('kpiQtdDias').textContent = `${diasSet.size} dias`;
+
+                document.getElementById('kpiRealizado').textContent = fmtBRL(totReal);
+                aplicarCorGap(document.getElementById('kpiGapPrevisto'), gapPrev, 'Gap Previsto');
+                aplicarCorGap(document.getElementById('kpiGapMeta'), gapMeta, 'Gap Meta');
+
+                document.getElementById('kpiPctPrevisto').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiPctMeta').textContent = `Sobre Meta Total: ${pctMeta.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiProgressBar').style.width = `${Math.min(100, pctPrev)}%`;
+
+                document.getElementById('kpiMediaDia').textContent = fmtBRL(totReal / qtdDias);
+                document.getElementById('kpiTicketEquipe').textContent = `Média/Equipe: ${fmtBRL(totReal / qtdEquipes)}`;
+
+                renderGraficos(dados);
+                renderTabela(dados);
+            }
+
+            function destruirChart(id) {
+                if (charts[id]) {
+                    charts[id].destroy();
+                    delete charts[id];
                 }
             }
 
-            function atualizarDashboard() {
-                const anoVal = document.getElementById('fFilterAno').value;
-                const mesVal = document.getElementById('fFilterMes').value;
-                const dataVal = document.getElementById('fFilterData').value;
-                const supVal = document.getElementById('fFilterSup').value;
-                const eqVal = document.getElementById('fFilterEquipe').value;
-                const tipoVal = document.getElementById('fFilterTipo').value;
+            function renderGraficos(dados) {
+                const fontBase = { family: 'Montserrat', size: 11, weight: '600' };
+                const gridColor = 'rgba(0, 212, 255, 0.12)';
+                const tickColor = '#94a3b8';
 
-                const filtrados = baseRegistros.filter(r => {
-                    if (anoVal && r.ano !== anoVal) return false;
-                    if (mesVal && r.mes !== mesVal) return false;
-                    if (periodosSelecionados.size > 0 && !periodosSelecionados.has(r.periodo)) return false;
-                    if (dataVal && r.dataIso !== dataVal) return false;
-                    if (supVal && r.supervisor !== supVal) return false;
-                    if (eqVal && r.equipe !== eqVal) return false;
-                    if (tipoVal && r.tipo !== tipoVal) return false;
-                    return true;
+                const dlConfigLinha = {
+                    display: 'auto',
+                    align: 'top',
+                    anchor: 'end',
+                    offset: 4,
+                    color: '#e0f2fe',
+                    backgroundColor: 'rgba(2, 8, 23, 0.78)',
+                    borderColor: 'rgba(0, 212, 255, 0.45)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    padding: { top: 2, bottom: 2, left: 5, right: 5 },
+                    font: { family: 'Montserrat', size: 9.5, weight: '800' },
+                    formatter: (v) => v > 0 ? fmtBRLCompacto(v) : ''
+                };
+
+                const dlConfigBarra = {
+                    display: true,
+                    color: '#f8fafc',
+                    font: { family: 'Montserrat', size: 9.5, weight: '800' },
+                    formatter: (v) => v > 0 ? fmtBRLCompacto(v) : ''
+                };
+
+                // 1. Evolução Diária
+                const porData = {};
+                dados.forEach(r => {
+                    const k = r.data || 'S/D';
+                    if (!porData[k]) porData[k] = { prev: 0, real: 0 };
+                    porData[k].prev += r.previsto;
+                    porData[k].real += r.realizado;
                 });
+                const datasOrd = Object.keys(porData).sort();
 
-                const totPrev = filtrados.reduce((s, r) => s + r.previsto, 0);
-                const totReal = filtrados.reduce((s, r) => s + r.realizado, 0);
-
-                const metaUnicaMap = new Map();
-                filtrados.forEach(r => {
-                    const chaveMeta = `${r.periodo}||${r.equipe}`;
-                    const atual = metaUnicaMap.get(chaveMeta) || 0;
-                    if (r.meta > atual) metaUnicaMap.set(chaveMeta, r.meta);
-                });
-                const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
-
-                const equipesSet = new Set(filtrados.map(r => r.equipe));
-                const diasSet = new Set(filtrados.map(r => r.dataIso).filter(Boolean));
-                const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
-                const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
-
-                const gapPrev = totReal - totPrev;
-                const gapMeta = totReal - totMeta;
-
-                document.getElementById('kpiMeta').textContent = fmtBRL(totMeta);
-                document.getElementById('kpiEquipesAtivas').textContent = `${equipesSet.size} equipes`;
-
-                document.getElementById('kpiPrevisto').textContent = fmtBRL(totPrev);
-                document.getElementById('kpiDiasCount').textContent = `${diasSet.size} dias`;
-
-                document.getElementById('kpiRealizado').textContent = fmtBRL(totReal);
-                aplicarCorGap(document.getElementById('kpiGapPrev'), gapPrev, 'Gap Prev');
-                aplicarCorGap(document.getElementById('kpiGapMeta'), gapMeta, 'Gap Meta');
-
-                document.getElementById('kpiPctPrev').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiBarFill').style.width = `${Math.min(100, pctPrev)}%`;
-
-                renderGraficos(filtrados);
-                renderRankings(filtrados);
-                renderTabela(filtrados);
-            }
-
-            function renderGraficos(lista) {
-                // 1. Evolução Diária (Azul Elétrico + Azul Escuro)
-                const porDia = {};
-                lista.forEach(r => {
-                    const k = r.dataIso || r.dataBr || 'Sem Data';
-                    if (!porDia[k]) porDia[k] = { label: r.dataBr || k, prev: 0, real: 0 };
-                    porDia[k].prev += r.previsto;
-                    porDia[k].real += r.realizado;
-                });
-                const diasOrdenados = Object.keys(porDia).sort().map(k => porDia[k]);
-
-                const ctx1 = document.getElementById('chartEvolucaoDiaria').getContext('2d');
-                if (chartEvolucao) chartEvolucao.destroy();
-
-                const gradReal = ctx1.createLinearGradient(0, 0, 0, 290);
-                gradReal.addColorStop(0, 'rgba(0, 212, 255, 0.36)');
-                gradReal.addColorStop(1, 'rgba(0, 212, 255, 0.01)');
-
-                const gradPrev = ctx1.createLinearGradient(0, 0, 0, 290);
-                gradPrev.addColorStop(0, 'rgba(29, 78, 216, 0.32)');
-                gradPrev.addColorStop(1, 'rgba(29, 78, 216, 0.02)');
-
-                chartEvolucao = new Chart(ctx1, {
+                destruirChart('evolucao');
+                charts.evolucao = new Chart(document.getElementById('chartEvolucaoDiaria'), {
                     type: 'line',
                     data: {
-                        labels: diasOrdenados.map(d => d.label.slice(0, 5)),
+                        labels: datasOrd.map(d => formatarDataBR(d).slice(0, 5)),
                         datasets: [
                             {
                                 label: 'Realizado (R$)',
-                                data: diasOrdenados.map(d => d.real),
+                                data: datasOrd.map(d => porData[d].real),
                                 borderColor: '#00d4ff',
-                                backgroundColor: gradReal,
-                                borderWidth: 2.8,
+                                backgroundColor: 'rgba(0, 212, 255, 0.22)',
+                                borderWidth: 3,
+                                pointRadius: 4,
+                                pointBackgroundColor: '#00d4ff',
+                                tension: 0.35,
                                 fill: true,
-                                tension: 0.32,
-                                pointRadius: 3.5,
-                                pointBackgroundColor: '#00d4ff'
+                                datalabels: {
+                                    ...dlConfigLinha,
+                                    color: '#00d4ff'
+                                }
                             },
                             {
                                 label: 'Previsto (R$)',
-                                data: diasOrdenados.map(d => d.prev),
-                                borderColor: '#1d4ed8',
-                                backgroundColor: gradPrev,
+                                data: datasOrd.map(d => porData[d].prev),
+                                borderColor: '#38bdf8',
+                                backgroundColor: 'transparent',
+                                borderWidth: 2,
                                 borderDash: [6, 4],
-                                borderWidth: 2.4,
-                                fill: true,
-                                tension: 0.32,
                                 pointRadius: 3,
-                                pointBackgroundColor: '#2563eb'
+                                tension: 0.35,
+                                datalabels: {
+                                    ...dlConfigLinha,
+                                    align: 'bottom',
+                                    color: '#93c5fd'
+                                }
                             }
                         ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        interaction: { mode: 'index', intersect: false },
+                        layout: { padding: { top: 24, right: 16, left: 6, bottom: 4 } },
                         plugins: {
-                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
+                            legend: { labels: { color: '#f8fafc', font: fontBase } },
                             tooltip: {
-                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
-                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                borderWidth: 1,
                                 callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
                             }
                         },
                         scales: {
-                            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { ticks: { color: tickColor, font: fontBase }, grid: { color: gridColor } },
                             y: {
-                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
-                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
+                                grace: '14%',
+                                ticks: {
+                                    color: tickColor,
+                                    font: fontBase,
+                                    callback: (v) => fmtBRLCompacto(v)
+                                },
+                                grid: { color: gridColor }
                             }
                         }
                     }
                 });
 
-                // 2. Top Equipes (Azul Elétrico + Azul Escuro)
-                const porEq = {};
-                lista.forEach(r => {
-                    if (!porEq[r.equipe]) porEq[r.equipe] = { prev: 0, real: 0 };
-                    porEq[r.equipe].prev += r.previsto;
-                    porEq[r.equipe].real += r.realizado;
+                // 2. Por Supervisor
+                const porSup = {};
+                dados.forEach(r => {
+                    if (!porSup[r.supervisor]) porSup[r.supervisor] = { prev: 0, real: 0 };
+                    porSup[r.supervisor].prev += r.previsto;
+                    porSup[r.supervisor].real += r.realizado;
                 });
-                const topEq = Object.entries(porEq)
-                    .sort((a, b) => b[1].real - a[1].real)
-                    .slice(0, 8);
+                const supsOrd = Object.keys(porSup).sort((a, b) => porSup[b].real - porSup[a].real);
 
-                const ctx2 = document.getElementById('chartTopEquipes').getContext('2d');
-                if (chartEquipes) chartEquipes.destroy();
-                chartEquipes = new Chart(ctx2, {
+                destruirChart('supervisor');
+                charts.supervisor = new Chart(document.getElementById('chartSupervisor'), {
                     type: 'bar',
                     data: {
-                        labels: topEq.map(([eq]) => eq),
+                        labels: supsOrd,
                         datasets: [
                             {
-                                label: 'Realizado',
-                                data: topEq.map(([, v]) => v.real),
-                                backgroundColor: '#00d4ff',
-                                borderRadius: 6
+                                label: 'Previsto',
+                                data: supsOrd.map(s => porSup[s].prev),
+                                backgroundColor: 'rgba(29, 78, 216, 0.72)',
+                                borderColor: '#3b82f6',
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                datalabels: {
+                                    ...dlConfigBarra,
+                                    anchor: 'end',
+                                    align: 'top',
+                                    offset: 2,
+                                    color: '#93c5fd'
+                                }
                             },
                             {
-                                label: 'Previsto',
-                                data: topEq.map(([, v]) => v.prev),
-                                backgroundColor: '#1d4ed8',
-                                borderRadius: 6
+                                label: 'Realizado',
+                                data: supsOrd.map(s => porSup[s].real),
+                                backgroundColor: 'rgba(0, 212, 255, 0.85)',
+                                borderColor: '#00d4ff',
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                datalabels: {
+                                    ...dlConfigBarra,
+                                    anchor: 'end',
+                                    align: 'top',
+                                    offset: 2,
+                                    color: '#00d4ff'
+                                }
                             }
                         ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { top: 24, right: 8 } },
+                        plugins: {
+                            legend: { labels: { color: '#f8fafc', font: fontBase } },
+                            tooltip: {
+                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: tickColor, font: fontBase }, grid: { display: false } },
+                            y: {
+                                grace: '16%',
+                                ticks: {
+                                    color: tickColor,
+                                    font: fontBase,
+                                    callback: (v) => fmtBRLCompacto(v)
+                                },
+                                grid: { color: gridColor }
+                            }
+                        }
+                    }
+                });
+
+                // 3. Top 10 Equipes
+                const porEq = {};
+                dados.forEach(r => {
+                    porEq[r.equipe] = (porEq[r.equipe] || 0) + r.realizado;
+                });
+                const topEq = Object.entries(porEq).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+                destruirChart('topEquipes');
+                charts.topEquipes = new Chart(document.getElementById('chartTopEquipes'), {
+                    type: 'bar',
+                    data: {
+                        labels: topEq.map(e => e[0]),
+                        datasets: [{
+                            label: 'Realizado (R$)',
+                            data: topEq.map(e => e[1]),
+                            backgroundColor: 'rgba(2, 132, 199, 0.85)',
+                            borderColor: '#00d4ff',
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            datalabels: {
+                                ...dlConfigBarra,
+                                anchor: 'end',
+                                align: 'right',
+                                offset: 4,
+                                color: '#e0f2fe'
+                            }
+                        }]
                     },
                     options: {
                         indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
+                        layout: { padding: { right: 56 } },
                         plugins: {
-                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
+                            legend: { display: false },
                             tooltip: {
-                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
-                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                borderWidth: 1,
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.x)}` }
+                                callbacks: { label: (ctx) => `Realizado: ${fmtBRL(ctx.parsed.x)}` }
                             }
                         },
                         scales: {
                             x: {
-                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
-                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
+                                grace: '15%',
+                                ticks: {
+                                    color: tickColor,
+                                    font: fontBase,
+                                    callback: (v) => fmtBRLCompacto(v)
+                                },
+                                grid: { color: gridColor }
                             },
-                            y: { ticks: { color: '#f8fafc', font: { size: 10, weight: '700' } }, grid: { display: false } }
+                            y: { ticks: { color: '#f8fafc', font: fontBase }, grid: { display: false } }
                         }
                     }
                 });
 
-                // 3. Performance por Dia da Semana (Segunda a Domingo — Azul Elétrico + Azul Escuro)
-                const ordemDias = [
-                    { idx: 1, nome: 'Segunda-feira' },
-                    { idx: 2, nome: 'Terça-feira' },
-                    { idx: 3, nome: 'Quarta-feira' },
-                    { idx: 4, nome: 'Quinta-feira' },
-                    { idx: 5, nome: 'Sexta-feira' },
-                    { idx: 6, nome: 'Sábado' },
-                    { idx: 0, nome: 'Domingo' }
-                ];
+                // 4. Média por Dia da Semana
+                const mapaDiaSem = {};
+                ORDEM_DIAS_EXIBICAO.forEach(idx => {
+                    mapaDiaSem[idx] = { somaReal: 0, datasUnicas: new Set() };
+                });
 
-                const somaDia = {
-                    0: { prev: 0, real: 0 },
-                    1: { prev: 0, real: 0 },
-                    2: { prev: 0, real: 0 },
-                    3: { prev: 0, real: 0 },
-                    4: { prev: 0, real: 0 },
-                    5: { prev: 0, real: 0 },
-                    6: { prev: 0, real: 0 }
-                };
-
-                lista.forEach(r => {
-                    if (r.diaSemanaIdx >= 0 && r.diaSemanaIdx <= 6) {
-                        somaDia[r.diaSemanaIdx].prev += r.previsto;
-                        somaDia[r.diaSemanaIdx].real += r.realizado;
+                dados.forEach(r => {
+                    if (r.diaSemanaIdx >= 0 && mapaDiaSem[r.diaSemanaIdx]) {
+                        mapaDiaSem[r.diaSemanaIdx].somaReal += r.realizado;
+                        if (r.data) mapaDiaSem[r.diaSemanaIdx].datasUnicas.add(r.data);
                     }
                 });
 
-                const ctx3 = document.getElementById('chartDiaSemana').getContext('2d');
-                if (chartDiaSemana) chartDiaSemana.destroy();
-                chartDiaSemana = new Chart(ctx3, {
+                const labelsDias = ORDEM_DIAS_EXIBICAO.map(idx => NOMES_DIAS_CURTOS[idx].toUpperCase());
+                const mediasDias = ORDEM_DIAS_EXIBICAO.map(idx => {
+                    const info = mapaDiaSem[idx];
+                    const qtdDatas = info.datasUnicas.size;
+                    return qtdDatas > 0 ? info.somaReal / qtdDatas : 0;
+                });
+                const ocorrenciasDias = ORDEM_DIAS_EXIBICAO.map(idx => mapaDiaSem[idx].datasUnicas.size);
+
+                destruirChart('diaSemana');
+                charts.diaSemana = new Chart(document.getElementById('chartDiaSemana'), {
                     type: 'bar',
                     data: {
-                        labels: ordemDias.map(d => d.nome),
-                        datasets: [
-                            {
-                                label: 'Realizado (R$)',
-                                data: ordemDias.map(d => somaDia[d.idx].real),
-                                backgroundColor: '#00d4ff',
-                                borderRadius: 7,
-                                maxBarThickness: 42
-                            },
-                            {
-                                label: 'Previsto (R$)',
-                                data: ordemDias.map(d => somaDia[d.idx].prev),
-                                backgroundColor: '#1d4ed8',
-                                borderRadius: 7,
-                                maxBarThickness: 42
+                        labels: labelsDias,
+                        datasets: [{
+                            label: 'Média Diária (R$)',
+                            data: mediasDias,
+                            backgroundColor: ORDEM_DIAS_EXIBICAO.map(idx =>
+                                idx === 0
+                                    ? 'rgba(29, 78, 216, 0.50)'
+                                    : idx === 6
+                                        ? 'rgba(2, 132, 199, 0.72)'
+                                        : 'rgba(0, 212, 255, 0.85)'
+                            ),
+                            borderColor: '#38bdf8',
+                            borderWidth: 1,
+                            borderRadius: 7,
+                            datalabels: {
+                                ...dlConfigBarra,
+                                anchor: 'end',
+                                align: 'top',
+                                offset: 3,
+                                color: '#e0f2fe'
                             }
-                        ]
+                        }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        interaction: { mode: 'index', intersect: false },
+                        layout: { padding: { top: 24, right: 8 } },
                         plugins: {
-                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
+                            legend: { display: false },
                             tooltip: {
-                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
-                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                borderWidth: 1,
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
+                                callbacks: {
+                                    title: (items) => {
+                                        const pos = items[0].dataIndex;
+                                        const diaIdx = ORDEM_DIAS_EXIBICAO[pos];
+                                        return `${NOMES_DIAS_SEMANA[diaIdx]} (${ocorrenciasDias[pos]} dias apurados)`;
+                                    },
+                                    label: (ctx) => `Média Faturada: ${fmtBRL(ctx.parsed.y)}`
+                                }
                             }
                         },
                         scales: {
-                            x: {
-                                ticks: { color: '#f8fafc', font: { size: 11, weight: '700' } },
-                                grid: { display: false }
-                            },
+                            x: { ticks: { color: '#f8fafc', font: fontBase }, grid: { display: false } },
                             y: {
-                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
-                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
+                                grace: '16%',
+                                ticks: {
+                                    color: tickColor,
+                                    font: fontBase,
+                                    callback: (v) => fmtBRLCompacto(v)
+                                },
+                                grid: { color: gridColor }
                             }
                         }
                     }
                 });
             }
 
-            function renderRankings(lista) {
-                const buildGroup = (campo, elId) => {
-                    const el = document.getElementById(elId);
-                    const map = {};
-                    lista.forEach(r => {
-                        const k = r[campo] || 'N/D';
-                        if (!map[k]) map[k] = { prev: 0, real: 0, eqs: new Set() };
-                        map[k].prev += r.previsto;
-                        map[k].real += r.realizado;
-                        map[k].eqs.add(r.equipe);
-                    });
+            function renderTabela(dados) {
+                const tbody = document.getElementById('tbodyFaturamento');
+                const mapaEq = {};
 
-                    const sorted = Object.entries(map).sort((a, b) => b[1].real - a[1].real);
-                    if (sorted.length === 0) {
-                        el.innerHTML = `<div style="font-size:11.5px; color:#94a3b8; padding:10px;">Sem dados para o filtro atual.</div>`;
-                        return;
+                dados.forEach(r => {
+                    if (!mapaEq[r.equipe]) {
+                        mapaEq[r.equipe] = {
+                            equipe: r.equipe,
+                            tipo: r.tipo,
+                            supervisor: r.supervisor,
+                            dias: new Set(),
+                            metaPorPeriodo: new Map(),
+                            prev: 0,
+                            real: 0
+                        };
                     }
+                    if (r.data) mapaEq[r.equipe].dias.add(r.data);
+                    const metaAtual = mapaEq[r.equipe].metaPorPeriodo.get(r.periodo) || 0;
+                    if (r.meta > metaAtual) mapaEq[r.equipe].metaPorPeriodo.set(r.periodo, r.meta);
+                    mapaEq[r.equipe].prev += r.previsto;
+                    mapaEq[r.equipe].real += r.realizado;
+                });
 
-                    el.innerHTML = sorted.map(([nome, info]) => {
-                        const pct = info.prev > 0 ? (info.real / info.prev) * 100 : 0;
-                        const gap = info.real - info.prev;
-                        const gapColor = gap >= 0 ? '#34d399' : '#f87171';
-                        return `
-                            <div class="rank-row">
-                                <div class="rank-row-top">
-                                    <span>${nome} <small style="color:#94a3b8;">(${info.eqs.size} eq.)</small></span>
-                                    <span style="color:#00d4ff;">Real: ${fmtBRL(info.real)}</span>
-                                </div>
-                                <div class="rank-row-metrics">
-                                    <span>Previsto: <strong style="color:#60a5fa;">${fmtBRL(info.prev)}</strong></span>
-                                    <span>Gap: <strong style="color:${gapColor};">${fmtBRL(gap)}</strong></span>
-                                    <span>Atingimento: <strong style="color:#38bdf8;">${pct.toFixed(1).replace('.', ',')}%</strong></span>
-                                </div>
-                                <div class="mini-bar">
-                                    <div class="mini-bar-fill" style="width:${Math.min(100, pct)}%;"></div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                };
+                const lista = Object.values(mapaEq).map(item => ({
+                    ...item,
+                    meta: [...item.metaPorPeriodo.values()].reduce((s, v) => s + v, 0)
+                })).sort((a, b) => b.real - a.real);
 
-                buildGroup('supervisor', 'rankSupList');
-                buildGroup('tipo', 'rankTipoList');
-            }
-
-            function renderTabela(lista) {
-                const tbody = document.getElementById('fatTableBody');
-                document.getElementById('tableRowsCount').textContent = `${lista.length} registros exibidos`;
+                document.getElementById('lblContagemLinhas').textContent = `${lista.length} equipes listadas`;
 
                 if (lista.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:20px;">Nenhum registro encontrado com os filtros aplicados.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:24px; color:#94a3b8;">Nenhum registro encontrado para os filtros aplicados.</td></tr>`;
                     return;
                 }
 
-                const ordenados = [...lista].sort((a, b) => (b.dataIso || '').localeCompare(a.dataIso || ''));
-                tbody.innerHTML = ordenados.slice(0, 300).map(r => {
-                    const gap = r.realizado - r.previsto;
-                    const pct = r.previsto > 0 ? (r.realizado / r.previsto) * 100 : (r.realizado > 0 ? 100 : 0);
-                    const cls = pct >= 100 ? 'pill-ok' : pct >= 80 ? 'pill-warn' : 'pill-low';
+                tbody.innerHTML = lista.map(item => {
+                    const gap = item.real - item.prev;
+                    const pctPrev = item.prev > 0 ? (item.real / item.prev) * 100 : 0;
+                    const pctMeta = item.meta > 0 ? (item.real / item.meta) * 100 : 0;
+                    const clsPct = pctPrev >= 100 ? 'pill-ok' : (pctPrev >= 85 ? 'pill-warn' : 'pill-bad');
+                    const clsGap = gap >= 0 ? 'gap-positivo' : 'gap-negativo';
+
                     return `
                         <tr>
-                            <td>${r.dataBr}</td>
-                            <td>${r.periodo}</td>
-                            <td><strong>${r.equipe}</strong></td>
-                            <td>${r.tipo}</td>
-                            <td>${r.supervisor}</td>
-                            <td>${fmtBRL(r.meta)}</td>
-                            <td>${fmtBRL(r.previsto)}</td>
-                            <td style="color:#00d4ff; font-weight:700;">${fmtBRL(r.realizado)}</td>
-                            <td style="color:${gap >= 0 ? '#34d399' : '#f87171'}; font-weight:700;">${fmtBRL(gap)}</td>
-                            <td><span class="pill-badge ${cls}">${pct.toFixed(1).replace('.', ',')}%</span></td>
+                            <td><strong>${item.equipe}</strong></td>
+                            <td><span class="badge-tipo">${item.tipo}</span></td>
+                            <td>${item.supervisor}</td>
+                            <td class="num">${item.dias.size}</td>
+                            <td class="num">${fmtBRL(item.meta)}</td>
+                            <td class="num">${fmtBRL(item.prev)}</td>
+                            <td class="num" style="color:#00d4ff;"><strong>${fmtBRL(item.real)}</strong></td>
+                            <td class="num ${clsGap}">${fmtBRL(gap)}</td>
+                            <td class="num ${clsPct}">${pctPrev.toFixed(1).replace('.', ',')}%</td>
+                            <td class="num">${pctMeta.toFixed(1).replace('.', ',')}%</td>
                         </tr>
                     `;
                 }).join('');
             }
 
-            // Listeners de filtros e controles
-            ['fFilterAno', 'fFilterMes', 'fFilterData', 'fFilterSup', 'fFilterEquipe', 'fFilterTipo'].forEach(id => {
-                document.getElementById(id)?.addEventListener('change', atualizarDashboard);
+            function exportarCsv() {
+                if (!registrosFiltrados.length) {
+                    alert('Não há dados filtrados para exportar.');
+                    return;
+                }
+                const cabecalho = ['Data', 'Dia_Semana', 'Periodo_Semestre', 'Equipe', 'Tipo', 'Supervisor', 'Meta', 'Previsto', 'Realizado'];
+                const linhas = registrosFiltrados.map(r => [
+                    formatarDataBR(r.data),
+                    r.diaSemanaNome,
+                    r.periodo,
+                    r.equipe,
+                    r.tipo,
+                    r.supervisor,
+                    r.meta.toFixed(2).replace('.', ','),
+                    r.previsto.toFixed(2).replace('.', ','),
+                    r.realizado.toFixed(2).replace('.', ',')
+                ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(';'));
+
+                const csvContent = '\uFEFF' + [cabecalho.join(';'), ...linhas].join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `faturamento_ellca_${new Date().toISOString().slice(0, 10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            ['filtroDataIni', 'filtroDataFim'].forEach(id => {
+                document.getElementById(id)?.addEventListener('change', aplicarFiltros);
             });
 
-            document.getElementById('btnLimparFiltrosFat')?.addEventListener('click', () => {
-                periodosSelecionados.clear();
-                popularMultiPeriodo();
-                ['fFilterAno', 'fFilterMes', 'fFilterData', 'fFilterSup', 'fFilterEquipe', 'fFilterTipo'].forEach(id => {
-                    document.getElementById(id).value = '';
-                });
-                atualizarDashboard();
+            document.getElementById('btnLimparFiltros')?.addEventListener('click', () => {
+                msPeriodo.clearSelection();
+                msSupervisor.clearSelection();
+                msTipo.clearSelection();
+                msEquipe.clearSelection();
+                msDiaSemana.clearSelection();
+                document.getElementById('filtroDataIni').value = '';
+                document.getElementById('filtroDataFim').value = '';
+                aplicarFiltros();
             });
 
-            document.getElementById('btnRefreshFat')?.addEventListener('click', carregarFaturamento);
+            document.getElementById('btnRefreshFat')?.addEventListener('click', carregarDadosPlanilha);
+            document.getElementById('btnExportCsv')?.addEventListener('click', exportarCsv);
 
             const btnMenuMobile = document.getElementById('btnMenuMobileFat');
             const navContent = document.getElementById('navContentFat');
@@ -1965,9 +2173,10 @@
                 textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
             });
 
-            carregarFaturamento();
+            carregarDadosPlanilha();
         })();
     </script>
     <script src="script.js"></script>
 </body>
+
 </html>
