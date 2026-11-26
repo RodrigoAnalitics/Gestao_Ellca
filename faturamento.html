@@ -55,7 +55,7 @@
       gap: 15px;
     }
 
-    /* ================= BARRA SUPERIOR (MENU ATIVO / OCULTO) ================= */
+    /* ================= BARRA SUPERIOR ================= */
     .top-navbar-collapse {
       max-height: 90px;
       opacity: 1;
@@ -97,14 +97,16 @@
       font-weight: 800;
       font-size: 18px;
       letter-spacing: -0.4px;
+      background: transparent;
     }
 
     .brand-logo img {
-      height: 36px;
+      height: 38px;
       width: auto;
-      max-width: 145px;
+      max-width: 155px;
       object-fit: contain;
       display: block;
+      background: transparent;
     }
 
     .brand-fallback {
@@ -202,7 +204,7 @@
       background: rgba(56, 189, 248, 0.18);
     }
 
-    /* ================= BANNER HERO PREMIUM COM LOGO + VIDRO ================= */
+    /* ================= BANNER HERO PREMIUM COM LOGO TRANSPARENTE ================= */
     .hero-banner {
       position: relative;
       border-radius: 18px;
@@ -276,31 +278,36 @@
       margin-top: 3px;
     }
 
-    .hero-logo-card {
+    /* LOGO COM FUNDO TOTALMENTE TRANSPARENTE */
+    .hero-logo-transparent {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      border-radius: 12px;
-      background: rgba(7, 12, 24, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.11);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      background: transparent;
+      border: none;
+      padding: 0;
       text-decoration: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    .hero-logo-card img {
-      height: 32px;
+    .hero-logo-transparent:hover {
+      transform: scale(1.02);
+    }
+
+    .hero-logo-transparent img {
+      height: 44px;
       width: auto;
-      max-width: 140px;
+      max-width: 175px;
       object-fit: contain;
       display: block;
+      background: transparent;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
     }
 
     .hero-logo-fallback {
       display: none;
       align-items: center;
       gap: 7px;
-      font-size: 17px;
+      font-size: 20px;
       font-weight: 800;
       color: #60a5fa;
     }
@@ -513,7 +520,7 @@
       gap: 7px;
     }
 
-    /* ================= CARDS COM EFEITO VIDRO PREMIUM (GLASSMORPHISM) ================= */
+    /* ================= CARDS COM EFEITO VIDRO PREMIUM ================= */
     .card-3d-wrap {
       perspective: 1400px;
       height: 100%;
@@ -718,7 +725,143 @@
       font-weight: 700;
     }
 
-    /* ANÉIS CONCÊNTRICOS (PROPORÇÃO REFINADA PARA O TEXTO CENTRAL) */
+    /* ================= DESTAQUE DE FOTO & INFO DO SUPERVISOR ================= */
+    .sup-profile-spotlight {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.16) 0%, rgba(14, 165, 233, 0.07) 100%);
+      border: 1px solid rgba(96, 165, 250, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .sup-profile-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .sup-photo-frame {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.28);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .sup-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sup-photo-initials {
+      font-size: 14px;
+      font-weight: 800;
+      color: #7dd3fc;
+      letter-spacing: 0.3px;
+    }
+
+    .sup-profile-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sup-profile-role {
+      font-size: 10.5px;
+      color: #93c5fd;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .sup-profile-meta {
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .sup-profile-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .sup-profile-val {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .sup-profile-badge {
+      display: inline-block;
+      margin-top: 3px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.32);
+      color: #34d399;
+    }
+
+    .sup-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 11px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .sup-item:hover,
+    .sup-item.active {
+      background: rgba(59, 130, 246, 0.16);
+      border-color: rgba(96, 165, 250, 0.28);
+    }
+
+    .sup-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.34);
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .sup-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ANÉIS CONCÊNTRICOS */
     .rings-widget-wrap {
       display: flex;
       flex-direction: column;
@@ -878,35 +1021,6 @@
 
     .btn-ai-refresh:hover { background: #2563eb; color: #ffffff; }
 
-    .sup-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 9px 11px;
-      border-radius: 11px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .sup-item:hover,
-    .sup-item.active { background: rgba(59, 130, 246, 0.16); }
-
-    .sup-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 9px;
-      background: rgba(37, 99, 235, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.34);
-      color: #93c5fd;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
     .table-wrap { overflow: auto; max-height: 380px; }
 
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -1013,7 +1127,7 @@
 
   <div class="dashboard-container">
 
-    <!-- 1. BARRA SUPERIOR (OCULTA QUANDO CLICA EM "OCULTAR MENU") -->
+    <!-- 1. BARRA SUPERIOR -->
     <div class="top-navbar-collapse">
       <header class="top-navbar">
         <div class="nav-brand-side">
@@ -1043,7 +1157,7 @@
       </header>
     </div>
 
-    <!-- 2. BANNER HERO PREMIUM COM LOGO DA EMPRESA -->
+    <!-- 2. BANNER HERO PREMIUM COM LOGO FUNDO TRANSPARENTE -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
@@ -1056,7 +1170,7 @@
           </div>
         </div>
 
-        <a href="home.html" class="hero-logo-card" title="Ellca">
+        <a href="home.html" class="hero-logo-transparent" title="Ellca">
           <img src="img/logo_ellca.png" alt="Logo Ellca"
                onerror="this.style.display='none'; document.getElementById('heroLogoFallback').style.display='inline-flex';" />
           <span id="heroLogoFallback" class="hero-logo-fallback">🌀Ellca</span>
@@ -1082,7 +1196,8 @@
           <span id="txtToggleMenu">OCULTAR MENU</span>
         </button>
 
-        <a href="#" id="linkEditarPlanilha" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-gold">
+        <a href="https://docs.google.com/spreadsheets/d/1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk/edit?gid=0#gid=0"
+           id="linkEditarPlanilha" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-gold">
           <i class="fa-solid fa-pen-to-square"></i> PREENCHER NA PLANILHA
         </a>
       </div>
@@ -1246,15 +1361,35 @@
           </div>
         </div>
 
+        <!-- CARD SUPERVISORES COM ESPAÇO PARA FOTO & INFORMAÇÃO -->
         <div class="card-3d-wrap" style="flex:1;">
           <div class="card-surface">
             <div class="card-body tabular">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
                 <span class="card-header-title">Supervisores</span>
                 <span class="card-header-sub">Clique p/ filtrar</span>
               </div>
 
-              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:270px; overflow-y:auto;"></div>
+              <!-- PAINEL DESTAQUE DA FOTO E INFORMAÇÃO DO SUPERVISOR -->
+              <div class="sup-profile-spotlight" id="supSpotlightCard">
+                <div class="sup-profile-left">
+                  <div class="sup-photo-frame" id="supPhotoFrame">
+                    <img id="supPhotoImg" src="" alt="Foto Supervisor" style="display:none;" />
+                    <span class="sup-photo-initials" id="supPhotoInitials">SP</span>
+                  </div>
+                  <div style="min-width:0;">
+                    <div class="sup-profile-name" id="supSpotlightName">Visão Geral · Supervisão</div>
+                    <div class="sup-profile-role" id="supSpotlightRole">Supervisão Operacional · Ellca</div>
+                    <div class="sup-profile-meta" id="supSpotlightMeta">Selecione um supervisor abaixo</div>
+                  </div>
+                </div>
+                <div class="sup-profile-right">
+                  <div class="sup-profile-val" id="supSpotlightVal">R$ 0</div>
+                  <span class="sup-profile-badge" id="supSpotlightBadge">0% meta</span>
+                </div>
+              </div>
+
+              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:4px; max-height:190px; overflow-y:auto;"></div>
             </div>
           </div>
         </div>
@@ -1308,7 +1443,6 @@
         </div>
       </div>
 
-      <!-- ANÉIS CONCÊNTRICOS COM TEXTO CENTRAL PROPORCIONAL -->
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
@@ -1424,11 +1558,16 @@
 
 <script>
   // =========================================================================
-  // 1. CONFIGURAÇÃO EDITÁVEL
+  // 1. LINKS CONFIGURADOS
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/AKfycbwhFjFhTamq91OcNe2nuK8T_qQQgBD5Eu_rrpeVBlz59kA-i21G5ZIM53Nyu7bORKDw/exec";
   const PLANILHA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk/edit?gid=0#gid=0";
   const PLANILHA_EXPORT_URL = "";
+
+  // Opcional: mapeie fotos específicas dos supervisores aqui ou salve na pasta img/supervisores/NOME.jpg
+  const FOTOS_SUPERVISORES = {
+    // "NOME DO SUPERVISOR": "img/supervisores/nome.jpg"
+  };
 
   const DIAS_UTEIS_MES = {
     1: 22, 2: 20, 3: 22, 4: 22, 5: 21, 6: 22,
@@ -1453,6 +1592,15 @@
 
   Chart.register(ChartDataLabels);
 
+  function obterCaminhoFotoSupervisor(nome) {
+    if (!nome) return "";
+    if (FOTOS_SUPERVISORES[nome]) return FOTOS_SUPERVISORES[nome];
+    const slug = nome
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase().trim().replace(/[^a-z0-9]+/g, "_");
+    return `img/supervisores/${slug}.jpg`;
+  }
+
   function atualizarRelogioAoVivo() {
     const agora = new Date();
     const hh = String(agora.getHours()).padStart(2, "0");
@@ -1465,15 +1613,9 @@
   function configurarAcoesPlanilha() {
     const linkEdit = document.getElementById("linkEditarPlanilha");
     linkEdit.href = PLANILHA_EDIT_URL;
-    linkEdit.addEventListener("click", (e) => {
-      if (!PLANILHA_EDIT_URL || PLANILHA_EDIT_URL.includes("COLE_AQUI")) {
-        e.preventDefault();
-        alert("Configure a constante PLANILHA_EDIT_URL no código para abrir sua planilha de edição.");
-      }
-    });
 
     document.getElementById("btnBaixarPlanilha").addEventListener("click", () => {
-      if (PLANILHA_EXPORT_URL && !PLANILHA_EXPORT_URL.includes("COLE_AQUI")) {
+      if (PLANILHA_EXPORT_URL) {
         window.open(PLANILHA_EXPORT_URL, "_blank", "noopener,noreferrer");
         return;
       }
@@ -1568,7 +1710,7 @@
       atualizarRelogioAoVivo();
     } catch (err) {
       console.error("Erro ao carregar API:", err);
-      alert("Erro ao conectar na API do Apps Script. Confira a URL configurada.");
+      alert("Erro ao conectar na API do Apps Script. Confira as permissões da implantação.");
     } finally {
       btnAtualizar.innerHTML = `<i class="fa-solid fa-rotate"></i> ATUALIZAR`;
     }
@@ -1911,7 +2053,6 @@
     });
   }
 
-  // ANÉIS CONCÊNTRICOS COM CORTE INTERNO MAIOR (58%) PARA NÃO COLAR NO TEXTO CENTRAL
   function renderizarAneisTipos(dados) {
     const porTipo = {};
     dados.forEach(r => {
@@ -2133,29 +2274,72 @@
     });
   }
 
+  // LISTA + PAINEL DE FOTO E INFORMAÇÃO DO SUPERVISOR
   function renderizarListaSupervisores(listaEquipes) {
     const porSup = {};
     listaEquipes.forEach(e => {
       const sup = e.supervisor || "NÃO INFORMADO";
-      if (!porSup[sup]) porSup[sup] = { meta: 0, realizado: 0 };
+      if (!porSup[sup]) porSup[sup] = { meta: 0, realizado: 0, equipes: new Set(), processos: new Set() };
       porSup[sup].meta += e.metaMensal;
       porSup[sup].realizado += e.realizado;
+      porSup[sup].equipes.add(e.equipe);
+      if (e.processo) porSup[sup].processos.add(e.processo);
     });
 
     const supAtual = document.getElementById("filtroSupervisor").value;
     const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
 
+    // Atualiza o painel destaque do supervisor (ou líder atual)
+    const destaqueEntry = supAtual !== "TODOS" && porSup[supAtual]
+      ? [supAtual, porSup[supAtual]]
+      : linhas[0];
+
+    const imgEl = document.getElementById("supPhotoImg");
+    const initEl = document.getElementById("supPhotoInitials");
+
+    if (destaqueEntry) {
+      const [nomeDestaque, dadosDest] = destaqueEntry;
+      const iniciais = nomeDestaque.split(" ").slice(0, 2).map(p => p[0]).join("") || "SP";
+      const pctDest = dadosDest.meta > 0 ? ((dadosDest.realizado / dadosDest.meta) * 100).toFixed(0) : "0";
+      const procsTxt = [...dadosDest.processos].join(" · ") || "Operação Ellca";
+
+      document.getElementById("supSpotlightName").textContent = nomeDestaque;
+      document.getElementById("supSpotlightRole").textContent = supAtual !== "TODOS"
+        ? `Supervisor Selecionado · ${procsTxt}`
+        : `Líder de Faturamento · ${procsTxt}`;
+      document.getElementById("supSpotlightMeta").textContent = `${dadosDest.equipes.size} equipes · Meta ${fmtCompacto(dadosDest.meta)}`;
+      document.getElementById("supSpotlightVal").textContent = fmtCompacto(dadosDest.realizado);
+      document.getElementById("supSpotlightBadge").textContent = `${pctDest}% meta`;
+
+      initEl.textContent = iniciais;
+      initEl.style.display = "inline";
+      imgEl.style.display = "none";
+      imgEl.onload = () => {
+        imgEl.style.display = "block";
+        initEl.style.display = "none";
+      };
+      imgEl.onerror = () => {
+        imgEl.style.display = "none";
+        initEl.style.display = "inline";
+      };
+      imgEl.src = obterCaminhoFotoSupervisor(nomeDestaque);
+    }
+
     const wrap = document.getElementById("listaSupervisoresRight");
     wrap.innerHTML = linhas.map(([sup, v]) => {
-      const iniciais = sup.split(" ").slice(0, 2).map(p => p[0]).join("");
+      const iniciais = sup.split(" ").slice(0, 2).map(p => p[0]).join("") || "SP";
       const pct = v.meta > 0 ? ((v.realizado / v.meta) * 100).toFixed(0) : "0";
+      const fotoSrc = obterCaminhoFotoSupervisor(sup);
       return `
         <div class="sup-item ${supAtual === sup ? "active" : ""}" data-sup="${sup}">
           <div style="display:flex; align-items:center; gap:10px; min-width:0;">
-            <div class="sup-avatar">${iniciais || "SP"}</div>
+            <div class="sup-avatar">
+              <img src="${fotoSrc}" alt="${sup}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+              <span style="display:none;">${iniciais}</span>
+            </div>
             <div style="min-width:0;">
               <div style="font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sup}</div>
-              <div style="font-size:10px; color:#94a3b8;">Meta: ${fmtCompacto(v.meta)}</div>
+              <div style="font-size:10px; color:#94a3b8;">${v.equipes.size} eq · Meta: ${fmtCompacto(v.meta)}</div>
             </div>
           </div>
           <div style="text-align:right; flex-shrink:0;">
