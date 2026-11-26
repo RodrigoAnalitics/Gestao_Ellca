@@ -515,7 +515,7 @@
       color: #64748b;
     }
 
-    /* ================= PAINEL DE FILTROS COM VIDRO ================= */
+    /* ================= PAINEL DE FILTROS COM MULTI-SELEÇÃO EM TODOS ================= */
     .filters-collapse {
       max-height: 460px;
       opacity: 1;
@@ -597,10 +597,9 @@
     }
 
     .filter-control:focus { border-color: #3b82f6; }
-    .filter-control option { background: #0c111b; color: #f8fafc; }
 
-    /* SELETOR MÚLTIPLO DE DATAS (PERÍODOS) */
-    .multi-date-trigger {
+    /* SELETOR MÚLTIPLO PADRÃO PARA TODOS OS FILTROS */
+    .multi-select-trigger {
       height: 36px;
       border-radius: 9px;
       background: rgba(6, 10, 20, 0.75);
@@ -619,25 +618,25 @@
       transition: border-color 0.2s ease, background 0.2s ease;
     }
 
-    .multi-date-trigger:hover,
-    .multi-date-trigger.open {
+    .multi-select-trigger:hover,
+    .multi-select-trigger.open {
       border-color: #38bdf8;
       background: rgba(11, 18, 34, 0.92);
     }
 
-    .multi-date-trigger span {
+    .multi-select-trigger span {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .multi-date-dropdown {
+    .multi-select-dropdown {
       position: absolute;
       top: calc(100% + 6px);
       left: 0;
-      min-width: 235px;
+      min-width: 230px;
       width: 100%;
-      max-height: 265px;
+      max-height: 270px;
       border-radius: 12px;
       background: rgba(9, 15, 28, 0.97);
       backdrop-filter: blur(20px);
@@ -651,9 +650,9 @@
       gap: 6px;
     }
 
-    .multi-date-dropdown.open { display: flex; }
+    .multi-select-dropdown.open { display: flex; }
 
-    .multi-date-actions {
+    .multi-select-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -662,33 +661,44 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .multi-date-mini-btn {
+    .multi-select-mini-btn {
       flex: 1;
-      height: 24px;
+      height: 25px;
       border-radius: 6px;
-      border: 1px solid rgba(56, 189, 248, 0.32);
-      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.34);
+      background: rgba(56, 189, 248, 0.14);
       color: #7dd3fc;
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .multi-date-mini-btn:hover {
-      background: rgba(56, 189, 248, 0.25);
+    .multi-select-mini-btn:hover {
+      background: rgba(56, 189, 248, 0.28);
       color: #ffffff;
     }
 
-    .multi-date-list {
+    .multi-select-mini-btn.uncheck {
+      border-color: rgba(96, 165, 250, 0.28);
+      background: rgba(30, 58, 138, 0.24);
+      color: #93c5fd;
+    }
+
+    .multi-select-mini-btn.uncheck:hover {
+      background: rgba(37, 99, 235, 0.36);
+      color: #ffffff;
+    }
+
+    .multi-select-list {
       overflow-y: auto;
-      max-height: 195px;
+      max-height: 200px;
       display: flex;
       flex-direction: column;
       gap: 3px;
     }
 
-    .multi-date-option {
+    .multi-select-option {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -702,15 +712,22 @@
       transition: background 0.15s ease;
     }
 
-    .multi-date-option:hover {
+    .multi-select-option:hover {
       background: rgba(56, 189, 248, 0.14);
     }
 
-    .multi-date-option input[type="checkbox"] {
+    .multi-select-option input[type="checkbox"] {
       accent-color: #38bdf8;
       width: 14px;
       height: 14px;
       cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .multi-select-option span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .btn-clear-filters {
@@ -1503,47 +1520,107 @@
       </div>
     </section>
 
-    <!-- 3. PAINEL DE FILTROS COM MULTI-PERÍODO E CARD DE DIAS TRABALHADOS -->
+    <!-- 3. PAINEL DE FILTROS — TODOS COM MULTI-SELEÇÃO (TODAS / DESMARCAR) -->
     <div class="filters-collapse">
       <div class="filters-panel">
         <div class="filters-grid-top">
-          <div class="filter-field">
-            <label><i class="fa-solid fa-layer-group"></i> PROCESSO</label>
-            <select id="filtroProcesso" class="filter-control"></select>
-          </div>
-          <div class="filter-field">
-            <label><i class="fa-regular fa-calendar"></i> ANO</label>
-            <select id="filtroAno" class="filter-control"></select>
-          </div>
-          <div class="filter-field">
-            <label><i class="fa-regular fa-calendar-check"></i> MÊS</label>
-            <select id="filtroMes" class="filter-control"></select>
-          </div>
 
-          <!-- SELETOR DE MÚLTIPLAS DATAS (PERÍODOS) -->
-          <div class="filter-field" id="multiDateWrapper">
-            <label><i class="fa-solid fa-calendar-day"></i> DATA / PERÍODOS</label>
-            <button type="button" class="multi-date-trigger" id="multiDateTrigger">
-              <span id="multiDateLabel">Todas as Datas</span>
+          <!-- PROCESSO -->
+          <div class="filter-field" data-ms-field="processo">
+            <label><i class="fa-solid fa-layer-group"></i> PROCESSO</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_processo">
+              <span id="msLabel_processo">Todos os Processos</span>
               <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
             </button>
-            <div class="multi-date-dropdown" id="multiDateDropdown">
-              <div class="multi-date-actions">
-                <button type="button" class="multi-date-mini-btn" id="btnMarcarTodasDatas">Todas</button>
-                <button type="button" class="multi-date-mini-btn" id="btnLimparDatas">Desmarcar</button>
+            <div class="multi-select-dropdown" id="msDropdown_processo">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="processo">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="processo">Desmarcar</button>
               </div>
-              <div class="multi-date-list" id="multiDateList"></div>
+              <div class="multi-select-list" id="msList_processo"></div>
             </div>
           </div>
 
-          <div class="filter-field">
+          <!-- ANO -->
+          <div class="filter-field" data-ms-field="ano">
+            <label><i class="fa-regular fa-calendar"></i> ANO</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_ano">
+              <span id="msLabel_ano">Todos os Anos</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_ano">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="ano">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="ano">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_ano"></div>
+            </div>
+          </div>
+
+          <!-- MÊS -->
+          <div class="filter-field" data-ms-field="mes">
+            <label><i class="fa-regular fa-calendar-check"></i> MÊS</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_mes">
+              <span id="msLabel_mes">Todos os Meses</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_mes">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="mes">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="mes">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_mes"></div>
+            </div>
+          </div>
+
+          <!-- DATA / PERÍODOS -->
+          <div class="filter-field" data-ms-field="data">
+            <label><i class="fa-solid fa-calendar-day"></i> DATA / PERÍODOS</label>
+            <button type="button" class="multi-select-trigger" id="msTrigger_data">
+              <span id="msLabel_data">Todas as Datas</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_data">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="data">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="data">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_data"></div>
+            </div>
+          </div>
+
+          <!-- SUPERVISOR -->
+          <div class="filter-field" data-ms-field="supervisor">
             <label><i class="fa-solid fa-user-tie"></i> SUPERVISOR</label>
-            <select id="filtroSupervisor" class="filter-control"><option value="TODOS">Todos os Supervisores</option></select>
+            <button type="button" class="multi-select-trigger" id="msTrigger_supervisor">
+              <span id="msLabel_supervisor">Todos os Supervisores</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_supervisor">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="supervisor">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="supervisor">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_supervisor"></div>
+            </div>
           </div>
-          <div class="filter-field">
+
+          <!-- TIPO DE EQUIPE -->
+          <div class="filter-field" data-ms-field="tipo">
             <label><i class="fa-solid fa-truck-pickup"></i> TIPO DE EQUIPE</label>
-            <select id="filtroTipoEquipe" class="filter-control"><option value="TODOS">Todos os Tipos</option></select>
+            <button type="button" class="multi-select-trigger" id="msTrigger_tipo">
+              <span id="msLabel_tipo">Todos os Tipos</span>
+              <i class="fa-solid fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
+            </button>
+            <div class="multi-select-dropdown" id="msDropdown_tipo">
+              <div class="multi-select-actions">
+                <button type="button" class="multi-select-mini-btn" data-ms-all="tipo">Todas</button>
+                <button type="button" class="multi-select-mini-btn uncheck" data-ms-none="tipo">Desmarcar</button>
+              </div>
+              <div class="multi-select-list" id="msList_tipo"></div>
+            </div>
           </div>
+
         </div>
 
         <div class="filters-grid-bottom">
@@ -1924,11 +2001,18 @@
   let charts = {};
   let ultimoEstado = null;
 
-  // Controle de múltipla seleção de datas (vazio = todas as datas do mês/processo)
-  let datasDisponiveisNoMes = [];
-  let datasSelecionadas = new Set();
+  // =========================================================================
+  // ESTADO DOS 6 FILTROS MULTI-SELEÇÃO
+  // =========================================================================
+  const multiFiltros = {
+    processo:   { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Processos" },
+    ano:        { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Anos" },
+    mes:        { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Meses" },
+    data:       { disponiveis: [], selecionados: new Set(), nomeTodos: "Todas as Datas" },
+    supervisor: { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Supervisores" },
+    tipo:       { disponiveis: [], selecionados: new Set(), nomeTodos: "Todos os Tipos" }
+  };
 
-  // Controle individual de rótulos por gráfico
   const rotulosAtivos = {
     principal: true,
     barrasEq: true,
@@ -1958,7 +2042,7 @@
   Chart.register(neonGlowPlugin);
 
   // =========================================================================
-  // TOOLTIP EXTERNO MODERNO EM VIDRO FOSCO (GLASSMORPHISM)
+  // TOOLTIP EXTERNO MODERNO EM VIDRO FOSCO
   // =========================================================================
   function externalModernTooltip(context) {
     const { chart, tooltip } = context;
@@ -2128,6 +2212,139 @@
     return String(t || "").trim().toUpperCase();
   }
 
+  // =========================================================================
+  // MOTOR GENÉRICO DE MULTI-SELEÇÃO PARA TODOS OS FILTROS
+  // =========================================================================
+  function configurarDropdownsMultiSelect() {
+    Object.keys(multiFiltros).forEach(campo => {
+      const trigger = document.getElementById(`msTrigger_${campo}`);
+      const dropdown = document.getElementById(`msDropdown_${campo}`);
+
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const jaAberto = dropdown.classList.contains("open");
+        fecharTodosDropdownsMulti();
+        if (!jaAberto) {
+          dropdown.classList.add("open");
+          trigger.classList.add("open");
+        }
+      });
+
+      dropdown.addEventListener("click", (e) => e.stopPropagation());
+    });
+
+    document.addEventListener("click", fecharTodosDropdownsMulti);
+
+    document.querySelectorAll("[data-ms-all]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const campo = btn.getAttribute("data-ms-all");
+        const st = multiFiltros[campo];
+        st.selecionados = new Set(st.disponiveis.map(item => String(item.valor)));
+        sincronizarCheckboxesMulti(campo);
+        aoMudarFiltroMulti(campo);
+      });
+    });
+
+    document.querySelectorAll("[data-ms-none]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const campo = btn.getAttribute("data-ms-none");
+        multiFiltros[campo].selecionados.clear();
+        sincronizarCheckboxesMulti(campo);
+        aoMudarFiltroMulti(campo);
+      });
+    });
+  }
+
+  function fecharTodosDropdownsMulti() {
+    document.querySelectorAll(".multi-select-dropdown").forEach(d => d.classList.remove("open"));
+    document.querySelectorAll(".multi-select-trigger").forEach(t => t.classList.remove("open"));
+  }
+
+  function renderizarOpcoesMulti(campo, opcoes, valoresIniciais) {
+    const st = multiFiltros[campo];
+    st.disponiveis = opcoes;
+    if (valoresIniciais) {
+      st.selecionados = new Set(valoresIniciais.map(String));
+    } else {
+      st.selecionados = new Set(opcoes.map(o => String(o.valor)));
+    }
+
+    const listEl = document.getElementById(`msList_${campo}`);
+    listEl.innerHTML = opcoes.map(op => {
+      const valStr = String(op.valor);
+      const checked = st.selecionados.has(valStr) ? "checked" : "";
+      return `
+        <label class="multi-select-option">
+          <input type="checkbox" value="${valStr}" ${checked} />
+          <span title="${op.rotulo}">${op.rotulo}</span>
+        </label>
+      `;
+    }).join("");
+
+    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener("change", () => {
+        if (cb.checked) st.selecionados.add(cb.value);
+        else st.selecionados.delete(cb.value);
+        atualizarTextoTriggerMulti(campo);
+        aoMudarFiltroMulti(campo);
+      });
+    });
+
+    atualizarTextoTriggerMulti(campo);
+  }
+
+  function sincronizarCheckboxesMulti(campo) {
+    const st = multiFiltros[campo];
+    const listEl = document.getElementById(`msList_${campo}`);
+    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = st.selecionados.has(cb.value);
+    });
+    atualizarTextoTriggerMulti(campo);
+  }
+
+  function atualizarTextoTriggerMulti(campo) {
+    const st = multiFiltros[campo];
+    const labelEl = document.getElementById(`msLabel_${campo}`);
+    const total = st.disponiveis.length;
+    const qtdSel = st.selecionados.size;
+
+    if (total === 0) {
+      labelEl.textContent = "Sem opções";
+      return;
+    }
+
+    if (qtdSel === 0 || qtdSel === total) {
+      labelEl.textContent = `${st.nomeTodos} (${total})`;
+      return;
+    }
+
+    const selecionadosOrdenados = st.disponiveis.filter(o => st.selecionados.has(String(o.valor)));
+    if (qtdSel === 1) {
+      labelEl.textContent = selecionadosOrdenados[0].rotulo;
+    } else if (qtdSel === 2) {
+      labelEl.textContent = `${selecionadosOrdenados[0].rotulo}, ${selecionadosOrdenados[1].rotulo}`;
+    } else {
+      labelEl.textContent = `${qtdSel} selecionados`;
+    }
+  }
+
+  function obterValoresAtivosMulti(campo) {
+    const st = multiFiltros[campo];
+    if (st.selecionados.size === 0 || st.selecionados.size === st.disponiveis.length) {
+      return new Set(st.disponiveis.map(o => String(o.valor)));
+    }
+    return st.selecionados;
+  }
+
+  function aoMudarFiltroMulti(campo) {
+    if (campo === "ano") {
+      atualizarOpcoesMes();
+    } else if (campo === "mes" || campo === "processo") {
+      atualizarOpcoesData();
+    }
+    atualizarDashboard();
+  }
+
   async function carregarDados() {
     configurarAcoesPlanilha();
     const btnAtualizar = document.getElementById("btnAtualizarDados");
@@ -2166,190 +2383,140 @@
     }
   }
 
-  // =========================================================================
-  // CONTROLE DO SELETOR DE MÚLTIPLAS DATAS
-  // =========================================================================
-  function configurarDropdownMultiData() {
-    const trigger = document.getElementById("multiDateTrigger");
-    const dropdown = document.getElementById("multiDateDropdown");
-    const wrapper = document.getElementById("multiDateWrapper");
-
-    trigger.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const aberto = dropdown.classList.toggle("open");
-      trigger.classList.toggle("open", aberto);
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!wrapper.contains(e.target)) {
-        dropdown.classList.remove("open");
-        trigger.classList.remove("open");
-      }
-    });
-
-    document.getElementById("btnMarcarTodasDatas").addEventListener("click", () => {
-      datasSelecionadas = new Set(datasDisponiveisNoMes);
-      sincronizarCheckboxesDatas();
-      atualizarDashboard();
-    });
-
-    document.getElementById("btnLimparDatas").addEventListener("click", () => {
-      datasSelecionadas.clear();
-      sincronizarCheckboxesDatas();
-      atualizarDashboard();
-    });
-  }
-
-  function sincronizarCheckboxesDatas() {
-    const listEl = document.getElementById("multiDateList");
-    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      cb.checked = datasSelecionadas.has(cb.value);
-    });
-    atualizarTextoTriggerDatas();
-  }
-
-  function atualizarTextoTriggerDatas() {
-    const labelEl = document.getElementById("multiDateLabel");
-    const total = datasDisponiveisNoMes.length;
-    const qtdSel = datasSelecionadas.size;
-
-    if (qtdSel === 0 || qtdSel === total) {
-      labelEl.textContent = `Todas (${total}d)`;
-    } else if (qtdSel === 1) {
-      const unica = [...datasSelecionadas][0];
-      const [y, m, d] = unica.split("-");
-      labelEl.textContent = `${d}/${m}/${y}`;
-    } else {
-      const ordenadas = [...datasSelecionadas].sort();
-      const primeira = ordenadas[0].split("-").slice(1).reverse().join("/");
-      const ultima = ordenadas[ordenadas.length - 1].split("-").slice(1).reverse().join("/");
-      labelEl.textContent = `${qtdSel} dias (${primeira}..${ultima})`;
-    }
-  }
-
   function popularFiltros() {
-    const processos = [...new Set(rawFaturamento.map(r => r.processo))].sort();
+    const processos = [...new Set(rawFaturamento.map(r => r.processo).filter(Boolean))].sort();
     const anos = [...new Set(rawFaturamento.map(r => r.ano))].sort((a, b) => b - a);
     const supervisores = [...new Set(rawFaturamento.map(r => r.supervisor).filter(Boolean))].sort();
     const tipos = [...new Set(rawFaturamento.map(r => r.tipo).filter(Boolean))].sort();
 
-    const selProc = document.getElementById("filtroProcesso");
-    selProc.innerHTML = `<option value="TODOS">Todos os Processos</option>` +
-      processos.map(p => `<option value="${p}" ${p === "SUSTENTAÇÃO" ? "selected" : ""}>${p}</option>`).join("");
+    configurarDropdownsMultiSelect();
 
-    const selAno = document.getElementById("filtroAno");
-    selAno.innerHTML = anos.map(a => `<option value="${a}">${a}</option>`).join("");
+    const procPadrao = processos.includes("SUSTENTAÇÃO") ? ["SUSTENTAÇÃO"] : processos;
+    renderizarOpcoesMulti("processo", processos.map(p => ({ valor: p, rotulo: p })), procPadrao);
 
-    const selSup = document.getElementById("filtroSupervisor");
-    selSup.innerHTML = `<option value="TODOS">Todos os Supervisores</option>` +
-      supervisores.map(s => `<option value="${s}">${s}</option>`).join("");
+    const anoPadrao = anos.length ? [anos[0]] : [];
+    renderizarOpcoesMulti("ano", anos.map(a => ({ valor: a, rotulo: String(a) })), anoPadrao);
 
-    const selTipo = document.getElementById("filtroTipoEquipe");
-    selTipo.innerHTML = `<option value="TODOS">Todos os Tipos</option>` +
-      tipos.map(t => `<option value="${t}">${t}</option>`).join("");
+    renderizarOpcoesMulti("supervisor", supervisores.map(s => ({ valor: s, rotulo: s })));
+    renderizarOpcoesMulti("tipo", tipos.map(t => ({ valor: t, rotulo: t })));
 
-    configurarDropdownMultiData();
-    atualizarOpcoesMes();
+    atualizarOpcoesMes(true);
 
-    selProc.addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
-    selAno.addEventListener("change", () => { atualizarOpcoesMes(); atualizarDashboard(); });
-    document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
-    selSup.addEventListener("change", atualizarDashboard);
-    selTipo.addEventListener("change", atualizarDashboard);
     document.getElementById("buscaRapida").addEventListener("input", atualizarDashboard);
 
     document.getElementById("btnLimparFiltros").addEventListener("click", () => {
-      selProc.value = processos.includes("SUSTENTAÇÃO") ? "SUSTENTAÇÃO" : "TODOS";
-      if (anos.length) selAno.value = anos[0];
-      atualizarOpcoesMes();
-      selSup.value = "TODOS";
-      selTipo.value = "TODOS";
+      renderizarOpcoesMulti("processo", processos.map(p => ({ valor: p, rotulo: p })), procPadrao);
+      renderizarOpcoesMulti("ano", anos.map(a => ({ valor: a, rotulo: String(a) })), anoPadrao);
+      renderizarOpcoesMulti("supervisor", supervisores.map(s => ({ valor: s, rotulo: s })));
+      renderizarOpcoesMulti("tipo", tipos.map(t => ({ valor: t, rotulo: t })));
+      atualizarOpcoesMes(true);
       document.getElementById("buscaRapida").value = "";
       atualizarDashboard();
     });
   }
 
-  function atualizarOpcoesMes() {
-    const anoSel = Number(document.getElementById("filtroAno").value);
-    const mesesDisp = [...new Set(rawFaturamento.filter(r => r.ano === anoSel).map(r => r.mes))].sort((a, b) => b - a);
-    const selMes = document.getElementById("filtroMes");
-    selMes.innerHTML = mesesDisp.map(m => `<option value="${m}">${NOMES_MESES[m]}</option>`).join("");
+  function atualizarOpcoesMes(selecionarMaisRecente = false) {
+    const anosAtivos = obterValoresAtivosMulti("ano");
+    const mesesDisp = [...new Set(
+      rawFaturamento
+        .filter(r => anosAtivos.has(String(r.ano)))
+        .map(r => r.mes)
+    )].sort((a, b) => b - a);
+
+    const inicial = (selecionarMaisRecente && mesesDisp.length) ? [mesesDisp[0]] : mesesDisp;
+    renderizarOpcoesMulti(
+      "mes",
+      mesesDisp.map(m => ({ valor: m, rotulo: NOMES_MESES[m] })),
+      inicial
+    );
+
     atualizarOpcoesData();
   }
 
   function atualizarOpcoesData() {
-    const anoSel = Number(document.getElementById("filtroAno").value);
-    const mesSel = Number(document.getElementById("filtroMes").value);
-    const procSel = document.getElementById("filtroProcesso").value;
+    const anosAtivos = obterValoresAtivosMulti("ano");
+    const mesesAtivos = obterValoresAtivosMulti("mes");
+    const procsAtivos = obterValoresAtivosMulti("processo");
 
-    datasDisponiveisNoMes = [...new Set(
+    const datasDisp = [...new Set(
       rawFaturamento
-        .filter(r => r.ano === anoSel && r.mes === mesSel && (procSel === "TODOS" || r.processo === procSel))
+        .filter(r =>
+          anosAtivos.has(String(r.ano)) &&
+          mesesAtivos.has(String(r.mes)) &&
+          procsAtivos.has(r.processo)
+        )
         .map(r => r.data)
     )].sort();
 
-    // Por padrão, todas as datas do período ficam ativas
-    datasSelecionadas = new Set(datasDisponiveisNoMes);
-
-    const listEl = document.getElementById("multiDateList");
-    listEl.innerHTML = datasDisponiveisNoMes.map(d => {
-      const [y, m, day] = d.split("-");
-      return `
-        <label class="multi-date-option">
-          <input type="checkbox" value="${d}" checked />
-          <span>${day}/${m}/${y}</span>
-        </label>
-      `;
-    }).join("");
-
-    listEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      cb.addEventListener("change", () => {
-        if (cb.checked) datasSelecionadas.add(cb.value);
-        else datasSelecionadas.delete(cb.value);
-        atualizarTextoTriggerDatas();
-        atualizarDashboard();
-      });
-    });
-
-    atualizarTextoTriggerDatas();
+    renderizarOpcoesMulti(
+      "data",
+      datasDisp.map(d => {
+        const [y, m, day] = d.split("-");
+        return { valor: d, rotulo: `${day}/${m}/${y}` };
+      })
+    );
   }
 
   function atualizarDashboard() {
-    const anoSel = Number(document.getElementById("filtroAno").value);
-    const mesSel = Number(document.getElementById("filtroMes").value);
-    const procSel = document.getElementById("filtroProcesso").value;
-    const supSel = document.getElementById("filtroSupervisor").value;
-    const tipoSel = document.getElementById("filtroTipoEquipe").value;
+    const procsAtivos = obterValoresAtivosMulti("processo");
+    const anosAtivos = obterValoresAtivosMulti("ano");
+    const mesesAtivos = obterValoresAtivosMulti("mes");
+    const datasAtivas = obterValoresAtivosMulti("data");
+    const supsAtivos = obterValoresAtivosMulti("supervisor");
+    const tiposAtivos = obterValoresAtivosMulti("tipo");
     const termoBusca = document.getElementById("buscaRapida").value.trim().toLowerCase();
 
-    const baseMesProcesso = rawFaturamento.filter(r =>
-      r.ano === anoSel &&
-      r.mes === mesSel &&
-      (procSel === "TODOS" || r.processo === procSel) &&
-      (supSel === "TODOS" || r.supervisor === supSel) &&
-      (tipoSel === "TODOS" || r.tipo === tipoSel) &&
+    const basePeriodoCompetencia = rawFaturamento.filter(r =>
+      anosAtivos.has(String(r.ano)) &&
+      mesesAtivos.has(String(r.mes)) &&
+      procsAtivos.has(r.processo) &&
+      supsAtivos.has(r.supervisor) &&
+      tiposAtivos.has(r.tipo) &&
       (!termoBusca || `${r.equipe} ${r.supervisor} ${r.processo} ${r.veiculo} ${r.tipo}`.toLowerCase().includes(termoBusca))
     );
 
-    const filtrarPorDatas = datasSelecionadas.size > 0 && datasSelecionadas.size < datasDisponiveisNoMes.length;
-    const dadosFiltrados = filtrarPorDatas
-      ? baseMesProcesso.filter(r => datasSelecionadas.has(r.data))
-      : baseMesProcesso;
+    const dadosFiltrados = basePeriodoCompetencia.filter(r => datasAtivas.has(r.data));
 
-    const diasUteis = DIAS_UTEIS_MES[mesSel] || 22;
+    // Soma dias úteis de cada combinação Ano-Mês ativa (suporta 1 ou múltiplos meses)
+    const competenciasUnicas = new Set();
+    basePeriodoCompetencia.forEach(r => competenciasUnicas.add(`${r.ano}-${r.mes}`));
+    let diasUteis = 0;
+    competenciasUnicas.forEach(comp => {
+      const m = Number(comp.split("-")[1]);
+      diasUteis += (DIAS_UTEIS_MES[m] || 22);
+    });
+    if (diasUteis === 0) {
+      mesesAtivos.forEach(m => { diasUteis += (DIAS_UTEIS_MES[Number(m)] || 22); });
+      if (diasUteis === 0) diasUteis = 22;
+    }
+
     const datasUnicas = [...new Set(dadosFiltrados.map(r => r.data))].sort();
     const diasTrabalhados = datasUnicas.length;
 
+    // Consolida meta mensal por equipe-processo-competência (para somar corretamente se mais de 1 mês for marcado)
     const mapaEquipes = new Map();
-    baseMesProcesso.forEach(r => {
+    const metasPorEquipeComp = new Map();
+
+    basePeriodoCompetencia.forEach(r => {
       const chave = `${r.processo}|${r.equipe}`;
+      const chaveComp = `${chave}|${r.ano}-${r.mes}`;
       if (!mapaEquipes.has(chave)) {
         mapaEquipes.set(chave, {
           supervisor: r.supervisor, equipe: r.equipe, processo: r.processo,
-          tipo: r.tipo, veiculo: r.veiculo, metaMensal: r.valorMensal, realizado: 0
+          tipo: r.tipo, veiculo: r.veiculo, metaMensal: 0, realizado: 0
         });
       }
-      if (r.valorMensal > 0) mapaEquipes.get(chave).metaMensal = r.valorMensal;
+      if (r.valorMensal > 0) {
+        metasPorEquipeComp.set(chaveComp, r.valorMensal);
+      }
+    });
+
+    metasPorEquipeComp.forEach((valMeta, chaveComp) => {
+      const [proc, eq] = chaveComp.split("|");
+      const chave = `${proc}|${eq}`;
+      if (mapaEquipes.has(chave)) {
+        mapaEquipes.get(chave).metaMensal += valMeta;
+      }
     });
 
     dadosFiltrados.forEach(r => {
@@ -2401,8 +2568,12 @@
     document.getElementById("gaugeDeltaTxt").textContent = fmtCompacto(totalDelta);
     document.getElementById("gaugePrevPctTxt").textContent = `${pctPrevisto.toFixed(0)}%`;
 
+    const tituloProc = multiFiltros.processo.selecionados.size === 1
+      ? [...multiFiltros.processo.selecionados][0]
+      : (multiFiltros.processo.selecionados.size === multiFiltros.processo.disponiveis.length ? "Todos" : `${multiFiltros.processo.selecionados.size} processos`);
+
     ultimoEstado = {
-      procSel, totalMetaMensal, totalPrevisto, totalRealizado,
+      procSel: tituloProc, totalMetaMensal, totalPrevisto, totalRealizado,
       totalDelta, pctPrevisto, pctMetaMensal, diasTrabalhados, diasUteis, listaEquipes
     };
 
@@ -2424,9 +2595,9 @@
     const valTop = topEq ? fmtCompacto(topEq.realizado) : "R$ 0";
 
     const leituras = [
-      `<strong>IA • Faturamento (${procSel === "TODOS" ? "Todos" : procSel}):</strong> Com ${diasTrabalhados}/${diasUteis} dias úteis, o realizado soma <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Maior realização: <strong>${nomeTop}</strong> (${valTop}).`,
+      `<strong>IA • Faturamento (${procSel}):</strong> Com ${diasTrabalhados}/${diasUteis} dias úteis, o realizado soma <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Maior realização: <strong>${nomeTop}</strong> (${valTop}).`,
       `<strong>IA • Desvio (Gap):</strong> A diferença em relação ao previsto é de <strong>${fmtBRL(Math.abs(totalDelta))}</strong> (${totalDelta <= 0 ? "superávit no período" : "gap a cobrir"}). Focar nas equipes com menor cobertura diária ajuda a reduzir a distância.`,
-      `<strong>IA • Projeção:</strong> No ritmo médio atual por dia útil, o fechamento projetado do mês fica em <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong>. Manter a constância de <strong>${nomeTop}</strong> sustenta a meta.`
+      `<strong>IA • Projeção:</strong> No ritmo médio atual por dia útil, o fechamento projetado do período fica em <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong>. Manter a constância de <strong>${nomeTop}</strong> sustenta a meta.`
     ];
 
     document.getElementById("textoInsightIA").innerHTML = leituras[variacaoIA % leituras.length];
@@ -2894,11 +3065,13 @@
       if (e.processo) porSup[sup].processos.add(e.processo);
     });
 
-    const supAtual = document.getElementById("filtroSupervisor").value;
+    const stSup = multiFiltros.supervisor;
+    const isUnicoSup = stSup.selecionados.size === 1;
+    const supUnico = isUnicoSup ? [...stSup.selecionados][0] : null;
     const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
 
-    const destaqueEntry = supAtual !== "TODOS" && porSup[supAtual]
-      ? [supAtual, porSup[supAtual]]
+    const destaqueEntry = supUnico && porSup[supUnico]
+      ? [supUnico, porSup[supUnico]]
       : linhas[0];
 
     const imgEl = document.getElementById("supPhotoImg");
@@ -2911,7 +3084,7 @@
       const procsTxt = [...dadosDest.processos].join(" · ") || "Operação Ellca";
 
       document.getElementById("supSpotlightName").textContent = nomeDestaque;
-      document.getElementById("supSpotlightRole").textContent = supAtual !== "TODOS"
+      document.getElementById("supSpotlightRole").textContent = supUnico
         ? `Supervisor Selecionado · ${procsTxt}`
         : `Líder de Faturamento · ${procsTxt}`;
       document.getElementById("supSpotlightMeta").textContent = `${dadosDest.equipes.size} equipes · Meta ${fmtCompacto(dadosDest.meta)}`;
@@ -2937,8 +3110,9 @@
       const iniciais = sup.split(" ").slice(0, 2).map(p => p[0]).join("") || "SP";
       const pct = v.meta > 0 ? ((v.realizado / v.meta) * 100).toFixed(0) : "0";
       const fotoSrc = obterCaminhoFotoSupervisor(sup);
+      const isAtivo = stSup.selecionados.size < stSup.disponiveis.length && stSup.selecionados.has(sup);
       return `
-        <div class="sup-item ${supAtual === sup ? "active" : ""}" data-sup="${sup}">
+        <div class="sup-item ${isAtivo ? "active" : ""}" data-sup="${sup}">
           <div style="display:flex; align-items:center; gap:10px; min-width:0;">
             <div class="sup-avatar">
               <img src="${fotoSrc}" alt="${sup}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
@@ -2960,8 +3134,12 @@
     wrap.querySelectorAll(".sup-item").forEach(row => {
       row.addEventListener("click", () => {
         const sup = row.getAttribute("data-sup");
-        const sel = document.getElementById("filtroSupervisor");
-        sel.value = sel.value === sup ? "TODOS" : sup;
+        if (stSup.selecionados.size === 1 && stSup.selecionados.has(sup)) {
+          stSup.selecionados = new Set(stSup.disponiveis.map(o => String(o.valor)));
+        } else {
+          stSup.selecionados = new Set([sup]);
+        }
+        sincronizarCheckboxesMulti("supervisor");
         atualizarDashboard();
       });
     });
