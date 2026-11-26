@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | COCKPIT GERENCIAL EXECUTIVO</title>
+    <title>ELLCA | PORTAL EXECUTIVO DE DIRETORIA</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,7 +23,6 @@
             scrollbar-color: rgba(245, 158, 11, 0.28) transparent;
         }
 
-        /* Barra de rolagem fina e quase transparente (tema dourado) */
         html::-webkit-scrollbar,
         body::-webkit-scrollbar,
         ::-webkit-scrollbar {
@@ -107,13 +106,13 @@
             padding: 92px 24px 76px 24px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 20px;
             box-sizing: border-box;
             transition: padding 0.32s ease;
         }
 
         body.bars-collapsed .gerencial-wrapper {
-            padding: 20px 24px 30px 24px;
+            padding: 20px 24px 36px 24px;
         }
 
         /* ================= CABEÇALHO EXECUTIVO PADRÃO OURO ================= */
@@ -123,53 +122,53 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 14px;
-            padding: 18px 24px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(6, 10, 22, 0.92) 0%, rgba(28, 22, 12, 0.82) 55%, rgba(10, 32, 72, 0.82) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(245, 158, 11, 0.48);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(253, 224, 71, 0.22);
+            gap: 16px;
+            padding: 20px 26px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(6, 10, 22, 0.94) 0%, rgba(34, 25, 10, 0.86) 55%, rgba(10, 32, 72, 0.85) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(245, 158, 11, 0.52);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(253, 224, 71, 0.28);
             box-sizing: border-box;
         }
 
         .gerencial-title-group {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
             min-width: 0;
         }
 
         .gerencial-icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
             flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(251, 191, 36, 0.08));
-            border: 1px solid rgba(245, 158, 11, 0.6);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(251, 191, 36, 0.08));
+            border: 1px solid rgba(245, 158, 11, 0.68);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fbbf24;
-            font-size: 20px;
-            box-shadow: 0 0 22px rgba(245, 158, 11, 0.28);
+            font-size: 22px;
+            box-shadow: 0 0 26px rgba(245, 158, 11, 0.32);
         }
 
         .exec-kicker {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             font-size: 9.5px;
             font-weight: 800;
-            letter-spacing: 1.4px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             color: #fbbf24;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
         .gerencial-title-group h1 {
-            font-size: 20px;
+            font-size: 21px;
             font-weight: 900;
             letter-spacing: 1.1px;
             color: #fff;
@@ -180,8 +179,8 @@
         .gerencial-title-group p {
             font-size: 11.5px;
             color: #cbd5e1;
-            margin: 3px 0 0 0;
-            line-height: 1.4;
+            margin: 4px 0 0 0;
+            line-height: 1.45;
         }
 
         .gerencial-actions {
@@ -195,7 +194,7 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            padding: 7px 13px;
+            padding: 8px 14px;
             border-radius: 50px;
             font-size: 10.5px;
             font-weight: 700;
@@ -242,15 +241,458 @@
         }
 
         .btn-exec.gold {
-            border-color: rgba(245, 158, 11, 0.58);
-            background: rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.62);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.14));
             color: #fcd34d;
         }
 
         .btn-exec.gold:hover {
             background: #f59e0b;
-            color: #000;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.45);
+            color: #030712;
+            box-shadow: 0 0 22px rgba(245, 158, 11, 0.5);
+        }
+
+        /* ================= LOBBY EXECUTIVO (MUNDO INICIAL) ================= */
+        .exec-lobby-view {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: fadeInExec 0.38s ease;
+        }
+
+        .exec-lobby-view.hidden {
+            display: none !important;
+        }
+
+        @keyframes fadeInExec {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exec-welcome-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding: 22px 26px;
+            border-radius: 20px;
+            background: linear-gradient(120deg, rgba(8, 16, 36, 0.90) 0%, rgba(28, 22, 12, 0.80) 60%, rgba(12, 34, 72, 0.88) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.34);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+        }
+
+        .exec-welcome-copy {
+            max-width: 720px;
+        }
+
+        .exec-welcome-copy .vip-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 11px;
+            border-radius: 50px;
+            background: rgba(245, 158, 11, 0.16);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            color: #fcd34d;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .exec-welcome-copy h2 {
+            font-size: 20px;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 6px 0;
+            letter-spacing: 0.4px;
+        }
+
+        .exec-welcome-copy h2 span {
+            color: #fbbf24;
+        }
+
+        .exec-welcome-copy p {
+            font-size: 12px;
+            color: #cbd5e1;
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        .exec-welcome-metrics {
+            display: flex;
+            align-items: stretch;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .welcome-stat-pill {
+            min-width: 145px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: rgba(4, 9, 20, 0.78);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .welcome-stat-pill small {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+
+        .welcome-stat-pill strong {
+            font-size: 15px;
+            font-weight: 900;
+            color: #fbbf24;
+        }
+
+        .welcome-stat-pill span {
+            font-size: 10px;
+            color: #6ee7b7;
+            font-weight: 600;
+        }
+
+        /* ================= GRID DE CARTÕES DE DIRETORIA ================= */
+        .exec-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 18px;
+        }
+
+        .pillar-card {
+            position: relative;
+            padding: 22px;
+            border-radius: 20px;
+            background: linear-gradient(148deg, rgba(6, 12, 26, 0.92) 0%, rgba(12, 24, 52, 0.80) 65%, rgba(36, 26, 10, 0.72) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(245, 158, 11, 0.34);
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            cursor: pointer;
+            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.3s ease,
+                        box-shadow 0.32s ease;
+            overflow: hidden;
+        }
+
+        .pillar-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #fbbf24, #00d4ff, transparent);
+            opacity: 0.75;
+            transition: opacity 0.3s ease;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-6px);
+            border-color: #fbbf24;
+            box-shadow: 0 26px 55px rgba(0, 0, 0, 0.85),
+                        0 0 32px rgba(245, 158, 11, 0.32),
+                        inset 0 1px 1px rgba(253, 224, 71, 0.38);
+        }
+
+        .pillar-card:hover::before {
+            opacity: 1;
+        }
+
+        .pillar-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .pillar-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(0, 212, 255, 0.12));
+            border: 1px solid rgba(251, 191, 36, 0.55);
+            color: #fbbf24;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.22);
+            transition: transform 0.3s ease;
+        }
+
+        .pillar-card:hover .pillar-icon {
+            transform: scale(1.08);
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #030712;
+        }
+
+        .pillar-status-pill {
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pillar-status-pill.live {
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.48);
+            color: #6ee7b7;
+        }
+
+        .pillar-status-pill.ready {
+            background: rgba(245, 158, 11, 0.16);
+            border: 1px solid rgba(245, 158, 11, 0.48);
+            color: #fcd34d;
+        }
+
+        .pillar-body h3 {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin: 0 0 6px 0;
+        }
+
+        .pillar-body p {
+            font-size: 11.5px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .pillar-kpi-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(3, 7, 18, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .pillar-kpi-item small {
+            display: block;
+            font-size: 8.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }
+
+        .pillar-kpi-item strong {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        .pillar-cta-btn {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(245, 158, 11, 0.58);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.34) 100%);
+            color: #fde68a;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+        }
+
+        .pillar-card:hover .pillar-cta-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            border-color: #ffffff;
+            color: #030712;
+            box-shadow: 0 0 22px rgba(245, 158, 11, 0.45);
+        }
+
+        /* ================= WORKSPACE DO PAINEL SELECIONADO ================= */
+        .exec-workspace-view {
+            display: none;
+            flex-direction: column;
+            gap: 18px;
+            animation: fadeInExec 0.35s ease;
+        }
+
+        .exec-workspace-view.active {
+            display: flex;
+        }
+
+        .workspace-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: 16px;
+            background: rgba(5, 10, 22, 0.88);
+            border: 1px solid rgba(245, 158, 11, 0.38);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+        }
+
+        .workspace-pills {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .ws-pill {
+            padding: 6px 12px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            cursor: pointer;
+            transition: 0.22s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ws-pill:hover {
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
+        .ws-pill.active {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            border-color: #ffffff;
+            color: #030712;
+            font-weight: 800;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+        }
+
+        /* ================= PAINEL BASE INTEGRADA (6 NOVOS PILARES) ================= */
+        .pillar-sheet-connector {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .connector-hero {
+            padding: 26px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(6, 12, 26, 0.94) 0%, rgba(34, 24, 10, 0.85) 60%, rgba(10, 32, 72, 0.85) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.48);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.72);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .connector-hero-info {
+            max-width: 680px;
+        }
+
+        .connector-hero-info h2 {
+            font-size: 20px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+        }
+
+        .connector-hero-info p {
+            font-size: 12px;
+            color: #cbd5e1;
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        .connector-badge-box {
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: rgba(3, 7, 18, 0.82);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 240px;
+        }
+
+        .connector-badge-box small {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fbbf24;
+        }
+
+        .connector-badge-box strong {
+            font-size: 12px;
+            color: #ffffff;
+        }
+
+        .connector-badge-box span {
+            font-size: 10.5px;
+            color: #94a3b8;
+        }
+
+        .blueprint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
+        }
+
+        .blueprint-card {
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(5, 10, 22, 0.88);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .blueprint-card span {
+            font-size: 9.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            color: #fbbf24;
+        }
+
+        .blueprint-card strong {
+            font-size: 18px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .blueprint-card small {
+            font-size: 11px;
+            color: #94a3b8;
         }
 
         /* ================= BARRA DE FILTROS EXECUTIVOS ================= */
@@ -664,6 +1106,29 @@
                 font-size: 10px;
             }
 
+            .exec-welcome-banner {
+                padding: 16px;
+            }
+
+            .exec-welcome-copy h2 {
+                font-size: 16px;
+            }
+
+            .exec-welcome-metrics {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .welcome-stat-pill {
+                min-width: 0;
+            }
+
+            .exec-pillars-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 12px;
+            }
+
             .filter-bar-gold {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 padding: 12px;
@@ -761,7 +1226,7 @@
             <div class="nav-content" id="navContentGer">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
-                    <span class="status-text">VISÃO EXECUTIVA • PADRÃO OURO</span>
+                    <span class="status-text">GOVERNANÇA EXECUTIVA • PADRÃO OURO</span>
                 </div>
 
                 <div class="nav-links">
@@ -782,7 +1247,7 @@
 
         <!-- FUNDO E ÁREA EXECUTIVA -->
         <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.74)), url('img/Card_gerencial.jpg');">
+            <div class="item active" style="background-image: linear-gradient(rgba(2, 6, 16, 0.88), rgba(4, 10, 24, 0.80)), url('img/Card_gerencial.jpg');">
                 <div class="gerencial-wrapper">
 
                     <!-- CABEÇALHO DO COCKPIT GERENCIAL -->
@@ -792,9 +1257,9 @@
                                 <i class="fa-solid fa-crown"></i>
                             </div>
                             <div>
-                                <div class="exec-kicker"><i class="fa-solid fa-star"></i> Diretoria & Coordenação • Visão Consolidada</div>
-                                <h1>Cockpit Gerencial Ellca</h1>
-                                <p>Síntese executiva ao vivo (Programado vs. Realizado) integrada ao painel analítico Looker Studio</p>
+                                <div class="exec-kicker"><i class="fa-solid fa-award"></i> Sala de Comando Estratégico • Board & Diretoria</div>
+                                <h1 id="headerTitleMain">Centro de Inteligência Executiva Ellca</h1>
+                                <p id="headerSubtitleMain">Governança corporativa integrada com indicadores de alta direção e painéis analíticos por pilar estratégico</p>
                             </div>
                         </div>
 
@@ -802,150 +1267,426 @@
                             <span class="sync-badge" id="syncBadgeGerencial">
                                 <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...
                             </span>
-                            <button type="button" class="btn-exec active-mode" id="btnToggleSummary" title="Mostrar ou recolher ranking de supervisores e frota">
-                                <i class="fa-solid fa-layer-group"></i> Síntese Operacional
+                            <button type="button" class="btn-exec gold" id="btnBackToLobby" style="display:none;" title="Retornar aos 7 Pilares da Diretoria">
+                                <i class="fa-solid fa-grid-2"></i> <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
                             </button>
                             <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                                 <span id="textToggleBars">Mostrar Menu</span>
                             </button>
-                            <button type="button" class="btn-exec" id="btnFullscreenGerencial" title="Expandir Looker Studio em Tela Cheia">
-                                <i class="fa-solid fa-expand"></i> Tela Cheia
-                            </button>
-                            <a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec gold">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Externo
+                            <a href="home.html" class="btn-exec" title="Retornar ao Portal Geral">
+                                <i class="fa-solid fa-house"></i> Portal Geral
                             </a>
                         </div>
                     </div>
 
-                    <!-- FILTROS EXECUTIVOS -->
-                    <div class="filter-bar-gold">
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar"></i> Ano</label>
-                            <select id="gFilterAno"><option value="">Todos os Anos</option></select>
+                    <!-- =========================================================
+                         MUNDO 1: LOBBY EXECUTIVO (7 PILARES DA GERÊNCIA)
+                         ========================================================= -->
+                    <section class="exec-lobby-view" id="execLobbyView">
+
+                        <!-- BANNER DE BOAS-VINDAS À DIRETORIA -->
+                        <div class="exec-welcome-banner">
+                            <div class="exec-welcome-copy">
+                                <div class="vip-tag"><i class="fa-solid fa-gem"></i> Acesso Exclusivo • Alta Direção Ellca</div>
+                                <h2 id="execGreetingTitle">Bem-vindo à Sala Executiva, <span>Diretoria</span></h2>
+                                <p>Selecione um dos <strong>7 pilares estratégicos de governança</strong> abaixo para inspecionar indicadores de desempenho, metas corporativas e relatórios analíticos dedicados à tomada de decisão.</p>
+                            </div>
+
+                            <div class="exec-welcome-metrics">
+                                <div class="welcome-stat-pill">
+                                    <small>Pilares Ativos</small>
+                                    <strong>07 Módulos</strong>
+                                    <span>Governança 360°</span>
+                                </div>
+                                <div class="welcome-stat-pill">
+                                    <small>Receita Programada</small>
+                                    <strong id="lobbyKpiProg">Sincronizando...</strong>
+                                    <span id="lobbyKpiOs">Base Produção</span>
+                                </div>
+                                <div class="welcome-stat-pill">
+                                    <small>Aderência Atual</small>
+                                    <strong id="lobbyKpiPct">--%</strong>
+                                    <span>Meta Corporativa: 95%</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
-                            <select id="gFilterMes"><option value="">Todos os Meses</option></select>
+
+                        <!-- GRADE DOS 7 CARTÕES PADRÃO OURO -->
+                        <div class="exec-pillars-grid">
+
+                            <!-- 1. FATURAMENTO -->
+                            <article class="pillar-card" data-pillar="faturamento">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Faturamento</h3>
+                                    <p>Acompanhamento de receita bruta, medições aprovadas, faturamento por contrato, glosas e margem operacional consolidada.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Visão</small>
+                                        <strong>Receita & Medição</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Fonte de Dados</small>
+                                        <strong>Planilha Financeira</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Acessar Painel Executivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
+                            <!-- 2. ESTRUTURA -->
+                            <article class="pillar-card" data-pillar="estrutura">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-building-shield"></i></div>
+                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Estrutura</h3>
+                                    <p>Capacidade instalada por base operacional, infraestrutura de apoio, almoxarifado estratégico e cobertura regional.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Visão</small>
+                                        <strong>Bases & Capacidade</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Fonte de Dados</small>
+                                        <strong>Planilha Estrutura</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Acessar Painel Executivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
+                            <!-- 3. INSTALAÇÃO DE CLIENTES -->
+                            <article class="pillar-card" data-pillar="instalacao">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-house-signal"></i></div>
+                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Instalação de Clientes</h3>
+                                    <p>Volume de ativações, ligações novas, SLA de atendimento, taxa de conclusão no prazo e backlog por região.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Visão</small>
+                                        <strong>Ativações & SLA</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Fonte de Dados</small>
+                                        <strong>Planilha Instalações</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Acessar Painel Executivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
+                            <!-- 4. PRODUTIVIDADE (CONECTADO AO VIVO) -->
+                            <article class="pillar-card" data-pillar="produtividade">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                    <span class="pillar-status-pill live"><i class="fa-solid fa-circle"></i> Ao Vivo • Integrado</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Produtividade</h3>
+                                    <p>Cockpit consolidado de Programado vs. Realizado, ranking de supervisores, eficiência por equipe e BI Looker Studio.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Programado</small>
+                                        <strong id="cardProdProg">R$ 0,00</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Realizado</small>
+                                        <strong id="cardProdReal" style="color:#34d399;">R$ 0,00</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Abrir Cockpit ao Vivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
+                            <!-- 5. PROGRAMAÇÃO -->
+                            <article class="pillar-card" data-pillar="programacao">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Programação</h3>
+                                    <p>Aderência de agenda operacional, carteira programada, balanceamento de equipes e índice de reprogramação.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Visão</small>
+                                        <strong>Agenda & Carteira</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Fonte de Dados</small>
+                                        <strong>Planilha Programação</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Acessar Painel Executivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
+                            <!-- 6. ORGANOGRAMA -->
+                            <article class="pillar-card" data-pillar="organograma">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-sitemap"></i></div>
+                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Organograma</h3>
+                                    <p>Estrutura hierárquica da companhia, distribuição de efetivo por liderança, supervisores e dimensionamento de equipes.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Visão</small>
+                                        <strong>Hierarquia & Efetivo</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Fonte de Dados</small>
+                                        <strong>Planilha RH / Efetivo</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Acessar Painel Executivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
+                            <!-- 7. FROTA -->
+                            <article class="pillar-card" data-pillar="frota">
+                                <div class="pillar-card-top">
+                                    <div class="pillar-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                </div>
+                                <div class="pillar-body">
+                                    <h3>Frota</h3>
+                                    <p>Disponibilidade mecânica, utilização por modalidade (MK, LV, LD, LM), indicadores de manutenção e custo por km.</p>
+                                </div>
+                                <div class="pillar-kpi-strip">
+                                    <div class="pillar-kpi-item">
+                                        <small>Visão</small>
+                                        <strong>Disponibilidade & Custo</strong>
+                                    </div>
+                                    <div class="pillar-kpi-item">
+                                        <small>Fonte de Dados</small>
+                                        <strong>Planilha Frota</strong>
+                                    </div>
+                                </div>
+                                <button type="button" class="pillar-cta-btn">
+                                    <span>Acessar Painel Executivo</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </article>
+
                         </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-day"></i> Data</label>
-                            <input type="date" id="gFilterData">
-                        </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
-                            <select id="gFilterSup"><option value="">Todos os Supervisores</option></select>
-                        </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Equipe</label>
-                            <select id="gFilterTipoEq"><option value="">Todos os Tipos</option></select>
-                        </div>
-                        <div class="filter-actions-cell">
-                            <button type="button" class="btn-reset-filters" id="btnLimparFiltrosGer">
-                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
+                    </section>
+
+                    <!-- =========================================================
+                         MUNDO 2: WORKSPACE DO PILAR SELECIONADO
+                         ========================================================= -->
+                    <section class="exec-workspace-view" id="execWorkspaceView">
+
+                        <!-- BARRA DE NAVEGAÇÃO RÁPIDA ENTRE OS 7 PILARES -->
+                        <div class="workspace-nav-bar">
+                            <button type="button" class="btn-exec gold" id="btnWorkspaceBack">
+                                <i class="fa-solid fa-arrow-left"></i> Todos os Pilares
                             </button>
-                        </div>
-                    </div>
 
-                    <!-- KPIS EXECUTIVOS CONSOLIDADOS -->
-                    <div class="exec-kpi-grid">
-                        <div class="exec-kpi gold-accent">
-                            <div class="exec-kpi-top">
-                                <span>Receita Programada</span>
-                                <i class="fa-solid fa-sack-dollar"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gKpiProg">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span id="gKpiOs">0 OS programadas</span>
-                                <span id="gKpiQtdeProg">0 unid.</span>
+                            <div class="workspace-pills" id="workspaceQuickPills">
+                                <button type="button" class="ws-pill" data-pillar="faturamento"><i class="fa-solid fa-sack-dollar"></i> Faturamento</button>
+                                <button type="button" class="ws-pill" data-pillar="estrutura"><i class="fa-solid fa-building-shield"></i> Estrutura</button>
+                                <button type="button" class="ws-pill" data-pillar="instalacao"><i class="fa-solid fa-house-signal"></i> Instalação</button>
+                                <button type="button" class="ws-pill" data-pillar="produtividade"><i class="fa-solid fa-chart-line"></i> Produtividade</button>
+                                <button type="button" class="ws-pill" data-pillar="programacao"><i class="fa-solid fa-calendar-check"></i> Programação</button>
+                                <button type="button" class="ws-pill" data-pillar="organograma"><i class="fa-solid fa-sitemap"></i> Organograma</button>
+                                <button type="button" class="ws-pill" data-pillar="frota"><i class="fa-solid fa-truck-fast"></i> Frota</button>
                             </div>
                         </div>
 
-                        <div class="exec-kpi emerald-accent">
-                            <div class="exec-kpi-top">
-                                <span>Receita Realizada</span>
-                                <i class="fa-solid fa-circle-check"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gKpiReal" style="color:#34d399;">R$ 0,00</div>
-                            <div class="exec-kpi-sub">
-                                <span id="gKpiQtdeReal">0 unid. executadas</span>
-                                <span id="gKpiGap">Gap: R$ 0,00</span>
-                            </div>
-                        </div>
+                        <!-- CONTEÚDO DEDICADO 1: PRODUTIVIDADE (COCKPIT COMPLETO AO VIVO) -->
+                        <div id="panelProdutividade" style="display:flex; flex-direction:column; gap:18px;">
 
-                        <div class="exec-kpi gold-accent">
-                            <div class="exec-kpi-top">
-                                <span>Aderência Executiva</span>
-                                <i class="fa-solid fa-gauge-high"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gKpiPct" style="color:#fbbf24;">0,0%</div>
-                            <div class="exec-kpi-sub">
-                                <span id="gKpiStatusExec">Realizado / Programado</span>
-                                <span>Meta: 95,0%</span>
-                            </div>
-                            <div class="mini-bar">
-                                <div class="mini-bar-fill" id="gKpiBar" style="width: 0%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="exec-kpi">
-                            <div class="exec-kpi-top">
-                                <span>Governança de Campo</span>
-                                <i class="fa-solid fa-clipboard-check"></i>
-                            </div>
-                            <div class="exec-kpi-val" id="gKpiPendentes">0</div>
-                            <div class="exec-kpi-sub">
-                                <span id="gKpiApontados">0 itens apontados</span>
-                                <a href="producao.html" style="color:#38bdf8; text-decoration:none; font-weight:700;">Ver Produção →</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SÍNTESE EXECUTIVA: SUPERVISORES & FROTA -->
-                    <div class="exec-summary-panel" id="execSummaryPanel">
-                        <div class="exec-box">
-                            <div class="exec-box-head">
-                                <h3><i class="fa-solid fa-ranking-star"></i> Performance por Supervisor</h3>
-                                <span>Programado vs. Realizado</span>
-                            </div>
-                            <div class="rank-list" id="rankSupervisoresList"></div>
-                        </div>
-
-                        <div class="exec-box">
-                            <div class="exec-box-head">
-                                <h3><i class="fa-solid fa-truck-fast"></i> Distribuição por Tipo de Equipe</h3>
-                                <span>MK • LV • LD • LM</span>
-                            </div>
-                            <div class="rank-list" id="rankFrotaList"></div>
-                        </div>
-                    </div>
-
-                    <!-- MOLDURA LOOKER STUDIO -->
-                    <div class="report-shell" id="reportFrameBox">
-                        <div class="report-shell-bar">
-                            <span><i class="fa-solid fa-chart-area"></i> Painel Analítico Interativo — Looker Studio</span>
-                            <div class="report-shell-actions">
-                                <button type="button" class="btn-exec gold" id="btnReloadIframe" style="padding: 6px 11px; font-size: 10px;">
-                                    <i class="fa-solid fa-rotate"></i> Recarregar
+                            <!-- CONTROLES DO COCKPIT DE PRODUTIVIDADE -->
+                            <div class="gerencial-actions" style="justify-content:flex-end;">
+                                <button type="button" class="btn-exec active-mode" id="btnToggleSummary" title="Mostrar ou recolher ranking de supervisores e frota">
+                                    <i class="fa-solid fa-layer-group"></i> Síntese Operacional
                                 </button>
-                                <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec" style="padding: 6px 11px; font-size: 10px;">
-                                    <i class="fa-solid fa-chart-line"></i> Acessar BI
+                                <button type="button" class="btn-exec" id="btnFullscreenGerencial" title="Expandir Looker Studio em Tela Cheia">
+                                    <i class="fa-solid fa-expand"></i> Tela Cheia BI
+                                </button>
+                                <a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec gold">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Looker Externo
                                 </a>
-                                <button type="button" class="btn-exec" id="btnFullscreenFrame" title="Expandir este painel em Tela Cheia" style="padding: 6px 11px; font-size: 10px;">
-                                    <i class="fa-solid fa-expand" id="iconFullscreenFrame"></i>
-                                    <span id="textFullscreenFrame">Tela Cheia</span>
-                                </button>
+                            </div>
+
+                            <!-- FILTROS EXECUTIVOS -->
+                            <div class="filter-bar-gold">
+                                <div class="filter-field">
+                                    <label><i class="fa-solid fa-calendar"></i> Ano</label>
+                                    <select id="gFilterAno"><option value="">Todos os Anos</option></select>
+                                </div>
+                                <div class="filter-field">
+                                    <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
+                                    <select id="gFilterMes"><option value="">Todos os Meses</option></select>
+                                </div>
+                                <div class="filter-field">
+                                    <label><i class="fa-solid fa-calendar-day"></i> Data</label>
+                                    <input type="date" id="gFilterData">
+                                </div>
+                                <div class="filter-field">
+                                    <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                                    <select id="gFilterSup"><option value="">Todos os Supervisores</option></select>
+                                </div>
+                                <div class="filter-field">
+                                    <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Equipe</label>
+                                    <select id="gFilterTipoEq"><option value="">Todos os Tipos</option></select>
+                                </div>
+                                <div class="filter-actions-cell">
+                                    <button type="button" class="btn-reset-filters" id="btnLimparFiltrosGer">
+                                        <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- KPIS EXECUTIVOS CONSOLIDADOS -->
+                            <div class="exec-kpi-grid">
+                                <div class="exec-kpi gold-accent">
+                                    <div class="exec-kpi-top">
+                                        <span>Receita Programada</span>
+                                        <i class="fa-solid fa-sack-dollar"></i>
+                                    </div>
+                                    <div class="exec-kpi-val" id="gKpiProg">R$ 0,00</div>
+                                    <div class="exec-kpi-sub">
+                                        <span id="gKpiOs">0 OS programadas</span>
+                                        <span id="gKpiQtdeProg">0 unid.</span>
+                                    </div>
+                                </div>
+
+                                <div class="exec-kpi emerald-accent">
+                                    <div class="exec-kpi-top">
+                                        <span>Receita Realizada</span>
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+                                    <div class="exec-kpi-val" id="gKpiReal" style="color:#34d399;">R$ 0,00</div>
+                                    <div class="exec-kpi-sub">
+                                        <span id="gKpiQtdeReal">0 unid. executadas</span>
+                                        <span id="gKpiGap">Gap: R$ 0,00</span>
+                                    </div>
+                                </div>
+
+                                <div class="exec-kpi gold-accent">
+                                    <div class="exec-kpi-top">
+                                        <span>Aderência Executiva</span>
+                                        <i class="fa-solid fa-gauge-high"></i>
+                                    </div>
+                                    <div class="exec-kpi-val" id="gKpiPct" style="color:#fbbf24;">0,0%</div>
+                                    <div class="exec-kpi-sub">
+                                        <span id="gKpiStatusExec">Realizado / Programado</span>
+                                        <span>Meta: 95,0%</span>
+                                    </div>
+                                    <div class="mini-bar">
+                                        <div class="mini-bar-fill" id="gKpiBar" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="exec-kpi">
+                                    <div class="exec-kpi-top">
+                                        <span>Governança de Campo</span>
+                                        <i class="fa-solid fa-clipboard-check"></i>
+                                    </div>
+                                    <div class="exec-kpi-val" id="gKpiPendentes">0</div>
+                                    <div class="exec-kpi-sub">
+                                        <span id="gKpiApontados">0 itens apontados</span>
+                                        <a href="producao.html" style="color:#38bdf8; text-decoration:none; font-weight:700;">Ver Produção →</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SÍNTESE EXECUTIVA: SUPERVISORES & FROTA -->
+                            <div class="exec-summary-panel" id="execSummaryPanel">
+                                <div class="exec-box">
+                                    <div class="exec-box-head">
+                                        <h3><i class="fa-solid fa-ranking-star"></i> Performance por Supervisor</h3>
+                                        <span>Programado vs. Realizado</span>
+                                    </div>
+                                    <div class="rank-list" id="rankSupervisoresList"></div>
+                                </div>
+
+                                <div class="exec-box">
+                                    <div class="exec-box-head">
+                                        <h3><i class="fa-solid fa-truck-fast"></i> Distribuição por Tipo de Equipe</h3>
+                                        <span>MK • LV • LD • LM</span>
+                                    </div>
+                                    <div class="rank-list" id="rankFrotaList"></div>
+                                </div>
+                            </div>
+
+                            <!-- MOLDURA LOOKER STUDIO -->
+                            <div class="report-shell" id="reportFrameBox">
+                                <div class="report-shell-bar">
+                                    <span><i class="fa-solid fa-chart-area"></i> Painel Analítico Interativo — Looker Studio</span>
+                                    <div class="report-shell-actions">
+                                        <button type="button" class="btn-exec gold" id="btnReloadIframe" style="padding: 6px 11px; font-size: 10px;">
+                                            <i class="fa-solid fa-rotate"></i> Recarregar
+                                        </button>
+                                        <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec" style="padding: 6px 11px; font-size: 10px;">
+                                            <i class="fa-solid fa-chart-line"></i> Acessar BI
+                                        </a>
+                                        <button type="button" class="btn-exec" id="btnFullscreenFrame" title="Expandir este painel em Tela Cheia" style="padding: 6px 11px; font-size: 10px;">
+                                            <i class="fa-solid fa-expand" id="iconFullscreenFrame"></i>
+                                            <span id="textFullscreenFrame">Tela Cheia</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="report-frame-container">
+                                    <iframe 
+                                        id="lookerIframe"
+                                        src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" 
+                                        allowfullscreen 
+                                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                                    </iframe>
+                                </div>
                             </div>
                         </div>
-                        <div class="report-frame-container">
-                            <iframe 
-                                id="lookerIframe"
-                                src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" 
-                                allowfullscreen 
-                                sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
-                            </iframe>
+
+                        <!-- CONTEÚDO DEDICADO 2: DEMAIS PILARES (PRONTOS PARA CONECTAR PLANILHA) -->
+                        <div class="pillar-sheet-connector" id="panelPillarDynamic" style="display:none;">
+                            <div class="connector-hero">
+                                <div class="connector-hero-info">
+                                    <div class="exec-kicker"><i class="fa-solid fa-crown"></i> <span id="dynKicker">Pilar Executivo Ellca</span></div>
+                                    <h2 id="dynTitle">Dashboard Executivo</h2>
+                                    <p id="dynDesc">Ambiente executivo preparado para integração direta com a planilha oficial deste indicador.</p>
+                                </div>
+                                <div class="connector-badge-box">
+                                    <small><i class="fa-solid fa-plug-circle-check"></i> Arquitetura Pronta</small>
+                                    <strong id="dynSheetTarget">Aguardando Vínculo da Planilha</strong>
+                                    <span>Envie a planilha deste setor para ativar os gráficos e KPIs ao vivo</span>
+                                </div>
+                            </div>
+
+                            <div class="blueprint-grid" id="dynBlueprintGrid"></div>
                         </div>
-                    </div>
+
+                    </section>
 
                 </div>
             </div>
@@ -955,7 +1696,7 @@
                 <div class="footer-info">
                     <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Dashboard Gerencial (Padrão Ouro)</strong></span>
+                    <span>Módulo: <strong>Portal Executivo da Diretoria (Padrão Ouro)</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -978,6 +1719,86 @@
                 '10': '10 - Outubro', '11': '11 - Novembro', '12': '12 - Dezembro'
             };
 
+            const PILARES_CONFIG = {
+                faturamento: {
+                    kicker: 'Pilar Financeiro • Receita & Medição',
+                    title: 'Dashboard Executivo de Faturamento',
+                    desc: 'Visão consolidada de receita faturada, boletins de medição aprovados, faturamento acumulado no mês e índice de glosas por contrato.',
+                    sheetTarget: 'Base Oficial: Planilha de Faturamento',
+                    cards: [
+                        { label: 'Faturamento Bruto Mensal', val: 'Conectar Planilha', sub: 'Comparativo vs. Orçado (Budget)' },
+                        { label: 'Medições Aprovadas', val: 'Conectar Planilha', sub: 'Boletins liberados para faturamento' },
+                        { label: 'Ticket Médio por OS', val: 'Conectar Planilha', sub: 'Eficiência financeira operacional' },
+                        { label: 'Índice de Glosa / Retenção', val: 'Conectar Planilha', sub: 'Controle de conformidade contratual' }
+                    ]
+                },
+                estrutura: {
+                    kicker: 'Pilar Infraestrutura • Capacidade & Bases',
+                    title: 'Dashboard Executivo de Estrutura',
+                    desc: 'Monitoramento estratégico das bases operacionais, capacidade instalada, recursos físicos e suporte logístico por regional.',
+                    sheetTarget: 'Base Oficial: Planilha de Estrutura',
+                    cards: [
+                        { label: 'Bases Operacionais Ativas', val: 'Conectar Planilha', sub: 'Distribuição geográfica e cobertura' },
+                        { label: 'Capacidade Instalada', val: 'Conectar Planilha', sub: 'Taxa de ocupação por unidade' },
+                        { label: 'Infraestrutura & Almoxarifado', val: 'Conectar Planilha', sub: 'Nível de atendimento de materiais' },
+                        { label: 'Custo Fixo Estrutural', val: 'Conectar Planilha', sub: 'Indicador de eficiência por base' }
+                    ]
+                },
+                instalacao: {
+                    kicker: 'Pilar Expansão • Atendimento ao Cliente',
+                    title: 'Dashboard Executivo de Instalação de Clientes',
+                    desc: 'Acompanhamento de novas ligações, ativações concluídas, cumprimento de prazos regulatórios (SLA) e fila de pendências.',
+                    sheetTarget: 'Base Oficial: Planilha de Instalação de Clientes',
+                    cards: [
+                        { label: 'Instalações Concluídas', val: 'Conectar Planilha', sub: 'Volume executado no período' },
+                        { label: 'Cumprimento de SLA', val: 'Conectar Planilha', sub: 'Atendimentos dentro do prazo meta' },
+                        { label: 'Carteira em Aberto (Backlog)', val: 'Conectar Planilha', sub: 'Ordens aguardando execução' },
+                        { label: 'Tempo Médio de Atendimento', val: 'Conectar Planilha', sub: 'Lead time da solicitação à ativação' }
+                    ]
+                },
+                produtividade: {
+                    kicker: 'Pilar Operacional • Eficiência & Resultados',
+                    title: 'Cockpit Executivo de Produtividade',
+                    desc: 'Síntese executiva ao vivo (Programado vs. Realizado) integrada ao ranking de supervisores e painel Looker Studio.'
+                },
+                programacao: {
+                    kicker: 'Pilar Planejamento • Carteira & Agenda',
+                    title: 'Dashboard Executivo de Programação',
+                    desc: 'Controle de aderência à programação diária e semanal, taxa de reprogramação, ociosidade e equilíbrio de carga por equipe.',
+                    sheetTarget: 'Base Oficial: Planilha de Programação',
+                    cards: [
+                        { label: 'Aderência de Programação', val: 'Conectar Planilha', sub: 'Serviços executados conforme agenda' },
+                        { label: 'Carteira Programada (Semana)', val: 'Conectar Planilha', sub: 'Volume alocado por supervisor' },
+                        { label: 'Índice de Reprogramação', val: 'Conectar Planilha', sub: 'Desvios por clima, cliente ou impedimento' },
+                        { label: 'Ocupação das Equipes', val: 'Conectar Planilha', sub: 'Horas produtivas alocadas' }
+                    ]
+                },
+                organograma: {
+                    kicker: 'Pilar Capital Humano • Governança & Liderança',
+                    title: 'Dashboard Executivo de Organograma',
+                    desc: 'Visão corporativa da estrutura organizacional, quadro de colaboradores ativos, distribuição por liderança e span of control.',
+                    sheetTarget: 'Base Oficial: Planilha de Organograma / RH',
+                    cards: [
+                        { label: 'Quadro Total de Colaboradores', val: 'Conectar Planilha', sub: 'Efetivo ativo por diretoria e área' },
+                        { label: 'Lideranças & Supervisão', val: 'Conectar Planilha', sub: 'Proporção de equipes por supervisor' },
+                        { label: 'Composição de Equipes Campo', val: 'Conectar Planilha', sub: 'Eletricistas, técnicos e apoio' },
+                        { label: 'Taxa de Absenteísmo / Turnover', val: 'Conectar Planilha', sub: 'Estabilidade e disponibilidade humana' }
+                    ]
+                },
+                frota: {
+                    kicker: 'Pilar Mobilidade • Ativos & Manutenção',
+                    title: 'Dashboard Executivo de Frota',
+                    desc: 'Gestão executiva da frota operacional (MK, LV, LD, LM), disponibilidade mecânica, manutenções preventivas e indicadores de consumo.',
+                    sheetTarget: 'Base Oficial: Planilha de Frota',
+                    cards: [
+                        { label: 'Frota Total Operacional', val: 'Conectar Planilha', sub: 'Veículos leves, pesados e cestos' },
+                        { label: 'Disponibilidade Mecânica', val: 'Conectar Planilha', sub: 'Veículos aptos para operação diária' },
+                        { label: 'Em Manutenção (Prev / Corr)', val: 'Conectar Planilha', sub: 'Tempo médio de parada em oficina' },
+                        { label: 'Custo Operacional & Combustível', val: 'Conectar Planilha', sub: 'Eficiência energética e custo por km' }
+                    ]
+                }
+            };
+
             const FALLBACK_DATA = [
                 { os: '52199', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA04 LV', tipoEquipe: 'LV', supervisor: 'AMIEL JR', qtdeProg: 9, valorProg: 16650, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
                 { os: '52204', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA39 MK', tipoEquipe: 'MK', supervisor: 'JANILSON', qtdeProg: 1, valorProg: 1850, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
@@ -994,6 +1815,14 @@
                 localStorage.getItem('ellca_user_name') ||
                 'Rodrigo Lopes';
             if (footerUserName) footerUserName.textContent = nomeSessao;
+
+            // Saudação dinâmica por horário para a Diretoria
+            const horaAtual = new Date().getHours();
+            const saudacao = horaAtual < 12 ? 'Bom dia' : horaAtual < 18 ? 'Boa tarde' : 'Boa noite';
+            const greetingEl = document.getElementById('execGreetingTitle');
+            if (greetingEl) {
+                greetingEl.innerHTML = `${saudacao}, <span>${nomeSessao}</span> — Sala de Comando Executivo`;
+            }
 
             const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             const parseNum = (v) => {
@@ -1021,6 +1850,82 @@
                 if (m) return { ano: m[3], mes: m[2].padStart(2, '0'), iso: `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` };
                 return { ano: '', mes: '', iso: s };
             }
+
+            // ================= NAVEGAÇÃO ENTRE LOBBY E PILARES =================
+            const lobbyView = document.getElementById('execLobbyView');
+            const workspaceView = document.getElementById('execWorkspaceView');
+            const btnBackToLobby = document.getElementById('btnBackToLobby');
+            const btnWorkspaceBack = document.getElementById('btnWorkspaceBack');
+            const panelProdutividade = document.getElementById('panelProdutividade');
+            const panelPillarDynamic = document.getElementById('panelPillarDynamic');
+            const headerTitleMain = document.getElementById('headerTitleMain');
+            const headerSubtitleMain = document.getElementById('headerSubtitleMain');
+
+            function abrirPilar(chave) {
+                const cfg = PILARES_CONFIG[chave];
+                if (!cfg) return;
+
+                lobbyView.classList.add('hidden');
+                workspaceView.classList.add('active');
+                btnBackToLobby.style.display = 'inline-flex';
+
+                headerTitleMain.textContent = cfg.title;
+                headerSubtitleMain.textContent = cfg.desc;
+
+                document.querySelectorAll('#workspaceQuickPills .ws-pill').forEach(pill => {
+                    pill.classList.toggle('active', pill.getAttribute('data-pillar') === chave);
+                });
+
+                if (chave === 'produtividade') {
+                    panelProdutividade.style.display = 'flex';
+                    panelPillarDynamic.style.display = 'none';
+                } else {
+                    panelProdutividade.style.display = 'none';
+                    panelPillarDynamic.style.display = 'flex';
+
+                    document.getElementById('dynKicker').textContent = cfg.kicker;
+                    document.getElementById('dynTitle').textContent = cfg.title;
+                    document.getElementById('dynDesc').textContent = cfg.desc;
+                    document.getElementById('dynSheetTarget').textContent = cfg.sheetTarget;
+
+                    const grid = document.getElementById('dynBlueprintGrid');
+                    grid.innerHTML = cfg.cards.map(c => `
+                        <div class="blueprint-card">
+                            <span>${c.label}</span>
+                            <strong>${c.val}</strong>
+                            <small>${c.sub}</small>
+                        </div>
+                    `).join('');
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function voltarAoLobby() {
+                workspaceView.classList.remove('active');
+                lobbyView.classList.remove('hidden');
+                btnBackToLobby.style.display = 'none';
+
+                headerTitleMain.textContent = 'Centro de Inteligência Executiva Ellca';
+                headerSubtitleMain.textContent = 'Governança corporativa integrada com indicadores de alta direção e painéis analíticos por pilar estratégico';
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            document.querySelectorAll('.pillar-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    abrirPilar(card.getAttribute('data-pillar'));
+                });
+            });
+
+            document.querySelectorAll('#workspaceQuickPills .ws-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    abrirPilar(pill.getAttribute('data-pillar'));
+                });
+            });
+
+            btnBackToLobby?.addEventListener('click', voltarAoLobby);
+            btnWorkspaceBack?.addEventListener('click', voltarAoLobby);
 
             // Menu mobile e botões voltar
             const btnMenuMobile = document.getElementById('btnMenuMobileGer');
@@ -1212,6 +2117,20 @@
                 const pendentes = filtrados.filter(d => d.status.includes('AGUARDANDO')).length;
                 const apontados = filtrados.length - pendentes;
 
+                // Atualiza resumo no Lobby e no Cartão de Produtividade
+                const lobbyProg = document.getElementById('lobbyKpiProg');
+                const lobbyOs = document.getElementById('lobbyKpiOs');
+                const lobbyPct = document.getElementById('lobbyKpiPct');
+                const cardProdProg = document.getElementById('cardProdProg');
+                const cardProdReal = document.getElementById('cardProdReal');
+
+                if (lobbyProg) lobbyProg.textContent = fmtBRL(totProg);
+                if (lobbyOs) lobbyOs.textContent = `${qtdOs} OS em carteira`;
+                if (lobbyPct) lobbyPct.textContent = `${pct.toFixed(1).replace('.', ',')}%`;
+                if (cardProdProg) cardProdProg.textContent = fmtBRL(totProg);
+                if (cardProdReal) cardProdReal.textContent = fmtBRL(totReal);
+
+                // Atualiza KPIs internos do Cockpit de Produtividade
                 document.getElementById('gKpiProg').textContent = fmtBRL(totProg);
                 document.getElementById('gKpiOs').textContent = `${qtdOs} OS programadas`;
                 document.getElementById('gKpiQtdeProg').textContent = `${qtdeProg} unid.`;
