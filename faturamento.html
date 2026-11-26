@@ -18,9 +18,7 @@
     }
 
     @keyframes borderGlide {
-      to {
-        --border-angle: 360deg;
-      }
+      to { --border-angle: 360deg; }
     }
 
     * {
@@ -38,13 +36,11 @@
         radial-gradient(ellipse 70% 50% at 50% 96%, rgba(29, 78, 216, 0.13) 0%, transparent 65%);
       color: #f8fafc;
       min-height: 100vh;
-      padding: 20px 24px 24px;
+      padding: 16px 24px 22px;
       overflow-x: hidden;
     }
 
-    .tabular {
-      font-variant-numeric: tabular-nums;
-    }
+    .tabular { font-variant-numeric: tabular-nums; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #060911; }
@@ -55,43 +51,40 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
-    /* ================= MOSTRAR / ESCONDER MENU ================= */
-    .collapsible-chrome {
-      max-height: 260px;
+    /* ================= BARRA SUPERIOR (MENU ATIVO / OCULTO) ================= */
+    .top-navbar-collapse {
+      max-height: 90px;
       opacity: 1;
       transform: translateY(0);
       overflow: hidden;
-      transition: max-height 0.35s ease, opacity 0.28s ease, transform 0.32s ease, margin 0.32s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      transition: max-height 0.32s ease, opacity 0.25s ease, transform 0.28s ease, margin 0.28s ease;
     }
 
-    body.menu-hidden .collapsible-chrome {
+    body.menu-hidden .top-navbar-collapse {
       max-height: 0;
       opacity: 0;
-      transform: translateY(-8px);
+      transform: translateY(-10px);
       pointer-events: none;
-      margin-bottom: -16px;
+      margin-bottom: -14px;
     }
 
-    /* ================= TOPBAR (SEM MENU LATERAL) ================= */
-    .top-header {
+    .top-navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
+      padding: 4px 2px 6px;
     }
 
-    .header-left {
+    .nav-brand-side {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
     .brand-logo {
@@ -101,16 +94,15 @@
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
-      font-size: 16px;
-      letter-spacing: -0.3px;
+      font-size: 18px;
+      letter-spacing: -0.4px;
     }
 
     .brand-logo img {
-      height: 34px;
+      height: 36px;
       width: auto;
-      max-width: 140px;
+      max-width: 145px;
       object-fit: contain;
-      border-radius: 8px;
       display: block;
     }
 
@@ -119,254 +111,355 @@
       align-items: center;
       gap: 8px;
       font-weight: 800;
-      font-size: 15px;
-      color: #ffffff;
+      font-size: 20px;
+      color: #60a5fa;
     }
 
-    .brand-fallback-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, #2563eb, #60a5fa);
+    .module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .module-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
+
+    .user-avatar-ring {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-size: 11.5px;
+      font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      margin-left: 16px;
     }
 
-    .page-title {
-      font-size: 23px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #ffffff;
-    }
-
-    .header-right {
+    .nav-links-side {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 16px;
     }
 
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #0c111b;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 7px 12px;
-      min-width: 195px;
-    }
-
-    .search-box i {
-      color: #64748b;
-      font-size: 12px;
-    }
-
-    .search-box input {
-      background: transparent;
-      border: none;
-      color: #f8fafc;
-      font-size: 12px;
-      outline: none;
-      width: 100%;
-    }
-
-    .icon-action-btn {
-      height: 34px;
-      padding: 0 13px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      background: #0c111b;
-      color: #e2e8f0;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
+    .top-nav-link {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .top-nav-link:hover {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .top-nav-link.active {
+      color: #38bdf8;
+    }
+
+    .btn-back-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.75);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
-    }
-
-    .icon-action-btn:hover {
-      border-color: rgba(59, 130, 246, 0.55);
-      background: rgba(37, 99, 235, 0.16);
-      color: #ffffff;
-    }
-
-    .icon-action-btn.primary-blue {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      border-color: #60a5fa;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
-    }
-
-    .icon-action-btn.toggled {
-      background: #1d4ed8;
-      border-color: #60a5fa;
-      color: #ffffff;
-    }
-
-    #syncStatus {
-      display: none;
       font-size: 11px;
-      font-weight: 600;
-      color: #93c5fd;
-      background: rgba(37, 99, 235, 0.16);
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      padding: 6px 12px;
-      border-radius: 10px;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
 
-    /* ================= BARRA DE MENU PREMIUM + AÇÕES DA PLANILHA ================= */
-    .premium-menu-bar {
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.18);
+    }
+
+    /* ================= BANNER HERO + AÇÕES (IGUAL À REFERÊNCIA) ================= */
+    .hero-banner {
+      border-radius: 16px;
+      padding: 18px 22px;
+      background: linear-gradient(135deg, rgba(13, 35, 68, 0.92) 0%, rgba(10, 22, 44, 0.95) 55%, rgba(12, 28, 56, 0.92) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.34);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-title-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .hero-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: rgba(37, 99, 235, 0.24);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .hero-main-title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      background: linear-gradient(180deg, rgba(16, 23, 38, 0.96), rgba(10, 15, 26, 0.96));
-      padding: 7px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(96, 165, 250, 0.18);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
     }
 
-    .nav-pills {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .nav-pill {
-      text-decoration: none;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 11.5px;
-      font-weight: 600;
-      padding: 6px 13px;
+    .live-badge {
+      height: 34px;
+      padding: 0 13px;
       border-radius: 9px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: #34d399;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .hero-btn {
+      height: 34px;
+      padding: 0 15px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .hero-btn-blue {
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #93c5fd;
+    }
+
+    .hero-btn-blue:hover {
+      background: rgba(37, 99, 235, 0.38);
+      color: #ffffff;
+    }
+
+    .hero-btn-cyan {
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      color: #bae6fd;
+    }
+
+    .hero-btn-cyan:hover {
+      background: rgba(14, 165, 233, 0.32);
+      color: #ffffff;
+    }
+
+    /* Botão Toggle Menu: OCULTAR MENU (esmeralda) vs MOSTRAR MENU (azul escuro) */
+    .hero-btn-menu-toggle {
+      background: #34d399;
+      border: 1px solid #6ee7b7;
+      color: #042f2e;
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+    }
+
+    .hero-btn-menu-toggle:hover {
+      filter: brightness(1.06);
+    }
+
+    body.menu-hidden .hero-btn-menu-toggle {
+      background: rgba(30, 58, 138, 0.45);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #e0f2fe;
+      box-shadow: none;
+    }
+
+    .hero-btn-gold {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.48);
+      color: #fde047;
+    }
+
+    .hero-btn-gold:hover {
+      background: rgba(234, 179, 8, 0.28);
+      color: #fef08a;
+    }
+
+    /* ================= PAINEL DE FILTROS (ESTILO DA IMAGEM) ================= */
+    .filters-collapse {
+      max-height: 240px;
+      opacity: 1;
+      overflow: hidden;
+      transition: max-height 0.34s ease, opacity 0.26s ease, margin 0.28s ease;
+    }
+
+    body.menu-hidden .filters-collapse {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      margin-bottom: -14px;
+    }
+
+    .filters-panel {
+      background: #0c111b;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+    }
+
+    .filters-grid-top {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .filters-grid-bottom {
+      display: flex;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-field label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-field label i {
+      color: #38bdf8;
+      font-size: 10.5px;
+    }
+
+    .filter-control {
+      height: 36px;
+      border-radius: 9px;
+      background: #070b14;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 11px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s ease;
+    }
+
+    .filter-control:focus {
+      border-color: #3b82f6;
+    }
+
+    .filter-control option {
+      background: #0c111b;
+      color: #f8fafc;
+    }
+
+    .btn-clear-filters {
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 9px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .nav-pill:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .nav-pill.active {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      color: #ffffff;
-      font-weight: 700;
-      box-shadow: 0 2px 12px rgba(37, 99, 235, 0.38);
-    }
-
-    .sheet-actions-group {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .btn-sheet-edit {
-      height: 32px;
-      padding: 0 13px;
-      border-radius: 9px;
-      border: 1px solid rgba(52, 211, 153, 0.35);
-      background: rgba(16, 185, 129, 0.13);
-      color: #6ee7b7;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    }
-
-    .btn-sheet-edit:hover {
-      background: rgba(16, 185, 129, 0.24);
-      border-color: #34d399;
+    .btn-clear-filters:hover {
+      background: rgba(239, 68, 68, 0.28);
       color: #ffffff;
     }
 
-    .btn-sheet-download {
-      height: 32px;
-      padding: 0 13px;
-      border-radius: 9px;
-      border: 1px solid rgba(96, 165, 250, 0.42);
-      background: rgba(37, 99, 235, 0.2);
-      color: #bfdbfe;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    }
-
-    .btn-sheet-download:hover {
-      background: #2563eb;
-      border-color: #60a5fa;
-      color: #ffffff;
-    }
-
-    /* ================= FILTROS ================= */
-    .filters-strip {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .filter-pill {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: #0c111b;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 6px 12px;
-      font-size: 11.5px;
-    }
-
-    .filter-pill span {
-      color: #94a3b8;
-      font-weight: 600;
-    }
-
-    .filter-pill select {
-      background: transparent;
-      border: none;
-      color: #f8fafc;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      outline: none;
-    }
-
-    .filter-pill select option {
-      background: #0c111b;
-      color: #f8fafc;
-    }
-
-    .dias-badge {
+    .dias-badge-right {
       margin-left: auto;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9px;
       background: rgba(37, 99, 235, 0.14);
-      border: 1px solid rgba(59, 130, 246, 0.32);
+      border: 1px solid rgba(59, 130, 246, 0.34);
       color: #93c5fd;
       font-size: 11.5px;
       font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
     }
 
     /* ================= CARD 3D SUAVE + LINHA NA BORDA ================= */
@@ -403,9 +496,7 @@
         rgba(147, 197, 253, 0.7) 354deg,
         transparent 360deg
       );
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       animation: borderGlide 12s linear infinite;
@@ -414,9 +505,7 @@
       transition: opacity 0.3s ease;
     }
 
-    .card-surface:hover::before {
-      opacity: 0.8;
-    }
+    .card-surface:hover::before { opacity: 0.8; }
 
     .card-body {
       position: relative;
@@ -480,7 +569,7 @@
     .pill-up {
       color: #34d399;
       background: rgba(16, 185, 129, 0.14);
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 999px;
       font-weight: 700;
       font-size: 10.5px;
@@ -489,19 +578,39 @@
     .pill-down {
       color: #f87171;
       background: rgba(248, 113, 113, 0.14);
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 999px;
       font-weight: 700;
       font-size: 10.5px;
     }
 
+    /* LEGENDA DUPLA LINHA (ESTILO IMAGE_43D782) */
+    .line-legend-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .line-legend-inline span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot-blue { width: 7px; height: 7px; border-radius: 50%; background: #2563eb; box-shadow: 0 0 8px #3b82f6; }
+    .dot-silver { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; }
+
     .chart-header-bar {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .seg-group {
@@ -531,6 +640,76 @@
       font-weight: 700;
     }
 
+    /* ANÉIS CONCÊNTRICOS (ESTILO IMAGE_43D782) */
+    .rings-widget-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 225px;
+    }
+
+    .rings-canvas-box {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rings-center-label {
+      position: absolute;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .rings-center-val {
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+    }
+
+    .rings-center-sub {
+      font-size: 9.5px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .rings-bottom-legend {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      padding-top: 6px;
+      text-align: left;
+    }
+
+    .ring-leg-val {
+      font-size: 12px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .ring-leg-name {
+      font-size: 10px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ring-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     .mid-charts-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -543,13 +722,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 198px;
+      height: 225px;
     }
 
     .gauge-svg-wrap {
       position: relative;
       width: 205px;
-      height: 118px;
+      height: 122px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -614,10 +793,7 @@
       transition: background 0.2s ease;
     }
 
-    .btn-ai-refresh:hover {
-      background: #2563eb;
-      color: #ffffff;
-    }
+    .btn-ai-refresh:hover { background: #2563eb; color: #ffffff; }
 
     .sup-item {
       display: flex;
@@ -631,9 +807,7 @@
     }
 
     .sup-item:hover,
-    .sup-item.active {
-      background: rgba(59, 130, 246, 0.14);
-    }
+    .sup-item.active { background: rgba(59, 130, 246, 0.14); }
 
     .sup-avatar {
       width: 32px;
@@ -650,16 +824,9 @@
       flex-shrink: 0;
     }
 
-    .table-wrap {
-      overflow: auto;
-      max-height: 380px;
-    }
+    .table-wrap { overflow: auto; max-height: 380px; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
 
     thead th {
       text-align: left;
@@ -696,46 +863,55 @@
     .c-emerald { color: #34d399 !important; }
     .c-rose    { color: #f87171 !important; }
 
-    /* ================= RODAPÉ PADRÃO DO PORTAL ================= */
-    .portal-footer {
-      margin-top: 4px;
-      padding: 14px 18px;
-      border-radius: 14px;
-      background: #0c111b;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+    /* ================= RODAPÉ EXATO DA IMAGEM (IMAGE_442D9C) ================= */
+    .ellca-official-footer {
+      margin-top: 6px;
+      padding: 12px 4px 4px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       flex-wrap: wrap;
       gap: 12px;
-      font-size: 11.5px;
+      font-size: 12px;
       color: #94a3b8;
     }
 
-    .footer-brand {
+    .footer-system-text {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      color: #e2e8f0;
+      gap: 7px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text strong {
+      color: #f8fafc;
       font-weight: 700;
     }
 
-    .footer-links {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .footer-links a {
-      color: #94a3b8;
+    .btn-footer-support {
+      height: 30px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 11.5px;
+      font-weight: 600;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
     }
 
-    .footer-links a:hover {
-      color: #60a5fa;
+    .btn-footer-support:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    @media (max-width: 1180px) {
+      .filters-grid-top { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 1120px) {
@@ -744,87 +920,131 @@
       .bottom-two-grid { grid-template-columns: 1fr !important; }
       .top-kpis-grid { grid-template-columns: 1fr; }
     }
+
+    @media (max-width: 680px) {
+      .filters-grid-top { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
 
   <div class="dashboard-container">
 
-    <!-- CABEÇALHO SUPERIOR -->
-    <div class="top-header">
-      <div class="header-left">
-        <a href="home.html" class="brand-logo" title="Ellca">
-          <img src="img/logo_ellca.png" alt="Logo Ellca"
-               onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
-          <span id="logoFallback" class="brand-fallback">
-            <span class="brand-fallback-badge">🌀</span>
-            <span>Ellca</span>
-          </span>
-        </a>
-
-        <h1 class="page-title">Dashboard Faturamento</h1>
-
-        <button type="button" class="icon-action-btn" id="btnToggleMenu">
-          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
-          <span id="txtToggleMenu">Esconder Menu</span>
-        </button>
-      </div>
-
-      <div class="header-right">
-        <span id="syncStatus"><i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...</span>
-
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="buscaRapida" placeholder="Buscar equipe ou supervisor..." />
-        </div>
-
-        <button type="button" class="icon-action-btn primary-blue" id="btnAtualizarDados" title="Atualizar dados">
-          <i class="fa-solid fa-rotate"></i> Atualizar
-        </button>
-      </div>
-    </div>
-
-    <!-- ÁREA RECOLHÍVEL: BARRA DE MENU PREMIUM + AÇÕES DA PLANILHA + FILTROS -->
-    <div class="collapsible-chrome" id="areaMenuFiltros">
-      <div class="premium-menu-bar">
-        <nav class="nav-pills" id="menuPaginasPortal" aria-label="Navegação do Portal"></nav>
-
-        <div class="sheet-actions-group">
-          <a href="#" id="linkEditarPlanilha" target="_blank" rel="noopener noreferrer" class="btn-sheet-edit">
-            <i class="fa-solid fa-pen-to-square"></i> Editar Planilha
+    <!-- 1. BARRA SUPERIOR (OCULTA QUANDO CLICA EM "OCULTAR MENU") -->
+    <div class="top-navbar-collapse">
+      <header class="top-navbar">
+        <div class="nav-brand-side">
+          <a href="home.html" class="brand-logo" title="Ellca">
+            <img src="img/logo_ellca.png" alt="Logo Ellca"
+                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+            <span id="logoFallback" class="brand-fallback">
+              <span>🌀Ellca</span>
+            </span>
           </a>
-          <button type="button" id="btnBaixarPlanilha" class="btn-sheet-download">
-            <i class="fa-solid fa-download"></i> Baixar Planilha
-          </button>
+
+          <span class="module-pill">
+            <span class="dot"></span>
+            FATURAMENTO · REALIZADO VS. PREVISTO
+          </span>
+
+          <span class="user-avatar-ring" title="Rodrigo Lopes">RL</span>
+        </div>
+
+        <nav class="nav-links-side" aria-label="Menu do Portal">
+          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house"></i> HOME</a>
+          <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-tie"></i> SUPERVISOR</a>
+          <a href="programacao.html" class="top-nav-link"><i class="fa-solid fa-calendar-days"></i> PROGRAMAÇÃO</a>
+          <a href="gerencial.html" class="top-nav-link"><i class="fa-solid fa-crown"></i> GERENCIAL</a>
+          <a href="home.html" class="btn-back-circle" title="Voltar"><i class="fa-solid fa-arrow-left"></i></a>
+        </nav>
+      </header>
+    </div>
+
+    <!-- 2. BANNER HERO DO DASHBOARD + BOTÕES DE AÇÃO -->
+    <section class="hero-banner">
+      <div class="hero-title-row">
+        <div class="hero-icon-box">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div>
+          <h1 class="hero-main-title">DASHBOARD DE FATURAMENTO — PREVISTO VS. REALIZADO</h1>
+          <p class="hero-subtitle">Acompanhamento de faturamento diário, metas por equipe, aderência financeira e projeção mensal</p>
         </div>
       </div>
 
-      <div class="filters-strip">
-        <div class="filter-pill">
-          <span>Processo</span>
-          <select id="filtroProcesso"></select>
+      <div class="hero-actions-row">
+        <span class="live-badge tabular" id="liveClockBadge">
+          <i class="fa-solid fa-circle-check"></i>
+          <span id="liveClockTxt">Ao Vivo · --:--</span>
+        </span>
+
+        <button type="button" class="hero-btn hero-btn-blue" id="btnAtualizarDados">
+          <i class="fa-solid fa-rotate"></i> ATUALIZAR
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-cyan" id="btnBaixarPlanilha">
+          <i class="fa-solid fa-file-csv"></i> EXPORTAR CSV
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">OCULTAR MENU</span>
+        </button>
+
+        <a href="#" id="linkEditarPlanilha" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-gold">
+          <i class="fa-solid fa-pen-to-square"></i> PREENCHER NA PLANILHA
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. PAINEL DE FILTROS (RECOLHE JUNTO COM O MENU) -->
+    <div class="filters-collapse">
+      <div class="filters-panel">
+        <div class="filters-grid-top">
+          <div class="filter-field">
+            <label><i class="fa-solid fa-layer-group"></i> PROCESSO</label>
+            <select id="filtroProcesso" class="filter-control"></select>
+          </div>
+          <div class="filter-field">
+            <label><i class="fa-regular fa-calendar"></i> ANO</label>
+            <select id="filtroAno" class="filter-control"></select>
+          </div>
+          <div class="filter-field">
+            <label><i class="fa-regular fa-calendar-check"></i> MÊS</label>
+            <select id="filtroMes" class="filter-control"></select>
+          </div>
+          <div class="filter-field">
+            <label><i class="fa-solid fa-calendar-day"></i> DATA</label>
+            <select id="filtroData" class="filter-control"><option value="TODOS">Todas as Datas</option></select>
+          </div>
+          <div class="filter-field">
+            <label><i class="fa-solid fa-user-tie"></i> SUPERVISOR</label>
+            <select id="filtroSupervisor" class="filter-control"><option value="TODOS">Todos os Supervisores</option></select>
+          </div>
+          <div class="filter-field">
+            <label><i class="fa-solid fa-truck-pickup"></i> TIPO DE EQUIPE</label>
+            <select id="filtroTipoEquipe" class="filter-control"><option value="TODOS">Todos os Tipos</option></select>
+          </div>
         </div>
-        <div class="filter-pill">
-          <span>Ano</span>
-          <select id="filtroAno"></select>
+
+        <div class="filters-grid-bottom">
+          <div class="filter-field" style="min-width: 240px;">
+            <label><i class="fa-solid fa-magnifying-glass"></i> BUSCA RÁPIDA</label>
+            <input type="text" id="buscaRapida" class="filter-control" placeholder="Equipe, Supervisor, Veículo..." />
+          </div>
+
+          <button type="button" class="btn-clear-filters" id="btnLimparFiltros">
+            <i class="fa-solid fa-filter-circle-xmark"></i> LIMPAR FILTROS
+          </button>
+
+          <div class="dias-badge-right tabular" id="badgeDiasUteis">
+            <i class="fa-solid fa-business-time"></i> 22 Dias Úteis
+          </div>
         </div>
-        <div class="filter-pill">
-          <span>Mês</span>
-          <select id="filtroMes"></select>
-        </div>
-        <div class="filter-pill">
-          <span>Data</span>
-          <select id="filtroData"><option value="TODOS">Todas</option></select>
-        </div>
-        <div class="filter-pill">
-          <span>Supervisor</span>
-          <select id="filtroSupervisor"><option value="TODOS">Todos</option></select>
-        </div>
-        <div class="dias-badge tabular" id="badgeDiasUteis">22 Dias Úteis</div>
       </div>
     </div>
 
-    <!-- GRADE PRINCIPAL: ESQUERDA (3 KPIS + CURVA AZUL) | DIREITA (IA + SUPERVISORES) -->
+    <!-- 4. GRADE PRINCIPAL: ESQUERDA (3 KPIS + CURVA DUPLA) | DIREITA (IA + SUPERVISORES) -->
     <div class="main-grid">
       <div class="left-column">
         <div class="top-kpis-grid tabular">
@@ -877,15 +1097,20 @@
           </div>
         </div>
 
+        <!-- GRÁFICO DE LINHA COM EFEITO DE DUPLA ONDA AZUL + PRATA -->
         <div class="card-3d-wrap" style="flex:1;">
           <div class="card-surface">
             <div class="card-body">
               <div class="chart-header-bar tabular">
                 <div>
-                  <div style="font-size:11.5px; color:#94a3b8; font-weight:600;" id="tituloCurva">Faturamento Diário</div>
+                  <div style="font-size:11.5px; color:#94a3b8; font-weight:600;" id="tituloCurva">Faturamento Total no Período</div>
                   <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
                     <span style="font-size:26px; font-weight:700; letter-spacing:-0.5px;" id="valorDestaqueCurva">R$ 0,00</span>
-                    <span class="pill-up" id="badgeDeltaCurva">Gap R$ 0,00</span>
+                    <span class="pill-up" id="badgeDeltaCurva">+0,0%</span>
+                  </div>
+                  <div class="line-legend-inline">
+                    <span><i class="dot-blue"></i> Realizado</span>
+                    <span><i class="dot-silver"></i> Previsto</span>
                   </div>
                 </div>
 
@@ -939,14 +1164,14 @@
                 <span style="font-size:11px; color:#64748b;">Clique p/ filtrar</span>
               </div>
 
-              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:260px; overflow-y:auto;"></div>
+              <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:270px; overflow-y:auto;"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- GRADE MÉDIA: VELOCÍMETRO + PIZZA POR TIPO + BARRAS POR EQUIPE -->
+    <!-- 5. GRADE MÉDIA: VELOCÍMETRO + ANÉIS CONCÊNTRICOS (SETORES) + BARRAS POR EQUIPE -->
     <div class="mid-charts-grid tabular">
       <div class="card-3d-wrap">
         <div class="card-surface">
@@ -993,15 +1218,25 @@
         </div>
       </div>
 
+      <!-- GRÁFICO DE SETORES EM ANÉIS CONCÊNTRICOS (ESTILO IMAGE_43D782) -->
       <div class="card-3d-wrap">
         <div class="card-surface">
           <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-              <span style="font-size:13px; font-weight:700;">Faturamento por Tipo (Pizza)</span>
-              <span style="font-size:10.5px; color:#94a3b8;">Participação</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:13px; font-weight:700;">Faturamento por Tipo</span>
+              <span style="font-size:10.5px; color:#94a3b8; background:#070a12; border:1px solid rgba(255,255,255,0.08); padding:3px 9px; border-radius:7px;">Top 3 tipos</span>
             </div>
-            <div style="height: 198px; width: 100%;">
-              <canvas id="chartPizzaTipos"></canvas>
+
+            <div class="rings-widget-wrap">
+              <div class="rings-canvas-box">
+                <canvas id="chartPizzaTipos"></canvas>
+                <div class="rings-center-label">
+                  <div class="rings-center-val" id="ringsTotalCenter">R$ 0</div>
+                  <div class="rings-center-sub">Total Tipos</div>
+                </div>
+              </div>
+
+              <div class="rings-bottom-legend" id="ringsLegendBottom"></div>
             </div>
           </div>
         </div>
@@ -1014,7 +1249,7 @@
               <span style="font-size:13px; font-weight:700;">Top Equipes (Barras)</span>
               <span style="font-size:10.5px; color:#94a3b8;">Realizado</span>
             </div>
-            <div style="height: 198px; width: 100%;">
+            <div style="height: 225px; width: 100%;">
               <canvas id="chartBarrasEquipes"></canvas>
             </div>
           </div>
@@ -1022,7 +1257,7 @@
       </div>
     </div>
 
-    <!-- GRADE INFERIOR: BARRAS DIA DA SEMANA + PREVISTO X REALIZADO -->
+    <!-- 6. GRADE INFERIOR: BARRAS DIA DA SEMANA + PREVISTO X REALIZADO -->
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;" class="bottom-two-grid">
       <div class="card-3d-wrap">
         <div class="card-surface">
@@ -1053,7 +1288,7 @@
       </div>
     </div>
 
-    <!-- TABELA CONSOLIDADA DE FATURAMENTO -->
+    <!-- 7. TABELA CONSOLIDADA DE FATURAMENTO -->
     <div class="card-3d-wrap">
       <div class="card-surface">
         <div class="card-body tabular">
@@ -1084,35 +1319,26 @@
       </div>
     </div>
 
-    <!-- RODAPÉ PADRÃO DO PORTAL -->
-    <footer class="portal-footer">
-      <div class="footer-brand">
-        <span>🌀Ellca</span>
-        <span style="color:#64748b; font-weight:500;">• Portal Operacional &amp; Faturamento</span>
-      </div>
-      <div class="footer-links" id="footerPortalLinks"></div>
+    <!-- 8. RODAPÉ EXATO DA REFERÊNCIA -->
+    <footer class="ellca-official-footer">
+      <span class="footer-system-text">
+        <i class="fa-solid fa-shield-halved" style="color:#64748b;"></i>
+        Sistema ELLCA <strong>v2.5.0</strong> · Módulo: <strong>Faturamento (Realizado vs. Previsto)</strong>
+      </span>
+      <a href="#suporte" id="btnSuporteFooter" class="btn-footer-support">
+        <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
+      </a>
     </footer>
 
   </div>
 
 <script>
   // =========================================================================
-  // 1. CONFIGURAÇÃO EDITÁVEL (API, PLANILHA, MENU E RODAPÉ)
+  // 1. CONFIGURAÇÃO EDITÁVEL
   // =========================================================================
   const API_URL = "https://script.google.com/macros/s/AKfycbwhFjFhTamq91OcNe2nuK8T_qQQgBD5Eu_rrpeVBlz59kA-i21G5ZIM53Nyu7bORKDw/exec";
-  const PLANILHA_EDIT_URL = "COLE_AQUI_O_LINK_DA_PLANILHA_PARA_EDITAR";
-  const PLANILHA_EXPORT_URL = ""; // Opcional: link direto .xlsx/.csv; se vazio, gera CSV dos dados filtrados
-
-  const MENU_PORTAL = [
-    { label: "Home", href: "home.html" },
-    { label: "Programação", href: "programacao.html" },
-    { label: "Faturamento", href: "faturamento.html", active: true },
-    { label: "Dashboard", href: "dashboard.html" },
-    { label: "Medição", href: "medicao.html" },
-    { label: "SESMT", href: "sesmt.html" },
-    { label: "Frota", href: "frota.html" },
-    { label: "Gerencial", href: "gerencial.html" }
-  ];
+  const PLANILHA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk/edit?gid=0#gid=0";
+  const PLANILHA_EXPORT_URL = ""; // Opcional: link direto .xlsx/.csv; se vazio, gera CSV filtrado
 
   const DIAS_UTEIS_MES = {
     1: 22, 2: 20, 3: 22, 4: 22, 5: 21, 6: 22,
@@ -1137,15 +1363,16 @@
 
   Chart.register(ChartDataLabels);
 
-  function configurarMenuRodapeEPlanilha() {
-    document.getElementById("menuPaginasPortal").innerHTML = MENU_PORTAL.map(p =>
-      `<a href="${p.href}" class="nav-pill ${p.active ? "active" : ""}">${p.label}</a>`
-    ).join("");
+  function atualizarRelogioAoVivo() {
+    const agora = new Date();
+    const hh = String(agora.getHours()).padStart(2, "0");
+    const mm = String(agora.getMinutes()).padStart(2, "0");
+    document.getElementById("liveClockTxt").textContent = `Ao Vivo · ${hh}:${mm}`;
+  }
+  atualizarRelogioAoVivo();
+  setInterval(atualizarRelogioAoVivo, 30000);
 
-    document.getElementById("footerPortalLinks").innerHTML = MENU_PORTAL.map(p =>
-      `<a href="${p.href}">${p.label}</a>`
-    ).join("");
-
+  function configurarAcoesPlanilha() {
     const linkEdit = document.getElementById("linkEditarPlanilha");
     linkEdit.href = PLANILHA_EDIT_URL;
     linkEdit.addEventListener("click", (e) => {
@@ -1155,39 +1382,42 @@
       }
     });
 
-    document.getElementById("btnBaixarPlanilha").addEventListener("click", baixarPlanilhaFaturamento);
+    document.getElementById("btnBaixarPlanilha").addEventListener("click", () => {
+      if (PLANILHA_EXPORT_URL && !PLANILHA_EXPORT_URL.includes("COLE_AQUI")) {
+        window.open(PLANILHA_EXPORT_URL, "_blank", "noopener,noreferrer");
+        return;
+      }
+      const lista = (ultimoEstado && ultimoEstado.listaEquipes) || [];
+      if (!lista.length) {
+        alert("Não há dados filtrados para exportar no momento.");
+        return;
+      }
+      const cabecalho = ["SUPERVISOR", "EQUIPE", "PROCESSO", "TIPO", "VEICULOS", "META_MENSAL", "PREVISTO", "REALIZADO", "DELTA_GAP"];
+      const linhas = lista.map(e => [
+        e.supervisor, e.equipe, e.processo, e.tipo, e.veiculo,
+        e.metaMensal.toFixed(2).replace(".", ","),
+        e.previsto.toFixed(2).replace(".", ","),
+        e.realizado.toFixed(2).replace(".", ","),
+        e.delta.toFixed(2).replace(".", ",")
+      ].map(v => `"${String(v || "").replace(/"/g, '""')}"`).join(";"));
+
+      const csv = "\uFEFF" + [cabecalho.join(";"), ...linhas].join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `faturamento_ellca_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("btnSuporteFooter").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Suporte TI / BI Ellca — Portal Operacional v2.5.0");
+    });
   }
 
-  function baixarPlanilhaFaturamento() {
-    if (PLANILHA_EXPORT_URL && !PLANILHA_EXPORT_URL.includes("COLE_AQUI")) {
-      window.open(PLANILHA_EXPORT_URL, "_blank", "noopener,noreferrer");
-      return;
-    }
-    const lista = (ultimoEstado && ultimoEstado.listaEquipes) || [];
-    if (!lista.length) {
-      alert("Não há dados filtrados para baixar no momento.");
-      return;
-    }
-    const cabecalho = ["SUPERVISOR", "EQUIPE", "PROCESSO", "TIPO", "VEICULOS", "META_MENSAL", "PREVISTO", "REALIZADO", "DELTA_GAP"];
-    const linhas = lista.map(e => [
-      e.supervisor, e.equipe, e.processo, e.tipo, e.veiculo,
-      e.metaMensal.toFixed(2).replace(".", ","),
-      e.previsto.toFixed(2).replace(".", ","),
-      e.realizado.toFixed(2).replace(".", ","),
-      e.delta.toFixed(2).replace(".", ",")
-    ].map(v => `"${String(v || "").replace(/"/g, '""')}"`).join(";"));
-
-    const csv = "\uFEFF" + [cabecalho.join(";"), ...linhas].join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `faturamento_ellca_${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // Movimento 3D bem suave
+  // Movimento 3D suave nos cards
   document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
     const surface = wrap.querySelector(".card-surface");
     if (!surface) return;
@@ -1218,9 +1448,9 @@
   }
 
   async function carregarDados() {
-    configurarMenuRodapeEPlanilha();
-    const statusEl = document.getElementById("syncStatus");
-    statusEl.style.display = "inline-flex";
+    configurarAcoesPlanilha();
+    const btnAtualizar = document.getElementById("btnAtualizarDados");
+    btnAtualizar.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ATUALIZANDO...`;
 
     try {
       const resp = await fetch(API_URL);
@@ -1246,11 +1476,12 @@
 
       popularFiltros();
       atualizarDashboard();
+      atualizarRelogioAoVivo();
     } catch (err) {
       console.error("Erro ao carregar API:", err);
       alert("Erro ao conectar na API do Apps Script. Confira a URL configurada.");
     } finally {
-      statusEl.style.display = "none";
+      btnAtualizar.innerHTML = `<i class="fa-solid fa-rotate"></i> ATUALIZAR`;
     }
   }
 
@@ -1258,17 +1489,22 @@
     const processos = [...new Set(rawFaturamento.map(r => r.processo))].sort();
     const anos = [...new Set(rawFaturamento.map(r => r.ano))].sort((a, b) => b - a);
     const supervisores = [...new Set(rawFaturamento.map(r => r.supervisor).filter(Boolean))].sort();
+    const tipos = [...new Set(rawFaturamento.map(r => r.tipo).filter(Boolean))].sort();
 
     const selProc = document.getElementById("filtroProcesso");
-    selProc.innerHTML = `<option value="TODOS">TODOS</option>` +
+    selProc.innerHTML = `<option value="TODOS">Todos os Processos</option>` +
       processos.map(p => `<option value="${p}" ${p === "SUSTENTAÇÃO" ? "selected" : ""}>${p}</option>`).join("");
 
     const selAno = document.getElementById("filtroAno");
     selAno.innerHTML = anos.map(a => `<option value="${a}">${a}</option>`).join("");
 
     const selSup = document.getElementById("filtroSupervisor");
-    selSup.innerHTML = `<option value="TODOS">Todos</option>` +
+    selSup.innerHTML = `<option value="TODOS">Todos os Supervisores</option>` +
       supervisores.map(s => `<option value="${s}">${s}</option>`).join("");
+
+    const selTipo = document.getElementById("filtroTipoEquipe");
+    selTipo.innerHTML = `<option value="TODOS">Todos os Tipos</option>` +
+      tipos.map(t => `<option value="${t}">${t}</option>`).join("");
 
     atualizarOpcoesMes();
 
@@ -1277,7 +1513,18 @@
     document.getElementById("filtroMes").addEventListener("change", () => { atualizarOpcoesData(); atualizarDashboard(); });
     document.getElementById("filtroData").addEventListener("change", atualizarDashboard);
     selSup.addEventListener("change", atualizarDashboard);
+    selTipo.addEventListener("change", atualizarDashboard);
     document.getElementById("buscaRapida").addEventListener("input", atualizarDashboard);
+
+    document.getElementById("btnLimparFiltros").addEventListener("click", () => {
+      selProc.value = processos.includes("SUSTENTAÇÃO") ? "SUSTENTAÇÃO" : "TODOS";
+      if (anos.length) selAno.value = anos[0];
+      atualizarOpcoesMes();
+      selSup.value = "TODOS";
+      selTipo.value = "TODOS";
+      document.getElementById("buscaRapida").value = "";
+      atualizarDashboard();
+    });
   }
 
   function atualizarOpcoesMes() {
@@ -1313,6 +1560,7 @@
     const procSel = document.getElementById("filtroProcesso").value;
     const dataSel = document.getElementById("filtroData").value;
     const supSel = document.getElementById("filtroSupervisor").value;
+    const tipoSel = document.getElementById("filtroTipoEquipe").value;
     const termoBusca = document.getElementById("buscaRapida").value.trim().toLowerCase();
 
     const baseMesProcesso = rawFaturamento.filter(r =>
@@ -1320,6 +1568,7 @@
       r.mes === mesSel &&
       (procSel === "TODOS" || r.processo === procSel) &&
       (supSel === "TODOS" || r.supervisor === supSel) &&
+      (tipoSel === "TODOS" || r.tipo === tipoSel) &&
       (!termoBusca || `${r.equipe} ${r.supervisor} ${r.processo} ${r.veiculo} ${r.tipo}`.toLowerCase().includes(termoBusca))
     );
 
@@ -1363,7 +1612,7 @@
     const pctPrevisto = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
     const pctMetaMensal = totalMetaMensal > 0 ? (totalRealizado / totalMetaMensal) * 100 : 0;
 
-    document.getElementById("badgeDiasUteis").textContent = `${diasUteis} Dias Úteis`;
+    document.getElementById("badgeDiasUteis").innerHTML = `<i class="fa-solid fa-business-time"></i> ${diasUteis} Dias Úteis`;
     document.getElementById("kpiMetaMensal").textContent = fmtBRL(totalMetaMensal);
     document.getElementById("subEquipes").textContent = `${qtdEquipes} equipes`;
     document.getElementById("subDiasBase").textContent = `Base ${diasUteis}d`;
@@ -1395,8 +1644,8 @@
     };
 
     atualizarTextoIA();
-    renderizarGraficoPrincipal(dadosFiltrados, datasUnicas, totalRealizado, totalDelta);
-    renderizarPizzaTipos(dadosFiltrados);
+    renderizarGraficoPrincipal(dadosFiltrados, datasUnicas, totalMetaMensal, diasUteis, totalRealizado, pctPrevisto);
+    renderizarAneisTipos(dadosFiltrados);
     renderizarBarrasEquipes(listaEquipes);
     renderizarDiaSemana(dadosFiltrados);
     renderizarSupComparativo(listaEquipes);
@@ -1443,87 +1692,131 @@
     return g;
   }
 
-  function renderizarGraficoPrincipal(dados, datasUnicas, totalRealizado, totalDelta) {
+  // =========================================================================
+  // GRÁFICO DE LINHA COM EFEITO DA IMAGEM 1 (DUPLA CURVA AZUL + PRATA + TOOLTIP)
+  // =========================================================================
+  function renderizarGraficoPrincipal(dados, datasUnicas, totalMetaMensal, diasUteis, totalRealizado, pctPrevisto) {
     const ctx = document.getElementById("chartFaturamentoPrincipal");
     let labels = [];
-    let valores = [];
+    let serieRealizado = [];
+    let seriePrevisto = [];
+    const metaDiariaLinear = diasUteis > 0 ? totalMetaMensal / diasUteis : 0;
 
     if (serieAtiva === "diaSemana") {
       const nomesDias = ["DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"];
       const abrev = { "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA", "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM" };
       const soma = {};
-      DIAS_SEMANA_ORDEM.forEach(d => soma[d] = 0);
+      const contagemDatas = {};
+      DIAS_SEMANA_ORDEM.forEach(d => { soma[d] = 0; contagemDatas[d] = new Set(); });
       dados.forEach(r => {
         const [y, m, d] = r.data.split("-").map(Number);
-        soma[nomesDias[new Date(y, m - 1, d).getDay()]] += r.valorDia;
+        const diaNome = nomesDias[new Date(y, m - 1, d).getDay()];
+        soma[diaNome] += r.valorDia;
+        contagemDatas[diaNome].add(r.data);
       });
       const ativos = DIAS_SEMANA_ORDEM.filter(d => soma[d] > 0 || d !== "DOMINGO");
       labels = ativos.map(d => abrev[d]);
-      valores = ativos.map(d => soma[d]);
+      serieRealizado = ativos.map(d => soma[d]);
+      seriePrevisto = ativos.map(d => metaDiariaLinear * contagemDatas[d].size);
       document.getElementById("tituloCurva").textContent = "Faturamento por Dia da Semana";
     } else {
       labels = datasUnicas.map(d => {
         const [, m, dia] = d.split("-");
         return `${Number(dia)}/${Number(m)}`;
       });
-      let acc = 0;
-      valores = datasUnicas.map(d => {
+      let accReal = 0;
+      let accPrev = 0;
+      datasUnicas.forEach(d => {
         const diaVal = dados.filter(r => r.data === d).reduce((s, r) => s + r.valorDia, 0);
-        acc += diaVal;
-        return serieAtiva === "acumulado" ? acc : diaVal;
+        accReal += diaVal;
+        accPrev += metaDiariaLinear;
+        serieRealizado.push(serieAtiva === "acumulado" ? accReal : diaVal);
+        seriePrevisto.push(serieAtiva === "acumulado" ? accPrev : metaDiariaLinear);
       });
-      document.getElementById("tituloCurva").textContent = serieAtiva === "acumulado" ? "Faturamento Acumulado" : "Faturamento Diário";
+      document.getElementById("tituloCurva").textContent = serieAtiva === "acumulado"
+        ? "Faturamento Acumulado (Realizado vs. Previsto)"
+        : "Faturamento Diário (Realizado vs. Previsto)";
     }
 
     document.getElementById("valorDestaqueCurva").textContent = fmtBRL(totalRealizado);
+    const diffPct = pctPrevisto - 100;
     const badgeDelta = document.getElementById("badgeDeltaCurva");
-    badgeDelta.textContent = `Gap ${fmtCompacto(totalDelta)}`;
-    badgeDelta.className = (totalDelta <= 0 ? "pill-up" : "pill-down") + " tabular";
+    badgeDelta.textContent = `${diffPct >= 0 ? "+" : ""}${diffPct.toFixed(1).replace(".", ",")}%`;
+    badgeDelta.className = (diffPct >= 0 ? "pill-up" : "pill-down") + " tabular";
 
-    const maxVal = Math.max(0, ...valores);
+    const maxVal = Math.max(0, ...serieRealizado, ...seriePrevisto);
 
     if (charts.principal) charts.principal.destroy();
     charts.principal = new Chart(ctx, {
       type: "line",
       data: {
         labels,
-        datasets: [{
-          label: "Faturamento (R$)",
-          data: valores,
-          borderColor: (c) => criarGradienteHorizontal(c, "#38bdf8", "#3b82f6"),
-          backgroundColor: (c) => criarGradienteVertical(c, "rgba(59, 130, 246, 0.34)", "rgba(37, 99, 235, 0.01)"),
-          fill: true,
-          borderWidth: 3,
-          tension: 0.44,
-          pointRadius: 4.5,
-          pointHoverRadius: 7,
-          pointBackgroundColor: "#60a5fa",
-          pointBorderColor: "#eff6ff",
-          pointBorderWidth: 2
-        }]
+        datasets: [
+          {
+            label: "Realizado",
+            data: serieRealizado,
+            borderColor: "#2563eb",
+            backgroundColor: (c) => criarGradienteVertical(c, "rgba(37, 99, 235, 0.36)", "rgba(37, 99, 235, 0.0)"),
+            fill: true,
+            borderWidth: 2.8,
+            tension: 0.45,
+            pointRadius: (c) => (c.dataIndex === 0 || c.dataIndex === serieRealizado.length - 1 || c.dataIndex === Math.floor(serieRealizado.length / 2) ? 4.5 : 2),
+            pointHoverRadius: 6.5,
+            pointBackgroundColor: "#60a5fa",
+            pointBorderColor: "#ffffff",
+            pointBorderWidth: 1.8
+          },
+          {
+            label: "Previsto",
+            data: seriePrevisto,
+            borderColor: "rgba(148, 163, 184, 0.65)",
+            backgroundColor: (c) => criarGradienteVertical(c, "rgba(148, 163, 184, 0.14)", "rgba(148, 163, 184, 0.0)"),
+            fill: true,
+            borderWidth: 1.8,
+            tension: 0.45,
+            pointRadius: 0,
+            pointHoverRadius: 4.5,
+            pointBackgroundColor: "#cbd5e1"
+          }
+        ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
         layout: { padding: { top: 22, right: 16, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
           datalabels: {
+            display: (c) => c.datasetIndex === 0 && serieRealizado.length <= 15,
             align: "top",
             offset: 6,
             color: "#e2e8f0",
             font: { size: 9.5, weight: "600" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
+          },
+          tooltip: {
+            backgroundColor: "#131b2e",
+            borderColor: "rgba(96, 165, 250, 0.35)",
+            borderWidth: 1,
+            titleColor: "#94a3b8",
+            bodyColor: "#ffffff",
+            padding: 12,
+            cornerRadius: 12,
+            displayColors: true,
+            callbacks: {
+              label: (ctx) => ` ${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}`
+            }
           }
         },
         scales: {
           x: {
             ticks: { color: corEixo, font: { size: 10.5 }, padding: 6 },
-            grid: { color: corGrid }
+            grid: { display: false }
           },
           y: {
             beginAtZero: true,
-            suggestedMax: maxVal * 1.2 || 1000,
+            suggestedMax: maxVal * 1.22 || 1000,
             ticks: { color: corEixo, font: { size: 10.5 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
             grid: { color: corGrid }
           }
@@ -1532,41 +1825,78 @@
     });
   }
 
-  function renderizarPizzaTipos(dados) {
+  // =========================================================================
+  // GRÁFICO DE SETORES EM ANÉIS CONCÊNTRICOS (EFEITO DA IMAGEM 1)
+  // =========================================================================
+  function renderizarAneisTipos(dados) {
     const porTipo = {};
     dados.forEach(r => {
       const k = r.tipo || r.veiculo || "GERAL";
       porTipo[k] = (porTipo[k] || 0) + r.valorDia;
     });
-    const entries = Object.entries(porTipo).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const entries = Object.entries(porTipo).sort((a, b) => b[1] - a[1]);
+    const top3 = entries.slice(0, 3);
+    const totalGeral = entries.reduce((s, e) => s + e[1], 0) || 1;
+
+    document.getElementById("ringsTotalCenter").textContent = fmtCompacto(totalGeral);
+
+    const coresAnel = ["#2563eb", "#60a5fa", "#e2e8f0"];
+    const trilhaFundo = "rgba(30, 41, 59, 0.55)";
+
+    const datasets = [0, 1, 2].map(idx => {
+      const item = top3[idx];
+      const val = item ? item[1] : 0;
+      const resto = Math.max(totalGeral - val, 0);
+      return {
+        label: item ? item[0] : "Sem dados",
+        data: [val, resto || (val === 0 ? 1 : 0)],
+        backgroundColor: [coresAnel[idx], trilhaFundo],
+        borderColor: "#0c111b",
+        borderWidth: 3,
+        borderRadius: [20, 0]
+      };
+    });
+
+    document.getElementById("ringsLegendBottom").innerHTML = [0, 1, 2].map(idx => {
+      const item = top3[idx];
+      const nome = item ? item[0] : "—";
+      const val = item ? fmtCompacto(item[1]) : "R$ 0";
+      return `
+        <div>
+          <div class="ring-leg-val">${val}</div>
+          <div class="ring-leg-name" title="${nome}">
+            <span class="ring-dot" style="background:${coresAnel[idx]};"></span>
+            <span>${nome}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
 
     if (charts.pizza) charts.pizza.destroy();
     charts.pizza = new Chart(document.getElementById("chartPizzaTipos"), {
       type: "doughnut",
       data: {
-        labels: entries.map(e => e[0]),
-        datasets: [{
-          data: entries.map(e => e[1]),
-          backgroundColor: ["#3b82f6", "#38bdf8", "#1d4ed8", "#34d399", "#818cf8"],
-          borderColor: "#0c111b",
-          borderWidth: 2.5,
-          hoverOffset: 6
-        }]
+        labels: ["Realizado", "Restante"],
+        datasets
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { top: 8, bottom: 8, left: 6, right: 8 } },
-        cutout: "62%",
+        rotation: -115,
+        cutout: "48%",
         plugins: {
-          legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 10 }, boxWidth: 10, padding: 10 } },
-          datalabels: {
-            color: "#ffffff",
-            font: { size: 9.5, weight: "700" },
-            formatter: (v, ctx) => {
-              const tot = ctx.dataset.data.reduce((a, b) => a + b, 0) || 1;
-              const p = Math.round((v / tot) * 100);
-              return p >= 6 ? p + "%" : "";
+          legend: { display: false },
+          datalabels: { display: false },
+          tooltip: {
+            backgroundColor: "#131b2e",
+            borderColor: "rgba(96, 165, 250, 0.35)",
+            borderWidth: 1,
+            callbacks: {
+              label: (ctx) => {
+                if (ctx.dataIndex === 1) return null;
+                const pct = ((ctx.parsed / totalGeral) * 100).toFixed(1).replace(".", ",");
+                return ` ${ctx.dataset.label}: ${fmtBRL(ctx.parsed)} (${pct}%)`;
+              }
             }
           }
         }
@@ -1595,7 +1925,7 @@
         indexAxis: "y",
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { top: 8, right: 44, left: 6, bottom: 4 } },
+        layout: { padding: { top: 8, right: 48, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
           datalabels: {
@@ -1610,7 +1940,7 @@
         scales: {
           x: {
             beginAtZero: true,
-            suggestedMax: maxVal * 1.22 || 1000,
+            suggestedMax: maxVal * 1.24 || 1000,
             ticks: { color: corEixo, font: { size: 9.5 }, padding: 6, callback: v => (v / 1000).toFixed(0) + "k" },
             grid: { color: corGrid }
           },
@@ -1793,19 +2123,17 @@
       </tr>`;
   }
 
+  // Alternar OCULTAR MENU (ativo) <-> MOSTRAR MENU (oculto)
   document.getElementById("btnToggleMenu").addEventListener("click", () => {
     const oculto = document.body.classList.toggle("menu-hidden");
-    const btn = document.getElementById("btnToggleMenu");
     const ico = document.getElementById("iconToggleMenu");
     const txt = document.getElementById("txtToggleMenu");
     if (oculto) {
-      btn.classList.add("toggled");
-      ico.className = "fa-solid fa-eye";
-      txt.textContent = "Mostrar Menu";
+      ico.className = "fa-solid fa-bars";
+      txt.textContent = "MOSTRAR MENU";
     } else {
-      btn.classList.remove("toggled");
       ico.className = "fa-solid fa-eye-slash";
-      txt.textContent = "Esconder Menu";
+      txt.textContent = "OCULTAR MENU";
     }
   });
 
