@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | DASHBOARD EXECUTIVO DE FATURAMENTO</title>
+    <title>ELLCA | PORTAL GERENCIAL & GOVERNANÇA EXECUTIVA</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <style>
         :root {
@@ -116,7 +115,7 @@
             pointer-events: none;
         }
 
-        .fat-wrapper {
+        .ger-wrapper {
             position: relative;
             z-index: 5;
             width: 100%;
@@ -125,16 +124,16 @@
             padding: 92px 24px 76px 24px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 20px;
             box-sizing: border-box;
             transition: padding 0.32s ease;
         }
 
-        body.bars-collapsed .fat-wrapper {
+        body.bars-collapsed .ger-wrapper {
             padding: 20px 24px 36px 24px;
         }
 
-        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS (ESTILO HOME ELLCA) ================= */
+        /* ================= FEIXE DE LUZ SUTIL NA BORDA DOS CARDS ================= */
         @property --ellca-border-angle {
             syntax: '<angle>';
             initial-value: 0deg;
@@ -177,7 +176,7 @@
         .ellca-beam-card:nth-child(4)::before { animation-delay: -6.7s; }
 
         /* ================= CABEÇALHO IDENTIDADE ELLCA DARK ================= */
-        .fat-header {
+        .ger-header {
             position: relative;
             display: flex;
             align-items: center;
@@ -194,14 +193,14 @@
             box-sizing: border-box;
         }
 
-        .fat-title-group {
+        .ger-title-group {
             display: flex;
             align-items: center;
             gap: 16px;
             min-width: 0;
         }
 
-        .fat-icon-box {
+        .ger-icon-box {
             width: 52px;
             height: 52px;
             border-radius: 15px;
@@ -216,7 +215,7 @@
             box-shadow: 0 0 26px rgba(0, 212, 255, 0.35);
         }
 
-        .fat-kicker {
+        .ger-kicker {
             display: inline-flex;
             align-items: center;
             gap: 7px;
@@ -228,7 +227,7 @@
             margin-bottom: 4px;
         }
 
-        .fat-title-group h1 {
+        .ger-title-group h1 {
             font-size: 21px;
             font-weight: 900;
             letter-spacing: 1px;
@@ -237,14 +236,14 @@
             text-transform: uppercase;
         }
 
-        .fat-title-group p {
+        .ger-title-group p {
             font-size: 11.5px;
             color: #cbd5e1;
             margin: 4px 0 0 0;
             line-height: 1.45;
         }
 
-        .fat-actions {
+        .ger-actions {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
@@ -276,6 +275,7 @@
             border: 1px solid rgba(0, 212, 255, 0.45);
             background: rgba(0, 212, 255, 0.12);
             color: #e0f2fe;
+            font-family: 'Montserrat', sans-serif;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.7px;
@@ -316,239 +316,7 @@
             border-color: #ffffff;
         }
 
-        /* ================= BARRA DE FILTROS ================= */
-        .filter-bar-ellca {
-            position: relative;
-            z-index: 30;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-            gap: 12px;
-            padding: 15px 18px;
-            border-radius: 16px;
-            background: rgba(4, 12, 30, 0.90);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--ellca-border);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
-            box-sizing: border-box;
-        }
-
-        .filter-field {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            min-width: 0;
-        }
-
-        .filter-field label {
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            color: #cbd5e1;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .filter-field label i {
-            color: var(--ellca-blue);
-        }
-
-        .filter-field select,
-        .filter-field input {
-            width: 100%;
-            min-width: 0;
-            height: 37px;
-            padding: 0 11px;
-            border-radius: 9px;
-            background: rgba(10, 22, 50, 0.92);
-            border: 1px solid rgba(0, 212, 255, 0.32);
-            color: #f8fafc;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11.5px;
-            font-weight: 600;
-            outline: none;
-            transition: 0.2s;
-            box-sizing: border-box;
-            color-scheme: dark;
-        }
-
-        .filter-field select:focus,
-        .filter-field input:focus {
-            border-color: var(--ellca-blue);
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.30);
-        }
-
-        /* ================= DROPDOWN MULTI-SELECT DE PERÍODO ================= */
-        .multi-select-box {
-            position: relative;
-            width: 100%;
-        }
-
-        .multi-select-trigger {
-            width: 100%;
-            height: 37px;
-            padding: 0 11px;
-            border-radius: 9px;
-            background: rgba(10, 22, 50, 0.92);
-            border: 1px solid rgba(0, 212, 255, 0.32);
-            color: #f8fafc;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11.5px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-sizing: border-box;
-        }
-
-        .multi-select-trigger:hover,
-        .multi-select-box.open .multi-select-trigger {
-            border-color: var(--ellca-blue);
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.30);
-        }
-
-        .multi-select-label {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: left;
-        }
-
-        .multi-select-badge {
-            padding: 2px 7px;
-            border-radius: 99px;
-            background: rgba(0, 212, 255, 0.22);
-            border: 1px solid rgba(0, 212, 255, 0.5);
-            color: #7dd3fc;
-            font-size: 9.5px;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .multi-select-dropdown {
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            right: 0;
-            min-width: 245px;
-            max-height: 290px;
-            border-radius: 12px;
-            background: rgba(4, 12, 30, 0.98);
-            backdrop-filter: blur(22px);
-            border: 1px solid var(--ellca-border-strong);
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.9);
-            display: none;
-            flex-direction: column;
-            z-index: 999;
-            overflow: hidden;
-        }
-
-        .multi-select-box.open .multi-select-dropdown {
-            display: flex;
-        }
-
-        .multi-select-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-            padding: 8px 10px;
-            background: rgba(0, 212, 255, 0.08);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-        }
-
-        .multi-select-actions button {
-            flex: 1;
-            padding: 5px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            background: rgba(0, 212, 255, 0.12);
-            color: #bae6fd;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 9.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.18s;
-        }
-
-        .multi-select-actions button:hover {
-            background: var(--ellca-blue);
-            color: #020817;
-        }
-
-        .multi-select-options {
-            overflow-y: auto;
-            padding: 6px;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .multi-option-item {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            padding: 7px 9px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #e2e8f0;
-            cursor: pointer;
-            transition: 0.15s;
-            user-select: none;
-        }
-
-        .multi-option-item:hover {
-            background: rgba(0, 212, 255, 0.14);
-        }
-
-        .multi-option-item input[type="checkbox"] {
-            width: 15px;
-            height: 15px;
-            accent-color: var(--ellca-blue);
-            cursor: pointer;
-            margin: 0;
-            flex-shrink: 0;
-        }
-
-        .filter-actions-cell {
-            display: flex;
-            align-items: flex-end;
-            min-width: 0;
-        }
-
-        .btn-reset-filters {
-            width: 100%;
-            height: 37px;
-            border-radius: 9px;
-            border: 1px solid rgba(248, 113, 113, 0.45);
-            background: rgba(239, 68, 68, 0.14);
-            color: #fca5a5;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 10.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: 0.22s;
-        }
-
-        .btn-reset-filters:hover {
-            background: rgba(239, 68, 68, 0.30);
-            color: #ffffff;
-        }
-
-        /* ================= KPIS EXECUTIVOS ================= */
+        /* ================= KPIS SÍNTESE DIRETORIA ================= */
         .exec-kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -659,197 +427,255 @@
             transition: width 0.5s ease;
         }
 
-        /* ================= GRÁFICOS INTERATIVOS ================= */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: 1.55fr 1fr;
-            gap: 16px;
+        /* ================= SEÇÃO DE PILARES EXECUTIVOS ================= */
+        .section-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 4px 4px;
         }
 
-        .charts-secondary-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
+        .section-bar h2 {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 9px;
         }
 
-        .chart-card {
-            padding: 18px 20px;
+        .section-bar h2 i {
+            color: var(--ellca-blue);
+        }
+
+        .section-bar span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .pilares-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 18px;
+        }
+
+        .pilar-card {
+            position: relative;
+            padding: 22px 24px;
+            border-radius: 20px;
+            background: linear-gradient(155deg, rgba(4, 12, 30, 0.94) 0%, rgba(9, 25, 58, 0.86) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(0, 212, 255, 0.22);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+            overflow: hidden;
+        }
+
+        .pilar-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 212, 255, 0.65);
+            box-shadow: 0 22px 46px rgba(0, 0, 0, 0.85), 0 0 28px rgba(0, 212, 255, 0.18);
+        }
+
+        .pilar-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
+        }
+
+        .pilar-card.destaque-ativo {
+            border-color: rgba(0, 212, 255, 0.52);
+            background: linear-gradient(155deg, rgba(3, 14, 36, 0.96) 0%, rgba(6, 46, 82, 0.82) 100%);
+        }
+
+        .pilar-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .pilar-icon-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .pilar-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.22), rgba(29, 78, 216, 0.22));
+            border: 1px solid rgba(0, 212, 255, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ellca-blue);
+            font-size: 20px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+        }
+
+        .pilar-tag {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            color: var(--ellca-blue);
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        .pilar-card-head h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .status-pill.live {
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+        }
+
+        .status-pill.ready {
+            background: rgba(0, 212, 255, 0.16);
+            color: #7dd3fc;
+            border: 1px solid rgba(0, 212, 255, 0.45);
+        }
+
+        .status-pill.soon {
+            background: rgba(29, 78, 216, 0.25);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.45);
+        }
+
+        .pilar-desc {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.55;
+            color: #cbd5e1;
+        }
+
+        .pilar-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: rgba(2, 8, 23, 0.65);
+            border: 1px solid rgba(0, 212, 255, 0.16);
+        }
+
+        .pilar-metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .pilar-metric-item span {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: #94a3b8;
+        }
+
+        .pilar-metric-item strong {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #f8fafc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pilar-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-top: 6px;
+        }
+
+        .pilar-footer .btn-ellca {
+            width: 100%;
+            padding: 11px 16px;
+            font-size: 11px;
+        }
+
+        /* ================= ACESSO RÁPIDO OPERACIONAL ================= */
+        .quick-bar-card {
+            padding: 18px 22px;
             border-radius: 18px;
             background: rgba(4, 12, 30, 0.90);
             backdrop-filter: blur(18px);
             border: 1px solid var(--ellca-border);
             box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .chart-card-head {
-            display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
             flex-wrap: wrap;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.14);
+            gap: 14px;
         }
 
-        .chart-card-head h3 {
-            margin: 0;
-            font-size: 12.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #f8fafc;
+        .quick-bar-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
-        .chart-card-head h3 i {
+        .quick-bar-info i {
+            font-size: 18px;
             color: var(--ellca-blue);
         }
 
-        .chart-card-head span {
-            font-size: 10.5px;
+        .quick-bar-info strong {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: #ffffff;
+        }
+
+        .quick-bar-info span {
+            font-size: 11px;
             color: #94a3b8;
         }
 
-        .chart-canvas-wrap {
-            position: relative;
-            width: 100%;
-            height: 310px;
-        }
-
-        .chart-canvas-wrap.compact {
-            height: 270px;
-        }
-
-        /* ================= RANKINGS E TABELA DETALHADA ================= */
-        .rankings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 16px;
-        }
-
-        .rank-list {
+        .quick-bar-links {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 9px;
-            max-height: 360px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .rank-row {
-            padding: 10px 13px;
-            border-radius: 11px;
-            background: rgba(10, 24, 54, 0.68);
-            border: 1px solid rgba(0, 212, 255, 0.14);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .rank-row-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: #f8fafc;
-        }
-
-        .rank-row-metrics {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            font-size: 10.5px;
-            color: #94a3b8;
-            flex-wrap: wrap;
-        }
-
-        .table-card {
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: rgba(4, 12, 30, 0.92);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--ellca-border);
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .table-scroll {
-            width: 100%;
-            overflow-x: auto;
-            max-height: 440px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 212, 255, 0.16);
-        }
-
-        table.fat-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11.5px;
-            text-align: left;
-        }
-
-        table.fat-table thead th {
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            background: #06142e;
-            color: var(--ellca-blue);
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 11px 12px;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.35);
-            white-space: nowrap;
-        }
-
-        table.fat-table tbody td {
-            padding: 10px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            color: #e2e8f0;
-            white-space: nowrap;
-        }
-
-        table.fat-table tbody tr:hover {
-            background: rgba(0, 212, 255, 0.08);
-        }
-
-        .pill-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 999px;
-            font-size: 9.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .pill-ok {
-            background: rgba(16, 185, 129, 0.18);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.45);
-        }
-
-        .pill-warn {
-            background: rgba(29, 78, 216, 0.25);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.45);
-        }
-
-        .pill-low {
-            background: rgba(239, 68, 68, 0.18);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.42);
         }
 
         .footer-greeting {
@@ -864,9 +690,6 @@
         }
 
         @media (max-width: 1024px) {
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
             .container .item,
             .container .item.active {
                 background-attachment: scroll;
@@ -874,19 +697,19 @@
         }
 
         @media (max-width: 768px) {
-            .fat-wrapper {
+            .ger-wrapper {
                 padding: 76px 12px 68px 12px;
-                gap: 12px;
+                gap: 14px;
             }
-            body.bars-collapsed .fat-wrapper {
+            body.bars-collapsed .ger-wrapper {
                 padding: 14px 12px 24px 12px;
             }
-            .fat-header {
+            .ger-header {
                 padding: 14px 16px;
                 flex-direction: column;
                 align-items: stretch;
             }
-            .fat-actions {
+            .ger-actions {
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 8px;
@@ -895,22 +718,9 @@
                 grid-column: 1 / -1;
                 justify-content: center;
             }
-            .filter-bar-ellca {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                padding: 12px;
-                gap: 10px;
-            }
-            .exec-kpi-grid {
+            .exec-kpi-grid,
+            .pilares-grid {
                 grid-template-columns: 1fr;
-            }
-            .rankings-grid {
-                grid-template-columns: 1fr;
-            }
-            .chart-canvas-wrap {
-                height: 250px;
-            }
-            .chart-canvas-wrap.compact {
-                height: 230px;
             }
         }
     </style>
@@ -918,7 +728,7 @@
 
 <body class="bars-collapsed">
     <script>
-        (function validarAcessoFaturamento() {
+        (function validarAcessoGerencial() {
             if (sessionStorage.getItem('ellca_auth') !== 'true') {
                 window.location.replace('login.html');
                 return;
@@ -941,18 +751,18 @@
             </div>
 
             <div class="mobile-header-actions">
-                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="gerencial.html" title="Voltar para Gerencial">
+                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
-                <button type="button" class="menu-mobile-btn" id="btnMenuMobileFat" aria-label="Abrir Menu">
+                <button type="button" class="menu-mobile-btn" id="btnMenuMobileGer" aria-label="Abrir Menu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
 
-            <div class="nav-content" id="navContentFat">
+            <div class="nav-content" id="navContentGer">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
-                    <span class="status-text">PILAR FATURAMENTO • GOVERNANÇA ELLCA</span>
+                    <span class="status-text">GOVERNANÇA EXECUTIVA • DIRETORIA ELLCA</span>
                 </div>
 
                 <div class="nav-links">
@@ -963,7 +773,7 @@
                     <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
 
                     <div class="nav-actions-group">
-                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="gerencial.html" title="Voltar para Gerencial">
+                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                     </div>
@@ -974,92 +784,49 @@
         <!-- CONTAINER PRINCIPAL -->
         <div class="container">
             <div class="item active" style="background-image: linear-gradient(rgba(2, 8, 23, 0.90), rgba(4, 14, 36, 0.84)), url('img/Card_gerencial.jpg');">
-                <div class="fat-wrapper">
+                <div class="ger-wrapper">
 
                     <!-- CABEÇALHO -->
-                    <div class="fat-header ellca-beam-card">
-                        <div class="fat-title-group">
-                            <div class="fat-icon-box">
-                                <i class="fa-solid fa-sack-dollar"></i>
+                    <div class="ger-header ellca-beam-card">
+                        <div class="ger-title-group">
+                            <div class="ger-icon-box">
+                                <i class="fa-solid fa-crown"></i>
                             </div>
                             <div>
-                                <div class="fat-kicker"><i class="fa-solid fa-bolt"></i> Pilar Receita & Recebíveis • Diretoria Ellca</div>
-                                <h1>Dashboard Executivo de Faturamento</h1>
-                                <p>Acompanhamento em tempo real de Meta, Previsto Proporcional, Realizado e Performance por Equipe</p>
+                                <div class="ger-kicker"><i class="fa-solid fa-bolt"></i> Sala de Comando • Diretoria & Coordenação Ellca</div>
+                                <h1>Portal Gerencial & Pilares Executivos</h1>
+                                <p>Visão consolidada de Governança, Receita, Produtividade Operacional, Frota e Indicadores Estratégicos</p>
                             </div>
                         </div>
 
-                        <div class="fat-actions">
-                            <span class="sync-badge" id="syncBadgeFat">
-                                <i class="fa-solid fa-circle-notch fa-spin"></i> Conectando Planilha...
+                        <div class="ger-actions">
+                            <span class="sync-badge" id="syncBadgeGer">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando Indicadores...
                             </span>
-                            <button type="button" class="btn-ellca" id="btnRefreshFat" title="Sincronizar novamente com Google Sheets">
+                            <button type="button" class="btn-ellca" id="btnRefreshGer" title="Atualizar indicadores executivos">
                                 <i class="fa-solid fa-rotate"></i> Atualizar
                             </button>
                             <button type="button" class="btn-ellca" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                                 <span id="textToggleBars">Mostrar Menu</span>
                             </button>
-                            <a href="gerencial.html" class="btn-ellca primary" title="Retornar ao Lobby Gerencial">
-                                <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
+                            <a href="home.html" class="btn-ellca primary" title="Voltar para a Home">
+                                <i class="fa-solid fa-house-user"></i> Voltar à Home
                             </a>
                         </div>
                     </div>
 
-                    <!-- BARRA DE FILTROS -->
-                    <div class="filter-bar-ellca ellca-beam-card">
-                        <!-- PERÍODO MULTI-SELEÇÃO -->
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-week"></i> Período</label>
-                            <div class="multi-select-box" id="multiPeriodoBox">
-                                <button type="button" class="multi-select-trigger" id="multiPeriodoTrigger">
-                                    <span class="multi-select-label" id="multiPeriodoLabel">Todos os Períodos</span>
-                                    <span class="multi-select-badge" id="multiPeriodoCount">Todos</span>
-                                </button>
-                                <div class="multi-select-dropdown" id="multiPeriodoDropdown">
-                                    <div class="multi-select-actions">
-                                        <button type="button" id="btnSelectAllPeriodos">Marcar Todos</button>
-                                        <button type="button" id="btnClearPeriodos">Limpar</button>
-                                    </div>
-                                    <div class="multi-select-options" id="multiPeriodoOptions"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-calendar-day"></i> Data Específica</label>
-                            <input type="date" id="fFilterData">
-                        </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
-                            <select id="fFilterSup"><option value="">Todos os Supervisores</option></select>
-                        </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-people-group"></i> Equipe</label>
-                            <select id="fFilterEquipe"><option value="">Todas as Equipes</option></select>
-                        </div>
-                        <div class="filter-field">
-                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo / Modalidade</label>
-                            <select id="fFilterTipo"><option value="">Todos os Tipos</option></select>
-                        </div>
-                        <div class="filter-actions-cell">
-                            <button type="button" class="btn-reset-filters" id="btnLimparFiltrosFat">
-                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- KPIS EXECUTIVOS -->
+                    <!-- RESUMO EXECUTIVO EM TEMPO REAL (SINCRONIZADO COM FATURAMENTO) -->
                     <div class="exec-kpi-grid">
                         <div class="exec-kpi blue-accent ellca-beam-card">
                             <div class="exec-kpi-top">
-                                <span>Meta Faturamento</span>
+                                <span>Meta Global Faturamento</span>
                                 <i class="fa-solid fa-bullseye"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiMeta" style="color:#38bdf8;">R$ 0,00</div>
+                            <div class="exec-kpi-val" id="gerKpiMeta" style="color:#38bdf8;">R$ 0,00</div>
                             <div class="exec-kpi-sub">
-                                <span id="kpiMetaSub">Base consolidada do filtro</span>
-                                <span id="kpiEquipesAtivas">0 equipes</span>
+                                <span>Base consolidada</span>
+                                <span id="gerKpiEquipes">0 equipes</span>
                             </div>
                         </div>
 
@@ -1068,120 +835,302 @@
                                 <span>Previsto Acumulado</span>
                                 <i class="fa-solid fa-chart-line"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiPrevisto">R$ 0,00</div>
+                            <div class="exec-kpi-val" id="gerKpiPrevisto">R$ 0,00</div>
                             <div class="exec-kpi-sub">
-                                <span id="kpiPrevSub">Proporcional aos dias</span>
-                                <span id="kpiDiasCount">0 dias</span>
+                                <span>Proporcional aos dias</span>
+                                <span id="gerKpiDias">0 dias</span>
                             </div>
                         </div>
 
                         <div class="exec-kpi royal-accent ellca-beam-card">
                             <div class="exec-kpi-top">
                                 <span>Faturamento Realizado</span>
-                                <i class="fa-solid fa-circle-check"></i>
+                                <i class="fa-solid fa-sack-dollar"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
+                            <div class="exec-kpi-val" id="gerKpiRealizado" style="color:#00d4ff;">R$ 0,00</div>
                             <div class="exec-kpi-sub">
-                                <span id="kpiGapPrev">Gap Prev: R$ 0,00</span>
-                                <span id="kpiGapMeta">Gap Meta: R$ 0,00</span>
+                                <span id="gerKpiGapPrev">Gap Prev: R$ 0,00</span>
+                                <span id="gerKpiGapMeta">Gap Meta: R$ 0,00</span>
                             </div>
                         </div>
 
                         <div class="exec-kpi blue-accent ellca-beam-card">
                             <div class="exec-kpi-top">
-                                <span>Atingimento (Real / Prev)</span>
+                                <span>Aderência Executiva</span>
                                 <i class="fa-solid fa-gauge-high"></i>
                             </div>
-                            <div class="exec-kpi-val" id="kpiPctPrev" style="color:#38bdf8;">0,0%</div>
+                            <div class="exec-kpi-val" id="gerKpiPct" style="color:#38bdf8;">0,0%</div>
                             <div class="exec-kpi-sub">
-                                <span id="kpiPctMeta">Sobre Meta Total: 0,0%</span>
+                                <span id="gerKpiPctMeta">Sobre Meta: 0,0%</span>
                                 <span>Alvo: 100%</span>
                             </div>
                             <div class="mini-bar">
-                                <div class="mini-bar-fill" id="kpiBarFill" style="width: 0%;"></div>
+                                <div class="mini-bar-fill" id="gerKpiBar" style="width: 0%;"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- GRÁFICOS EXECUTIVOS -->
-                    <div class="charts-grid">
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-chart-area"></i> Evolução Diária — Previsto vs. Realizado</h3>
-                                <span id="chartTimelineBadge">Série temporal filtrada</span>
-                            </div>
-                            <div class="chart-canvas-wrap">
-                                <canvas id="chartEvolucaoDiaria"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-ranking-star"></i> Top Equipes — Realizado vs. Previsto</h3>
-                                <span>Maiores faturamentos no período</span>
-                            </div>
-                            <div class="chart-canvas-wrap">
-                                <canvas id="chartTopEquipes"></canvas>
-                            </div>
-                        </div>
+                    <!-- TÍTULO DA GRADE DE PILARES -->
+                    <div class="section-bar">
+                        <h2><i class="fa-solid fa-layer-group"></i> Pilares Estratégicos de Governança</h2>
+                        <span>Selecione um pilar para abrir o painel analítico detalhado</span>
                     </div>
 
-                    <!-- GRÁFICO POR DIA DA SEMANA -->
-                    <div class="charts-secondary-grid">
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-calendar-days"></i> Performance por Dia da Semana — Realizado vs. Previsto</h3>
-                                <span>Acumulado por dia útil e fim de semana</span>
+                    <!-- CARDS DOS PILARES GERENCIAIS -->
+                    <div class="pilares-grid">
+
+                        <!-- PILAR 1: FATURAMENTO -->
+                        <div class="pilar-card destaque-ativo ellca-beam-card">
+                            <div>
+                                <div class="pilar-card-head">
+                                    <div class="pilar-icon-wrap">
+                                        <div class="pilar-icon">
+                                            <i class="fa-solid fa-sack-dollar"></i>
+                                        </div>
+                                        <div>
+                                            <span class="pilar-tag">Pilar 01 • Receita</span>
+                                            <h3>Faturamento & Recebíveis</h3>
+                                        </div>
+                                    </div>
+                                    <span class="status-pill live"><i class="fa-solid fa-circle"></i> Ao Vivo</span>
+                                </div>
+
+                                <p class="pilar-desc" style="margin-top:14px;">
+                                    Controle executivo de Meta, Previsto Proporcional e Faturamento Realizado por período, supervisor, equipe e dia da semana.
+                                </p>
                             </div>
-                            <div class="chart-canvas-wrap compact">
-                                <canvas id="chartDiaSemana"></canvas>
+
+                            <div class="pilar-metrics">
+                                <div class="pilar-metric-item">
+                                    <span>Realizado Total</span>
+                                    <strong id="cardFatReal" style="color:#00d4ff;">R$ 0,00</strong>
+                                </div>
+                                <div class="pilar-metric-item">
+                                    <span>Gap Previsto</span>
+                                    <strong id="cardFatGap">R$ 0,00</strong>
+                                </div>
+                            </div>
+
+                            <div class="pilar-footer">
+                                <a href="faturamento.html" class="btn-ellca primary">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Acessar Painel de Faturamento
+                                </a>
                             </div>
                         </div>
+
+                        <!-- PILAR 2: PRODUTIVIDADE & OPERAÇÃO -->
+                        <div class="pilar-card ellca-beam-card">
+                            <div>
+                                <div class="pilar-card-head">
+                                    <div class="pilar-icon-wrap">
+                                        <div class="pilar-icon">
+                                            <i class="fa-solid fa-industry"></i>
+                                        </div>
+                                        <div>
+                                            <span class="pilar-tag">Pilar 02 • Operação</span>
+                                            <h3>Produção & Eficiência</h3>
+                                        </div>
+                                    </div>
+                                    <span class="status-pill ready">Integrado</span>
+                                </div>
+
+                                <p class="pilar-desc" style="margin-top:14px;">
+                                    Acompanhamento de produtividade diária das equipes em campo, cumprimento de programação e indicadores operacionais.
+                                </p>
+                            </div>
+
+                            <div class="pilar-metrics">
+                                <div class="pilar-metric-item">
+                                    <span>Equipes Monitoradas</span>
+                                    <strong id="cardProdEq" style="color:#38bdf8;">0 equipes</strong>
+                                </div>
+                                <div class="pilar-metric-item">
+                                    <span>Aderência Meta</span>
+                                    <strong id="cardProdPct">0,0%</strong>
+                                </div>
+                            </div>
+
+                            <div class="pilar-footer">
+                                <a href="producao.html" class="btn-ellca">
+                                    <i class="fa-solid fa-chart-column"></i> Acessar Painel de Produção
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- PILAR 3: SUPERVISÃO & CAMPO -->
+                        <div class="pilar-card ellca-beam-card">
+                            <div>
+                                <div class="pilar-card-head">
+                                    <div class="pilar-icon-wrap">
+                                        <div class="pilar-icon">
+                                            <i class="fa-solid fa-user-shield"></i>
+                                        </div>
+                                        <div>
+                                            <span class="pilar-tag">Pilar 03 • Liderança</span>
+                                            <h3>Supervisão & Inspeções</h3>
+                                        </div>
+                                    </div>
+                                    <span class="status-pill ready">Integrado</span>
+                                </div>
+
+                                <p class="pilar-desc" style="margin-top:14px;">
+                                    Gestão por supervisor, desempenho de equipes subordinadas, inspeções de campo e conformidade operacional.
+                                </p>
+                            </div>
+
+                            <div class="pilar-metrics">
+                                <div class="pilar-metric-item">
+                                    <span>Supervisores Ativos</span>
+                                    <strong id="cardSupCount" style="color:#38bdf8;">0 líderes</strong>
+                                </div>
+                                <div class="pilar-metric-item">
+                                    <span>Líder Destaque</span>
+                                    <strong id="cardSupTop">-</strong>
+                                </div>
+                            </div>
+
+                            <div class="pilar-footer">
+                                <a href="supervisor.html" class="btn-ellca">
+                                    <i class="fa-solid fa-clipboard-check"></i> Acessar Painel de Supervisão
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- PILAR 4: INDICADORES BI & DASHBOARDS -->
+                        <div class="pilar-card ellca-beam-card">
+                            <div>
+                                <div class="pilar-card-head">
+                                    <div class="pilar-icon-wrap">
+                                        <div class="pilar-icon">
+                                            <i class="fa-solid fa-chart-pie"></i>
+                                        </div>
+                                        <div>
+                                            <span class="pilar-tag">Pilar 04 • Analytics</span>
+                                            <h3>Dashboards Setoriais BI</h3>
+                                        </div>
+                                    </div>
+                                    <span class="status-pill ready">Integrado</span>
+                                </div>
+
+                                <p class="pilar-desc" style="margin-top:14px;">
+                                    Central de inteligência com painéis executivos de SESMT, Frota, Almoxarifado, RH, DP, Programação e Infraestrutura.
+                                </p>
+                            </div>
+
+                            <div class="pilar-metrics">
+                                <div class="pilar-metric-item">
+                                    <span>Setores Conectados</span>
+                                    <strong style="color:#38bdf8;">12 Áreas</strong>
+                                </div>
+                                <div class="pilar-metric-item">
+                                    <span>Motor BI</span>
+                                    <strong>Looker & Web</strong>
+                                </div>
+                            </div>
+
+                            <div class="pilar-footer">
+                                <a href="dashboard.html" class="btn-ellca">
+                                    <i class="fa-solid fa-chart-line"></i> Abrir Central de Dashboards
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- PILAR 5: FROTA & LOGÍSTICA -->
+                        <div class="pilar-card ellca-beam-card">
+                            <div>
+                                <div class="pilar-card-head">
+                                    <div class="pilar-icon-wrap">
+                                        <div class="pilar-icon">
+                                            <i class="fa-solid fa-truck-fast"></i>
+                                        </div>
+                                        <div>
+                                            <span class="pilar-tag">Pilar 05 • Ativos</span>
+                                            <h3>Frota & Disponibilidade</h3>
+                                        </div>
+                                    </div>
+                                    <span class="status-pill soon">Consolidado</span>
+                                </div>
+
+                                <p class="pilar-desc" style="margin-top:14px;">
+                                    Monitoramento de disponibilidade mecânica, custo por quilômetro, abastecimento e alocação de viaturas por modalidade.
+                                </p>
+                            </div>
+
+                            <div class="pilar-metrics">
+                                <div class="pilar-metric-item">
+                                    <span>Modalidades Ativas</span>
+                                    <strong id="cardTiposCount" style="color:#38bdf8;">0 tipos</strong>
+                                </div>
+                                <div class="pilar-metric-item">
+                                    <span>Status Operacional</span>
+                                    <strong style="color:#34d399;">Monitorado</strong>
+                                </div>
+                            </div>
+
+                            <div class="pilar-footer">
+                                <a href="dashboard.html" class="btn-ellca">
+                                    <i class="fa-solid fa-truck-pickup"></i> Consultar Indicadores de Frota
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- PILAR 6: SESMT & SEGURANÇA -->
+                        <div class="pilar-card ellca-beam-card">
+                            <div>
+                                <div class="pilar-card-head">
+                                    <div class="pilar-icon-wrap">
+                                        <div class="pilar-icon">
+                                            <i class="fa-solid fa-helmet-safety"></i>
+                                        </div>
+                                        <div>
+                                            <span class="pilar-tag">Pilar 06 • Governança</span>
+                                            <h3>SESMT & Compliance</h3>
+                                        </div>
+                                    </div>
+                                    <span class="status-pill soon">Consolidado</span>
+                                </div>
+
+                                <p class="pilar-desc" style="margin-top:14px;">
+                                    Acompanhamento de segurança do trabalho, auditorias de campo, controle de EPIs e conformidade normativa das operações.
+                                </p>
+                            </div>
+
+                            <div class="pilar-metrics">
+                                <div class="pilar-metric-item">
+                                    <span>Governança</span>
+                                    <strong style="color:#38bdf8;">100% Rastreável</strong>
+                                </div>
+                                <div class="pilar-metric-item">
+                                    <span>Padrão Operacional</span>
+                                    <strong style="color:#34d399;">Ativo</strong>
+                                </div>
+                            </div>
+
+                            <div class="pilar-footer">
+                                <a href="dashboard.html" class="btn-ellca">
+                                    <i class="fa-solid fa-shield-halved"></i> Consultar Indicadores SESMT
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- RANKINGS CONSOLIDADOS -->
-                    <div class="rankings-grid">
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-user-shield"></i> Consolidado por Supervisor</h3>
-                                <span>Meta • Previsto • Realizado</span>
+                    <!-- BARRA DE NAVEGAÇÃO RÁPIDA -->
+                    <div class="quick-bar-card ellca-beam-card">
+                        <div class="quick-bar-info">
+                            <i class="fa-solid fa-compass"></i>
+                            <div>
+                                <strong>Acesso Rápido aos Módulos do Portal</strong>
+                                <span>Navegue diretamente entre os ambientes operacionais e executivos da ELLCA</span>
                             </div>
-                            <div class="rank-list" id="rankSupList"></div>
                         </div>
 
-                        <div class="chart-card ellca-beam-card">
-                            <div class="chart-card-head">
-                                <h3><i class="fa-solid fa-truck-fast"></i> Consolidado por Tipo de Equipe</h3>
-                                <span>Participação e Aderência</span>
-                            </div>
-                            <div class="rank-list" id="rankTipoList"></div>
-                        </div>
-                    </div>
-
-                    <!-- TABELA ANALÍTICA DETALHADA -->
-                    <div class="table-card ellca-beam-card">
-                        <div class="chart-card-head">
-                            <h3><i class="fa-solid fa-table-list"></i> Detalhamento Analítico de Faturamento</h3>
-                            <span id="tableRowsCount">0 registros exibidos</span>
-                        </div>
-                        <div class="table-scroll">
-                            <table class="fat-table">
-                                <thead>
-                                    <tr>
-                                        <th>Data</th>
-                                        <th>Período</th>
-                                        <th>Equipe</th>
-                                        <th>Tipo</th>
-                                        <th>Supervisor</th>
-                                        <th>Meta</th>
-                                        <th>Previsto</th>
-                                        <th>Realizado</th>
-                                        <th>Gap (Real - Prev)</th>
-                                        <th>% Real/Prev</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="fatTableBody"></tbody>
-                            </table>
+                        <div class="quick-bar-links">
+                            <a href="faturamento.html" class="btn-ellca primary"><i class="fa-solid fa-sack-dollar"></i> Faturamento</a>
+                            <a href="producao.html" class="btn-ellca"><i class="fa-solid fa-industry"></i> Produção</a>
+                            <a href="supervisor.html" class="btn-ellca"><i class="fa-solid fa-user-shield"></i> Supervisão</a>
+                            <a href="dashboard.html" class="btn-ellca"><i class="fa-solid fa-chart-pie"></i> Dashboards</a>
+                            <a href="home.html" class="btn-ellca"><i class="fa-solid fa-house-user"></i> Home</a>
                         </div>
                     </div>
 
@@ -1193,7 +1142,7 @@
                 <div class="footer-info">
                     <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Dashboard Executivo de Faturamento</strong></span>
+                    <span>Módulo: <strong>Portal Gerencial & Governança Executiva</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -1207,15 +1156,9 @@
     </div>
 
     <script>
-        (function iniciarDashboardFaturamento() {
+        (function iniciarPortalGerencial() {
             const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
             const ABA_NOME = 'Faturamento';
-
-            let baseRegistros = [];
-            let periodosSelecionados = new Set();
-            let chartEvolucao = null;
-            let chartEquipes = null;
-            let chartDiaSemana = null;
 
             const footerUserName = document.getElementById('footerUserName');
             const nomeSessao =
@@ -1225,12 +1168,6 @@
             if (footerUserName) footerUserName.textContent = nomeSessao;
 
             const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            const fmtCompact = (v) => {
-                const n = Number(v) || 0;
-                if (Math.abs(n) >= 1000000) return 'R$ ' + (n / 1000000).toFixed(2).replace('.', ',') + 'M';
-                if (Math.abs(n) >= 1000) return 'R$ ' + (n / 1000).toFixed(1).replace('.', ',') + 'k';
-                return fmtBRL(n);
-            };
 
             const parseNum = (v) => {
                 if (typeof v === 'number') return isFinite(v) ? v : 0;
@@ -1254,7 +1191,7 @@
             }
 
             function parseDataCell(cell) {
-                if (!cell) return { iso: '', br: '' };
+                if (!cell) return '';
                 const rawV = String(cell.v ?? '');
                 const rawF = String(cell.f ?? '');
                 const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
@@ -1262,28 +1199,14 @@
                     const y = mDate[1];
                     const mo = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
                     const d = String(parseInt(mDate[3], 10)).padStart(2, '0');
-                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
+                    return `${y}-${mo}-${d}`;
                 }
                 const str = (rawF || rawV).trim();
                 let m = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
-                if (m) {
-                    const d = m[1].padStart(2, '0'), mo = m[2].padStart(2, '0'), y = m[3];
-                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
-                }
+                if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
                 m = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-                if (m) {
-                    const y = m[1], mo = m[2].padStart(2, '0'), d = m[3].padStart(2, '0');
-                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
-                }
-                return { iso: str, br: str };
-            }
-
-            function obterDiaSemanaIdx(iso) {
-                if (!iso) return -1;
-                const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/);
-                if (!m) return -1;
-                const dt = new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
-                return isNaN(dt.getTime()) ? -1 : dt.getDay(); // 0=Dom .. 6=Sáb
+                if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+                return str;
             }
 
             function mapearColunas(cols, rows) {
@@ -1326,18 +1249,24 @@
                 };
             }
 
-            function carregarFaturamento() {
-                const badge = document.getElementById('syncBadgeFat');
+            function aplicarCorGap(el, valorGap, prefixo) {
+                el.textContent = prefixo ? `${prefixo}: ${fmtBRL(valorGap)}` : fmtBRL(valorGap);
+                el.classList.remove('gap-positivo', 'gap-negativo');
+                el.classList.add(valorGap >= 0 ? 'gap-positivo' : 'gap-negativo');
+            }
+
+            function carregarResumoGerencial() {
+                const badge = document.getElementById('syncBadgeGer');
                 badge.className = 'sync-badge';
                 badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
 
-                const cbName = 'cbFat_' + Math.random().toString(36).slice(2, 9);
+                const cbName = 'cbGer_' + Math.random().toString(36).slice(2, 9);
                 const script = document.createElement('script');
                 const timer = setTimeout(() => {
                     delete window[cbName];
                     if (script.parentNode) script.parentNode.removeChild(script);
                     badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido (verifique permissão)';
+                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido';
                 }, 9000);
 
                 window[cbName] = function (json) {
@@ -1347,7 +1276,7 @@
 
                     if (!json || json.status === 'error' || !json.table) {
                         badge.className = 'sync-badge warn';
-                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita ou aba não encontrada';
+                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita';
                         return;
                     }
 
@@ -1355,7 +1284,14 @@
                     const rawRows = json.table.rows || [];
                     const mapa = mapearColunas(cols, rawRows);
 
-                    const parsed = [];
+                    let totPrev = 0;
+                    let totReal = 0;
+                    const metaUnicaMap = new Map();
+                    const equipesSet = new Set();
+                    const diasSet = new Set();
+                    const tiposSet = new Set();
+                    const supMap = {};
+
                     for (let i = mapa.startRow; i < rawRows.length; i++) {
                         const c = rawRows[i].c || [];
                         const getStr = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
@@ -1365,14 +1301,14 @@
                             ? parseNum(c[idx].v)
                             : 0;
 
-                        const dtInfo = parseDataCell(c[mapa.colData]);
+                        const dataIso = parseDataCell(c[mapa.colData]);
                         const equipe = getStr(mapa.colEquipe).toUpperCase();
-                        const periodo = getStr(mapa.colPeriodo).toUpperCase() || (dtInfo.iso ? dtInfo.iso.slice(0, 7) : 'GERAL');
+                        const periodo = getStr(mapa.colPeriodo).toUpperCase() || (dataIso ? dataIso.slice(0, 7) : 'GERAL');
                         const meta = getVal(mapa.colMeta);
                         const previsto = getVal(mapa.colPrevisto);
                         const realizado = getVal(mapa.colRealizado);
 
-                        if (!dtInfo.iso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
+                        if (!dataIso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
                         if (normalizarTexto(equipe) === 'equipe' || normalizarTexto(equipe) === 'total') continue;
 
                         let tipo = getStr(mapa.colTipo).toUpperCase();
@@ -1380,515 +1316,78 @@
                             const mTipo = equipe.match(/\b(LV|MK|LD|LM|LE|MT|AT)\b/);
                             tipo = mTipo ? mTipo[1] : 'PADRÃO';
                         }
+                        const sup = getStr(mapa.colSupervisor).toUpperCase() || 'NÃO INFORMADO';
 
-                        parsed.push({
-                            dataIso: dtInfo.iso,
-                            dataBr: dtInfo.br || dtInfo.iso || '-',
-                            diaSemanaIdx: obterDiaSemanaIdx(dtInfo.iso),
-                            periodo,
-                            equipe: equipe || 'NÃO INFORMADA',
-                            tipo: tipo || 'PADRÃO',
-                            supervisor: getStr(mapa.colSupervisor).toUpperCase() || 'NÃO INFORMADO',
-                            meta,
-                            previsto,
-                            realizado
-                        });
+                        totPrev += previsto;
+                        totReal += realizado;
+
+                        if (equipe) equipesSet.add(equipe);
+                        if (dataIso) diasSet.add(dataIso);
+                        if (tipo) tiposSet.add(tipo);
+
+                        const chaveMeta = `${periodo}||${equipe}`;
+                        const atualMeta = metaUnicaMap.get(chaveMeta) || 0;
+                        if (meta > atualMeta) metaUnicaMap.set(chaveMeta, meta);
+
+                        supMap[sup] = (supMap[sup] || 0) + realizado;
                     }
 
-                    baseRegistros = parsed;
+                    const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
+                    const gapPrev = totReal - totPrev;
+                    const gapMeta = totReal - totMeta;
+                    const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
+                    const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
+
+                    document.getElementById('gerKpiMeta').textContent = fmtBRL(totMeta);
+                    document.getElementById('gerKpiEquipes').textContent = `${equipesSet.size} equipes`;
+
+                    document.getElementById('gerKpiPrevisto').textContent = fmtBRL(totPrev);
+                    document.getElementById('gerKpiDias').textContent = `${diasSet.size} dias`;
+
+                    document.getElementById('gerKpiRealizado').textContent = fmtBRL(totReal);
+                    aplicarCorGap(document.getElementById('gerKpiGapPrev'), gapPrev, 'Gap Prev');
+                    aplicarCorGap(document.getElementById('gerKpiGapMeta'), gapMeta, 'Gap Meta');
+
+                    document.getElementById('gerKpiPct').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
+                    document.getElementById('gerKpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
+                    document.getElementById('gerKpiBar').style.width = `${Math.min(100, pctPrev)}%`;
+
+                    // Preencher mini-métricas nos cards dos pilares
+                    document.getElementById('cardFatReal').textContent = fmtBRL(totReal);
+                    aplicarCorGap(document.getElementById('cardFatGap'), gapPrev, '');
+
+                    document.getElementById('cardProdEq').textContent = `${equipesSet.size} equipes`;
+                    document.getElementById('cardProdPct').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
+
+                    const supOrdenados = Object.entries(supMap).sort((a, b) => b[1] - a[1]);
+                    document.getElementById('cardSupCount').textContent = `${supOrdenados.length} líderes`;
+                    document.getElementById('cardSupTop').textContent = supOrdenados.length > 0 ? supOrdenados[0][0] : '-';
+
+                    document.getElementById('cardTiposCount').textContent = `${tiposSet.size} tipos`;
+
                     const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    if (baseRegistros.length > 0) {
-                        badge.className = 'sync-badge';
-                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo (${baseRegistros.length} reg.) • ${hora}`;
-                    } else {
-                        badge.className = 'sync-badge warn';
-                        badge.innerHTML = '<i class="fa-solid fa-circle-info"></i> Aba Faturamento sem registros lidos';
-                    }
-
-                    popularFiltros();
-                    atualizarDashboard();
+                    badge.className = 'sync-badge';
+                    badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Governança Ativa • ${hora}`;
                 };
 
                 script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
                 script.onerror = () => {
                     clearTimeout(timer);
                     badge.className = 'sync-badge warn';
-                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão com Google Sheets';
+                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão';
                 };
                 document.body.appendChild(script);
             }
 
-            // ================= MULTI-SELECT DE PERÍODO =================
-            function atualizarResumoMultiPeriodo(todosPeriodos) {
-                const labelEl = document.getElementById('multiPeriodoLabel');
-                const countEl = document.getElementById('multiPeriodoCount');
-                const qtd = periodosSelecionados.size;
+            document.getElementById('btnRefreshGer')?.addEventListener('click', carregarResumoGerencial);
 
-                if (qtd === 0 || qtd === todosPeriodos.length) {
-                    labelEl.textContent = 'Todos os Períodos';
-                    countEl.textContent = 'Todos';
-                } else if (qtd === 1) {
-                    const unico = [...periodosSelecionados][0];
-                    labelEl.textContent = unico;
-                    countEl.textContent = '1 sel.';
-                } else {
-                    const lista = [...periodosSelecionados];
-                    labelEl.textContent = lista.slice(0, 2).join(', ') + (qtd > 2 ? ` +${qtd - 2}` : '');
-                    countEl.textContent = `${qtd} sel.`;
-                }
-            }
-
-            function popularMultiPeriodo() {
-                const container = document.getElementById('multiPeriodoOptions');
-                const todosPeriodos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))].sort();
-
-                periodosSelecionados = new Set([...periodosSelecionados].filter(p => todosPeriodos.includes(p)));
-
-                container.innerHTML = todosPeriodos.map(p => {
-                    const checked = periodosSelecionados.has(p) ? 'checked' : '';
-                    return `
-                        <label class="multi-option-item">
-                            <input type="checkbox" value="${p}" ${checked}>
-                            <span>${p}</span>
-                        </label>
-                    `;
-                }).join('');
-
-                container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-                    chk.addEventListener('change', () => {
-                        if (chk.checked) {
-                            periodosSelecionados.add(chk.value);
-                        } else {
-                            periodosSelecionados.delete(chk.value);
-                        }
-                        atualizarResumoMultiPeriodo(todosPeriodos);
-                        atualizarDashboard();
-                    });
-                });
-
-                atualizarResumoMultiPeriodo(todosPeriodos);
-            }
-
-            const multiBox = document.getElementById('multiPeriodoBox');
-            const multiTrigger = document.getElementById('multiPeriodoTrigger');
-
-            multiTrigger?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                multiBox.classList.toggle('open');
-            });
-
-            document.getElementById('multiPeriodoDropdown')?.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-
-            document.addEventListener('click', () => {
-                multiBox?.classList.remove('open');
-            });
-
-            document.getElementById('btnSelectAllPeriodos')?.addEventListener('click', () => {
-                const todos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))];
-                periodosSelecionados = new Set(todos);
-                popularMultiPeriodo();
-                atualizarDashboard();
-            });
-
-            document.getElementById('btnClearPeriodos')?.addEventListener('click', () => {
-                periodosSelecionados.clear();
-                popularMultiPeriodo();
-                atualizarDashboard();
-            });
-
-            function popularFiltros() {
-                popularMultiPeriodo();
-
-                const fill = (id, vals, labelAll) => {
-                    const sel = document.getElementById(id);
-                    const prev = sel.value;
-                    sel.innerHTML = `<option value="">${labelAll}</option>`;
-                    [...new Set(vals.filter(Boolean))].sort().forEach(v => {
-                        const opt = document.createElement('option');
-                        opt.value = v;
-                        opt.textContent = v;
-                        sel.appendChild(opt);
-                    });
-                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
-                };
-
-                fill('fFilterSup', baseRegistros.map(r => r.supervisor), 'Todos os Supervisores');
-                fill('fFilterEquipe', baseRegistros.map(r => r.equipe), 'Todas as Equipes');
-                fill('fFilterTipo', baseRegistros.map(r => r.tipo), 'Todos os Tipos');
-            }
-
-            function aplicarCorGap(el, valorGap, prefixo) {
-                el.textContent = `${prefixo}: ${fmtBRL(valorGap)}`;
-                el.classList.remove('gap-positivo', 'gap-negativo');
-                if (valorGap >= 0) {
-                    el.classList.add('gap-positivo');
-                } else {
-                    el.classList.add('gap-negativo');
-                }
-            }
-
-            function atualizarDashboard() {
-                const dataVal = document.getElementById('fFilterData').value;
-                const supVal = document.getElementById('fFilterSup').value;
-                const eqVal = document.getElementById('fFilterEquipe').value;
-                const tipoVal = document.getElementById('fFilterTipo').value;
-
-                const filtrados = baseRegistros.filter(r => {
-                    if (periodosSelecionados.size > 0 && !periodosSelecionados.has(r.periodo)) return false;
-                    if (dataVal && r.dataIso !== dataVal) return false;
-                    if (supVal && r.supervisor !== supVal) return false;
-                    if (eqVal && r.equipe !== eqVal) return false;
-                    if (tipoVal && r.tipo !== tipoVal) return false;
-                    return true;
-                });
-
-                const totPrev = filtrados.reduce((s, r) => s + r.previsto, 0);
-                const totReal = filtrados.reduce((s, r) => s + r.realizado, 0);
-
-                const metaUnicaMap = new Map();
-                filtrados.forEach(r => {
-                    const chaveMeta = `${r.periodo}||${r.equipe}`;
-                    const atual = metaUnicaMap.get(chaveMeta) || 0;
-                    if (r.meta > atual) metaUnicaMap.set(chaveMeta, r.meta);
-                });
-                const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
-
-                const equipesSet = new Set(filtrados.map(r => r.equipe));
-                const diasSet = new Set(filtrados.map(r => r.dataIso).filter(Boolean));
-                const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
-                const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
-
-                const gapPrev = totReal - totPrev;
-                const gapMeta = totReal - totMeta;
-
-                document.getElementById('kpiMeta').textContent = fmtBRL(totMeta);
-                document.getElementById('kpiEquipesAtivas').textContent = `${equipesSet.size} equipes`;
-
-                document.getElementById('kpiPrevisto').textContent = fmtBRL(totPrev);
-                document.getElementById('kpiDiasCount').textContent = `${diasSet.size} dias`;
-
-                document.getElementById('kpiRealizado').textContent = fmtBRL(totReal);
-                aplicarCorGap(document.getElementById('kpiGapPrev'), gapPrev, 'Gap Prev');
-                aplicarCorGap(document.getElementById('kpiGapMeta'), gapMeta, 'Gap Meta');
-
-                document.getElementById('kpiPctPrev').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('kpiBarFill').style.width = `${Math.min(100, pctPrev)}%`;
-
-                renderGraficos(filtrados);
-                renderRankings(filtrados);
-                renderTabela(filtrados);
-            }
-
-            function renderGraficos(lista) {
-                // 1. Evolução Diária (Azul Elétrico + Azul Escuro)
-                const porDia = {};
-                lista.forEach(r => {
-                    const k = r.dataIso || r.dataBr || 'Sem Data';
-                    if (!porDia[k]) porDia[k] = { label: r.dataBr || k, prev: 0, real: 0 };
-                    porDia[k].prev += r.previsto;
-                    porDia[k].real += r.realizado;
-                });
-                const diasOrdenados = Object.keys(porDia).sort().map(k => porDia[k]);
-
-                const ctx1 = document.getElementById('chartEvolucaoDiaria').getContext('2d');
-                if (chartEvolucao) chartEvolucao.destroy();
-
-                const gradReal = ctx1.createLinearGradient(0, 0, 0, 290);
-                gradReal.addColorStop(0, 'rgba(0, 212, 255, 0.36)');
-                gradReal.addColorStop(1, 'rgba(0, 212, 255, 0.01)');
-
-                const gradPrev = ctx1.createLinearGradient(0, 0, 0, 290);
-                gradPrev.addColorStop(0, 'rgba(29, 78, 216, 0.32)');
-                gradPrev.addColorStop(1, 'rgba(29, 78, 216, 0.02)');
-
-                chartEvolucao = new Chart(ctx1, {
-                    type: 'line',
-                    data: {
-                        labels: diasOrdenados.map(d => d.label.slice(0, 5)),
-                        datasets: [
-                            {
-                                label: 'Realizado (R$)',
-                                data: diasOrdenados.map(d => d.real),
-                                borderColor: '#00d4ff',
-                                backgroundColor: gradReal,
-                                borderWidth: 2.8,
-                                fill: true,
-                                tension: 0.32,
-                                pointRadius: 3.5,
-                                pointBackgroundColor: '#00d4ff'
-                            },
-                            {
-                                label: 'Previsto (R$)',
-                                data: diasOrdenados.map(d => d.prev),
-                                borderColor: '#1d4ed8',
-                                backgroundColor: gradPrev,
-                                borderDash: [6, 4],
-                                borderWidth: 2.4,
-                                fill: true,
-                                tension: 0.32,
-                                pointRadius: 3,
-                                pointBackgroundColor: '#2563eb'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: { mode: 'index', intersect: false },
-                        plugins: {
-                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
-                            tooltip: {
-                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
-                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                borderWidth: 1,
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
-                            }
-                        },
-                        scales: {
-                            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                            y: {
-                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
-                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
-                            }
-                        }
-                    }
-                });
-
-                // 2. Top Equipes (Azul Elétrico + Azul Escuro)
-                const porEq = {};
-                lista.forEach(r => {
-                    if (!porEq[r.equipe]) porEq[r.equipe] = { prev: 0, real: 0 };
-                    porEq[r.equipe].prev += r.previsto;
-                    porEq[r.equipe].real += r.realizado;
-                });
-                const topEq = Object.entries(porEq)
-                    .sort((a, b) => b[1].real - a[1].real)
-                    .slice(0, 8);
-
-                const ctx2 = document.getElementById('chartTopEquipes').getContext('2d');
-                if (chartEquipes) chartEquipes.destroy();
-                chartEquipes = new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                        labels: topEq.map(([eq]) => eq),
-                        datasets: [
-                            {
-                                label: 'Realizado',
-                                data: topEq.map(([, v]) => v.real),
-                                backgroundColor: '#00d4ff',
-                                borderRadius: 6
-                            },
-                            {
-                                label: 'Previsto',
-                                data: topEq.map(([, v]) => v.prev),
-                                backgroundColor: '#1d4ed8',
-                                borderRadius: 6
-                            }
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
-                            tooltip: {
-                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
-                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                borderWidth: 1,
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.x)}` }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
-                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
-                            },
-                            y: { ticks: { color: '#f8fafc', font: { size: 10, weight: '700' } }, grid: { display: false } }
-                        }
-                    }
-                });
-
-                // 3. Performance por Dia da Semana (Segunda a Domingo — Azul Elétrico + Azul Escuro)
-                const ordemDias = [
-                    { idx: 1, nome: 'Segunda-feira' },
-                    { idx: 2, nome: 'Terça-feira' },
-                    { idx: 3, nome: 'Quarta-feira' },
-                    { idx: 4, nome: 'Quinta-feira' },
-                    { idx: 5, nome: 'Sexta-feira' },
-                    { idx: 6, nome: 'Sábado' },
-                    { idx: 0, nome: 'Domingo' }
-                ];
-
-                const somaDia = {
-                    0: { prev: 0, real: 0 },
-                    1: { prev: 0, real: 0 },
-                    2: { prev: 0, real: 0 },
-                    3: { prev: 0, real: 0 },
-                    4: { prev: 0, real: 0 },
-                    5: { prev: 0, real: 0 },
-                    6: { prev: 0, real: 0 }
-                };
-
-                lista.forEach(r => {
-                    if (r.diaSemanaIdx >= 0 && r.diaSemanaIdx <= 6) {
-                        somaDia[r.diaSemanaIdx].prev += r.previsto;
-                        somaDia[r.diaSemanaIdx].real += r.realizado;
-                    }
-                });
-
-                const ctx3 = document.getElementById('chartDiaSemana').getContext('2d');
-                if (chartDiaSemana) chartDiaSemana.destroy();
-                chartDiaSemana = new Chart(ctx3, {
-                    type: 'bar',
-                    data: {
-                        labels: ordemDias.map(d => d.nome),
-                        datasets: [
-                            {
-                                label: 'Realizado (R$)',
-                                data: ordemDias.map(d => somaDia[d.idx].real),
-                                backgroundColor: '#00d4ff',
-                                borderRadius: 7,
-                                maxBarThickness: 42
-                            },
-                            {
-                                label: 'Previsto (R$)',
-                                data: ordemDias.map(d => somaDia[d.idx].prev),
-                                backgroundColor: '#1d4ed8',
-                                borderRadius: 7,
-                                maxBarThickness: 42
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: { mode: 'index', intersect: false },
-                        plugins: {
-                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
-                            tooltip: {
-                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
-                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                borderWidth: 1,
-                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { color: '#f8fafc', font: { size: 11, weight: '700' } },
-                                grid: { display: false }
-                            },
-                            y: {
-                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
-                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
-                            }
-                        }
-                    }
-                });
-            }
-
-            function renderRankings(lista) {
-                const buildGroup = (campo, elId) => {
-                    const el = document.getElementById(elId);
-                    const map = {};
-                    lista.forEach(r => {
-                        const k = r[campo] || 'N/D';
-                        if (!map[k]) map[k] = { prev: 0, real: 0, eqs: new Set() };
-                        map[k].prev += r.previsto;
-                        map[k].real += r.realizado;
-                        map[k].eqs.add(r.equipe);
-                    });
-
-                    const sorted = Object.entries(map).sort((a, b) => b[1].real - a[1].real);
-                    if (sorted.length === 0) {
-                        el.innerHTML = `<div style="font-size:11.5px; color:#94a3b8; padding:10px;">Sem dados para o filtro atual.</div>`;
-                        return;
-                    }
-
-                    el.innerHTML = sorted.map(([nome, info]) => {
-                        const pct = info.prev > 0 ? (info.real / info.prev) * 100 : 0;
-                        const gap = info.real - info.prev;
-                        const gapColor = gap >= 0 ? '#34d399' : '#f87171';
-                        return `
-                            <div class="rank-row">
-                                <div class="rank-row-top">
-                                    <span>${nome} <small style="color:#94a3b8;">(${info.eqs.size} eq.)</small></span>
-                                    <span style="color:#00d4ff;">Real: ${fmtBRL(info.real)}</span>
-                                </div>
-                                <div class="rank-row-metrics">
-                                    <span>Previsto: <strong style="color:#60a5fa;">${fmtBRL(info.prev)}</strong></span>
-                                    <span>Gap: <strong style="color:${gapColor};">${fmtBRL(gap)}</strong></span>
-                                    <span>Atingimento: <strong style="color:#38bdf8;">${pct.toFixed(1).replace('.', ',')}%</strong></span>
-                                </div>
-                                <div class="mini-bar">
-                                    <div class="mini-bar-fill" style="width:${Math.min(100, pct)}%;"></div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                };
-
-                buildGroup('supervisor', 'rankSupList');
-                buildGroup('tipo', 'rankTipoList');
-            }
-
-            function renderTabela(lista) {
-                const tbody = document.getElementById('fatTableBody');
-                document.getElementById('tableRowsCount').textContent = `${lista.length} registros exibidos`;
-
-                if (lista.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:20px;">Nenhum registro encontrado com os filtros aplicados.</td></tr>`;
-                    return;
-                }
-
-                const ordenados = [...lista].sort((a, b) => (b.dataIso || '').localeCompare(a.dataIso || ''));
-                tbody.innerHTML = ordenados.slice(0, 300).map(r => {
-                    const gap = r.realizado - r.previsto;
-                    const pct = r.previsto > 0 ? (r.realizado / r.previsto) * 100 : (r.realizado > 0 ? 100 : 0);
-                    const cls = pct >= 100 ? 'pill-ok' : pct >= 80 ? 'pill-warn' : 'pill-low';
-                    return `
-                        <tr>
-                            <td>${r.dataBr}</td>
-                            <td>${r.periodo}</td>
-                            <td><strong>${r.equipe}</strong></td>
-                            <td>${r.tipo}</td>
-                            <td>${r.supervisor}</td>
-                            <td>${fmtBRL(r.meta)}</td>
-                            <td>${fmtBRL(r.previsto)}</td>
-                            <td style="color:#00d4ff; font-weight:700;">${fmtBRL(r.realizado)}</td>
-                            <td style="color:${gap >= 0 ? '#34d399' : '#f87171'}; font-weight:700;">${fmtBRL(gap)}</td>
-                            <td><span class="pill-badge ${cls}">${pct.toFixed(1).replace('.', ',')}%</span></td>
-                        </tr>
-                    `;
-                }).join('');
-            }
-
-            // Listeners de filtros e controles
-            ['fFilterData', 'fFilterSup', 'fFilterEquipe', 'fFilterTipo'].forEach(id => {
-                document.getElementById(id)?.addEventListener('change', atualizarDashboard);
-            });
-
-            document.getElementById('btnLimparFiltrosFat')?.addEventListener('click', () => {
-                periodosSelecionados.clear();
-                popularMultiPeriodo();
-                ['fFilterData', 'fFilterSup', 'fFilterEquipe', 'fFilterTipo'].forEach(id => {
-                    document.getElementById(id).value = '';
-                });
-                atualizarDashboard();
-            });
-
-            document.getElementById('btnRefreshFat')?.addEventListener('click', carregarFaturamento);
-
-            const btnMenuMobile = document.getElementById('btnMenuMobileFat');
-            const navContent = document.getElementById('navContentFat');
+            const btnMenuMobile = document.getElementById('btnMenuMobileGer');
+            const navContent = document.getElementById('navContentGer');
             btnMenuMobile?.addEventListener('click', () => navContent?.classList.toggle('ativo'));
 
             document.querySelectorAll('.btn-voltar').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    window.location.href = btn.getAttribute('data-destino') || 'gerencial.html';
+                    window.location.href = btn.getAttribute('data-destino') || 'home.html';
                 });
             });
 
@@ -1905,7 +1404,7 @@
                 textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
             });
 
-            carregarFaturamento();
+            carregarResumoGerencial();
         })();
     </script>
     <script src="script.js"></script>
