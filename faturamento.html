@@ -486,6 +486,20 @@
       color: #fef08a;
     }
 
+    .hero-btn-looker {
+      background: rgba(56, 189, 248, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.48);
+      color: #7dd3fc;
+    }
+
+    .hero-btn-looker:hover,
+    .hero-btn-looker.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.28);
+    }
+
     /* BOTÃO COMPACTO INDIVIDUAL DE RÓTULOS DENTRO DE CADA GRÁFICO */
     .btn-chart-label {
       height: 24px;
@@ -1374,6 +1388,83 @@
     .c-emerald { color: #34d399 !important; }
     .c-rose    { color: #f87171 !important; }
 
+    /* ================= PAINEL LOOKER STUDIO — DASHBOARD GERENCIAL ================= */
+    .looker-gerencial-section {
+      display: block;
+    }
+
+    .looker-gerencial-section.collapsed .looker-frame-container {
+      display: none;
+    }
+
+    .looker-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .looker-gerencial-section.collapsed .looker-header-bar {
+      margin-bottom: 0;
+    }
+
+    .looker-title-group {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .looker-icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.35), rgba(56, 189, 248, 0.18));
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .looker-controls-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .looker-frame-container {
+      position: relative;
+      width: 100%;
+      height: 78vh;
+      min-height: 620px;
+      border-radius: 13px;
+      overflow: hidden;
+      background: #040814;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.72);
+    }
+
+    .looker-frame-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .looker-gerencial-section:fullscreen {
+      background: #050811;
+      padding: 16px;
+    }
+
+    .looker-gerencial-section:fullscreen .looker-frame-container {
+      height: calc(100vh - 96px);
+    }
+
     /* ================= RODAPÉ OFICIAL ================= */
     .ellca-official-footer {
       margin-top: 6px;
@@ -1434,6 +1525,7 @@
 
     @media (max-width: 680px) {
       .filters-grid-top { grid-template-columns: repeat(2, 1fr); }
+      .looker-frame-container { height: 68vh; min-height: 460px; }
     }
   </style>
 </head>
@@ -1507,6 +1599,10 @@
         <button type="button" class="hero-btn hero-btn-cyan" id="btnBaixarPlanilha">
           <i class="fa-solid fa-file-csv"></i> EXPORTAR CSV
         </button>
+
+        <a href="#secLookerGerencial" class="hero-btn hero-btn-looker" id="btnIrLookerGerencial">
+          <i class="fa-solid fa-display"></i> LOOKER GERENCIAL
+        </a>
 
         <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu">
           <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
@@ -1955,7 +2051,61 @@
       </div>
     </div>
 
-    <!-- 8. RODAPÉ OFICIAL -->
+    <!-- 8. PAINEL INTEGRADO LOOKER STUDIO — DASHBOARD GERENCIAL -->
+    <section class="looker-gerencial-section" id="secLookerGerencial">
+      <div class="card-3d-wrap">
+        <div class="card-surface">
+          <div class="card-body">
+            <div class="looker-header-bar">
+              <div class="looker-title-group">
+                <span class="looker-icon-badge">
+                  <i class="fa-solid fa-crown"></i>
+                </span>
+                <div>
+                  <div class="card-header-title" style="display:flex; align-items:center; gap:8px;">
+                    <span>Dashboard Gerencial Consolidado — Looker Studio</span>
+                    <span class="module-pill" style="padding:2px 9px; font-size:9.5px;">
+                      <span class="dot"></span> BI GERENCIAL
+                    </span>
+                  </div>
+                  <div class="card-header-sub" style="margin-top:2px;">
+                    Visualização executiva interativa integrada diretamente à tela de Faturamento
+                  </div>
+                </div>
+              </div>
+
+              <div class="looker-controls-group">
+                <button type="button" class="hero-btn hero-btn-blue" id="btnReloadLooker" title="Recarregar relatório Looker Studio">
+                  <i class="fa-solid fa-rotate"></i> RECARREGAR BI
+                </button>
+                <button type="button" class="hero-btn hero-btn-cyan" id="btnToggleLookerBox" title="Recolher ou expandir painel Looker">
+                  <i class="fa-solid fa-chevron-up" id="iconToggleLookerBox"></i>
+                  <span id="txtToggleLookerBox">RECOLHER</span>
+                </button>
+                <button type="button" class="hero-btn hero-btn-cyan" id="btnFullscreenLooker" title="Abrir Looker em Tela Cheia">
+                  <i class="fa-solid fa-expand"></i> TELA CHEIA
+                </button>
+                <a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d"
+                   target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-gold" title="Abrir relatório no Looker Studio">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> ABRIR NO LOOKER
+                </a>
+              </div>
+            </div>
+
+            <div class="looker-frame-container">
+              <iframe
+                id="iframeLookerGerencial"
+                src="https://datastudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d"
+                allowfullscreen
+                sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <span class="footer-system-text">
         <i class="fa-solid fa-shield-halved" style="color:#64748b;"></i>
@@ -2182,6 +2332,57 @@
       alert("Suporte TI / BI Ellca — Portal Operacional v2.5.0");
     });
   }
+
+  // =========================================================================
+  // CONTROLES DO PAINEL LOOKER STUDIO (DASHBOARD GERENCIAL)
+  // =========================================================================
+  function configurarLookerGerencial() {
+    const secLooker = document.getElementById("secLookerGerencial");
+    const iframeLooker = document.getElementById("iframeLookerGerencial");
+    const btnReload = document.getElementById("btnReloadLooker");
+    const btnToggleBox = document.getElementById("btnToggleLookerBox");
+    const iconToggleBox = document.getElementById("iconToggleLookerBox");
+    const txtToggleBox = document.getElementById("txtToggleLookerBox");
+    const btnFullscreen = document.getElementById("btnFullscreenLooker");
+    const btnIrLooker = document.getElementById("btnIrLookerGerencial");
+
+    btnReload?.addEventListener("click", () => {
+      if (iframeLooker) iframeLooker.src = iframeLooker.src;
+    });
+
+    btnToggleBox?.addEventListener("click", () => {
+      const recolhido = secLooker.classList.toggle("collapsed");
+      if (recolhido) {
+        iconToggleBox.className = "fa-solid fa-chevron-down";
+        txtToggleBox.textContent = "EXPANDIR";
+      } else {
+        iconToggleBox.className = "fa-solid fa-chevron-up";
+        txtToggleBox.textContent = "RECOLHER";
+      }
+    });
+
+    btnFullscreen?.addEventListener("click", () => {
+      if (!secLooker) return;
+      secLooker.classList.remove("collapsed");
+      if (iconToggleBox) iconToggleBox.className = "fa-solid fa-chevron-up";
+      if (txtToggleBox) txtToggleBox.textContent = "RECOLHER";
+
+      if (!document.fullscreenElement) {
+        secLooker.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+
+    btnIrLooker?.addEventListener("click", (e) => {
+      e.preventDefault();
+      secLooker.classList.remove("collapsed");
+      if (iconToggleBox) iconToggleBox.className = "fa-solid fa-chevron-up";
+      if (txtToggleBox) txtToggleBox.textContent = "RECOLHER";
+      secLooker.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+  configurarLookerGerencial();
 
   document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
     const surface = wrap.querySelector(".card-surface");
@@ -2477,7 +2678,6 @@
 
     const dadosFiltrados = basePeriodoCompetencia.filter(r => datasAtivas.has(r.data));
 
-    // Soma dias úteis de cada combinação Ano-Mês ativa (suporta 1 ou múltiplos meses)
     const competenciasUnicas = new Set();
     basePeriodoCompetencia.forEach(r => competenciasUnicas.add(`${r.ano}-${r.mes}`));
     let diasUteis = 0;
@@ -2493,7 +2693,6 @@
     const datasUnicas = [...new Set(dadosFiltrados.map(r => r.data))].sort();
     const diasTrabalhados = datasUnicas.length;
 
-    // Consolida meta mensal por equipe-processo-competência (para somar corretamente se mais de 1 mês for marcado)
     const mapaEquipes = new Map();
     const metasPorEquipeComp = new Map();
 
@@ -2539,7 +2738,6 @@
     const pctPrevisto = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
     const pctMetaMensal = totalMetaMensal > 0 ? (totalRealizado / totalMetaMensal) * 100 : 0;
 
-    // Atualiza os dois cardzinhos de dias no painel de filtros
     document.getElementById("badgeDiasUteis").innerHTML = `<i class="fa-solid fa-business-time"></i> ${diasUteis} Dias Úteis`;
     document.getElementById("badgeDiasTrabalhados").innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${diasTrabalhados} ${diasTrabalhados === 1 ? "Dia Trabalhado" : "Dias Trabalhados"}`;
 
