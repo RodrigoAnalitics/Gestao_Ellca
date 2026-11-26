@@ -241,15 +241,17 @@
         }
 
         .btn-exec.gold {
-            border-color: rgba(245, 158, 11, 0.62);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.14));
-            color: #fcd34d;
+            border-color: rgba(245, 158, 11, 0.68);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.26), rgba(217, 119, 6, 0.16));
+            color: #fde68a;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.22);
         }
 
         .btn-exec.gold:hover {
-            background: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            border-color: #ffffff;
             color: #030712;
-            box-shadow: 0 0 22px rgba(245, 158, 11, 0.5);
+            box-shadow: 0 0 24px rgba(245, 158, 11, 0.55);
         }
 
         /* ================= LOBBY EXECUTIVO (MUNDO INICIAL) ================= */
@@ -1267,8 +1269,11 @@
                             <span class="sync-badge" id="syncBadgeGerencial">
                                 <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...
                             </span>
+                            <button type="button" class="btn-exec gold" id="btnDirectDashGerencial" title="Acessar diretamente o Dashboard Gerencial Consolidado">
+                                <i class="fa-solid fa-chart-pie"></i> Dashboard Gerencial
+                            </button>
                             <button type="button" class="btn-exec gold" id="btnBackToLobby" style="display:none;" title="Retornar aos 7 Pilares da Diretoria">
-                                <i class="fa-solid fa-grid-2"></i> <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
+                                <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
                             </button>
                             <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
@@ -1519,6 +1524,7 @@
                                 <button type="button" class="ws-pill" data-pillar="programacao"><i class="fa-solid fa-calendar-check"></i> Programação</button>
                                 <button type="button" class="ws-pill" data-pillar="organograma"><i class="fa-solid fa-sitemap"></i> Organograma</button>
                                 <button type="button" class="ws-pill" data-pillar="frota"><i class="fa-solid fa-truck-fast"></i> Frota</button>
+                                <button type="button" class="ws-pill" id="btnQuickDashGerencial" style="border-color:rgba(245,158,11,0.55); color:#fde68a;"><i class="fa-solid fa-chart-pie"></i> Dashboard Gerencial</button>
                             </div>
                         </div>
 
@@ -1861,7 +1867,7 @@
             const headerTitleMain = document.getElementById('headerTitleMain');
             const headerSubtitleMain = document.getElementById('headerSubtitleMain');
 
-            function abrirPilar(chave) {
+            function abrirPilar(chave, scrollToBI = false) {
                 const cfg = PILARES_CONFIG[chave];
                 if (!cfg) return;
 
@@ -1872,7 +1878,7 @@
                 headerTitleMain.textContent = cfg.title;
                 headerSubtitleMain.textContent = cfg.desc;
 
-                document.querySelectorAll('#workspaceQuickPills .ws-pill').forEach(pill => {
+                document.querySelectorAll('#workspaceQuickPills .ws-pill[data-pillar]').forEach(pill => {
                     pill.classList.toggle('active', pill.getAttribute('data-pillar') === chave);
                 });
 
@@ -1898,6 +1904,14 @@
                     `).join('');
                 }
 
+                if (scrollToBI) {
+                    const frameBox = document.getElementById('reportFrameBox');
+                    if (frameBox) {
+                        frameBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        return;
+                    }
+                }
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
@@ -1912,13 +1926,21 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
+            // Atalho direto para o Dashboard Gerencial Consolidado
+            function irParaDashboardGerencial() {
+                abrirPilar('produtividade', true);
+            }
+
+            document.getElementById('btnDirectDashGerencial')?.addEventListener('click', irParaDashboardGerencial);
+            document.getElementById('btnQuickDashGerencial')?.addEventListener('click', irParaDashboardGerencial);
+
             document.querySelectorAll('.pillar-card').forEach(card => {
                 card.addEventListener('click', () => {
                     abrirPilar(card.getAttribute('data-pillar'));
                 });
             });
 
-            document.querySelectorAll('#workspaceQuickPills .ws-pill').forEach(pill => {
+            document.querySelectorAll('#workspaceQuickPills .ws-pill[data-pillar]').forEach(pill => {
                 pill.addEventListener('click', () => {
                     abrirPilar(pill.getAttribute('data-pillar'));
                 });
@@ -2117,7 +2139,6 @@
                 const pendentes = filtrados.filter(d => d.status.includes('AGUARDANDO')).length;
                 const apontados = filtrados.length - pendentes;
 
-                // Atualiza resumo no Lobby e no Cartão de Produtividade
                 const lobbyProg = document.getElementById('lobbyKpiProg');
                 const lobbyOs = document.getElementById('lobbyKpiOs');
                 const lobbyPct = document.getElementById('lobbyKpiPct');
@@ -2130,7 +2151,6 @@
                 if (cardProdProg) cardProdProg.textContent = fmtBRL(totProg);
                 if (cardProdReal) cardProdReal.textContent = fmtBRL(totReal);
 
-                // Atualiza KPIs internos do Cockpit de Produtividade
                 document.getElementById('gKpiProg').textContent = fmtBRL(totProg);
                 document.getElementById('gKpiOs').textContent = `${qtdOs} OS programadas`;
                 document.getElementById('gKpiQtdeProg').textContent = `${qtdeProg} unid.`;
