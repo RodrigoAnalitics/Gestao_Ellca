@@ -278,7 +278,6 @@
       margin-top: 3px;
     }
 
-    /* LOGO COM FUNDO TOTALMENTE TRANSPARENTE */
     .hero-logo-transparent {
       display: inline-flex;
       align-items: center;
@@ -289,9 +288,7 @@
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    .hero-logo-transparent:hover {
-      transform: scale(1.02);
-    }
+    .hero-logo-transparent:hover { transform: scale(1.02); }
 
     .hero-logo-transparent img {
       height: 44px;
@@ -373,6 +370,25 @@
     .hero-btn-cyan:hover {
       background: rgba(14, 165, 233, 0.32);
       color: #ffffff;
+    }
+
+    .hero-btn-neon {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.28), rgba(37, 99, 235, 0.32));
+      border: 1px solid rgba(56, 189, 248, 0.72);
+      color: #7dd3fc;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.22);
+    }
+
+    .hero-btn-neon:hover {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.45), rgba(37, 99, 235, 0.48));
+      color: #ffffff;
+    }
+
+    .hero-btn-neon.off {
+      background: rgba(15, 23, 42, 0.55);
+      border-color: rgba(148, 163, 184, 0.3);
+      color: #94a3b8;
+      box-shadow: none;
     }
 
     .hero-btn-menu-toggle {
@@ -527,29 +543,29 @@
     }
 
     .card-surface {
-      --border-glow: #3b82f6;
+      --border-glow: #38bdf8;
       --border-soft: #1d4ed8;
       position: relative;
       border-radius: 17px;
-      background: linear-gradient(160deg, rgba(18, 27, 46, 0.72) 0%, rgba(10, 16, 29, 0.80) 100%);
+      background: linear-gradient(160deg, rgba(16, 25, 44, 0.74) 0%, rgba(7, 12, 23, 0.84) 100%);
       backdrop-filter: blur(18px) saturate(140%);
       -webkit-backdrop-filter: blur(18px) saturate(140%);
       border: 1px solid rgba(255, 255, 255, 0.10);
       box-shadow:
-        0 16px 36px rgba(0, 0, 0, 0.55),
+        0 16px 36px rgba(0, 0, 0, 0.58),
         inset 0 1px 0 rgba(255, 255, 255, 0.12),
-        inset 0 0 24px rgba(59, 130, 246, 0.04);
+        inset 0 0 24px rgba(56, 189, 248, 0.04);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
       transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
       height: 100%;
     }
 
     .card-surface:hover {
-      border-color: rgba(96, 165, 250, 0.28);
+      border-color: rgba(56, 189, 248, 0.32);
       box-shadow:
-        0 20px 42px rgba(0, 0, 0, 0.62),
+        0 20px 42px rgba(0, 0, 0, 0.65),
         inset 0 1px 0 rgba(255, 255, 255, 0.18),
-        inset 0 0 28px rgba(59, 130, 246, 0.08);
+        inset 0 0 28px rgba(56, 189, 248, 0.09);
     }
 
     .card-surface::before {
@@ -564,19 +580,19 @@
         transparent 288deg,
         var(--border-soft) 318deg,
         var(--border-glow) 342deg,
-        rgba(147, 197, 253, 0.75) 354deg,
+        rgba(147, 197, 253, 0.8) 354deg,
         transparent 360deg
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       animation: borderGlide 12s linear infinite;
-      opacity: 0.48;
+      opacity: 0.5;
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
 
-    .card-surface:hover::before { opacity: 0.85; }
+    .card-surface:hover::before { opacity: 0.88; }
 
     .card-body {
       position: relative;
@@ -686,8 +702,8 @@
       gap: 6px;
     }
 
-    .dot-blue { width: 7px; height: 7px; border-radius: 50%; background: #2563eb; box-shadow: 0 0 8px #3b82f6; }
-    .dot-silver { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; }
+    .dot-blue { width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
+    .dot-silver { width: 7px; height: 7px; border-radius: 50%; background: #64748b; }
 
     .chart-header-bar {
       display: flex;
@@ -734,9 +750,9 @@
       padding: 10px 12px;
       margin-bottom: 10px;
       border-radius: 13px;
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.16) 0%, rgba(14, 165, 233, 0.07) 100%);
-      border: 1px solid rgba(96, 165, 250, 0.32);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.14) 0%, rgba(7, 13, 28, 0.78) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 6px 18px rgba(0, 0, 0, 0.35);
     }
 
     .sup-profile-left {
@@ -752,7 +768,7 @@
       border-radius: 13px;
       border: 1.5px solid #38bdf8;
       background: rgba(15, 23, 42, 0.9);
-      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.28);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.32);
       overflow: hidden;
       flex-shrink: 0;
       display: flex;
@@ -786,7 +802,7 @@
 
     .sup-profile-role {
       font-size: 10.5px;
-      color: #93c5fd;
+      color: #7dd3fc;
       font-weight: 600;
       margin-top: 2px;
     }
@@ -834,8 +850,8 @@
 
     .sup-item:hover,
     .sup-item.active {
-      background: rgba(59, 130, 246, 0.16);
-      border-color: rgba(96, 165, 250, 0.28);
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.32);
     }
 
     .sup-avatar {
@@ -995,7 +1011,7 @@
       padding: 12px 13px;
       border-radius: 12px;
       background: rgba(6, 10, 20, 0.65);
-      border: 1px solid rgba(59, 130, 246, 0.24);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       font-size: 11.5px;
       line-height: 1.52;
       color: #cbd5e1;
@@ -1006,7 +1022,7 @@
       width: 100%;
       padding: 9px 14px;
       border-radius: 10px;
-      border: 1px solid rgba(59, 130, 246, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.45);
       background: rgba(37, 99, 235, 0.22);
       color: #eff6ff;
       font-size: 11.5px;
@@ -1056,7 +1072,7 @@
       background: rgba(37, 99, 235, 0.14);
     }
 
-    .c-blue    { color: #60a5fa !important; }
+    .c-blue    { color: #38bdf8 !important; }
     .c-emerald { color: #34d399 !important; }
     .c-rose    { color: #f87171 !important; }
 
@@ -1157,7 +1173,7 @@
       </header>
     </div>
 
-    <!-- 2. BANNER HERO PREMIUM COM LOGO FUNDO TRANSPARENTE -->
+    <!-- 2. BANNER HERO PREMIUM COM LOGO TRANSPARENTE -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
@@ -1189,6 +1205,11 @@
 
         <button type="button" class="hero-btn hero-btn-cyan" id="btnBaixarPlanilha">
           <i class="fa-solid fa-file-csv"></i> EXPORTAR CSV
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-neon" id="btnToggleRotulos" title="Ativar ou desativar números nos gráficos">
+          <i class="fa-solid fa-tag" id="iconToggleRotulos"></i>
+          <span id="txtToggleRotulos">RÓTULOS: ON</span>
         </button>
 
         <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu">
@@ -1259,7 +1280,7 @@
               <div class="card-body">
                 <div class="kpi-label-top">
                   <span>Meta Mensal</span>
-                  <i class="fa-solid fa-bullseye" style="color:#60a5fa;"></i>
+                  <i class="fa-solid fa-bullseye" style="color:#38bdf8;"></i>
                 </div>
                 <div class="kpi-val-main" id="kpiMetaMensal">R$ 0,00</div>
                 <div class="kpi-footer-meta">
@@ -1275,7 +1296,7 @@
               <div class="card-body">
                 <div class="kpi-label-top">
                   <span>Previsto no Período</span>
-                  <i class="fa-solid fa-calendar-check" style="color:#60a5fa;"></i>
+                  <i class="fa-solid fa-calendar-check" style="color:#38bdf8;"></i>
                 </div>
                 <div class="kpi-val-main" id="kpiPrevisto">R$ 0,00</div>
                 <div class="kpi-footer-meta">
@@ -1339,7 +1360,7 @@
           <div class="card-surface">
             <div class="card-body tabular">
               <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                <span class="card-header-title" style="color:#93c5fd;">
+                <span class="card-header-title" style="color:#7dd3fc;">
                   <i class="fa-solid fa-microchip"></i> Análise Inteligente (IA)
                 </span>
                 <span class="pill-up" id="pctMetaMensalTxt">0% meta</span>
@@ -1361,7 +1382,7 @@
           </div>
         </div>
 
-        <!-- CARD SUPERVISORES COM ESPAÇO PARA FOTO & INFORMAÇÃO -->
+        <!-- CARD SUPERVISORES COM FOTO & INFORMAÇÃO -->
         <div class="card-3d-wrap" style="flex:1;">
           <div class="card-surface">
             <div class="card-body tabular">
@@ -1370,7 +1391,6 @@
                 <span class="card-header-sub">Clique p/ filtrar</span>
               </div>
 
-              <!-- PAINEL DESTAQUE DA FOTO E INFORMAÇÃO DO SUPERVISOR -->
               <div class="sup-profile-spotlight" id="supSpotlightCard">
                 <div class="sup-profile-left">
                   <div class="sup-photo-frame" id="supPhotoFrame">
@@ -1403,7 +1423,7 @@
           <div class="card-body">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
               <span class="card-header-title">Velocímetro da Meta</span>
-              <span class="card-header-sub" style="color:#60a5fa;">Mensal</span>
+              <span class="card-header-sub" style="color:#38bdf8;">Mensal</span>
             </div>
 
             <div class="gauge-box">
@@ -1411,8 +1431,9 @@
                 <svg viewBox="0 0 220 125" width="205" height="118">
                   <defs>
                     <linearGradient id="blueGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#1d4ed8" />
-                      <stop offset="55%" stop-color="#3b82f6" />
+                      <stop offset="0%" stop-color="#091326" />
+                      <stop offset="35%" stop-color="#1d4ed8" />
+                      <stop offset="75%" stop-color="#38bdf8" />
                       <stop offset="100%" stop-color="#34d399" />
                     </linearGradient>
                   </defs>
@@ -1564,7 +1585,6 @@
   const PLANILHA_EDIT_URL = "https://docs.google.com/spreadsheets/d/1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk/edit?gid=0#gid=0";
   const PLANILHA_EXPORT_URL = "";
 
-  // Opcional: mapeie fotos específicas dos supervisores aqui ou salve na pasta img/supervisores/NOME.jpg
   const FOTOS_SUPERVISORES = {
     // "NOME DO SUPERVISOR": "img/supervisores/nome.jpg"
   };
@@ -1586,11 +1606,32 @@
 
   let rawFaturamento = [];
   let serieAtiva = "diario";
+  let mostrarRotulos = true;
   let variacaoIA = 0;
   let charts = {};
   let ultimoEstado = null;
 
   Chart.register(ChartDataLabels);
+
+  // Plugin sutil de brilho neon para linhas e barras
+  const neonGlowPlugin = {
+    id: "neonGlowPlugin",
+    beforeDatasetDraw(chart, args) {
+      const { ctx } = chart;
+      if (chart.config.type === "doughnut") return;
+      if (args.index === 0 || chart.config.type === "bar") {
+        ctx.save();
+        ctx.shadowColor = "rgba(56, 189, 248, 0.42)";
+        ctx.shadowBlur = 14;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+      }
+    },
+    afterDatasetDraw(chart) {
+      chart.ctx.restore();
+    }
+  };
+  Chart.register(neonGlowPlugin);
 
   function obterCaminhoFotoSupervisor(nome) {
     if (!nome) return "";
@@ -1901,25 +1942,62 @@
   }
 
   const corEixo = "#94a3b8";
-  const corGrid = "rgba(255, 255, 255, 0.05)";
 
-  function criarGradienteVertical(ctx, topColor, bottomColor) {
+  // DEGRADÊS MESCLANDO PRETO + AZUL ESCURO + AZUL NEON
+  function criarDegradeNeonVertical(ctx) {
     const { chart } = ctx;
     const { ctx: c, chartArea } = chart;
-    if (!chartArea) return topColor;
-    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-    g.addColorStop(0, topColor);
-    g.addColorStop(1, bottomColor);
+    if (!chartArea) return "#1d4ed8";
+    const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+    g.addColorStop(0, "#050914");
+    g.addColorStop(0.45, "#172554");
+    g.addColorStop(0.82, "#2563eb");
+    g.addColorStop(1, "#38bdf8");
     return g;
   }
 
-  function criarGradienteHorizontal(ctx, startColor, endColor) {
+  function criarDegradeAreaNeon(ctx) {
     const { chart } = ctx;
     const { ctx: c, chartArea } = chart;
-    if (!chartArea) return startColor;
+    if (!chartArea) return "rgba(37, 99, 235, 0.28)";
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, "rgba(56, 189, 248, 0.44)");
+    g.addColorStop(0.5, "rgba(23, 37, 84, 0.34)");
+    g.addColorStop(1, "rgba(5, 9, 20, 0.02)");
+    return g;
+  }
+
+  function criarDegradeAreaSecundaria(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "rgba(30, 41, 59, 0.2)";
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, "rgba(30, 58, 138, 0.24)");
+    g.addColorStop(0.6, "rgba(15, 23, 42, 0.16)");
+    g.addColorStop(1, "rgba(5, 9, 20, 0.0)");
+    return g;
+  }
+
+  function criarDegradeNeonHorizontal(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "#2563eb";
     const g = c.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
-    g.addColorStop(0, startColor);
-    g.addColorStop(1, endColor);
+    g.addColorStop(0, "#050914");
+    g.addColorStop(0.45, "#172554");
+    g.addColorStop(0.82, "#2563eb");
+    g.addColorStop(1, "#38bdf8");
+    return g;
+  }
+
+  function criarDegradePretoAzulEscuroVertical(ctx) {
+    const { chart } = ctx;
+    const { ctx: c, chartArea } = chart;
+    if (!chartArea) return "#1e293b";
+    const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+    g.addColorStop(0, "#050811");
+    g.addColorStop(0.55, "#0f172a");
+    g.addColorStop(1, "#1e3a8a");
     return g;
   }
 
@@ -1983,28 +2061,28 @@
           {
             label: "Realizado",
             data: serieRealizado,
-            borderColor: "#2563eb",
-            backgroundColor: (c) => criarGradienteVertical(c, "rgba(37, 99, 235, 0.38)", "rgba(37, 99, 235, 0.0)"),
+            borderColor: "#38bdf8",
+            backgroundColor: (c) => criarDegradeAreaNeon(c),
             fill: true,
             borderWidth: 2.8,
             tension: 0.45,
             pointRadius: (c) => (c.dataIndex === 0 || c.dataIndex === serieRealizado.length - 1 || c.dataIndex === Math.floor(serieRealizado.length / 2) ? 4.5 : 2),
             pointHoverRadius: 6.5,
-            pointBackgroundColor: "#60a5fa",
-            pointBorderColor: "#ffffff",
+            pointBackgroundColor: "#38bdf8",
+            pointBorderColor: "#050914",
             pointBorderWidth: 1.8
           },
           {
             label: "Previsto",
             data: seriePrevisto,
-            borderColor: "rgba(148, 163, 184, 0.65)",
-            backgroundColor: (c) => criarGradienteVertical(c, "rgba(148, 163, 184, 0.14)", "rgba(148, 163, 184, 0.0)"),
+            borderColor: "rgba(96, 165, 250, 0.45)",
+            backgroundColor: (c) => criarDegradeAreaSecundaria(c),
             fill: true,
             borderWidth: 1.8,
             tension: 0.45,
             pointRadius: 0,
             pointHoverRadius: 4.5,
-            pointBackgroundColor: "#cbd5e1"
+            pointBackgroundColor: "#93c5fd"
           }
         ]
       },
@@ -2012,20 +2090,20 @@
         responsive: true,
         maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
-        layout: { padding: { top: 22, right: 16, left: 6, bottom: 4 } },
+        layout: { padding: { top: 24, right: 16, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
           datalabels: {
-            display: (c) => c.datasetIndex === 0 && serieRealizado.length <= 15,
+            display: (c) => mostrarRotulos && c.datasetIndex === 0 && serieRealizado.length <= 16,
             align: "top",
             offset: 6,
-            color: "#e2e8f0",
-            font: { size: 9.5, weight: "600" },
+            color: "#e0f2fe",
+            font: { size: 9.5, weight: "700" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
           },
           tooltip: {
-            backgroundColor: "#131b2e",
-            borderColor: "rgba(96, 165, 250, 0.35)",
+            backgroundColor: "#091122",
+            borderColor: "rgba(56, 189, 248, 0.45)",
             borderWidth: 1,
             titleColor: "#94a3b8",
             bodyColor: "#ffffff",
@@ -2039,14 +2117,16 @@
         },
         scales: {
           x: {
+            border: { display: false },
             ticks: { color: corEixo, font: { size: 10.5 }, padding: 6 },
             grid: { display: false }
           },
           y: {
+            border: { display: false },
             beginAtZero: true,
-            suggestedMax: maxVal * 1.22 || 1000,
+            suggestedMax: maxVal * 1.24 || 1000,
             ticks: { color: corEixo, font: { size: 10.5 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
-            grid: { color: corGrid }
+            grid: { display: false }
           }
         }
       }
@@ -2065,8 +2145,9 @@
 
     document.getElementById("ringsTotalCenter").textContent = fmtCompacto(totalGeral);
 
-    const coresAnel = ["#2563eb", "#60a5fa", "#e2e8f0"];
-    const trilhaFundo = "rgba(30, 41, 59, 0.55)";
+    const coresAnel = ["#38bdf8", "#2563eb", "#1e3a8a"];
+    const bordaAnel = ["#7dd3fc", "#60a5fa", "#3b82f6"];
+    const trilhaFundo = "rgba(8, 14, 28, 0.72)";
 
     const datasets = [0, 1, 2].map(idx => {
       const item = top3[idx];
@@ -2076,8 +2157,8 @@
         label: item ? item[0] : "Sem dados",
         data: [val, resto || (val === 0 ? 1 : 0)],
         backgroundColor: [coresAnel[idx], trilhaFundo],
-        borderColor: "rgba(12, 18, 32, 0.9)",
-        borderWidth: 2.5,
+        borderColor: [bordaAnel[idx], "rgba(12, 18, 32, 0.85)"],
+        borderWidth: 1.5,
         borderRadius: [18, 0]
       };
     });
@@ -2090,7 +2171,7 @@
         <div>
           <div class="ring-leg-val">${val}</div>
           <div class="ring-leg-name" title="${nome}">
-            <span class="ring-dot" style="background:${coresAnel[idx]};"></span>
+            <span class="ring-dot" style="background:${coresAnel[idx]}; box-shadow:0 0 6px ${coresAnel[idx]};"></span>
             <span>${nome}</span>
           </div>
         </div>
@@ -2113,8 +2194,8 @@
           legend: { display: false },
           datalabels: { display: false },
           tooltip: {
-            backgroundColor: "#131b2e",
-            borderColor: "rgba(96, 165, 250, 0.35)",
+            backgroundColor: "#091122",
+            borderColor: "rgba(56, 189, 248, 0.45)",
             borderWidth: 1,
             callbacks: {
               label: (ctx) => {
@@ -2141,7 +2222,9 @@
         datasets: [{
           label: "Realizado",
           data: top5.map(e => e.realizado),
-          backgroundColor: (c) => criarGradienteHorizontal(c, "#2563eb", "#38bdf8"),
+          backgroundColor: (c) => criarDegradeNeonHorizontal(c),
+          borderColor: "#38bdf8",
+          borderWidth: 1,
           borderRadius: 8,
           borderSkipped: false
         }]
@@ -2150,26 +2233,29 @@
         indexAxis: "y",
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { top: 8, right: 48, left: 6, bottom: 4 } },
+        layout: { padding: { top: 8, right: 54, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
           datalabels: {
+            display: () => mostrarRotulos,
             anchor: "end",
             align: "right",
             offset: 6,
-            color: "#e2e8f0",
-            font: { size: 9.5, weight: "600" },
+            color: "#e0f2fe",
+            font: { size: 9.5, weight: "700" },
             formatter: v => fmtCompacto(v)
           }
         },
         scales: {
           x: {
+            border: { display: false },
             beginAtZero: true,
-            suggestedMax: maxVal * 1.24 || 1000,
+            suggestedMax: maxVal * 1.26 || 1000,
             ticks: { color: corEixo, font: { size: 9.5 }, padding: 6, callback: v => (v / 1000).toFixed(0) + "k" },
-            grid: { color: corGrid }
+            grid: { display: false }
           },
           y: {
+            border: { display: false },
             ticks: { color: "#f8fafc", font: { size: 10, weight: "600" }, padding: 6 },
             grid: { display: false }
           }
@@ -2199,7 +2285,9 @@
         datasets: [{
           label: "Faturamento",
           data: valores,
-          backgroundColor: (c) => criarGradienteVertical(c, "#38bdf8", "#1d4ed8"),
+          backgroundColor: (c) => criarDegradeNeonVertical(c),
+          borderColor: "#38bdf8",
+          borderWidth: 1,
           borderRadius: 8,
           borderSkipped: false
         }]
@@ -2207,25 +2295,31 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { top: 22, right: 12, left: 6, bottom: 4 } },
+        layout: { padding: { top: 24, right: 12, left: 6, bottom: 4 } },
         plugins: {
           legend: { display: false },
           datalabels: {
+            display: () => mostrarRotulos,
             anchor: "end",
             align: "top",
             offset: 5,
-            color: "#e2e8f0",
-            font: { size: 9.5, weight: "600" },
+            color: "#e0f2fe",
+            font: { size: 9.5, weight: "700" },
             formatter: v => v > 0 ? fmtCompacto(v) : ""
           }
         },
         scales: {
-          x: { ticks: { color: corEixo, font: { size: 10 }, padding: 6 }, grid: { display: false } },
+          x: {
+            border: { display: false },
+            ticks: { color: corEixo, font: { size: 10 }, padding: 6 },
+            grid: { display: false }
+          },
           y: {
+            border: { display: false },
             beginAtZero: true,
-            suggestedMax: maxVal * 1.22 || 1000,
+            suggestedMax: maxVal * 1.24 || 1000,
             ticks: { color: corEixo, font: { size: 10 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
-            grid: { color: corGrid }
+            grid: { display: false }
           }
         }
       }
@@ -2249,32 +2343,60 @@
       data: {
         labels: entries.map(e => e[0]),
         datasets: [
-          { label: "Previsto", data: entries.map(e => e[1].previsto), backgroundColor: "rgba(148, 163, 184, 0.35)", borderRadius: 7, borderSkipped: false },
-          { label: "Realizado", data: entries.map(e => e[1].realizado), backgroundColor: (c) => criarGradienteVertical(c, "#38bdf8", "#2563eb"), borderRadius: 7, borderSkipped: false }
+          {
+            label: "Previsto",
+            data: entries.map(e => e[1].previsto),
+            backgroundColor: (c) => criarDegradePretoAzulEscuroVertical(c),
+            borderColor: "rgba(96, 165, 250, 0.35)",
+            borderWidth: 1,
+            borderRadius: 7,
+            borderSkipped: false
+          },
+          {
+            label: "Realizado",
+            data: entries.map(e => e[1].realizado),
+            backgroundColor: (c) => criarDegradeNeonVertical(c),
+            borderColor: "#38bdf8",
+            borderWidth: 1,
+            borderRadius: 7,
+            borderSkipped: false
+          }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { top: 18, right: 12, left: 6, bottom: 4 } },
+        layout: { padding: { top: 22, right: 12, left: 6, bottom: 4 } },
         plugins: {
           legend: { labels: { color: "#cbd5e1", font: { size: 10 }, padding: 12 } },
-          datalabels: { display: false }
+          datalabels: {
+            display: (c) => mostrarRotulos && c.datasetIndex === 1,
+            anchor: "end",
+            align: "top",
+            offset: 4,
+            color: "#e0f2fe",
+            font: { size: 9, weight: "700" },
+            formatter: v => v > 0 ? fmtCompacto(v) : ""
+          }
         },
         scales: {
-          x: { ticks: { color: corEixo, font: { size: 10 }, padding: 6 }, grid: { display: false } },
+          x: {
+            border: { display: false },
+            ticks: { color: corEixo, font: { size: 10 }, padding: 6 },
+            grid: { display: false }
+          },
           y: {
+            border: { display: false },
             beginAtZero: true,
-            suggestedMax: maxVal * 1.18 || 1000,
+            suggestedMax: maxVal * 1.22 || 1000,
             ticks: { color: corEixo, font: { size: 10 }, padding: 8, callback: v => (v / 1000).toFixed(0) + "k" },
-            grid: { color: corGrid }
+            grid: { display: false }
           }
         }
       }
     });
   }
 
-  // LISTA + PAINEL DE FOTO E INFORMAÇÃO DO SUPERVISOR
   function renderizarListaSupervisores(listaEquipes) {
     const porSup = {};
     listaEquipes.forEach(e => {
@@ -2289,7 +2411,6 @@
     const supAtual = document.getElementById("filtroSupervisor").value;
     const linhas = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado);
 
-    // Atualiza o painel destaque do supervisor (ou líder atual)
     const destaqueEntry = supAtual !== "TODOS" && porSup[supAtual]
       ? [supAtual, porSup[supAtual]]
       : linhas[0];
@@ -2344,7 +2465,7 @@
           </div>
           <div style="text-align:right; flex-shrink:0;">
             <div style="font-size:12px; font-weight:700; color:#fff;">${fmtCompacto(v.realizado)}</div>
-            <div style="font-size:10px; color:#60a5fa; font-weight:600;">${pct}% meta</div>
+            <div style="font-size:10px; color:#38bdf8; font-weight:600;">${pct}% meta</div>
           </div>
         </div>
       `;
@@ -2390,6 +2511,16 @@
         <td class="num ${totD <= 0 ? "c-emerald" : "c-rose"}">${fmtBRL(totD)}</td>
       </tr>`;
   }
+
+  // BOTÃO ATIVAR / DESATIVAR RÓTULOS NOS GRÁFICOS
+  document.getElementById("btnToggleRotulos").addEventListener("click", () => {
+    mostrarRotulos = !mostrarRotulos;
+    const btn = document.getElementById("btnToggleRotulos");
+    const txt = document.getElementById("txtToggleRotulos");
+    btn.classList.toggle("off", !mostrarRotulos);
+    txt.textContent = mostrarRotulos ? "RÓTULOS: ON" : "RÓTULOS: OFF";
+    Object.values(charts).forEach(ch => { if (ch) ch.update(); });
+  });
 
   document.getElementById("btnToggleMenu").addEventListener("click", () => {
     const oculto = document.body.classList.toggle("menu-hidden");
