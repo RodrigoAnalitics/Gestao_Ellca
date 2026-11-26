@@ -4,30 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | PORTAL EXECUTIVO DE DIRETORIA</title>
+    <title>ELLCA | DASHBOARD EXECUTIVO DE FATURAMENTO</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles_index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <style>
+        :root {
+            --ellca-navy-deep: #020817;
+            --ellca-navy-card: rgba(6, 15, 36, 0.90);
+            --ellca-navy-panel: rgba(8, 20, 48, 0.85);
+            --ellca-blue: #00d4ff;
+            --ellca-blue-royal: #0284c7;
+            --ellca-blue-bright: #38bdf8;
+            --ellca-cyan-glow: rgba(0, 212, 255, 0.35);
+            --ellca-emerald: #10b981;
+            --ellca-emerald-light: #34d399;
+            --ellca-red: #f87171;
+            --ellca-border: rgba(0, 212, 255, 0.28);
+            --ellca-border-strong: rgba(0, 212, 255, 0.55);
+        }
+
         html, body {
             height: auto !important;
             min-height: 100dvh;
             margin: 0;
             padding: 0;
+            background: var(--ellca-navy-deep);
+            color: #f8fafc;
+            font-family: 'Montserrat', sans-serif;
             overflow-y: auto !important;
             overflow-x: hidden !important;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
-            scrollbar-color: rgba(245, 158, 11, 0.28) transparent;
+            scrollbar-color: rgba(0, 212, 255, 0.35) transparent;
         }
 
         html::-webkit-scrollbar,
         body::-webkit-scrollbar,
         ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
+            width: 5px;
+            height: 5px;
         }
 
         html::-webkit-scrollbar-track,
@@ -39,14 +58,14 @@
         html::-webkit-scrollbar-thumb,
         body::-webkit-scrollbar-thumb,
         ::-webkit-scrollbar-thumb {
-            background: rgba(245, 158, 11, 0.28);
+            background: rgba(0, 212, 255, 0.35);
             border-radius: 999px;
         }
 
         html::-webkit-scrollbar-thumb:hover,
         body::-webkit-scrollbar-thumb:hover,
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(245, 158, 11, 0.55);
+            background: rgba(0, 212, 255, 0.65);
         }
 
         .desktop-view {
@@ -97,26 +116,26 @@
             pointer-events: none;
         }
 
-        .gerencial-wrapper {
+        .fat-wrapper {
             position: relative;
             z-index: 5;
             width: 100%;
-            max-width: 1520px;
+            max-width: 1560px;
             margin: 0 auto;
             padding: 92px 24px 76px 24px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
             box-sizing: border-box;
             transition: padding 0.32s ease;
         }
 
-        body.bars-collapsed .gerencial-wrapper {
+        body.bars-collapsed .fat-wrapper {
             padding: 20px 24px 36px 24px;
         }
 
-        /* ================= CABEÇALHO EXECUTIVO PADRÃO OURO ================= */
-        .gerencial-header {
+        /* ================= CABEÇALHO IDENTIDADE ELLCA DARK ================= */
+        .fat-header {
             position: relative;
             display: flex;
             align-items: center;
@@ -125,37 +144,37 @@
             gap: 16px;
             padding: 20px 26px;
             border-radius: 20px;
-            background: linear-gradient(135deg, rgba(6, 10, 22, 0.94) 0%, rgba(34, 25, 10, 0.86) 55%, rgba(10, 32, 72, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(2, 8, 23, 0.96) 0%, rgba(7, 25, 62, 0.90) 55%, rgba(0, 72, 118, 0.85) 100%);
             backdrop-filter: blur(22px);
             -webkit-backdrop-filter: blur(22px);
-            border: 1px solid rgba(245, 158, 11, 0.52);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(253, 224, 71, 0.28);
+            border: 1px solid var(--ellca-border-strong);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.82), inset 0 1px 0 rgba(0, 212, 255, 0.32);
             box-sizing: border-box;
         }
 
-        .gerencial-title-group {
+        .fat-title-group {
             display: flex;
             align-items: center;
             gap: 16px;
             min-width: 0;
         }
 
-        .gerencial-icon-box {
+        .fat-icon-box {
             width: 52px;
             height: 52px;
             border-radius: 15px;
             flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(251, 191, 36, 0.08));
-            border: 1px solid rgba(245, 158, 11, 0.68);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(2, 132, 199, 0.12));
+            border: 1px solid rgba(0, 212, 255, 0.68);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fbbf24;
+            color: var(--ellca-blue);
             font-size: 22px;
-            box-shadow: 0 0 26px rgba(245, 158, 11, 0.32);
+            box-shadow: 0 0 26px rgba(0, 212, 255, 0.35);
         }
 
-        .exec-kicker {
+        .fat-kicker {
             display: inline-flex;
             align-items: center;
             gap: 7px;
@@ -163,27 +182,27 @@
             font-weight: 800;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: #fbbf24;
+            color: var(--ellca-blue);
             margin-bottom: 4px;
         }
 
-        .gerencial-title-group h1 {
+        .fat-title-group h1 {
             font-size: 21px;
             font-weight: 900;
-            letter-spacing: 1.1px;
-            color: #fff;
+            letter-spacing: 1px;
+            color: #ffffff;
             margin: 0;
             text-transform: uppercase;
         }
 
-        .gerencial-title-group p {
+        .fat-title-group p {
             font-size: 11.5px;
             color: #cbd5e1;
             margin: 4px 0 0 0;
             line-height: 1.45;
         }
 
-        .gerencial-actions {
+        .fat-actions {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
@@ -199,22 +218,22 @@
             font-size: 10.5px;
             font-weight: 700;
             background: rgba(16, 185, 129, 0.16);
-            border: 1px solid rgba(16, 185, 129, 0.45);
+            border: 1px solid rgba(16, 185, 129, 0.48);
             color: #6ee7b7;
         }
 
-        .sync-badge.fallback {
+        .sync-badge.warn {
             background: rgba(245, 158, 11, 0.16);
-            border-color: rgba(245, 158, 11, 0.45);
+            border-color: rgba(245, 158, 11, 0.48);
             color: #fcd34d;
         }
 
-        .btn-exec {
+        .btn-ellca {
             padding: 9px 14px;
             border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.42);
+            border: 1px solid rgba(0, 212, 255, 0.45);
             background: rgba(0, 212, 255, 0.12);
-            color: #fff;
+            color: #e0f2fe;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.7px;
@@ -228,490 +247,52 @@
             text-decoration: none;
         }
 
-        .btn-exec:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
-        }
-
-        .btn-exec.active-mode {
-            background: #fbbf24;
-            color: #030712;
-            border-color: #fbbf24;
-        }
-
-        .btn-exec.gold {
-            border-color: rgba(245, 158, 11, 0.68);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.26), rgba(217, 119, 6, 0.16));
-            color: #fde68a;
-            box-shadow: 0 0 16px rgba(245, 158, 11, 0.22);
-        }
-
-        .btn-exec.gold:hover {
-            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        .btn-ellca:hover {
+            background: var(--ellca-blue);
             border-color: #ffffff;
-            color: #030712;
-            box-shadow: 0 0 24px rgba(245, 158, 11, 0.55);
+            color: #020817;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
-        /* ================= LOBBY EXECUTIVO (MUNDO INICIAL) ================= */
-        .exec-lobby-view {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            animation: fadeInExec 0.38s ease;
-        }
-
-        .exec-lobby-view.hidden {
-            display: none !important;
-        }
-
-        @keyframes fadeInExec {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .exec-welcome-banner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 18px;
-            padding: 22px 26px;
-            border-radius: 20px;
-            background: linear-gradient(120deg, rgba(8, 16, 36, 0.90) 0%, rgba(28, 22, 12, 0.80) 60%, rgba(12, 34, 72, 0.88) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.34);
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
-        }
-
-        .exec-welcome-copy {
-            max-width: 720px;
-        }
-
-        .exec-welcome-copy .vip-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 11px;
-            border-radius: 50px;
-            background: rgba(245, 158, 11, 0.16);
-            border: 1px solid rgba(245, 158, 11, 0.45);
-            color: #fcd34d;
-            font-size: 9.5px;
+        .btn-ellca.primary {
+            background: linear-gradient(135deg, #0284c7, #00d4ff);
+            border-color: #7dd3fc;
+            color: #020817;
             font-weight: 800;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.35);
         }
 
-        .exec-welcome-copy h2 {
-            font-size: 20px;
-            font-weight: 900;
-            color: #ffffff;
-            margin: 0 0 6px 0;
-            letter-spacing: 0.4px;
+        .btn-ellca.primary:hover {
+            background: linear-gradient(135deg, #00d4ff, #7dd3fc);
+            color: #020817;
+            box-shadow: 0 0 26px rgba(0, 212, 255, 0.65);
         }
 
-        .exec-welcome-copy h2 span {
-            color: #fbbf24;
+        .btn-ellca.active-mode {
+            background: var(--ellca-blue);
+            color: #020817;
+            border-color: #ffffff;
         }
 
-        .exec-welcome-copy p {
-            font-size: 12px;
-            color: #cbd5e1;
-            line-height: 1.55;
-            margin: 0;
-        }
-
-        .exec-welcome-metrics {
-            display: flex;
-            align-items: stretch;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .welcome-stat-pill {
-            min-width: 145px;
-            padding: 12px 16px;
-            border-radius: 14px;
-            background: rgba(4, 9, 20, 0.78);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .welcome-stat-pill small {
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #94a3b8;
-        }
-
-        .welcome-stat-pill strong {
-            font-size: 15px;
-            font-weight: 900;
-            color: #fbbf24;
-        }
-
-        .welcome-stat-pill span {
-            font-size: 10px;
-            color: #6ee7b7;
-            font-weight: 600;
-        }
-
-        /* ================= GRID DE CARTÕES DE DIRETORIA ================= */
-        .exec-pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-            gap: 18px;
-        }
-
-        .pillar-card {
+        /* ================= BARRA DE FILTROS MULTI-SELEÇÃO (ELLCA DARK) ================= */
+        .filter-bar-ellca {
             position: relative;
-            padding: 22px;
-            border-radius: 20px;
-            background: linear-gradient(148deg, rgba(6, 12, 26, 0.92) 0%, rgba(12, 24, 52, 0.80) 65%, rgba(36, 26, 10, 0.72) 100%);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(245, 158, 11, 0.34);
-            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 16px;
-            cursor: pointer;
-            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-                        border-color 0.3s ease,
-                        box-shadow 0.32s ease;
-            overflow: hidden;
-        }
-
-        .pillar-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #fbbf24, #00d4ff, transparent);
-            opacity: 0.75;
-            transition: opacity 0.3s ease;
-        }
-
-        .pillar-card:hover {
-            transform: translateY(-6px);
-            border-color: #fbbf24;
-            box-shadow: 0 26px 55px rgba(0, 0, 0, 0.85),
-                        0 0 32px rgba(245, 158, 11, 0.32),
-                        inset 0 1px 1px rgba(253, 224, 71, 0.38);
-        }
-
-        .pillar-card:hover::before {
-            opacity: 1;
-        }
-
-        .pillar-card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .pillar-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(0, 212, 255, 0.12));
-            border: 1px solid rgba(251, 191, 36, 0.55);
-            color: #fbbf24;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 0 18px rgba(245, 158, 11, 0.22);
-            transition: transform 0.3s ease;
-        }
-
-        .pillar-card:hover .pillar-icon {
-            transform: scale(1.08);
-            background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            color: #030712;
-        }
-
-        .pillar-status-pill {
-            padding: 4px 10px;
-            border-radius: 50px;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .pillar-status-pill.live {
-            background: rgba(16, 185, 129, 0.16);
-            border: 1px solid rgba(16, 185, 129, 0.48);
-            color: #6ee7b7;
-        }
-
-        .pillar-status-pill.ready {
-            background: rgba(245, 158, 11, 0.16);
-            border: 1px solid rgba(245, 158, 11, 0.48);
-            color: #fcd34d;
-        }
-
-        .pillar-body h3 {
-            font-size: 16px;
-            font-weight: 900;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            color: #ffffff;
-            margin: 0 0 6px 0;
-        }
-
-        .pillar-body p {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .pillar-kpi-strip {
+            z-index: 30;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 12px;
-            background: rgba(3, 7, 18, 0.68);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .pillar-kpi-item small {
-            display: block;
-            font-size: 8.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            color: #94a3b8;
-            margin-bottom: 2px;
-        }
-
-        .pillar-kpi-item strong {
-            font-size: 12.5px;
-            font-weight: 800;
-            color: #f8fafc;
-        }
-
-        .pillar-cta-btn {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 11px;
-            border: 1px solid rgba(245, 158, 11, 0.58);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.34) 100%);
-            color: #fde68a;
-            font-size: 10.5px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.25s ease;
-        }
-
-        .pillar-card:hover .pillar-cta-btn {
-            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-            border-color: #ffffff;
-            color: #030712;
-            box-shadow: 0 0 22px rgba(245, 158, 11, 0.45);
-        }
-
-        /* ================= WORKSPACE DO PAINEL SELECIONADO ================= */
-        .exec-workspace-view {
-            display: none;
-            flex-direction: column;
-            gap: 18px;
-            animation: fadeInExec 0.35s ease;
-        }
-
-        .exec-workspace-view.active {
-            display: flex;
-        }
-
-        .workspace-nav-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
             gap: 12px;
-            padding: 12px 18px;
+            padding: 15px 18px;
             border-radius: 16px;
-            background: rgba(5, 10, 22, 0.88);
-            border: 1px solid rgba(245, 158, 11, 0.38);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
-        }
-
-        .workspace-pills {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .ws-pill {
-            padding: 6px 12px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.04);
-            color: #cbd5e1;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            cursor: pointer;
-            transition: 0.22s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .ws-pill:hover {
-            border-color: #fbbf24;
-            color: #fbbf24;
-        }
-
-        .ws-pill.active {
-            background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            border-color: #ffffff;
-            color: #030712;
-            font-weight: 800;
-            box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
-        }
-
-        /* ================= PAINEL BASE INTEGRADA (5 PILARES RESTANTES) ================= */
-        .pillar-sheet-connector {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .connector-hero {
-            padding: 26px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(6, 12, 26, 0.94) 0%, rgba(34, 24, 10, 0.85) 60%, rgba(10, 32, 72, 0.85) 100%);
-            border: 1px solid rgba(245, 158, 11, 0.48);
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.72);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .connector-hero-info {
-            max-width: 680px;
-        }
-
-        .connector-hero-info h2 {
-            font-size: 20px;
-            font-weight: 900;
-            color: #ffffff;
-            text-transform: uppercase;
-            margin: 0 0 8px 0;
-        }
-
-        .connector-hero-info p {
-            font-size: 12px;
-            color: #cbd5e1;
-            line-height: 1.55;
-            margin: 0;
-        }
-
-        .connector-badge-box {
-            padding: 14px 18px;
-            border-radius: 14px;
-            background: rgba(3, 7, 18, 0.82);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 240px;
-        }
-
-        .connector-badge-box small {
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fbbf24;
-        }
-
-        .connector-badge-box strong {
-            font-size: 12px;
-            color: #ffffff;
-        }
-
-        .connector-badge-box span {
-            font-size: 10.5px;
-            color: #94a3b8;
-        }
-
-        .blueprint-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 14px;
-        }
-
-        .blueprint-card {
-            padding: 18px;
-            border-radius: 16px;
-            background: rgba(5, 10, 22, 0.88);
-            border: 1px solid rgba(245, 158, 11, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .blueprint-card span {
-            font-size: 9.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.9px;
-            color: #fbbf24;
-        }
-
-        .blueprint-card strong {
-            font-size: 18px;
-            font-weight: 900;
-            color: #ffffff;
-        }
-
-        .blueprint-card small {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        /* ================= BARRA DE FILTROS EXECUTIVOS ================= */
-        .filter-bar-gold {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-            gap: 12px;
-            padding: 14px 18px;
-            border-radius: 16px;
-            background: rgba(5, 10, 22, 0.84);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(245, 158, 11, 0.28);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            background: rgba(4, 12, 30, 0.90);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--ellca-border);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
             box-sizing: border-box;
         }
 
         .filter-field {
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -729,18 +310,21 @@
             gap: 5px;
         }
 
-        .filter-field label i { color: #fbbf24; }
+        .filter-field label i {
+            color: var(--ellca-blue);
+        }
 
         .filter-field select,
         .filter-field input {
             width: 100%;
             min-width: 0;
-            height: 36px;
+            height: 37px;
             padding: 0 11px;
             border-radius: 9px;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(245, 158, 11, 0.28);
+            background: rgba(10, 22, 50, 0.92);
+            border: 1px solid rgba(0, 212, 255, 0.32);
             color: #f8fafc;
+            font-family: 'Montserrat', sans-serif;
             font-size: 11.5px;
             font-weight: 600;
             outline: none;
@@ -751,8 +335,145 @@
 
         .filter-field select:focus,
         .filter-field input:focus {
-            border-color: #fbbf24;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+            border-color: var(--ellca-blue);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.30);
+        }
+
+        /* ================= DROPDOWN MULTI-SELECT DE PERÍODO ================= */
+        .multi-select-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .multi-select-trigger {
+            width: 100%;
+            height: 37px;
+            padding: 0 11px;
+            border-radius: 9px;
+            background: rgba(10, 22, 50, 0.92);
+            border: 1px solid rgba(0, 212, 255, 0.32);
+            color: #f8fafc;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+
+        .multi-select-trigger:hover,
+        .multi-select-box.open .multi-select-trigger {
+            border-color: var(--ellca-blue);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.30);
+        }
+
+        .multi-select-label {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+        }
+
+        .multi-select-badge {
+            padding: 2px 7px;
+            border-radius: 99px;
+            background: rgba(0, 212, 255, 0.22);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            color: #7dd3fc;
+            font-size: 9.5px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .multi-select-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            min-width: 245px;
+            max-height: 290px;
+            border-radius: 12px;
+            background: rgba(4, 12, 30, 0.98);
+            backdrop-filter: blur(22px);
+            border: 1px solid var(--ellca-border-strong);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .multi-select-box.open .multi-select-dropdown {
+            display: flex;
+        }
+
+        .multi-select-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 8px 10px;
+            background: rgba(0, 212, 255, 0.08);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .multi-select-actions button {
+            flex: 1;
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            background: rgba(0, 212, 255, 0.12);
+            color: #bae6fd;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.18s;
+        }
+
+        .multi-select-actions button:hover {
+            background: var(--ellca-blue);
+            color: #020817;
+        }
+
+        .multi-select-options {
+            overflow-y: auto;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .multi-option-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 7px 9px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: 0.15s;
+            user-select: none;
+        }
+
+        .multi-option-item:hover {
+            background: rgba(0, 212, 255, 0.14);
+        }
+
+        .multi-option-item input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--ellca-blue);
+            cursor: pointer;
+            margin: 0;
+            flex-shrink: 0;
         }
 
         .filter-actions-cell {
@@ -763,11 +484,12 @@
 
         .btn-reset-filters {
             width: 100%;
-            height: 36px;
+            height: 37px;
             border-radius: 9px;
-            border: 1px solid rgba(239, 68, 68, 0.45);
+            border: 1px solid rgba(248, 113, 113, 0.45);
             background: rgba(239, 68, 68, 0.14);
             color: #fca5a5;
+            font-family: 'Montserrat', sans-serif;
             font-size: 10.5px;
             font-weight: 800;
             text-transform: uppercase;
@@ -780,11 +502,11 @@
         }
 
         .btn-reset-filters:hover {
-            background: rgba(239, 68, 68, 0.28);
-            color: #fff;
+            background: rgba(239, 68, 68, 0.30);
+            color: #ffffff;
         }
 
-        /* ================= KPIS EXECUTIVOS ================= */
+        /* ================= KPIS EXECUTIVOS (PALETA ELLCA AZUL & ESMERALDA) ================= */
         .exec-kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -793,12 +515,12 @@
 
         .exec-kpi {
             position: relative;
-            padding: 16px 18px;
+            padding: 17px 19px;
             border-radius: 16px;
-            background: linear-gradient(145deg, rgba(6, 12, 26, 0.90) 0%, rgba(14, 28, 56, 0.72) 100%);
+            background: linear-gradient(145deg, rgba(4, 12, 30, 0.94) 0%, rgba(10, 28, 62, 0.80) 100%);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(0, 212, 255, 0.26);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
             display: flex;
             flex-direction: column;
             gap: 7px;
@@ -812,22 +534,22 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2.5px;
-            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--ellca-blue), transparent);
         }
 
-        .exec-kpi.gold-accent {
-            border-color: rgba(245, 158, 11, 0.42);
-            background: linear-gradient(145deg, rgba(16, 13, 6, 0.92) 0%, rgba(56, 38, 12, 0.65) 100%);
+        .exec-kpi.cyan-accent {
+            border-color: rgba(0, 212, 255, 0.48);
+            background: linear-gradient(145deg, rgba(4, 14, 34, 0.95) 0%, rgba(6, 48, 82, 0.72) 100%);
         }
 
-        .exec-kpi.gold-accent::after {
-            background: linear-gradient(90deg, transparent, #fbbf24, transparent);
+        .exec-kpi.cyan-accent::after {
+            background: linear-gradient(90deg, transparent, #00d4ff, #38bdf8, transparent);
         }
 
         .exec-kpi.emerald-accent {
-            border-color: rgba(16, 185, 129, 0.42);
-            background: linear-gradient(145deg, rgba(5, 18, 15, 0.92) 0%, rgba(8, 58, 45, 0.62) 100%);
+            border-color: rgba(16, 185, 129, 0.46);
+            background: linear-gradient(145deg, rgba(4, 18, 22, 0.95) 0%, rgba(6, 56, 48, 0.68) 100%);
         }
 
         .exec-kpi.emerald-accent::after {
@@ -845,14 +567,19 @@
             color: #94a3b8;
         }
 
-        .exec-kpi-top i { font-size: 15px; color: var(--primary); }
-        .exec-kpi.gold-accent .exec-kpi-top i { color: #fbbf24; }
-        .exec-kpi.emerald-accent .exec-kpi-top i { color: #34d399; }
+        .exec-kpi-top i {
+            font-size: 15px;
+            color: var(--ellca-blue);
+        }
+
+        .exec-kpi.emerald-accent .exec-kpi-top i {
+            color: var(--ellca-emerald-light);
+        }
 
         .exec-kpi-val {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 900;
-            color: #fff;
+            color: #ffffff;
             letter-spacing: 0.3px;
             white-space: nowrap;
             overflow: hidden;
@@ -880,45 +607,43 @@
         .mini-bar-fill {
             height: 100%;
             border-radius: 99px;
-            background: linear-gradient(90deg, #f59e0b, #fbbf24, #34d399);
+            background: linear-gradient(90deg, #0284c7, #00d4ff, #34d399);
             transition: width 0.5s ease;
         }
 
-        /* ================= PAINEL SÍNTESE EXECUTIVA (SUPERVISORES & FROTA) ================= */
-        .exec-summary-panel {
+        /* ================= GRÁFICOS INTERATIVOS ================= */
+        .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            grid-template-columns: 1.55fr 1fr;
             gap: 16px;
         }
 
-        .exec-summary-panel.hidden {
-            display: none;
-        }
-
-        .exec-box {
-            padding: 16px 18px;
-            border-radius: 16px;
-            background: rgba(5, 10, 22, 0.86);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        .chart-card {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(4, 12, 30, 0.90);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--ellca-border);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             min-width: 0;
         }
 
-        .exec-box-head {
+        .chart-card-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.14);
         }
 
-        .exec-box-head h3 {
+        .chart-card-head h3 {
             margin: 0;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -928,24 +653,45 @@
             gap: 8px;
         }
 
-        .exec-box-head h3 i { color: #fbbf24; }
-        .exec-box-head span { font-size: 10.5px; color: #94a3b8; }
+        .chart-card-head h3 i {
+            color: var(--ellca-blue);
+        }
+
+        .chart-card-head span {
+            font-size: 10.5px;
+            color: #94a3b8;
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 310px;
+        }
+
+        /* ================= RANKINGS E TABELA DETALHADA ================= */
+        .rankings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 16px;
+        }
 
         .rank-list {
             display: flex;
             flex-direction: column;
             gap: 9px;
+            max-height: 360px;
+            overflow-y: auto;
+            padding-right: 4px;
         }
 
         .rank-row {
-            padding: 9px 12px;
-            border-radius: 10px;
-            background: rgba(15, 23, 42, 0.62);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px 13px;
+            border-radius: 11px;
+            background: rgba(10, 24, 54, 0.68);
+            border: 1px solid rgba(0, 212, 255, 0.14);
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            min-width: 0;
+            gap: 6px;
         }
 
         .rank-row-top {
@@ -965,76 +711,87 @@
             gap: 8px;
             font-size: 10.5px;
             color: #94a3b8;
+            flex-wrap: wrap;
         }
 
-        /* ================= MOLDURA LOOKER STUDIO ================= */
-        .report-shell {
+        .table-card {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(4, 12, 30, 0.92);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--ellca-border);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
             display: flex;
             flex-direction: column;
-            border-radius: 18px;
-            overflow: hidden;
-            background: rgba(3, 7, 16, 0.9);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85);
+            gap: 12px;
+        }
+
+        .table-scroll {
             width: 100%;
+            overflow-x: auto;
+            max-height: 440px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.16);
         }
 
-        .report-shell:fullscreen,
-        .report-shell:-webkit-full-screen {
-            border-radius: 0;
-            border: none;
-            background: #030712;
+        table.fat-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            text-align: left;
         }
 
-        .report-shell:fullscreen .report-frame-container,
-        .report-shell:-webkit-full-screen .report-frame-container {
-            flex: 1;
-            height: auto;
-            min-height: 0;
-        }
-
-        .report-shell-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 11px 18px;
-            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(38, 28, 12, 0.85));
-            border-bottom: 1px solid rgba(245, 158, 11, 0.25);
-        }
-
-        .report-shell-bar span {
-            font-size: 11px;
+        table.fat-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: #06142e;
+            color: var(--ellca-blue);
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: 0.8px;
             text-transform: uppercase;
-            color: #fcd34d;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            letter-spacing: 0.8px;
+            padding: 11px 12px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.35);
+            white-space: nowrap;
         }
 
-        .report-shell-actions {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
+        table.fat-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            white-space: nowrap;
         }
 
-        .report-frame-container {
-            width: 100%;
-            height: 76vh;
-            min-height: 560px;
-            position: relative;
-            background: #030712;
+        table.fat-table tbody tr:hover {
+            background: rgba(0, 212, 255, 0.08);
         }
 
-        .report-frame-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
+        .pill-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 9.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .pill-ok {
+            background: rgba(16, 185, 129, 0.18);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+        }
+
+        .pill-warn {
+            background: rgba(0, 212, 255, 0.16);
+            color: #7dd3fc;
+            border: 1px solid rgba(0, 212, 255, 0.42);
+        }
+
+        .pill-low {
+            background: rgba(239, 68, 68, 0.18);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.42);
         }
 
         .footer-greeting {
@@ -1048,8 +805,10 @@
             color: #ffffff;
         }
 
-        /* ================= RESPONSIVIDADE MOBILE & TABLET ================= */
         @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
             .container .item,
             .container .item.active {
                 background-attachment: scroll;
@@ -1057,144 +816,48 @@
         }
 
         @media (max-width: 768px) {
-            .gerencial-wrapper {
+            .fat-wrapper {
                 padding: 76px 12px 68px 12px;
-                gap: 14px;
+                gap: 12px;
             }
-
-            body.bars-collapsed .gerencial-wrapper {
+            body.bars-collapsed .fat-wrapper {
                 padding: 14px 12px 24px 12px;
             }
-
-            .gerencial-header {
+            .fat-header {
                 padding: 14px 16px;
                 flex-direction: column;
                 align-items: stretch;
             }
-
-            .gerencial-title-group {
-                align-items: flex-start;
-            }
-
-            .gerencial-icon-box {
-                width: 40px;
-                height: 40px;
-                font-size: 17px;
-            }
-
-            .gerencial-title-group h1 {
-                font-size: 16px;
-            }
-
-            .gerencial-title-group p {
-                font-size: 11px;
-            }
-
-            .gerencial-actions {
+            .fat-actions {
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 8px;
-                width: 100%;
             }
-
             .sync-badge {
                 grid-column: 1 / -1;
                 justify-content: center;
             }
-
-            .gerencial-actions .btn-exec {
-                width: 100%;
-                padding: 8px 10px;
-                font-size: 10px;
-            }
-
-            .exec-welcome-banner {
-                padding: 16px;
-            }
-
-            .exec-welcome-copy h2 {
-                font-size: 16px;
-            }
-
-            .exec-welcome-metrics {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .welcome-stat-pill {
-                min-width: 0;
-            }
-
-            .exec-pillars-grid {
-                grid-template-columns: minmax(0, 1fr);
-                gap: 12px;
-            }
-
-            .filter-bar-gold {
+            .filter-bar-ellca {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 padding: 12px;
                 gap: 10px;
             }
-
             .exec-kpi-grid {
-                grid-template-columns: minmax(0, 1fr);
-                gap: 10px;
+                grid-template-columns: 1fr;
             }
-
-            .exec-kpi {
-                padding: 14px 15px;
+            .rankings-grid {
+                grid-template-columns: 1fr;
             }
-
-            .exec-kpi-val {
-                font-size: 19px;
-            }
-
-            .exec-summary-panel {
-                grid-template-columns: minmax(0, 1fr);
-                gap: 12px;
-            }
-
-            .exec-box {
-                padding: 14px;
-            }
-
-            .rank-row-top,
-            .rank-row-metrics {
-                flex-wrap: wrap;
-                font-size: 10.5px;
-            }
-
-            .report-shell-bar {
-                padding: 10px 14px;
-            }
-
-            .report-shell-actions {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 6px;
-            }
-
-            .report-shell-actions .btn-exec {
-                width: 100%;
-                justify-content: center;
-                padding: 7px 6px !important;
-                font-size: 9.5px !important;
-            }
-
-            .report-frame-container {
-                height: 62vh;
-                min-height: 400px;
+            .chart-canvas-wrap {
+                height: 250px;
             }
         }
     </style>
 </head>
 
 <body class="bars-collapsed">
-    <!-- BLOQUEIO DE SEGURANÇA IMEDIATO -->
     <script>
-        (function validarAcessoGerencial() {
+        (function validarAcessoFaturamento() {
             if (sessionStorage.getItem('ellca_auth') !== 'true') {
                 window.location.replace('login.html');
                 return;
@@ -1217,18 +880,18 @@
             </div>
 
             <div class="mobile-header-actions">
-                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
+                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="gerencial.html" title="Voltar para Gerencial">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
-                <button type="button" class="menu-mobile-btn" id="btnMenuMobileGer" aria-label="Abrir Menu">
+                <button type="button" class="menu-mobile-btn" id="btnMenuMobileFat" aria-label="Abrir Menu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
 
-            <div class="nav-content" id="navContentGer">
+            <div class="nav-content" id="navContentFat">
                 <div class="nav-status">
                     <span class="pulse-dot"></span>
-                    <span class="status-text">GOVERNANÇA EXECUTIVA • PADRÃO OURO</span>
+                    <span class="status-text">PILAR FATURAMENTO • GOVERNANÇA ELLCA</span>
                 </div>
 
                 <div class="nav-links">
@@ -1239,7 +902,7 @@
                     <a href="gerencial.html" class="nav-item active">GERENCIAL <i class="fa-solid fa-crown"></i></a>
 
                     <div class="nav-actions-group">
-                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
+                        <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="gerencial.html" title="Voltar para Gerencial">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                     </div>
@@ -1247,452 +910,206 @@
             </div>
         </nav>
 
-        <!-- FUNDO E ÁREA EXECUTIVA -->
+        <!-- CONTAINER PRINCIPAL -->
         <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(2, 6, 16, 0.88), rgba(4, 10, 24, 0.80)), url('img/Card_gerencial.jpg');">
-                <div class="gerencial-wrapper">
+            <div class="item active" style="background-image: linear-gradient(rgba(2, 8, 23, 0.90), rgba(4, 14, 36, 0.84)), url('img/Card_gerencial.jpg');">
+                <div class="fat-wrapper">
 
-                    <!-- CABEÇALHO DO COCKPIT GERENCIAL -->
-                    <div class="gerencial-header">
-                        <div class="gerencial-title-group">
-                            <div class="gerencial-icon-box">
-                                <i class="fa-solid fa-crown"></i>
+                    <!-- CABEÇALHO -->
+                    <div class="fat-header">
+                        <div class="fat-title-group">
+                            <div class="fat-icon-box">
+                                <i class="fa-solid fa-sack-dollar"></i>
                             </div>
                             <div>
-                                <div class="exec-kicker"><i class="fa-solid fa-award"></i> Sala de Comando Estratégico • Board & Diretoria</div>
-                                <h1 id="headerTitleMain">Centro de Inteligência Executiva Ellca</h1>
-                                <p id="headerSubtitleMain">Governança corporativa integrada com indicadores de alta direção e painéis analíticos por pilar estratégico</p>
+                                <div class="fat-kicker"><i class="fa-solid fa-bolt"></i> Pilar Receita & Recebíveis • Diretoria Ellca</div>
+                                <h1>Dashboard Executivo de Faturamento</h1>
+                                <p>Acompanhamento em tempo real de Meta, Previsto Proporcional, Realizado e Performance por Equipe</p>
                             </div>
                         </div>
 
-                        <div class="gerencial-actions">
-                            <span class="sync-badge" id="syncBadgeGerencial">
-                                <i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...
+                        <div class="fat-actions">
+                            <span class="sync-badge" id="syncBadgeFat">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Conectando Planilha...
                             </span>
-                            <button type="button" class="btn-exec gold" id="btnDirectDashGerencial" title="Acessar diretamente o Dashboard Gerencial Consolidado">
-                                <i class="fa-solid fa-chart-pie"></i> Dashboard Gerencial
+                            <button type="button" class="btn-ellca" id="btnRefreshFat" title="Sincronizar novamente com Google Sheets">
+                                <i class="fa-solid fa-rotate"></i> Atualizar
                             </button>
-                            <button type="button" class="btn-exec gold" id="btnBackToLobby" style="display:none;" title="Retornar aos 7 Pilares da Diretoria">
-                                <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
-                            </button>
-                            <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
+                            <button type="button" class="btn-ellca" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
                                 <i class="fa-solid fa-bars" id="iconToggleBars"></i>
                                 <span id="textToggleBars">Mostrar Menu</span>
                             </button>
-                            <a href="home.html" class="btn-exec" title="Retornar ao Portal Geral">
-                                <i class="fa-solid fa-house"></i> Portal Geral
+                            <a href="gerencial.html" class="btn-ellca primary" title="Retornar ao Lobby Gerencial">
+                                <i class="fa-solid fa-arrow-left"></i> Voltar aos Pilares
                             </a>
                         </div>
                     </div>
 
-                    <!-- =========================================================
-                         MUNDO 1: LOBBY EXECUTIVO (7 PILARES DA GERÊNCIA)
-                         ========================================================= -->
-                    <section class="exec-lobby-view" id="execLobbyView">
-
-                        <!-- BANNER DE BOAS-VINDAS À DIRETORIA -->
-                        <div class="exec-welcome-banner">
-                            <div class="exec-welcome-copy">
-                                <div class="vip-tag"><i class="fa-solid fa-gem"></i> Acesso Exclusivo • Alta Direção Ellca</div>
-                                <h2 id="execGreetingTitle">Bem-vindo à Sala Executiva, <span>Diretoria</span></h2>
-                                <p>Selecione um dos <strong>7 pilares estratégicos de governança</strong> abaixo para inspecionar indicadores de desempenho, metas corporativas e relatórios analíticos dedicados à tomada de decisão.</p>
-                            </div>
-
-                            <div class="exec-welcome-metrics">
-                                <div class="welcome-stat-pill">
-                                    <small>Pilares Ativos</small>
-                                    <strong>07 Módulos</strong>
-                                    <span>Governança 360°</span>
-                                </div>
-                                <div class="welcome-stat-pill">
-                                    <small>Receita Programada</small>
-                                    <strong id="lobbyKpiProg">Sincronizando...</strong>
-                                    <span id="lobbyKpiOs">Base Produção</span>
-                                </div>
-                                <div class="welcome-stat-pill">
-                                    <small>Aderência Atual</small>
-                                    <strong id="lobbyKpiPct">--%</strong>
-                                    <span>Meta Corporativa: 95%</span>
+                    <!-- BARRA DE FILTROS COM PERÍODO MULTI-SELEÇÃO -->
+                    <div class="filter-bar-ellca">
+                        <!-- MULTI-SELECT DE PERÍODO -->
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-week"></i> Período (Múltiplo)</label>
+                            <div class="multi-select-box" id="multiPeriodoBox">
+                                <button type="button" class="multi-select-trigger" id="multiPeriodoTrigger">
+                                    <span class="multi-select-label" id="multiPeriodoLabel">Todos os Períodos</span>
+                                    <span class="multi-select-badge" id="multiPeriodoCount">Todos</span>
+                                </button>
+                                <div class="multi-select-dropdown" id="multiPeriodoDropdown">
+                                    <div class="multi-select-actions">
+                                        <button type="button" id="btnSelectAllPeriodos">Marcar Todos</button>
+                                        <button type="button" id="btnClearPeriodos">Limpar</button>
+                                    </div>
+                                    <div class="multi-select-options" id="multiPeriodoOptions"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- GRADE DOS 7 CARTÕES PADRÃO OURO -->
-                        <div class="exec-pillars-grid">
-
-                            <!-- 1. FATURAMENTO (CONECTADO AO faturamento.html) -->
-                            <article class="pillar-card" data-pillar="faturamento">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-                                    <span class="pillar-status-pill live"><i class="fa-solid fa-circle"></i> Ao Vivo • Integrado</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Faturamento</h3>
-                                    <p>Meta mensal, previsto proporcional, realizado diário, gap financeiro, série temporal e performance por equipe e supervisor.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Visão</small>
-                                        <strong>Meta × Previsto × Real</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Fonte de Dados</small>
-                                        <strong>Aba Faturamento</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Abrir Dashboard Faturamento</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
-                            <!-- 2. ESTRUTURA -->
-                            <article class="pillar-card" data-pillar="estrutura">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-building-shield"></i></div>
-                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Estrutura</h3>
-                                    <p>Capacidade instalada por base operacional, infraestrutura de apoio, almoxarifado estratégico e cobertura regional.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Visão</small>
-                                        <strong>Bases & Capacidade</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Fonte de Dados</small>
-                                        <strong>Planilha Estrutura</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Acessar Painel Executivo</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
-                            <!-- 3. INSTALAÇÃO DE CLIENTES -->
-                            <article class="pillar-card" data-pillar="instalacao">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-house-signal"></i></div>
-                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Instalação de Clientes</h3>
-                                    <p>Volume de ativações, ligações novas, SLA de atendimento, taxa de conclusão no prazo e backlog por região.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Visão</small>
-                                        <strong>Ativações & SLA</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Fonte de Dados</small>
-                                        <strong>Planilha Instalações</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Acessar Painel Executivo</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
-                            <!-- 4. PRODUTIVIDADE (CONECTADO AO VIVO) -->
-                            <article class="pillar-card" data-pillar="produtividade">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-chart-line"></i></div>
-                                    <span class="pillar-status-pill live"><i class="fa-solid fa-circle"></i> Ao Vivo • Integrado</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Produtividade</h3>
-                                    <p>Cockpit consolidado de Programado vs. Realizado, ranking de supervisores, eficiência por equipe e BI Looker Studio.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Programado</small>
-                                        <strong id="cardProdProg">R$ 0,00</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Realizado</small>
-                                        <strong id="cardProdReal" style="color:#34d399;">R$ 0,00</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Abrir Cockpit ao Vivo</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
-                            <!-- 5. PROGRAMAÇÃO -->
-                            <article class="pillar-card" data-pillar="programacao">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Programação</h3>
-                                    <p>Aderência de agenda operacional, carteira programada, balanceamento de equipes e índice de reprogramação.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Visão</small>
-                                        <strong>Agenda & Carteira</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Fonte de Dados</small>
-                                        <strong>Planilha Programação</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Acessar Painel Executivo</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
-                            <!-- 6. ORGANOGRAMA -->
-                            <article class="pillar-card" data-pillar="organograma">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-sitemap"></i></div>
-                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Organograma</h3>
-                                    <p>Estrutura hierárquica da companhia, distribuição de efetivo por liderança, supervisores e dimensionamento de equipes.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Visão</small>
-                                        <strong>Hierarquia & Efetivo</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Fonte de Dados</small>
-                                        <strong>Planilha RH / Efetivo</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Acessar Painel Executivo</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
-                            <!-- 7. FROTA -->
-                            <article class="pillar-card" data-pillar="frota">
-                                <div class="pillar-card-top">
-                                    <div class="pillar-icon"><i class="fa-solid fa-truck-fast"></i></div>
-                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
-                                </div>
-                                <div class="pillar-body">
-                                    <h3>Frota</h3>
-                                    <p>Disponibilidade mecânica, utilização por modalidade (MK, LV, LD, LM), indicadores de manutenção e custo por km.</p>
-                                </div>
-                                <div class="pillar-kpi-strip">
-                                    <div class="pillar-kpi-item">
-                                        <small>Visão</small>
-                                        <strong>Disponibilidade & Custo</strong>
-                                    </div>
-                                    <div class="pillar-kpi-item">
-                                        <small>Fonte de Dados</small>
-                                        <strong>Planilha Frota</strong>
-                                    </div>
-                                </div>
-                                <button type="button" class="pillar-cta-btn">
-                                    <span>Acessar Painel Executivo</span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </article>
-
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-calendar-day"></i> Data Específica</label>
+                            <input type="date" id="fFilterData">
                         </div>
-                    </section>
-
-                    <!-- =========================================================
-                         MUNDO 2: WORKSPACE DO PILAR SELECIONADO
-                         ========================================================= -->
-                    <section class="exec-workspace-view" id="execWorkspaceView">
-
-                        <!-- BARRA DE NAVEGAÇÃO RÁPIDA ENTRE OS 7 PILARES -->
-                        <div class="workspace-nav-bar">
-                            <button type="button" class="btn-exec gold" id="btnWorkspaceBack">
-                                <i class="fa-solid fa-arrow-left"></i> Todos os Pilares
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
+                            <select id="fFilterSup"><option value="">Todos os Supervisores</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-people-group"></i> Equipe</label>
+                            <select id="fFilterEquipe"><option value="">Todas as Equipes</option></select>
+                        </div>
+                        <div class="filter-field">
+                            <label><i class="fa-solid fa-truck-pickup"></i> Tipo / Modalidade</label>
+                            <select id="fFilterTipo"><option value="">Todos os Tipos</option></select>
+                        </div>
+                        <div class="filter-actions-cell">
+                            <button type="button" class="btn-reset-filters" id="btnLimparFiltrosFat">
+                                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
                             </button>
+                        </div>
+                    </div>
 
-                            <div class="workspace-pills" id="workspaceQuickPills">
-                                <button type="button" class="ws-pill" data-pillar="faturamento"><i class="fa-solid fa-sack-dollar"></i> Faturamento</button>
-                                <button type="button" class="ws-pill" data-pillar="estrutura"><i class="fa-solid fa-building-shield"></i> Estrutura</button>
-                                <button type="button" class="ws-pill" data-pillar="instalacao"><i class="fa-solid fa-house-signal"></i> Instalação</button>
-                                <button type="button" class="ws-pill" data-pillar="produtividade"><i class="fa-solid fa-chart-line"></i> Produtividade</button>
-                                <button type="button" class="ws-pill" data-pillar="programacao"><i class="fa-solid fa-calendar-check"></i> Programação</button>
-                                <button type="button" class="ws-pill" data-pillar="organograma"><i class="fa-solid fa-sitemap"></i> Organograma</button>
-                                <button type="button" class="ws-pill" data-pillar="frota"><i class="fa-solid fa-truck-fast"></i> Frota</button>
-                                <button type="button" class="ws-pill" id="btnQuickDashGerencial" style="border-color:rgba(245,158,11,0.55); color:#fde68a;"><i class="fa-solid fa-chart-pie"></i> Dashboard Gerencial</button>
+                    <!-- KPIS EXECUTIVOS -->
+                    <div class="exec-kpi-grid">
+                        <div class="exec-kpi cyan-accent">
+                            <div class="exec-kpi-top">
+                                <span>Meta Faturamento</span>
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="kpiMeta" style="color:#38bdf8;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiMetaSub">Base consolidada do filtro</span>
+                                <span id="kpiEquipesAtivas">0 equipes</span>
                             </div>
                         </div>
 
-                        <!-- CONTEÚDO DEDICADO 1: PRODUTIVIDADE (COCKPIT COMPLETO AO VIVO) -->
-                        <div id="panelProdutividade" style="display:flex; flex-direction:column; gap:18px;">
-
-                            <!-- CONTROLES DO COCKPIT DE PRODUTIVIDADE -->
-                            <div class="gerencial-actions" style="justify-content:flex-end;">
-                                <button type="button" class="btn-exec active-mode" id="btnToggleSummary" title="Mostrar ou recolher ranking de supervisores e frota">
-                                    <i class="fa-solid fa-layer-group"></i> Síntese Operacional
-                                </button>
-                                <button type="button" class="btn-exec" id="btnFullscreenGerencial" title="Expandir Looker Studio em Tela Cheia">
-                                    <i class="fa-solid fa-expand"></i> Tela Cheia BI
-                                </button>
-                                <a href="https://datastudio.google.com/u/0/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec gold">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Looker Externo
-                                </a>
+                        <div class="exec-kpi">
+                            <div class="exec-kpi-top">
+                                <span>Previsto Acumulado</span>
+                                <i class="fa-solid fa-chart-line"></i>
                             </div>
-
-                            <!-- FILTROS EXECUTIVOS -->
-                            <div class="filter-bar-gold">
-                                <div class="filter-field">
-                                    <label><i class="fa-solid fa-calendar"></i> Ano</label>
-                                    <select id="gFilterAno"><option value="">Todos os Anos</option></select>
-                                </div>
-                                <div class="filter-field">
-                                    <label><i class="fa-solid fa-calendar-days"></i> Mês</label>
-                                    <select id="gFilterMes"><option value="">Todos os Meses</option></select>
-                                </div>
-                                <div class="filter-field">
-                                    <label><i class="fa-solid fa-calendar-day"></i> Data</label>
-                                    <input type="date" id="gFilterData">
-                                </div>
-                                <div class="filter-field">
-                                    <label><i class="fa-solid fa-user-tie"></i> Supervisor</label>
-                                    <select id="gFilterSup"><option value="">Todos os Supervisores</option></select>
-                                </div>
-                                <div class="filter-field">
-                                    <label><i class="fa-solid fa-truck-pickup"></i> Tipo de Equipe</label>
-                                    <select id="gFilterTipoEq"><option value="">Todos os Tipos</option></select>
-                                </div>
-                                <div class="filter-actions-cell">
-                                    <button type="button" class="btn-reset-filters" id="btnLimparFiltrosGer">
-                                        <i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- KPIS EXECUTIVOS CONSOLIDADOS -->
-                            <div class="exec-kpi-grid">
-                                <div class="exec-kpi gold-accent">
-                                    <div class="exec-kpi-top">
-                                        <span>Receita Programada</span>
-                                        <i class="fa-solid fa-sack-dollar"></i>
-                                    </div>
-                                    <div class="exec-kpi-val" id="gKpiProg">R$ 0,00</div>
-                                    <div class="exec-kpi-sub">
-                                        <span id="gKpiOs">0 OS programadas</span>
-                                        <span id="gKpiQtdeProg">0 unid.</span>
-                                    </div>
-                                </div>
-
-                                <div class="exec-kpi emerald-accent">
-                                    <div class="exec-kpi-top">
-                                        <span>Receita Realizada</span>
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </div>
-                                    <div class="exec-kpi-val" id="gKpiReal" style="color:#34d399;">R$ 0,00</div>
-                                    <div class="exec-kpi-sub">
-                                        <span id="gKpiQtdeReal">0 unid. executadas</span>
-                                        <span id="gKpiGap">Gap: R$ 0,00</span>
-                                    </div>
-                                </div>
-
-                                <div class="exec-kpi gold-accent">
-                                    <div class="exec-kpi-top">
-                                        <span>Aderência Executiva</span>
-                                        <i class="fa-solid fa-gauge-high"></i>
-                                    </div>
-                                    <div class="exec-kpi-val" id="gKpiPct" style="color:#fbbf24;">0,0%</div>
-                                    <div class="exec-kpi-sub">
-                                        <span id="gKpiStatusExec">Realizado / Programado</span>
-                                        <span>Meta: 95,0%</span>
-                                    </div>
-                                    <div class="mini-bar">
-                                        <div class="mini-bar-fill" id="gKpiBar" style="width: 0%;"></div>
-                                    </div>
-                                </div>
-
-                                <div class="exec-kpi">
-                                    <div class="exec-kpi-top">
-                                        <span>Governança de Campo</span>
-                                        <i class="fa-solid fa-clipboard-check"></i>
-                                    </div>
-                                    <div class="exec-kpi-val" id="gKpiPendentes">0</div>
-                                    <div class="exec-kpi-sub">
-                                        <span id="gKpiApontados">0 itens apontados</span>
-                                        <a href="producao.html" style="color:#38bdf8; text-decoration:none; font-weight:700;">Ver Produção →</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- SÍNTESE EXECUTIVA: SUPERVISORES & FROTA -->
-                            <div class="exec-summary-panel" id="execSummaryPanel">
-                                <div class="exec-box">
-                                    <div class="exec-box-head">
-                                        <h3><i class="fa-solid fa-ranking-star"></i> Performance por Supervisor</h3>
-                                        <span>Programado vs. Realizado</span>
-                                    </div>
-                                    <div class="rank-list" id="rankSupervisoresList"></div>
-                                </div>
-
-                                <div class="exec-box">
-                                    <div class="exec-box-head">
-                                        <h3><i class="fa-solid fa-truck-fast"></i> Distribuição por Tipo de Equipe</h3>
-                                        <span>MK • LV • LD • LM</span>
-                                    </div>
-                                    <div class="rank-list" id="rankFrotaList"></div>
-                                </div>
-                            </div>
-
-                            <!-- MOLDURA LOOKER STUDIO -->
-                            <div class="report-shell" id="reportFrameBox">
-                                <div class="report-shell-bar">
-                                    <span><i class="fa-solid fa-chart-area"></i> Painel Analítico Interativo — Looker Studio</span>
-                                    <div class="report-shell-actions">
-                                        <button type="button" class="btn-exec gold" id="btnReloadIframe" style="padding: 6px 11px; font-size: 10px;">
-                                            <i class="fa-solid fa-rotate"></i> Recarregar
-                                        </button>
-                                        <a href="https://lookerstudio.google.com/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" target="_blank" rel="noopener noreferrer" class="btn-exec" style="padding: 6px 11px; font-size: 10px;">
-                                            <i class="fa-solid fa-chart-line"></i> Acessar BI
-                                        </a>
-                                        <button type="button" class="btn-exec" id="btnFullscreenFrame" title="Expandir este painel em Tela Cheia" style="padding: 6px 11px; font-size: 10px;">
-                                            <i class="fa-solid fa-expand" id="iconFullscreenFrame"></i>
-                                            <span id="textFullscreenFrame">Tela Cheia</span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="report-frame-container">
-                                    <iframe 
-                                        id="lookerIframe"
-                                        src="https://lookerstudio.google.com/embed/reporting/4b7c0acb-cc34-4ca8-b97b-214087f992b5/page/p_7j6wdmil3d" 
-                                        allowfullscreen 
-                                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
-                                    </iframe>
-                                </div>
+                            <div class="exec-kpi-val" id="kpiPrevisto">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiPrevSub">Proporcional aos dias</span>
+                                <span id="kpiDiasCount">0 dias</span>
                             </div>
                         </div>
 
-                        <!-- CONTEÚDO DEDICADO 2: DEMAIS PILARES (PRONTOS PARA CONECTAR PLANILHA) -->
-                        <div class="pillar-sheet-connector" id="panelPillarDynamic" style="display:none;">
-                            <div class="connector-hero">
-                                <div class="connector-hero-info">
-                                    <div class="exec-kicker"><i class="fa-solid fa-crown"></i> <span id="dynKicker">Pilar Executivo Ellca</span></div>
-                                    <h2 id="dynTitle">Dashboard Executivo</h2>
-                                    <p id="dynDesc">Ambiente executivo preparado para integração direta com a planilha oficial deste indicador.</p>
-                                </div>
-                                <div class="connector-badge-box">
-                                    <small><i class="fa-solid fa-plug-circle-check"></i> Arquitetura Pronta</small>
-                                    <strong id="dynSheetTarget">Aguardando Vínculo da Planilha</strong>
-                                    <span>Envie a planilha deste setor para ativar os gráficos e KPIs ao vivo</span>
-                                </div>
+                        <div class="exec-kpi emerald-accent">
+                            <div class="exec-kpi-top">
+                                <span>Faturamento Realizado</span>
+                                <i class="fa-solid fa-circle-check"></i>
                             </div>
-
-                            <div class="blueprint-grid" id="dynBlueprintGrid"></div>
+                            <div class="exec-kpi-val" id="kpiRealizado" style="color:#34d399;">R$ 0,00</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiGapPrev">Gap vs Previsto: R$ 0,00</span>
+                                <span id="kpiGapMeta">Gap vs Meta: R$ 0,00</span>
+                            </div>
                         </div>
 
-                    </section>
+                        <div class="exec-kpi cyan-accent">
+                            <div class="exec-kpi-top">
+                                <span>Atingimento (Real / Prev)</span>
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <div class="exec-kpi-val" id="kpiPctPrev" style="color:#00d4ff;">0,0%</div>
+                            <div class="exec-kpi-sub">
+                                <span id="kpiPctMeta">Sobre Meta Total: 0,0%</span>
+                                <span>Alvo: 100%</span>
+                            </div>
+                            <div class="mini-bar">
+                                <div class="mini-bar-fill" id="kpiBarFill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GRÁFICOS EXECUTIVOS -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-chart-area"></i> Evolução Diária — Previsto vs. Realizado</h3>
+                                <span id="chartTimelineBadge">Série temporal filtrada</span>
+                            </div>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartEvolucaoDiaria"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-ranking-star"></i> Top Equipes — Realizado vs. Previsto</h3>
+                                <span>Maiores faturamentos no período</span>
+                            </div>
+                            <div class="chart-canvas-wrap">
+                                <canvas id="chartTopEquipes"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RANKINGS CONSOLIDADOS -->
+                    <div class="rankings-grid">
+                        <div class="chart-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-user-shield"></i> Consolidado por Supervisor</h3>
+                                <span>Meta • Previsto • Realizado</span>
+                            </div>
+                            <div class="rank-list" id="rankSupList"></div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-card-head">
+                                <h3><i class="fa-solid fa-truck-fast"></i> Consolidado por Tipo de Equipe</h3>
+                                <span>Participação e Aderência</span>
+                            </div>
+                            <div class="rank-list" id="rankTipoList"></div>
+                        </div>
+                    </div>
+
+                    <!-- TABELA ANALÍTICA DETALHADA -->
+                    <div class="table-card">
+                        <div class="chart-card-head">
+                            <h3><i class="fa-solid fa-table-list"></i> Detalhamento Analítico de Faturamento</h3>
+                            <span id="tableRowsCount">0 registros exibidos</span>
+                        </div>
+                        <div class="table-scroll">
+                            <table class="fat-table">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Período</th>
+                                        <th>Equipe</th>
+                                        <th>Tipo</th>
+                                        <th>Supervisor</th>
+                                        <th>Meta</th>
+                                        <th>Previsto</th>
+                                        <th>Realizado</th>
+                                        <th>Gap (Real - Prev)</th>
+                                        <th>% Real/Prev</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fatTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -1702,7 +1119,7 @@
                 <div class="footer-info">
                     <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
-                    <span>Módulo: <strong>Portal Executivo da Diretoria (Padrão Ouro)</strong></span>
+                    <span>Módulo: <strong>Dashboard Executivo de Faturamento</strong></span>
                 </div>
                 <div class="footer-actions">
                     <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
@@ -1716,92 +1133,14 @@
     </div>
 
     <script>
-        (function iniciarCockpitGerencial() {
-            const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
-            const NOMES_MESES = {
-                '01': '01 - Janeiro', '02': '02 - Fevereiro', '03': '03 - Março',
-                '04': '04 - Abril', '05': '05 - Maio', '06': '06 - Junho',
-                '07': '07 - Julho', '08': '08 - Agosto', '09': '09 - Setembro',
-                '10': '10 - Outubro', '11': '11 - Novembro', '12': '12 - Dezembro'
-            };
+        (function iniciarDashboardFaturamento() {
+            const SHEET_ID = '1ubU0AoJJBgZ0gxreF0_XSK_-AhYgz003id5Vg1AMbpk';
+            const ABA_NOME = 'Faturamento';
 
-            const PILARES_CONFIG = {
-                estrutura: {
-                    kicker: 'Pilar Infraestrutura • Capacidade & Bases',
-                    title: 'Dashboard Executivo de Estrutura',
-                    desc: 'Monitoramento estratégico das bases operacionais, capacidade instalada, recursos físicos e suporte logístico por regional.',
-                    sheetTarget: 'Base Oficial: Planilha de Estrutura',
-                    cards: [
-                        { label: 'Bases Operacionais Ativas', val: 'Conectar Planilha', sub: 'Distribuição geográfica e cobertura' },
-                        { label: 'Capacidade Instalada', val: 'Conectar Planilha', sub: 'Taxa de ocupação por unidade' },
-                        { label: 'Infraestrutura & Almoxarifado', val: 'Conectar Planilha', sub: 'Nível de atendimento de materiais' },
-                        { label: 'Custo Fixo Estrutural', val: 'Conectar Planilha', sub: 'Indicador de eficiência por base' }
-                    ]
-                },
-                instalacao: {
-                    kicker: 'Pilar Expansão • Atendimento ao Cliente',
-                    title: 'Dashboard Executivo de Instalação de Clientes',
-                    desc: 'Acompanhamento de novas ligações, ativações concluídas, cumprimento de prazos regulatórios (SLA) e fila de pendências.',
-                    sheetTarget: 'Base Oficial: Planilha de Instalação de Clientes',
-                    cards: [
-                        { label: 'Instalações Concluídas', val: 'Conectar Planilha', sub: 'Volume executado no período' },
-                        { label: 'Cumprimento de SLA', val: 'Conectar Planilha', sub: 'Atendimentos dentro do prazo meta' },
-                        { label: 'Carteira em Aberto (Backlog)', val: 'Conectar Planilha', sub: 'Ordens aguardando execução' },
-                        { label: 'Tempo Médio de Atendimento', val: 'Conectar Planilha', sub: 'Lead time da solicitação à ativação' }
-                    ]
-                },
-                produtividade: {
-                    kicker: 'Pilar Operacional • Eficiência & Resultados',
-                    title: 'Cockpit Executivo de Produtividade',
-                    desc: 'Síntese executiva ao vivo (Programado vs. Realizado) integrada ao ranking de supervisores e painel Looker Studio.'
-                },
-                programacao: {
-                    kicker: 'Pilar Planejamento • Carteira & Agenda',
-                    title: 'Dashboard Executivo de Programação',
-                    desc: 'Controle de aderência à programação diária e semanal, taxa de reprogramação, ociosidade e equilíbrio de carga por equipe.',
-                    sheetTarget: 'Base Oficial: Planilha de Programação',
-                    cards: [
-                        { label: 'Aderência de Programação', val: 'Conectar Planilha', sub: 'Serviços executados conforme agenda' },
-                        { label: 'Carteira Programada (Semana)', val: 'Conectar Planilha', sub: 'Volume alocado por supervisor' },
-                        { label: 'Índice de Reprogramação', val: 'Conectar Planilha', sub: 'Desvios por clima, cliente ou impedimento' },
-                        { label: 'Ocupação das Equipes', val: 'Conectar Planilha', sub: 'Horas produtivas alocadas' }
-                    ]
-                },
-                organograma: {
-                    kicker: 'Pilar Capital Humano • Governança & Liderança',
-                    title: 'Dashboard Executivo de Organograma',
-                    desc: 'Visão corporativa da estrutura organizacional, quadro de colaboradores ativos, distribuição por liderança e span of control.',
-                    sheetTarget: 'Base Oficial: Planilha de Organograma / RH',
-                    cards: [
-                        { label: 'Quadro Total de Colaboradores', val: 'Conectar Planilha', sub: 'Efetivo ativo por diretoria e área' },
-                        { label: 'Lideranças & Supervisão', val: 'Conectar Planilha', sub: 'Proporção de equipes por supervisor' },
-                        { label: 'Composição de Equipes Campo', val: 'Conectar Planilha', sub: 'Eletricistas, técnicos e apoio' },
-                        { label: 'Taxa de Absenteísmo / Turnover', val: 'Conectar Planilha', sub: 'Estabilidade e disponibilidade humana' }
-                    ]
-                },
-                frota: {
-                    kicker: 'Pilar Mobilidade • Ativos & Manutenção',
-                    title: 'Dashboard Executivo de Frota',
-                    desc: 'Gestão executiva da frota operacional (MK, LV, LD, LM), disponibilidade mecânica, manutenções preventivas e indicadores de consumo.',
-                    sheetTarget: 'Base Oficial: Planilha de Frota',
-                    cards: [
-                        { label: 'Frota Total Operacional', val: 'Conectar Planilha', sub: 'Veículos leves, pesados e cestos' },
-                        { label: 'Disponibilidade Mecânica', val: 'Conectar Planilha', sub: 'Veículos aptos para operação diária' },
-                        { label: 'Em Manutenção (Prev / Corr)', val: 'Conectar Planilha', sub: 'Tempo médio de parada em oficina' },
-                        { label: 'Custo Operacional & Combustível', val: 'Conectar Planilha', sub: 'Eficiência energética e custo por km' }
-                    ]
-                }
-            };
-
-            const FALLBACK_DATA = [
-                { os: '52199', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA04 LV', tipoEquipe: 'LV', supervisor: 'AMIEL JR', qtdeProg: 9, valorProg: 16650, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
-                { os: '52204', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA39 MK', tipoEquipe: 'MK', supervisor: 'JANILSON', qtdeProg: 1, valorProg: 1850, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
-                { os: '52206', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA26 LD', tipoEquipe: 'LD', supervisor: 'ELENILSON', qtdeProg: 1, valorProg: 420, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
-                { os: '52213', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA11 LD', tipoEquipe: 'LD', supervisor: 'JÚLIO MOURA', qtdeProg: 1, valorProg: 420, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' },
-                { os: '52225', ano: '2026', mes: '11', dataIso: '2026-11-25', equipe: 'ELLCA03 LV', tipoEquipe: 'LV', supervisor: 'DEYVID', qtdeProg: 1, valorProg: 980, qtdeReal: 0, valorReal: 0, status: 'AGUARDANDO APONTAMENTO' }
-            ];
-
-            let baseDados = [];
+            let baseRegistros = [];
+            let periodosSelecionados = new Set();
+            let chartEvolucao = null;
+            let chartEquipes = null;
 
             const footerUserName = document.getElementById('footerUserName');
             const nomeSessao =
@@ -1810,179 +1149,572 @@
                 'Rodrigo Lopes';
             if (footerUserName) footerUserName.textContent = nomeSessao;
 
-            // Saudação dinâmica por horário para a Diretoria
-            const horaAtual = new Date().getHours();
-            const saudacao = horaAtual < 12 ? 'Bom dia' : horaAtual < 18 ? 'Boa tarde' : 'Boa noite';
-            const greetingEl = document.getElementById('execGreetingTitle');
-            if (greetingEl) {
-                greetingEl.innerHTML = `${saudacao}, <span>${nomeSessao}</span> — Sala de Comando Executivo`;
-            }
-
             const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            const parseNum = (v) => {
-                if (typeof v === 'number') return v;
-                if (!v) return 0;
-                const clean = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
-                return parseFloat(clean) || 0;
+            const fmtCompact = (v) => {
+                const n = Number(v) || 0;
+                if (Math.abs(n) >= 1000000) return 'R$ ' + (n / 1000000).toFixed(2).replace('.', ',') + 'M';
+                if (Math.abs(n) >= 1000) return 'R$ ' + (n / 1000).toFixed(1).replace('.', ',') + 'k';
+                return fmtBRL(n);
             };
 
-            function formatarDataCell(cell) {
-                if (!cell) return '';
-                const val = String(cell.v || '');
-                const m = val.match(/Date\((\d+),(\d+),(\d+)\)/);
-                if (m) {
-                    return `${m[1]}-${String(parseInt(m[2], 10) + 1).padStart(2, '0')}-${String(parseInt(m[3], 10)).padStart(2, '0')}`;
+            const parseNum = (v) => {
+                if (typeof v === 'number') return isFinite(v) ? v : 0;
+                if (!v) return 0;
+                let s = String(v).replace(/R\$/g, '').replace(/\s/g, '').trim();
+                if (s.includes(',') && s.includes('.')) {
+                    s = s.replace(/\./g, '').replace(',', '.');
+                } else if (s.includes(',')) {
+                    s = s.replace(',', '.');
                 }
-                return cell.f || val;
+                const n = parseFloat(s.replace(/[^\d.-]/g, ''));
+                return isFinite(n) ? n : 0;
+            };
+
+            function normalizarTexto(s) {
+                return String(s || '')
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .toLowerCase()
+                    .trim();
             }
 
-            function extrairInfoData(raw) {
-                const s = String(raw || '').trim();
-                let m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-                if (m) return { ano: m[1], mes: m[2].padStart(2, '0'), iso: `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}` };
-                m = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
-                if (m) return { ano: m[3], mes: m[2].padStart(2, '0'), iso: `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` };
-                return { ano: '', mes: '', iso: s };
+            function parseDataCell(cell) {
+                if (!cell) return { iso: '', br: '' };
+                const rawV = String(cell.v ?? '');
+                const rawF = String(cell.f ?? '');
+                const mDate = rawV.match(/Date\((\d+),(\d+),(\d+)\)/);
+                if (mDate) {
+                    const y = mDate[1];
+                    const mo = String(parseInt(mDate[2], 10) + 1).padStart(2, '0');
+                    const d = String(parseInt(mDate[3], 10)).padStart(2, '0');
+                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
+                }
+                const str = (rawF || rawV).trim();
+                let m = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+                if (m) {
+                    const d = m[1].padStart(2, '0'), mo = m[2].padStart(2, '0'), y = m[3];
+                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
+                }
+                m = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+                if (m) {
+                    const y = m[1], mo = m[2].padStart(2, '0'), d = m[3].padStart(2, '0');
+                    return { iso: `${y}-${mo}-${d}`, br: `${d}/${mo}/${y}` };
+                }
+                return { iso: str, br: str };
             }
 
-            // ================= NAVEGAÇÃO ENTRE LOBBY E PILARES =================
-            const lobbyView = document.getElementById('execLobbyView');
-            const workspaceView = document.getElementById('execWorkspaceView');
-            const btnBackToLobby = document.getElementById('btnBackToLobby');
-            const btnWorkspaceBack = document.getElementById('btnWorkspaceBack');
-            const panelProdutividade = document.getElementById('panelProdutividade');
-            const panelPillarDynamic = document.getElementById('panelPillarDynamic');
-            const headerTitleMain = document.getElementById('headerTitleMain');
-            const headerSubtitleMain = document.getElementById('headerSubtitleMain');
+            function mapearColunas(cols, rows) {
+                const headers = cols.map((c, idx) => ({
+                    idx,
+                    label: normalizarTexto(c && (c.label || c.id || ''))
+                }));
 
-            function abrirPilar(chave, scrollToBI = false) {
-                if (chave === 'faturamento') {
-                    window.location.href = 'faturamento.html';
+                const temLabels = headers.some(h => h.label.length > 1 && !/^[a-z]$/.test(h.label));
+                let startRow = 0;
+
+                if (!temLabels && rows.length > 0 && rows[0].c) {
+                    rows[0].c.forEach((cell, idx) => {
+                        headers[idx] = {
+                            idx,
+                            label: normalizarTexto(cell && (cell.f || cell.v || ''))
+                        };
+                    });
+                    startRow = 1;
+                }
+
+                const findCol = (keywords, fallbackIdx) => {
+                    for (const kw of keywords) {
+                        const found = headers.find(h => h.label === kw || h.label.includes(kw));
+                        if (found) return found.idx;
+                    }
+                    return fallbackIdx;
+                };
+
+                return {
+                    startRow,
+                    colData: findCol(['data', 'dt'], 0),
+                    colPeriodo: findCol(['periodo', 'mes', 'competencia', 'referencia'], 1),
+                    colEquipe: findCol(['equipe', 'prefixo', 'viatura'], 2),
+                    colTipo: findCol(['tipo', 'modalidade', 'categoria'], 3),
+                    colSupervisor: findCol(['supervisor', 'lider', 'encarregado', 'coordenador'], 4),
+                    colMeta: findCol(['meta', 'orcado', 'target'], 5),
+                    colPrevisto: findCol(['previsto', 'programado', 'projecao'], 6),
+                    colRealizado: findCol(['realizado', 'faturado', 'executado', 'producao', 'valor'], 7)
+                };
+            }
+
+            function carregarFaturamento() {
+                const badge = document.getElementById('syncBadgeFat');
+                badge.className = 'sync-badge';
+                badge.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...';
+
+                const cbName = 'cbFat_' + Math.random().toString(36).slice(2, 9);
+                const script = document.createElement('script');
+                const timer = setTimeout(() => {
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    badge.className = 'sync-badge warn';
+                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Tempo excedido (verifique permissão)';
+                }, 9000);
+
+                window[cbName] = function (json) {
+                    clearTimeout(timer);
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+
+                    if (!json || json.status === 'error' || !json.table) {
+                        badge.className = 'sync-badge warn';
+                        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Planilha restrita ou aba não encontrada';
+                        return;
+                    }
+
+                    const cols = json.table.cols || [];
+                    const rawRows = json.table.rows || [];
+                    const mapa = mapearColunas(cols, rawRows);
+
+                    const parsed = [];
+                    for (let i = mapa.startRow; i < rawRows.length; i++) {
+                        const c = rawRows[i].c || [];
+                        const getStr = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
+                            ? String(c[idx].f || c[idx].v).trim()
+                            : '';
+                        const getVal = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined)
+                            ? parseNum(c[idx].v)
+                            : 0;
+
+                        const dtInfo = parseDataCell(c[mapa.colData]);
+                        const equipe = getStr(mapa.colEquipe).toUpperCase();
+                        const periodo = getStr(mapa.colPeriodo).toUpperCase() || (dtInfo.iso ? dtInfo.iso.slice(0, 7) : 'GERAL');
+                        const meta = getVal(mapa.colMeta);
+                        const previsto = getVal(mapa.colPrevisto);
+                        const realizado = getVal(mapa.colRealizado);
+
+                        if (!dtInfo.iso && !equipe && meta === 0 && previsto === 0 && realizado === 0) continue;
+                        if (normalizarTexto(equipe) === 'equipe' || normalizarTexto(equipe) === 'total') continue;
+
+                        let tipo = getStr(mapa.colTipo).toUpperCase();
+                        if (!tipo && equipe) {
+                            const mTipo = equipe.match(/\b(LV|MK|LD|LM|LE|MT|AT)\b/);
+                            tipo = mTipo ? mTipo[1] : 'PADRÃO';
+                        }
+
+                        parsed.push({
+                            dataIso: dtInfo.iso,
+                            dataBr: dtInfo.br || dtInfo.iso || '-',
+                            periodo,
+                            equipe: equipe || 'NÃO INFORMADA',
+                            tipo: tipo || 'PADRÃO',
+                            supervisor: getStr(mapa.colSupervisor).toUpperCase() || 'NÃO INFORMADO',
+                            meta,
+                            previsto,
+                            realizado
+                        });
+                    }
+
+                    baseRegistros = parsed;
+                    const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    if (baseRegistros.length > 0) {
+                        badge.className = 'sync-badge';
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo (${baseRegistros.length} reg.) • ${hora}`;
+                    } else {
+                        badge.className = 'sync-badge warn';
+                        badge.innerHTML = '<i class="fa-solid fa-circle-info"></i> Aba Faturamento sem registros lidos';
+                    }
+
+                    popularFiltros();
+                    atualizarDashboard();
+                };
+
+                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(ABA_NOME)}&tqx=responseHandler:${cbName}`;
+                script.onerror = () => {
+                    clearTimeout(timer);
+                    badge.className = 'sync-badge warn';
+                    badge.innerHTML = '<i class="fa-solid fa-wifi"></i> Erro de conexão com Google Sheets';
+                };
+                document.body.appendChild(script);
+            }
+
+            // ================= MULTI-SELECT DE PERÍODO =================
+            function atualizarResumoMultiPeriodo(todosPeriodos) {
+                const labelEl = document.getElementById('multiPeriodoLabel');
+                const countEl = document.getElementById('multiPeriodoCount');
+                const qtd = periodosSelecionados.size;
+
+                if (qtd === 0 || qtd === todosPeriodos.length) {
+                    labelEl.textContent = 'Todos os Períodos';
+                    countEl.textContent = 'Todos';
+                } else if (qtd === 1) {
+                    const unico = [...periodosSelecionados][0];
+                    labelEl.textContent = unico;
+                    countEl.textContent = '1 sel.';
+                } else {
+                    const lista = [...periodosSelecionados];
+                    labelEl.textContent = lista.slice(0, 2).join(', ') + (qtd > 2 ? ` +${qtd - 2}` : '');
+                    countEl.textContent = `${qtd} sel.`;
+                }
+            }
+
+            function popularMultiPeriodo() {
+                const container = document.getElementById('multiPeriodoOptions');
+                const todosPeriodos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))].sort();
+
+                // Mantém apenas períodos válidos que ainda existem na base
+                periodosSelecionados = new Set([...periodosSelecionados].filter(p => todosPeriodos.includes(p)));
+
+                container.innerHTML = todosPeriodos.map(p => {
+                    const checked = periodosSelecionados.has(p) ? 'checked' : '';
+                    return `
+                        <label class="multi-option-item">
+                            <input type="checkbox" value="${p}" ${checked}>
+                            <span>${p}</span>
+                        </label>
+                    `;
+                }).join('');
+
+                container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+                    chk.addEventListener('change', () => {
+                        if (chk.checked) {
+                            periodosSelecionados.add(chk.value);
+                        } else {
+                            periodosSelecionados.delete(chk.value);
+                        }
+                        atualizarResumoMultiPeriodo(todosPeriodos);
+                        atualizarDashboard();
+                    });
+                });
+
+                atualizarResumoMultiPeriodo(todosPeriodos);
+            }
+
+            const multiBox = document.getElementById('multiPeriodoBox');
+            const multiTrigger = document.getElementById('multiPeriodoTrigger');
+
+            multiTrigger?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                multiBox.classList.toggle('open');
+            });
+
+            document.getElementById('multiPeriodoDropdown')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            document.addEventListener('click', () => {
+                multiBox?.classList.remove('open');
+            });
+
+            document.getElementById('btnSelectAllPeriodos')?.addEventListener('click', () => {
+                const todos = [...new Set(baseRegistros.map(r => r.periodo).filter(Boolean))];
+                periodosSelecionados = new Set(todos);
+                popularMultiPeriodo();
+                atualizarDashboard();
+            });
+
+            document.getElementById('btnClearPeriodos')?.addEventListener('click', () => {
+                periodosSelecionados.clear();
+                popularMultiPeriodo();
+                atualizarDashboard();
+            });
+
+            function popularFiltros() {
+                popularMultiPeriodo();
+
+                const fill = (id, vals, labelAll) => {
+                    const sel = document.getElementById(id);
+                    const prev = sel.value;
+                    sel.innerHTML = `<option value="">${labelAll}</option>`;
+                    [...new Set(vals.filter(Boolean))].sort().forEach(v => {
+                        const opt = document.createElement('option');
+                        opt.value = v;
+                        opt.textContent = v;
+                        sel.appendChild(opt);
+                    });
+                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+                };
+
+                fill('fFilterSup', baseRegistros.map(r => r.supervisor), 'Todos os Supervisores');
+                fill('fFilterEquipe', baseRegistros.map(r => r.equipe), 'Todas as Equipes');
+                fill('fFilterTipo', baseRegistros.map(r => r.tipo), 'Todos os Tipos');
+            }
+
+            function atualizarDashboard() {
+                const dataVal = document.getElementById('fFilterData').value;
+                const supVal = document.getElementById('fFilterSup').value;
+                const eqVal = document.getElementById('fFilterEquipe').value;
+                const tipoVal = document.getElementById('fFilterTipo').value;
+
+                const filtrados = baseRegistros.filter(r => {
+                    if (periodosSelecionados.size > 0 && !periodosSelecionados.has(r.periodo)) return false;
+                    if (dataVal && r.dataIso !== dataVal) return false;
+                    if (supVal && r.supervisor !== supVal) return false;
+                    if (eqVal && r.equipe !== eqVal) return false;
+                    if (tipoVal && r.tipo !== tipoVal) return false;
+                    return true;
+                });
+
+                const totPrev = filtrados.reduce((s, r) => s + r.previsto, 0);
+                const totReal = filtrados.reduce((s, r) => s + r.realizado, 0);
+
+                // Soma a meta única por equipe+período para não duplicar metas mensais repetidas dia a dia
+                const metaUnicaMap = new Map();
+                filtrados.forEach(r => {
+                    const chaveMeta = `${r.periodo}||${r.equipe}`;
+                    const atual = metaUnicaMap.get(chaveMeta) || 0;
+                    if (r.meta > atual) metaUnicaMap.set(chaveMeta, r.meta);
+                });
+                const totMeta = [...metaUnicaMap.values()].reduce((s, v) => s + v, 0);
+
+                const equipesSet = new Set(filtrados.map(r => r.equipe));
+                const diasSet = new Set(filtrados.map(r => r.dataIso).filter(Boolean));
+                const pctPrev = totPrev > 0 ? (totReal / totPrev) * 100 : 0;
+                const pctMeta = totMeta > 0 ? (totReal / totMeta) * 100 : 0;
+
+                document.getElementById('kpiMeta').textContent = fmtBRL(totMeta);
+                document.getElementById('kpiEquipesAtivas').textContent = `${equipesSet.size} equipes`;
+
+                document.getElementById('kpiPrevisto').textContent = fmtBRL(totPrev);
+                document.getElementById('kpiDiasCount').textContent = `${diasSet.size} dias`;
+
+                document.getElementById('kpiRealizado').textContent = fmtBRL(totReal);
+                document.getElementById('kpiGapPrev').textContent = `Gap Prev: ${fmtBRL(totReal - totPrev)}`;
+                document.getElementById('kpiGapMeta').textContent = `Gap Meta: ${fmtBRL(totReal - totMeta)}`;
+
+                document.getElementById('kpiPctPrev').textContent = `${pctPrev.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiPctMeta').textContent = `Sobre Meta: ${pctMeta.toFixed(1).replace('.', ',')}%`;
+                document.getElementById('kpiBarFill').style.width = `${Math.min(100, pctPrev)}%`;
+
+                renderGraficos(filtrados);
+                renderRankings(filtrados);
+                renderTabela(filtrados);
+            }
+
+            function renderGraficos(lista) {
+                const porDia = {};
+                lista.forEach(r => {
+                    const k = r.dataIso || r.dataBr || 'Sem Data';
+                    if (!porDia[k]) porDia[k] = { label: r.dataBr || k, prev: 0, real: 0 };
+                    porDia[k].prev += r.previsto;
+                    porDia[k].real += r.realizado;
+                });
+                const diasOrdenados = Object.keys(porDia).sort().map(k => porDia[k]);
+
+                const ctx1 = document.getElementById('chartEvolucaoDiaria').getContext('2d');
+                if (chartEvolucao) chartEvolucao.destroy();
+
+                const gradReal = ctx1.createLinearGradient(0, 0, 0, 290);
+                gradReal.addColorStop(0, 'rgba(16, 185, 129, 0.36)');
+                gradReal.addColorStop(1, 'rgba(16, 185, 129, 0.01)');
+
+                const gradPrev = ctx1.createLinearGradient(0, 0, 0, 290);
+                gradPrev.addColorStop(0, 'rgba(0, 212, 255, 0.25)');
+                gradPrev.addColorStop(1, 'rgba(0, 212, 255, 0.01)');
+
+                chartEvolucao = new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: diasOrdenados.map(d => d.label.slice(0, 5)),
+                        datasets: [
+                            {
+                                label: 'Realizado (R$)',
+                                data: diasOrdenados.map(d => d.real),
+                                borderColor: '#34d399',
+                                backgroundColor: gradReal,
+                                borderWidth: 2.8,
+                                fill: true,
+                                tension: 0.32,
+                                pointRadius: 3.5,
+                                pointBackgroundColor: '#34d399'
+                            },
+                            {
+                                label: 'Previsto (R$)',
+                                data: diasOrdenados.map(d => d.prev),
+                                borderColor: '#00d4ff',
+                                backgroundColor: gradPrev,
+                                borderDash: [6, 4],
+                                borderWidth: 2.2,
+                                fill: true,
+                                tension: 0.32,
+                                pointRadius: 3,
+                                pointBackgroundColor: '#00d4ff'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
+                            tooltip: {
+                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
+                                borderColor: 'rgba(0, 212, 255, 0.5)',
+                                borderWidth: 1,
+                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            y: {
+                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
+                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
+                            }
+                        }
+                    }
+                });
+
+                const porEq = {};
+                lista.forEach(r => {
+                    if (!porEq[r.equipe]) porEq[r.equipe] = { prev: 0, real: 0 };
+                    porEq[r.equipe].prev += r.previsto;
+                    porEq[r.equipe].real += r.realizado;
+                });
+                const topEq = Object.entries(porEq)
+                    .sort((a, b) => b[1].real - a[1].real)
+                    .slice(0, 8);
+
+                const ctx2 = document.getElementById('chartTopEquipes').getContext('2d');
+                if (chartEquipes) chartEquipes.destroy();
+                chartEquipes = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: topEq.map(([eq]) => eq),
+                        datasets: [
+                            {
+                                label: 'Realizado',
+                                data: topEq.map(([, v]) => v.real),
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Previsto',
+                                data: topEq.map(([, v]) => v.prev),
+                                backgroundColor: 'rgba(0, 212, 255, 0.65)',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { labels: { color: '#e2e8f0', font: { family: 'Montserrat', size: 11, weight: '700' } } },
+                            tooltip: {
+                                backgroundColor: 'rgba(2, 8, 23, 0.95)',
+                                borderColor: 'rgba(0, 212, 255, 0.5)',
+                                borderWidth: 1,
+                                callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.x)}` }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8', font: { size: 10 }, callback: (v) => fmtCompact(v) },
+                                grid: { color: 'rgba(0, 212, 255, 0.08)' }
+                            },
+                            y: { ticks: { color: '#f8fafc', font: { size: 10, weight: '700' } }, grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            function renderRankings(lista) {
+                const buildGroup = (campo, elId) => {
+                    const el = document.getElementById(elId);
+                    const map = {};
+                    lista.forEach(r => {
+                        const k = r[campo] || 'N/D';
+                        if (!map[k]) map[k] = { prev: 0, real: 0, eqs: new Set() };
+                        map[k].prev += r.previsto;
+                        map[k].real += r.realizado;
+                        map[k].eqs.add(r.equipe);
+                    });
+
+                    const sorted = Object.entries(map).sort((a, b) => b[1].real - a[1].real);
+                    if (sorted.length === 0) {
+                        el.innerHTML = `<div style="font-size:11.5px; color:#94a3b8; padding:10px;">Sem dados para o filtro atual.</div>`;
+                        return;
+                    }
+
+                    el.innerHTML = sorted.map(([nome, info]) => {
+                        const pct = info.prev > 0 ? (info.real / info.prev) * 100 : 0;
+                        return `
+                            <div class="rank-row">
+                                <div class="rank-row-top">
+                                    <span>${nome} <small style="color:#94a3b8;">(${info.eqs.size} eq.)</small></span>
+                                    <span style="color:#34d399;">Real: ${fmtBRL(info.real)}</span>
+                                </div>
+                                <div class="rank-row-metrics">
+                                    <span>Previsto: <strong style="color:#38bdf8;">${fmtBRL(info.prev)}</strong></span>
+                                    <span>Atingimento: <strong style="color:#00d4ff;">${pct.toFixed(1).replace('.', ',')}%</strong></span>
+                                </div>
+                                <div class="mini-bar">
+                                    <div class="mini-bar-fill" style="width:${Math.min(100, pct)}%;"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                };
+
+                buildGroup('supervisor', 'rankSupList');
+                buildGroup('tipo', 'rankTipoList');
+            }
+
+            function renderTabela(lista) {
+                const tbody = document.getElementById('fatTableBody');
+                document.getElementById('tableRowsCount').textContent = `${lista.length} registros exibidos`;
+
+                if (lista.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:20px;">Nenhum registro encontrado com os filtros aplicados.</td></tr>`;
                     return;
                 }
 
-                const cfg = PILARES_CONFIG[chave];
-                if (!cfg) return;
-
-                lobbyView.classList.add('hidden');
-                workspaceView.classList.add('active');
-                btnBackToLobby.style.display = 'inline-flex';
-
-                headerTitleMain.textContent = cfg.title;
-                headerSubtitleMain.textContent = cfg.desc;
-
-                document.querySelectorAll('#workspaceQuickPills .ws-pill[data-pillar]').forEach(pill => {
-                    pill.classList.toggle('active', pill.getAttribute('data-pillar') === chave);
-                });
-
-                if (chave === 'produtividade') {
-                    panelProdutividade.style.display = 'flex';
-                    panelPillarDynamic.style.display = 'none';
-                } else {
-                    panelProdutividade.style.display = 'none';
-                    panelPillarDynamic.style.display = 'flex';
-
-                    document.getElementById('dynKicker').textContent = cfg.kicker;
-                    document.getElementById('dynTitle').textContent = cfg.title;
-                    document.getElementById('dynDesc').textContent = cfg.desc;
-                    document.getElementById('dynSheetTarget').textContent = cfg.sheetTarget;
-
-                    const grid = document.getElementById('dynBlueprintGrid');
-                    grid.innerHTML = cfg.cards.map(c => `
-                        <div class="blueprint-card">
-                            <span>${c.label}</span>
-                            <strong>${c.val}</strong>
-                            <small>${c.sub}</small>
-                        </div>
-                    `).join('');
-                }
-
-                if (scrollToBI) {
-                    const frameBox = document.getElementById('reportFrameBox');
-                    if (frameBox) {
-                        frameBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        return;
-                    }
-                }
-
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const ordenados = [...lista].sort((a, b) => (b.dataIso || '').localeCompare(a.dataIso || ''));
+                tbody.innerHTML = ordenados.slice(0, 300).map(r => {
+                    const gap = r.realizado - r.previsto;
+                    const pct = r.previsto > 0 ? (r.realizado / r.previsto) * 100 : (r.realizado > 0 ? 100 : 0);
+                    const cls = pct >= 100 ? 'pill-ok' : pct >= 80 ? 'pill-warn' : 'pill-low';
+                    return `
+                        <tr>
+                            <td>${r.dataBr}</td>
+                            <td>${r.periodo}</td>
+                            <td><strong>${r.equipe}</strong></td>
+                            <td>${r.tipo}</td>
+                            <td>${r.supervisor}</td>
+                            <td>${fmtBRL(r.meta)}</td>
+                            <td>${fmtBRL(r.previsto)}</td>
+                            <td style="color:#34d399; font-weight:700;">${fmtBRL(r.realizado)}</td>
+                            <td style="color:${gap >= 0 ? '#6ee7b7' : '#fca5a5'};">${fmtBRL(gap)}</td>
+                            <td><span class="pill-badge ${cls}">${pct.toFixed(1).replace('.', ',')}%</span></td>
+                        </tr>
+                    `;
+                }).join('');
             }
 
-            function voltarAoLobby() {
-                workspaceView.classList.remove('active');
-                lobbyView.classList.remove('hidden');
-                btnBackToLobby.style.display = 'none';
+            // Listeners de filtros e controles
+            ['fFilterData', 'fFilterSup', 'fFilterEquipe', 'fFilterTipo'].forEach(id => {
+                document.getElementById(id)?.addEventListener('change', atualizarDashboard);
+            });
 
-                headerTitleMain.textContent = 'Centro de Inteligência Executiva Ellca';
-                headerSubtitleMain.textContent = 'Governança corporativa integrada com indicadores de alta direção e painéis analíticos por pilar estratégico';
-
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            function irParaDashboardGerencial() {
-                abrirPilar('produtividade', true);
-            }
-
-            document.getElementById('btnDirectDashGerencial')?.addEventListener('click', irParaDashboardGerencial);
-            document.getElementById('btnQuickDashGerencial')?.addEventListener('click', irParaDashboardGerencial);
-
-            document.querySelectorAll('.pillar-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    abrirPilar(card.getAttribute('data-pillar'));
+            document.getElementById('btnLimparFiltrosFat')?.addEventListener('click', () => {
+                periodosSelecionados.clear();
+                popularMultiPeriodo();
+                ['fFilterData', 'fFilterSup', 'fFilterEquipe', 'fFilterTipo'].forEach(id => {
+                    document.getElementById(id).value = '';
                 });
+                atualizarDashboard();
             });
 
-            document.querySelectorAll('#workspaceQuickPills .ws-pill[data-pillar]').forEach(pill => {
-                pill.addEventListener('click', () => {
-                    abrirPilar(pill.getAttribute('data-pillar'));
-                });
-            });
+            document.getElementById('btnRefreshFat')?.addEventListener('click', carregarFaturamento);
 
-            btnBackToLobby?.addEventListener('click', voltarAoLobby);
-            btnWorkspaceBack?.addEventListener('click', voltarAoLobby);
+            const btnMenuMobile = document.getElementById('btnMenuMobileFat');
+            const navContent = document.getElementById('navContentFat');
+            btnMenuMobile?.addEventListener('click', () => navContent?.classList.toggle('ativo'));
 
-            // Menu mobile e botões voltar
-            const btnMenuMobile = document.getElementById('btnMenuMobileGer');
-            const navContent = document.getElementById('navContentGer');
-            btnMenuMobile?.addEventListener('click', () => {
-                navContent?.classList.toggle('ativo');
-            });
-
-            document.querySelectorAll('.btn-voltar').forEach((btn) => {
+            document.querySelectorAll('.btn-voltar').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    window.location.href = btn.getAttribute('data-destino') || 'home.html';
+                    window.location.href = btn.getAttribute('data-destino') || 'gerencial.html';
                 });
             });
 
-            // Tela Cheia
-            function toggleFullscreenFrame() {
-                const box = document.getElementById('reportFrameBox');
-                if (!document.fullscreenElement) {
-                    box.requestFullscreen?.().catch(err => console.warn(err));
-                } else {
-                    document.exitFullscreen?.();
-                }
-            }
-
-            function syncFullscreenLabel() {
-                const isFs = document.fullscreenElement === document.getElementById('reportFrameBox');
-                const icon = document.getElementById('iconFullscreenFrame');
-                const label = document.getElementById('textFullscreenFrame');
-                if (icon) icon.className = isFs ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
-                if (label) label.textContent = isFs ? 'Sair Tela Cheia' : 'Tela Cheia';
-            }
-
-            document.getElementById('btnFullscreenGerencial')?.addEventListener('click', toggleFullscreenFrame);
-            document.getElementById('btnFullscreenFrame')?.addEventListener('click', toggleFullscreenFrame);
-            document.addEventListener('fullscreenchange', syncFullscreenLabel);
-
-            // Recarregar Looker Studio
-            document.getElementById('btnReloadIframe')?.addEventListener('click', () => {
-                const iframe = document.getElementById('lookerIframe');
-                if (iframe) iframe.src = iframe.src;
-            });
-
-            // Mostrar / Ocultar Menu Superior e Rodapé
             const btnToggleBars = document.getElementById('btnToggleBars');
             const iconToggleBars = document.getElementById('iconToggleBars');
             const textToggleBars = document.getElementById('textToggleBars');
@@ -1996,221 +1728,7 @@
                 textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
             });
 
-            // Mostrar / Ocultar Síntese Operacional
-            document.getElementById('btnToggleSummary')?.addEventListener('click', (e) => {
-                const panel = document.getElementById('execSummaryPanel');
-                panel.classList.toggle('hidden');
-                e.currentTarget.classList.toggle('active-mode', !panel.classList.contains('hidden'));
-            });
-
-            function carregarPlanilha() {
-                const badge = document.getElementById('syncBadgeGerencial');
-                const cbName = 'cbGer_' + Math.random().toString(36).slice(2, 9);
-                const script = document.createElement('script');
-                const timer = setTimeout(() => {
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-                    baseDados = FALLBACK_DATA;
-                    badge.className = 'sync-badge fallback';
-                    badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Offline';
-                    popularFiltros();
-                    atualizarVisao();
-                }, 7000);
-
-                window[cbName] = function (json) {
-                    clearTimeout(timer);
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-
-                    const rows = [];
-                    if (json && json.table && Array.isArray(json.table.rows)) {
-                        json.table.rows.forEach((r) => {
-                            const c = r.c || [];
-                            const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
-                            const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
-
-                            const os = getStr(1);
-                            const equipe = getStr(3);
-                            if (os && os !== 'OS' && equipe) {
-                                const info = extrairInfoData(formatarDataCell(c[2]));
-                                const qtdeProg = getNum(10) || 1;
-                                const valorUnit = getNum(11);
-                                const valorProg = getNum(12) || (qtdeProg * valorUnit);
-                                const status = (getStr(13) || 'AGUARDANDO APONTAMENTO').toUpperCase();
-                                const qtdeReal = getNum(15);
-                                const rawReal = getNum(16);
-                                const valorReal = rawReal > 0 ? rawReal : (qtdeReal * valorUnit);
-
-                                rows.push({
-                                    os,
-                                    ano: info.ano,
-                                    mes: info.mes,
-                                    dataIso: info.iso,
-                                    equipe,
-                                    tipoEquipe: getStr(4).toUpperCase(),
-                                    supervisor: getStr(5).toUpperCase(),
-                                    qtdeProg,
-                                    valorProg,
-                                    qtdeReal,
-                                    valorReal,
-                                    status
-                                });
-                            }
-                        });
-                    }
-
-                    if (rows.length > 0) {
-                        baseDados = rows;
-                        const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                        badge.className = 'sync-badge';
-                        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ao Vivo • ${hora}`;
-                    } else {
-                        baseDados = FALLBACK_DATA;
-                        badge.className = 'sync-badge fallback';
-                        badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Demonstração';
-                    }
-
-                    popularFiltros();
-                    atualizarVisao();
-                };
-
-                script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent('Produção')}&tqx=responseHandler:${cbName}`;
-                script.onerror = () => {
-                    clearTimeout(timer);
-                    baseDados = FALLBACK_DATA;
-                    popularFiltros();
-                    atualizarVisao();
-                };
-                document.body.appendChild(script);
-            }
-
-            function popularFiltros() {
-                const fill = (id, vals, labelAll, fmt = (v) => v, desc = false) => {
-                    const sel = document.getElementById(id);
-                    const prev = sel.value;
-                    sel.innerHTML = `<option value="">${labelAll}</option>`;
-                    const uniq = [...new Set(vals.filter(Boolean))].sort();
-                    if (desc) uniq.reverse();
-                    uniq.forEach(v => {
-                        const opt = document.createElement('option');
-                        opt.value = v;
-                        opt.textContent = fmt(v);
-                        sel.appendChild(opt);
-                    });
-                    if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
-                };
-
-                fill('gFilterAno', baseDados.map(d => d.ano), 'Todos os Anos', (v) => v, true);
-                fill('gFilterMes', baseDados.map(d => d.mes), 'Todos os Meses', (m) => NOMES_MESES[m] || m);
-                fill('gFilterSup', baseDados.map(d => d.supervisor), 'Todos os Supervisores');
-                fill('gFilterTipoEq', baseDados.map(d => d.tipoEquipe), 'Todos os Tipos (LV, MK, LD, LM)');
-            }
-
-            function atualizarVisao() {
-                const ano = document.getElementById('gFilterAno').value;
-                const mes = document.getElementById('gFilterMes').value;
-                const dataVal = document.getElementById('gFilterData').value;
-                const sup = document.getElementById('gFilterSup').value;
-                const tipoEq = document.getElementById('gFilterTipoEq').value;
-
-                const filtrados = baseDados.filter(d => {
-                    if (ano && d.ano !== ano) return false;
-                    if (mes && d.mes !== mes) return false;
-                    if (dataVal && d.dataIso !== dataVal) return false;
-                    if (sup && d.supervisor !== sup) return false;
-                    if (tipoEq && d.tipoEquipe !== tipoEq) return false;
-                    return true;
-                });
-
-                const totProg = filtrados.reduce((a, d) => a + d.valorProg, 0);
-                const totReal = filtrados.reduce((a, d) => a + d.valorReal, 0);
-                const qtdeProg = filtrados.reduce((a, d) => a + d.qtdeProg, 0);
-                const qtdeReal = filtrados.reduce((a, d) => a + d.qtdeReal, 0);
-                const qtdOs = new Set(filtrados.map(d => d.os)).size;
-                const pct = totProg > 0 ? (totReal / totProg) * 100 : 0;
-                const pendentes = filtrados.filter(d => d.status.includes('AGUARDANDO')).length;
-                const apontados = filtrados.length - pendentes;
-
-                const lobbyProg = document.getElementById('lobbyKpiProg');
-                const lobbyOs = document.getElementById('lobbyKpiOs');
-                const lobbyPct = document.getElementById('lobbyKpiPct');
-                const cardProdProg = document.getElementById('cardProdProg');
-                const cardProdReal = document.getElementById('cardProdReal');
-
-                if (lobbyProg) lobbyProg.textContent = fmtBRL(totProg);
-                if (lobbyOs) lobbyOs.textContent = `${qtdOs} OS em carteira`;
-                if (lobbyPct) lobbyPct.textContent = `${pct.toFixed(1).replace('.', ',')}%`;
-                if (cardProdProg) cardProdProg.textContent = fmtBRL(totProg);
-                if (cardProdReal) cardProdReal.textContent = fmtBRL(totReal);
-
-                document.getElementById('gKpiProg').textContent = fmtBRL(totProg);
-                document.getElementById('gKpiOs').textContent = `${qtdOs} OS programadas`;
-                document.getElementById('gKpiQtdeProg').textContent = `${qtdeProg} unid.`;
-
-                document.getElementById('gKpiReal').textContent = fmtBRL(totReal);
-                document.getElementById('gKpiQtdeReal').textContent = `${qtdeReal} unid. executadas`;
-                document.getElementById('gKpiGap').textContent = `Gap: ${fmtBRL(totReal - totProg)}`;
-
-                document.getElementById('gKpiPct').textContent = `${pct.toFixed(1).replace('.', ',')}%`;
-                document.getElementById('gKpiBar').style.width = `${Math.min(100, pct)}%`;
-
-                document.getElementById('gKpiPendentes').textContent = `${pendentes} pendentes`;
-                document.getElementById('gKpiApontados').textContent = `${apontados} apontados`;
-
-                renderRanking('rankSupervisoresList', filtrados, 'supervisor', totProg);
-                renderRanking('rankFrotaList', filtrados, 'tipoEquipe', totProg);
-            }
-
-            function renderRanking(containerId, lista, campo, totalGeralProg) {
-                const el = document.getElementById(containerId);
-                const map = {};
-                lista.forEach(d => {
-                    const k = d[campo] || 'N/D';
-                    if (!map[k]) map[k] = { prog: 0, real: 0, os: new Set() };
-                    map[k].prog += d.valorProg;
-                    map[k].real += d.valorReal;
-                    map[k].os.add(d.os);
-                });
-
-                const sorted = Object.entries(map).sort((a, b) => b[1].prog - a[1].prog);
-                if (sorted.length === 0) {
-                    el.innerHTML = `<div style="font-size:11.5px; color:#94a3b8; padding:10px;">Sem registros para o filtro selecionado.</div>`;
-                    return;
-                }
-
-                el.innerHTML = sorted.map(([nome, info]) => {
-                    const share = totalGeralProg > 0 ? (info.prog / totalGeralProg) * 100 : 0;
-                    const aderencia = info.prog > 0 ? (info.real / info.prog) * 100 : 0;
-                    return `
-                        <div class="rank-row">
-                            <div class="rank-row-top">
-                                <span>${nome} <small style="color:#94a3b8; font-weight:600;">(${info.os.size} OS • ${share.toFixed(0)}%)</small></span>
-                                <span style="color:#fcd34d;">Prog: ${fmtBRL(info.prog)}</span>
-                            </div>
-                            <div class="rank-row-metrics">
-                                <span>Realizado: <strong style="color:#34d399;">${fmtBRL(info.real)}</strong></span>
-                                <span>Aderência: <strong>${aderencia.toFixed(1).replace('.', ',')}%</strong></span>
-                            </div>
-                            <div class="mini-bar">
-                                <div class="mini-bar-fill" style="width:${Math.min(100, share)}%;"></div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            ['gFilterAno', 'gFilterMes', 'gFilterData', 'gFilterSup', 'gFilterTipoEq'].forEach(id => {
-                document.getElementById(id)?.addEventListener('change', atualizarVisao);
-            });
-
-            document.getElementById('btnLimparFiltrosGer')?.addEventListener('click', () => {
-                ['gFilterAno', 'gFilterMes', 'gFilterData', 'gFilterSup', 'gFilterTipoEq'].forEach(id => {
-                    document.getElementById(id).value = '';
-                });
-                atualizarVisao();
-            });
-
-            carregarPlanilha();
+            carregarFaturamento();
         })();
     </script>
     <script src="script.js"></script>
