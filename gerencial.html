@@ -594,7 +594,7 @@
             box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
         }
 
-        /* ================= PAINEL BASE INTEGRADA (6 NOVOS PILARES) ================= */
+        /* ================= PAINEL BASE INTEGRADA (5 PILARES RESTANTES) ================= */
         .pillar-sheet-connector {
             display: flex;
             flex-direction: column;
@@ -1320,28 +1320,28 @@
                         <!-- GRADE DOS 7 CARTÕES PADRÃO OURO -->
                         <div class="exec-pillars-grid">
 
-                            <!-- 1. FATURAMENTO -->
+                            <!-- 1. FATURAMENTO (CONECTADO AO faturamento.html) -->
                             <article class="pillar-card" data-pillar="faturamento">
                                 <div class="pillar-card-top">
                                     <div class="pillar-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-                                    <span class="pillar-status-pill ready"><i class="fa-solid fa-sparkles"></i> Módulo Executivo</span>
+                                    <span class="pillar-status-pill live"><i class="fa-solid fa-circle"></i> Ao Vivo • Integrado</span>
                                 </div>
                                 <div class="pillar-body">
                                     <h3>Faturamento</h3>
-                                    <p>Acompanhamento de receita bruta, medições aprovadas, faturamento por contrato, glosas e margem operacional consolidada.</p>
+                                    <p>Meta mensal, previsto proporcional, realizado diário, gap financeiro, série temporal e performance por equipe e supervisor.</p>
                                 </div>
                                 <div class="pillar-kpi-strip">
                                     <div class="pillar-kpi-item">
                                         <small>Visão</small>
-                                        <strong>Receita & Medição</strong>
+                                        <strong>Meta × Previsto × Real</strong>
                                     </div>
                                     <div class="pillar-kpi-item">
                                         <small>Fonte de Dados</small>
-                                        <strong>Planilha Financeira</strong>
+                                        <strong>Aba Faturamento</strong>
                                     </div>
                                 </div>
                                 <button type="button" class="pillar-cta-btn">
-                                    <span>Acessar Painel Executivo</span>
+                                    <span>Abrir Dashboard Faturamento</span>
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
                             </article>
@@ -1726,18 +1726,6 @@
             };
 
             const PILARES_CONFIG = {
-                faturamento: {
-                    kicker: 'Pilar Financeiro • Receita & Medição',
-                    title: 'Dashboard Executivo de Faturamento',
-                    desc: 'Visão consolidada de receita faturada, boletins de medição aprovados, faturamento acumulado no mês e índice de glosas por contrato.',
-                    sheetTarget: 'Base Oficial: Planilha de Faturamento',
-                    cards: [
-                        { label: 'Faturamento Bruto Mensal', val: 'Conectar Planilha', sub: 'Comparativo vs. Orçado (Budget)' },
-                        { label: 'Medições Aprovadas', val: 'Conectar Planilha', sub: 'Boletins liberados para faturamento' },
-                        { label: 'Ticket Médio por OS', val: 'Conectar Planilha', sub: 'Eficiência financeira operacional' },
-                        { label: 'Índice de Glosa / Retenção', val: 'Conectar Planilha', sub: 'Controle de conformidade contratual' }
-                    ]
-                },
                 estrutura: {
                     kicker: 'Pilar Infraestrutura • Capacidade & Bases',
                     title: 'Dashboard Executivo de Estrutura',
@@ -1868,6 +1856,11 @@
             const headerSubtitleMain = document.getElementById('headerSubtitleMain');
 
             function abrirPilar(chave, scrollToBI = false) {
+                if (chave === 'faturamento') {
+                    window.location.href = 'faturamento.html';
+                    return;
+                }
+
                 const cfg = PILARES_CONFIG[chave];
                 if (!cfg) return;
 
@@ -1926,7 +1919,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            // Atalho direto para o Dashboard Gerencial Consolidado
             function irParaDashboardGerencial() {
                 abrirPilar('produtividade', true);
             }
