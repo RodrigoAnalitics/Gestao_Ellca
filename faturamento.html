@@ -51,11 +51,31 @@
     ::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.35); border-radius: 999px; }
 
     .dashboard-container {
-      max-width: 1480px;
+      max-width: 1500px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
+    }
+
+    /* ================= CONTROLE MOSTRAR / ESCONDER MENU ================= */
+    .collapsible-chrome {
+      max-height: 360px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      transition: max-height 0.35s ease, opacity 0.28s ease, transform 0.32s ease, margin 0.32s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    body.menu-hidden .collapsible-chrome {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      margin-bottom: -16px;
     }
 
     /* ================= TOPBAR (SEM MENU LATERAL) ================= */
@@ -64,24 +84,24 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
     .header-left {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 18px;
+      gap: 14px;
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: -0.3px;
     }
 
@@ -98,7 +118,7 @@
     }
 
     .page-title {
-      font-size: 24px;
+      font-size: 23px;
       font-weight: 700;
       letter-spacing: -0.5px;
       color: #ffffff;
@@ -108,7 +128,7 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
       background: rgba(20, 14, 36, 0.85);
       padding: 5px;
       border-radius: 999px;
@@ -120,9 +140,9 @@
       border: none;
       background: transparent;
       color: #a1a1aa;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
-      padding: 7px 15px;
+      padding: 6px 14px;
       border-radius: 999px;
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
@@ -144,7 +164,7 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     .search-box {
@@ -154,8 +174,8 @@
       background: rgba(21, 15, 38, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 999px;
-      padding: 7px 14px;
-      min-width: 210px;
+      padding: 7px 13px;
+      min-width: 195px;
     }
 
     .search-box i {
@@ -192,6 +212,12 @@
       border-color: rgba(192, 132, 252, 0.55);
       background: rgba(139, 92, 246, 0.18);
       color: #ffffff;
+    }
+
+    .icon-action-btn.toggled {
+      background: #ffffff;
+      color: #080510;
+      border-color: #ffffff;
     }
 
     #syncStatus {
@@ -258,6 +284,7 @@
     /* ================= CARD 3D SUAVE + LINHA NA BORDA ================= */
     .card-3d-wrap {
       perspective: 1400px;
+      height: 100%;
     }
 
     .card-surface {
@@ -270,6 +297,7 @@
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
       transition: transform 0.35s ease-out, box-shadow 0.3s ease;
+      height: 100%;
     }
 
     .card-surface::before {
@@ -310,32 +338,31 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-radius: 21px;
       height: 100%;
-    }
-
-    /* ================= LAYOUT PRINCIPAL (ESQUERDA + DIREITA) ================= */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1.72fr 1fr;
-      gap: 16px;
-      align-items: start;
-    }
-
-    .left-column {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      justify-content: space-between;
     }
 
+    /* ================= LAYOUT PRINCIPAL SEM ESPAÇOS VAZIOS ================= */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .left-column,
     .right-column {
       display: flex;
       flex-direction: column;
       gap: 16px;
+      height: 100%;
     }
 
-    /* 3 KPIS DO TOPO (IGUAL À FOTO) */
+    /* 3 KPIS DO TOPO */
     .top-kpis-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -349,7 +376,7 @@
       font-size: 12px;
       font-weight: 500;
       color: #d1d5db;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .kpi-card-head i {
@@ -358,7 +385,7 @@
     }
 
     .kpi-big-value {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: 700;
       letter-spacing: -0.6px;
       color: #ffffff;
@@ -391,14 +418,14 @@
       font-size: 10.5px;
     }
 
-    /* GRÁFICO PRINCIPAL DE LINHA SUAVE */
+    /* GRÁFICO PRINCIPAL */
     .chart-card-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 10px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
     .seg-toggle {
@@ -428,33 +455,67 @@
       font-weight: 700;
     }
 
-    /* CARDS INFERIORES (TOP EQUIPES / SUPERVISORES) */
-    .bottom-mini-grid {
+    /* GRADE DE GRÁFICOS VARIADOS (PIZZA, VELOCÍMETRO, SETORES, BARRAS) */
+    .charts-variety-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 16px;
+      align-items: stretch;
     }
 
-    .mini-rank-card {
-      background: rgba(24, 17, 46, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 18px;
-      padding: 14px;
-      cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease;
+    .gauge-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 195px;
     }
 
-    .mini-rank-card:hover {
-      background: rgba(36, 25, 68, 0.9);
-      border-color: rgba(192, 132, 252, 0.4);
+    .gauge-dial {
+      position: relative;
+      width: 210px;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .gauge-label-center {
+      position: absolute;
+      bottom: 4px;
+      text-align: center;
+    }
+
+    .gauge-pct-big {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.6px;
+    }
+
+    .gauge-pct-sub {
+      font-size: 10px;
+      color: #c4b5fd;
+      font-weight: 600;
+    }
+
+    .gauge-stats-mini {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      text-align: center;
+      font-size: 11px;
     }
 
     /* PAINEL DIREITO: RESUMO + IA + POSIÇÕES */
     .ai-insight-box {
-      margin-top: 12px;
-      padding: 12px 14px;
+      margin-top: 10px;
+      padding: 12px 13px;
       border-radius: 14px;
-      background: rgba(9, 6, 18, 0.58);
+      background: rgba(9, 6, 18, 0.62);
       border: 1px solid rgba(255, 255, 255, 0.09);
       font-size: 11.5px;
       line-height: 1.5;
@@ -488,7 +549,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       border-radius: 14px;
       cursor: pointer;
       transition: background 0.2s ease;
@@ -507,7 +568,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 12.5px;
+      font-weight: 700;
       color: #d8b4fe;
       flex-shrink: 0;
     }
@@ -570,8 +632,9 @@
     .c-purple  { color: #c084fc !important; }
 
     @media (max-width: 1120px) {
-      .main-grid { grid-template-columns: 1fr; }
-      .top-kpis-grid, .bottom-mini-grid { grid-template-columns: 1fr; }
+      .main-grid,
+      .charts-variety-grid { grid-template-columns: 1fr; }
+      .top-kpis-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -579,8 +642,8 @@
 
   <div class="dashboard-container">
 
-    <!-- TOPBAR (SEM MENU LATERAL) -->
-    <header class="top-header">
+    <!-- BOTÃO FIXO DE MOSTRAR / ESCONDER MENU + TOPBAR -->
+    <div class="top-header">
       <div class="header-left">
         <a href="index.html" class="brand-logo">
           <span class="brand-orb">🌀</span>
@@ -589,7 +652,10 @@
 
         <h1 class="page-title">Dashboard Faturamento</h1>
 
-        <nav class="nav-pills" id="portalNavLinks"></nav>
+        <button type="button" class="icon-action-btn" id="btnToggleMenu">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">Esconder Menu</span>
+        </button>
       </div>
 
       <div class="header-right">
@@ -608,43 +674,45 @@
           <i class="fa-solid fa-table-cells"></i> <span id="lblAlternarDetalhe">Tabela Completa</span>
         </button>
       </div>
-    </header>
+    </div>
 
-    <!-- FILTROS -->
-    <div class="filters-strip">
-      <div class="filter-pill">
-        <span>Processo</span>
-        <select id="filtroProcesso"></select>
+    <!-- ÁREA RECOLHÍVEL (NAVEGAÇÃO ENTRE PÁGINAS + FILTROS) -->
+    <div class="collapsible-chrome" id="areaMenuFiltros">
+      <nav class="nav-pills" id="portalNavLinks"></nav>
+
+      <div class="filters-strip">
+        <div class="filter-pill">
+          <span>Processo</span>
+          <select id="filtroProcesso"></select>
+        </div>
+        <div class="filter-pill">
+          <span>Ano</span>
+          <select id="filtroAno"></select>
+        </div>
+        <div class="filter-pill">
+          <span>Mês</span>
+          <select id="filtroMes"></select>
+        </div>
+        <div class="filter-pill">
+          <span>Data</span>
+          <select id="filtroData"><option value="TODOS">Todas</option></select>
+        </div>
+        <div class="filter-pill">
+          <span>Supervisor</span>
+          <select id="filtroSupervisor"><option value="TODOS">Todos</option></select>
+        </div>
+        <div class="dias-badge tabular" id="badgeDiasUteis">22 Dias Úteis</div>
       </div>
-      <div class="filter-pill">
-        <span>Ano</span>
-        <select id="filtroAno"></select>
-      </div>
-      <div class="filter-pill">
-        <span>Mês</span>
-        <select id="filtroMes"></select>
-      </div>
-      <div class="filter-pill">
-        <span>Data</span>
-        <select id="filtroData"><option value="TODOS">Todas</option></select>
-      </div>
-      <div class="filter-pill">
-        <span>Supervisor</span>
-        <select id="filtroSupervisor"><option value="TODOS">Todos</option></select>
-      </div>
-      <div class="dias-badge tabular" id="badgeDiasUteis">22 Dias Úteis</div>
     </div>
 
     <!-- =============================================================== -->
-    <!-- VISÃO PRINCIPAL (INSPIRADA NA FOTO)                             -->
+    <!-- VISÃO PRINCIPAL                                                 -->
     <!-- =============================================================== -->
     <div id="secPrincipal" class="secondary-section active">
+
+      <!-- BLOCO SUPERIOR: ESQUERDA (3 KPIS + CURVA) | DIREITA (IA + SUPERVISORES) -->
       <div class="main-grid">
-
-        <!-- COLUNA ESQUERDA -->
         <div class="left-column">
-
-          <!-- 3 KPIS PRINCIPAIS -->
           <div class="top-kpis-grid tabular">
             <div class="card-3d-wrap">
               <div class="card-surface">
@@ -695,16 +763,15 @@
             </div>
           </div>
 
-          <!-- GRÁFICO PRINCIPAL DE LINHA SUAVE -->
-          <div class="card-3d-wrap">
+          <div class="card-3d-wrap" style="flex:1;">
             <div class="card-surface">
               <div class="card-body">
                 <div class="chart-card-top tabular">
                   <div>
-                    <div style="font-size:12.5px; color:#9ca3af; font-weight:600;" id="tituloCurva">Realizado Acumulado &amp; Diário</div>
+                    <div style="font-size:12px; color:#9ca3af; font-weight:600;" id="tituloCurva">Faturamento Diário</div>
                     <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
-                      <span style="font-size:28px; font-weight:700; letter-spacing:-0.6px;" id="valorDestaqueCurva">R$ 0,00</span>
-                      <span class="badge-pos" id="badgeDeltaCurva">Delta R$ 0,00</span>
+                      <span style="font-size:27px; font-weight:700; letter-spacing:-0.6px;" id="valorDestaqueCurva">R$ 0,00</span>
+                      <span class="badge-pos" id="badgeDeltaCurva">Gap R$ 0,00</span>
                     </div>
                   </div>
 
@@ -715,26 +782,19 @@
                   </div>
                 </div>
 
-                <div style="height: 255px; width: 100%;">
+                <div style="height: 245px; width: 100%;">
                   <canvas id="chartFaturamentoPrincipal"></canvas>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- CARDS INFERIORES DE DESTAQUE -->
-          <div class="bottom-mini-grid tabular" id="cardsDestaquesInferiores"></div>
-
         </div>
 
-        <!-- COLUNA DIREITA (SPOTLIGHT ROXO + IA + POSIÇÕES) -->
         <div class="right-column">
-
-          <!-- CARD DESTAQUE ROXO COM INSIGHT DE IA -->
           <div class="card-3d-wrap">
             <div class="card-surface violet-spotlight">
               <div class="card-body tabular">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
                   <span style="font-size:12.5px; font-weight:600; color:#f3e8ff;">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Resumo Executivo &amp; IA
                   </span>
@@ -742,12 +802,12 @@
                 </div>
 
                 <div style="display:flex; align-items:baseline; gap:10px;">
-                  <span style="font-size:28px; font-weight:800; letter-spacing:-0.6px;" id="kpiRealizadoSide">R$ 0,00</span>
+                  <span style="font-size:27px; font-weight:800; letter-spacing:-0.6px;" id="kpiRealizadoSide">R$ 0,00</span>
                   <span class="badge-pos" id="badgeStatusRitmo">No ritmo</span>
                 </div>
 
                 <div class="ai-insight-box" id="textoInsightIA">
-                  Carregando leitura inteligente de ritmo, gap financeiro e destaque operacional...
+                  Carregando análise inteligente de ritmo, gap e performance por equipe...
                 </div>
 
                 <button type="button" class="ai-btn" id="btnGerarInsightIA">
@@ -757,22 +817,131 @@
             </div>
           </div>
 
-          <!-- CARD POSIÇÕES / SUPERVISORES -->
-          <div class="card-3d-wrap">
+          <div class="card-3d-wrap" style="flex:1;">
             <div class="card-surface">
               <div class="card-body tabular">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
                   <span style="font-size:14px; font-weight:700;">Supervisores</span>
                   <span style="font-size:11px; color:#9ca3af;">Clique para filtrar</span>
                 </div>
 
-                <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:6px; max-height:310px; overflow-y:auto;"></div>
+                <div id="listaSupervisoresRight" style="display:flex; flex-direction:column; gap:5px; max-height:260px; overflow-y:auto;"></div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
+
+      <!-- GRADE INFERIOR: VELOCÍMETRO + PIZZA/SETORES + BARRAS POR EQUIPE -->
+      <div class="charts-variety-grid tabular">
+        <!-- VELOCÍMETRO DE META -->
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-size:13px; font-weight:700;">Velocímetro da Meta</span>
+                <span style="font-size:10.5px; color:#c084fc; font-weight:600;">Mensal</span>
+              </div>
+
+              <div class="gauge-stage">
+                <div class="gauge-dial">
+                  <svg viewBox="0 0 220 125" width="210" height="120">
+                    <defs>
+                      <linearGradient id="violetGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#6366f1" />
+                        <stop offset="55%" stop-color="#a855f7" />
+                        <stop offset="100%" stop-color="#34d399" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 20 108 A 90 90 0 0 1 200 108"
+                          fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="13" stroke-linecap="round" />
+                    <path id="gaugeArcPath" d="M 20 108 A 90 90 0 0 1 200 108"
+                          fill="none" stroke="url(#violetGaugeGrad)" stroke-width="13"
+                          stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" />
+                  </svg>
+                  <div class="gauge-label-center">
+                    <div class="gauge-pct-big" id="gaugePctValue">0%</div>
+                    <div class="gauge-pct-sub">Atingimento</div>
+                  </div>
+                </div>
+
+                <div class="gauge-stats-mini">
+                  <div>
+                    <strong style="color:#fff;" id="gaugeDeltaTxt">R$ 0,00</strong>
+                    <div style="font-size:10px; color:#9ca3af;">Delta / Gap</div>
+                  </div>
+                  <div>
+                    <strong class="c-emerald" id="gaugePrevPctTxt">0%</strong>
+                    <div style="font-size:10px; color:#9ca3af;">Vs. Previsto</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRÁFICO DE PIZZA / SETORES POR TIPO -->
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-size:13px; font-weight:700;">Setores &amp; Tipos (Pizza)</span>
+                <span style="font-size:10.5px; color:#9ca3af;">Participação</span>
+              </div>
+              <div style="height: 195px; width: 100%;">
+                <canvas id="chartPizzaTipos"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRÁFICO DE BARRAS TOP EQUIPES -->
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-size:13px; font-weight:700;">Top Equipes (Barras)</span>
+                <span style="font-size:10.5px; color:#9ca3af;">Realizado</span>
+              </div>
+              <div style="height: 195px; width: 100%;">
+                <canvas id="chartBarrasEquipes"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAIXA DE GRÁFICOS ADICIONAIS (DIA DA SEMANA + META VS REALIZADO POR SUPERVISOR) -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;" class="charts-extra-row">
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-size:13px; font-weight:700;">Setores por Dia da Semana</span>
+                <span style="font-size:10.5px; color:#9ca3af;">R$ Realizado</span>
+              </div>
+              <div style="height: 215px; width: 100%;">
+                <canvas id="chartSetoresDiaSemana"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d-wrap">
+          <div class="card-surface">
+            <div class="card-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-size:13px; font-weight:700;">Previsto x Realizado por Supervisor</span>
+                <span style="font-size:10.5px; color:#9ca3af;">Comparativo</span>
+              </div>
+              <div style="height: 215px; width: 100%;">
+                <canvas id="chartSupComparativo"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- =============================================================== -->
@@ -864,7 +1033,7 @@
 
   Chart.register(ChartDataLabels);
 
-  // Movimento 3D bem suave (máx ~1.6 deg)
+  // Movimento 3D bem suave
   document.querySelectorAll(".card-3d-wrap").forEach(wrap => {
     const surface = wrap.querySelector(".card-surface");
     if (!surface) return;
@@ -872,8 +1041,8 @@
       const rect = wrap.getBoundingClientRect();
       const nx = (e.clientX - rect.left) / rect.width - 0.5;
       const ny = (e.clientY - rect.top) / rect.height - 0.5;
-      surface.style.setProperty("--ry", `${(nx * 3.2).toFixed(2)}deg`);
-      surface.style.setProperty("--rx", `${(-ny * 3.2).toFixed(2)}deg`);
+      surface.style.setProperty("--ry", `${(nx * 2.8).toFixed(2)}deg`);
+      surface.style.setProperty("--rx", `${(-ny * 2.8).toFixed(2)}deg`);
     });
     wrap.addEventListener("mouseleave", () => {
       surface.style.setProperty("--ry", "0deg");
@@ -1032,7 +1201,7 @@
       r.mes === mesSel &&
       (procSel === "TODOS" || r.processo === procSel) &&
       (supSel === "TODOS" || r.supervisor === supSel) &&
-      (!termoBusca || `${r.equipe} ${r.supervisor} ${r.processo} ${r.veiculo}`.toLowerCase().includes(termoBusca))
+      (!termoBusca || `${r.equipe} ${r.supervisor} ${r.processo} ${r.veiculo} ${r.tipo}`.toLowerCase().includes(termoBusca))
     );
 
     const dadosFiltrados = dataSel === "TODOS"
@@ -1097,15 +1266,25 @@
     badgeRitmo.textContent = totalDelta <= 0 ? "Acima do ritmo" : "Atenção ao gap";
     badgeRitmo.className = totalDelta <= 0 ? "badge-pos" : "badge-neg";
 
+    // Velocímetro
+    const arcoLen = 283;
+    const fracMeta = Math.min(Math.max(pctMetaMensal / 100, 0), 1);
+    document.getElementById("gaugeArcPath").style.strokeDashoffset = (arcoLen * (1 - fracMeta)).toFixed(1);
+    document.getElementById("gaugePctValue").textContent = `${pctMetaMensal.toFixed(0)}%`;
+    document.getElementById("gaugeDeltaTxt").textContent = fmtCompacto(totalDelta);
+    document.getElementById("gaugePrevPctTxt").textContent = `${pctPrevisto.toFixed(0)}%`;
+
     ultimoEstado = {
-      procSel, mesSel, anoSel, totalMetaMensal, totalPrevisto,
-      totalRealizado, totalDelta, pctPrevisto, pctMetaMensal,
-      diasTrabalhados, diasUteis, qtdEquipes, listaEquipes
+      procSel, totalMetaMensal, totalPrevisto, totalRealizado,
+      totalDelta, pctPrevisto, pctMetaMensal, diasTrabalhados, diasUteis, listaEquipes
     };
 
     atualizarTextoIA();
     renderizarGraficoPrincipal(dadosFiltrados, datasUnicas, totalRealizado, totalDelta);
-    renderizarCardsInferiores(listaEquipes);
+    renderizarPizzaTipos(dadosFiltrados);
+    renderizarBarrasEquipes(listaEquipes);
+    renderizarSetoresDiaSemana(dadosFiltrados);
+    renderizarSupComparativo(listaEquipes);
     renderizarListaSupervisores(listaEquipes);
     renderizarGraficoEquipesDetalhe(listaEquipes);
     renderizarTabelaResumo(listaEquipes);
@@ -1118,14 +1297,17 @@
     const nomeTop = topEq ? topEq.equipe : "sem destaque";
     const valTop = topEq ? fmtCompacto(topEq.realizado) : "R$ 0";
 
-    const mensagens = [
-      `<strong>Leitura IA (${procSel === "TODOS" ? "Consolidado" : procSel}):</strong> Com ${diasTrabalhados} de ${diasUteis} dias úteis computados, o realizado está em <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Destaque da carteira: <strong>${nomeTop}</strong> (${valTop}).`,
-      `<strong>Diagnóstico de Ritmo IA:</strong> O gap atual frente ao previsto é de <strong>${fmtBRL(Math.abs(totalDelta))}</strong> (${totalDelta <= 0 ? "superávit operacional" : "déficit a recuperar"}). Priorizar faturamento diário nas equipes com menor cobertura acelera o fechamento do mês.`,
-      `<strong>Projeção Inteligente IA:</strong> Mantendo a média atual por dia útil, a carteira tende a entregar <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong> no mês. Acompanhe o desempenho diário de <strong>${nomeTop}</strong> para sustentar o ritmo.`
+    const insights = [
+      `<strong>IA • Ritmo (${procSel === "TODOS" ? "Consolidado" : procSel}):</strong> Em ${diasTrabalhados}/${diasUteis} dias úteis, o realizado atingiu <strong>${pctPrevisto.toFixed(1).replace(".", ",")}%</strong> do previsto (${fmtCompacto(totalRealizado)} vs ${fmtCompacto(totalPrevisto)}). Destaque: <strong>${nomeTop}</strong> (${valTop}).`,
+      `<strong>IA • Gap &amp; Ação:</strong> O desvio frente ao previsto é de <strong>${fmtBRL(Math.abs(totalDelta))}</strong> (${totalDelta <= 0 ? "acima da meta parcial" : "gap a compensar"}). Reforçar lançamentos diários nas equipes abaixo do ritmo melhora o fechamento.`,
+      `<strong>IA • Projeção Mensal:</strong> Mantendo a média diária atual, a projeção estimada para o mês é de <strong>${fmtCompacto(diasTrabalhados > 0 ? (totalRealizado / diasTrabalhados) * diasUteis : 0)}</strong>. Monitorar <strong>${nomeTop}</strong> ajuda a manter a tração.`
     ];
 
-    document.getElementById("textoInsightIA").innerHTML = mensagens[variacaoIA % mensagens.length];
+    document.getElementById("textoInsightIA").innerHTML = insights[variacaoIA % insights.length];
   }
+
+  const corEixo = "#9ca3af";
+  const corGrid = "rgba(255, 255, 255, 0.05)";
 
   function renderizarGraficoPrincipal(dados, datasUnicas, totalRealizado, totalDelta) {
     const ctx = document.getElementById("chartFaturamentoPrincipal");
@@ -1197,54 +1379,158 @@
           }
         },
         scales: {
-          x: { ticks: { color: "#9ca3af", font: { size: 10.5 } }, grid: { color: "rgba(255,255,255,0.05)" } },
+          x: { ticks: { color: corEixo, font: { size: 10.5 } }, grid: { color: corGrid } },
           y: {
             beginAtZero: true,
-            ticks: { color: "#9ca3af", font: { size: 10.5 }, callback: v => (v / 1000) + "k" },
-            grid: { color: "rgba(255,255,255,0.05)" }
+            ticks: { color: corEixo, font: { size: 10.5 }, callback: v => (v / 1000) + "k" },
+            grid: { color: corGrid }
           }
         }
       }
     });
   }
 
-  function renderizarCardsInferiores(listaEquipes) {
-    const top3 = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 3);
-    const container = document.getElementById("cardsDestaquesInferiores");
+  function renderizarPizzaTipos(dados) {
+    const porTipo = {};
+    dados.forEach(r => {
+      const k = r.tipo || r.veiculo || "GERAL";
+      porTipo[k] = (porTipo[k] || 0) + r.valorDia;
+    });
+    const entries = Object.entries(porTipo).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
-    if (top3.length === 0) {
-      container.innerHTML = `<div style="color:#9ca3af; font-size:12px;">Nenhuma equipe encontrada.</div>`;
-      return;
-    }
+    if (charts.pizza) charts.pizza.destroy();
+    charts.pizza = new Chart(document.getElementById("chartPizzaTipos"), {
+      type: "doughnut",
+      data: {
+        labels: entries.map(e => e[0]),
+        datasets: [{
+          data: entries.map(e => e[1]),
+          backgroundColor: ["#a855f7", "#6366f1", "#38bdf8", "#34d399", "#f59e0b"],
+          borderColor: "#110c21",
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "56%",
+        plugins: {
+          legend: { position: "right", labels: { color: "#e5e7eb", font: { size: 10 }, boxWidth: 10 } },
+          datalabels: {
+            color: "#ffffff",
+            font: { size: 9.5, weight: "700" },
+            formatter: (v, ctx) => {
+              const tot = ctx.dataset.data.reduce((a, b) => a + b, 0) || 1;
+              const p = Math.round((v / tot) * 100);
+              return p >= 6 ? p + "%" : "";
+            }
+          }
+        }
+      }
+    });
+  }
 
-    container.innerHTML = top3.map(eq => {
-      const pct = eq.previsto > 0 ? (eq.realizado / eq.previsto) * 100 : 0;
-      const ok = pct >= 100;
-      return `
-        <div class="mini-rank-card" title="Filtrar supervisor ${eq.supervisor}">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-            <strong style="font-size:12.5px; color:#fff;">${eq.equipe}</strong>
-            <span style="font-size:10px; color:#9ca3af;">${eq.processo.slice(0, 8)}</span>
-          </div>
-          <div style="font-size:11px; color:#9ca3af; margin-bottom:10px;">Sup: ${eq.supervisor.split(" ")[0] || "-"}</div>
-          <div style="display:flex; align-items:baseline; justify-content:space-between;">
-            <div>
-              <div style="font-size:14px; font-weight:700; color:#fff;">${fmtCompacto(eq.realizado)}</div>
-              <div style="font-size:10px; color:#9ca3af;">Prev: ${fmtCompacto(eq.previsto)}</div>
-            </div>
-            <span class="${ok ? "badge-pos" : "badge-neg"} tabular">${pct.toFixed(0)}%</span>
-          </div>
-        </div>
-      `;
-    }).join("");
+  function renderizarBarrasEquipes(listaEquipes) {
+    const top5 = [...listaEquipes].sort((a, b) => b.realizado - a.realizado).slice(0, 5);
 
-    container.querySelectorAll(".mini-rank-card").forEach((card, idx) => {
-      card.addEventListener("click", () => {
-        const sup = top3[idx].supervisor;
-        const sel = document.getElementById("filtroSupervisor");
-        sel.value = sel.value === sup ? "TODOS" : sup;
-        atualizarDashboard();
-      });
+    if (charts.barrasEq) charts.barrasEq.destroy();
+    charts.barrasEq = new Chart(document.getElementById("chartBarrasEquipes"), {
+      type: "bar",
+      data: {
+        labels: top5.map(e => e.equipe),
+        datasets: [{
+          label: "Realizado",
+          data: top5.map(e => e.realizado),
+          backgroundColor: "#a855f7",
+          borderRadius: 6
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: { anchor: "end", align: "right", color: "#e5e7eb", font: { size: 9, weight: "600" }, formatter: v => fmtCompacto(v) }
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { color: corEixo, font: { size: 9.5 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
+          y: { ticks: { color: "#f8fafc", font: { size: 10, weight: "600" } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  function renderizarSetoresDiaSemana(dados) {
+    const nomesDias = ["DOMINGO", "SEGUNDA-FEIRA", "TERÇA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SÁBADO"];
+    const abrev = { "SEGUNDA-FEIRA": "SEG", "TERÇA-FEIRA": "TER", "QUARTA-FEIRA": "QUA", "QUINTA-FEIRA": "QUI", "SEXTA-FEIRA": "SEX", "SÁBADO": "SÁB", "DOMINGO": "DOM" };
+    const soma = {};
+    DIAS_SEMANA_ORDEM.forEach(d => soma[d] = 0);
+    dados.forEach(r => {
+      const [y, m, d] = r.data.split("-").map(Number);
+      soma[nomesDias[new Date(y, m - 1, d).getDay()]] += r.valorDia;
+    });
+    const ativos = DIAS_SEMANA_ORDEM.filter(d => soma[d] > 0 || d !== "DOMINGO");
+
+    if (charts.setoresDia) charts.setoresDia.destroy();
+    charts.setoresDia = new Chart(document.getElementById("chartSetoresDiaSemana"), {
+      type: "bar",
+      data: {
+        labels: ativos.map(d => abrev[d]),
+        datasets: [{
+          label: "Faturamento",
+          data: ativos.map(d => soma[d]),
+          backgroundColor: ["#8b5cf6", "#a855f7", "#6366f1", "#38bdf8", "#34d399", "#f59e0b"],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: { anchor: "end", align: "top", color: "#e5e7eb", font: { size: 9, weight: "600" }, formatter: v => v > 0 ? fmtCompacto(v) : "" }
+        },
+        scales: {
+          x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
+          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
+        }
+      }
+    });
+  }
+
+  function renderizarSupComparativo(listaEquipes) {
+    const porSup = {};
+    listaEquipes.forEach(e => {
+      const s = e.supervisor.split(" ")[0] || "SUP";
+      if (!porSup[s]) porSup[s] = { previsto: 0, realizado: 0 };
+      porSup[s].previsto += e.previsto;
+      porSup[s].realizado += e.realizado;
+    });
+    const entries = Object.entries(porSup).sort((a, b) => b[1].realizado - a[1].realizado).slice(0, 6);
+
+    if (charts.supComp) charts.supComp.destroy();
+    charts.supComp = new Chart(document.getElementById("chartSupComparativo"), {
+      type: "bar",
+      data: {
+        labels: entries.map(e => e[0]),
+        datasets: [
+          { label: "Previsto", data: entries.map(e => e[1].previsto), backgroundColor: "rgba(255,255,255,0.22)", borderRadius: 6 },
+          { label: "Realizado", data: entries.map(e => e[1].realizado), backgroundColor: "#38bdf8", borderRadius: 6 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#e5e7eb", font: { size: 10 } } },
+          datalabels: { display: false }
+        },
+        scales: {
+          x: { ticks: { color: corEixo, font: { size: 10 } }, grid: { display: false } },
+          y: { beginAtZero: true, ticks: { color: corEixo, font: { size: 10 }, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } }
+        }
+      }
     });
   }
 
@@ -1269,13 +1555,13 @@
           <div style="display:flex; align-items:center; gap:10px; min-width:0;">
             <div class="pos-icon">${iniciais || "SP"}</div>
             <div style="min-width:0;">
-              <div style="font-size:12.5px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sup}</div>
-              <div style="font-size:10.5px; color:#9ca3af;">Meta: ${fmtCompacto(v.meta)}</div>
+              <div style="font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${sup}</div>
+              <div style="font-size:10px; color:#9ca3af;">Meta: ${fmtCompacto(v.meta)}</div>
             </div>
           </div>
           <div style="text-align:right; flex-shrink:0;">
-            <div style="font-size:12.5px; font-weight:700; color:#fff;">${fmtCompacto(v.realizado)}</div>
-            <div style="font-size:10.5px; color:#c084fc; font-weight:600;">${pct}% meta</div>
+            <div style="font-size:12px; font-weight:700; color:#fff;">${fmtCompacto(v.realizado)}</div>
+            <div style="font-size:10px; color:#c084fc; font-weight:600;">${pct}% meta</div>
           </div>
         </div>
       `;
@@ -1314,7 +1600,7 @@
           datalabels: { anchor: "end", align: "right", color: "#e5e7eb", font: { size: 9.5 }, formatter: v => fmtCompacto(v) }
         },
         scales: {
-          x: { beginAtZero: true, ticks: { color: "#9ca3af", callback: v => (v / 1000) + "k" }, grid: { color: "rgba(255,255,255,0.05)" } },
+          x: { beginAtZero: true, ticks: { color: corEixo, callback: v => (v / 1000) + "k" }, grid: { color: corGrid } },
           y: { ticks: { color: "#f8fafc", font: { size: 10.5, weight: "600" } }, grid: { display: false } }
         }
       }
@@ -1352,7 +1638,24 @@
       </tr>`;
   }
 
-  // Eventos dos botões
+  // Botão Mostrar / Esconder Menu
+  document.getElementById("btnToggleMenu").addEventListener("click", () => {
+    const oculto = document.body.classList.toggle("menu-hidden");
+    const btn = document.getElementById("btnToggleMenu");
+    const ico = document.getElementById("iconToggleMenu");
+    const txt = document.getElementById("txtToggleMenu");
+    if (oculto) {
+      btn.classList.add("toggled");
+      ico.className = "fa-solid fa-eye";
+      txt.textContent = "Mostrar Menu";
+    } else {
+      btn.classList.remove("toggled");
+      ico.className = "fa-solid fa-eye-slash";
+      txt.textContent = "Esconder Menu";
+    }
+  });
+
+  // Seletor de série do gráfico principal
   document.querySelectorAll("#seletorSerie .seg-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll("#seletorSerie .seg-btn").forEach(b => b.classList.remove("active"));
