@@ -369,16 +369,16 @@
 
     .hero-btn {
       height: 34px;
-      padding: 0 14px;
+      padding: 0 13px;
       border-radius: 9px;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       letter-spacing: 0.4px;
       text-transform: uppercase;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       text-decoration: none;
       transition: all 0.2s ease;
     }
@@ -391,9 +391,9 @@
 
     .hero-btn-blue:hover,
     .hero-btn-blue.active {
-      background: rgba(37, 99, 235, 0.42);
-      border-color: #60a5fa;
-      color: #ffffff;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
     }
 
     .hero-btn-cyan {
@@ -525,13 +525,13 @@
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
     }
 
-    /* ================= CARROSSEL + GRADE DE CARDS GLASSMORPHISM ================= */
+    /* ================= CARROSSEL + GRADE + CARROSSEL 3D ================= */
     .carousel-shell {
       position: relative;
       border-radius: 18px;
       background: rgba(10, 16, 30, 0.72);
       border: 1px solid rgba(56, 189, 248, 0.24);
-      padding: 18px 20px;
+      padding: 18px 20px 22px;
       backdrop-filter: blur(16px);
       box-shadow: 0 18px 42px rgba(0, 0, 0, 0.56);
     }
@@ -542,7 +542,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .carousel-status-label {
@@ -582,7 +582,7 @@
       color: #ffffff;
     }
 
-    /* TRILHO DO CARROSSEL vs MODO GRADE */
+    /* MODO CARROSSEL NORMAL (4 COLUNAS) */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -590,12 +590,65 @@
       align-items: stretch;
     }
 
+    /* MODO GRADE */
     .cards-track.grid-mode {
       grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
     }
 
+    /* MODO CARROSSEL 3D (UM NA FRENTE, DOIS QUASE INVISÍVEIS ATRÁS RODANDO) */
+    .cards-track.mode-3d {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 455px;
+      perspective: 1800px;
+      overflow: hidden;
+      padding: 12px 0;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap {
+      position: absolute;
+      width: 380px;
+      max-width: 92vw;
+      height: 425px;
+      transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-center {
+      transform: translate3d(0, 0, 90px) scale(1);
+      opacity: 1;
+      filter: blur(0px);
+      z-index: 5;
+      pointer-events: auto;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-left {
+      transform: translate3d(-255px, 10px, -160px) scale(0.76) rotateY(14deg);
+      opacity: 0.14;
+      filter: blur(1.2px);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-right {
+      transform: translate3d(255px, 10px, -160px) scale(0.76) rotateY(-14deg);
+      opacity: 0.14;
+      filter: blur(1.2px);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-hidden {
+      transform: translate3d(0, 14px, -260px) scale(0.62);
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
     .card-3d-wrap {
       perspective: 1400px;
+      min-height: 365px;
       height: 100%;
     }
 
@@ -604,7 +657,7 @@
       --border-soft: #1d4ed8;
       position: relative;
       border-radius: 17px;
-      background: linear-gradient(160deg, rgba(16, 25, 44, 0.82) 0%, rgba(7, 12, 23, 0.90) 100%);
+      background: linear-gradient(160deg, rgba(16, 25, 44, 0.84) 0%, rgba(7, 12, 23, 0.92) 100%);
       backdrop-filter: blur(18px) saturate(140%);
       -webkit-backdrop-filter: blur(18px) saturate(140%);
       border: 1px solid rgba(255, 255, 255, 0.10);
@@ -619,10 +672,10 @@
 
     .card-surface:hover,
     .card-surface.is-center {
-      border-color: rgba(56, 189, 248, 0.44);
+      border-color: rgba(56, 189, 248, 0.46);
       box-shadow:
-        0 20px 44px rgba(0, 0, 0, 0.68),
-        0 0 22px rgba(56, 189, 248, 0.14),
+        0 20px 44px rgba(0, 0, 0, 0.72),
+        0 0 24px rgba(56, 189, 248, 0.16),
         inset 0 1px 0 rgba(255, 255, 255, 0.18);
     }
 
@@ -654,22 +707,24 @@
     .card-surface:hover::before,
     .card-surface.is-center::before { opacity: 0.92; }
 
+    /* CARDS MAIS COMPRIDOS */
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 14px 15px 15px;
+      padding: 16px 17px 18px;
       border-radius: 16px;
+      min-height: 365px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 10px;
+      gap: 14px;
     }
 
     .card-img-banner {
       position: relative;
       width: 100%;
-      height: 126px;
+      height: 158px;
       border-radius: 12px;
       background-size: cover;
       background-position: center;
@@ -681,13 +736,13 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(7, 12, 23, 0.85) 0%, rgba(7, 12, 23, 0.15) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(7, 12, 23, 0.86) 0%, rgba(7, 12, 23, 0.15) 60%, transparent 100%);
     }
 
     .card-badge-tag {
       position: absolute;
-      top: 9px;
-      left: 9px;
+      top: 10px;
+      left: 10px;
       z-index: 2;
       padding: 4px 10px;
       border-radius: 8px;
@@ -712,11 +767,11 @@
 
     .btn-fav-card {
       position: absolute;
-      top: 9px;
-      right: 9px;
+      top: 10px;
+      right: 10px;
       z-index: 2;
-      width: 28px;
-      height: 28px;
+      width: 29px;
+      height: 29px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.18);
       background: rgba(5, 10, 22, 0.78);
@@ -743,18 +798,18 @@
     }
 
     .card-title-txt {
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.2px;
-      margin-top: 2px;
+      margin-top: 12px;
     }
 
     .card-desc-txt {
-      font-size: 11.5px;
-      line-height: 1.48;
+      font-size: 12px;
+      line-height: 1.55;
       color: #cbd5e1;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .kpi-mini-row {
@@ -762,9 +817,9 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding: 7px 10px;
+      padding: 8px 11px;
       border-radius: 9px;
-      background: rgba(5, 10, 22, 0.72);
+      background: rgba(5, 10, 22, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.07);
       font-size: 10.5px;
       font-weight: 600;
@@ -783,7 +838,7 @@
 
     .btn-primary-card {
       flex: 1;
-      height: 35px;
+      height: 36px;
       padding: 0 12px;
       border-radius: 9px;
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -809,7 +864,7 @@
     }
 
     .btn-glass-card {
-      height: 35px;
+      height: 36px;
       padding: 0 11px;
       border-radius: 9px;
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -833,8 +888,8 @@
     }
 
     .btn-nova-aba {
-      width: 35px;
-      height: 35px;
+      width: 36px;
+      height: 36px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.85);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -865,7 +920,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 7px;
-      margin-top: 15px;
+      margin-top: 16px;
     }
 
     .p-dot {
@@ -1138,12 +1193,16 @@
 
     @media (max-width: 900px) {
       .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-150px, 10px, -160px) scale(0.72); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(150px, 10px, -160px) scale(0.72); }
     }
 
     @media (max-width: 600px) {
       body { padding: 12px 14px 22px; }
       .cards-track,
       .cards-track.grid-mode { grid-template-columns: 1fr; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left,
+      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.05; }
     }
   </style>
 </head>
@@ -1226,6 +1285,10 @@
           <i class="fa-solid fa-sliders"></i> MODO CARROSSEL
         </button>
 
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D">
+          <i class="fa-solid fa-cube"></i> MODO CARROSSEL 3D
+        </button>
+
         <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade">
           <i class="fa-solid fa-table-cells"></i> MODO GRADE
         </button>
@@ -1261,11 +1324,11 @@
       </div>
     </div>
 
-    <!-- 4. CARROSSEL / GRADE INTERATIVA DOS SETORES E SUB-PAINÉIS -->
+    <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE INTERATIVA -->
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-layer-group"></i> EXIBINDO 13 DEPARTAMENTOS · USE AS SETAS OU ALTERNE PARA GRADE
+          <i class="fa-solid fa-layer-group"></i> EXIBINDO 13 DEPARTAMENTOS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1380,7 +1443,7 @@
   <script>
     (function iniciarCentralDashboards() {
       // =========================================================================
-      // 1. ESTRUTURA COMPLETA DOS 13 SETORES E 29 SUB-PAINÉIS (PRESERVADA)
+      // 1. ESTRUTURA COMPLETA DOS 13 SETORES E 29 SUB-PAINÉIS
       // =========================================================================
       const ESTRUTURA_DASHBOARDS = {
         almoxarifado: {
@@ -1637,11 +1700,11 @@
       };
 
       // =========================================================================
-      // 2. ESTADO DA APLICAÇÃO
+      // 2. ESTADO DA APLICAÇÃO ('carrossel' | '3d' | 'grade')
       // =========================================================================
       let emSubDashboards = false;
       let setorAtualKey = null;
-      let modoGrade = false;
+      let modoVisualizacao = "carrossel";
       let categoriaAtiva = "TODOS";
       let somenteFavoritos = false;
       let indiceCarrossel = 0;
@@ -1659,7 +1722,6 @@
       const detailsBackdrop = document.getElementById("detailsBackdrop");
       const detailsDrawer = document.getElementById("detailsDrawer");
 
-      // Usuário & Sair
       const nomeSessao = sessionStorage.getItem("ellca_user_name") || localStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
       document.getElementById("footerUserName").textContent = nomeSessao;
 
@@ -1677,7 +1739,6 @@
       atualizarRelogio();
       setInterval(atualizarRelogio, 30000);
 
-      // Favoritos
       function obterFavoritos() {
         try { return JSON.parse(localStorage.getItem("ellca_dash_favs") || "[]"); }
         catch { return []; }
@@ -1690,7 +1751,7 @@
       document.getElementById("favCountTxt").textContent = obterFavoritos().length;
 
       // =========================================================================
-      // 3. RENDERIZAÇÃO DO CARROSSEL E DA GRADE (SETORES OU SUB-PAINÉIS)
+      // 3. RENDERIZAÇÃO (CARROSSEL, CARROSSEL 3D E GRADE)
       // =========================================================================
       function obterItensAtuais() {
         const termo = document.getElementById("cardSearch").value.trim().toLowerCase();
@@ -1726,26 +1787,111 @@
         return 4;
       }
 
+      function criarHtmlCard(item, favs, isCenter, slotClass = "") {
+        if (emSubDashboards) {
+          const bgImg = item.imagem
+            ? `url('${item.imagem}')`
+            : `linear-gradient(135deg, rgba(12, 36, 84, 0.70) 0%, rgba(4, 10, 24, 0.90) 100%), url('img/dashboards.jpg')`;
+          const statusClass = item.embed ? "kpi-success" : "kpi-warning";
+          const statusTxt = item.embed ? "Ativo" : "Pendente";
+
+          return `
+            <div class="card-3d-wrap ${slotClass}">
+              <div class="card-surface ${isCenter ? "is-center" : ""}">
+                <div class="card-body">
+                  <div>
+                    <div class="card-img-banner" style="background-image: ${bgImg};">
+                      <span class="card-badge-tag gold">BI <i class="fa-solid fa-chart-bar"></i></span>
+                    </div>
+                    <h3 class="card-title-txt">${item.titulo}</h3>
+                    <p class="card-desc-txt">${item.desc || "Painel analítico do setor."}</p>
+                  </div>
+
+                  <div style="display:flex; flex-direction:column; gap:9px;">
+                    <div class="kpi-mini-row">
+                      <span><i class="fa-solid fa-display"></i> ${item.plataforma || "Looker Studio"}</span>
+                      <span class="${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTxt}</span>
+                    </div>
+                    <div class="card-actions-row">
+                      <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${item.titulo}" data-embed="${item.embed || ""}">
+                        ACESSAR <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                      <button type="button" class="btn-glass-card btn-detalhes-sub" data-setor="${item.setorKey}" data-sub-idx="${item.subIdx}">
+                        DETALHES
+                      </button>
+                      <button type="button" class="btn-nova-aba" data-embed="${item.embed || ""}" ${item.embed ? "" : "disabled"} title="Abrir em nova aba">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        const isFav = favs.includes(item.key);
+        const hasSub = item.subitens && item.subitens.length > 0;
+
+        return `
+          <div class="card-3d-wrap ${slotClass}">
+            <div class="card-surface ${isCenter ? "is-center" : ""}">
+              <div class="card-body">
+                <div>
+                  <div class="card-img-banner" style="background-image: url('${item.imagem}');">
+                    <span class="card-badge-tag ${item.badgeGold ? "gold" : ""}">${item.badge} <i class="fa-solid ${item.icone}"></i></span>
+                    <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${item.key}" title="Fixar nos favoritos">
+                      <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                    </button>
+                  </div>
+                  <h3 class="card-title-txt">${item.titulo}</h3>
+                  <p class="card-desc-txt">${item.cardDesc}</p>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:9px;">
+                  <div class="kpi-mini-row">
+                    <span>${item.kpi1}</span>
+                    <span>${item.kpi2}</span>
+                  </div>
+                  <div class="card-actions-row">
+                    <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${item.key}">
+                      ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-arrow-right"}"></i>
+                    </button>
+                    <button type="button" class="btn-glass-card btn-detalhes-dash" data-setor-key="${item.key}">
+                      DETALHES
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
       function renderizarCards() {
         const itens = obterItensAtuais();
         const total = itens.length;
 
-        cardsWrapper.classList.toggle("grid-mode", modoGrade);
-        document.getElementById("carouselNavControls").style.display = (modoGrade || total <= 1) ? "none" : "inline-flex";
-        paginationDots.style.display = (modoGrade || total <= 1) ? "none" : "flex";
+        cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
+        cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
 
+        const mostraSetas = modoVisualizacao !== "grade" && total > 1;
+        document.getElementById("carouselNavControls").style.display = mostraSetas ? "inline-flex" : "none";
+        paginationDots.style.display = mostraSetas ? "flex" : "none";
+
+        const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
         const statusEl = document.getElementById("carouselStatusLabel");
         if (emSubDashboards && setorAtualKey) {
-          statusEl.innerHTML = `<i class="fa-solid fa-folder-open"></i> SETOR ${ESTRUTURA_DASHBOARDS[setorAtualKey].titulo} · ${total} ${total === 1 ? "SUB-PAINEL" : "SUB-PAINÉIS"}`;
+          statusEl.innerHTML = `<i class="fa-solid fa-folder-open"></i> SETOR ${ESTRUTURA_DASHBOARDS[setorAtualKey].titulo} · ${total} ${total === 1 ? "SUB-PAINEL" : "SUB-PAINÉIS"} · ${nomeModo}`;
         } else {
-          statusEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 13 DEPARTAMENTOS · ${modoGrade ? "VISÃO EM GRADE" : "CARROSSEL INTERATIVO"}`;
+          statusEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 13 DEPARTAMENTOS · ${nomeModo}`;
         }
 
         if (total === 0) {
           cardsWrapper.innerHTML = `
-            <div class="card-3d-wrap" style="grid-column: 1 / -1;">
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative;">
               <div class="card-surface">
-                <div class="card-body" style="text-align:center; padding:32px;">
+                <div class="card-body" style="text-align:center; padding:32px; min-height:200px;">
                   <strong style="color:#7dd3fc; font-size:15px;">Nenhum painel encontrado para o filtro atual.</strong>
                   <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a pesquisa ou altere a categoria selecionada.</span>
                 </div>
@@ -1757,100 +1903,31 @@
         }
 
         if (indiceCarrossel >= total) indiceCarrossel = 0;
+        const favs = obterFavoritos();
 
-        let listaExibida = itens;
-        if (!modoGrade) {
+        if (modoVisualizacao === "3d") {
+          const prevIdx = (indiceCarrossel - 1 + total) % total;
+          const nextIdx = (indiceCarrossel + 1) % total;
+
+          cardsWrapper.innerHTML = itens.map((item, idx) => {
+            let slotClass = "slot-hidden";
+            if (idx === indiceCarrossel) slotClass = "slot-center";
+            else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+            else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+            return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass);
+          }).join("");
+        } else if (modoVisualizacao === "grade") {
+          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i === 0, "")).join("");
+        } else {
           const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
-          listaExibida = [];
+          const listaExibida = [];
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
+          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i === 0, "")).join("");
         }
 
-        const favs = obterFavoritos();
-
-        if (emSubDashboards) {
-          cardsWrapper.innerHTML = listaExibida.map((sub, i) => {
-            const bgImg = sub.imagem ? `url('${sub.imagem}')` : `linear-gradient(135deg, rgba(12, 36, 84, 0.70) 0%, rgba(4, 10, 24, 0.90) 100%), url('img/dashboards.jpg')`;
-            const statusClass = sub.embed ? "kpi-success" : "kpi-warning";
-            const statusTxt = sub.embed ? "Ativo" : "Pendente";
-
-            return `
-              <div class="card-3d-wrap">
-                <div class="card-surface ${i === 0 && !modoGrade ? "is-center" : ""}">
-                  <div class="card-body">
-                    <div>
-                      <div class="card-img-banner" style="background-image: ${bgImg};">
-                        <span class="card-badge-tag gold">BI <i class="fa-solid fa-chart-bar"></i></span>
-                      </div>
-                      <h3 class="card-title-txt" style="margin-top:10px;">${sub.titulo}</h3>
-                      <p class="card-desc-txt">${sub.desc || "Painel analítico do setor."}</p>
-                    </div>
-
-                    <div style="display:flex; flex-direction:column; gap:9px;">
-                      <div class="kpi-mini-row">
-                        <span><i class="fa-solid fa-display"></i> ${sub.plataforma || "Looker Studio"}</span>
-                        <span class="${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTxt}</span>
-                      </div>
-                      <div class="card-actions-row">
-                        <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${sub.titulo}" data-embed="${sub.embed || ""}">
-                          ACESSAR <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                        <button type="button" class="btn-glass-card btn-detalhes-sub" data-setor="${sub.setorKey}" data-sub-idx="${sub.subIdx}">
-                          DETALHES
-                        </button>
-                        <button type="button" class="btn-nova-aba" data-embed="${sub.embed || ""}" ${sub.embed ? "" : "disabled"} title="Abrir em nova aba">
-                          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            `;
-          }).join("");
-        } else {
-          cardsWrapper.innerHTML = listaExibida.map((setor, i) => {
-            const isFav = favs.includes(setor.key);
-            const hasSub = setor.subitens && setor.subitens.length > 0;
-            return `
-              <div class="card-3d-wrap">
-                <div class="card-surface ${i === 0 && !modoGrade ? "is-center" : ""}">
-                  <div class="card-body">
-                    <div>
-                      <div class="card-img-banner" style="background-image: url('${setor.imagem}');">
-                        <span class="card-badge-tag ${setor.badgeGold ? "gold" : ""}">${setor.badge} <i class="fa-solid ${setor.icone}"></i></span>
-                        <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${setor.key}" title="Fixar nos favoritos">
-                          <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
-                        </button>
-                      </div>
-                      <h3 class="card-title-txt" style="margin-top:10px;">${setor.titulo}</h3>
-                      <p class="card-desc-txt">${setor.cardDesc}</p>
-                    </div>
-
-                    <div style="display:flex; flex-direction:column; gap:9px;">
-                      <div class="kpi-mini-row">
-                        <span>${setor.kpi1}</span>
-                        <span>${setor.kpi2}</span>
-                      </div>
-                      <div class="card-actions-row">
-                        <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${setor.key}">
-                          ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-arrow-right"}"></i>
-                        </button>
-                        <button type="button" class="btn-glass-card btn-detalhes-dash" data-setor-key="${setor.key}">
-                          DETALHES
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            `;
-          }).join("");
-        }
-
-        // Paginação (Dots) no modo carrossel
-        if (!modoGrade && total > 1) {
+        if (mostraSetas) {
           paginationDots.innerHTML = itens.map((_, idx) => `
             <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
           `).join("");
@@ -2114,7 +2191,7 @@
       });
 
       // =========================================================================
-      // 6. CONTROLES DO CARROSSEL, FILTROS, PESQUISA GLOBAL E MENU RECOLHÍVEL
+      // 6. CONTROLES DO CARROSSEL, CARROSSEL 3D, GRADE, FILTROS E MENU
       // =========================================================================
       function avancarCarrossel(passo) {
         const total = obterItensAtuais().length;
@@ -2128,7 +2205,7 @@
 
       function iniciarAutoPlay() {
         clearInterval(timerCarrossel);
-        if (!autoPlayAtivo || modoGrade) return;
+        if (!autoPlayAtivo || modoVisualizacao === "grade") return;
         timerCarrossel = setInterval(() => avancarCarrossel(1), 5500);
       }
 
@@ -2139,21 +2216,37 @@
         iniciarAutoPlay();
       });
 
-      document.getElementById("btnModoCarrossel").addEventListener("click", () => {
-        modoGrade = false;
-        document.getElementById("btnModoCarrossel").classList.add("active");
-        document.getElementById("btnModoGrade").classList.remove("active");
+      const btnModoCarrossel = document.getElementById("btnModoCarrossel");
+      const btnModoCarrossel3D = document.getElementById("btnModoCarrossel3D");
+      const btnModoGrade = document.getElementById("btnModoGrade");
+
+      function atualizarBotoesModo(novoModo) {
+        modoVisualizacao = novoModo;
+        btnModoCarrossel.classList.toggle("active", novoModo === "carrossel");
+        btnModoCarrossel3D.classList.toggle("active", novoModo === "3d");
+        btnModoGrade.classList.toggle("active", novoModo === "grade");
+
+        if (novoModo === "carrossel") {
+          btnModoCarrossel.className = "hero-btn hero-btn-cyan active";
+          btnModoCarrossel3D.className = "hero-btn hero-btn-blue";
+          btnModoGrade.className = "hero-btn hero-btn-blue";
+        } else if (novoModo === "3d") {
+          btnModoCarrossel.className = "hero-btn hero-btn-blue";
+          btnModoCarrossel3D.className = "hero-btn hero-btn-cyan active";
+          btnModoGrade.className = "hero-btn hero-btn-blue";
+        } else {
+          btnModoCarrossel.className = "hero-btn hero-btn-blue";
+          btnModoCarrossel3D.className = "hero-btn hero-btn-blue";
+          btnModoGrade.className = "hero-btn hero-btn-cyan active";
+        }
+
         iniciarAutoPlay();
         renderizarCards();
-      });
+      }
 
-      document.getElementById("btnModoGrade").addEventListener("click", () => {
-        modoGrade = true;
-        document.getElementById("btnModoGrade").classList.add("active");
-        document.getElementById("btnModoCarrossel").classList.remove("active");
-        clearInterval(timerCarrossel);
-        renderizarCards();
-      });
+      btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
+      btnModoCarrossel3D.addEventListener("click", () => atualizarBotoesModo("3d"));
+      btnModoGrade.addEventListener("click", () => atualizarBotoesModo("grade"));
 
       document.getElementById("btnFiltroFavoritos").addEventListener("click", () => {
         if (emSubDashboards) restaurarSetoresPrincipais();
@@ -2179,7 +2272,6 @@
         renderizarCards();
       });
 
-      // Pesquisa Global ao pressionar Enter (localiza sub-painéis mesmo estando na tela principal)
       searchInput.addEventListener("keydown", (e) => {
         if (e.key !== "Enter") return;
         const termo = searchInput.value.trim().toLowerCase();
@@ -2206,7 +2298,7 @@
       });
 
       window.addEventListener("resize", () => {
-        if (!modoGrade) renderizarCards();
+        if (modoVisualizacao === "carrossel") renderizarCards();
       });
 
       renderizarCards();
