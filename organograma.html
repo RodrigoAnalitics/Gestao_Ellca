@@ -1,2241 +1,2321 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELLCA | ESTRUTURA ORGANIZACIONAL</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles_index.css">
-
-    <script>
-        if (sessionStorage.getItem('ellca_auth') !== 'true') {
-            window.location.replace('login.html');
-        }
-    </script>
-
-    <style>
-        :root {
-            --primary: #00d4ff;
-            --gold-border: rgba(245, 196, 81, 0.55);
-            --gold-glow: rgba(245, 180, 40, 0.22);
-            --silver-border: rgba(203, 213, 225, 0.55);
-            --silver-glow: rgba(226, 232, 240, 0.20);
-            --bronze-border: rgba(205, 127, 50, 0.55);
-            --bronze-glow: rgba(205, 127, 50, 0.22);
-        }
-
-        @keyframes pulseDot {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.35); opacity: 0.65; }
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-y: auto !important;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body.fit-screen-mode {
-            overflow: hidden !important;
-        }
-
-        .desktop-view {
-            min-height: 100vh;
-            height: auto !important;
-            overflow: visible !important;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .container {
-            flex: 1;
-            height: auto !important;
-            min-height: 100vh;
-            overflow: visible !important;
-            position: relative;
-        }
-
-        .container .item.active {
-            position: relative !important;
-            height: auto !important;
-            min-height: 100vh;
-            overflow: visible !important;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* ================= NAVBAR IGUAL AO DASHBOARD.HTML ================= */
-        .top-navbar-collapse,
-        .footer-bar {
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease, max-height 0.28s ease;
-        }
-
-        body.bars-collapsed .top-navbar-collapse {
-            max-height: 0;
-            opacity: 0;
-            transform: translateY(-10px);
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        body.bars-collapsed .footer-bar {
-            transform: translateY(110%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .top-navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 8px 20px;
-            width: 100%;
-            background: rgba(5, 8, 17, 0.88);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.24);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 950;
-            box-sizing: border-box;
-        }
-
-        .nav-brand-side {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .brand-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        .brand-logo img {
-            height: 34px;
-            width: auto;
-            max-width: 150px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .brand-fallback {
-            display: none;
-            align-items: center;
-            gap: 8px;
-            font-weight: 800;
-            font-size: 19px;
-            color: #60a5fa;
-        }
-
-        .module-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 4px 12px;
-            border-radius: 999px;
-            background: rgba(14, 165, 233, 0.14);
-            border: 1px solid rgba(56, 189, 248, 0.38);
-            color: #38bdf8;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.45px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .module-pill .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #34d399;
-            box-shadow: 0 0 8px #34d399;
-            animation: pulseDot 2s infinite;
-        }
-
-        .user-avatar-ring {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1.5px solid #38bdf8;
-            background: rgba(15, 23, 42, 0.85);
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
-            color: #7dd3fc;
-            font-size: 11px;
-            font-weight: 800;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .nav-links-side {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .top-nav-link {
-            text-decoration: none;
-            color: #cbd5e1;
-            font-size: 10.5px;
-            font-weight: 700;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 9px;
-            border-radius: 8px;
-            white-space: nowrap;
-            transition: color 0.2s ease, background 0.2s ease;
-        }
-
-        .top-nav-link:hover,
-        .top-nav-link.active {
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.14);
-        }
-
-        .btn-back-circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            background: rgba(15, 23, 42, 0.8);
-            color: #e2e8f0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 11.5px;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: all 0.2s ease;
-        }
-
-        .btn-back-circle:hover {
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.22);
-            color: #ffffff;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(3, 7, 18, 0.85);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 212, 255, 0.38);
-            border-radius: 999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 212, 255, 0.72);
-        }
-
-        .org-wrapper {
-            width: 100%;
-            max-width: 1520px;
-            margin: 0 auto;
-            padding: 76px 24px 85px 24px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            transition: padding 0.32s ease;
-        }
-
-        body.bars-collapsed .org-wrapper {
-            padding: 18px 24px 24px 24px;
-        }
-
-        body.fit-screen-mode .org-wrapper {
-            max-width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            padding-bottom: 14px;
-            gap: 12px;
-            overflow: hidden;
-        }
-
-        body.fit-screen-mode:not(.bars-collapsed) .org-wrapper {
-            padding-bottom: 58px;
-        }
-
-        /* CABEÇALHO DA PÁGINA */
-        .org-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 14px 22px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.82) 0%, rgba(12, 36, 84, 0.68) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 212, 255, 0.32);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-            flex-shrink: 0;
-            z-index: 10;
-        }
-
-        .org-title-group {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .org-icon-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: rgba(0, 212, 255, 0.14);
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .org-title-group h1 {
-            font-size: 17px;
-            font-weight: 900;
-            letter-spacing: 1.2px;
-            color: #fff;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .org-title-group p {
-            font-size: 11px;
-            color: #94a3b8;
-            margin: 3px 0 0 0;
-        }
-
-        .org-header-controls {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .btn-org-control {
-            padding: 9px 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.42);
-            background: rgba(0, 212, 255, 0.12);
-            color: #e2e8f0;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            transition: all 0.25s ease;
-        }
-
-        .btn-org-control:hover {
-            background: rgba(0, 212, 255, 0.26);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.35);
-        }
-
-        .btn-org-control.active-mode {
-            background: var(--primary);
-            color: #030712;
-            border-color: var(--primary);
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.45);
-        }
-
-        /* ================= PAINEL DE RESUMO, BUSCA E FILTROS ================= */
-        .org-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 14px 18px;
-            border-radius: 16px;
-            background: linear-gradient(145deg, rgba(6, 13, 28, 0.84) 0%, rgba(10, 24, 54, 0.72) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 212, 255, 0.26);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.09);
-            flex-shrink: 0;
-            z-index: 9;
-        }
-
-        .panel-kpis-row {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(140px, 1fr));
-            gap: 10px;
-        }
-
-        .panel-kpi-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            background: rgba(3, 8, 19, 0.65);
-            border: 1px solid rgba(148, 163, 184, 0.16);
-        }
-
-        .panel-kpi-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-            background: rgba(0, 212, 255, 0.14);
-            color: var(--primary);
-            border: 1px solid rgba(0, 212, 255, 0.32);
-        }
-
-        .panel-kpi-icon.gold {
-            background: rgba(245, 196, 81, 0.14);
-            color: #fde68a;
-            border-color: rgba(245, 196, 81, 0.35);
-        }
-
-        .panel-kpi-icon.green {
-            background: rgba(52, 211, 153, 0.14);
-            color: #6ee7b7;
-            border-color: rgba(52, 211, 153, 0.35);
-        }
-
-        .panel-kpi-icon.indigo {
-            background: rgba(129, 140, 248, 0.15);
-            color: #c7d2fe;
-            border-color: rgba(129, 140, 248, 0.35);
-        }
-
-        .panel-kpi-info small {
-            display: block;
-            font-size: 9.5px;
-            font-weight: 700;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            color: #94a3b8;
-        }
-
-        .panel-kpi-info strong {
-            display: block;
-            font-size: 16px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-top: 2px;
-        }
-
-        .panel-toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .panel-search-wrap {
-            position: relative;
-            flex: 1 1 260px;
-            max-width: 380px;
-        }
-
-        .panel-search-wrap i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            font-size: 12px;
-        }
-
-        .panel-search-input {
-            width: 100%;
-            height: 34px;
-            padding: 0 32px 0 34px;
-            border-radius: 9px;
-            background: rgba(3, 8, 19, 0.85);
-            border: 1px solid rgba(0, 212, 255, 0.32);
-            color: #f8fafc;
-            font-size: 11.5px;
-            outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .panel-search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.18);
-        }
-
-        .panel-search-clear {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 11px;
-            padding: 4px;
-            display: none;
-        }
-
-        .panel-search-clear.visible {
-            display: inline-flex;
-        }
-
-        .panel-search-clear:hover {
-            color: #fff;
-        }
-
-        .panel-filters-group {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .panel-filter-btn {
-            height: 30px;
-            padding: 0 11px;
-            border-radius: 8px;
-            border: 1px solid rgba(148, 163, 184, 0.22);
-            background: rgba(4, 10, 24, 0.72);
-            color: #cbd5e1;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s ease;
-        }
-
-        .panel-filter-btn:hover {
-            border-color: rgba(0, 212, 255, 0.5);
-            color: #fff;
-        }
-
-        .panel-filter-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #030712;
-            font-weight: 800;
-        }
-
-        .panel-sector-select {
-            height: 30px;
-            padding: 0 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 212, 255, 0.34);
-            background: rgba(4, 10, 24, 0.88);
-            color: #e2e8f0;
-            font-size: 10.5px;
-            font-weight: 700;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .panel-feedback-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-            font-size: 11px;
-            color: #94a3b8;
-            padding-top: 4px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .panel-feedback-bar strong {
-            color: #e2e8f0;
-        }
-
-        .btn-reset-filters {
-            background: transparent;
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            color: var(--primary);
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 3px 9px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .btn-reset-filters:hover {
-            background: rgba(0, 212, 255, 0.16);
-        }
-
-        .org-empty-state {
-            width: 100%;
-            max-width: 520px;
-            margin: 18px auto;
-            padding: 28px 22px;
-            border-radius: 16px;
-            text-align: center;
-            background: rgba(8, 15, 30, 0.78);
-            border: 1px solid rgba(0, 212, 255, 0.28);
-            color: #cbd5e1;
-        }
-
-        .org-empty-state i {
-            font-size: 26px;
-            color: var(--primary);
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        /* PALCO DO ORGANOGRAMA */
-        .org-stage {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
-        }
-
-        body.fit-screen-mode .org-stage {
-            flex: 1 1 auto;
-            min-height: 0;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        #organogramaContainer {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform-origin: center center;
-            transition: transform 0.25s ease;
-        }
-
-        .org-tree {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            animation: fadeInOrg 0.35s ease;
-        }
-
-        .org-level {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            width: 100%;
-            position: relative;
-        }
-
-        .org-tree.fit-single-row {
-            width: max-content;
-        }
-        .org-tree.fit-single-row .org-level {
-            flex-wrap: nowrap;
-            width: max-content;
-        }
-        .org-tree.fit-single-row .org-connector-bar {
-            width: 94%;
-            max-width: none;
-        }
-
-        .org-tree.fit-two-rows {
-            width: 1620px;
-        }
-        .org-tree.fit-two-rows .org-level {
-            flex-wrap: wrap;
-            width: 1620px;
-        }
-        .org-tree.fit-two-rows .org-connector-bar {
-            width: 92%;
-            max-width: none;
-        }
-
-        .org-tree.fit-three-rows {
-            width: 1120px;
-        }
-        .org-tree.fit-three-rows .org-level {
-            flex-wrap: wrap;
-            width: 1120px;
-        }
-        .org-tree.fit-three-rows .org-connector-bar {
-            width: 92%;
-            max-width: none;
-        }
-
-        @keyframes fadeInOrg {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* CONECTORES LUMINOSOS */
-        .org-connector-v {
-            width: 2px;
-            height: 26px;
-            background: rgba(0, 212, 255, 0.24);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.35);
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            border-radius: 2px;
-        }
-
-        .org-connector-v::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, #ffffff, var(--primary), transparent);
-            animation: pulseVertical 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-
-        @keyframes pulseVertical {
-            0% { top: -100%; }
-            100% { top: 120%; }
-        }
-
-        .org-connector-bar {
-            width: 86%;
-            max-width: 1280px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.28) 15%, rgba(0, 212, 255, 0.28) 85%, transparent);
-            box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
-            margin-bottom: 18px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-        }
-
-        .org-connector-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -35%;
-            width: 35%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.85), #ffffff, rgba(0, 212, 255, 0.85), transparent);
-            box-shadow: 0 0 14px #00d4ff;
-            animation: pulseHorizontal 3.4s ease-in-out infinite;
-        }
-
-        @keyframes pulseHorizontal {
-            0% { left: -35%; }
-            50% { left: 100%; }
-            100% { left: -35%; }
-        }
-
-        /* CARD PROPORCIONAL */
-        .org-card {
-            --stroke-color: #00d4ff;
-            width: 248px;
-            min-height: 266px;
-            padding: 18px 16px 15px 16px;
-            border-radius: 16px;
-            background: rgba(8, 15, 30, 0.58);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(0, 212, 255, 0.24);
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            text-align: center;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-        }
-
-        .org-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 212, 255, 0.65);
-            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.65);
-        }
-
-        .org-card.domain-estoque {
-            --stroke-color: #facc15;
-            border-color: rgba(250, 204, 21, 0.30);
-        }
-        .org-card.domain-estoque .org-badge {
-            background: rgba(250, 204, 21, 0.14);
-            border-color: rgba(250, 204, 21, 0.40);
-            color: #fde047;
-        }
-        .org-card.domain-estoque .org-avatar {
-            border-color: rgba(250, 204, 21, 0.62);
-        }
-
-        .org-card.domain-pessoas {
-            --stroke-color: #34d399;
-            border-color: rgba(52, 211, 153, 0.30);
-        }
-        .org-card.domain-pessoas .org-badge {
-            background: rgba(52, 211, 153, 0.14);
-            border-color: rgba(52, 211, 153, 0.40);
-            color: #6ee7b7;
-        }
-        .org-card.domain-pessoas .org-avatar {
-            border-color: rgba(52, 211, 153, 0.62);
-        }
-
-        .org-card.domain-suporte {
-            --stroke-color: #a5b4fc;
-            border-color: rgba(129, 140, 248, 0.32);
-        }
-        .org-card.domain-suporte .org-badge {
-            background: rgba(129, 140, 248, 0.15);
-            border-color: rgba(129, 140, 248, 0.42);
-            color: #c7d2fe;
-        }
-        .org-card.domain-suporte .org-avatar {
-            border-color: rgba(129, 140, 248, 0.65);
-        }
-
-        .card-border-svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            overflow: visible;
-        }
-
-        .card-border-rect {
-            fill: none;
-            stroke: var(--stroke-color);
-            stroke-width: 1.15;
-            stroke-linecap: round;
-            pathLength: 100;
-            stroke-dasharray: 28 100;
-            stroke-dashoffset: 128;
-            opacity: 0;
-            filter: drop-shadow(0 0 3.5px var(--stroke-color));
-            transition: opacity 0.12s ease;
-        }
-
-        .org-card.active-trace .card-border-rect {
-            opacity: 1;
-        }
-
-        .org-card-top,
-        .org-card-bottom {
-            position: relative;
-            z-index: 1;
-        }
-
-        .org-card-top {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .org-card-bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            margin-top: 12px;
-        }
-
-        .org-card.tier-gold {
-            --stroke-color: #fcd34d;
-            width: 274px;
-            min-height: 278px;
-            background: linear-gradient(155deg, rgba(245, 190, 65, 0.15) 0%, rgba(28, 22, 10, 0.58) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--gold-border);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 230, 150, 0.26);
-        }
-        .org-card.tier-gold:hover {
-            border-color: rgba(252, 211, 77, 0.85);
-            box-shadow: 0 16px 36px var(--gold-glow), inset 0 1px 0 rgba(255, 236, 179, 0.38);
-        }
-        .tier-gold .org-badge {
-            background: rgba(245, 190, 65, 0.16);
-            border-color: rgba(245, 190, 65, 0.45);
-            color: #fde68a;
-        }
-        .tier-gold .org-avatar {
-            border-color: rgba(245, 190, 65, 0.75);
-            box-shadow: 0 0 14px rgba(245, 190, 65, 0.24);
-        }
-
-        .org-card.tier-silver {
-            --stroke-color: #f1f5f9;
-            width: 266px;
-            min-height: 272px;
-            background: linear-gradient(155deg, rgba(226, 232, 240, 0.15) 0%, rgba(20, 27, 38, 0.58) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--silver-border);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(248, 250, 252, 0.26);
-        }
-        .org-card.tier-silver:hover {
-            border-color: rgba(241, 245, 249, 0.85);
-            box-shadow: 0 16px 36px var(--silver-glow), inset 0 1px 0 rgba(255, 255, 255, 0.38);
-        }
-        .tier-silver .org-badge {
-            background: rgba(226, 232, 240, 0.15);
-            border-color: rgba(203, 213, 225, 0.45);
-            color: #e2e8f0;
-        }
-        .tier-silver .org-avatar {
-            border-color: rgba(226, 232, 240, 0.75);
-            box-shadow: 0 0 14px rgba(226, 232, 240, 0.20);
-        }
-
-        .org-card.tier-bronze {
-            --stroke-color: #fdba74;
-            width: 258px;
-            min-height: 268px;
-            background: linear-gradient(155deg, rgba(205, 127, 50, 0.15) 0%, rgba(30, 19, 12, 0.58) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--bronze-border);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(244, 184, 134, 0.24);
-        }
-        .org-card.tier-bronze:hover {
-            border-color: rgba(234, 159, 90, 0.85);
-            box-shadow: 0 16px 36px var(--bronze-glow), inset 0 1px 0 rgba(244, 184, 134, 0.36);
-        }
-        .tier-bronze .org-badge {
-            background: rgba(205, 127, 50, 0.16);
-            border-color: rgba(205, 127, 50, 0.45);
-            color: #fdba74;
-        }
-        .tier-bronze .org-avatar {
-            border-color: rgba(217, 140, 68, 0.75);
-            box-shadow: 0 0 14px rgba(205, 127, 50, 0.22);
-        }
-
-        .org-badge {
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            padding: 3.5px 10px;
-            border-radius: 20px;
-            background: rgba(0, 212, 255, 0.14);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            color: #7dd3fc;
-            margin-bottom: 11px;
-            max-width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .org-avatar {
-            width: 66px;
-            height: 66px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(0, 212, 255, 0.55);
-            background: rgba(15, 23, 42, 0.85);
-            margin-bottom: 10px;
-        }
-
-        .org-name {
-            font-size: 13.5px;
-            font-weight: 800;
-            color: #ffffff;
-            margin: 0 0 3px 0;
-            line-height: 1.25;
-        }
-
-        .org-role {
-            font-size: 11px;
-            font-weight: 700;
-            color: #cbd5e1;
-            margin: 0 0 8px 0;
-            line-height: 1.3;
-        }
-
-        .org-desc {
-            font-size: 10.5px;
-            line-height: 1.42;
-            color: #94a3b8;
-            margin: 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .org-contact-actions {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .btn-contact {
-            flex: 1;
-            padding: 7px 8px;
-            border-radius: 8px;
-            font-size: 10.5px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-contact.wpp {
-            background: rgba(34, 197, 94, 0.14);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            color: #86efac;
-        }
-        .btn-contact.wpp:hover {
-            background: #22c55e;
-            color: #052e16;
-        }
-
-        .btn-contact.mail {
-            background: rgba(0, 212, 255, 0.14);
-            border: 1px solid rgba(0, 212, 255, 0.4);
-            color: #7dd3fc;
-        }
-        .btn-contact.mail:hover {
-            background: var(--primary);
-            color: #082f49;
-        }
-
-        .card-footer-actions {
-            margin-top: 9px;
-            padding-top: 8px;
-            width: 100%;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 4px;
-        }
-
-        .btn-card-action {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            cursor: pointer;
-            padding: 3px 6px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-card-action:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .btn-card-action.equipe-btn {
-            color: var(--primary);
-        }
-        .btn-card-action.equipe-btn:hover {
-            background: rgba(0, 212, 255, 0.15);
-            color: #7dd3fc;
-        }
-
-        /* MODAL PERFIL INDIVIDUAL */
-        .perfil-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(2, 6, 15, 0.78);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 18px;
-        }
-
-        .perfil-modal-overlay.active {
-            display: flex;
-            animation: fadeInOrg 0.22s ease;
-        }
-
-        .perfil-modal-box {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
-            background: linear-gradient(145deg, rgba(10, 20, 42, 0.94) 0%, rgba(5, 11, 24, 0.98) 100%);
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
-            padding: 26px 22px 22px 22px;
-            text-align: center;
-            position: relative;
-            color: #fff;
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.06);
-            color: #cbd5e1;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .modal-close-btn:hover {
-            background: rgba(239, 68, 68, 0.25);
-            border-color: rgba(239, 68, 68, 0.5);
-            color: #fca5a5;
-        }
-
-        .modal-avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.28);
-            margin-bottom: 12px;
-        }
-
-        .modal-badge {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            background: rgba(0, 212, 255, 0.15);
-            border: 1px solid rgba(0, 212, 255, 0.35);
-            color: #7dd3fc;
-            margin-bottom: 10px;
-        }
-
-        .modal-name {
-            font-size: 18px;
-            font-weight: 900;
-            margin: 0 0 4px 0;
-        }
-
-        .modal-role {
-            font-size: 12px;
-            font-weight: 700;
-            color: #cbd5e1;
-            margin: 0 0 14px 0;
-        }
-
-        .modal-bio {
-            font-size: 12px;
-            line-height: 1.55;
-            color: #94a3b8;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin: 0 0 16px 0;
-        }
-
-        .modal-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-        }
-
-        .modal-contact-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-ver-equipe-modal {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.45);
-            background: rgba(0, 212, 255, 0.16);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: all 0.2s ease;
-        }
-        .btn-ver-equipe-modal:hover {
-            background: var(--primary);
-            color: #030712;
-        }
-
-        @media (max-width: 1240px) {
-            body:not(.bars-collapsed) .org-wrapper {
-                padding-top: 108px;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .panel-kpis-row {
-                grid-template-columns: repeat(2, minmax(140px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .module-pill {
-                display: none;
-            }
-            body:not(.fit-screen-mode) .org-wrapper {
-                padding: 104px 12px 75px 12px;
-            }
-            body.bars-collapsed:not(.fit-screen-mode) .org-wrapper {
-                padding: 14px 12px 24px 12px;
-            }
-            body:not(.fit-screen-mode) .org-level {
-                gap: 12px;
-            }
-            body:not(.fit-screen-mode) .org-card,
-            body:not(.fit-screen-mode) .org-card.tier-gold,
-            body:not(.fit-screen-mode) .org-card.tier-silver,
-            body:not(.fit-screen-mode) .org-card.tier-bronze {
-                width: calc(50% - 6px);
-                min-width: 156px;
-                max-width: 215px;
-                min-height: 248px;
-                padding: 14px 10px 12px 10px;
-            }
-            .org-connector-bar {
-                width: 90%;
-            }
-            .btn-contact {
-                font-size: 9.5px;
-                padding: 6px 4px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            body:not(.fit-screen-mode) .org-card,
-            body:not(.fit-screen-mode) .org-card.tier-gold,
-            body:not(.fit-screen-mode) .org-card.tier-silver,
-            body:not(.fit-screen-mode) .org-card.tier-bronze {
-                width: 100%;
-                max-width: 245px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELLCA | ORGANOGRAMA & ESTRUTURA • CENTRAL DE CONTROLE</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <script>
+    if (sessionStorage.getItem('ellca_auth') !== 'true') {
+      window.location.replace('login.html');
+    }
+  </script>
+
+  <style>
+    :root {
+      --primary: #38bdf8;
+      --accent-blue: #2563eb;
+      --gold-border: rgba(250, 204, 21, 0.52);
+      --silver-border: rgba(203, 213, 225, 0.48);
+      --bronze-border: rgba(251, 146, 60, 0.50);
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+
+    @keyframes fadeInOrg {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      background-color: #050811;
+      background-image:
+        radial-gradient(ellipse 75% 55% at 15% 4%, rgba(37, 99, 235, 0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 48% at 88% 12%, rgba(56, 189, 248, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%);
+      color: #f8fafc;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: clamp(10px, 1.4vh, 16px) clamp(14px, 2vw, 24px);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    body.fit-screen-mode {
+      overflow: hidden;
+    }
+
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
+
+    .page-container {
+      max-width: 1560px;
+      width: 100%;
+      min-height: calc(100dvh - 30px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 11px;
+    }
+
+    body.fit-screen-mode .page-container {
+      height: calc(100dvh - 28px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
+    .top-navbar-collapse {
+      max-height: 60px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.25s ease, margin 0.25s ease;
+    }
+
+    body.menu-hidden .top-navbar-collapse {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      margin-bottom: -10px;
+    }
+
+    .top-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 1px 2px;
+    }
+
+    .nav-brand-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .brand-logo img {
+      height: 34px;
+      width: auto;
+      max-width: 150px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 19px;
+      color: #60a5fa;
+    }
+
+    .module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #38bdf8;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+    }
+
+    .module-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulseDot 2s infinite;
+    }
+
+    .user-avatar-ring {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #facc15;
+      background: rgba(15, 23, 42, 0.88);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.28);
+      color: #fde047;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .top-nav-link {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .top-nav-link:hover,
+    .top-nav-link.active {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .btn-back-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.22);
+      color: #ffffff;
+    }
+
+    /* ================= HERO BANNER EXECUTIVO ================= */
+    .hero-banner {
+      position: relative;
+      border-radius: 16px;
+      padding: 13px 20px;
+      background:
+        linear-gradient(135deg, rgba(14, 32, 66, 0.88) 0%, rgba(9, 17, 36, 0.92) 55%, rgba(15, 32, 64, 0.86) 100%),
+        url('img/estrutura.jpg') center/cover no-repeat;
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      border: 1px solid rgba(96, 165, 250, 0.34);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 280px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-top-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 860px;
+    }
+
+    .hero-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(250, 204, 21, 0.22), rgba(37, 99, 235, 0.26));
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      color: #facc15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .greeting-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(250, 204, 21, 0.36);
+      color: #fde047;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .hero-main-title {
+      font-size: clamp(16px, 1.5vw, 18px);
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .hero-main-title span { color: #38bdf8; }
+
+    .hero-subtitle {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+
+    .hero-right-stats {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quick-stat-pill {
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: rgba(5, 10, 22, 0.76);
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      min-width: 112px;
+    }
+
+    .quick-stat-pill small {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+
+    .quick-stat-pill strong {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 2px;
+    }
+
+    /* Faixa ELLCA IA • INSIGHT */
+    .insight-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: rgba(6, 14, 30, 0.74);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      position: relative;
+      z-index: 2;
+    }
+
+    .insight-content {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #e2e8f0;
+    }
+
+    .insight-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(37, 99, 235, 0.28);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #7dd3fc;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .insight-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-insight-refresh {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(15, 23, 42, 0.75);
+      color: #cbd5e1;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-insight-refresh:hover {
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    .btn-briefing {
+      height: 26px;
+      padding: 0 11px;
+      border-radius: 7px;
+      border: 1px solid rgba(125, 211, 252, 0.65);
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      color: #ffffff;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-briefing:hover {
+      filter: brightness(1.1);
+    }
+
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    .live-badge {
+      height: 29px;
+      padding: 0 11px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: #34d399;
+      font-size: 10.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-btn {
+      height: 29px;
+      padding: 0 11px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .hero-btn-blue {
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #93c5fd;
+    }
+
+    .hero-btn-blue:hover,
+    .hero-btn-blue.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-cyan {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border: 1px solid #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-gold {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: #fde047;
+    }
+
+    .hero-btn-gold:hover,
+    .hero-btn-gold.active {
+      background: rgba(234, 179, 8, 0.32);
+      color: #fef08a;
+    }
+
+    .hero-btn-menu-toggle {
+      background: #34d399;
+      border: 1px solid #6ee7b7;
+      color: #042f2e;
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+    }
+
+    body.menu-hidden .hero-btn-menu-toggle {
+      background: rgba(30, 58, 138, 0.48);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #e0f2fe;
+      box-shadow: none;
+    }
+
+    /* ================= BARRA DE FILTROS & PESQUISA ================= */
+    .filter-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 13px;
+      background: rgba(13, 19, 34, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(16px);
+      flex-shrink: 0;
+    }
+
+    .category-pills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .cat-btn {
+      height: 28px;
+      padding: 0 11px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(6, 10, 20, 0.72);
+      color: #94a3b8;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .cat-btn:hover { color: #e0f2fe; border-color: rgba(56, 189, 248, 0.38); }
+    .cat-btn.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+      font-weight: 800;
+    }
+
+    .toolbar-right-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex: 1 1 320px;
+      justify-content: flex-end;
+    }
+
+    .sector-select {
+      height: 29px;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: rgba(5, 10, 22, 0.88);
+      border: 1px solid rgba(56, 189, 248, 0.30);
+      color: #e2e8f0;
+      font-size: 11px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .search-box-wrap {
+      position: relative;
+      min-width: 220px;
+      flex: 0 1 310px;
+    }
+
+    .search-box-wrap i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #38bdf8;
+      font-size: 11.5px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 29px;
+      padding: 0 12px 0 32px;
+      border-radius: 8px;
+      background: rgba(5, 10, 22, 0.88);
+      border: 1px solid rgba(56, 189, 248, 0.30);
+      color: #f8fafc;
+      font-size: 11.5px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
+    }
+
+    /* ================= PALCO DO ORGANOGRAMA ================= */
+    .org-shell {
+      position: relative;
+      border-radius: 16px;
+      background: rgba(10, 16, 30, 0.68);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      padding: 14px 18px 16px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
+      flex: 1 1 auto;
+      min-height: 392px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    body.fit-screen-mode .org-shell {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .org-shell-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .org-status-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .org-shell-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .btn-mini-pill {
+      height: 27px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.85);
+      color: #e0f2fe;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-mini-pill:hover,
+    .btn-mini-pill.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .org-stage {
+      width: 100%;
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      min-height: 0;
+    }
+
+    body.fit-screen-mode .org-stage {
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #organogramaContainer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-origin: center center;
+      transition: transform 0.25s ease;
+    }
+
+    .org-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      animation: fadeInOrg 0.35s ease;
+    }
+
+    .org-level {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      width: 100%;
+      position: relative;
+    }
+
+    .org-tree.fit-single-row { width: max-content; }
+    .org-tree.fit-single-row .org-level { flex-wrap: nowrap; width: max-content; }
+    .org-tree.fit-single-row .org-connector-bar { width: 94%; max-width: none; }
+
+    .org-tree.fit-two-rows { width: 1620px; }
+    .org-tree.fit-two-rows .org-level { flex-wrap: wrap; width: 1620px; }
+    .org-tree.fit-two-rows .org-connector-bar { width: 92%; max-width: none; }
+
+    .org-tree.fit-three-rows { width: 1120px; }
+    .org-tree.fit-three-rows .org-level { flex-wrap: wrap; width: 1120px; }
+    .org-tree.fit-three-rows .org-connector-bar { width: 92%; max-width: none; }
+
+    /* Conectores luminosos */
+    .org-connector-v {
+      width: 2px;
+      height: 22px;
+      background: rgba(56, 189, 248, 0.24);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .org-connector-v::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, #ffffff, #38bdf8, transparent);
+      animation: pulseVertical 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes pulseVertical {
+      0% { top: -100%; }
+      100% { top: 120%; }
+    }
+
+    .org-connector-bar {
+      width: 86%;
+      max-width: 1280px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.28) 15%, rgba(56, 189, 248, 0.28) 85%, transparent);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .org-connector-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -35%;
+      width: 35%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.85), #ffffff, rgba(56, 189, 248, 0.85), transparent);
+      box-shadow: 0 0 14px #38bdf8;
+      animation: pulseHorizontal 3.4s ease-in-out infinite;
+    }
+
+    @keyframes pulseHorizontal {
+      0% { left: -35%; }
+      50% { left: 100%; }
+      100% { left: -35%; }
+    }
+
+    /* Cards do Organograma */
+    .org-card {
+      --stroke-color: #38bdf8;
+      width: 242px;
+      min-height: 256px;
+      padding: 15px 14px 13px 14px;
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(17, 35, 68, 0.56) 0%, rgba(7, 15, 32, 0.72) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(147, 197, 253, 0.24);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .org-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(125, 211, 252, 0.75);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.65), 0 0 22px rgba(56, 189, 248, 0.22);
+    }
+
+    .org-card.tier-gold {
+      --stroke-color: #facc15;
+      width: 268px;
+      background: linear-gradient(155deg, rgba(245, 190, 65, 0.16) 0%, rgba(18, 22, 36, 0.76) 100%);
+      border-color: var(--gold-border);
+    }
+
+    .org-card.tier-silver {
+      --stroke-color: #e2e8f0;
+      width: 260px;
+      background: linear-gradient(155deg, rgba(148, 163, 184, 0.16) 0%, rgba(15, 23, 42, 0.76) 100%);
+      border-color: var(--silver-border);
+    }
+
+    .org-card.tier-bronze {
+      --stroke-color: #fb923c;
+      width: 252px;
+      background: linear-gradient(155deg, rgba(234, 88, 12, 0.14) 0%, rgba(18, 18, 32, 0.76) 100%);
+      border-color: var(--bronze-border);
+    }
+
+    .card-border-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      overflow: visible;
+    }
+
+    .card-border-rect {
+      fill: none;
+      stroke: var(--stroke-color);
+      stroke-width: 1.25;
+      stroke-linecap: round;
+      pathLength: 100;
+      stroke-dasharray: 28 100;
+      stroke-dashoffset: 128;
+      opacity: 0;
+      filter: drop-shadow(0 0 4px var(--stroke-color));
+      transition: opacity 0.12s ease;
+    }
+
+    .org-card.active-trace .card-border-rect {
+      opacity: 1;
+    }
+
+    .org-card-top,
+    .org-card-bottom {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .org-card-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .org-card-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .card-top-meta {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 9px;
+    }
+
+    .org-badge {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.36);
+      color: #7dd3fc;
+      max-width: 185px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tier-gold .org-badge {
+      background: rgba(250, 204, 21, 0.16);
+      border-color: rgba(250, 204, 21, 0.42);
+      color: #fde047;
+    }
+
+    .tier-silver .org-badge {
+      background: rgba(226, 232, 240, 0.14);
+      border-color: rgba(203, 213, 225, 0.42);
+      color: #e2e8f0;
+    }
+
+    .tier-bronze .org-badge {
+      background: rgba(251, 146, 60, 0.16);
+      border-color: rgba(251, 146, 60, 0.42);
+      color: #fdba74;
+    }
+
+    .btn-fav-mini {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(5, 10, 22, 0.72);
+      color: #cbd5e1;
+      font-size: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .btn-fav-mini:hover {
+      border-color: #facc15;
+      color: #fde047;
+    }
+
+    .btn-fav-mini.favorited {
+      background: rgba(234, 179, 8, 0.92);
+      border-color: #fef08a;
+      color: #1c1402;
+    }
+
+    .org-avatar {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(56, 189, 248, 0.58);
+      background: rgba(15, 23, 42, 0.85);
+      margin-bottom: 9px;
+    }
+
+    .tier-gold .org-avatar { border-color: rgba(250, 204, 21, 0.78); }
+    .tier-silver .org-avatar { border-color: rgba(226, 232, 240, 0.78); }
+    .tier-bronze .org-avatar { border-color: rgba(251, 146, 60, 0.78); }
+
+    .org-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+      line-height: 1.25;
+    }
+
+    .org-role {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #bae6fd;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .org-desc {
+      font-size: 10.5px;
+      line-height: 1.38;
+      color: #94a3b8;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .org-contact-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+    }
+
+    .btn-contact {
+      flex: 1;
+      padding: 6px 7px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-contact.wpp {
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #86efac;
+    }
+
+    .btn-contact.wpp:hover {
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    .btn-contact.mail {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+    }
+
+    .btn-contact.mail:hover {
+      background: #38bdf8;
+      color: #040d1e;
+    }
+
+    .card-footer-actions {
+      margin-top: 8px;
+      padding-top: 7px;
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .btn-card-action {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-card-action:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-card-action.equipe-btn {
+      color: #38bdf8;
+    }
+
+    .btn-card-action.equipe-btn:hover {
+      background: rgba(56, 189, 248, 0.16);
+      color: #bae6fd;
+    }
+
+    .org-empty-state {
+      width: 100%;
+      max-width: 520px;
+      margin: 18px auto;
+      padding: 26px 22px;
+      border-radius: 16px;
+      text-align: center;
+      background: rgba(8, 15, 30, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: #cbd5e1;
+    }
+
+    /* ================= MODAL DE PERFIL ================= */
+    .perfil-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 15, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .perfil-modal-overlay.active {
+      display: flex;
+      animation: fadeInOrg 0.22s ease;
+    }
+
+    .perfil-modal-box {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(13, 22, 42, 0.96) 0%, rgba(5, 10, 22, 0.99) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      padding: 26px 22px 22px 22px;
+      text-align: center;
+      position: relative;
+      color: #fff;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-avatar {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    .modal-badge {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      padding: 3px 12px;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      margin-bottom: 8px;
+    }
+
+    .modal-name { font-size: 17px; font-weight: 900; margin-bottom: 3px; }
+    .modal-role { font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 12px; }
+
+    .modal-bio {
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 11px 13px;
+      margin-bottom: 14px;
+    }
+
+    .modal-actions { display: flex; flex-direction: column; gap: 8px; }
+    .modal-contact-row { display: flex; gap: 8px; }
+
+    .btn-ver-equipe-modal {
+      width: 100%;
+      padding: 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      color: #040d1e;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    /* ================= RODAPÉ OFICIAL ================= */
+    .ellca-official-footer {
+      padding: 2px 2px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+
+    .footer-system-text {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text strong { color: #f8fafc; font-weight: 700; }
+
+    .footer-right-actions {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-footer-support {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-footer-sair {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .toolbar-right-group { justify-content: stretch; }
+      .search-box-wrap, .sector-select { flex: 1 1 100%; }
+      body:not(.fit-screen-mode) .org-card,
+      body:not(.fit-screen-mode) .org-card.tier-gold,
+      body:not(.fit-screen-mode) .org-card.tier-silver,
+      body:not(.fit-screen-mode) .org-card.tier-bronze {
+        width: calc(50% - 8px);
+        min-width: 152px;
+        max-width: 220px;
+      }
+    }
+  </style>
 </head>
 
-<body class="bars-collapsed">
-    <div class="desktop-view">
-        <!-- BARRA SUPERIOR IGUAL AO DASHBOARD.HTML -->
-        <div class="top-navbar-collapse">
-            <header class="top-navbar">
-                <div class="nav-brand-side">
-                    <a href="index.html" class="brand-logo" title="ELLCA">
-                        <img src="img/logo_ellca.png" alt="Logo ELLCA"
-                             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';">
-                        <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
-                    </a>
+<body>
+  <div class="page-container">
 
-                    <span class="module-pill">
-                        <span class="dot"></span>
-                        <span id="navOrgStatus">REDES ONLINE • 12ms · ORGANOGRAMA</span>
-                    </span>
+    <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
+    <div class="top-navbar-collapse">
+      <header class="top-navbar">
+        <div class="nav-brand-side">
+          <a href="index.html" class="brand-logo" title="ELLCA">
+            <img src="img/logo_ellca.png" alt="Logo ELLCA"
+                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+            <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
+          </a>
 
-                    <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
-                </div>
+          <span class="module-pill">
+            <span class="dot"></span>
+            <span id="navOrgStatus">REDES ONLINE • 12ms · ORGANOGRAMA</span>
+          </span>
 
-                <nav class="nav-links-side" aria-label="Menu do Portal">
-                    <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house-user"></i> HOME</a>
-                    <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
-                    <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
-                    <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
-                    <a href="gerencial.html" class="top-nav-link"><i class="fa-solid fa-crown"></i> GERÊNCIA</a>
-                    <a href="organograma.html" class="top-nav-link active"><i class="fa-solid fa-sitemap"></i> ORGANOGRAMA</a>
-                    <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </button>
-                </nav>
-            </header>
+          <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
 
-        <!-- FUNDO E ÁREA DO ORGANOGRAMA -->
-        <div class="container">
-            <div class="item active" style="background-image: linear-gradient(rgba(3, 8, 20, 0.84), rgba(5, 14, 32, 0.78)), url('img/estrutura.jpg');">
-                <div class="org-wrapper">
-
-                    <!-- CABEÇALHO DINÂMICO -->
-                    <div class="org-header" id="orgHeaderBar">
-                        <div class="org-title-group">
-                            <div class="org-icon-box">
-                                <i class="fa-solid fa-sitemap" id="orgHeaderIcon"></i>
-                            </div>
-                            <div>
-                                <h1 id="orgHeaderTitle">Organograma Geral ELLCA</h1>
-                                <p id="orgHeaderSubtitle">Clique no card para ver o perfil ou em "Equipe" para abrir o setor</p>
-                            </div>
-                        </div>
-
-                        <div class="org-header-controls">
-                            <button type="button" class="btn-org-control" id="btnToggleFitScreen" title="Ajustar toda a estrutura para caber em uma única tela">
-                                <i class="fa-solid fa-compress" id="iconFitScreen"></i>
-                                <span id="textFitScreen">Ajustar à Tela</span>
-                            </button>
-
-                            <button type="button" class="btn-org-control" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
-                                <i class="fa-solid fa-bars" id="iconToggleBars"></i>
-                                <span id="textToggleBars">Mostrar Menu</span>
-                            </button>
-
-                            <button type="button" class="btn-org-control active-mode" id="btnVoltarGeral" style="display: none;">
-                                <i class="fa-solid fa-arrow-left"></i> Voltar ao Geral
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- PAINEL DE MÉTRICAS, BUSCA E FILTROS -->
-                    <section class="org-panel" aria-label="Painel de Controle do Organograma">
-                        <div class="panel-kpis-row">
-                            <div class="panel-kpi-card">
-                                <div class="panel-kpi-icon gold"><i class="fa-solid fa-user-tie"></i></div>
-                                <div class="panel-kpi-info">
-                                    <small>Liderança & Setores</small>
-                                    <strong id="kpiTotalSetores">0</strong>
-                                </div>
-                            </div>
-                            <div class="panel-kpi-card">
-                                <div class="panel-kpi-icon"><i class="fa-solid fa-users"></i></div>
-                                <div class="panel-kpi-info">
-                                    <small>Equipe Mapeada</small>
-                                    <strong id="kpiTotalEquipe">0</strong>
-                                </div>
-                            </div>
-                            <div class="panel-kpi-card">
-                                <div class="panel-kpi-icon green"><i class="fa-solid fa-id-badge"></i></div>
-                                <div class="panel-kpi-info">
-                                    <small>Total na Estrutura</small>
-                                    <strong id="kpiTotalGeral">0</strong>
-                                </div>
-                            </div>
-                            <div class="panel-kpi-card">
-                                <div class="panel-kpi-icon indigo"><i class="fa-solid fa-layer-group"></i></div>
-                                <div class="panel-kpi-info">
-                                    <small>Visão Ativa</small>
-                                    <strong id="kpiVisaoAtual">Geral</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel-toolbar">
-                            <div class="panel-search-wrap">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" id="orgSearchInput" class="panel-search-input" placeholder="Buscar por nome, cargo ou setor..." />
-                                <button type="button" id="btnClearSearch" class="panel-search-clear" title="Limpar busca">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
-
-                            <div class="panel-filters-group" id="domainFilterGroup">
-                                <button type="button" class="panel-filter-btn active" data-domain="TODOS">Todos</button>
-                                <button type="button" class="panel-filter-btn" data-domain="domain-estoque">Estoque & EPI</button>
-                                <button type="button" class="panel-filter-btn" data-domain="domain-operacao">Operação</button>
-                                <button type="button" class="panel-filter-btn" data-domain="domain-pessoas">Pessoas</button>
-                                <button type="button" class="panel-filter-btn" data-domain="domain-suporte">Suporte & BI</button>
-                            </div>
-
-                            <select id="sectorJumpSelect" class="panel-sector-select" title="Ir direto para a equipe de um setor">
-                                <option value="">Abrir equipe do setor...</option>
-                            </select>
-                        </div>
-
-                        <div class="panel-feedback-bar">
-                            <span id="panelStatusText">Exibindo estrutura completa da ELLCA.</span>
-                            <button type="button" class="btn-reset-filters" id="btnResetPanel">Limpar Filtros</button>
-                        </div>
-                    </section>
-
-                    <!-- PALCO ONDE A ÁRVORE É RENDERIZADA E ESCALADA -->
-                    <div class="org-stage" id="orgStage">
-                        <div id="organogramaContainer"></div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- RODAPÉ -->
-            <footer class="footer-bar">
-                <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
-                    <span class="separator">•</span>
-                    <span>Módulo: <strong id="footerModuloOrg">Estrutura Organizacional</strong></span>
-                </div>
-                <div class="footer-actions">
-                    <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                        <i class="fa-solid fa-headset"></i> Suporte
-                    </button>
-                </div>
-            </footer>
-        </div>
+        <nav class="nav-links-side" aria-label="Menu do Portal">
+          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house-user"></i> HOME</a>
+          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
+          <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
+          <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
+          <a href="gerencial.html" class="top-nav-link"><i class="fa-solid fa-crown"></i> GERÊNCIA</a>
+          <a href="organograma.html" class="top-nav-link active"><i class="fa-solid fa-sitemap"></i> ORGANOGRAMA</a>
+          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </nav>
+      </header>
     </div>
 
-    <!-- MODAL DE PERFIL INDIVIDUAL -->
-    <div class="perfil-modal-overlay" id="perfilModalOverlay">
-        <div class="perfil-modal-box">
-            <button type="button" class="modal-close-btn" id="btnFecharModal" title="Fechar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <img src="" alt="Foto" class="modal-avatar" id="modalAvatar">
-            <div><span class="modal-badge" id="modalBadge">Setor</span></div>
-            <h3 class="modal-name" id="modalName">Nome</h3>
-            <p class="modal-role" id="modalRole">Função</p>
-            <p class="modal-bio" id="modalBio">Descrição das atividades.</p>
+    <!-- 2. HERO BANNER EXECUTIVO -->
+    <section class="hero-banner">
+      <div class="hero-top-split">
+        <div class="hero-title-row">
+          <div class="hero-icon-box">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <div class="greeting-pill">
+              <i class="fa-solid fa-sun"></i>
+              <span id="greetingDynamicTxt">BOA TARDE, RODRIGO · ESTRUTURA ORGANIZACIONAL · CONSOLIDADO OPERACIONAL</span>
+            </div>
+            <h1 class="hero-main-title" id="orgHeaderTitle">ORGANOGRAMA <span>CORPORATIVO</span></h1>
+            <p class="hero-subtitle" id="orgHeaderSubtitle">
+              Hierarquia, liderança setorial e equipes operacionais com acesso rápido a contatos e perfis da empresa.
+            </p>
+          </div>
+        </div>
 
-            <div class="modal-actions">
-                <div class="modal-contact-row">
-                    <a href="#" target="_blank" rel="noopener noreferrer" class="btn-contact wpp" id="modalWpp" style="padding: 9px;">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="#" class="btn-contact mail" id="modalMail" style="padding: 9px;">
-                        <i class="fa-solid fa-envelope"></i> E-mail
-                    </a>
-                </div>
-                <button type="button" class="btn-ver-equipe-modal" id="btnModalVerEquipe" style="display: none;">
-                    <i class="fa-solid fa-users"></i> Abrir Organograma da Equipe
+        <div class="hero-right-stats tabular">
+          <div class="quick-stat-pill">
+            <small>Liderança & Setores</small>
+            <strong id="kpiTotalSetores">12 Áreas</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Estrutura Total</small>
+            <strong style="color:#facc15;" id="kpiTotalGeral">38 Integrantes</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Governança</small>
+            <strong style="color:#34d399;">Ativa</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Faixa ELLCA IA • INSIGHT -->
+      <div class="insight-strip">
+        <div class="insight-content">
+          <span class="insight-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> ELLCA IA • INSIGHT</span>
+          <span id="insightMessageTxt">12 lideranças setoriais mapeadas e equipes integradas sob coordenação e gerência operacional.</span>
+        </div>
+        <div class="insight-actions">
+          <button type="button" class="btn-insight-refresh" id="btnCycleInsight" title="Alternar insight">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
+          <button type="button" class="btn-briefing" id="btnBriefingOrg">
+            <i class="fa-solid fa-bolt"></i> BRIEFING IA
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de ações -->
+      <div class="hero-actions-row">
+        <span class="live-badge tabular">
+          <i class="fa-solid fa-sitemap"></i>
+          <span id="liveClockTxt">Organograma · --:--</span>
+        </span>
+
+        <button type="button" class="hero-btn hero-btn-cyan active" id="btnVisaoGeral">
+          <i class="fa-solid fa-sitemap"></i> VISÃO GERAL
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-blue" id="btnToggleFitScreen">
+          <i class="fa-solid fa-compress" id="iconFitScreen"></i>
+          <span id="textFitScreen">AJUSTAR À TELA</span>
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-gold" id="btnFiltroFavoritos">
+          <i class="fa-solid fa-star"></i> FAVORITOS (<span id="favCountTxt">0</span>)
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-blue" id="btnAutoPlay">
+          <i class="fa-solid fa-pause" id="iconAutoPlay"></i> <span id="txtAutoPlay">AUTOPLAY: ON</span>
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-blue" id="btnVoltarEquipeHeader" style="display:none;">
+          <i class="fa-solid fa-arrow-left"></i> VOLTAR AO GERAL
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu" style="margin-left:auto;">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">OCULTAR MENU</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. BARRA DE FILTROS & PESQUISA -->
+    <div class="filter-toolbar">
+      <div class="category-pills" id="domainFilterGroup">
+        <button type="button" class="cat-btn active" data-domain="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (12)</button>
+        <button type="button" class="cat-btn" data-domain="domain-operacao"><i class="fa-solid fa-chart-line"></i> Operação</button>
+        <button type="button" class="cat-btn" data-domain="domain-pessoas"><i class="fa-solid fa-users-gear"></i> Pessoas</button>
+        <button type="button" class="cat-btn" data-domain="domain-estoque"><i class="fa-solid fa-boxes-stacked"></i> Estoque & EPI</button>
+        <button type="button" class="cat-btn" data-domain="domain-suporte"><i class="fa-solid fa-server"></i> Suporte & BI</button>
+      </div>
+
+      <div class="toolbar-right-group">
+        <select id="sectorJumpSelect" class="sector-select" title="Abrir equipe de um setor">
+          <option value="">Abrir equipe do setor...</option>
+        </select>
+
+        <div class="search-box-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="orgSearchInput" class="search-input" placeholder="Pesquisar integrante, cargo ou setor..." />
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ÁREA DO ORGANOGRAMA -->
+    <section class="org-shell">
+      <div class="org-shell-header">
+        <span class="org-status-label" id="orgStatusLabel">
+          <i class="fa-solid fa-sitemap"></i> ESTRUTURA ORGANIZACIONAL ELLCA · VISÃO GERAL
+        </span>
+
+        <div class="org-shell-actions">
+          <button type="button" class="btn-mini-pill" id="btnResetFilters">
+            <i class="fa-solid fa-filter-circle-xmark"></i> LIMPAR FILTROS
+          </button>
+        </div>
+      </div>
+
+      <div class="org-stage" id="orgStage">
+        <div id="organogramaContainer"></div>
+      </div>
+    </section>
+
+    <!-- 5. RODAPÉ OFICIAL -->
+    <footer class="ellca-official-footer">
+      <div class="footer-system-text">
+        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+        <span>•</span>
+        <span>Módulo: <strong>Organograma Corporativo</strong></span>
+      </div>
+
+      <div class="footer-right-actions">
+        <button type="button" class="btn-footer-support" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+          <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
+        </button>
+        <span style="color:#cbd5e1;"><i class="fa-solid fa-user-check" style="color:#34d399;"></i> Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
+        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- MODAL DE PERFIL INDIVIDUAL -->
+  <div class="perfil-modal-overlay" id="perfilModalOverlay">
+    <div class="perfil-modal-box">
+      <button type="button" class="modal-close-btn" id="btnFecharModal" title="Fechar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img src="" alt="Foto" class="modal-avatar" id="modalAvatar" />
+      <div><span class="modal-badge" id="modalBadge">Setor</span></div>
+      <h3 class="modal-name" id="modalName">Nome</h3>
+      <p class="modal-role" id="modalRole">Função</p>
+      <p class="modal-bio" id="modalBio">Descrição das atividades.</p>
+
+      <div class="modal-actions">
+        <div class="modal-contact-row">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn-contact wpp" id="modalWpp" style="padding: 8px;">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+          <a href="#" class="btn-contact mail" id="modalMail" style="padding: 8px;">
+            <i class="fa-solid fa-envelope"></i> E-mail
+          </a>
+        </div>
+        <button type="button" class="btn-ver-equipe-modal" id="btnModalVerEquipe" style="display: none;">
+          <i class="fa-solid fa-users"></i> Abrir Organograma da Equipe
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function iniciarOrganogramaExecutivo() {
+      const ORGANOGRAMA_DADOS = {
+        gerenciaContrato: {
+          nivel: 'Gerência de Contrato',
+          tier: 'tier-gold',
+          nome: 'Jean Francisquini',
+          funcao: 'Gerente de Contrato',
+          descricao: 'Gestão executiva do contrato, relacionamento institucional e direcionamento estratégico.',
+          foto: 'organograma/Jean.jpg',
+          fallbackFoto: 'https://ui-avatars.com/api/?name=Jean+Francisquini&background=78350f&color=fde68a&size=128',
+          whatsapp: '5591999990001',
+          email: 'jean.francisquini@ellca2.com.br'
+        },
+        gerenciaOperacional: {
+          nivel: 'Gerência Operacional',
+          tier: 'tier-silver',
+          nome: 'Arioston Paixão',
+          funcao: 'Gerente Operacional',
+          descricao: 'Supervisão geral das operações, cumprimento de metas contratuais e eficiência de campo.',
+          foto: 'organograma/Arioston.jpg',
+          fallbackFoto: 'https://ui-avatars.com/api/?name=Arioston+Paixao&background=334155&color=f1f5f9&size=128',
+          whatsapp: '5591999990002',
+          email: 'arioston.paixao@ellca2.com.br'
+        },
+        coordenacaoOperacional: {
+          nivel: 'Coordenação Operacional',
+          tier: 'tier-bronze',
+          nome: 'Jhonattan Alencar',
+          funcao: 'Coordenador Operacional',
+          descricao: 'Coordenação direta das frentes de serviço, planejamento diário e integração entre setores.',
+          foto: 'organograma/Jhonattan.jpg',
+          fallbackFoto: 'https://ui-avatars.com/api/?name=Jhonattan+Alencar&background=7c2d12&color=fdba74&size=128',
+          whatsapp: '5591999990003',
+          email: 'jhonattan.alencar@ellca2.com.br'
+        },
+        lideres: [
+          {
+            id: 'almox_epi',
+            setor: 'Almox. EPI e EPC',
+            domainClass: 'domain-estoque',
+            nome: 'Lilianne Lima',
+            funcao: 'Técnica de Segurança',
+            descricao: 'Controle de estoque, inspeção, validade e entrega de EPIs e EPCs às equipes.',
+            foto: 'organograma/Lilianne.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Lilianne+Lima&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990011',
+            email: 'lilianne.lima@ellca2.com.br',
+            equipe: [
+              { nome: 'Ciro Santos', funcao: 'Almoxarife', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' },
+              { nome: 'Ismael Pereira', funcao: 'Jovem Aprendiz', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+02&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' },
+              { nome: 'Lucas Palheta', funcao: 'Almoxarife', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+03&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' },
+              { nome: 'Victor Matos', funcao: 'Almoxarife', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+04&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'almoxarifado',
+            setor: 'Almoxarifado',
+            domainClass: 'domain-estoque',
+            nome: 'Adriana Souza',
+            funcao: 'Supervisora de Almoxarifado',
+            descricao: 'Gestão de estoque, recebimento, inventário e abastecimento de materiais operacionais.',
+            foto: 'organograma/Adriana.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Adriana+Souza&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990012',
+            email: 'adriana.souza@ellca2.com.br',
+            equipe: [
+              { nome: 'Larissa Melo', funcao: 'Assistente Administrativo', descricao: 'Função Medição, Baixa de Material.', foto: 'organograma/Larissa_Melo.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Ajozildo Teixeira', funcao: 'Eletricista', descricao: 'Função Medição, Baixa de Material.', foto: 'organograma/Ajozildo_Teixeira.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+02&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Glauskelly Gomes', funcao: 'Analista Administrativo', descricao: 'Assistente SAP', foto: 'organograma/Glauskelly_Gomes.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+03&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Elizangela Lima', funcao: 'Assistente Administrativo', descricao: 'Gestão de Material, Baixa de Materiais.', foto: 'organograma/Elizangela_Lima.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+04&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Eduarda Silva', funcao: 'Assistente Administrativo', descricao: 'Gestão de Material, Baixa de Materiais.', foto: 'organograma/Eduarda_Silva.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+05&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Lucas Lima', funcao: 'Eletricista', descricao: 'Parametrização de MTR, Montagem de CS.', foto: 'organograma/Lucas_Lima.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+06&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Willian Alencar', funcao: 'Eletricista', descricao: 'Parametrização de MTR, Montagem de CS.', foto: 'organograma/Willian_Alencar.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+07&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Eduardo Maia', funcao: 'Eletricista', descricao: 'Gestão de Material, Controle de Estoque.', foto: 'organograma/Eduardo_Maia.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+08&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'André Acacio', funcao: 'Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque.', foto: 'organograma/Andre_Acacio.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+09&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Domingos Janiel', funcao: 'Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque', foto: 'organograma/Domingos_Janiel.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+10&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Lorhenzo Rodrigo', funcao: 'Auxiliar de Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque', foto: 'organograma/Lorhenzo_Rodrigo.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+11&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
+              { nome: 'Victor Matheus', funcao: 'Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque', foto: 'organograma/Victor_Matheus.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+12&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'backoffice',
+            setor: 'Backoffice',
+            domainClass: 'domain-pessoas',
+            nome: 'Suellem Nunes',
+            funcao: 'Analista Administrativo',
+            descricao: 'Controle de processos administrativos, faturamento, medições e suporte operacional.',
+            foto: 'organograma/Suellem.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Suellem+Nunes&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990005',
+            email: 'suellem.nunes@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador Backoffice 01', funcao: 'Assistente Administrativo', descricao: 'Conferência documental, lançamento de notas e controle de arquivos.', foto: 'organograma/Backoffice.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Backoffice+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990102', email: 'backoffice@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'dados_bi',
+            setor: 'Dados e Inteligência (BI)',
+            domainClass: 'domain-suporte',
+            nome: 'Rodrigo Lopes',
+            funcao: 'Analista de Dados',
+            descricao: 'Desenvolvimento de dashboards gerenciais, automações e inteligência de indicadores.',
+            foto: 'organograma/Rodrigo_Lopes.jpeg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Rodrigo+Lopes&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990013',
+            email: 'Rodrigo.lopes@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador BI 01', funcao: 'Assistente de Dados', descricao: 'Atualização de bases operacionais, validação de registros e suporte aos painéis.', foto: 'organograma/Dados.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Dados+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990110', email: 'dados@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'dp',
+            setor: 'DP',
+            domainClass: 'domain-pessoas',
+            nome: 'Vanessa Soares',
+            funcao: 'Analista Administrativo',
+            descricao: 'Gestão de departamento pessoal, ponto eletrônico, folha de pagamento e benefícios.',
+            foto: 'organograma/Vanessa.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Vanessa+Soares&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990006',
+            email: 'vanessa.soares@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador DP 01', funcao: 'Assistente de Depto. Pessoal', descricao: 'Apuração de frequência, controle de férias, atestados e admissões.', foto: 'organograma/Dp.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=DP+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990103', email: 'dp@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'frota',
+            setor: 'Frota',
+            domainClass: 'domain-operacao',
+            nome: 'Alex Caldeira',
+            funcao: 'Supervisor de Frota',
+            descricao: 'Controle de veículos, manutenções preventivas/corretivas, abastecimento e rastreamento.',
+            foto: 'organograma/Alex.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Alex+Caldeira&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990010',
+            email: 'alex.caldeira@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador Frota 01', funcao: 'Assistente de Frota', descricao: 'Checklist veicular, agendamento de oficinas e controle de combustível.', foto: 'organograma/Frota.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Frota+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990107', email: 'frota@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'infraestrutura',
+            setor: 'Infraestrutura',
+            domainClass: 'domain-suporte',
+            nome: 'Jacqueline Pimentel',
+            funcao: 'Analista Administrativo',
+            descricao: 'Gestão da infraestrutura predial, manutenção de bases operacionais e suporte logístico.',
+            foto: 'organograma/Jacqueline.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Jacqueline+Pimentel&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990009',
+            email: 'jacqueline.pimentel@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador Infra 01', funcao: 'Auxiliar de Infraestrutura', descricao: 'Manutenção predial, apoio operacional e controle de serviços gerais.', foto: 'organograma/Infra.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Infra+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990106', email: 'infra@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'programacao',
+            setor: 'Programação',
+            domainClass: 'domain-operacao',
+            nome: 'Jadison Santos',
+            funcao: 'Técnico em Eletrotécnica',
+            descricao: 'Planejamento, roteirização e programação diária das ordens de serviço e equipes.',
+            foto: 'organograma/Jadison.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Jadison+Santos&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990015',
+            email: 'jadison.santos@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador Programação 01', funcao: 'Programador de Serviços', descricao: 'Distribuição de OS, controle de prazos e acompanhamento de execução.', foto: 'organograma/Programacao.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Programacao+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990112', email: 'programacao@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'projeto',
+            setor: 'Projeto',
+            domainClass: 'domain-operacao',
+            nome: 'Fabio de Lima',
+            funcao: 'Técnico em Eletrotécnica',
+            descricao: 'Elaboração, análise técnica e acompanhamento de projetos elétricos e obras.',
+            foto: 'organograma/Fabio_Lima.jpeg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Fabio+de+Lima&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990014',
+            email: 'fabio.lima@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador Projeto 01', funcao: 'Projetista / Cadista', descricao: 'Desenho técnico, levantamento em campo e atualização de croquis.', foto: 'organograma/Projeto.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Projeto+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990111', email: 'projeto@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'rh',
+            setor: 'Recursos Humanos',
+            domainClass: 'domain-pessoas',
+            nome: 'Eduarda Ribeiro',
+            funcao: 'Analista de RH',
+            descricao: 'Recrutamento e seleção, integração de colaboradores, treinamentos e clima interno.',
+            foto: 'organograma/Eduarda.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Eduarda+Ribeiro&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990007',
+            email: 'eduarda.ribeiro@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador RH 01', funcao: 'Assistente de RH', descricao: 'Triagem de candidatos, agendamento de entrevistas e integração.', foto: 'organograma/Rh.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=RH+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990104', email: 'rh@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'sesmt',
+            setor: 'SESMT',
+            domainClass: 'domain-suporte',
+            nome: 'Vinicius Alves',
+            funcao: 'Engenheiro de Segurança',
+            descricao: 'Coordenação de segurança do trabalho, prevenção de acidentes, DSC e normas regulamentadoras.',
+            foto: 'organograma/Vinicius.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Vinicius+Alves&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990008',
+            email: 'vinicius.alves@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador SESMT 01', funcao: 'Técnico de Segurança do Trabalho', descricao: 'Inspeções de campo, acompanhamento de equipes e controle de APR.', foto: 'organograma/Sesmt.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=SESMT+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990105', email: 'sesmt@ellca2.com.br' }
+            ]
+          },
+          {
+            id: 'ti',
+            setor: 'Tecnologia da Informação',
+            domainClass: 'domain-suporte',
+            nome: 'Endel Amaral',
+            funcao: 'Analista de TI',
+            descricao: 'Gestão de infraestrutura de rede, sistemas internos, suporte técnico e hardware.',
+            foto: 'organograma/Endel.jpg',
+            fallbackFoto: 'https://ui-avatars.com/api/?name=Endel+Amaral&background=0c4a6e&color=7dd3fc&size=128',
+            whatsapp: '5591999990004',
+            email: 'endel.amaral@ellca2.com.br',
+            equipe: [
+              { nome: 'Colaborador TI 01', funcao: 'Técnico de Suporte de TI', descricao: 'Atendimento de chamados internos, manutenção de estações e redes.', foto: 'organograma/Suporte.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Suporte+TI&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990101', email: 'ti@ellca2.com.br' }
+            ]
+          }
+        ]
+      };
+
+      const INSIGHTS_LISTA = [
+        "12 lideranças setoriais mapeadas e equipes integradas sob coordenação e gerência operacional.",
+        "Almoxarifado e EPI/EPC concentram o maior contingente de apoio logístico e controle de materiais.",
+        "Programação, Projeto e Frota sustentam o alinhamento diário das frentes em campo."
+      ];
+
+      const usuarioAtual = sessionStorage.getItem('ellca_user_name') || 'Rodrigo Lopes';
+      const primeiroNome = String(usuarioAtual).trim().split(/\s+/)[0].toUpperCase();
+
+      function obterIniciais(nome) {
+        const partes = String(nome || 'RL').trim().split(/\s+/);
+        if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+        return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      document.getElementById('footerUserName').textContent = usuarioAtual;
+      document.getElementById('userAvatarInitials').textContent = obterIniciais(usuarioAtual);
+      document.getElementById('userAvatarInitials').title = usuarioAtual;
+
+      function atualizarRelogioESaudacao() {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        const hNum = now.getHours();
+        const saudacao = hNum < 12 ? 'BOM DIA' : (hNum < 18 ? 'BOA TARDE' : 'BOA NOITE');
+        document.getElementById('liveClockTxt').textContent = `Organograma · ${hh}:${mm}`;
+        document.getElementById('greetingDynamicTxt').textContent =
+          `${saUDACAO_FORMAT(saudacao)}, ${primeiroNome} · ACOMPANHAMENTO DE TURNO · ESTRUTURA CORPORATIVA`;
+      }
+
+      function saUDACAO_FORMAT(s) { return s; }
+      atualizarRelogioESaudacao();
+      setInterval(atualizarRelogioESaudacao, 30000);
+
+      let insightIdx = 0;
+      document.getElementById('btnCycleInsight').addEventListener('click', () => {
+        insightIdx = (insightIdx + 1) % INSIGHTS_LISTA.length;
+        document.getElementById('insightMessageTxt').textContent = INSIGHTS_LISTA[insightIdx];
+      });
+
+      document.getElementById('btnBriefingOrg').addEventListener('click', () => {
+        const totalSetores = ORGANOGRAMA_DADOS.lideres.length;
+        const totalEquipe = ORGANOGRAMA_DADOS.lideres.reduce((acc, l) => acc + (l.equipe ? l.equipe.length : 0), 0);
+        alert(
+          `BRIEFING IA • ESTRUTURA ELLCA\n\n` +
+          `• Gerência de Contrato: ${ORGANOGRAMA_DADOS.gerenciaContrato.nome}\n` +
+          `• Gerência Operacional: ${ORGANOGRAMA_DADOS.gerenciaOperacional.nome}\n` +
+          `• Coordenação Operacional: ${ORGANOGRAMA_DADOS.coordenacaoOperacional.nome}\n` +
+          `• Setores ativos: ${totalSetores} | Colaboradores na equipe: ${totalEquipe}`
+        );
+      });
+
+      function obterFavoritos() {
+        try { return JSON.parse(localStorage.getItem('ellca_org_favs') || '[]'); }
+        catch { return []; }
+      }
+
+      function salvarFavoritos(lista) {
+        localStorage.setItem('ellca_org_favs', JSON.stringify(lista));
+        document.getElementById('favCountTxt').textContent = lista.length;
+      }
+      document.getElementById('favCountTxt').textContent = obterFavoritos().length;
+
+      const container = document.getElementById('organogramaContainer');
+      const stage = document.getElementById('orgStage');
+      const headerTitle = document.getElementById('orgHeaderTitle');
+      const headerSubtitle = document.getElementById('orgHeaderSubtitle');
+      const navStatus = document.getElementById('navOrgStatus');
+      const sectorJumpSelect = document.getElementById('sectorJumpSelect');
+      const searchInput = document.getElementById('orgSearchInput');
+      const btnVoltarEquipeHeader = document.getElementById('btnVoltarEquipeHeader');
+
+      const btnToggleFitScreen = document.getElementById('btnToggleFitScreen');
+      const iconFitScreen = document.getElementById('iconFitScreen');
+      const textFitScreen = document.getElementById('textFitScreen');
+
+      let isFitScreen = false;
+      let somenteFavoritos = false;
+      let viewMode = 'geral';
+      let activeLeaderId = null;
+      let activeDomain = 'TODOS';
+      let searchTerm = '';
+      let autoPlayAtivo = true;
+      let animacaoSequencialId = null;
+      const REGISTRO_PESSOAS = {};
+
+      const modalOverlay = document.getElementById('perfilModalOverlay');
+      const btnFecharModal = document.getElementById('btnFecharModal');
+      const modalAvatar = document.getElementById('modalAvatar');
+      const modalBadge = document.getElementById('modalBadge');
+      const modalName = document.getElementById('modalName');
+      const modalRole = document.getElementById('modalRole');
+      const modalBio = document.getElementById('modalBio');
+      const modalWpp = document.getElementById('modalWpp');
+      const modalMail = document.getElementById('modalMail');
+      const btnModalVerEquipe = document.getElementById('btnModalVerEquipe');
+
+      function preencherContadores() {
+        const totalSetores = ORGANOGRAMA_DADOS.lideres.length;
+        const totalEquipe = ORGANOGRAMA_DADOS.lideres.reduce((acc, l) => acc + (l.equipe ? l.equipe.length : 0), 0);
+        const totalGeral = 3 + totalSetores + totalEquipe;
+        document.getElementById('kpiTotalSetores').textContent = `${totalSetores} Áreas`;
+        document.getElementById('kpiTotalGeral').textContent = `${totalGeral} Pessoas`;
+
+        const ordenados = [...ORGANOGRAMA_DADOS.lideres].sort((a, b) => a.setor.localeCompare(b.setor, 'pt-BR'));
+        sectorJumpSelect.innerHTML = '<option value="">Abrir equipe do setor...</option>' + ordenados.map(l =>
+          `<option value="${l.id}">${l.setor} (${l.equipe.length})</option>`
+        ).join('');
+      }
+
+      function aplicarAjusteDeTela() {
+        const tree = container.querySelector('.org-tree');
+        if (!tree || !stage) return;
+
+        const fitClasses = ['fit-single-row', 'fit-two-rows', 'fit-three-rows'];
+        container.style.transform = 'none';
+        tree.classList.remove(...fitClasses);
+
+        if (!isFitScreen) {
+          document.body.classList.remove('fit-screen-mode');
+          return;
+        }
+
+        document.body.classList.add('fit-screen-mode');
+        const stageRect = stage.getBoundingClientRect();
+        const availW = Math.max(260, stageRect.width - 16);
+        const availH = Math.max(160, stageRect.height - 12);
+
+        let melhorLayout = 'fit-single-row';
+        let melhorScale = 0;
+
+        for (const layout of fitClasses) {
+          tree.classList.remove(...fitClasses);
+          tree.classList.add(layout);
+          const w = tree.scrollWidth || tree.getBoundingClientRect().width;
+          const h = tree.scrollHeight || tree.getBoundingClientRect().height;
+          if (!w || !h) continue;
+          const scale = Math.min(availW / w, availH / h, 1);
+          if (scale > melhorScale) {
+            melhorScale = scale;
+            melhorLayout = layout;
+          }
+        }
+
+        tree.classList.remove(...fitClasses);
+        tree.classList.add(melhorLayout);
+        const safeScale = melhorScale > 0 ? melhorScale : 1;
+        container.style.transform = `scale(${safeScale.toFixed(4)})`;
+      }
+
+      btnToggleFitScreen.addEventListener('click', () => {
+        isFitScreen = !isFitScreen;
+        btnToggleFitScreen.classList.toggle('active', isFitScreen);
+        iconFitScreen.className = isFitScreen ? 'fa-solid fa-expand' : 'fa-solid fa-compress';
+        textFitScreen.textContent = isFitScreen ? 'TAMANHO ORIGINAL' : 'AJUSTAR À TELA';
+        if (isFitScreen) {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          requestAnimationFrame(() => requestAnimationFrame(aplicarAjusteDeTela));
+        } else {
+          aplicarAjusteDeTela();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (isFitScreen) aplicarAjusteDeTela();
+      });
+
+      function iniciarTracoSequencial() {
+        if (animacaoSequencialId) {
+          cancelAnimationFrame(animacaoSequencialId);
+          animacaoSequencialId = null;
+        }
+        const cards = Array.from(container.querySelectorAll('.org-card'));
+        if (!cards.length || !autoPlayAtivo) return;
+
+        const rects = cards.map(c => c.querySelector('.card-border-rect'));
+        let index = 0;
+        let direction = 1;
+        let progress = 0;
+        let lastTime = null;
+        const duracaoPorCardMs = 3200;
+
+        cards.forEach((c, i) => {
+          c.classList.remove('active-trace');
+          if (rects[i]) rects[i].style.strokeDashoffset = '128';
+        });
+
+        function step(timestamp) {
+          if (!lastTime) lastTime = timestamp;
+          const delta = timestamp - lastTime;
+          lastTime = timestamp;
+          progress += delta / duracaoPorCardMs;
+
+          if (progress >= 1) {
+            cards[index].classList.remove('active-trace');
+            rects[index].style.strokeDashoffset = '128';
+            progress = 0;
+
+            if (cards.length > 1) {
+              if (index === cards.length - 1 && direction === 1) {
+                direction = -1;
+                index = cards.length - 2;
+              } else if (index === 0 && direction === -1) {
+                direction = 1;
+                index = 1;
+              } else {
+                index += direction;
+              }
+            }
+          }
+
+          const currentCard = cards[index];
+          const currentRect = rects[index];
+          if (currentCard && currentRect) {
+            currentCard.classList.add('active-trace');
+            const offset = direction === 1 ? (128 - progress * 128) : (progress * 128);
+            currentRect.style.strokeDashoffset = offset.toFixed(2);
+          }
+          animacaoSequencialId = requestAnimationFrame(step);
+        }
+        animacaoSequencialId = requestAnimationFrame(step);
+      }
+
+      document.getElementById('btnAutoPlay').addEventListener('click', () => {
+        autoPlayAtivo = !autoPlayAtivo;
+        document.getElementById('iconAutoPlay').className = autoPlayAtivo ? 'fa-solid fa-pause' : 'fa-solid fa-play';
+        document.getElementById('txtAutoPlay').textContent = autoPlayAtivo ? 'AUTOPLAY: ON' : 'AUTOPLAY: OFF';
+        iniciarTracoSequencial();
+      });
+
+      function abrirModalPessoa(personKey) {
+        const info = REGISTRO_PESSOAS[personKey];
+        if (!info) return;
+        const { pessoa, badgeText, leaderId } = info;
+        modalAvatar.src = pessoa.foto;
+        modalAvatar.onerror = () => { modalAvatar.src = pessoa.fallbackFoto; };
+        modalBadge.textContent = badgeText;
+        modalName.textContent = pessoa.nome;
+        modalRole.textContent = pessoa.funcao;
+        modalBio.textContent = pessoa.descricao;
+        modalWpp.href = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
+        modalMail.href = `mailto:${pessoa.email}`;
+
+        if (leaderId) {
+          btnModalVerEquipe.style.display = 'flex';
+          btnModalVerEquipe.onclick = () => {
+            fecharModal();
+            renderizarEquipe(leaderId);
+          };
+        } else {
+          btnModalVerEquipe.style.display = 'none';
+        }
+        modalOverlay.classList.add('active');
+      }
+
+      function fecharModal() { modalOverlay.classList.remove('active'); }
+      btnFecharModal.addEventListener('click', fecharModal);
+      modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) fecharModal(); });
+
+      function criarCardHTML(pessoa, opcoes = {}) {
+        const { badgeText = '', tierClass = '', isLeader = false, leaderId = '', uniqueKey = '', favKey = '' } = opcoes;
+        REGISTRO_PESSOAS[uniqueKey] = { pessoa, badgeText, leaderId: isLeader ? leaderId : null };
+
+        const favs = obterFavoritos();
+        const isFav = favKey && favs.includes(favKey);
+        const wppLink = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
+        const mailLink = `mailto:${pessoa.email}`;
+
+        return `
+          <div class="org-card ${tierClass}" data-person-key="${uniqueKey}">
+            <svg class="card-border-svg" aria-hidden="true">
+              <rect class="card-border-rect" x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="16" ry="16" pathLength="100"></rect>
+            </svg>
+
+            <div class="org-card-top">
+              <div class="card-top-meta">
+                ${badgeText ? `<span class="org-badge" title="${badgeText}">${badgeText}</span>` : '<span></span>'}
+                ${favKey ? `
+                  <button type="button" class="btn-fav-mini ${isFav ? 'favorited' : ''}" data-fav-key="${favKey}" title="Favoritar" onclick="event.stopPropagation()">
+                    <i class="fa-${isFav ? 'solid' : 'regular'} fa-star"></i>
+                  </button>
+                ` : ''}
+              </div>
+              <img src="${pessoa.foto}" onerror="this.onerror=null;this.src='${pessoa.fallbackFoto}'" alt="${pessoa.nome}" class="org-avatar">
+              <h3 class="org-name">${pessoa.nome}</h3>
+              <p class="org-role">${pessoa.funcao}</p>
+              <p class="org-desc">${pessoa.descricao}</p>
+            </div>
+
+            <div class="org-card-bottom">
+              <div class="org-contact-actions">
+                <a href="${wppLink}" target="_blank" rel="noopener noreferrer" class="btn-contact wpp" onclick="event.stopPropagation()">
+                  <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="${mailLink}" class="btn-contact mail" onclick="event.stopPropagation()">
+                  <i class="fa-solid fa-envelope"></i> E-mail
+                </a>
+              </div>
+
+              <div class="card-footer-actions">
+                <button type="button" class="btn-card-action perfil-btn" data-person-key="${uniqueKey}">
+                  <i class="fa-solid fa-id-card"></i> Perfil
                 </button>
+                ${isLeader ? `
+                  <button type="button" class="btn-card-action equipe-btn" data-leader-id="${leaderId}">
+                    <i class="fa-solid fa-users"></i> Equipe (${pessoa.equipe.length})
+                  </button>
+                ` : ''}
+              </div>
             </div>
-        </div>
-    </div>
-
-    <script>
-        (function iniciarOrganograma() {
-            const ORGANOGRAMA_DADOS = {
-                gerenciaContrato: {
-                    nivel: 'Gerência de Contrato',
-                    tier: 'tier-gold',
-                    nome: 'Jean Francisquini',
-                    funcao: 'Gerente de Contrato',
-                    descricao: 'Gestão executiva do contrato, relacionamento institucional e direcionamento estratégico.',
-                    foto: 'organograma/Jean.jpg',
-                    fallbackFoto: 'https://ui-avatars.com/api/?name=Jean+Francisquini&background=78350f&color=fde68a&size=128',
-                    whatsapp: '5591999990001',
-                    email: 'jean.francisquini@ellca2.com.br'
-                },
-                gerenciaOperacional: {
-                    nivel: 'Gerência Operacional',
-                    tier: 'tier-silver',
-                    nome: 'Arioston Paixão',
-                    funcao: 'Gerente Operacional',
-                    descricao: 'Supervisão geral das operações, cumprimento de metas contratuais e eficiência de campo.',
-                    foto: 'organograma/Arioston.jpg',
-                    fallbackFoto: 'https://ui-avatars.com/api/?name=Arioston+Paixao&background=334155&color=f1f5f9&size=128',
-                    whatsapp: '5591999990002',
-                    email: 'arioston.paixao@ellca2.com.br'
-                },
-                coordenacaoOperacional: {
-                    nivel: 'Coordenação Operacional',
-                    tier: 'tier-bronze',
-                    nome: 'Jhonattan Alencar',
-                    funcao: 'Coordenador Operacional',
-                    descricao: 'Coordenação direta das frentes de serviço, planejamento diário e integração entre setores.',
-                    foto: 'organograma/Jhonattan.jpg',
-                    fallbackFoto: 'https://ui-avatars.com/api/?name=Jhonattan+Alencar&background=7c2d12&color=fdba74&size=128',
-                    whatsapp: '5591999990003',
-                    email: 'jhonattan.alencar@ellca2.com.br'
-                },
-                lideres: [
-                    {
-                        id: 'almox_epi',
-                        setor: 'Almox. EPI e EPC',
-                        domainClass: 'domain-estoque',
-                        nome: 'Lilianne Lima',
-                        funcao: 'Técnica de Segurança',
-                        descricao: 'Controle de estoque, inspeção, validade e entrega de EPIs e EPCs às equipes.',
-                        foto: 'organograma/Lilianne.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Lilianne+Lima&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990011',
-                        email: 'lilianne.lima@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Ciro Santos', funcao: 'Almoxarife', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' },
-                            { nome: 'Ismael Pereira', funcao: 'Jovem Aprendiz', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+02&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' },
-                            { nome: 'Lucas Palheta', funcao: 'Almoxarife', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+03&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' },
-                            { nome: 'Victor Matos', funcao: 'Almoxarife', descricao: 'Separação de kits de segurança, registro de fichas e controle de CA.', foto: 'organograma/Epi.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=EPI+04&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990108', email: 'epi@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'almoxarifado',
-                        setor: 'Almoxarifado',
-                        domainClass: 'domain-estoque',
-                        nome: 'Adriana Souza',
-                        funcao: 'Supervisora de Almoxarifado',
-                        descricao: 'Gestão de estoque, recebimento, inventário e abastecimento de materiais operacionais.',
-                        foto: 'organograma/Adriana.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Adriana+Souza&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990012',
-                        email: 'adriana.souza@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Larissa Melo', funcao: 'Assistente Administrativo', descricao: 'Função Medição, Baixa de Material.', foto: 'organograma/Larissa_Melo.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Ajozildo Teixeira', funcao: 'Eletricista', descricao: 'Função Medição, Baixa de Material.', foto: 'organograma/Ajozildo_Teixeira.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+02&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Glauskelly Gomes', funcao: 'Analista Administrativo', descricao: 'Assistente SAP', foto: 'organograma/Glauskelly_Gomes.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+03&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Elizangela Lima', funcao: 'Assistente Administrativo', descricao: 'Gestão de Material, Baixa de Materiais.', foto: 'organograma/Elizangela_Lima.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+04&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Eduarda Silva', funcao: 'Assistente Administrativo', descricao: 'Gestão de Material, Baixa de Materiais.', foto: 'organograma/Eduarda_Silva.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+05&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Lucas Lima', funcao: 'Eletricista', descricao: 'Parametrização de MTR, Montagem de CS.', foto: 'organograma/Lucas_Lima.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+06&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Willian Alencar', funcao: 'Eletricista', descricao: 'Parametrização de MTR, Montagem de CS.', foto: 'organograma/Willian_Alencar.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+07&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Eduardo Maia', funcao: 'Eletricista', descricao: 'Gestão de Material, Controle de Estoque.', foto: 'organograma/Eduardo_Maia.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+08&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'André Acacio', funcao: 'Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque.', foto: 'organograma/Andre_Acacio.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+09&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Domingos Janiel', funcao: 'Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque', foto: 'organograma/Domingos_Janiel.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+10&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Lorhenzo Rodrigo', funcao: 'Auxiliar de Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque', foto: 'organograma/Lorhenzo_Rodrigo.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+11&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' },
-                            { nome: 'Victor Matheus', funcao: 'Almoxarife', descricao: 'Gestão de Materiais, Controle de Estoque', foto: 'organograma/Victor_Matheus.jpeg', fallbackFoto: 'https://ui-avatars.com/api/?name=Almox+12&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990109', email: 'almoxarifado@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'backoffice',
-                        setor: 'Backoffice',
-                        domainClass: 'domain-pessoas',
-                        nome: 'Suellem Nunes',
-                        funcao: 'Analista Administrativo',
-                        descricao: 'Controle de processos administrativos, faturamento, medições e suporte operacional.',
-                        foto: 'organograma/Suellem.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Suellem+Nunes&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990005',
-                        email: 'suellem.nunes@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador Backoffice 01', funcao: 'Assistente Administrativo', descricao: 'Conferência documental, lançamento de notas e controle de arquivos.', foto: 'organograma/Backoffice.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Backoffice+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990102', email: 'backoffice@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'dados_bi',
-                        setor: 'Dados e Inteligência (BI)',
-                        domainClass: 'domain-suporte',
-                        nome: 'Rodrigo Lopes',
-                        funcao: 'Analista de Dados',
-                        descricao: 'Desenvolvimento de dashboards gerenciais, automações e inteligência de indicadores.',
-                        foto: 'organograma/Rodrigo_Lopes.jpeg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Rodrigo+Lopes&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990013',
-                        email: 'Rodrigo.lopes@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador BI 01', funcao: 'Assistente de Dados', descricao: 'Atualização de bases operacionais, validação de registros e suporte aos painéis.', foto: 'organograma/Dados.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Dados+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990110', email: 'dados@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'dp',
-                        setor: 'DP',
-                        domainClass: 'domain-pessoas',
-                        nome: 'Vanessa Soares',
-                        funcao: 'Analista Administrativo',
-                        descricao: 'Gestão de departamento pessoal, ponto eletrônico, folha de pagamento e benefícios.',
-                        foto: 'organograma/Vanessa.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Vanessa+Soares&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990006',
-                        email: 'vanessa.soares@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador DP 01', funcao: 'Assistente de Depto. Pessoal', descricao: 'Apuração de frequência, controle de férias, atestados e admissões.', foto: 'organograma/Dp.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=DP+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990103', email: 'dp@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'frota',
-                        setor: 'Frota',
-                        domainClass: 'domain-operacao',
-                        nome: 'Alex Caldeira',
-                        funcao: 'Supervisor de Frota',
-                        descricao: 'Controle de veículos, manutenções preventivas/corretivas, abastecimento e rastreamento.',
-                        foto: 'organograma/Alex.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Alex+Caldeira&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990010',
-                        email: 'alex.caldeira@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador Frota 01', funcao: 'Assistente de Frota', descricao: 'Checklist veicular, agendamento de oficinas e controle de combustível.', foto: 'organograma/Frota.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Frota+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990107', email: 'frota@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'infraestrutura',
-                        setor: 'Infraestrutura',
-                        domainClass: 'domain-suporte',
-                        nome: 'Jacqueline Pimentel',
-                        funcao: 'Analista Administrativo',
-                        descricao: 'Gestão da infraestrutura predial, manutenção de bases operacionais e suporte logístico.',
-                        foto: 'organograma/Jacqueline.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Jacqueline+Pimentel&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990009',
-                        email: 'jacqueline.pimentel@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador Infra 01', funcao: 'Auxiliar de Infraestrutura', descricao: 'Manutenção predial, apoio operacional e controle de serviços gerais.', foto: 'organograma/Infra.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Infra+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990106', email: 'infra@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'programacao',
-                        setor: 'Programação',
-                        domainClass: 'domain-operacao',
-                        nome: 'Jadison Santos',
-                        funcao: 'Técnico em Eletrotécnica',
-                        descricao: 'Planejamento, roteirização e programação diária das ordens de serviço e equipes.',
-                        foto: 'organograma/Jadison.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Jadison+Santos&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990015',
-                        email: 'jadison.santos@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador Programação 01', funcao: 'Programador de Serviços', descricao: 'Distribuição de OS, controle de prazos e acompanhamento de execução.', foto: 'organograma/Programacao.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Programacao+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990112', email: 'programacao@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'projeto',
-                        setor: 'Projeto',
-                        domainClass: 'domain-operacao',
-                        nome: 'Fabio de Lima',
-                        funcao: 'Técnico em Eletrotécnica',
-                        descricao: 'Elaboração, análise técnica e acompanhamento de projetos elétricos e obras.',
-                        foto: 'organograma/Fabio_Lima.jpeg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Fabio+de+Lima&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990014',
-                        email: 'fabio.lima@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador Projeto 01', funcao: 'Projetista / Cadista', descricao: 'Desenho técnico, levantamento em campo e atualização de croquis.', foto: 'organograma/Projeto.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Projeto+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990111', email: 'projeto@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'rh',
-                        setor: 'Recursos Humanos',
-                        domainClass: 'domain-pessoas',
-                        nome: 'Eduarda Ribeiro',
-                        funcao: 'Analista de RH',
-                        descricao: 'Recrutamento e seleção, integração de colaboradores, treinamentos e clima interno.',
-                        foto: 'organograma/Eduarda.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Eduarda+Ribeiro&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990007',
-                        email: 'eduarda.ribeiro@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador RH 01', funcao: 'Assistente de RH', descricao: 'Triagem de candidatos, agendamento de entrevistas e integração.', foto: 'organograma/Rh.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=RH+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990104', email: 'rh@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'sesmt',
-                        setor: 'SESMT',
-                        domainClass: 'domain-suporte',
-                        nome: 'Vinicius Alves',
-                        funcao: 'Engenheiro de Segurança',
-                        descricao: 'Coordenação de segurança do trabalho, prevenção de acidentes, DSC e normas regulamentadoras.',
-                        foto: 'organograma/Vinicius.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Vinicius+Alves&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990008',
-                        email: 'vinicius.alves@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador SESMT 01', funcao: 'Técnico de Segurança do Trabalho', descricao: 'Inspeções de campo, acompanhamento de equipes e controle de APR.', foto: 'organograma/Sesmt.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=SESMT+01&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990105', email: 'sesmt@ellca2.com.br' }
-                        ]
-                    },
-                    {
-                        id: 'ti',
-                        setor: 'Tecnologia da Informação',
-                        domainClass: 'domain-suporte',
-                        nome: 'Endel Amaral',
-                        funcao: 'Analista de TI',
-                        descricao: 'Gestão de infraestrutura de rede, sistemas internos, suporte técnico e hardware.',
-                        foto: 'organograma/Endel.jpg',
-                        fallbackFoto: 'https://ui-avatars.com/api/?name=Endel+Amaral&background=0c4a6e&color=7dd3fc&size=128',
-                        whatsapp: '5591999990004',
-                        email: 'endel.amaral@ellca2.com.br',
-                        equipe: [
-                            { nome: 'Colaborador TI 01', funcao: 'Técnico de Suporte de TI', descricao: 'Atendimento de chamados internos, manutenção de estações e redes.', foto: 'organograma/Suporte.jpg', fallbackFoto: 'https://ui-avatars.com/api/?name=Suporte+TI&background=0f172a&color=38bdf8&size=128', whatsapp: '5591999990101', email: 'ti@ellca2.com.br' }
-                        ]
-                    }
-                ]
-            };
-
-            const usuarioAtual = sessionStorage.getItem('ellca_user_name') || 'Rodrigo Lopes';
-
-            function obterIniciais(nome) {
-                const partes = String(nome || 'RL').trim().split(/\s+/);
-                if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
-                return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
-            }
-
-            const avatarRing = document.getElementById('userAvatarInitials');
-            if (avatarRing) {
-                avatarRing.textContent = obterIniciais(usuarioAtual);
-                avatarRing.title = usuarioAtual;
-            }
-
-            const container = document.getElementById('organogramaContainer');
-            const stage = document.getElementById('orgStage');
-            const headerBar = document.getElementById('orgHeaderBar');
-            const headerTitle = document.getElementById('orgHeaderTitle');
-            const headerSubtitle = document.getElementById('orgHeaderSubtitle');
-            const headerIcon = document.getElementById('orgHeaderIcon');
-            const btnVoltarGeral = document.getElementById('btnVoltarGeral');
-            const navStatus = document.getElementById('navOrgStatus');
-
-            const btnToggleFitScreen = document.getElementById('btnToggleFitScreen');
-            const iconFitScreen = document.getElementById('iconFitScreen');
-            const textFitScreen = document.getElementById('textFitScreen');
-
-            const btnToggleBars = document.getElementById('btnToggleBars');
-            const iconToggleBars = document.getElementById('iconToggleBars');
-            const textToggleBars = document.getElementById('textToggleBars');
-
-            const searchInput = document.getElementById('orgSearchInput');
-            const btnClearSearch = document.getElementById('btnClearSearch');
-            const sectorJumpSelect = document.getElementById('sectorJumpSelect');
-            const panelStatusText = document.getElementById('panelStatusText');
-            const btnResetPanel = document.getElementById('btnResetPanel');
-            const kpiVisaoAtual = document.getElementById('kpiVisaoAtual');
-
-            let isFitScreen = false;
-            let areBarsCollapsed = true;
-            let viewMode = 'geral';
-            let activeLeaderId = null;
-            let activeDomain = 'TODOS';
-            let searchTerm = '';
-
-            const modalOverlay = document.getElementById('perfilModalOverlay');
-            const btnFecharModal = document.getElementById('btnFecharModal');
-            const modalAvatar = document.getElementById('modalAvatar');
-            const modalBadge = document.getElementById('modalBadge');
-            const modalName = document.getElementById('modalName');
-            const modalRole = document.getElementById('modalRole');
-            const modalBio = document.getElementById('modalBio');
-            const modalWpp = document.getElementById('modalWpp');
-            const modalMail = document.getElementById('modalMail');
-            const btnModalVerEquipe = document.getElementById('btnModalVerEquipe');
-
-            const REGISTRO_PESSOAS = {};
-            let animacaoSequencialId = null;
-
-            function preencherResumoPainel() {
-                const totalSetores = ORGANOGRAMA_DADOS.lideres.length;
-                const totalEquipe = ORGANOGRAMA_DADOS.lideres.reduce((acc, l) => acc + (l.equipe ? l.equipe.length : 0), 0);
-                const totalExecutivo = 3;
-                const totalGeral = totalExecutivo + totalSetores + totalEquipe;
-
-                document.getElementById('kpiTotalSetores').textContent = String(totalSetores);
-                document.getElementById('kpiTotalEquipe').textContent = String(totalEquipe);
-                document.getElementById('kpiTotalGeral').textContent = String(totalGeral);
-
-                const lideresOrdenados = [...ORGANOGRAMA_DADOS.lideres].sort((a, b) =>
-                    a.setor.localeCompare(b.setor, 'pt-BR')
-                );
-                sectorJumpSelect.innerHTML = '<option value="">Abrir equipe do setor...</option>' + lideresOrdenados.map(l =>
-                    `<option value="${l.id}">${l.setor} (${l.equipe.length})</option>`
-                ).join('');
-            }
-
-            function aplicarAjusteDeTela() {
-                const tree = container.querySelector('.org-tree');
-                if (!tree || !stage) return;
-
-                const fitClasses = ['fit-single-row', 'fit-two-rows', 'fit-three-rows'];
-                container.style.transform = 'none';
-                tree.classList.remove(...fitClasses);
-
-                if (!isFitScreen) {
-                    document.body.classList.remove('fit-screen-mode');
-                    return;
-                }
-
-                document.body.classList.add('fit-screen-mode');
-
-                // Força reflow para obter dimensões reais do palco (.org-stage) após alternar classes
-                const stageRect = stage.getBoundingClientRect();
-                const availW = Math.max(260, stageRect.width - 16);
-                const availH = Math.max(160, stageRect.height - 12);
-
-                let melhorLayout = 'fit-single-row';
-                let melhorScale = 0;
-
-                for (const layout of fitClasses) {
-                    tree.classList.remove(...fitClasses);
-                    tree.classList.add(layout);
-
-                    const w = tree.scrollWidth || tree.getBoundingClientRect().width;
-                    const h = tree.scrollHeight || tree.getBoundingClientRect().height;
-                    if (!w || !h) continue;
-
-                    const scale = Math.min(availW / w, availH / h, 1);
-                    if (scale > melhorScale) {
-                        melhorScale = scale;
-                        melhorLayout = layout;
-                    }
-                }
-
-                tree.classList.remove(...fitClasses);
-                tree.classList.add(melhorLayout);
-                const safeScale = melhorScale > 0 ? melhorScale : 1;
-                container.style.transform = `scale(${safeScale.toFixed(4)})`;
-            }
-
-            btnToggleFitScreen.addEventListener('click', () => {
-                isFitScreen = !isFitScreen;
-                if (isFitScreen) {
-                    btnToggleFitScreen.classList.add('active-mode');
-                    iconFitScreen.className = 'fa-solid fa-expand';
-                    textFitScreen.textContent = 'Tamanho Original';
-                    window.scrollTo({ top: 0, behavior: 'instant' });
-                    requestAnimationFrame(() => requestAnimationFrame(aplicarAjusteDeTela));
-                } else {
-                    btnToggleFitScreen.classList.remove('active-mode');
-                    iconFitScreen.className = 'fa-solid fa-compress';
-                    textFitScreen.textContent = 'Ajustar à Tela';
-                    aplicarAjusteDeTela();
-                }
-            });
-
-            btnToggleBars.addEventListener('click', () => {
-                areBarsCollapsed = !areBarsCollapsed;
-                if (areBarsCollapsed) {
-                    document.body.classList.add('bars-collapsed');
-                    btnToggleBars.classList.remove('active-mode');
-                    iconToggleBars.className = 'fa-solid fa-bars';
-                    textToggleBars.textContent = 'Mostrar Menu';
-                } else {
-                    document.body.classList.remove('bars-collapsed');
-                    btnToggleBars.classList.add('active-mode');
-                    iconToggleBars.className = 'fa-solid fa-eye-slash';
-                    textToggleBars.textContent = 'Ocultar Menu';
-                }
-                setTimeout(aplicarAjusteDeTela, 320);
-            });
-
-            window.addEventListener('resize', () => {
-                if (isFitScreen) aplicarAjusteDeTela();
-            });
-
-            function iniciarTraçoSequencialPingPong() {
-                if (animacaoSequencialId) {
-                    cancelAnimationFrame(animacaoSequencialId);
-                    animacaoSequencialId = null;
-                }
-
-                const cards = Array.from(container.querySelectorAll('.org-card'));
-                if (!cards.length) return;
-
-                const rects = cards.map(c => c.querySelector('.card-border-rect'));
-                let index = 0;
-                let direction = 1;
-                let progress = 0;
-                let lastTime = null;
-                const duracaoPorCardMs = 3200;
-
-                cards.forEach((c, i) => {
-                    c.classList.remove('active-trace');
-                    if (rects[i]) rects[i].style.strokeDashoffset = '128';
-                });
-
-                function step(timestamp) {
-                    if (!lastTime) lastTime = timestamp;
-                    const delta = timestamp - lastTime;
-                    lastTime = timestamp;
-
-                    progress += delta / duracaoPorCardMs;
-
-                    if (progress >= 1) {
-                        cards[index].classList.remove('active-trace');
-                        rects[index].style.strokeDashoffset = '128';
-                        progress = 0;
-
-                        if (cards.length > 1) {
-                            if (index === cards.length - 1 && direction === 1) {
-                                direction = -1;
-                                index = cards.length - 2;
-                            } else if (index === 0 && direction === -1) {
-                                direction = 1;
-                                index = 1;
-                            } else {
-                                index += direction;
-                            }
-                        }
-                    }
-
-                    const currentCard = cards[index];
-                    const currentRect = rects[index];
-                    if (currentCard && currentRect) {
-                        currentCard.classList.add('active-trace');
-                        const offset = direction === 1
-                            ? (128 - progress * 128)
-                            : (progress * 128);
-                        currentRect.style.strokeDashoffset = offset.toFixed(2);
-                    }
-
-                    animacaoSequencialId = requestAnimationFrame(step);
-                }
-
-                animacaoSequencialId = requestAnimationFrame(step);
-            }
-
-            function abrirModalPessoa(personKey) {
-                const info = REGISTRO_PESSOAS[personKey];
-                if (!info) return;
-
-                const { pessoa, badgeText, leaderId } = info;
-                modalAvatar.src = pessoa.foto;
-                modalAvatar.onerror = () => { modalAvatar.src = pessoa.fallbackFoto; };
-                modalBadge.textContent = badgeText;
-                modalName.textContent = pessoa.nome;
-                modalRole.textContent = pessoa.funcao;
-                modalBio.textContent = pessoa.descricao;
-                modalWpp.href = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
-                modalMail.href = `mailto:${pessoa.email}`;
-
-                if (leaderId) {
-                    btnModalVerEquipe.style.display = 'flex';
-                    btnModalVerEquipe.onclick = () => {
-                        fecharModal();
-                        renderizarEquipe(leaderId);
-                    };
-                } else {
-                    btnModalVerEquipe.style.display = 'none';
-                }
-
-                modalOverlay.classList.add('active');
-            }
-
-            function fecharModal() {
-                modalOverlay.classList.remove('active');
-            }
-
-            btnFecharModal.addEventListener('click', fecharModal);
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) fecharModal();
-            });
-
-            function criarCardHTML(pessoa, opcoes = {}) {
-                const { badgeText = '', tierClass = '', domainClass = '', isLeader = false, leaderId = '', uniqueKey = '' } = opcoes;
-                REGISTRO_PESSOAS[uniqueKey] = { pessoa, badgeText, leaderId: isLeader ? leaderId : null };
-
-                const wppLink = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
-                const mailLink = `mailto:${pessoa.email}`;
-
-                return `
-                    <div class="org-card ${tierClass} ${domainClass}" data-person-key="${uniqueKey}">
-                        <svg class="card-border-svg" aria-hidden="true">
-                            <rect class="card-border-rect" x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="16" ry="16" pathLength="100"></rect>
-                        </svg>
-
-                        <div class="org-card-top">
-                            ${badgeText ? `<span class="org-badge" title="${badgeText}">${badgeText}</span>` : ''}
-                            <img src="${pessoa.foto}" onerror="this.onerror=null;this.src='${pessoa.fallbackFoto}'" alt="${pessoa.nome}" class="org-avatar">
-                            <h3 class="org-name">${pessoa.nome}</h3>
-                            <p class="org-role">${pessoa.funcao}</p>
-                            <p class="org-desc">${pessoa.descricao}</p>
-                        </div>
-
-                        <div class="org-card-bottom">
-                            <div class="org-contact-actions">
-                                <a href="${wppLink}" target="_blank" rel="noopener noreferrer" class="btn-contact wpp" onclick="event.stopPropagation()">
-                                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                                </a>
-                                <a href="${mailLink}" class="btn-contact mail" onclick="event.stopPropagation()">
-                                    <i class="fa-solid fa-envelope"></i> E-mail
-                                </a>
-                            </div>
-
-                            <div class="card-footer-actions">
-                                <button type="button" class="btn-card-action perfil-btn" data-person-key="${uniqueKey}">
-                                    <i class="fa-solid fa-id-card"></i> Perfil
-                                </button>
-                                ${isLeader ? `
-                                    <button type="button" class="btn-card-action equipe-btn" data-leader-id="${leaderId}">
-                                        <i class="fa-solid fa-users"></i> Equipe (${pessoa.equipe.length})
-                                    </button>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            function vincularEventosCards() {
-                document.querySelectorAll('.org-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const key = card.getAttribute('data-person-key');
-                        abrirModalPessoa(key);
-                    });
-                });
-
-                document.querySelectorAll('.equipe-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const id = btn.getAttribute('data-leader-id');
-                        renderizarEquipe(id);
-                    });
-                });
-            }
-
-            function correspondeBusca(pessoa, extraSetor = '') {
-                if (!searchTerm) return true;
-                const alvo = `${pessoa.nome} ${pessoa.funcao} ${pessoa.descricao} ${extraSetor}`.toLowerCase();
-                return alvo.includes(searchTerm);
-            }
-
-            function renderizarAtual() {
-                if (viewMode === 'equipe' && activeLeaderId) {
-                    renderizarEquipe(activeLeaderId, false);
-                } else {
-                    renderizarGeral(false);
-                }
-            }
-
-            function renderizarGeral(scrollTop = false) {
-                viewMode = 'geral';
-                activeLeaderId = null;
-                sectorJumpSelect.value = '';
-                kpiVisaoAtual.textContent = 'Geral';
-
-                headerTitle.textContent = 'Organograma Geral ELLCA';
-                headerSubtitle.textContent = 'Clique no card para ver o perfil ou em "Equipe" para abrir o setor';
-                headerIcon.className = 'fa-solid fa-sitemap';
-                navStatus.textContent = 'REDES ONLINE • 12ms · ORGANOGRAMA GERAL';
-                btnVoltarGeral.style.display = 'none';
-
-                const lideresFiltrados = [...ORGANOGRAMA_DADOS.lideres]
-                    .sort((a, b) => a.setor.localeCompare(b.setor, 'pt-BR'))
-                    .filter(lider => {
-                        const okDomain = activeDomain === 'TODOS' || lider.domainClass === activeDomain;
-                        const matchLider = correspondeBusca(lider, lider.setor);
-                        const matchMembro = Array.isArray(lider.equipe) && lider.equipe.some(m => correspondeBusca(m, lider.setor));
-                        return okDomain && (matchLider || matchMembro);
-                    });
-
-                const htmlLideres = lideresFiltrados.map(lider =>
-                    criarCardHTML(lider, {
-                        badgeText: lider.setor,
-                        domainClass: lider.domainClass || '',
-                        isLeader: true,
-                        leaderId: lider.id,
-                        uniqueKey: `lider_${lider.id}`
-                    })
-                ).join('');
-
-                const hasFilter = activeDomain !== 'TODOS' || Boolean(searchTerm);
-                panelStatusText.innerHTML = hasFilter
-                    ? `Exibindo <strong>${lideresFiltrados.length}</strong> de <strong>${ORGANOGRAMA_DADOS.lideres.length}</strong> setores com os filtros aplicados.`
-                    : `Exibindo estrutura completa da ELLCA (<strong>${ORGANOGRAMA_DADOS.lideres.length}</strong> setores).`;
-
-                if (lideresFiltrados.length === 0) {
-                    container.innerHTML = `
-                        <div class="org-empty-state">
-                            <i class="fa-solid fa-filter-circle-xmark"></i>
-                            <strong>Nenhum setor ou integrante encontrado</strong>
-                            <p style="font-size:11.5px; margin-top:6px;">Ajuste o termo de busca ou o filtro de domínio para visualizar os cards.</p>
-                        </div>
-                    `;
-                    aplicarAjusteDeTela();
-                    return;
-                }
-
-                container.innerHTML = `
-                    <div class="org-tree">
-                        <div class="org-level">
-                            ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaContrato, {
-                                badgeText: ORGANOGRAMA_DADOS.gerenciaContrato.nivel,
-                                tierClass: ORGANOGRAMA_DADOS.gerenciaContrato.tier,
-                                uniqueKey: 'top_contrato'
-                            })}
-                        </div>
-
-                        <div class="org-connector-v"></div>
-
-                        <div class="org-level">
-                            ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaOperacional, {
-                                badgeText: ORGANOGRAMA_DADOS.gerenciaOperacional.nivel,
-                                tierClass: ORGANOGRAMA_DADOS.gerenciaOperacional.tier,
-                                uniqueKey: 'top_operacional'
-                            })}
-                        </div>
-
-                        <div class="org-connector-v"></div>
-
-                        <div class="org-level">
-                            ${criarCardHTML(ORGANOGRAMA_DADOS.coordenacaoOperacional, {
-                                badgeText: ORGANOGRAMA_DADOS.coordenacaoOperacional.nivel,
-                                tierClass: ORGANOGRAMA_DADOS.coordenacaoOperacional.tier,
-                                uniqueKey: 'top_coordenacao'
-                            })}
-                        </div>
-
-                        <div class="org-connector-v"></div>
-                        <div class="org-connector-bar"></div>
-
-                        <div class="org-level">
-                            ${htmlLideres}
-                        </div>
-                    </div>
-                `;
-
-                vincularEventosCards();
-                iniciarTraçoSequencialPingPong();
-                aplicarAjusteDeTela();
-                if (scrollTop && !isFitScreen) window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            function renderizarEquipe(leaderId, scrollTop = true) {
-                const lider = ORGANOGRAMA_DADOS.lideres.find(l => l.id === leaderId);
-                if (!lider) return;
-
-                viewMode = 'equipe';
-                activeLeaderId = leaderId;
-                sectorJumpSelect.value = leaderId;
-                kpiVisaoAtual.textContent = lider.setor;
-
-                headerTitle.textContent = `Equipe • ${lider.setor}`;
-                headerSubtitle.textContent = `Liderança direta de ${lider.nome} (${lider.equipe.length} colaborador${lider.equipe.length > 1 ? 'es' : ''})`;
-                headerIcon.className = 'fa-solid fa-users-gear';
-                navStatus.textContent = `REDES ONLINE • 12ms · ${lider.setor.toUpperCase()}`;
-                btnVoltarGeral.style.display = 'inline-flex';
-
-                const membrosFiltrados = (lider.equipe || []).filter(m => correspondeBusca(m, lider.setor));
-                const htmlMembros = membrosFiltrados.map((membro, idx) =>
-                    criarCardHTML(membro, {
-                        badgeText: lider.setor,
-                        domainClass: lider.domainClass || '',
-                        uniqueKey: `membro_${lider.id}_${idx}`
-                    })
-                ).join('');
-
-                panelStatusText.innerHTML = searchTerm
-                    ? `Setor <strong>${lider.setor}</strong>: exibindo <strong>${membrosFiltrados.length}</strong> de <strong>${lider.equipe.length}</strong> colaboradores para "${searchTerm}".`
-                    : `Setor <strong>${lider.setor}</strong>: líder <strong>${lider.nome}</strong> e <strong>${lider.equipe.length}</strong> colaborador${lider.equipe.length > 1 ? 'es' : ''}.`;
-
-                container.innerHTML = `
-                    <div class="org-tree">
-                        <div class="org-level">
-                            ${criarCardHTML(lider, {
-                                badgeText: `Líder • ${lider.setor}`,
-                                tierClass: 'tier-bronze',
-                                uniqueKey: `lider_topo_${lider.id}`
-                            })}
-                        </div>
-
-                        <div class="org-connector-v"></div>
-                        <div class="org-connector-bar"></div>
-
-                        <div class="org-level">
-                            ${membrosFiltrados.length > 0 ? htmlMembros : `
-                                <div class="org-empty-state">
-                                    <i class="fa-solid fa-user-slash"></i>
-                                    <strong>Nenhum colaborador corresponde à busca</strong>
-                                    <p style="font-size:11.5px; margin-top:6px;">Limpe a busca para ver todos os integrantes de ${lider.setor}.</p>
-                                </div>
-                            `}
-                        </div>
-                    </div>
-                `;
-
-                vincularEventosCards();
-                iniciarTraçoSequencialPingPong();
-                aplicarAjusteDeTela();
-                if (scrollTop && !isFitScreen) window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            searchInput.addEventListener('input', () => {
-                searchTerm = searchInput.value.trim().toLowerCase();
-                btnClearSearch.classList.toggle('visible', Boolean(searchTerm));
-                renderizarAtual();
-            });
-
-            btnClearSearch.addEventListener('click', () => {
-                searchInput.value = '';
-                searchTerm = '';
-                btnClearSearch.classList.remove('visible');
-                renderizarAtual();
-            });
-
-            document.querySelectorAll('#domainFilterGroup .panel-filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('#domainFilterGroup .panel-filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    activeDomain = btn.getAttribute('data-domain');
-                    if (viewMode === 'equipe') {
-                        renderizarGeral(false);
-                    } else {
-                        renderizarAtual();
-                    }
-                });
-            });
-
-            sectorJumpSelect.addEventListener('change', () => {
-                const chosenId = sectorJumpSelect.value;
-                if (chosenId) {
-                    renderizarEquipe(chosenId, true);
-                } else {
-                    renderizarGeral(false);
-                }
-            });
-
-            btnResetPanel.addEventListener('click', () => {
-                searchInput.value = '';
-                searchTerm = '';
-                btnClearSearch.classList.remove('visible');
-                activeDomain = 'TODOS';
-                document.querySelectorAll('#domainFilterGroup .panel-filter-btn').forEach(b => {
-                    b.classList.toggle('active', b.getAttribute('data-domain') === 'TODOS');
-                });
-                sectorJumpSelect.value = '';
-                renderizarGeral(false);
-            });
-
-            btnVoltarGeral.addEventListener('click', () => renderizarGeral(true));
-
-            const btnVoltarHome = document.getElementById('btnVoltarHome');
-            if (btnVoltarHome) {
-                btnVoltarHome.addEventListener('click', () => {
-                    window.location.href = 'home.html';
-                });
-            }
-
-            preencherResumoPainel();
-            renderizarGeral(false);
-        })();
-    </script>
-    <script src="script.js"></script>
+          </div>
+        `;
+      }
+
+      function vincularEventosCards() {
+        document.querySelectorAll('.org-card').forEach(card => {
+          card.addEventListener('click', () => abrirModalPessoa(card.getAttribute('data-person-key')));
+        });
+        document.querySelectorAll('.equipe-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            renderizarEquipe(btn.getAttribute('data-leader-id'));
+          });
+        });
+        document.querySelectorAll('.btn-fav-mini').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const key = btn.getAttribute('data-fav-key');
+            let favs = obterFavoritos();
+            if (favs.includes(key)) favs = favs.filter(x => x !== key);
+            else favs.unshift(key);
+            salvarFavoritos(favs);
+            renderizarAtual();
+          });
+        });
+      }
+
+      function correspondeBusca(pessoa, extraSetor = '') {
+        if (!searchTerm) return true;
+        return `${pessoa.nome} ${pessoa.funcao} ${pessoa.descricao} ${extraSetor}`.toLowerCase().includes(searchTerm);
+      }
+
+      function renderizarAtual() {
+        if (viewMode === 'equipe' && activeLeaderId) renderizarEquipe(activeLeaderId, false);
+        else renderizarGeral(false);
+      }
+
+      function renderizarGeral(scrollTop = false) {
+        viewMode = 'geral';
+        activeLeaderId = null;
+        sectorJumpSelect.value = '';
+        btnVoltarEquipeHeader.style.display = 'none';
+        document.getElementById('btnVisaoGeral').classList.add('active');
+
+        headerTitle.innerHTML = 'ORGANOGRAMA <span>CORPORATIVO</span>';
+        headerSubtitle.textContent = 'Hierarquia, liderança setorial e equipes operacionais com acesso rápido a contatos e perfis da empresa.';
+        navStatus.textContent = 'REDES ONLINE • 12ms · ORGANOGRAMA GERAL';
+
+        const favs = obterFavoritos();
+        const lideresFiltrados = [...ORGANOGRAMA_DADOS.lideres]
+          .sort((a, b) => a.setor.localeCompare(b.setor, 'pt-BR'))
+          .filter(lider => {
+            const okDomain = activeDomain === 'TODOS' || lider.domainClass === activeDomain;
+            const okFav = !somenteFavoritos || favs.includes(`lider_${lider.id}`);
+            const matchLider = correspondeBusca(lider, lider.setor);
+            const matchMembro = Array.isArray(lider.equipe) && lider.equipe.some(m => correspondeBusca(m, lider.setor));
+            return okDomain && okFav && (matchLider || matchMembro);
+          });
+
+        document.getElementById('orgStatusLabel').innerHTML =
+          `<i class="fa-solid fa-sitemap"></i> EXIBINDO ${lideresFiltrados.length} DE ${ORGANOGRAMA_DADOS.lideres.length} SETORES · VISÃO GERAL`;
+
+        if (lideresFiltrados.length === 0) {
+          container.innerHTML = `
+            <div class="org-empty-state">
+              <i class="fa-solid fa-filter-circle-xmark" style="font-size:24px; color:#38bdf8; margin-bottom:8px; display:block;"></i>
+              <strong>Nenhum setor encontrado para o filtro atual</strong>
+              <p style="font-size:11.5px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a área selecionada.</p>
+            </div>
+          `;
+          aplicarAjusteDeTela();
+          return;
+        }
+
+        const htmlLideres = lideresFiltrados.map(lider =>
+          criarCardHTML(lider, {
+            badgeText: lider.setor,
+            isLeader: true,
+            leaderId: lider.id,
+            uniqueKey: `lider_${lider.id}`,
+            favKey: `lider_${lider.id}`
+          })
+        ).join('');
+
+        container.innerHTML = `
+          <div class="org-tree">
+            <div class="org-level">
+              ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaContrato, {
+                badgeText: ORGANOGRAMA_DADOS.gerenciaContrato.nivel,
+                tierClass: ORGANOGRAMA_DADOS.gerenciaContrato.tier,
+                uniqueKey: 'top_contrato',
+                favKey: 'top_contrato'
+              })}
+            </div>
+            <div class="org-connector-v"></div>
+            <div class="org-level">
+              ${criarCardHTML(ORGANOGRAMA_DADOS.gerenciaOperacional, {
+                badgeText: ORGANOGRAMA_DADOS.gerenciaOperacional.nivel,
+                tierClass: ORGANOGRAMA_DADOS.gerenciaOperacional.tier,
+                uniqueKey: 'top_operacional',
+                favKey: 'top_operacional'
+              })}
+            </div>
+            <div class="org-connector-v"></div>
+            <div class="org-level">
+              ${criarCardHTML(ORGANOGRAMA_DADOS.coordenacaoOperacional, {
+                badgeText: ORGANOGRAMA_DADOS.coordenacaoOperacional.nivel,
+                tierClass: ORGANOGRAMA_DADOS.coordenacaoOperacional.tier,
+                uniqueKey: 'top_coordenacao',
+                favKey: 'top_coordenacao'
+              })}
+            </div>
+            <div class="org-connector-v"></div>
+            <div class="org-connector-bar"></div>
+            <div class="org-level">${htmlLideres}</div>
+          </div>
+        `;
+
+        vincularEventosCards();
+        iniciarTracoSequencial();
+        aplicarAjusteDeTela();
+        if (scrollTop && !isFitScreen) window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function renderizarEquipe(leaderId, scrollTop = true) {
+        const lider = ORGANOGRAMA_DADOS.lideres.find(l => l.id === leaderId);
+        if (!lider) return;
+
+        viewMode = 'equipe';
+        activeLeaderId = leaderId;
+        sectorJumpSelect.value = leaderId;
+        btnVoltarEquipeHeader.style.display = 'inline-flex';
+        document.getElementById('btnVisaoGeral').classList.remove('active');
+
+        headerTitle.innerHTML = `EQUIPE <span>${lider.setor.toUpperCase()}</span>`;
+        headerSubtitle.textContent = `Liderança direta de ${lider.nome} (${lider.equipe.length} colaborador${lider.equipe.length > 1 ? 'es' : ''})`;
+        navStatus.textContent = `REDES ONLINE • 12ms · ${lider.setor.toUpperCase()}`;
+
+        const membrosFiltrados = (lider.equipe || []).filter(m => correspondeBusca(m, lider.setor));
+        document.getElementById('orgStatusLabel').innerHTML =
+          `<i class="fa-solid fa-users-gear"></i> SETOR ${lider.setor.toUpperCase()} · LÍDER: ${lider.nome.toUpperCase()} (${membrosFiltrados.length})`;
+
+        const htmlMembros = membrosFiltrados.map((membro, idx) =>
+          criarCardHTML(membro, {
+            badgeText: lider.setor,
+            uniqueKey: `membro_${lider.id}_${idx}`
+          })
+        ).join('');
+
+        container.innerHTML = `
+          <div class="org-tree">
+            <div class="org-level">
+              ${criarCardHTML(lider, {
+                badgeText: `Líder • ${lider.setor}`,
+                tierClass: 'tier-bronze',
+                uniqueKey: `lider_topo_${lider.id}`,
+                favKey: `lider_${lider.id}`
+              })}
+            </div>
+            <div class="org-connector-v"></div>
+            <div class="org-connector-bar"></div>
+            <div class="org-level">
+              ${membrosFiltrados.length > 0 ? htmlMembros : `
+                <div class="org-empty-state">
+                  <i class="fa-solid fa-user-slash" style="font-size:24px; color:#38bdf8; margin-bottom:8px; display:block;"></i>
+                  <strong>Nenhum colaborador corresponde à busca</strong>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+
+        vincularEventosCards();
+        iniciarTracoSequencial();
+        aplicarAjusteDeTela();
+        if (scrollTop && !isFitScreen) window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.getElementById('btnVisaoGeral').addEventListener('click', () => renderizarGeral(true));
+      btnVoltarEquipeHeader.addEventListener('click', () => renderizarGeral(true));
+
+      document.getElementById('btnFiltroFavoritos').addEventListener('click', () => {
+        somenteFavoritos = !somenteFavoritos;
+        document.getElementById('btnFiltroFavoritos').classList.toggle('active', somenteFavoritos);
+        renderizarAtual();
+      });
+
+      document.querySelectorAll('#domainFilterGroup .cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#domainFilterGroup .cat-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeDomain = btn.getAttribute('data-domain');
+          if (viewMode === 'equipe') renderizarGeral(false);
+          else renderizarAtual();
+        });
+      });
+
+      sectorJumpSelect.addEventListener('change', () => {
+        const chosenId = sectorJumpSelect.value;
+        if (chosenId) renderizarEquipe(chosenId, true);
+        else renderizarGeral(false);
+      });
+
+      searchInput.addEventListener('input', () => {
+        searchTerm = searchInput.value.trim().toLowerCase();
+        renderizarAtual();
+      });
+
+      document.getElementById('btnResetFilters').addEventListener('click', () => {
+        searchInput.value = '';
+        searchTerm = '';
+        activeDomain = 'TODOS';
+        somenteFavoritos = false;
+        document.getElementById('btnFiltroFavoritos').classList.remove('active');
+        document.querySelectorAll('#domainFilterGroup .cat-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-domain') === 'TODOS');
+        });
+        sectorJumpSelect.value = '';
+        renderizarGeral(false);
+      });
+
+      document.getElementById('btnToggleMenu').addEventListener('click', () => {
+        const oculto = document.body.classList.toggle('menu-hidden');
+        document.getElementById('iconToggleMenu').className = oculto ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
+        document.getElementById('txtToggleMenu').textContent = oculto ? 'MOSTRAR MENU' : 'OCULTAR MENU';
+        if (isFitScreen) setTimeout(aplicarAjusteDeTela, 280);
+      });
+
+      document.getElementById('btnVoltarHome').addEventListener('click', () => {
+        window.location.href = 'home.html';
+      });
+
+      document.getElementById('btnSairRodape').addEventListener('click', () => {
+        sessionStorage.removeItem('ellca_auth');
+        sessionStorage.removeItem('ellca_user_name');
+        sessionStorage.removeItem('ellca_user_setores');
+        window.location.href = 'login.html';
+      });
+
+      preencherContadores();
+      renderizarGeral(false);
+    })();
+  </script>
 </body>
 
 </html>
