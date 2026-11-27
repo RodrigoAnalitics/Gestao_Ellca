@@ -639,7 +639,7 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL NORMAL: MESMO TAMANHO DO MODO GRADE + LEVE AUMENTO */
+    /* MODO CARROSSEL NORMAL: ALINHADO AO MODO GRADE + LEVE GANHO DE ALTURA */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -651,16 +651,16 @@
     }
 
     .cards-track:not(.grid-mode):not(.mode-3d) .card-3d-wrap {
-      min-height: 358px;
-      height: 358px;
-      max-height: 358px;
+      min-height: 368px;
+      height: 368px;
+      max-height: 368px;
     }
 
     .cards-track:not(.grid-mode):not(.mode-3d) .card-img-banner {
-      height: 120px;
+      height: 126px;
     }
 
-    /* MODO GRADE: LEVE AUMENTO DE ALTURA */
+    /* MODO GRADE: LEVE GANHO DE ALTURA */
     .cards-track.grid-mode {
       grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
       overflow-y: auto;
@@ -670,16 +670,16 @@
     }
 
     .cards-track.grid-mode .card-3d-wrap {
-      min-height: 358px;
+      min-height: 368px;
       height: auto;
       max-height: none;
     }
 
     .cards-track.grid-mode .card-img-banner {
-      height: 120px;
+      height: 126px;
     }
 
-    /* MODO CARROSSEL 3D: MAIOR ALTURA E COMPRIMENTO */
+    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
@@ -870,7 +870,7 @@
     .card-img-banner {
       position: relative;
       width: 100%;
-      height: 120px;
+      height: 126px;
       border-radius: 9px;
       background-size: cover;
       background-position: center;
@@ -942,7 +942,8 @@
     }
 
     .card-title-txt {
-      font-size: 13.5px;
+      font-size: 14px;
+      line-height: 1.25;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.2px;
@@ -950,8 +951,8 @@
     }
 
     .card-desc-txt {
-      font-size: 11px;
-      line-height: 1.38;
+      font-size: 11.5px;
+      line-height: 1.44;
       color: #cbd5e1;
       margin-top: 3px;
       display: -webkit-box;
