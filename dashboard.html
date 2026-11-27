@@ -871,7 +871,7 @@
     }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
-    .card-3d-wrap.sem-acesso .btn-nova-aba {
+    .card-3d-wrap.sem-acesso .btn-info-aba {
       opacity: 0.45;
       cursor: not-allowed;
       pointer-events: none;
@@ -1152,7 +1152,7 @@
       background: rgba(56, 189, 248, 0.16);
     }
 
-    .btn-nova-aba {
+    .btn-info-aba {
       width: 30px;
       height: 30px;
       min-height: 30px;
@@ -1163,6 +1163,7 @@
       border-radius: 8px;
       color: #38bdf8;
       font-size: 11px;
+      font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -1170,13 +1171,13 @@
       transition: all 0.2s ease;
     }
 
-    .btn-nova-aba:hover:not(:disabled) {
+    .btn-info-aba:hover:not(:disabled) {
       background: #38bdf8;
       border-color: #ffffff;
       color: #02060f;
     }
 
-    .btn-nova-aba:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-info-aba:disabled { opacity: 0.35; cursor: not-allowed; }
 
     .pagination-dots {
       display: flex;
@@ -1610,7 +1611,7 @@
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
     <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ABRIR DASHBOARD <i class="fa-solid fa-chart-pie"></i>
+      ACESSAR <i class="fa-solid fa-arrow-right"></i>
     </button>
   </aside>
 
@@ -1652,14 +1653,14 @@
           icone: "fa-boxes-stacked",
           imagem: "img/Card_Produtividade.jpg",
           titulo: "ALMOXARIFADO",
-          desc: "",
+          desc: "Indicadores de estoque, movimentação de materiais e giro.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-warehouse"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Almoxarifado",
           searchTags: "almoxarifado estoque materiais insumos",
-          recursos: ["Painel setorial: Almoxarifado", "Acesso via Data Studio / BI"]
+          recursos: ["Acompanhamento de estoque e saldo", "Movimentação de entradas e saídas", "Indicadores setoriais em tempo real"]
         },
         {
           key: "dash_almox_epi_epc",
@@ -1670,14 +1671,14 @@
           icone: "fa-helmet-safety",
           imagem: "img/sesmt.jpg",
           titulo: "ALMOX. EPI/EPC",
-          desc: "",
+          desc: "Controle de entregas, saldos e conformidade de EPIs e EPCs.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Almox. EPI/EPC",
           searchTags: "almox epi epc equipamentos proteção",
-          recursos: ["Painel setorial: Almox. EPI/EPC", "Acesso via Data Studio / BI"]
+          recursos: ["Controle de EPIs e EPCs por equipe", "Saldo e reposição de itens críticos", "Indicadores de conformidade"]
         },
         {
           key: "dash_backoffice",
@@ -1688,14 +1689,14 @@
           icone: "fa-file-invoice-dollar",
           imagem: "img/estrutura.jpg",
           titulo: "BACKOFFICE",
-          desc: "",
+          desc: "Visão de medições, faturamento, validações e pendências.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-file-check"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Backoffice",
           searchTags: "backoffice medição faturamento controle",
-          recursos: ["Painel setorial: Backoffice", "Acesso via Data Studio / BI"]
+          recursos: ["Status de medições e faturamento", "Acompanhamento de pendências", "Indicadores administrativos"]
         },
         {
           key: "dash_dp",
@@ -1706,14 +1707,14 @@
           icone: "fa-id-card",
           imagem: "img/estrutura.jpg",
           titulo: "DP",
-          desc: "",
+          desc: "Indicadores de ponto, jornada, admissões e ocorrências.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-users"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "DP",
           searchTags: "dp departamento pessoal folha ponto",
-          recursos: ["Painel setorial: DP", "Acesso via Data Studio / BI"]
+          recursos: ["Acompanhamento de ponto e jornada", "Movimentações de pessoal", "Indicadores de Departamento Pessoal"]
         },
         {
           key: "dash_dsc",
@@ -1724,14 +1725,14 @@
           icone: "fa-diagram-project",
           imagem: "img/Programacao.jpg",
           titulo: "DSC",
-          desc: "",
+          desc: "Painel de indicadores e desempenho operacional da área DSC.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-bolt"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "DSC",
           searchTags: "dsc operação indicadores",
-          recursos: ["Painel setorial: DSC", "Acesso via Data Studio / BI"]
+          recursos: ["Indicadores operacionais da DSC", "Análise de metas e evolução", "Visão consolidada do setor"]
         },
         {
           key: "dash_estrutura",
@@ -1742,14 +1743,14 @@
           icone: "fa-building",
           imagem: "img/estrutura.jpg",
           titulo: "ESTRUTURA",
-          desc: "",
+          desc: "Métricas de bases, unidades, organização e capacidade.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-sitemap"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Estrutura",
           searchTags: "estrutura bases unidades",
-          recursos: ["Painel setorial: Estrutura", "Acesso via Data Studio / BI"]
+          recursos: ["Monitoramento de bases e unidades", "Organização e capacidade operacional", "Indicadores de estrutura"]
         },
         {
           key: "dash_frota",
@@ -1760,14 +1761,14 @@
           icone: "fa-truck-fast",
           imagem: "img/Programacao.jpg",
           titulo: "FROTA",
-          desc: "",
+          desc: "Indicadores de veículos, combustível, uso e manutenções.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-gauge-high"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Frota",
           searchTags: "frota veículos combustível manutenção",
-          recursos: ["Painel setorial: Frota", "Acesso via Data Studio / BI"]
+          recursos: ["Disponibilidade e uso da frota", "Consumo e abastecimento", "Controle de manutenções"]
         },
         {
           key: "dash_infraestrutura",
@@ -1778,14 +1779,14 @@
           icone: "fa-network-wired",
           imagem: "img/estrutura.jpg",
           titulo: "INFRAESTRUTURA",
-          desc: "",
+          desc: "Acompanhamento de redes, conectividade, chamados e ativos.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-server"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Infraestrutura",
           searchTags: "infraestrutura redes suporte",
-          recursos: ["Painel setorial: Infraestrutura", "Acesso via Data Studio / BI"]
+          recursos: ["Disponibilidade de redes e sistemas", "Acompanhamento de chamados e ativos", "Indicadores de infraestrutura"]
         },
         {
           key: "dash_produtividade",
@@ -1796,14 +1797,14 @@
           icone: "fa-chart-line",
           imagem: "img/Card_Produtividade.jpg",
           titulo: "PRODUTIVIDADE",
-          desc: "",
+          desc: "Resultados, metas, faturamento e desempenho das equipes.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-trend-up"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Produtividade",
           searchTags: "produtividade metas produção equipes",
-          recursos: ["Painel setorial: Produtividade", "Acesso via Data Studio / BI"]
+          recursos: ["Acompanhamento de metas e produção", "Desempenho por frente e equipe", "Evolução dos resultados"]
         },
         {
           key: "dash_programacao",
@@ -1814,14 +1815,14 @@
           icone: "fa-calendar-check",
           imagem: "img/Programacao.jpg",
           titulo: "PROGRAMAÇÃO",
-          desc: "",
+          desc: "Controle de carteira, execução programada e atendimento.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-calendar-days"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Programação",
           searchTags: "programação carteira ordens serviço",
-          recursos: ["Painel setorial: Programação", "Acesso via Data Studio / BI"]
+          recursos: ["Aderência à programação diária", "Status da carteira de serviços", "Indicadores de execução"]
         },
         {
           key: "dash_projeto",
@@ -1832,14 +1833,14 @@
           icone: "fa-compass-drafting",
           imagem: "img/Card_Produtividade.jpg",
           titulo: "PROJETO",
-          desc: "",
+          desc: "Acompanhamento de etapas, cronogramas e entregas de projeto.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-folder-open"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "Projeto",
           searchTags: "projeto obras implantação",
-          recursos: ["Painel setorial: Projeto", "Acesso via Data Studio / BI"]
+          recursos: ["Avanço físico e etapas do projeto", "Acompanhamento de prazos e entregas", "Indicadores de gestão de projetos"]
         },
         {
           key: "dash_rh",
@@ -1850,14 +1851,14 @@
           icone: "fa-user-group",
           imagem: "img/estrutura.jpg",
           titulo: "RH",
-          desc: "",
+          desc: "Indicadores de quadro de pessoas, turnover e gestão de talentos.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-user-check"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "RH",
           searchTags: "rh recursos humanos pessoas quadro",
-          recursos: ["Painel setorial: RH", "Acesso via Data Studio / BI"]
+          recursos: ["Efetivo e distribuição por área", "Indicadores de movimentação e retenção", "Visão de Recursos Humanos"]
         },
         {
           key: "dash_sesmt",
@@ -1868,14 +1869,14 @@
           icone: "fa-shield-halved",
           imagem: "img/sesmt.jpg",
           titulo: "SESMT",
-          desc: "",
+          desc: "Indicadores de segurança do trabalho, prevenção e conformidade.",
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-check"></i> Ativo</span>',
           kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
           kpiResumo: "Ativo · BI",
           url: "#",
           setorLabel: "SESMT",
           searchTags: "sesmt segurança trabalho epi inspeções",
-          recursos: ["Painel setorial: SESMT", "Acesso via Data Studio / BI"]
+          recursos: ["Indicadores de segurança e prevenção", "Inspeções e planos de ação", "Conformidade operacional do SESMT"]
         }
       ];
 
@@ -2127,7 +2128,7 @@
 
                 <div>
                   <h3 class="card-title-txt">${mod.titulo}</h3>
-                  ${mod.desc ? `<p class="card-desc-txt">${mod.desc}</p>` : ""}
+                  <p class="card-desc-txt">${mod.desc}</p>
                 </div>
 
                 <div class="kpi-pills-row">
@@ -2138,10 +2139,10 @@
                 <div class="card-actions-stack">
                   <div class="acessar-line">
                     <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
-                      ${permitido ? `ABRIR <i class="fa-solid fa-chart-pie"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                      ${permitido ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
-                    <button type="button" class="btn-nova-aba btn-abrir-nova-aba" data-key="${mod.key}" title="Abrir em nova aba" ${permitido ? "" : "disabled"}>
-                      <i class="fa-solid fa-up-right-from-square"></i>
+                    <button type="button" class="btn-info-aba btn-info-detalhes" data-key="${mod.key}" title="Ver detalhes na barra lateral" ${permitido ? "" : "disabled"}>
+                      <i class="fa-solid fa-info"></i>
                     </button>
                   </div>
                   <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
@@ -2263,12 +2264,12 @@
           });
         });
 
-        cardsWrapper.querySelectorAll(".btn-abrir-nova-aba").forEach(btn => {
+        cardsWrapper.querySelectorAll(".btn-info-detalhes").forEach(btn => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const mod = DASHBOARDS_LISTA.find(m => m.key === btn.getAttribute("data-key"));
             if (!mod || !usuarioTemAcesso(mod)) return;
-            navegarParaDestino(mod, true);
+            abrirDrawerDetalhes(mod.key);
           });
         });
 
@@ -2330,7 +2331,7 @@
         const permitido = usuarioTemAcesso(mod);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
-        document.getElementById("drawerModDesc").textContent = mod.desc || `Painel setorial de ${mod.setorLabel}.`;
+        document.getElementById("drawerModDesc").textContent = mod.desc;
         document.getElementById("drawerModCat").textContent = mod.categoria;
         document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
         document.getElementById("drawerModRota").textContent = mod.setorLabel;
@@ -2349,7 +2350,7 @@
         btnDrawer.style.opacity = permitido ? "1" : "0.45";
         btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
         btnDrawer.innerHTML = permitido
-          ? `ABRIR DASHBOARD <i class="fa-solid fa-chart-pie"></i>`
+          ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>`
           : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
 
         detailsBackdrop.classList.add("open");
