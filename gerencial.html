@@ -23,7 +23,7 @@
       --card-h: clamp(326px, 39vh, 354px);
       --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
-      --card-count: 4;
+      --card-count: 10;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
@@ -394,13 +394,8 @@
       gap: 5px;
     }
 
-    .hero-greeting-pill .pill-temp {
-      color: #7dd3fc;
-    }
-
-    .hero-greeting-pill .pill-clock {
-      color: #6ee7b7;
-    }
+    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
+    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
 
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px);
@@ -800,7 +795,6 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -825,11 +819,8 @@
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
-    .cards-track .card-img-banner {
-      height: var(--card-img-h);
-    }
+    .cards-track .card-img-banner { height: var(--card-img-h); }
 
-    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -840,7 +831,6 @@
       padding: 4px 2px 8px;
     }
 
-    /* MODO CARROSSEL 3D: CARDS PRETO FOSCO VIDRO COM FILETES DOURADOS */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
@@ -862,9 +852,7 @@
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
-    .cards-track.mode-3d .card-img-banner {
-      height: var(--card-img-h);
-    }
+    .cards-track.mode-3d .card-img-banner { height: var(--card-img-h); }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
       transform: translate3d(0, 0, 0) scale(1);
@@ -937,7 +925,6 @@
       pointer-events: none;
     }
 
-    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
@@ -945,9 +932,7 @@
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
     }
 
-    .card-3d-wrap.sem-acesso .card-surface::before {
-      opacity: 0.10 !important;
-    }
+    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
     .card-3d-wrap.sem-acesso .btn-nova-aba {
@@ -960,7 +945,6 @@
       box-shadow: none;
     }
 
-    /* ================= EXCLUSIVO NOS CARDS: PRETO FOSCO VIDRO & DETALHES DOURADOS ================= */
     .card-surface {
       --sweep-angle: 0deg;
       --edge-a: #facc15;
@@ -1034,9 +1018,7 @@
         inset 0 1px 0 rgba(254, 240, 138, 0.36) !important;
     }
 
-    .card-surface:hover::before {
-      opacity: 1 !important;
-    }
+    .card-surface:hover::before { opacity: 1 !important; }
 
     body.glow-paused .card-surface,
     body.glow-paused .card-surface::before {
@@ -1446,9 +1428,7 @@
       color: #e2e8f0;
     }
 
-    .ai-briefing-card strong {
-      color: #fde047;
-    }
+    .ai-briefing-card strong { color: #fde047; }
 
     .ai-prompt-chips {
       display: flex;
@@ -1551,10 +1531,7 @@
     .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
 
     @media (max-width: 1180px) {
-      .top-navbar {
-        flex-wrap: wrap;
-      }
-
+      .top-navbar { flex-wrap: wrap; }
       .nav-links-side {
         flex-wrap: wrap;
         width: 100%;
@@ -1574,12 +1551,8 @@
       .hero-banner { padding: 12px 14px; }
       .quick-stat-pill { min-width: 0; flex: 1 1 auto; }
       .cards-track,
-      .cards-track.grid-mode {
-        grid-template-columns: 1fr;
-      }
-      .cards-track .card-3d-wrap {
-        max-width: 100%;
-      }
+      .cards-track.grid-mode { grid-template-columns: 1fr; }
+      .cards-track .card-3d-wrap { max-width: 100%; }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
     }
@@ -1643,7 +1616,7 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Painéis Executivos</small>
-            <strong>4 Módulos</strong>
+            <strong id="statQtdModulos">10 Módulos</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Escopo</small>
@@ -1713,7 +1686,8 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (4)</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (10)</button>
+        <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-hard-hat"></i> Operação</button>
         <button type="button" class="cat-btn" data-cat="RESULTADOS"><i class="fa-solid fa-chart-pie"></i> Resultados</button>
         <button type="button" class="cat-btn" data-cat="GOVERNANCA"><i class="fa-solid fa-shield-halved"></i> Governança</button>
       </div>
@@ -1728,7 +1702,7 @@
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-crown"></i> EXIBINDO 4 MÓDULOS · MODO CARROSSEL
+          <i class="fa-solid fa-crown"></i> EXIBINDO 10 MÓDULOS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1875,86 +1849,195 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
+      // Lista solicitada em ordem alfabética (com "Instalação de Clientes" ao final conforme informado)
       const MODULOS_GERENCIA = [
         {
-          key: "resumo_executivo",
-          setor: "gerencial",
-          categoria: "RESULTADOS",
-          badge: "EXECUTIVO",
-          badgeGold: true,
-          icone: "fa-crown",
-          imagem: "img/Card_gerencial.jpg",
-          titulo: "RESUMO EXECUTIVO",
-          desc: "Visão consolidada dos principais resultados, metas e tendências da operação.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> Consolidado</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-pie"></i> Mensal</span>',
-          kpiResumo: "Consolidado · Mensal",
-          url: "#resumo-executivo",
-          escopoLabel: "Diretoria / Gerência",
-          searchTags: "resumo executivo consolidado metas resultados",
-          recursos: ["Síntese de indicadores estratégicos", "Comparativo de desempenho mensal", "Destaques por frente operacional"]
-        },
-        {
-          key: "metas_aderencia",
-          setor: "gerencial",
-          categoria: "RESULTADOS",
-          badge: "METAS",
-          badgeGold: false,
-          icone: "fa-bullseye",
-          imagem: "img/Card_dashboard.jpg",
-          titulo: "METAS & ADERÊNCIA",
-          desc: "Acompanhamento de planos de ação, aderência aos processos e desvios.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
-          kpi2: '<span><i class="fa-solid fa-bullseye"></i> Aderência</span>',
-          kpiResumo: "92% · Aderência",
-          url: "#metas-aderencia",
-          escopoLabel: "Gestão de Metas",
-          searchTags: "metas aderencia planos acao desvios",
-          recursos: ["Aderência por área e período", "Identificação de gargalos", "Plano de acompanhamento"]
-        },
-        {
-          key: "governanca_acessos",
+          key: "base",
           setor: "gerencial",
           categoria: "GOVERNANCA",
-          badge: "GOVERNANÇA",
-          badgeGold: true,
-          icone: "fa-shield-halved",
-          imagem: "img/Card_gerencial.jpg",
-          titulo: "GOVERNANÇA & CONTROLE",
-          desc: "Políticas de acesso, conformidade documental e controle de permissões.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> Restrito</span>',
-          kpi2: '<span><i class="fa-solid fa-lock"></i> Perfis</span>',
-          kpiResumo: "Restrito · Perfis",
-          url: "#governanca-controle",
-          escopoLabel: "Governança",
-          searchTags: "governanca acesso permissoes conformidade",
-          recursos: ["Revisão de perfis de acesso", "Rastreabilidade de módulos", "Conformidade interna"]
-        },
-        {
-          key: "relatorios_diretoria",
-          setor: "gerencial",
-          categoria: "GOVERNANCA",
-          badge: "RELATÓRIOS",
+          badge: "BASE",
           badgeGold: false,
-          icone: "fa-file-lines",
+          icone: "fa-building",
           imagem: "img/Card_base_dados.jpg",
-          titulo: "RELATÓRIOS GERENCIAIS",
-          desc: "Dossiês periódicos, atas de acompanhamento e fechamentos executivos.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-folder-open"></i> Atualizado</span>',
-          kpi2: '<span><i class="fa-solid fa-calendar"></i> Periódico</span>',
-          kpiResumo: "Atualizado · Periódico",
-          url: "#relatorios-gerenciais",
-          escopoLabel: "Documentação Gerencial",
-          searchTags: "relatorios gerenciais fechamento diretoria",
-          recursos: ["Fechamentos por ciclo", "Histórico de análises", "Apoio à tomada de decisão"]
+          titulo: "BASE",
+          desc: "Gestão operacional das bases, prontidão de recursos, apoio logístico e estrutura local.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
+          kpi2: '<span><i class="fa-solid fa-building"></i> Diário</span>',
+          kpiResumo: "96% · Diário",
+          url: "#gerencia-base",
+          escopoLabel: "Bases Operacionais",
+          searchTags: "base bases operacionais prontidao logistica estrutura",
+          recursos: ["Prontidão operacional das bases", "Controle de apoio e suprimentos", "Acompanhamento de ocorrências"]
+        },
+        {
+          key: "estrutura",
+          setor: "gerencial",
+          categoria: "GOVERNANCA",
+          badge: "ESTRUTURA",
+          badgeGold: true,
+          icone: "fa-sitemap",
+          imagem: "img/Card_gerencial.jpg",
+          titulo: "ESTRUTURA",
+          desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
+          kpi2: '<span><i class="fa-solid fa-users"></i> Geral</span>',
+          kpiResumo: "100% · Geral",
+          url: "#gerencia-estrutura",
+          escopoLabel: "Governança Organizacional",
+          searchTags: "estrutura organograma hierarquia lideranca setores",
+          recursos: ["Mapeamento de cargos e setores", "Distribuição de lideranças", "Integração entre áreas"]
+        },
+        {
+          key: "faturamento",
+          setor: "gerencial",
+          categoria: "RESULTADOS",
+          badge: "FATURAMENTO",
+          badgeGold: true,
+          icone: "fa-file-invoice-dollar",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "FATURAMENTO",
+          desc: "Acompanhamento de notas emitidas, receita consolidada, glosas e fechamento financeiro.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> Consolidado</span>',
+          kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
+          kpiResumo: "Consolidado · Mensal",
+          url: "#gerencia-faturamento",
+          escopoLabel: "Resultado Financeiro",
+          searchTags: "faturamento notas receita financeiro glosas fechamento",
+          recursos: ["Evolução de faturamento por período", "Conferência de pendências e glosas", "Fechamento executivo"]
+        },
+        {
+          key: "inspecao_campo",
+          setor: "gerencial",
+          categoria: "OPERACAO",
+          badge: "INSPEÇÃO",
+          badgeGold: false,
+          icone: "fa-clipboard-check",
+          imagem: "img/Card_gerencial.jpg",
+          titulo: "INSPEÇÃO DE CAMPO",
+          desc: "Auditoria de execução, qualidade técnica, segurança e conformidade das equipes em campo.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-shield-halved"></i> Contínuo</span>',
+          kpiResumo: "94% · Contínuo",
+          url: "#gerencia-inspecao-campo",
+          escopoLabel: "Qualidade & Campo",
+          searchTags: "inspecao de campo auditoria qualidade seguranca conformidade",
+          recursos: ["Taxa de conformidade em campo", "Tratativa de desvios e não conformidades", "Acompanhamento por equipe"]
+        },
+        {
+          key: "medicao",
+          setor: "gerencial",
+          categoria: "RESULTADOS",
+          badge: "MEDIÇÃO",
+          badgeGold: false,
+          icone: "fa-ruler-combined",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "MEDIÇÃO",
+          desc: "Consolidado de serviços medidos, validação de boletins e evolução por contrato.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
+          kpi2: '<span><i class="fa-solid fa-file-contract"></i> Ciclo</span>',
+          kpiResumo: "92% · Ciclo",
+          url: "#gerencia-medicao",
+          escopoLabel: "Boletins & Medição",
+          searchTags: "medicao boletins contratos consolidado faturamento",
+          recursos: ["Apuração por ciclo de medição", "Validação de itens medidos", "Comparativo com programação"]
+        },
+        {
+          key: "mobilizacao_diaria",
+          setor: "gerencial",
+          categoria: "OPERACAO",
+          badge: "MOBILIZAÇÃO",
+          badgeGold: false,
+          icone: "fa-people-carry-box",
+          imagem: "img/Card_gerencial.jpg",
+          titulo: "MOBILIZAÇÃO DIÁRIA",
+          desc: "Disponibilidade de equipes, veículos, kits e saída diária para as frentes de trabalho.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
+          kpi2: '<span><i class="fa-solid fa-clock"></i> Diário</span>',
+          kpiResumo: "95% · Diário",
+          url: "#gerencia-mobilizacao-diaria",
+          escopoLabel: "Saída & Mobilização",
+          searchTags: "mobilizacao diaria equipes veiculos kits saida turno",
+          recursos: ["Presença e formação de equipes", "Disponibilidade de frota e recursos", "Indicador de saída no horário"]
+        },
+        {
+          key: "producao",
+          setor: "gerencial",
+          categoria: "OPERACAO",
+          badge: "PRODUÇÃO",
+          badgeGold: true,
+          icone: "fa-industry",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "PRODUÇÃO",
+          desc: "Volume entregue, ordens concluídas e acompanhamento da produção frente às metas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 91%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
+          kpiResumo: "91% · Diário",
+          url: "#gerencia-producao",
+          escopoLabel: "Resultado Operacional",
+          searchTags: "producao volume entregas ordens metas operacao",
+          recursos: ["Produção acumulada vs. meta", "Entregas por frente e região", "Histórico de ritmo diário"]
+        },
+        {
+          key: "produtividade",
+          setor: "gerencial",
+          categoria: "RESULTADOS",
+          badge: "PRODUTIVIDADE",
+          badgeGold: true,
+          icone: "fa-gauge-high",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "PRODUTIVIDADE",
+          desc: "Eficiência operacional, rendimento por equipe/hora e indicadores de desempenho.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-bullseye"></i> 89%</span>',
+          kpi2: '<span><i class="fa-solid fa-gauge-high"></i> Eficiência</span>',
+          kpiResumo: "89% · Eficiência",
+          url: "#gerencia-produtividade",
+          escopoLabel: "Eficiência & Metas",
+          searchTags: "produtividade eficiencia rendimento metas indicadores",
+          recursos: ["Rendimento por equipe e turno", "Comparativo de eficiência", "Identificação de pontos de melhoria"]
+        },
+        {
+          key: "programacao",
+          setor: "gerencial",
+          categoria: "OPERACAO",
+          badge: "PROGRAMAÇÃO",
+          badgeGold: false,
+          icone: "fa-calendar-check",
+          imagem: "img/Card_gerencial.jpg",
+          titulo: "PROGRAMAÇÃO",
+          desc: "Planejamento de ordens, roteirização, alocação de recursos e aderência ao plano.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
+          kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
+          kpiResumo: "93% · Diário",
+          url: "#gerencia-programacao",
+          escopoLabel: "Planejamento Operacional",
+          searchTags: "programacao planejamento ordens roteirizacao aderencia",
+          recursos: ["Aderência à programação diária", "Distribuição de ordens e rotas", "Reprogramações e ajustes"]
+        },
+        {
+          key: "instalacao_clientes",
+          setor: "gerencial",
+          categoria: "OPERACAO",
+          badge: "INSTALAÇÃO",
+          badgeGold: true,
+          icone: "fa-plug-circle-check",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "INSTALAÇÃO DE CLIENTES",
+          desc: "Acompanhamento de ligações, instalações, prazos de atendimento e conclusão ao cliente.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
+          kpi2: '<span><i class="fa-solid fa-user-check"></i> SLA</span>',
+          kpiResumo: "92% · SLA",
+          url: "#gerencia-instalacao-clientes",
+          escopoLabel: "Atendimento & Instalação",
+          searchTags: "instalacao de clientes ligacoes atendimento sla prazos",
+          recursos: ["Acompanhamento de instalações concluídas", "Cumprimento de prazos e SLA", "Status de pendências com clientes"]
         }
       ];
 
       const INSIGHTS_IA_EXECUTIVOS = [
         "Consolidado geral operando em 92% de aderência às metas mensais, sem desvios críticos em campo.",
-        "Programação diária e supervisão de campo mantêm ritmo estável de entregas com 93% de cumprimento.",
-        "Governança e controle de permissões ativos: 100% dos setores operando com rastreabilidade setorial.",
-        "Recomendação IA: revisar o fechamento periódico nos Relatórios Gerenciais antes do alinhamento semanal."
+        "Programação diária e mobilização mantêm ritmo estável com 95% de prontidão operacional.",
+        "Inspeção de campo e acompanhamento de medição apontam boa consistência nos ciclos atuais.",
+        "Recomendação IA: cruzar Produção, Medição e Faturamento antes do fechamento executivo."
       ];
 
       function capitalizarPrimeira(texto) {
@@ -2004,7 +2087,6 @@
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
       }
 
-      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
       const estadoClima = {
         cidade: "Belém - PA",
         temperatura: "--°C",
@@ -2125,6 +2207,12 @@
         return permitidos.includes(String(item.setor).toLowerCase());
       }
 
+      document.getElementById("statQtdModulos").textContent = `${MODULOS_GERENCIA.length} Módulos`;
+      const btnTodos = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
+      if (btnTodos) {
+        btnTodos.innerHTML = `<i class="fa-solid fa-layer-group"></i> Todos (${MODULOS_GERENCIA.length})`;
+      }
+
       document.getElementById("footerUserName").textContent = usuarioAtual;
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
@@ -2168,12 +2256,12 @@
           return `${cabecalho}<strong>Radar de Desvios & Gargalos:</strong><br/>• Aderência global mantida em <strong>92%</strong> dentro da faixa esperada.<br/>• Atenção preventiva às frentes externas em horário de pico de deslocamento.<br/>• <strong>Ação sugerida:</strong> validar reprogramações do dia com a Supervisão de Produção.`;
         }
         if (topico === "governanca") {
-          return `${cabecalho}<strong>Auditoria de Governança & Acessos:</strong><br/>• Controle setorial ativo com segregação por perfil operacional.<br/>• Perfis executivos com acesso integral auditado (<strong>${usuarioAtual}</strong>).<br/>• <strong>Ação sugerida:</strong> revisar periodicamente os logs e dossiês em Governança & Controle.`;
+          return `${cabecalho}<strong>Auditoria de Governança & Acessos:</strong><br/>• Controle setorial ativo com segregação por perfil operacional.<br/>• Perfis executivos com acesso integral auditado (<strong>${usuarioAtual}</strong>).<br/>• <strong>Ação sugerida:</strong> revisar periodicamente os módulos de Base, Estrutura e Inspeção de Campo.`;
         }
         if (topico === "pauta") {
-          return `${cabecalho}<strong>Sugestão de Pauta Executiva:</strong><br/>1. Abertura: Consolidado mensal e aderência às metas (92%).<br/>2. Operação: Produtividade das equipes de campo e apoio logístico.<br/>3. Governança: Conformidade documental e próximos marcos.<br/>4. Encerramento: Definição de prioridades para o próximo ciclo.`;
+          return `${cabecalho}<strong>Sugestão de Pauta Executiva:</strong><br/>1. Mobilização Diária, Programação e Base.<br/>2. Produção, Produtividade e Instalação de Clientes.<br/>3. Inspeção de Campo e conformidade operacional.<br/>4. Medição e Faturamento do ciclo.`;
         }
-        return `${cabecalho}<strong>Resumo Executivo do Turno (${contexto}):</strong><br/>• Os 4 pilares gerenciais estão sincronizados e disponíveis para consulta.<br/>• Indicador consolidado de aderência em <strong>92%</strong> com estabilidade operacional.<br/>• Use os cards ao lado para aprofundar metas, governança ou relatórios da diretoria.`;
+        return `${cabecalho}<strong>Resumo Executivo do Turno (${contexto}):</strong><br/>• Os <strong>${MODULOS_GERENCIA.length} módulos gerenciais</strong> estão disponíveis para consulta.<br/>• Indicador consolidado de aderência em <strong>92%</strong> com estabilidade operacional.<br/>• Use os cards ao lado para aprofundar operação, resultados ou governança.`;
       }
 
       function abrirCopilotoIA(topico = "resumo") {
@@ -2539,7 +2627,6 @@
 
       document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
 
-      /* Atalhos de teclado: Setas Esquerda/Direita e Espaço para pausar/retomar */
       document.addEventListener("keydown", (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
