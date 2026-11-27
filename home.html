@@ -1394,7 +1394,7 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Módulos Ativos</small>
-            <strong>5 Módulos</strong>
+            <strong id="heroTotalModulos">5 Módulos</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Ambiente</small>
@@ -1443,7 +1443,7 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (5)</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (<span id="catTodosCount">5</span>)</button>
         <button type="button" class="cat-btn" data-cat="BI_DADOS"><i class="fa-solid fa-chart-pie"></i> BI & Dados</button>
         <button type="button" class="cat-btn" data-cat="EXECUTIVO"><i class="fa-solid fa-crown"></i> Executivo & Equipe</button>
         <button type="button" class="cat-btn" data-cat="SUPERVISAO"><i class="fa-solid fa-user-shield"></i> Supervisão</button>
@@ -1500,7 +1500,7 @@
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES -->
+  <!-- DRAWER LATERAL DE DETALHES (ABRE SOMENTE VIA BOTÃO DE DETALHES / ÍCONE INFO) -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
@@ -1565,6 +1565,13 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
+      /* ========================================================================
+         MÓDULOS DA HOME:
+         - Para adicionar um novo card: copie um bloco `{ ... }`, defina uma `key`
+           única e preencha `url: "caminho.html"` (ou deixe `url: "#"` para travar
+           o botão ACESSAR até a página ficar pronta).
+         - A gaveta lateral abre apenas pelos botões de DETALHES / ícone info.
+      ======================================================================== */
       const MODULOS_HOME = [
         {
           key: "dashboards",
@@ -1653,6 +1660,9 @@
         }
       ];
 
+      document.getElementById("heroTotalModulos").textContent = `${MODULOS_HOME.length} Módulos`;
+      document.getElementById("catTodosCount").textContent = MODULOS_HOME.length;
+
       function capitalizarPrimeira(texto) {
         const limpo = String(texto || "").trim();
         if (!limpo) return "";
@@ -1696,6 +1706,17 @@
         const partes = String(nome || "RL").trim().split(/\s+/);
         if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      function rotaTravada(url) {
+        const destino = String(url || "").trim();
+        return !destino || destino === "#";
+      }
+
+      function navegarParaModulo(mod) {
+        if (!mod || !usuarioTemAcesso(mod)) return;
+        if (rotaTravada(mod.url)) return;
+        window.location.href = mod.url;
       }
 
       // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
@@ -1865,6 +1886,7 @@
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
+        const travado = rotaTravada(mod.url);
         const isFav = favs.includes(mod.key);
         const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
 
@@ -1893,7 +1915,7 @@
 
                 <div class="card-actions-stack">
                   <div class="acessar-line">
-                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"} title="${travado ? "Link pendente (#)" : "Acessar módulo"}">
                       ${permitido ? `ACESSAR <i class="fa-solid fa-rocket"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
                     <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes">
@@ -2014,8 +2036,7 @@
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const mod = MODULOS_HOME.find(m => m.key === btn.getAttribute("data-key"));
-            if (!mod || !usuarioTemAcesso(mod)) return;
-            window.location.href = mod.url;
+            navegarParaModulo(mod);
           });
         });
 
@@ -2075,12 +2096,13 @@
         if (!mod) return;
         itemAtualDrawer = mod;
         const permitido = usuarioTemAcesso(mod);
+        const travado = rotaTravada(mod.url);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
         document.getElementById("drawerModDesc").textContent = mod.desc;
         document.getElementById("drawerModCat").textContent = mod.categoria;
         document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
-        document.getElementById("drawerModRota").textContent = mod.url;
+        document.getElementById("drawerModRota").textContent = travado ? "Não vinculado (#)" : mod.url;
         document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
         document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
 
@@ -2092,12 +2114,13 @@
         `).join("");
 
         const btnDrawer = document.getElementById("btnDrawerAcessar");
-        btnDrawer.disabled = !permitido;
-        btnDrawer.style.opacity = permitido ? "1" : "0.45";
-        btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
-        btnDrawer.innerHTML = permitido
-          ? `ACESSAR MÓDULO <i class="fa-solid fa-rocket"></i>`
-          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
+        const podeClicar = permitido && !travado;
+        btnDrawer.disabled = !podeClicar;
+        btnDrawer.style.opacity = podeClicar ? "1" : "0.45";
+        btnDrawer.style.pointerEvents = podeClicar ? "auto" : "none";
+        btnDrawer.innerHTML = !permitido
+          ? `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`
+          : (travado ? `<i class="fa-solid fa-link-slash"></i> LINK PENDENTE` : `ACESSAR MÓDULO <i class="fa-solid fa-rocket"></i>`);
 
         detailsBackdrop.classList.add("open");
         detailsDrawer.classList.add("open");
@@ -2112,8 +2135,7 @@
       detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
 
       document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
-        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
-        window.location.href = itemAtualDrawer.url;
+        navegarParaModulo(itemAtualDrawer);
       });
 
       function avancarCarrossel(passo) {
