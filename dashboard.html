@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ELLCA | DASHBOARD • PREMIUM MAX STAR 2.0</title>
+  <title>ELLCA | DASHBOARDS & BI • PREMIUM MAX STAR 2.0</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,26 +29,10 @@
     }
 
     @keyframes paletteCycle360 {
-      0%, 24.99% {
-        --edge-a: #38bdf8;
-        --edge-b: #2563eb;
-        --edge-c: #93c5fd;
-      }
-      25%, 49.99% {
-        --edge-a: #facc15;
-        --edge-b: #f59e0b;
-        --edge-c: #fef08a;
-      }
-      50%, 74.99% {
-        --edge-a: #34d399;
-        --edge-b: #0284c7;
-        --edge-c: #a7f3d0;
-      }
-      75%, 100% {
-        --edge-a: #818cf8;
-        --edge-b: #06b6d4;
-        --edge-c: #e0e7ff;
-      }
+      0%, 24.99% { --edge-a: #38bdf8; --edge-b: #2563eb; --edge-c: #93c5fd; }
+      25%, 49.99% { --edge-a: #facc15; --edge-b: #f59e0b; --edge-c: #fef08a; }
+      50%, 74.99% { --edge-a: #34d399; --edge-b: #0284c7; --edge-c: #a7f3d0; }
+      75%, 100% { --edge-a: #818cf8; --edge-b: #06b6d4; --edge-c: #e0e7ff; }
     }
 
     @keyframes pulseDot {
@@ -75,6 +59,8 @@
 
     html, body {
       height: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
     }
 
     body {
@@ -100,7 +86,7 @@
     ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
 
-    .dashboard-container {
+    .page-container {
       max-width: 1520px;
       width: 100%;
       height: 100%;
@@ -110,9 +96,9 @@
       justify-content: space-between;
       gap: 10px;
       min-height: 0;
+      overflow-x: hidden;
     }
 
-    /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
     .top-navbar-collapse {
       max-height: 60px;
       opacity: 1;
@@ -278,18 +264,17 @@
       color: #ffffff;
     }
 
-    /* ================= HERO BANNER ================= */
     .hero-banner {
       position: relative;
       border-radius: 16px;
       padding: 14px 20px;
-      background: linear-gradient(135deg, rgba(14, 32, 66, 0.78) 0%, rgba(9, 17, 36, 0.86) 55%, rgba(15, 32, 64, 0.76) 100%);
+      background:
+        linear-gradient(135deg, rgba(14, 32, 66, 0.86) 0%, rgba(9, 17, 36, 0.90) 55%, rgba(15, 32, 64, 0.84) 100%),
+        url('img/Capa_dashboard.jpg') center/cover no-repeat;
       backdrop-filter: blur(20px) saturate(145%);
       -webkit-backdrop-filter: blur(20px) saturate(145%);
       border: 1px solid rgba(96, 165, 250, 0.32);
-      box-shadow:
-        0 14px 32px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -322,7 +307,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      max-width: 780px;
+      max-width: 820px;
     }
 
     .hero-icon-box {
@@ -332,7 +317,7 @@
       background: linear-gradient(145deg, rgba(37, 99, 235, 0.42), rgba(14, 165, 233, 0.18));
       border: 1px solid rgba(96, 165, 250, 0.48);
       box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      color: #60a5fa;
+      color: #38bdf8;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -354,7 +339,10 @@
       font-weight: 800;
       letter-spacing: 0.2px;
       color: #ffffff;
+      text-transform: uppercase;
     }
+
+    .hero-main-title span { color: #38bdf8; }
 
     .hero-subtitle {
       font-size: 11.5px;
@@ -488,7 +476,6 @@
       box-shadow: none;
     }
 
-    /* ================= BARRA DE FILTROS & PESQUISA ================= */
     .filter-toolbar {
       display: flex;
       align-items: center;
@@ -526,11 +513,7 @@
       transition: all 0.2s ease;
     }
 
-    .cat-btn:hover {
-      color: #e0f2fe;
-      border-color: rgba(56, 189, 248, 0.38);
-    }
-
+    .cat-btn:hover { color: #e0f2fe; border-color: rgba(56, 189, 248, 0.38); }
     .cat-btn.active {
       background: linear-gradient(90deg, #2563eb, #38bdf8);
       border-color: #7dd3fc;
@@ -540,7 +523,8 @@
 
     .search-box-wrap {
       position: relative;
-      min-width: 250px;
+      min-width: 220px;
+      max-width: 100%;
       flex: 0 1 340px;
     }
 
@@ -570,7 +554,6 @@
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
     }
 
-    /* ================= CARROSSEL + GRADE + CARROSSEL 3D ================= */
     .carousel-shell {
       position: relative;
       border-radius: 16px;
@@ -634,31 +617,52 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL NORMAL */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 12px;
-      align-items: stretch;
+      align-items: center;
+      align-content: center;
       flex: 1 1 auto;
       min-height: 0;
+      overflow-x: hidden;
     }
 
-    /* MODO GRADE */
+    .cards-track:not(.grid-mode):not(.mode-3d) .card-3d-wrap {
+      min-height: 306px;
+      height: 306px;
+      max-height: 306px;
+    }
+
+    .cards-track:not(.grid-mode):not(.mode-3d) .card-img-banner {
+      height: 98px;
+    }
+
     .cards-track.grid-mode {
-      grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       overflow-y: auto;
+      overflow-x: hidden;
       padding-right: 4px;
+      align-items: stretch;
       align-content: start;
     }
 
-    /* MODO CARROSSEL 3D: COMPACTO E COM GIRO SUAVE */
+    .cards-track.grid-mode .card-3d-wrap {
+      min-height: 306px;
+      height: 306px;
+      max-height: 306px;
+    }
+
+    .cards-track.grid-mode .card-img-banner {
+      height: 98px;
+    }
+
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 290px;
+      min-height: 316px;
       perspective: 1400px;
       transform-style: preserve-3d;
       overflow: hidden;
@@ -667,10 +671,10 @@
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: 272px;
-      max-width: 88vw;
-      min-height: 292px;
-      height: auto;
+      width: 274px;
+      max-width: calc(100% - 24px);
+      min-height: 306px;
+      height: 306px;
       transform-style: preserve-3d;
       transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
     }
@@ -685,14 +689,14 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-220px, 6px, -135px) rotateY(16deg) scale(0.84);
+      transform: translate3d(-210px, 6px, -135px) rotateY(16deg) scale(0.84);
       opacity: 0.24;
       z-index: 2;
       pointer-events: none;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(220px, 6px, -135px) rotateY(-16deg) scale(0.84);
+      transform: translate3d(210px, 6px, -135px) rotateY(-16deg) scale(0.84);
       opacity: 0.24;
       z-index: 2;
       pointer-events: none;
@@ -716,11 +720,10 @@
 
     .card-3d-wrap {
       perspective: 1400px;
-      height: 100%;
       min-height: 0;
+      max-width: 100%;
     }
 
-    /* CARD VISÍVEL PORÉM SEMI-INVISÍVEL QUANDO SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30;
       filter: saturate(0.28) brightness(0.72);
@@ -728,15 +731,10 @@
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
-    .card-3d-wrap.sem-acesso .card-surface::before {
-      opacity: 0.12;
-    }
+    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.12; }
+    .card-3d-wrap.sem-acesso .card-surface:hover { opacity: 0.38; }
 
-    .card-3d-wrap.sem-acesso .card-surface:hover {
-      opacity: 0.38;
-    }
-
-    .card-3d-wrap.sem-acesso .btn-acessar-card,
+    .card-3d-wrap.sem-acesso .btn-primary-card,
     .card-3d-wrap.sem-acesso .btn-nova-aba {
       opacity: 0.45;
       cursor: not-allowed;
@@ -758,9 +756,7 @@
       backdrop-filter: blur(22px) saturate(155%);
       -webkit-backdrop-filter: blur(22px) saturate(155%);
       border: 1px solid rgba(147, 197, 253, 0.26);
-      box-shadow:
-        0 14px 32px rgba(0, 0, 0, 0.48),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
       transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
       height: 100%;
@@ -802,10 +798,7 @@
     .card-surface.is-center {
       background: linear-gradient(160deg, rgba(22, 46, 88, 0.62) 0%, rgba(8, 18, 38, 0.72) 100%);
       border-color: rgba(125, 211, 252, 0.52);
-      box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.62),
-        0 0 24px rgba(56, 189, 248, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.62), 0 0 24px rgba(56, 189, 248, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
     .card-body {
@@ -820,31 +813,23 @@
       gap: 7px;
     }
 
-    .cards-track.mode-3d .card-body {
-      padding: 10px 12px 11px;
-      gap: 7px;
-    }
+    .cards-track.mode-3d .card-body { padding: 10px 12px 11px; gap: 7px; }
+    .cards-track.mode-3d .card-img-banner { height: 96px; }
 
-    .cards-track.mode-3d .card-img-banner {
-      height: 88px;
-    }
-
-    .cards-track.mode-3d .btn-acessar-card,
-    .cards-track.mode-3d .btn-detalhes-card,
+    .cards-track.mode-3d .btn-primary-card,
+    .cards-track.mode-3d .btn-glass-card,
     .cards-track.mode-3d .btn-nova-aba {
       height: 31px;
       min-height: 31px;
       max-height: 31px;
     }
 
-    .cards-track.mode-3d .acessar-line {
-      height: 31px;
-    }
+    .cards-track.mode-3d .acessar-line { height: 31px; }
 
     .card-img-banner {
       position: relative;
       width: 100%;
-      height: 92px;
+      height: 98px;
       border-radius: 9px;
       background-size: cover;
       background-position: center;
@@ -864,13 +849,23 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      background: rgba(5, 10, 22, 0.78);
-      border: 1px solid rgba(56, 189, 248, 0.45);
-      color: #7dd3fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(14, 165, 233, 0.88);
+      border: 1px solid rgba(186, 230, 253, 0.65);
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-badge-tag.gold {
+      background: rgba(234, 179, 8, 0.92);
+      border-color: rgba(254, 240, 138, 0.75);
+      color: #1c1402;
     }
 
     .card-badge-tag.locked {
-      background: rgba(30, 41, 59, 0.90);
+      background: rgba(30, 41, 59, 0.92);
       border-color: rgba(148, 163, 184, 0.45);
       color: #cbd5e1;
     }
@@ -894,11 +889,7 @@
       transition: all 0.2s ease;
     }
 
-    .btn-fav-card:hover {
-      border-color: #facc15;
-      color: #fde047;
-    }
-
+    .btn-fav-card:hover { border-color: #facc15; color: #fde047; }
     .btn-fav-card.favorited {
       background: rgba(234, 179, 8, 0.92);
       border-color: #fef08a;
@@ -906,15 +897,17 @@
     }
 
     .card-title-txt {
-      font-size: 13px;
+      font-size: 13.5px;
+      line-height: 1.22;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.2px;
+      text-transform: uppercase;
     }
 
     .card-desc-txt {
-      font-size: 11px;
-      line-height: 1.32;
+      font-size: 11.5px;
+      line-height: 1.38;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -944,6 +937,7 @@
     }
 
     .kpi-pill-item i { color: #38bdf8; }
+    .kpi-success { color: #34d399 !important; border-color: rgba(52, 211, 153, 0.35) !important; }
 
     .card-actions-stack {
       display: flex;
@@ -960,7 +954,7 @@
       height: 32px;
     }
 
-    .btn-acessar-card {
+    .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
       height: 32px;
@@ -983,11 +977,40 @@
       transition: all 0.2s ease;
     }
 
-    .btn-acessar-card:hover {
+    .btn-primary-card:hover {
       background: linear-gradient(90deg, #2563eb, #38bdf8);
       border-color: #bae6fd;
       color: #040d1e;
       box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-glass-card {
+      flex: 0 0 32px;
+      width: 100%;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid rgba(147, 197, 253, 0.28);
+      background: rgba(15, 29, 58, 0.52);
+      color: #e2e8f0;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-glass-card:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.16);
     }
 
     .btn-nova-aba {
@@ -1014,39 +1037,7 @@
       color: #02060f;
     }
 
-    .btn-nova-aba:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-
-    .btn-detalhes-card {
-      flex: 0 0 32px;
-      width: 100%;
-      height: 32px;
-      min-height: 32px;
-      max-height: 32px;
-      padding: 0 10px;
-      border-radius: 7px;
-      border: 1px solid rgba(147, 197, 253, 0.28);
-      background: rgba(15, 29, 58, 0.52);
-      color: #e2e8f0;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-detalhes-card:hover {
-      border-color: #38bdf8;
-      color: #ffffff;
-      background: rgba(56, 189, 248, 0.16);
-    }
+    .btn-nova-aba:disabled { opacity: 0.35; cursor: not-allowed; }
 
     .pagination-dots {
       display: flex;
@@ -1074,132 +1065,6 @@
       box-shadow: 0 0 10px #38bdf8;
     }
 
-    /* ================= VISUALIZADOR EMBUTIDO DO DASHBOARD ================= */
-    .viewer-panel {
-      display: none;
-      border-radius: 16px;
-      background: rgba(10, 16, 30, 0.86);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 16px 20px 20px;
-      backdrop-filter: blur(18px);
-      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.65);
-    }
-
-    .viewer-panel.open { display: block; }
-
-    .viewer-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-bottom: 12px;
-      margin-bottom: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .viewer-title-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .viewer-title-group h2 {
-      font-size: 17px;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .viewer-actions {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .viewer-btn {
-      height: 32px;
-      padding: 0 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      background: rgba(15, 23, 42, 0.85);
-      color: #e0f2fe;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-    }
-
-    .viewer-btn:hover {
-      background: #2563eb;
-      border-color: #7dd3fc;
-      color: #ffffff;
-    }
-
-    .viewer-btn.close-btn {
-      background: rgba(239, 68, 68, 0.16);
-      border-color: rgba(248, 113, 113, 0.45);
-      color: #fca5a5;
-    }
-
-    .viewer-btn.close-btn:hover {
-      background: rgba(239, 68, 68, 0.32);
-      color: #ffffff;
-    }
-
-    .viewer-frame-wrap {
-      position: relative;
-      width: 100%;
-      height: 68vh;
-      min-height: 460px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #040814;
-      border: 1px solid rgba(255, 255, 255, 0.10);
-    }
-
-    .viewer-frame-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    .viewer-placeholder-card {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 28px;
-      background: radial-gradient(circle at 50% 35%, rgba(37, 99, 235, 0.22), rgba(5, 10, 22, 0.96) 72%);
-      gap: 12px;
-    }
-
-    .viewer-placeholder-card i {
-      font-size: 38px;
-      color: #38bdf8;
-    }
-
-    .viewer-placeholder-card h3 {
-      font-size: 18px;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .viewer-placeholder-card p {
-      max-width: 520px;
-      font-size: 12.5px;
-      color: #cbd5e1;
-      line-height: 1.55;
-    }
-
-    /* ================= DRAWER LATERAL DE DETALHES ================= */
     .details-drawer-backdrop {
       display: none;
       position: fixed;
@@ -1240,11 +1105,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .details-drawer-top h3 {
-      font-size: 17px;
-      font-weight: 800;
-      color: #ffffff;
-    }
+    .details-drawer-top h3 { font-size: 17px; font-weight: 800; color: #ffffff; }
 
     .details-drawer-close {
       width: 32px;
@@ -1256,13 +1117,41 @@
       cursor: pointer;
     }
 
+    .details-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .details-meta-box {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(5, 10, 22, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .details-meta-box small {
+      display: block;
+      font-size: 9.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .details-meta-box strong {
+      display: block;
+      font-size: 12px;
+      color: #f8fafc;
+      margin-top: 3px;
+    }
+
     .details-sublist {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 8px;
       overflow-y: auto;
-      max-height: 55vh;
+      max-height: 44vh;
     }
 
     .details-sublist li {
@@ -1278,7 +1167,6 @@
       color: #e2e8f0;
     }
 
-    /* ================= RODAPÉ OFICIAL ================= */
     .ellca-official-footer {
       padding: 2px 2px 0;
       display: flex;
@@ -1346,47 +1234,44 @@
       transition: all 0.2s ease;
     }
 
-    .btn-footer-sair:hover {
-      background: rgba(239, 68, 68, 0.28);
-      color: #ffffff;
-    }
+    .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
 
-    @media (max-width: 1320px) {
-      .cards-track { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    }
+    @media (max-width: 1320px) { .cards-track { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     @media (max-width: 1024px) {
-      body { height: auto; min-height: 100dvh; overflow-y: auto; }
-      .dashboard-container { height: auto; min-height: calc(100dvh - 26px); }
+      body { height: auto; min-height: 100dvh; overflow-y: auto; overflow-x: hidden; }
+      .page-container { height: auto; min-height: calc(100dvh - 26px); }
       .cards-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (max-height: 700px) and (min-width: 1025px) {
-      body { height: auto; min-height: 100dvh; overflow-y: auto; }
-      .dashboard-container { height: auto; min-height: calc(100dvh - 26px); }
+      body { height: auto; min-height: 100dvh; overflow-y: auto; overflow-x: hidden; }
+      .page-container { height: auto; min-height: calc(100dvh - 26px); }
     }
 
     @media (max-width: 760px) {
       .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .cards-track.mode-3d .card-3d-wrap { width: 244px; }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-135px, 6px, -135px) rotateY(14deg) scale(0.78); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(135px, 6px, -135px) rotateY(-14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap { width: 240px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-96px, 6px, -135px) rotateY(14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(96px, 6px, -135px) rotateY(-14deg) scale(0.78); }
+      .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
     }
 
     @media (max-width: 520px) {
       body { padding: 10px 12px 14px; }
-      .cards-track,
-      .cards-track.grid-mode { grid-template-columns: 1fr; }
-      .cards-track.mode-3d .card-3d-wrap.slot-left,
-      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.10; }
+      .hero-banner { padding: 12px 14px; }
+      .quick-stat-pill { min-width: 0; flex: 1 1 auto; }
+      .cards-track, .cards-track.grid-mode { grid-template-columns: 1fr; }
+      .cards-track.mode-3d .card-3d-wrap { width: 220px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-58px, 6px, -135px) rotateY(14deg) scale(0.74); opacity: 0.12; }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(58px, 6px, -135px) rotateY(-14deg) scale(0.74); opacity: 0.12; }
     }
   </style>
 </head>
 
 <body>
-  <div class="dashboard-container">
+  <div class="page-container">
 
-    <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
     <div class="top-navbar-collapse">
       <header class="top-navbar">
         <div class="nav-brand-side">
@@ -1398,7 +1283,7 @@
 
           <span class="module-pill">
             <span class="dot"></span>
-            REDES ONLINE • 12ms · DASHBOARDS
+            REDES ONLINE • 12ms · DASHBOARDS BI
           </span>
 
           <span class="max-star-tag">
@@ -1413,14 +1298,13 @@
           <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
           <a href="dashboard.html" class="top-nav-link active"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
           <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
-          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para Home">
+          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Home">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
         </nav>
       </header>
     </div>
 
-    <!-- 2. HERO BANNER -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
@@ -1428,24 +1312,26 @@
             <i class="fa-solid fa-chart-pie"></i>
           </div>
           <div>
-            <div class="hero-kicker">CENTRAL ANALÍTICA · PREMIUM MAX STAR 2.0</div>
-            <h1 class="hero-main-title">Dashboards</h1>
-            <p class="hero-subtitle">Acompanhamento de indicadores, metas e resultados por área operacional.</p>
+            <div class="hero-kicker">INTELIGÊNCIA DE NEGÓCIOS & KPIs · PREMIUM MAX STAR 2.0</div>
+            <h1 class="hero-main-title">DASHBOARDS <span>CORPORATIVOS</span></h1>
+            <p class="hero-subtitle">
+              Centralização de indicadores e painéis visuais por departamento com acesso controlado por permissão de usuário.
+            </p>
           </div>
         </div>
 
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
-            <small>Total de Setores</small>
-            <strong>13 Setores</strong>
+            <small>Painéis Ativos</small>
+            <strong>8 Dashboards</strong>
           </div>
           <div class="quick-stat-pill">
-            <small>Liberados p/ Você</small>
-            <strong id="statLiberados" style="color:#38bdf8;">--</strong>
+            <small>Desempenho BI</small>
+            <strong style="color:#38bdf8;">+18% Mensal</strong>
           </div>
           <div class="quick-stat-pill">
-            <small>Favoritos</small>
-            <strong id="statFavoritos" style="color:#facc15;">0</strong>
+            <small>Atualização</small>
+            <strong style="color:#34d399;">Sincronizado</strong>
           </div>
         </div>
       </div>
@@ -1453,7 +1339,7 @@
       <div class="hero-actions-row">
         <span class="live-badge tabular">
           <i class="fa-solid fa-circle-check"></i>
-          <span id="liveClockTxt">Painel Sincronizado · --:--</span>
+          <span id="liveClockTxt">BI Sincronizado · --:--</span>
         </span>
 
         <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
@@ -1483,26 +1369,24 @@
       </div>
     </section>
 
-    <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (13)</button>
-        <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-bolt"></i> Operação & Campo</button>
-        <button type="button" class="cat-btn" data-cat="CORPORATIVO"><i class="fa-solid fa-briefcase"></i> Corporativo</button>
-        <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-shield-halved"></i> Suporte & Segurança</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (8)</button>
+        <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-chart-line"></i> Operação</button>
+        <button type="button" class="cat-btn" data-cat="GESTAO"><i class="fa-solid fa-users-gear"></i> Gestão & Pessoas</button>
+        <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-server"></i> Suporte & Frota</button>
       </div>
 
       <div class="search-box-wrap">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="sectorSearch" class="search-input" placeholder="Pesquisar setor, responsável ou indicador..." />
+        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar dashboard por setor ou KPI..." />
       </div>
     </div>
 
-    <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
-    <section class="carousel-shell" id="carouselSection">
+    <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-layer-group"></i> EXIBINDO 13 SETORES · MODO CARROSSEL
+          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 8 DASHBOARDS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1519,40 +1403,11 @@
       <div class="pagination-dots" id="paginationDots"></div>
     </section>
 
-    <!-- 5. VISUALIZADOR EMBUTIDO DO DASHBOARD -->
-    <section class="viewer-panel" id="viewerPanel" aria-live="polite">
-      <div class="viewer-topbar">
-        <div class="viewer-title-group">
-          <span class="module-pill" id="viewerBadge"><span class="dot"></span> SETOR</span>
-          <h2 id="viewerTitle">Dashboard Setorial</h2>
-        </div>
-
-        <div class="viewer-actions">
-          <button type="button" class="viewer-btn" id="btnViewerReload"><i class="fa-solid fa-rotate-right"></i> Recarregar</button>
-          <button type="button" class="viewer-btn" id="btnViewerFullscreen"><i class="fa-solid fa-expand"></i> Tela Cheia</button>
-          <a href="#" target="_blank" rel="noopener noreferrer" class="viewer-btn" id="btnViewerExternal">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir em Nova Guia
-          </a>
-          <button type="button" class="viewer-btn close-btn" id="btnCloseViewer"><i class="fa-solid fa-xmark"></i> Fechar</button>
-        </div>
-      </div>
-
-      <div class="viewer-frame-wrap" id="viewerFrameWrap">
-        <iframe id="dashboardIframe" src="" title="Visualizador do Dashboard Setorial" allowfullscreen></iframe>
-        <div class="viewer-placeholder-card" id="viewerPlaceholder" style="display:none;">
-          <i class="fa-solid fa-chart-line"></i>
-          <h3 id="placeholderTitle">Link do Dashboard não configurado</h3>
-          <p id="placeholderDesc">Adicione a URL do Looker Studio / Power BI deste setor no objeto <strong>SETORES_DASHBOARD</strong>.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <div class="footer-system-text">
         <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
         <span>•</span>
-        <span>Módulo: <strong>Dashboards</strong></span>
+        <span>Módulo: <strong>Dashboards BI</strong></span>
       </div>
 
       <div class="footer-right-actions">
@@ -1568,22 +1423,39 @@
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
-      <h3 id="drawerSetorTitulo">Setor</h3>
+      <h3 id="drawerModTitulo">Dashboard</h3>
       <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
-    <p id="drawerSetorDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
-    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
-      Painéis Disponíveis no Setor
+    <p id="drawerModDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
+    <div class="details-meta-grid">
+      <div class="details-meta-box">
+        <small>Categoria</small>
+        <strong id="drawerModCat">OPERACAO</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Indicador</small>
+        <strong id="drawerModKpi">+18% Mensal</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Setor</small>
+        <strong id="drawerModRota">Produtividade</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Permissão</small>
+        <strong id="drawerModPerm">AUTORIZADO</strong>
+      </div>
     </div>
-    <ul class="details-sublist" id="drawerSetorSubpaineis"></ul>
-    <button type="button" class="btn-acessar-card" id="btnDrawerAbrirPainel" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ABRIR DASHBOARD DO SETOR <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
+      Métricas Monitoradas
+    </div>
+    <ul class="details-sublist" id="drawerModRecursos"></ul>
+    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
+      ABRIR DASHBOARD <i class="fa-solid fa-chart-simple"></i>
     </button>
   </aside>
 
@@ -1615,20 +1487,151 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
-      const SETORES_DASHBOARD = [
-        { key: "sesmt", nome: "SESMT", categoria: "SUPORTE", badge: "Segurança", icone: "fa-helmet-safety", imagem: "img/Card_dashboard.jpg", kpi1: "Ocorrências", kpi2: "EPI & NR", url: "", desc: "Indicadores de saúde ocupacional, segurança do trabalho, exames e conformidade de EPIs.", subpaineis: ["Taxa de Frequência e Gravidade", "Controle de Exames e ASO", "Inspeções e DDS"] },
-        { key: "almoxarifado", nome: "Almoxarifado", categoria: "OPERACAO", badge: "Estoque", icone: "fa-boxes-stacked", imagem: "img/Card_base_dados.jpg", kpi1: "Acuracidade", kpi2: "Giro Estoque", url: "", desc: "Controle de entradas, saídas, curva ABC, ruptura e giro de materiais operacionais.", subpaineis: ["Posição de Estoque & Curva ABC", "Entradas e Requisições", "Acuracidade de Inventário"] },
-        { key: "backoffice", nome: "Backoffice", categoria: "CORPORATIVO", badge: "Processos", icone: "fa-headset", imagem: "img/Card_gerencial.jpg", kpi1: "SLA", kpi2: "Pendências", url: "", desc: "Acompanhamento de tratativas administrativas, SLA de atendimento e fechamento de demandas.", subpaineis: ["Cumprimento de SLA", "Fila por Status", "Produtividade de Tratativas"] },
-        { key: "dp", nome: "DP", categoria: "CORPORATIVO", badge: "Pessoal", icone: "fa-id-card", imagem: "img/Card_Organograma.jpg", kpi1: "Admissões", kpi2: "Ponto & Folha", url: "", desc: "Gestão de ponto eletrônico, banco de horas, férias, admissões e desligamentos.", subpaineis: ["Espelho de Ponto & Horas Extras", "Admissões e Desligamentos", "Programação de Férias"] },
-        { key: "rh", nome: "RH", categoria: "CORPORATIVO", badge: "Gente", icone: "fa-users", imagem: "img/Card_Organograma.jpg", kpi1: "Turnover", kpi2: "Headcount", url: "", desc: "Indicadores de capital humano, turnover, absenteísmo, headcount e treinamentos.", subpaineis: ["Headcount & Turnover", "Absenteísmo por Setor", "Capacitação e Treinamentos"] },
-        { key: "frota", nome: "Frota", categoria: "OPERACAO", badge: "Veículos", icone: "fa-truck", imagem: "img/Programacao.jpg", kpi1: "Disponibilidade", kpi2: "Manutenção", url: "", desc: "Disponibilidade da frota, manutenções preventivas/corretivas, combustíveis e rastreamento.", subpaineis: ["Disponibilidade Operacional", "Manutenção Preventiva & Corretiva", "Consumo e Custos da Frota"] },
-        { key: "infraestrutura", nome: "Infraestrutura", categoria: "OPERACAO", badge: "Base & Rede", icone: "fa-network-wired", imagem: "img/Card_dashboard.jpg", kpi1: "Uptime", kpi2: "Chamados", url: "", desc: "Disponibilidade de redes, conectividade, instalações físicas e chamados de infraestrutura.", subpaineis: ["Disponibilidade de Rede & Links", "Chamados de Infraestrutura", "Ativos e Equipamentos"] },
-        { key: "produtividade", nome: "Produtividade", categoria: "OPERACAO", badge: "Performance", icone: "fa-gauge-high", imagem: "img/Programacao.jpg", kpi1: "Meta vs Real", kpi2: "Eficiência", url: "", desc: "Desempenho produtivo das equipes e frentes de trabalho frente às metas estabelecidas.", subpaineis: ["Realizado vs. Meta", "Ranking de Equipes", "Evolução Diária / Mensal"] },
-        { key: "programacao", nome: "Programação", categoria: "OPERACAO", badge: "Planejamento", icone: "fa-calendar-check", imagem: "img/Programacao.jpg", kpi1: "Aderência", kpi2: "Carteira", url: "", desc: "Acompanhamento da programação de serviços, alocação de equipes e aderência ao plano.", subpaineis: ["Aderência à Programação", "Carteira Programada", "Reprogramações e Cancelamentos"] },
-        { key: "projeto", nome: "Projeto", categoria: "OPERACAO", badge: "Entregas", icone: "fa-diagram-project", imagem: "img/Card_gerencial.jpg", kpi1: "Avanço Físico", kpi2: "Cronograma", url: "", desc: "Monitoramento de marcos, cronograma físico, pendências técnicas e entregas de projetos.", subpaineis: ["Curva S / Avanço Físico", "Status de Marcos e Entregas", "Gargalos e Pendências"] },
-        { key: "estrutura", nome: "Estrutura", categoria: "OPERACAO", badge: "Capacidade", icone: "fa-building", imagem: "img/Card_Organograma.jpg", kpi1: "Capacidade", kpi2: "Cobertura", url: "", desc: "Dimensionamento de equipes, bases operacionais, estrutura física e capacidade instalada.", subpaineis: ["Capacidade Instalada", "Distribuição por Base/Região", "Cobertura Operacional"] },
-        { key: "ti", nome: "TI", categoria: "SUPORTE", badge: "Sistemas", icone: "fa-laptop-code", imagem: "img/Card_base_dados.jpg", kpi1: "Chamados", kpi2: "Sistemas", url: "", desc: "Indicadores de suporte de TI, incidentes, requisições de sistema, acessos e automações.", subpaineis: ["SLA de Chamados TI", "Incidentes por Categoria", "Disponibilidade de Sistemas"] },
-        { key: "supervisao", nome: "Supervisão", categoria: "SUPORTE", badge: "Gestão", icone: "fa-user-shield", imagem: "img/Programacao.jpg", kpi1: "Acompanhamento", kpi2: "Indicadores", url: "", desc: "Visão de supervisão operacional com indicadores consolidados para tomada de decisão rápida.", subpaineis: ["Painel de Supervisão", "Alertas Operacionais", "Consolidado de Campo"] }
+      const DASHBOARDS_LISTA = [
+        {
+          key: "bi_produtividade",
+          setor: "produtividade",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-chart-line",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "PRODUTIVIDADE",
+          desc: "Desempenho operacional, metas atingidas e evolução por equipe.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpiResumo: "+18% · Mensal",
+          url: "#bi-produtividade",
+          setorLabel: "Produtividade",
+          searchTags: "produtividade metas equipes desempenho bi",
+          recursos: ["Atingimento de metas por equipe", "Comparativo mensal de entregas", "Indicadores de eficiência"]
+        },
+        {
+          key: "bi_programacao",
+          setor: "programacao",
+          categoria: "OPERACAO",
+          badge: "AO VIVO",
+          badgeGold: true,
+          icone: "fa-calendar-check",
+          imagem: "img/Programacao.jpg",
+          titulo: "PROGRAMAÇÃO",
+          desc: "Programado vs. Realizado, alocação de equipes e andamento das frentes.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
+          kpi2: '<span><i class="fa-solid fa-calendar-day"></i> Diário</span>',
+          kpiResumo: "93% · Diário",
+          url: "#bi-programacao",
+          setorLabel: "Programação",
+          searchTags: "programacao programado realizado frentes equipes",
+          recursos: ["Programado vs. Realizado", "Acompanhamento de frentes ativas", "Taxa de execução diária"]
+        },
+        {
+          key: "bi_projeto",
+          setor: "projeto",
+          categoria: "OPERACAO",
+          badge: "PROJETOS",
+          badgeGold: false,
+          icone: "fa-diagram-project",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "PROJETOS & ENGENHARIA",
+          desc: "Avanço físico, cronogramas e indicadores técnicos dos projetos.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +11%</span>',
+          kpi2: '<span><i class="fa-solid fa-compass-drafting"></i> Cronograma</span>',
+          kpiResumo: "+11% · Cronograma",
+          url: "#bi-projeto",
+          setorLabel: "Projeto",
+          searchTags: "projeto engenharia cronograma avanco tecnico",
+          recursos: ["Avanço de etapas e entregas", "Status de cronogramas", "Indicadores técnicos"]
+        },
+        {
+          key: "bi_rh_dp",
+          setor: "rh",
+          categoria: "GESTAO",
+          badge: "GENTE",
+          badgeGold: true,
+          icone: "fa-users",
+          imagem: "img/Card_Organograma.jpg",
+          titulo: "RH & DP",
+          desc: "Efetivo, absenteísmo, movimentações e indicadores de gestão de pessoas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-user-check"></i> 97%</span>',
+          kpi2: '<span><i class="fa-solid fa-users"></i> Efetivo</span>',
+          kpiResumo: "97% · Efetivo",
+          url: "#bi-rh-dp",
+          setorLabel: "RH / DP",
+          searchTags: "rh dp pessoas efetivo absenteismo equipe",
+          recursos: ["Quadro de efetivo ativo", "Indicadores de presença e faltas", "Movimentações por setor"]
+        },
+        {
+          key: "bi_backoffice",
+          setor: "backoffice",
+          categoria: "GESTAO",
+          badge: "BACKOFFICE",
+          badgeGold: false,
+          icone: "fa-briefcase",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "BACKOFFICE",
+          desc: "SLA de atendimento interno, fluxos administrativos e tempos de resposta.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-gauge-high"></i> 95%</span>',
+          kpi2: '<span><i class="fa-solid fa-clock"></i> SLA</span>',
+          kpiResumo: "95% · SLA",
+          url: "#bi-backoffice",
+          setorLabel: "Backoffice",
+          searchTags: "backoffice sla administrativo atendimento",
+          recursos: ["Cumprimento de SLA", "Volume de demandas tratadas", "Tempo médio de resolução"]
+        },
+        {
+          key: "bi_almoxarifado",
+          setor: "almoxarifado",
+          categoria: "SUPORTE",
+          badge: "ESTOQUE",
+          badgeGold: true,
+          icone: "fa-warehouse",
+          imagem: "img/Card_base_dados.jpg",
+          titulo: "ALMOXARIFADO",
+          desc: "Giro de estoque, consumo de materiais e níveis de reposição.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-boxes-stacked"></i> Estável</span>',
+          kpi2: '<span><i class="fa-solid fa-rotate"></i> Giro</span>',
+          kpiResumo: "Estável · Giro",
+          url: "#bi-almoxarifado",
+          setorLabel: "Almoxarifado",
+          searchTags: "almoxarifado estoque giro materiais reposicao",
+          recursos: ["Consumo por período e setor", "Alertas de reposição", "Giro e cobertura de estoque"]
+        },
+        {
+          key: "bi_frota",
+          setor: "frota",
+          categoria: "SUPORTE",
+          badge: "FROTA",
+          badgeGold: false,
+          icone: "fa-car-side",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "FROTA",
+          desc: "Disponibilidade de veículos, custos de manutenção e utilização.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 91%</span>',
+          kpi2: '<span><i class="fa-solid fa-truck"></i> Frota</span>',
+          kpiResumo: "91% · Frota",
+          url: "#bi-frota",
+          setorLabel: "Frota",
+          searchTags: "frota veiculos disponibilidade manutencao",
+          recursos: ["Disponibilidade operacional da frota", "Indicadores de manutenção", "Utilização por equipe"]
+        },
+        {
+          key: "bi_infraestrutura",
+          setor: "infraestrutura",
+          categoria: "SUPORTE",
+          badge: "INFRA",
+          badgeGold: true,
+          icone: "fa-network-wired",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "INFRAESTRUTURA",
+          desc: "Estabilidade de redes, suporte técnico e disponibilidade de sistemas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-wifi"></i> 99.4%</span>',
+          kpi2: '<span><i class="fa-solid fa-server"></i> Uptime</span>',
+          kpiResumo: "99.4% · Uptime",
+          url: "#bi-infraestrutura",
+          setorLabel: "Infraestrutura",
+          searchTags: "infraestrutura redes ti suporte uptime",
+          recursos: ["Disponibilidade de redes e sistemas", "Tempo de resposta de suporte", "Status de ativos"]
+        }
       ];
 
       const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
@@ -1644,13 +1647,10 @@
       let indiceCarrossel = 0;
       let autoPlayAtivo = true;
       let timerCarrossel = null;
-      let setorAtualDrawer = null;
+      let itemAtualDrawer = null;
 
       const cardsWrapper = document.getElementById("cardsWrapper");
       const paginationDots = document.getElementById("paginationDots");
-      const viewerPanel = document.getElementById("viewerPanel");
-      const dashboardIframe = document.getElementById("dashboardIframe");
-      const viewerPlaceholder = document.getElementById("viewerPlaceholder");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
       const detailsDrawer = document.getElementById("detailsDrawer");
 
@@ -1668,16 +1668,15 @@
         return lista.map(s => String(s).toLowerCase());
       }
 
-      function usuarioTemAcessoSetor(setorKey) {
+      function usuarioTemAcesso(item) {
+        if (!item.setor) return true;
         const permitidos = obterSetoresPermitidosUsuario();
-        if (permitidos.length === 0) return true;
-        return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(setorKey).toLowerCase());
+        return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(item.setor).toLowerCase());
       }
 
       document.getElementById("footerUserName").textContent = usuarioAtual;
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
-      document.getElementById("statLiberados").textContent = `${SETORES_DASHBOARD.filter(s => usuarioTemAcessoSetor(s.key)).length} / 13`;
 
       document.getElementById("btnVoltarHome").addEventListener("click", () => {
         window.location.href = "home.html";
@@ -1694,33 +1693,32 @@
         const now = new Date();
         const hh = String(now.getHours()).padStart(2, "0");
         const mm = String(now.getMinutes()).padStart(2, "0");
-        document.getElementById("liveClockTxt").textContent = `Painel Sincronizado · ${hh}:${mm}`;
+        document.getElementById("liveClockTxt").textContent = `BI Sincronizado · ${hh}:${mm}`;
       }
       atualizarRelogio();
       setInterval(atualizarRelogio, 30000);
 
       function obterFavoritos() {
-        try { return JSON.parse(localStorage.getItem("ellca_dash_favs") || "[]"); }
+        try { return JSON.parse(localStorage.getItem("ellca_dashboard_favs") || "[]"); }
         catch { return []; }
       }
 
       function salvarFavoritos(lista) {
-        localStorage.setItem("ellca_dash_favs", JSON.stringify(lista));
+        localStorage.setItem("ellca_dashboard_favs", JSON.stringify(lista));
         document.getElementById("favCountTxt").textContent = lista.length;
-        document.getElementById("statFavoritos").textContent = lista.length;
       }
-      salvarFavoritos(obterFavoritos());
+      document.getElementById("favCountTxt").textContent = obterFavoritos().length;
 
-      function obterSetoresFiltrados() {
-        const termo = document.getElementById("sectorSearch").value.trim().toLowerCase();
+      function obterItensFiltrados() {
+        const termo = document.getElementById("moduleSearch").value.trim().toLowerCase();
         const favs = obterFavoritos();
 
-        return SETORES_DASHBOARD
-          .map((setor, idx) => ({ ...setor, origIdx: idx }))
-          .filter(setor => {
-            const okCat = categoriaAtiva === "TODOS" || setor.categoria === categoriaAtiva;
-            const okFav = !somenteFavoritos || favs.includes(setor.key);
-            const okBusca = !termo || `${setor.nome} ${setor.badge} ${setor.desc} ${setor.kpi1} ${setor.kpi2}`.toLowerCase().includes(termo);
+        return DASHBOARDS_LISTA
+          .map((mod, idx) => ({ ...mod, origIdx: idx }))
+          .filter(mod => {
+            const okCat = categoriaAtiva === "TODOS" || mod.categoria === categoriaAtiva;
+            const okFav = !somenteFavoritos || favs.includes(mod.key);
+            const okBusca = !termo || `${mod.titulo} ${mod.desc} ${mod.searchTags}`.toLowerCase().includes(termo);
             return okCat && okFav && okBusca;
           })
           .sort((a, b) => {
@@ -1739,43 +1737,43 @@
         return 5;
       }
 
-      function criarHtmlCardSetor(setor, favs, isCenter, slotClass = "") {
-        const permitido = usuarioTemAcessoSetor(setor.key);
-        const isFav = favs.includes(setor.key);
+      function criarHtmlCard(mod, favs, isCenter, slotClass = "") {
+        const permitido = usuarioTemAcesso(mod);
+        const isFav = favs.includes(mod.key);
 
         return `
           <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}">
             <div class="card-surface ${isCenter ? "is-center" : ""}">
               <div class="card-body">
-                <div class="card-img-banner" style="background-image: url('${setor.imagem}');">
-                  <span class="card-badge-tag ${permitido ? "" : "locked"}">
-                    ${permitido ? setor.badge : '<i class="fa-solid fa-lock"></i> Bloqueado'}
+                <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
+                  <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
+                    ${permitido ? `${mod.badge} <i class="fa-solid ${mod.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
                   </span>
-                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${setor.key}" title="Fixar nos favoritos">
+                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos">
                     <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
                   </button>
                 </div>
 
                 <div>
-                  <h3 class="card-title-txt">${setor.nome}</h3>
-                  <p class="card-desc-txt">${setor.desc}</p>
+                  <h3 class="card-title-txt">${mod.titulo}</h3>
+                  <p class="card-desc-txt">${mod.desc}</p>
                 </div>
 
                 <div class="kpi-pills-row">
-                  <span class="kpi-pill-item"><i class="fa-solid ${setor.icone}"></i> ${setor.kpi1}</span>
-                  <span class="kpi-pill-item"><i class="fa-solid fa-chart-simple"></i> ${setor.kpi2}</span>
+                  <span class="kpi-pill-item">${mod.kpi1}</span>
+                  <span class="kpi-pill-item">${mod.kpi2}</span>
                 </div>
 
                 <div class="card-actions-stack">
                   <div class="acessar-line">
-                    <button type="button" class="btn-acessar-card btn-abrir-setor" data-key="${setor.key}" ${permitido ? "" : "disabled"}>
-                      ${permitido ? 'ACESSAR <i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-lock"></i> BLOQUEADO'}
+                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                      ${permitido ? `ABRIR <i class="fa-solid fa-chart-simple"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
-                    <button type="button" class="btn-nova-aba btn-nova-aba-setor" data-key="${setor.key}" title="Abrir em nova aba" ${permitido ? "" : "disabled"}>
-                      <i class="fa-solid fa-up-right-from-square"></i>
+                    <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes do dashboard">
+                      <i class="fa-solid fa-circle-info"></i>
                     </button>
                   </div>
-                  <button type="button" class="btn-detalhes-card btn-detalhes-setor" data-key="${setor.key}">
+                  <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
                     DETALHES
                   </button>
                 </div>
@@ -1786,7 +1784,7 @@
       }
 
       function renderizarCards() {
-        const itens = obterSetoresFiltrados();
+        const itens = obterItensFiltrados();
         const total = itens.length;
 
         cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
@@ -1798,14 +1796,14 @@
 
         const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
         document.getElementById("carouselStatusLabel").innerHTML =
-          `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 13 SETORES · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+          `<i class="fa-solid fa-chart-pie"></i> EXIBINDO ${total} DE ${DASHBOARDS_LISTA.length} DASHBOARDS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
         if (total === 0) {
           cardsWrapper.innerHTML = `
-            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative;">
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
               <div class="card-surface">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
-                  <strong style="color:#7dd3fc; font-size:15px;">Nenhum setor encontrado para o filtro atual.</strong>
+                  <strong style="color:#7dd3fc; font-size:15px;">Nenhum dashboard encontrado para o filtro atual.</strong>
                   <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
                 </div>
               </div>
@@ -1827,17 +1825,17 @@
             if (idx === indiceCarrossel) slotClass = "slot-center";
             else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
             else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
-            return criarHtmlCardSetor(item, favs, idx === indiceCarrossel, slotClass);
+            return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass);
           }).join("");
         } else if (modoVisualizacao === "grade") {
-          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCardSetor(item, favs, i === 0, "")).join("");
+          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i === 0, "")).join("");
         } else {
           const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
           const listaExibida = [];
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
-          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCardSetor(item, favs, i === 0, "")).join("");
+          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i === 0, "")).join("");
         }
 
         if (mostraSetas) {
@@ -1857,58 +1855,16 @@
         aplicarTilt3D();
       }
 
-      function abrirDashboardSetor(setor, novaAba = false) {
-        if (!setor || !usuarioTemAcessoSetor(setor.key)) return;
-
-        if (novaAba) {
-          if (setor.url) window.open(setor.url, "_blank", "noopener,noreferrer");
-          else alert(`O link do dashboard de ${setor.nome} ainda não foi configurado.`);
-          return;
-        }
-
-        document.getElementById("viewerBadge").innerHTML = `<span class="dot"></span> ${setor.nome.toUpperCase()}`;
-        document.getElementById("viewerTitle").textContent = `Dashboard — ${setor.nome}`;
-        const extLink = document.getElementById("btnViewerExternal");
-
-        if (setor.url) {
-          extLink.href = setor.url;
-          extLink.style.pointerEvents = "auto";
-          extLink.style.opacity = "1";
-          viewerPlaceholder.style.display = "none";
-          dashboardIframe.style.display = "block";
-          dashboardIframe.src = setor.url;
-        } else {
-          extLink.href = "#";
-          extLink.style.pointerEvents = "none";
-          extLink.style.opacity = "0.45";
-          dashboardIframe.src = "";
-          dashboardIframe.style.display = "none";
-          viewerPlaceholder.style.display = "flex";
-          document.getElementById("placeholderTitle").textContent = `Dashboard de ${setor.nome} em preparação`;
-          document.getElementById("placeholderDesc").innerHTML =
-            `O setor <strong>${setor.nome}</strong> está liberado para <strong>${usuarioAtual}</strong>. Assim que você colar a URL do relatório em <code>SETORES_DASHBOARD</code>, ele aparecerá aqui.`;
-        }
-
-        viewerPanel.classList.add("open");
-        viewerPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
       function vincularEventosCards() {
-        cardsWrapper.querySelectorAll(".btn-abrir-setor").forEach(btn => {
+        cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(btn => {
           btn.addEventListener("click", () => {
-            const setor = SETORES_DASHBOARD.find(s => s.key === btn.getAttribute("data-key"));
-            abrirDashboardSetor(setor, false);
+            const mod = DASHBOARDS_LISTA.find(m => m.key === btn.getAttribute("data-key"));
+            if (!mod || !usuarioTemAcesso(mod)) return;
+            abrirDrawerDetalhes(mod.key);
           });
         });
 
-        cardsWrapper.querySelectorAll(".btn-nova-aba-setor").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const setor = SETORES_DASHBOARD.find(s => s.key === btn.getAttribute("data-key"));
-            abrirDashboardSetor(setor, true);
-          });
-        });
-
-        cardsWrapper.querySelectorAll(".btn-detalhes-setor").forEach(btn => {
+        cardsWrapper.querySelectorAll(".btn-detalhes-mod").forEach(btn => {
           btn.addEventListener("click", () => abrirDrawerDetalhes(btn.getAttribute("data-key")));
         });
 
@@ -1945,27 +1901,33 @@
       }
 
       function abrirDrawerDetalhes(key) {
-        const setor = SETORES_DASHBOARD.find(s => s.key === key);
-        if (!setor) return;
-        setorAtualDrawer = setor;
-        const permitido = usuarioTemAcessoSetor(setor.key);
+        const mod = DASHBOARDS_LISTA.find(m => m.key === key);
+        if (!mod) return;
+        itemAtualDrawer = mod;
+        const permitido = usuarioTemAcesso(mod);
 
-        document.getElementById("drawerSetorTitulo").textContent = setor.nome;
-        document.getElementById("drawerSetorDesc").textContent = setor.desc;
-        document.getElementById("drawerSetorSubpaineis").innerHTML = (setor.subpaineis || []).map(sub => `
+        document.getElementById("drawerModTitulo").textContent = mod.titulo;
+        document.getElementById("drawerModDesc").textContent = mod.desc;
+        document.getElementById("drawerModCat").textContent = mod.categoria;
+        document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
+        document.getElementById("drawerModRota").textContent = mod.setorLabel;
+        document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
+        document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
+
+        document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
           <li>
-            <span>${sub}</span>
-            <i class="fa-solid ${permitido ? "fa-chart-line" : "fa-lock"}" style="color:${permitido ? "#38bdf8" : "#94a3b8"}; font-size:11px;"></i>
+            <span>${rec}</span>
+            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i>
           </li>
         `).join("");
 
-        const btnDrawer = document.getElementById("btnDrawerAbrirPainel");
+        const btnDrawer = document.getElementById("btnDrawerAcessar");
         btnDrawer.disabled = !permitido;
         btnDrawer.style.opacity = permitido ? "1" : "0.45";
         btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
         btnDrawer.innerHTML = permitido
-          ? 'ABRIR DASHBOARD DO SETOR <i class="fa-solid fa-arrow-up-right-from-square"></i>'
-          : '<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO';
+          ? `ABRIR DASHBOARD <i class="fa-solid fa-chart-simple"></i>`
+          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
 
         detailsBackdrop.classList.add("open");
         detailsDrawer.classList.add("open");
@@ -1978,29 +1940,13 @@
 
       document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
       detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
-      document.getElementById("btnDrawerAbrirPainel").addEventListener("click", () => {
-        if (!setorAtualDrawer || !usuarioTemAcessoSetor(setorAtualDrawer.key)) return;
-        const alvo = setorAtualDrawer;
-        fecharDrawerDetalhes();
-        abrirDashboardSetor(alvo, false);
-      });
-
-      document.getElementById("btnCloseViewer").addEventListener("click", () => {
-        viewerPanel.classList.remove("open");
-        dashboardIframe.src = "";
-      });
-
-      document.getElementById("btnViewerReload").addEventListener("click", () => {
-        if (dashboardIframe.src) dashboardIframe.src = dashboardIframe.src;
-      });
-
-      document.getElementById("btnViewerFullscreen").addEventListener("click", () => {
-        const wrap = document.getElementById("viewerFrameWrap");
-        if (wrap.requestFullscreen) wrap.requestFullscreen();
+      document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
+        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
+        alert(`Dashboard selecionado: ${itemAtualDrawer.titulo}. Vincule aqui o link do Looker Studio ou Power BI.`);
       });
 
       function avancarCarrossel(passo) {
-        const total = obterSetoresFiltrados().length;
+        const total = obterItensFiltrados().length;
         if (total <= 1) return;
         indiceCarrossel = (indiceCarrossel + passo + total) % total;
         renderizarCards();
@@ -2031,7 +1977,6 @@
         btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
         btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
         btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
-
         iniciarAutoPlay();
         renderizarCards();
       }
@@ -2057,7 +2002,7 @@
         });
       });
 
-      document.getElementById("sectorSearch").addEventListener("input", () => {
+      document.getElementById("moduleSearch").addEventListener("input", () => {
         indiceCarrossel = 0;
         renderizarCards();
       });
