@@ -33,42 +33,13 @@
       inherits: false;
     }
 
-    /* Faz 360 graus exatamente durante a janela ativa do card e passa para o próximo */
-    @keyframes borderSweepRelay {
+    /* Volta completa de 360 graus exatamente durante a janela do card atual */
+    @keyframes borderSweep360 {
       0% {
         --sweep-angle: 0deg;
-        opacity: 0;
-      }
-      2% {
-        opacity: 1;
-      }
-      18% {
-        opacity: 1;
-      }
-      20% {
-        --sweep-angle: 360deg;
-        opacity: 0;
       }
       100% {
         --sweep-angle: 360deg;
-        opacity: 0;
-      }
-    }
-
-    /* Brilho do card acende junto com a volta 360 da borda e apaga quando passa para o próximo */
-    @keyframes cardGlowRelay {
-      0%, 20%, 100% {
-        border-color: rgba(147, 197, 253, 0.24);
-        box-shadow:
-          0 14px 32px rgba(0, 0, 0, 0.48),
-          inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      }
-      3%, 17% {
-        border-color: rgba(125, 211, 252, 0.62);
-        box-shadow:
-          0 18px 40px rgba(0, 0, 0, 0.62),
-          0 0 24px rgba(56, 189, 248, 0.28),
-          inset 0 1px 0 rgba(255, 255, 255, 0.26);
       }
     }
 
@@ -76,7 +47,7 @@
       0%, 24.99% {
         --edge-a: #38bdf8;
         --edge-b: #2563eb;
-        --edge-c: #93c5fd;
+        --edge-c: #bae6fd;
       }
       25%, 49.99% {
         --edge-a: #facc15;
@@ -101,8 +72,8 @@
     }
 
     @keyframes card3dTurnIn {
-      0% { transform: translate3d(0, 6px, 0) rotateY(12deg) scale(0.94); }
-      100% { transform: translate3d(0, 0, 0) rotateY(0deg) scale(1); }
+      0% { transform: translate3d(0, 6px, 0) scale(0.95); }
+      100% { transform: translate3d(0, 0, 0) scale(1); }
     }
 
     * {
@@ -132,7 +103,6 @@
       overflow: hidden;
     }
 
-    /* No Modo Carrossel 3D permite ampliar levemente na vertical com respiro e barra lateral suave se precisar */
     body.mode-3d-active {
       height: auto;
       min-height: 100dvh;
@@ -648,6 +618,18 @@
       gap: 8px;
     }
 
+    .kbd-hint {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: none;
+      letter-spacing: 0.2px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
     .carousel-nav-controls {
       display: inline-flex;
       align-items: center;
@@ -674,7 +656,7 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO: APROVEITA TODO O ESPAÇO LATERAL IGUAL AO MODO GRADE */
+    /* MODO CARROSSEL PADRÃO */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
@@ -695,13 +677,14 @@
       min-height: var(--card-h);
       max-height: var(--card-h);
       perspective: 1400px;
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .cards-track .card-img-banner {
       height: var(--card-img-h);
     }
 
-    /* MODO GRADE: MESMO APROVEITAMENTO DE ESPAÇO */
+    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
@@ -713,15 +696,13 @@
       padding: 2px 4px 6px;
     }
 
-    /* MODO CARROSSEL 3D: RESPIRO VERTICAL E PROFISSIONALISMO */
+    /* MODO CARROSSEL 3D: CARDS DE FUNDO SEM ANGULAÇÃO (DE FRENTE) E COR VIDRO TRANSLÚCIDO */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       min-height: 416px;
-      perspective: 1400px;
-      transform-style: preserve-3d;
       overflow: hidden;
       padding: 18px 0;
     }
@@ -734,8 +715,7 @@
       height: 374px;
       min-height: 374px;
       max-height: 374px;
-      transform-style: preserve-3d;
-      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
+      transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
     .cards-track.mode-3d .card-img-banner {
@@ -743,45 +723,53 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
-      transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+      transform: translate3d(0, 0, 0) scale(1);
       opacity: 1;
       filter: blur(0px);
       z-index: 5;
       pointer-events: auto;
-      animation: card3dTurnIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: card3dTurnIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-88%, 0, 0) rotateY(16deg) scale(0.84);
-      opacity: 0.32;
+      transform: translate3d(-86%, 0, 0) scale(0.86);
+      opacity: 0.48;
       z-index: 2;
-      pointer-events: none;
+      pointer-events: auto;
+      cursor: pointer;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(88%, 0, 0) rotateY(-16deg) scale(0.84);
-      opacity: 0.32;
+      transform: translate3d(86%, 0, 0) scale(0.86);
+      opacity: 0.48;
       z-index: 2;
-      pointer-events: none;
+      pointer-events: auto;
+      cursor: pointer;
     }
 
+    .cards-track.mode-3d .card-3d-wrap.slot-left:hover,
+    .cards-track.mode-3d .card-3d-wrap.slot-right:hover {
+      opacity: 0.68;
+    }
+
+    /* Vidro transparente limpo nos cards de fundo */
     .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface,
     .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface {
-      background: linear-gradient(155deg, rgba(148, 163, 184, 0.24) 0%, rgba(30, 58, 138, 0.16) 55%, rgba(15, 23, 42, 0.26) 100%);
-      backdrop-filter: blur(22px) saturate(150%);
-      -webkit-backdrop-filter: blur(22px) saturate(150%);
-      border-color: rgba(186, 230, 253, 0.34);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      background: linear-gradient(155deg, rgba(186, 230, 253, 0.16) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(15, 23, 42, 0.24) 100%);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      border-color: rgba(186, 230, 253, 0.30);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
-      transform: translate3d(0, 10px, 0) rotateY(28deg) scale(0.66);
+      transform: translate3d(0, 8px, 0) scale(0.72);
       opacity: 0;
       z-index: 1;
       pointer-events: none;
     }
 
-    /* CARD VISÍVEL PORÉM SEMI-INVISÍVEL QUANDO SEM ACESSO */
+    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30;
       filter: saturate(0.28) brightness(0.72);
@@ -790,11 +778,7 @@
     }
 
     .card-3d-wrap.sem-acesso .card-surface::before {
-      opacity: 0.12;
-    }
-
-    .card-3d-wrap.sem-acesso .card-surface:hover {
-      opacity: 0.38;
+      opacity: 0.10;
     }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
@@ -808,30 +792,28 @@
       box-shadow: none;
     }
 
-    /* LUZ 360° SINCRONIZADA COM O BRILHO DO CARD PASSANDO DE UM PARA O OUTRO */
+    /* LUZ 360° CONTÍNUA DO 1º AO ÚLTIMO + DESTAQUE FORTE NO ATIVO E TRANSPARÊNCIA LEVE NOS INATIVOS */
     .card-surface {
       --sweep-angle: 0deg;
-      --relay-delay: calc(var(--card-index, 0) * var(--card-turn));
       --edge-a: #38bdf8;
       --edge-b: #2563eb;
-      --edge-c: #93c5fd;
+      --edge-c: #bae6fd;
       position: relative;
       border-radius: 16px;
-      background: linear-gradient(160deg, rgba(17, 35, 68, 0.56) 0%, rgba(7, 15, 32, 0.68) 100%);
+      background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
       backdrop-filter: blur(22px) saturate(155%);
       -webkit-backdrop-filter: blur(22px) saturate(155%);
-      border: 1px solid rgba(147, 197, 253, 0.24);
+      border: 1px solid rgba(147, 197, 253, 0.20);
       box-shadow:
-        0 14px 32px rgba(0, 0, 0, 0.48),
-        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        0 12px 28px rgba(0, 0, 0, 0.44),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      opacity: 0.78;
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 0.35s ease-out, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
+      transition: transform 0.35s ease-out, background 0.35s ease, opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
       height: 100%;
       width: 100%;
       overflow: hidden;
-      animation:
-        paletteCycle360 48s steps(1, end) infinite,
-        cardGlowRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
+      animation: paletteCycle360 48s steps(1, end) infinite;
     }
 
     .card-surface::before {
@@ -839,38 +821,51 @@
       position: absolute;
       inset: 0;
       border-radius: 16px;
-      padding: 2.2px;
+      padding: 2.5px;
       background: conic-gradient(
         from var(--sweep-angle),
         transparent 0deg,
-        transparent 220deg,
-        var(--edge-b) 275deg,
-        var(--edge-a) 322deg,
-        var(--edge-c) 354deg,
+        transparent 195deg,
+        var(--edge-b) 258deg,
+        var(--edge-a) 315deg,
+        var(--edge-c) 352deg,
         transparent 360deg
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      animation: borderSweepRelay var(--cycle-total) linear var(--relay-delay) infinite;
       opacity: 0;
       pointer-events: none;
       z-index: 4;
+      transition: opacity 0.25s ease;
     }
 
-    .card-surface:hover::before,
-    .card-surface.is-center::before {
-      opacity: 0.96;
-    }
-
-    .card-surface:hover,
-    .card-surface.is-center {
-      background: linear-gradient(160deg, rgba(22, 46, 88, 0.62) 0%, rgba(8, 18, 38, 0.72) 100%);
-      border-color: rgba(125, 211, 252, 0.56);
+    /* Card ativo no ciclo de luz 360 ou no hover */
+    .card-surface.is-lit,
+    .card-surface:hover {
+      opacity: 1;
+      background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
+      border-color: rgba(125, 211, 252, 0.78);
       box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.62),
-        0 0 24px rgba(56, 189, 248, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+        0 20px 44px rgba(0, 0, 0, 0.68),
+        0 0 32px rgba(56, 189, 248, 0.38),
+        0 0 12px rgba(125, 211, 252, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    }
+
+    .card-surface.is-lit::before {
+      opacity: 1;
+      animation: borderSweep360 var(--card-turn) linear infinite;
+    }
+
+    .card-surface:not(.is-lit):hover::before {
+      opacity: 0.92;
+      animation: borderSweep360 var(--card-turn) linear infinite;
+    }
+
+    body.glow-paused .card-surface.is-lit::before,
+    body.glow-paused .card-surface:hover::before {
+      animation-play-state: paused;
     }
 
     .card-body {
@@ -1329,8 +1324,8 @@
 
     @media (max-width: 760px) {
       .cards-track.mode-3d .card-3d-wrap { width: 268px; min-width: 268px; max-width: 268px; }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) rotateY(14deg) scale(0.76); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) rotateY(-14deg) scale(0.76); }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); }
     }
 
     @media (max-width: 520px) {
@@ -1340,7 +1335,7 @@
         grid-template-columns: 1fr;
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
-      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.12; }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
     }
   </style>
 </head>
@@ -1466,10 +1461,13 @@
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
-          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior">
+          <span class="kbd-hint" title="Use as setas do teclado para navegar e Espaço para pausar">
+            <i class="fa-solid fa-keyboard"></i> ← → Navegar · Espaço Pausar
+          </span>
+          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior (Seta Esquerda)">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
-          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo">
+          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo (Seta Direita)">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
@@ -1674,10 +1672,13 @@
       let categoriaAtiva = "TODOS";
       let somenteFavoritos = false;
       let indiceCarrossel = 0;
+      let indiceLuz360 = 0;
       let autoPlayAtivo = true;
-      let timerCarrossel = null;
+      let timerLuz360 = null;
       let moduloAtualDrawer = null;
+      let assinaturaDomAtual = "";
 
+      const TURN_MS = 3200;
       const cardsWrapper = document.getElementById("cardsWrapper");
       const paginationDots = document.getElementById("paginationDots");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
@@ -1766,13 +1767,9 @@
         return Math.max(1, Math.min(5, cabem));
       }
 
-      function criarHtmlCard(mod, favs, isCenter, slotClass = "", relayIdx = 0, relayTotal = 5) {
+      function criarHtmlCard(mod, favs, isLit, slotClass = "", slotIdx = 0) {
         const permitido = usuarioTemAcessoModulo(mod);
         const isFav = favs.includes(mod.key);
-        const safeTotal = Math.max(1, relayTotal);
-        const turnSec = 3.2;
-        const cycleSec = (safeTotal * turnSec).toFixed(2);
-        const relayDelaySec = (relayIdx * turnSec).toFixed(2);
 
         const secondaryBtnHtml = mod.secondaryUrl
           ? `<button type="button" class="btn-glass-card btn-secundario-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
@@ -1783,8 +1780,8 @@
              </button>`;
 
         return `
-          <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" style="--card-index:${relayIdx};">
-            <div class="card-surface ${isCenter ? "is-center" : ""}" style="--card-index:${relayIdx}; --card-turn:${turnSec}s; --cycle-total:${cycleSec}s; --relay-delay:${relayDelaySec}s;">
+          <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" data-slot-idx="${slotIdx}" data-mod-key="${mod.key}">
+            <div class="card-surface ${isLit ? "is-lit" : ""}">
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
                   <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
@@ -1822,7 +1819,28 @@
         `;
       }
 
-      function renderizarCards() {
+      /* Atualiza apenas quem está aceso sem destruir os nós DOM nem reiniciar a volta 360° */
+      function atualizarDestaqueLuz360() {
+        const wraps = cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]");
+        const totalVisivel = wraps.length;
+        if (totalVisivel === 0) return;
+
+        if (modoVisualizacao === "3d") {
+          wraps.forEach(w => {
+            const surface = w.querySelector(".card-surface");
+            if (surface) surface.classList.toggle("is-lit", w.classList.contains("slot-center"));
+          });
+          return;
+        }
+
+        if (indiceLuz360 >= totalVisivel) indiceLuz360 = 0;
+        wraps.forEach((w, idx) => {
+          const surface = w.querySelector(".card-surface");
+          if (surface) surface.classList.toggle("is-lit", idx === indiceLuz360);
+        });
+      }
+
+      function renderizarCards(forcarRebuild = false) {
         const itens = obterModulosFiltrados();
         const total = itens.length;
 
@@ -1839,9 +1857,10 @@
           `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 5 MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
         if (total === 0) {
+          assinaturaDomAtual = "vazio";
           cardsWrapper.innerHTML = `
             <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
-              <div class="card-surface">
+              <div class="card-surface is-lit">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
                   <strong style="color:#7dd3fc; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
                   <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere o filtro selecionado.</span>
@@ -1859,46 +1878,90 @@
         if (modoVisualizacao === "3d") {
           const prevIdx = (indiceCarrossel - 1 + total) % total;
           const nextIdx = (indiceCarrossel + 1) % total;
+          const novaAssinatura = `3d|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
 
-          cardsWrapper.innerHTML = itens.map((item, idx) => {
-            let slotClass = "slot-hidden";
-            if (idx === indiceCarrossel) slotClass = "slot-center";
-            else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
-            else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
-            const ordemLuz = (idx - indiceCarrossel + total) % total;
-            return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass, ordemLuz, total);
-          }).join("");
+          if (!forcarRebuild && assinaturaDomAtual === novaAssinatura) {
+            cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]").forEach((wrap, idx) => {
+              wrap.classList.remove("slot-center", "slot-left", "slot-right", "slot-hidden");
+              let slotClass = "slot-hidden";
+              if (idx === indiceCarrossel) slotClass = "slot-center";
+              else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+              else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+              wrap.classList.add(slotClass);
+            });
+            atualizarDestaqueLuz360();
+          } else {
+            assinaturaDomAtual = novaAssinatura;
+            cardsWrapper.innerHTML = itens.map((item, idx) => {
+              let slotClass = "slot-hidden";
+              if (idx === indiceCarrossel) slotClass = "slot-center";
+              else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+              else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+              return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass, idx);
+            }).join("");
+            vincularEventosCards();
+            aplicarTilt3D();
+          }
         } else if (modoVisualizacao === "grade") {
-          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, false, "", i, total)).join("");
+          const novaAssinatura = `grade|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
+          if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
+            assinaturaDomAtual = novaAssinatura;
+            if (indiceLuz360 >= total) indiceLuz360 = 0;
+            cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i === indiceLuz360, "", i)).join("");
+            vincularEventosCards();
+            aplicarTilt3D();
+          } else {
+            atualizarDestaqueLuz360();
+          }
         } else {
           const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
           const listaExibida = [];
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
-          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, false, "", i, qtdVisivel)).join("");
+          const novaAssinatura = `carrossel|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
+          if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
+            assinaturaDomAtual = novaAssinatura;
+            if (indiceLuz360 >= listaExibida.length) indiceLuz360 = 0;
+            cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i === indiceLuz360, "", i)).join("");
+            vincularEventosCards();
+            aplicarTilt3D();
+          } else {
+            atualizarDestaqueLuz360();
+          }
         }
 
         if (mostraSetas) {
+          const dotAtivo = modoVisualizacao === "3d" ? indiceCarrossel : (indiceCarrossel + indiceLuz360) % total;
           paginationDots.innerHTML = itens.map((_, idx) => `
-            <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
+            <button type="button" class="p-dot ${idx === dotAtivo ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
           `).join("");
 
           paginationDots.querySelectorAll(".p-dot").forEach(dot => {
             dot.addEventListener("click", () => {
-              indiceCarrossel = Number(dot.getAttribute("data-dot-idx"));
-              renderizarCards();
+              const target = Number(dot.getAttribute("data-dot-idx"));
+              if (modoVisualizacao === "3d") {
+                indiceCarrossel = target;
+              } else {
+                const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
+                if (qtdVisivel >= total) {
+                  indiceLuz360 = target;
+                } else {
+                  indiceCarrossel = target;
+                  indiceLuz360 = 0;
+                }
+              }
+              renderizarCards(false);
+              reiniciarCicloLuz360();
             });
           });
         }
-
-        vincularEventosCards();
-        aplicarTilt3D();
       }
 
       function vincularEventosCards() {
         cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(btn => {
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
             const mod = MODULOS_HOME.find(m => m.key === btn.getAttribute("data-key"));
             if (!mod || !usuarioTemAcessoModulo(mod)) return;
             window.location.href = mod.url;
@@ -1906,7 +1969,8 @@
         });
 
         cardsWrapper.querySelectorAll(".btn-secundario-mod").forEach(btn => {
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
             const mod = MODULOS_HOME.find(m => m.key === btn.getAttribute("data-key"));
             if (!mod || !usuarioTemAcessoModulo(mod) || !mod.secondaryUrl) return;
             window.location.href = mod.secondaryUrl;
@@ -1914,7 +1978,10 @@
         });
 
         cardsWrapper.querySelectorAll(".btn-detalhes-mod").forEach(btn => {
-          btn.addEventListener("click", () => abrirDrawerDetalhes(btn.getAttribute("data-key")));
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            abrirDrawerDetalhes(btn.getAttribute("data-key"));
+          });
         });
 
         cardsWrapper.querySelectorAll(".btn-fav-card").forEach(btn => {
@@ -1925,7 +1992,19 @@
             if (favs.includes(key)) favs = favs.filter(x => x !== key);
             else favs.unshift(key);
             salvarFavoritos(favs);
-            renderizarCards();
+            renderizarCards(true);
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".card-3d-wrap").forEach(wrap => {
+          wrap.addEventListener("click", () => {
+            if (modoVisualizacao !== "3d") return;
+            const slotIdx = Number(wrap.getAttribute("data-slot-idx"));
+            if (!Number.isNaN(slotIdx) && slotIdx !== indiceCarrossel) {
+              indiceCarrossel = slotIdx;
+              renderizarCards(false);
+              reiniciarCicloLuz360();
+            }
           });
         });
       }
@@ -1936,6 +2015,7 @@
           if (!surface || wrap.dataset.tiltBound) return;
           wrap.dataset.tiltBound = "1";
           wrap.addEventListener("mousemove", (e) => {
+            if (modoVisualizacao === "3d") return;
             const rect = wrap.getBoundingClientRect();
             const nx = (e.clientX - rect.left) / rect.width - 0.5;
             const ny = (e.clientY - rect.top) / rect.height - 0.5;
@@ -1996,27 +2076,87 @@
         window.location.href = destino;
       });
 
-      function avancarCarrossel(passo) {
-        const total = obterModulosFiltrados().length;
+      function avancarPasso(passo) {
+        const itens = obterModulosFiltrados();
+        const total = itens.length;
         if (total <= 1) return;
-        indiceCarrossel = (indiceCarrossel + passo + total) % total;
-        renderizarCards();
+
+        if (modoVisualizacao === "3d") {
+          indiceCarrossel = (indiceCarrossel + passo + total) % total;
+          renderizarCards(false);
+          return;
+        }
+
+        if (modoVisualizacao === "grade") {
+          indiceLuz360 = (indiceLuz360 + passo + total) % total;
+          atualizarDestaqueLuz360();
+          return;
+        }
+
+        const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
+        if (qtdVisivel >= total) {
+          indiceLuz360 = (indiceLuz360 + passo + total) % total;
+          renderizarCards(false);
+        } else {
+          const proximoSlot = indiceLuz360 + passo;
+          if (proximoSlot >= 0 && proximoSlot < qtdVisivel) {
+            indiceLuz360 = proximoSlot;
+            renderizarCards(false);
+          } else {
+            indiceCarrossel = (indiceCarrossel + passo + total) % total;
+            indiceLuz360 = passo > 0 ? 0 : qtdVisivel - 1;
+            renderizarCards(true);
+          }
+        }
       }
 
-      document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
-      document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
+      document.getElementById("btnPrevCard").addEventListener("click", () => {
+        avancarPasso(-1);
+        reiniciarCicloLuz360();
+      });
 
-      function iniciarAutoPlay() {
-        clearInterval(timerCarrossel);
-        if (!autoPlayAtivo || modoVisualizacao === "grade") return;
-        timerCarrossel = setInterval(() => avancarCarrossel(1), 5500);
+      document.getElementById("btnNextCard").addEventListener("click", () => {
+        avancarPasso(1);
+        reiniciarCicloLuz360();
+      });
+
+      function reiniciarCicloLuz360() {
+        clearInterval(timerLuz360);
+        document.body.classList.toggle("glow-paused", !autoPlayAtivo);
+        if (!autoPlayAtivo) return;
+        timerLuz360 = setInterval(() => avancarPasso(1), TURN_MS);
       }
 
-      document.getElementById("btnAutoPlay").addEventListener("click", () => {
+      function alternarAutoPlay() {
         autoPlayAtivo = !autoPlayAtivo;
         document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
         document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
-        iniciarAutoPlay();
+        reiniciarCicloLuz360();
+      }
+
+      document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
+
+      /* Atalhos de teclado: Setas Esquerda/Direita e Espaço para pausar/retomar */
+      document.addEventListener("keydown", (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        if (detailsDrawer.classList.contains("open")) {
+          if (e.key === "Escape") fecharDrawerDetalhes();
+          return;
+        }
+
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          avancarPasso(1);
+          reiniciarCicloLuz360();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          avancarPasso(-1);
+          reiniciarCicloLuz360();
+        } else if (e.code === "Space" || e.key === " ") {
+          e.preventDefault();
+          alternarAutoPlay();
+        }
       });
 
       const btnModoCarrossel = document.getElementById("btnModoCarrossel");
@@ -2029,8 +2169,8 @@
         btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
         btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
 
-        iniciarAutoPlay();
-        renderizarCards();
+        renderizarCards(true);
+        reiniciarCicloLuz360();
       }
 
       btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
@@ -2041,7 +2181,9 @@
         somenteFavoritos = !somenteFavoritos;
         document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
         indiceCarrossel = 0;
-        renderizarCards();
+        indiceLuz360 = 0;
+        renderizarCards(true);
+        reiniciarCicloLuz360();
       });
 
       document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
@@ -2050,13 +2192,17 @@
           btn.classList.add("active");
           categoriaAtiva = btn.getAttribute("data-cat");
           indiceCarrossel = 0;
-          renderizarCards();
+          indiceLuz360 = 0;
+          renderizarCards(true);
+          reiniciarCicloLuz360();
         });
       });
 
       document.getElementById("moduleSearch").addEventListener("input", () => {
         indiceCarrossel = 0;
-        renderizarCards();
+        indiceLuz360 = 0;
+        renderizarCards(true);
+        reiniciarCicloLuz360();
       });
 
       document.getElementById("btnToggleMenu").addEventListener("click", () => {
@@ -2066,11 +2212,11 @@
       });
 
       window.addEventListener("resize", () => {
-        if (modoVisualizacao === "carrossel") renderizarCards();
+        if (modoVisualizacao === "carrossel") renderizarCards(false);
       });
 
-      renderizarCards();
-      iniciarAutoPlay();
+      renderizarCards(true);
+      reiniciarCicloLuz360();
     })();
   </script>
 </body>
