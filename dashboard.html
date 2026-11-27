@@ -60,6 +60,11 @@
       50% { transform: scale(1.35); opacity: 0.65; }
     }
 
+    @keyframes card3dTurnIn {
+      0% { transform: translate3d(0, 8px, -40px) rotateY(14deg) scale(0.95); }
+      100% { transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1); }
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -192,23 +197,6 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .user-switcher-select {
-      height: 32px;
-      padding: 0 10px;
-      border-radius: 9px;
-      background: rgba(5, 10, 22, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: #e2e8f0;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      outline: none;
-    }
-
-    .user-switcher-select:focus {
-      border-color: #38bdf8;
     }
 
     .nav-links-side {
@@ -635,44 +623,47 @@
       grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
     }
 
-    /* MODO CARROSSEL 3D */
+    /* MODO CARROSSEL 3D: COMPACTO E COM GIRO SUAVE */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 396px;
-      perspective: 1600px;
+      min-height: 352px;
+      perspective: 1400px;
+      transform-style: preserve-3d;
       overflow: hidden;
-      padding: 8px 0;
+      padding: 6px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: 325px;
-      max-width: 90vw;
-      min-height: 354px;
+      width: 276px;
+      max-width: 88vw;
+      min-height: 316px;
       height: auto;
-      transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease, filter 0.42s ease, z-index 0.2s ease;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
-      transform: translate3d(0, 0, 90px) scale(1);
+      transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1);
       opacity: 1;
       filter: blur(0px);
       z-index: 5;
       pointer-events: auto;
+      animation: card3dTurnIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-245px, 6px, -140px) scale(0.84);
+      transform: translate3d(-220px, 6px, -135px) rotateY(16deg) scale(0.84);
       opacity: 0.24;
       z-index: 2;
       pointer-events: none;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(245px, 6px, -140px) scale(0.84);
+      transform: translate3d(220px, 6px, -135px) rotateY(-16deg) scale(0.84);
       opacity: 0.24;
       z-index: 2;
       pointer-events: none;
@@ -688,7 +679,7 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
-      transform: translate3d(0, 14px, -240px) scale(0.68);
+      transform: translate3d(0, 14px, -240px) rotateY(28deg) scale(0.68);
       opacity: 0;
       z-index: 1;
       pointer-events: none;
@@ -799,6 +790,32 @@
       flex-direction: column;
       justify-content: flex-start;
       gap: 9px;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap {
+      min-height: 316px;
+    }
+
+    .cards-track.mode-3d .card-body {
+      min-height: 316px;
+      padding: 10px 12px 12px;
+      gap: 7px;
+    }
+
+    .cards-track.mode-3d .card-img-banner {
+      height: 104px;
+    }
+
+    .cards-track.mode-3d .btn-primary-card,
+    .cards-track.mode-3d .btn-glass-card,
+    .cards-track.mode-3d .btn-nova-aba {
+      height: 33px;
+      min-height: 33px;
+      max-height: 33px;
+    }
+
+    .cards-track.mode-3d .acessar-line {
+      height: 33px;
     }
 
     .card-img-banner {
@@ -1305,8 +1322,9 @@
 
     @media (max-width: 760px) {
       .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-145px, 6px, -140px) scale(0.78); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(145px, 6px, -140px) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap { width: 244px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-135px, 6px, -135px) rotateY(14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(135px, 6px, -135px) rotateY(-14deg) scale(0.78); }
     }
 
     @media (max-width: 520px) {
@@ -1338,32 +1356,6 @@
           </span>
 
           <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
-
-          <select id="userTestSwitcher" class="user-switcher-select" title="Trocar usuário para teste de permissão">
-            <option value="Rodrigo Lopes">Usuário: Rodrigo Lopes</option>
-            <option value="Administrador">Usuário: Administrador</option>
-            <option value="Arioston Paixão">Usuário: Arioston Paixão</option>
-            <option value="Jhonattan Alencar">Usuário: Jhonattan Alencar</option>
-            <option value="Adriana Costa">Usuário: Adriana Costa</option>
-            <option value="Adriano Leite">Usuário: Adriano Leite</option>
-            <option value="Elenilson Lima">Usuário: Elenilson Lima</option>
-            <option value="Jadison Santos">Usuário: Jadison Santos</option>
-            <option value="Janilson Vieira">Usuário: Janilson Vieira</option>
-            <option value="José Amiel">Usuário: José Amiel</option>
-            <option value="Júlio Moura">Usuário: Júlio Moura</option>
-            <option value="Fabio Lima">Usuário: Fabio Lima</option>
-            <option value="Ana Carolina">Usuário: Ana Carolina</option>
-            <option value="Danel Pantoja">Usuário: Danel Pantoja</option>
-            <option value="Gladson Afonso">Usuário: Gladson Afonso</option>
-            <option value="Suellem Lopes">Usuário: Suellem Lopes</option>
-            <option value="Eduarda Ribeiro">Usuário: Eduarda Ribeiro</option>
-            <option value="Alex Sandro">Usuário: Alex Sandro</option>
-            <option value="Andreza Gomes">Usuário: Andreza Gomes</option>
-            <option value="Vanessa Oliveira">Usuário: Vanessa Oliveira</option>
-            <option value="Wellington Pantoja">Usuário: Wellington Pantoja</option>
-            <option value="Jacqueline Pimentel">Usuário: Jacqueline Pimentel</option>
-            <option value="Fernanda Dantas">Usuário: Fernanda Dantas</option>
-          </select>
         </div>
 
         <nav class="nav-links-side" aria-label="Menu do Portal">
@@ -1861,7 +1853,7 @@
         }
       };
 
-      let usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
+      const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
       let setoresSessao = null;
       try {
         const raw = sessionStorage.getItem("ellca_user_setores");
@@ -1887,7 +1879,6 @@
       const embedLoader = document.getElementById("embedLoader");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
       const detailsDrawer = document.getElementById("detailsDrawer");
-      const userTestSwitcher = document.getElementById("userTestSwitcher");
 
       function obterIniciais(nome) {
         const partes = String(nome || "RL").trim().split(/\s+/);
@@ -1908,36 +1899,14 @@
         return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(setorKey).toLowerCase());
       }
 
-      function aplicarIdentidadeUsuario() {
-        document.getElementById("footerUserName").textContent = usuarioAtual;
-        document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
-        document.getElementById("userAvatarInitials").title = usuarioAtual;
-        if (!Array.from(userTestSwitcher.options).some(opt => opt.value === usuarioAtual)) {
-          const opt = document.createElement("option");
-          opt.value = usuarioAtual;
-          opt.textContent = `Usuário: ${usuarioAtual}`;
-          userTestSwitcher.appendChild(opt);
-        }
-        userTestSwitcher.value = usuarioAtual;
-      }
-
-      aplicarIdentidadeUsuario();
-
-      userTestSwitcher.addEventListener("change", () => {
-        usuarioAtual = userTestSwitcher.value;
-        setoresSessao = PERMISSOES_POR_USUARIO[usuarioAtual] || [];
-        sessionStorage.setItem("ellca_user_name", usuarioAtual);
-        sessionStorage.setItem("ellca_user_setores", JSON.stringify(setoresSessao));
-        if (emSubDashboards && setorAtualKey && !usuarioTemAcesso(setorAtualKey)) {
-          restaurarSetoresPrincipais();
-        } else {
-          renderizarCards();
-        }
-        aplicarIdentidadeUsuario();
-      });
+      document.getElementById("footerUserName").textContent = usuarioAtual;
+      document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
+      document.getElementById("userAvatarInitials").title = usuarioAtual;
 
       document.getElementById("btnSairRodape").addEventListener("click", () => {
         sessionStorage.removeItem("ellca_auth");
+        sessionStorage.removeItem("ellca_user_name");
+        sessionStorage.removeItem("ellca_user_setores");
         window.location.href = "login.html";
       });
 
