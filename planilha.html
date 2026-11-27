@@ -23,7 +23,7 @@
       --card-h: clamp(326px, 39vh, 354px);
       --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
-      --card-count: 8;
+      --card-count: 4;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
@@ -45,7 +45,7 @@
         border-color: rgba(147, 197, 253, 0.20);
         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
       }
-      2.5%, 10% {
+      3%, 13% {
         opacity: 1;
         background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
         border-color: rgba(125, 211, 252, 0.78);
@@ -55,7 +55,7 @@
           0 0 12px rgba(125, 211, 252, 0.26),
           inset 0 1px 0 rgba(255, 255, 255, 0.30);
       }
-      14% {
+      18% {
         opacity: 0.78;
         background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
         border-color: rgba(147, 197, 253, 0.20);
@@ -65,8 +65,8 @@
 
     @keyframes borderBeamRelay {
       0%, 100% { opacity: 0; }
-      2%, 10.5% { opacity: 1; }
-      13.5% { opacity: 0; }
+      2.5%, 13.5% { opacity: 1; }
+      17.5% { opacity: 0; }
     }
 
     @keyframes paletteCycle360 {
@@ -139,7 +139,7 @@
 
     /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
     .top-navbar-collapse {
-      max-height: 60px;
+      max-height: 90px;
       opacity: 1;
       transform: translateY(0);
       overflow: hidden;
@@ -159,22 +159,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       padding: 1px 2px;
+      width: 100%;
     }
 
     .nav-brand-side {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .brand-logo {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
@@ -182,9 +182,9 @@
     }
 
     .brand-logo img {
-      height: 34px;
+      height: 32px;
       width: auto;
-      max-width: 150px;
+      max-width: 140px;
       object-fit: contain;
       display: block;
     }
@@ -194,23 +194,24 @@
       align-items: center;
       gap: 8px;
       font-weight: 800;
-      font-size: 19px;
+      font-size: 18px;
       color: #60a5fa;
     }
 
     .module-pill {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 4px 12px;
+      gap: 6px;
+      padding: 4px 10px;
       border-radius: 999px;
       background: rgba(14, 165, 233, 0.14);
       border: 1px solid rgba(56, 189, 248, 0.38);
       color: #38bdf8;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 0.45px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .module-pill .dot {
@@ -231,47 +232,50 @@
       background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16));
       border: 1px solid rgba(250, 204, 21, 0.45);
       color: #fde047;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
+      white-space: nowrap;
       animation: starGlow 3.2s infinite;
     }
 
     .user-avatar-ring {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 1.5px solid #38bdf8;
       background: rgba(15, 23, 42, 0.85);
       box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
       color: #7dd3fc;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .nav-links-side {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      flex-wrap: nowrap;
+      gap: 4px;
     }
 
     .top-nav-link {
       text-decoration: none;
       color: #cbd5e1;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
+      gap: 5px;
+      padding: 5px 7px;
       border-radius: 8px;
+      white-space: nowrap;
       transition: color 0.2s ease, background 0.2s ease;
     }
 
@@ -282,8 +286,8 @@
     }
 
     .btn-back-circle {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 1px solid rgba(56, 189, 248, 0.35);
       background: rgba(15, 23, 42, 0.8);
@@ -292,8 +296,9 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
-      font-size: 11.5px;
+      font-size: 11px;
       cursor: pointer;
+      flex-shrink: 0;
       transition: all 0.2s ease;
     }
 
@@ -700,41 +705,43 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL: 4 EM CIMA E 4 EM BAIXO (8 CARDS POR TELA) */
+    /* MODO CARROSSEL: 1 LINHA COM ATÉ 4 CARDS NO DESKTOP */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(4, minmax(272px, var(--card-w)));
+      gap: 18px;
       justify-content: center;
-      align-items: stretch;
+      align-items: center;
       align-content: center;
       flex: 1 1 auto;
       width: 100%;
       padding: 2px 0;
     }
 
+    /* TAMANHO DO CARD PADRONIZADO */
     .cards-track .card-3d-wrap {
       width: 100%;
       min-width: 0;
-      max-width: 100%;
-      height: clamp(304px, 34vh, 336px);
-      min-height: clamp(304px, 34vh, 336px);
-      max-height: clamp(304px, 34vh, 336px);
+      max-width: var(--card-w);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
       perspective: 1400px;
       margin: 0 auto;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .cards-track .card-img-banner {
-      height: clamp(112px, 11vh, 132px);
+      height: var(--card-img-h);
     }
 
-    @media (max-width: 1180px) {
+    @media (max-width: 1100px) {
       .cards-track {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(272px, var(--card-w)));
       }
     }
 
+    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -745,35 +752,25 @@
       padding: 4px 2px 8px;
     }
 
-    .cards-track.grid-mode .card-3d-wrap {
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
-    }
-
-    .cards-track.grid-mode .card-img-banner {
-      height: var(--card-img-h);
-    }
-
+    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 378px;
+      min-height: 392px;
       overflow: hidden;
       padding: 12px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: clamp(304px, 25vw, 356px);
-      min-width: clamp(304px, 25vw, 356px);
-      max-width: clamp(304px, 25vw, 356px);
-      height: 344px;
-      min-height: 344px;
-      max-height: 344px;
+      width: clamp(290px, 23vw, 332px);
+      min-width: clamp(290px, 23vw, 332px);
+      max-width: clamp(290px, 23vw, 332px);
+      height: 362px;
+      min-height: 362px;
+      max-height: 362px;
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
@@ -850,6 +847,7 @@
       pointer-events: none;
     }
 
+    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
@@ -860,7 +858,7 @@
     .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
-    .card-3d-wrap.sem-acesso .btn-nova-aba {
+    .card-3d-wrap.sem-acesso .btn-info-aba {
       opacity: 0.45;
       cursor: not-allowed;
       pointer-events: none;
@@ -943,13 +941,13 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 12px 14px 13px;
+      padding: 13px 15px 14px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 6px;
+      gap: 7px;
     }
 
     .card-img-banner {
@@ -1023,7 +1021,7 @@
     }
 
     .card-title-txt {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.25px;
@@ -1031,8 +1029,8 @@
     }
 
     .card-desc-txt {
-      font-size: 10.5px;
-      line-height: 1.32;
+      font-size: 11px;
+      line-height: 1.35;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -1052,7 +1050,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 2px 8px;
+      padding: 2.5px 8px;
       border-radius: 6px;
       background: rgba(6, 16, 36, 0.68);
       border: 1px solid rgba(56, 189, 248, 0.25);
@@ -1076,15 +1074,15 @@
       align-items: center;
       gap: 6px;
       width: 100%;
-      height: 29px;
+      height: 30px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(56, 189, 248, 0.58);
@@ -1110,11 +1108,11 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 28px;
+      flex: 0 0 29px;
       width: 100%;
-      height: 28px;
-      min-height: 28px;
-      max-height: 28px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(147, 197, 253, 0.28);
@@ -1138,17 +1136,18 @@
       background: rgba(56, 189, 248, 0.16);
     }
 
-    .btn-nova-aba {
-      width: 29px;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
+    .btn-info-aba {
+      width: 30px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.45);
       border-radius: 8px;
       color: #38bdf8;
       font-size: 11px;
+      font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -1156,13 +1155,13 @@
       transition: all 0.2s ease;
     }
 
-    .btn-nova-aba:hover:not(:disabled) {
+    .btn-info-aba:hover:not(:disabled) {
       background: #38bdf8;
       border-color: #ffffff;
       color: #02060f;
     }
 
-    .btn-nova-aba:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-info-aba:disabled { opacity: 0.35; cursor: not-allowed; }
 
     .pagination-dots {
       display: flex;
@@ -1364,8 +1363,20 @@
 
     .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
 
+    @media (max-width: 1180px) {
+      .top-navbar {
+        flex-wrap: wrap;
+      }
+
+      .nav-links-side {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
     @media (max-width: 760px) {
-      .cards-track.mode-3d .card-3d-wrap { width: 278px; min-width: 278px; max-width: 278px; }
+      .cards-track.mode-3d .card-3d-wrap { width: 274px; min-width: 274px; max-width: 274px; }
       .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); }
       .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); }
       .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
@@ -1381,9 +1392,6 @@
       }
       .cards-track .card-3d-wrap {
         max-width: 100%;
-        height: var(--card-h);
-        min-height: var(--card-h);
-        max-height: var(--card-h);
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
@@ -1582,7 +1590,7 @@
       </div>
       <div class="details-meta-box">
         <small>Formato / Fonte</small>
-        <strong id="drawerModRota">Google Sheets</strong>
+        <strong id="drawerModRota">Base Operacional</strong>
       </div>
       <div class="details-meta-box">
         <small>Permissão</small>
@@ -1594,7 +1602,7 @@
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
     <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ABRIR PLANILHA <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      ACESSAR <i class="fa-solid fa-arrow-right"></i>
     </button>
   </aside>
 
@@ -1640,7 +1648,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
           kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
           kpiResumo: "94% · Mensal",
-          url: "#controle-epi-epc",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "controle de estoque de EPI e EPC validade inspeção entrega",
           recursos: ["Conferência por período e equipe", "Histórico de entregas e CA", "Validação de validade e estoque"]
@@ -1658,7 +1666,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
           kpi2: '<span><i class="fa-solid fa-rotate"></i> Diário</span>',
           kpiResumo: "96% · Diário",
-          url: "#controle-almoxarifado",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "almoxarifado estoque recebimento inventário materiais suprimento",
           recursos: ["Controle de entradas e saídas", "Inventário e giro de itens", "Rastreabilidade de suprimentos"]
@@ -1676,7 +1684,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
           kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
           kpiResumo: "92% · Mensal",
-          url: "#controle-backoffice",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "backoffice administrativo conferência processos medições faturamento",
           recursos: ["Conferência de medições e notas", "Acompanhamento de pendências", "Consolidado de fechamento"]
@@ -1694,7 +1702,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 98%</span>',
           kpi2: '<span><i class="fa-solid fa-clock"></i> Mensal</span>',
           kpiResumo: "98% · Mensal",
-          url: "#controle-dp",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "dp departamento pessoal ponto folha benefícios férias trabalhistas",
           recursos: ["Apuração de ponto e horas", "Controle de férias e afastamentos", "Conferência de benefícios"]
@@ -1712,7 +1720,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 91%</span>',
           kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
           kpiResumo: "91% · Semanal",
-          url: "#controle-dsc",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "dsc indicadores conformidade campo desvios qualidade",
           recursos: ["Monitoramento de desvios", "Indicadores de conformidade", "Histórico de planos de ação"]
@@ -1730,7 +1738,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
           kpi2: '<span><i class="fa-solid fa-users"></i> Geral</span>',
           kpiResumo: "100% · Geral",
-          url: "#controle-estrutura",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "estrutura organograma hierarquia liderança setores equipes",
           recursos: ["Mapeamento de cargos e setores", "Distribuição de lideranças", "Integração intersetorial"]
@@ -1748,7 +1756,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
           kpi2: '<span><i class="fa-solid fa-gas-pump"></i> Diário</span>',
           kpiResumo: "93% · Diário",
-          url: "#controle-frota",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "frota veículos manutenção preventiva corretiva combustível rastreio",
           recursos: ["Controle de manutenções", "Consumo e abastecimento", "Disponibilidade de veículos"]
@@ -1766,7 +1774,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
           kpi2: '<span><i class="fa-solid fa-wrench"></i> Contínuo</span>',
           kpiResumo: "95% · Contínuo",
-          url: "#controle-infraestrutura",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "infraestrutura predial bases operacionais energia manutenção apoio",
           recursos: ["Acompanhamento de bases", "Manutenção predial e utilidades", "Chamados de serviços gerais"]
@@ -1784,7 +1792,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 89%</span>',
           kpi2: '<span><i class="fa-solid fa-bullseye"></i> Diário</span>',
           kpiResumo: "89% · Diário",
-          url: "#controle-produtividade",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "produtividade rendimento metas indicadores eficiência desempenho",
           recursos: ["Acompanhamento de metas", "Comparativo por equipe e período", "Indicadores de eficiência"]
@@ -1802,7 +1810,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
           kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
           kpiResumo: "95% · Diário",
-          url: "#controle-programacao",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "programação planejamento roteirização ordens de serviço equipes",
           recursos: ["Distribuição de ordens de serviço", "Roteirização e agenda diária", "Acompanhamento de execução"]
@@ -1820,7 +1828,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 90%</span>',
           kpi2: '<span><i class="fa-solid fa-folder-open"></i> Etapas</span>',
           kpiResumo: "90% · Etapas",
-          url: "#controle-projeto",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "projeto análise técnica levantamentos desenhos obras acompanhamento",
           recursos: ["Controle de etapas técnicas", "Levantamentos e especificações", "Status de entregas e obras"]
@@ -1838,7 +1846,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
           kpi2: '<span><i class="fa-solid fa-user-plus"></i> Mensal</span>',
           kpiResumo: "94% · Mensal",
-          url: "#controle-rh",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "rh recursos humanos recrutamento seleção integração treinamentos clima",
           recursos: ["Controle de vagas e admissões", "Matriz de treinamentos", "Acompanhamento de equipes"]
@@ -1856,7 +1864,7 @@
           kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 97%</span>',
           kpi2: '<span><i class="fa-solid fa-shield-halved"></i> Contínuo</span>',
           kpiResumo: "97% · Contínuo",
-          url: "#controle-sesmt",
+          url: "#",
           origemLabel: "Base Operacional",
           searchTags: "sesmt segurança do trabalho prevenção riscos normas saúde ocupacional",
           recursos: ["Inspeções e normas regulamentadoras", "Prevenção e controle de riscos", "Indicadores de segurança"]
@@ -1909,7 +1917,7 @@
       }
 
       const estadoClima = {
-        cidade: "Belém - PA",
+        cidade: "Ananindeua - PA",
         temperatura: "--°C",
         icone: "fa-cloud-sun"
       };
@@ -1973,7 +1981,7 @@
             const geoResp = await fetch(geoUrl);
             if (geoResp.ok) {
               const geoData = await geoResp.json();
-              const cidadeRaw = geoData.city || geoData.locality || "Belém";
+              const cidadeRaw = geoData.city || geoData.locality || "Ananindeua";
               const cidade = capitalizarPrimeira(cidadeRaw);
               const uf = (geoData.principalSubdivisionCode || "BR-PA").replace("BR-", "").toUpperCase();
               estadoClima.cidade = `${cidade} - ${uf}`;
@@ -1989,16 +1997,16 @@
       }
 
       function iniciarLocalizacaoClima() {
-        const defaultLat = -1.4558;
-        const defaultLon = -48.5044;
+        const defaultLat = -1.3656;
+        const defaultLon = -48.3722;
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
-            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA"),
+            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA"),
             { timeout: 6000, maximumAge: 600000 }
           );
         } else {
-          buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA");
+          buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA");
         }
       }
 
@@ -2019,6 +2027,18 @@
         if (!item.setor) return true;
         const permitidos = obterSetoresPermitidosUsuario();
         return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(item.setor).toLowerCase());
+      }
+
+      function temLinkValido(url) {
+        const limpo = String(url || "").trim();
+        return limpo !== "" && limpo !== "#";
+      }
+
+      function navegarParaDestino(mod, novaAba = false) {
+        if (!mod || !usuarioTemAcesso(mod)) return;
+        const destino = temLinkValido(mod.url) ? mod.url.trim() : "#";
+        if (novaAba) window.open(destino, "_blank", "noopener");
+        else window.location.href = destino;
       }
 
       const qtdAutorizadas = PLANILHAS_BASE.filter(usuarioTemAcesso).length;
@@ -2074,11 +2094,10 @@
           });
       }
 
-      // 4 em cima e 4 embaixo = 8 cards no carrossel
       function obterQtdVisivelCarrossel() {
-        if (window.innerWidth <= 520) return 2;
-        if (window.innerWidth <= 1180) return 4;
-        return 8;
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 1100) return 2;
+        return 4;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
@@ -2112,10 +2131,10 @@
                 <div class="card-actions-stack">
                   <div class="acessar-line">
                     <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
-                      ${permitido ? `ABRIR <i class="fa-solid fa-table"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                      ${permitido ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
-                    <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes da planilha">
-                      <i class="fa-solid fa-circle-info"></i>
+                    <button type="button" class="btn-info-aba btn-info-detalhes" data-key="${mod.key}" title="Ver detalhes na barra lateral" ${permitido ? "" : "disabled"}>
+                      <i class="fa-solid fa-info"></i>
                     </button>
                   </div>
                   <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
@@ -2233,6 +2252,15 @@
             e.stopPropagation();
             const mod = PLANILHAS_BASE.find(m => m.key === btn.getAttribute("data-key"));
             if (!mod || !usuarioTemAcesso(mod)) return;
+            navegarParaDestino(mod, false);
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".btn-info-detalhes").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const mod = PLANILHAS_BASE.find(m => m.key === btn.getAttribute("data-key"));
+            if (!mod || !usuarioTemAcesso(mod)) return;
             abrirDrawerDetalhes(mod.key);
           });
         });
@@ -2314,7 +2342,7 @@
         btnDrawer.style.opacity = permitido ? "1" : "0.45";
         btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
         btnDrawer.innerHTML = permitido
-          ? `ABRIR PLANILHA <i class="fa-solid fa-arrow-up-right-from-square"></i>`
+          ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>`
           : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
 
         detailsBackdrop.classList.add("open");
@@ -2330,14 +2358,9 @@
       detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
       document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
         if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
-        if (itemAtualDrawer.url && !itemAtualDrawer.url.startsWith("#")) {
-          window.open(itemAtualDrawer.url, "_blank", "noopener");
-        } else {
-          alert(`Planilha selecionada: ${itemAtualDrawer.titulo}. Vincule aqui a URL da planilha.`);
-        }
+        navegarParaDestino(itemAtualDrawer, false);
       });
 
-      // Avança 1 card por vez
       function avancarCarrossel(passo) {
         const total = obterItensFiltrados().length;
         if (total <= 1) return;
