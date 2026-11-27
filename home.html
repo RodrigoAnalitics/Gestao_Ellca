@@ -639,43 +639,60 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL NORMAL */
+    /* MODO CARROSSEL NORMAL: ALTURA TRAVADA NO PADRÃO BONITO */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 12px;
-      align-items: stretch;
+      align-items: center;
+      align-content: center;
       flex: 1 1 auto;
       min-height: 0;
     }
 
-    /* MODO GRADE */
+    .cards-track:not(.grid-mode):not(.mode-3d) .card-3d-wrap {
+      height: 306px;
+      max-height: 306px;
+    }
+
+    /* MODO GRADE: MAIOR ALTURA E COMPRIMENTO */
     .cards-track.grid-mode {
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
       overflow-y: auto;
       padding-right: 4px;
+      align-items: stretch;
       align-content: start;
     }
 
-    /* MODO CARROSSEL 3D: COMPACTO E COM GIRO SUAVE */
+    .cards-track.grid-mode .card-3d-wrap {
+      min-height: 342px;
+      height: auto;
+      max-height: none;
+    }
+
+    .cards-track.grid-mode .card-img-banner {
+      height: 114px;
+    }
+
+    /* MODO CARROSSEL 3D: MAIOR ALTURA E COMPRIMENTO */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 290px;
+      min-height: 376px;
       perspective: 1400px;
       transform-style: preserve-3d;
       overflow: hidden;
-      padding: 4px 0;
+      padding: 6px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: 272px;
-      max-width: 88vw;
-      min-height: 296px;
-      height: auto;
+      width: 306px;
+      max-width: 90vw;
+      min-height: 368px;
+      height: 368px;
       transform-style: preserve-3d;
       transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
     }
@@ -690,14 +707,14 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-220px, 6px, -135px) rotateY(16deg) scale(0.84);
+      transform: translate3d(-235px, 6px, -135px) rotateY(16deg) scale(0.84);
       opacity: 0.24;
       z-index: 2;
       pointer-events: none;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(220px, 6px, -135px) rotateY(-16deg) scale(0.84);
+      transform: translate3d(235px, 6px, -135px) rotateY(-16deg) scale(0.84);
       opacity: 0.24;
       z-index: 2;
       pointer-events: none;
@@ -721,7 +738,6 @@
 
     .card-3d-wrap {
       perspective: 1400px;
-      height: 100%;
       min-height: 0;
     }
 
@@ -816,40 +832,40 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 10px 12px 11px;
+      padding: 11px 13px 12px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 7px;
+      gap: 8px;
     }
 
     .cards-track.mode-3d .card-body {
-      padding: 10px 12px 11px;
-      gap: 7px;
+      padding: 13px 15px 14px;
+      gap: 9px;
     }
 
     .cards-track.mode-3d .card-img-banner {
-      height: 92px;
+      height: 118px;
     }
 
     .cards-track.mode-3d .btn-primary-card,
     .cards-track.mode-3d .btn-glass-card,
     .cards-track.mode-3d .btn-nova-aba {
-      height: 31px;
-      min-height: 31px;
-      max-height: 31px;
+      height: 33px;
+      min-height: 33px;
+      max-height: 33px;
     }
 
     .cards-track.mode-3d .acessar-line {
-      height: 31px;
+      height: 33px;
     }
 
     .card-img-banner {
       position: relative;
       width: 100%;
-      height: 98px;
+      height: 96px;
       border-radius: 9px;
       background-size: cover;
       background-position: center;
@@ -930,7 +946,7 @@
 
     .card-desc-txt {
       font-size: 11px;
-      line-height: 1.32;
+      line-height: 1.35;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -1288,9 +1304,9 @@
 
     @media (max-width: 760px) {
       .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .cards-track.mode-3d .card-3d-wrap { width: 244px; }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-135px, 6px, -135px) rotateY(14deg) scale(0.78); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(135px, 6px, -135px) rotateY(-14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap { width: 266px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-145px, 6px, -135px) rotateY(14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(145px, 6px, -135px) rotateY(-14deg) scale(0.78); }
     }
 
     @media (max-width: 520px) {
@@ -1797,7 +1813,7 @@
 
         if (total === 0) {
           cardsWrapper.innerHTML = `
-            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative;">
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
               <div class="card-surface">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
                   <strong style="color:#7dd3fc; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
