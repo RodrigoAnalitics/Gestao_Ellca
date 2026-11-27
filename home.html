@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ELLCA | CENTRAL DE CONTROLE</title>
+  <title>ELLCA | HOME • CENTRAL DE CONTROLE</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,25 +33,35 @@
       inherits: false;
     }
 
-    /* Feixe contínuo de 360 graus: completa 1 volta exata a cada --card-turn (3.2s) */
+    /* Feixe contínuo 360 graus: nunca reseta nem pisca */
     @keyframes borderSweepContinuous {
-      from { --sweep-angle: 0deg; }
-      to { --sweep-angle: 360deg; }
+      from {
+        --sweep-angle: 0deg;
+      }
+      to {
+        --sweep-angle: 360deg;
+      }
     }
 
-    /* Cada card fica ativo por 1 ciclo inteiro (--card-turn = 25% de 4 cards) antes de passar ao próximo */
+    /* Revezamento suave de brilho entre todos os cards em sequência */
     @keyframes cardGlowRelay {
-      0%, 26% {
+      0%, 100% {
+        opacity: 0.78;
+        background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
+        border-color: rgba(147, 197, 253, 0.20);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+      3%, 13% {
         opacity: 1;
         background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
-        border-color: rgba(250, 204, 21, 0.72);
+        border-color: rgba(125, 211, 252, 0.78);
         box-shadow:
           0 20px 44px rgba(0, 0, 0, 0.68),
-          0 0 32px rgba(56, 189, 248, 0.34),
-          0 0 14px rgba(250, 204, 21, 0.24),
+          0 0 32px rgba(56, 189, 248, 0.36),
+          0 0 12px rgba(125, 211, 252, 0.26),
           inset 0 1px 0 rgba(255, 255, 255, 0.30);
       }
-      28%, 100% {
+      18% {
         opacity: 0.78;
         background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
         border-color: rgba(147, 197, 253, 0.20);
@@ -60,15 +70,38 @@
     }
 
     @keyframes borderBeamRelay {
-      0%, 25% { opacity: 1; }
-      27%, 100% { opacity: 0; }
+      0%, 100% {
+        opacity: 0;
+      }
+      2.5%, 13.5% {
+        opacity: 1;
+      }
+      17.5% {
+        opacity: 0;
+      }
     }
 
     @keyframes paletteCycle360 {
-      0%, 24.99% { --edge-a: #facc15; --edge-b: #f59e0b; --edge-c: #fef08a; }
-      25%, 49.99% { --edge-a: #38bdf8; --edge-b: #2563eb; --edge-c: #bae6fd; }
-      50%, 74.99% { --edge-a: #34d399; --edge-b: #0284c7; --edge-c: #a7f3d0; }
-      75%, 100% { --edge-a: #818cf8; --edge-b: #06b6d4; --edge-c: #e0e7ff; }
+      0%, 24.99% {
+        --edge-a: #38bdf8;
+        --edge-b: #2563eb;
+        --edge-c: #bae6fd;
+      }
+      25%, 49.99% {
+        --edge-a: #facc15;
+        --edge-b: #f59e0b;
+        --edge-c: #fef08a;
+      }
+      50%, 74.99% {
+        --edge-a: #34d399;
+        --edge-b: #0284c7;
+        --edge-c: #a7f3d0;
+      }
+      75%, 100% {
+        --edge-a: #818cf8;
+        --edge-b: #06b6d4;
+        --edge-c: #e0e7ff;
+      }
     }
 
     @keyframes pulseDot {
@@ -129,7 +162,7 @@
 
     /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
     .top-navbar-collapse {
-      max-height: 60px;
+      max-height: 90px;
       opacity: 1;
       transform: translateY(0);
       overflow: hidden;
@@ -149,22 +182,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       padding: 1px 2px;
+      width: 100%;
     }
 
     .nav-brand-side {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .brand-logo {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
@@ -172,9 +205,9 @@
     }
 
     .brand-logo img {
-      height: 34px;
+      height: 32px;
       width: auto;
-      max-width: 150px;
+      max-width: 140px;
       object-fit: contain;
       display: block;
     }
@@ -184,23 +217,24 @@
       align-items: center;
       gap: 8px;
       font-weight: 800;
-      font-size: 19px;
+      font-size: 18px;
       color: #60a5fa;
     }
 
     .module-pill {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 4px 12px;
+      gap: 6px;
+      padding: 4px 10px;
       border-radius: 999px;
       background: rgba(14, 165, 233, 0.14);
       border: 1px solid rgba(56, 189, 248, 0.38);
       color: #38bdf8;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 0.45px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .module-pill .dot {
@@ -213,39 +247,41 @@
     }
 
     .user-avatar-ring {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 1.5px solid #38bdf8;
       background: rgba(15, 23, 42, 0.85);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.32);
-      color: #bae6fd;
-      font-size: 11px;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-size: 10.5px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .nav-links-side {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      flex-wrap: nowrap;
+      gap: 4px;
     }
 
     .top-nav-link {
       text-decoration: none;
       color: #cbd5e1;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
+      gap: 5px;
+      padding: 5px 7px;
       border-radius: 8px;
+      white-space: nowrap;
       transition: color 0.2s ease, background 0.2s ease;
     }
 
@@ -255,6 +291,29 @@
       background: rgba(56, 189, 248, 0.14);
     }
 
+    .btn-back-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.22);
+      color: #ffffff;
+    }
+
     /* ================= HERO BANNER ================= */
     .hero-banner {
       position: relative;
@@ -262,10 +321,10 @@
       padding: 15px 22px;
       background:
         linear-gradient(135deg, rgba(14, 32, 66, 0.82) 0%, rgba(9, 17, 36, 0.86) 55%, rgba(15, 32, 64, 0.80) 100%),
-        url('img/Card_dashboard.jpg') center/cover no-repeat;
+        url('img/estrutura.jpg') center/cover no-repeat;
       backdrop-filter: blur(20px) saturate(145%);
       -webkit-backdrop-filter: blur(20px) saturate(145%);
-      border: 1px solid rgba(56, 189, 248, 0.32);
+      border: 1px solid rgba(96, 165, 250, 0.32);
       box-shadow:
         0 14px 32px rgba(0, 0, 0, 0.55),
         inset 0 1px 0 rgba(255, 255, 255, 0.14);
@@ -351,8 +410,13 @@
       gap: 5px;
     }
 
-    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
-    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
+    .hero-greeting-pill .pill-temp {
+      color: #7dd3fc;
+    }
+
+    .hero-greeting-pill .pill-clock {
+      color: #6ee7b7;
+    }
 
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px);
@@ -652,7 +716,7 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL: 1 LINHA COM ATÉ 4 CARDS NO TAMANHO OFICIAL DA HOME */
+    /* MODO CARROSSEL: 1 LINHA COM ATÉ 4 CARDS NO DESKTOP */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(4, minmax(272px, var(--card-w)));
@@ -681,12 +745,13 @@
       height: var(--card-img-h);
     }
 
-    @media (max-width: 1180px) {
+    @media (max-width: 1100px) {
       .cards-track {
         grid-template-columns: repeat(2, minmax(272px, var(--card-w)));
       }
     }
 
+    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -697,35 +762,25 @@
       padding: 4px 2px 8px;
     }
 
-    .cards-track.grid-mode .card-3d-wrap {
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
-    }
-
-    .cards-track.grid-mode .card-img-banner {
-      height: var(--card-img-h);
-    }
-
+    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 378px;
+      min-height: 392px;
       overflow: hidden;
       padding: 12px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: var(--card-w);
-      min-width: var(--card-w);
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
+      width: clamp(290px, 23vw, 332px);
+      min-width: clamp(290px, 23vw, 332px);
+      max-width: clamp(290px, 23vw, 332px);
+      height: 362px;
+      min-height: 362px;
+      max-height: 362px;
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
@@ -784,11 +839,11 @@
       animation: paletteCycle360 48s steps(1, end) infinite;
       opacity: 1;
       background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
-      border-color: rgba(250, 204, 21, 0.72);
+      border-color: rgba(125, 211, 252, 0.78);
       box-shadow:
         0 20px 44px rgba(0, 0, 0, 0.68),
         0 0 32px rgba(56, 189, 248, 0.36),
-        0 0 14px rgba(250, 204, 21, 0.24),
+        0 0 12px rgba(125, 211, 252, 0.26),
         inset 0 1px 0 rgba(255, 255, 255, 0.30);
     }
 
@@ -804,6 +859,7 @@
       pointer-events: none;
     }
 
+    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
@@ -811,7 +867,9 @@
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
-    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; }
+    .card-3d-wrap.sem-acesso .card-surface::before {
+      opacity: 0.10 !important;
+    }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
     .card-3d-wrap.sem-acesso .btn-nova-aba {
@@ -824,11 +882,12 @@
       box-shadow: none;
     }
 
+    /* LUZ 360° CONTÍNUA EM TODOS OS CARDS */
     .card-surface {
       --sweep-angle: 0deg;
-      --edge-a: #facc15;
-      --edge-b: #f59e0b;
-      --edge-c: #fef08a;
+      --edge-a: #38bdf8;
+      --edge-b: #2563eb;
+      --edge-c: #bae6fd;
       --relay-delay: 0s;
       position: relative;
       border-radius: 16px;
@@ -847,7 +906,7 @@
       overflow: hidden;
       animation:
         paletteCycle360 48s steps(1, end) infinite,
-        cardGlowRelay var(--cycle-total) linear var(--relay-delay) infinite;
+        cardGlowRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
     }
 
     .card-surface::before {
@@ -873,7 +932,7 @@
       z-index: 4;
       animation:
         borderSweepContinuous var(--card-turn) linear infinite,
-        borderBeamRelay var(--cycle-total) linear var(--relay-delay) infinite;
+        borderBeamRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
     }
 
     .card-surface:hover {
@@ -887,7 +946,9 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
     }
 
-    .card-surface:hover::before { opacity: 1 !important; }
+    .card-surface:hover::before {
+      opacity: 1 !important;
+    }
 
     body.glow-paused .card-surface,
     body.glow-paused .card-surface::before {
@@ -903,7 +964,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
+      gap: 7px;
     }
 
     .card-img-banner {
@@ -986,9 +1047,9 @@
 
     .card-desc-txt {
       font-size: 11px;
-      line-height: 1.38;
+      line-height: 1.35;
       color: #cbd5e1;
-      margin-top: 3px;
+      margin-top: 2px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -1006,7 +1067,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 3px 8px;
+      padding: 2.5px 8px;
       border-radius: 6px;
       background: rgba(6, 16, 36, 0.68);
       border: 1px solid rgba(56, 189, 248, 0.25);
@@ -1021,7 +1082,7 @@
     .card-actions-stack {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       margin-top: auto;
     }
 
@@ -1030,15 +1091,15 @@
       align-items: center;
       gap: 6px;
       width: 100%;
-      height: 31px;
+      height: 30px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 31px;
-      min-height: 31px;
-      max-height: 31px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(56, 189, 248, 0.58);
@@ -1064,11 +1125,11 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 30px;
+      flex: 0 0 29px;
       width: 100%;
-      height: 30px;
-      min-height: 30px;
-      max-height: 30px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(147, 197, 253, 0.28);
@@ -1093,10 +1154,10 @@
     }
 
     .btn-nova-aba {
-      width: 31px;
-      height: 31px;
-      min-height: 31px;
-      max-height: 31px;
+      width: 30px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -1318,8 +1379,20 @@
 
     .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
 
+    @media (max-width: 1180px) {
+      .top-navbar {
+        flex-wrap: wrap;
+      }
+
+      .nav-links-side {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
     @media (max-width: 760px) {
-      .cards-track.mode-3d .card-3d-wrap { width: 278px; min-width: 278px; max-width: 278px; }
+      .cards-track.mode-3d .card-3d-wrap { width: 274px; min-width: 274px; max-width: 274px; }
       .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); }
       .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); }
       .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
@@ -1345,6 +1418,7 @@
 <body>
   <div class="page-container">
 
+    <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
     <div class="top-navbar-collapse">
       <header class="top-navbar">
         <div class="nav-brand-side">
@@ -1356,7 +1430,7 @@
 
           <span class="module-pill">
             <span class="dot"></span>
-            REDES ONLINE • 12ms · CENTRAL DE CONTROLE
+            REDES ONLINE • 12ms · HOME CENTRAL
           </span>
 
           <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
@@ -1369,48 +1443,52 @@
           <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
           <a href="gerencial.html" class="top-nav-link"><i class="fa-solid fa-crown"></i> GERÊNCIA</a>
           <a href="organograma.html" class="top-nav-link"><i class="fa-solid fa-sitemap"></i> ORGANOGRAMA</a>
+          <button type="button" class="btn-back-circle" id="btnVoltarPortal" title="Voltar para a entrada do portal">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
         </nav>
       </header>
     </div>
 
+    <!-- 2. HERO BANNER -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
           <div class="hero-icon-box">
-            <i class="fa-solid fa-layer-group"></i>
+            <i class="fa-solid fa-house-user"></i>
           </div>
           <div>
             <div class="hero-greeting-pill tabular" id="homeGreetingPill">
               <i class="fa-solid fa-sun" id="homeGreetingIcon"></i>
               <span id="homeGreetingText">Olá, Boa tarde, Rodrigo Lopes • Carregando local e clima...</span>
             </div>
-            <h1 class="hero-main-title">CENTRAL DE <span>CONTROLE ELLCA</span></h1>
+            <h1 class="hero-main-title">CENTRAL DE <span>CONTROLE</span></h1>
             <p class="hero-subtitle">
-              Acesso unificado aos painéis analíticos, planilhas operacionais e módulos de gestão conforme o perfil autorizado.
+              Acesso rápido aos painéis estratégicos, planilhas operacionais, supervisão de campo, gerência e estrutura organizacional.
             </p>
           </div>
         </div>
 
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
-            <small>Módulos Ativos</small>
-            <strong id="heroTotalModulos">5 Módulos</strong>
+            <small>Módulos Disponíveis</small>
+            <strong id="statQtdModulos">5 Módulos</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Integrações Ativas</small>
+            <strong style="color:#6ee7b7;">100% Online</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Ambiente</small>
-            <strong style="color:#7dd3fc;">Integrado</strong>
-          </div>
-          <div class="quick-stat-pill">
-            <small>Status</small>
-            <strong style="color:#6ee7b7;">Online</strong>
+            <strong style="color:#7dd3fc;">Produção ELLCA</strong>
           </div>
         </div>
       </div>
 
       <div class="hero-actions-row">
         <span class="live-badge tabular">
-          <i class="fa-solid fa-circle-check"></i>
-          <span id="liveClockTxt">Portal ativo · --:--</span>
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span id="liveClockTxt">Portal Conectado · --:--</span>
         </span>
 
         <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
@@ -1440,24 +1518,26 @@
       </div>
     </section>
 
+    <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (<span id="catTodosCount">5</span>)</button>
-        <button type="button" class="cat-btn" data-cat="BI_DADOS"><i class="fa-solid fa-chart-pie"></i> BI & Dados</button>
-        <button type="button" class="cat-btn" data-cat="EXECUTIVO"><i class="fa-solid fa-crown"></i> Executivo & Equipe</button>
-        <button type="button" class="cat-btn" data-cat="SUPERVISAO"><i class="fa-solid fa-user-shield"></i> Supervisão</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (5)</button>
+        <button type="button" class="cat-btn" data-cat="ANALISE"><i class="fa-solid fa-chart-pie"></i> Análise & Dados</button>
+        <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-user-shield"></i> Operação & Campo</button>
+        <button type="button" class="cat-btn" data-cat="GESTAO"><i class="fa-solid fa-crown"></i> Gestão & Estrutura</button>
       </div>
 
       <div class="search-box-wrap">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar módulo na Central de Controle..." />
+        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar módulo, painel ou área..." />
       </div>
     </div>
 
+    <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-layer-group"></i> EXIBINDO 4 DE 5 MÓDULOS · MODO CARROSSEL
+          <i class="fa-solid fa-house-user"></i> EXIBINDO 5 MÓDULOS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1477,11 +1557,12 @@
       <div class="pagination-dots" id="paginationDots"></div>
     </section>
 
+    <!-- 5. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <div class="footer-system-text">
         <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
         <span>•</span>
-        <span>Módulo: <strong>Central de Controle</strong></span>
+        <span>Módulo: <strong>Home Central</strong></span>
       </div>
 
       <div class="footer-right-actions">
@@ -1497,6 +1578,7 @@
 
   </div>
 
+  <!-- DRAWER LATERAL DE DETALHES -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
@@ -1509,14 +1591,14 @@
     <div class="details-meta-grid">
       <div class="details-meta-box">
         <small>Categoria</small>
-        <strong id="drawerModCat">BI & DADOS</strong>
+        <strong id="drawerModCat">ANALISE</strong>
       </div>
       <div class="details-meta-box">
         <small>Indicador</small>
         <strong id="drawerModKpi">Ativo</strong>
       </div>
       <div class="details-meta-box">
-        <small>Rota</small>
+        <small>Destino</small>
         <strong id="drawerModRota">dashboard.html</strong>
       </div>
       <div class="details-meta-box">
@@ -1525,16 +1607,16 @@
       </div>
     </div>
     <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
-      Recursos Disponíveis
+      Recursos do Módulo
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
     <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ACESSAR MÓDULO <i class="fa-solid fa-rocket"></i>
+      ACESSAR MÓDULO <i class="fa-solid fa-arrow-right"></i>
     </button>
   </aside>
 
   <script>
-    (function iniciarHomeExecutivo() {
+    (function iniciarHome() {
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
         "Rodrigo Lopes": ["todos"],
@@ -1563,94 +1645,96 @@
 
       const MODULOS_HOME = [
         {
-          key: "dashboards",
-          setor: null,
-          categoria: "BI_DADOS",
-          badge: "BI",
+          key: "mod_dashboard",
+          setor: "todos",
+          categoria: "ANALISE",
+          badge: "BI & KPIs",
           badgeGold: false,
-          icone: "fa-chart-column",
-          imagem: "img/Card_dashboard.jpg",
-          titulo: "DASHBOARDS",
-          desc: "Centralização de dados e indicadores para acompanhamento ágil e visual das informações.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-          kpiResumo: "+18% · Mensal",
+          icone: "fa-chart-pie",
+          imagem: "img/Card_Produtividade.jpg",
+          titulo: "DASHBOARD",
+          desc: "Indicadores consolidados, desempenho das frentes, metas e visão analítica.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-trend-up"></i> Tempo Real</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-column"></i> KPIs</span>',
+          kpiResumo: "Tempo Real · KPIs",
           url: "dashboard.html",
-          searchTags: "dashboards bi indicadores graficos",
-          recursos: ["Painéis interativos Power BI & Looker", "Filtro por setor e competência", "Exportação rápida de indicadores"]
+          setorLabel: "dashboard.html",
+          searchTags: "dashboard bi indicadores kpis metas desempenho analise",
+          recursos: ["Indicadores por frente e período", "Acompanhamento de metas e aderência", "Filtros dinâmicos de análise"]
         },
         {
-          key: "banco_dados",
-          setor: null,
-          categoria: "BI_DADOS",
-          badge: "PLANILHA",
+          key: "mod_planilhas",
+          setor: "todos",
+          categoria: "ANALISE",
+          badge: "PLANILHAS",
           badgeGold: true,
-          icone: "fa-database",
-          imagem: "img/Card_base_dados.jpg",
-          titulo: "BANCO DE DADOS",
-          desc: "Controle unificado e planilhas inteligentes para auditoria.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
-          kpi2: '<span><i class="fa-solid fa-calendar"></i> Período</span>',
-          kpiResumo: "92% · Período",
+          icone: "fa-file-excel",
+          imagem: "img/Programacao.jpg",
+          titulo: "PLANILHAS",
+          desc: "Bases operacionais, controles diários, lançamentos e consultas tabulares.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-table"></i> Bases</span>',
+          kpi2: '<span><i class="fa-solid fa-file-lines"></i> Controle</span>',
+          kpiResumo: "Bases · Controle",
           url: "planilha.html",
-          searchTags: "banco dados planilhas auditoria registros",
-          recursos: ["Planilhas padronizadas por área", "Base histórica consolidada", "Consulta rápida de registros"]
+          setorLabel: "planilha.html",
+          searchTags: "planilhas excel bases operacionais lançamentos controles",
+          recursos: ["Acesso rápido às bases operacionais", "Consulta e organização de registros", "Apoio ao fechamento diário"]
         },
         {
-          key: "gerencial",
-          setor: "gerencial",
-          categoria: "EXECUTIVO",
-          badge: "EXECUTIVO",
+          key: "mod_supervisor",
+          setor: "produtividade",
+          categoria: "OPERACAO",
+          badge: "SUPERVISÃO",
+          badgeGold: true,
+          icone: "fa-user-shield",
+          imagem: "img/sesmt.jpg",
+          titulo: "SUPERVISÃO",
+          desc: "Programação de campo, produção das equipes, inspeções e rotina operacional.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-hard-hat"></i> 93%</span>',
+          kpi2: '<span><i class="fa-solid fa-people-group"></i> Campo</span>',
+          kpiResumo: "93% · Campo",
+          url: "supervisor.html",
+          setorLabel: "supervisor.html",
+          searchTags: "supervisão produção campo equipes programação inspeções",
+          recursos: ["Programação e ritmo das equipes", "Inspeções de campo e bases", "Acompanhamento operacional diário"]
+        },
+        {
+          key: "mod_gerencial",
+          setor: "todos",
+          categoria: "GESTAO",
+          badge: "GERÊNCIA",
           badgeGold: true,
           icone: "fa-crown",
-          imagem: "img/Card_gerencial.jpg",
-          titulo: "GERÊNCIA 🏆",
-          desc: "Indicadores estratégicos e operacionais para uma visão integrada dos resultados da empresa.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> Restrito</span>',
-          kpi2: '<span><i class="fa-solid fa-crown"></i> Diretoria</span>',
-          kpiResumo: "Restrito · Diretoria",
+          imagem: "img/estrutura.jpg",
+          titulo: "GERÊNCIA",
+          desc: "Visão gerencial por departamento, resultados, aprovações e controle executivo.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-briefcase"></i> Executivo</span>',
+          kpi2: '<span><i class="fa-solid fa-layer-group"></i> Áreas</span>',
+          kpiResumo: "Executivo · Áreas",
           url: "gerencial.html",
-          searchTags: "gerencial diretoria executivo resultados metas",
-          recursos: ["Resumo executivo consolidado", "Aderência às metas mensais", "Governança e relatórios da diretoria"]
+          setorLabel: "gerencial.html",
+          searchTags: "gerência executivo gestão departamentos resultados liderança",
+          recursos: ["Visão consolidada por área", "Acompanhamento de resultados", "Controle executivo de operações"]
         },
         {
-          key: "organograma",
-          setor: "organograma",
-          categoria: "EXECUTIVO",
-          badge: "EQUIPE",
+          key: "mod_organograma",
+          setor: "estrutura",
+          categoria: "GESTAO",
+          badge: "ESTRUTURA",
           badgeGold: false,
-          icone: "fa-users",
-          imagem: "img/Card_Organograma.jpg",
+          icone: "fa-sitemap",
+          imagem: "img/estrutura.jpg",
           titulo: "ORGANOGRAMA",
-          desc: "Gestão centralizada de informações, acessos e cadastros dos colaboradores da empresa.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-user-check"></i> Ativo</span>',
-          kpi2: '<span><i class="fa-solid fa-id-badge"></i> Cadastros</span>',
-          kpiResumo: "Ativo · Cadastros",
+          desc: "Hierarquia corporativa, distribuição de cargos, lideranças e setores.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-sitemap"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-users-gear"></i> Hierarquia</span>',
+          kpiResumo: "Ativo · Hierarquia",
           url: "organograma.html",
-          searchTags: "colaboradores equipe rh dp acessos cadastros",
-          recursos: ["Cadastro e status de equipes", "Controle de perfis e permissões", "Histórico operacional por colaborador"]
-        },
-        {
-          key: "supervisor",
-          setor: "supervisor",
-          categoria: "SUPERVISAO",
-          badge: "CAMPO",
-          badgeGold: false,
-          icone: "fa-user-shield",
-          imagem: "img/Card_supervisor.jpg",
-          titulo: "SUPERVISOR",
-          desc: "Acompanhamento de equipes, rotinas operacionais e metas da supervisão em campo.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-bolt"></i> 93%</span>',
-          kpi2: '<span><i class="fa-solid fa-clipboard-check"></i> Turno</span>',
-          kpiResumo: "93% · Turno",
-          url: "supervisor.html",
-          searchTags: "supervisor campo equipes produtividade programacao",
-          recursos: ["Monitoramento de produtividade diária", "Programação de equipes em campo", "Acompanhamento de ocorrências"]
+          setorLabel: "organograma.html",
+          searchTags: "organograma hierarquia estrutura cargos lideranças setores",
+          recursos: ["Mapeamento de cargos e lideranças", "Distribuição por departamento", "Visualização estrutural da empresa"]
         }
       ];
-
-      document.getElementById("heroTotalModulos").textContent = `${MODULOS_HOME.length} Módulos`;
-      document.getElementById("catTodosCount").textContent = MODULOS_HOME.length;
 
       function capitalizarPrimeira(texto) {
         const limpo = String(texto || "").trim();
@@ -1695,17 +1779,6 @@
         const partes = String(nome || "RL").trim().split(/\s+/);
         if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
-      }
-
-      function rotaTravada(url) {
-        const destino = String(url || "").trim();
-        return !destino || destino === "#";
-      }
-
-      function navegarParaModulo(mod) {
-        if (!mod || !usuarioTemAcesso(mod)) return;
-        if (rotaTravada(mod.url)) return;
-        window.location.href = mod.url;
       }
 
       const estadoClima = {
@@ -1753,7 +1826,7 @@
             <span class="pill-item pill-clock">${hh}:${mm}:${ss}</span>
           `;
         }
-        if (clockEl) clockEl.textContent = `Portal ativo · ${hh}:${mm}`;
+        if (clockEl) clockEl.textContent = `Portal Conectado · ${hh}:${mm}`;
       }
 
       async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
@@ -1816,15 +1889,36 @@
       }
 
       function usuarioTemAcesso(item) {
-        const permitidos = obterSetoresPermitidosUsuario();
-        if (permitidos.includes("todos") || permitidos.includes("*")) return true;
         if (!item.setor) return true;
-        return permitidos.includes(String(item.setor).toLowerCase());
+        const permitidos = obterSetoresPermitidosUsuario();
+        return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(item.setor).toLowerCase());
+      }
+
+      function temLinkValido(url) {
+        const limpo = String(url || "").trim();
+        return limpo !== "" && limpo !== "#";
+      }
+
+      function navegarParaDestino(mod) {
+        if (!mod || !usuarioTemAcesso(mod)) return;
+        if (temLinkValido(mod.url)) {
+          window.location.href = mod.url.trim();
+        }
+      }
+
+      document.getElementById("statQtdModulos").textContent = `${MODULOS_HOME.length} Módulos`;
+      const btnTodosCat = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
+      if (btnTodosCat) {
+        btnTodosCat.innerHTML = `<i class="fa-solid fa-layer-group"></i> Todos (${MODULOS_HOME.length})`;
       }
 
       document.getElementById("footerUserName").textContent = usuarioAtual;
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
+
+      document.getElementById("btnVoltarPortal").addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
 
       document.getElementById("btnSairRodape").addEventListener("click", () => {
         sessionStorage.removeItem("ellca_auth");
@@ -1864,15 +1958,366 @@
           });
       }
 
-      // 1 linha com até 4 cards no carrossel
+      // 1 linha com até 4 cards no carrossel desktop, 2 no tablet e 1 no mobile
       function obterQtdVisivelCarrossel() {
         if (window.innerWidth <= 520) return 1;
-        if (window.innerWidth <= 1180) return 2;
+        if (window.innerWidth <= 1100) return 2;
         return 4;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
-        const travado = rotaTravada(mod.url);
         const isFav = favs.includes(mod.key);
-        const
+        const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
+
+        return `
+          <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" data-slot-idx="${slotIdx}" data-mod-key="${mod.key}">
+            <div class="card-surface" style="--relay-delay: ${relayDelay};">
+              <div class="card-body">
+                <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
+                  <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
+                    ${permitido ? `${mod.badge} <i class="fa-solid ${mod.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
+                  </span>
+                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos">
+                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                  </button>
+                </div>
+
+                <div>
+                  <h3 class="card-title-txt">${mod.titulo}</h3>
+                  <p class="card-desc-txt">${mod.desc}</p>
+                </div>
+
+                <div class="kpi-pills-row">
+                  <span class="kpi-pill-item">${mod.kpi1}</span>
+                  <span class="kpi-pill-item">${mod.kpi2}</span>
+                </div>
+
+                <div class="card-actions-stack">
+                  <div class="acessar-line">
+                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                      ${permitido ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                    </button>
+                    <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes">
+                      <i class="fa-solid fa-circle-info"></i>
+                    </button>
+                  </div>
+                  <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
+                    DETALHES
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderizarCards(forcarRebuild = false) {
+        const itens = obterItensFiltrados();
+        const total = itens.length;
+
+        document.documentElement.style.setProperty("--card-count", Math.max(1, total));
+        cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
+        cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
+
+        const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
+        const mostraSetas = modoVisualizacao !== "grade" && (modoVisualizacao === "3d" ? total > 1 : total > qtdVisivel);
+        document.getElementById("carouselNavControls").style.display = mostraSetas ? "inline-flex" : "none";
+        paginationDots.style.display = mostraSetas ? "flex" : "none";
+
+        const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
+        document.getElementById("carouselStatusLabel").innerHTML =
+          `<i class="fa-solid fa-house-user"></i> EXIBINDO ${total} DE ${MODULOS_HOME.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+
+        if (total === 0) {
+          assinaturaDomAtual = "vazio";
+          cardsWrapper.innerHTML = `
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none; max-width: 100%;">
+              <div class="card-surface">
+                <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
+                  <strong style="color:#7dd3fc; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
+                  <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
+                </div>
+              </div>
+            </div>
+          `;
+          paginationDots.innerHTML = "";
+          return;
+        }
+
+        if (indiceCarrossel >= total) indiceCarrossel = 0;
+        const favs = obterFavoritos();
+
+        if (modoVisualizacao === "3d") {
+          const prevIdx = (indiceCarrossel - 1 + total) % total;
+          const nextIdx = (indiceCarrossel + 1) % total;
+          const novaAssinatura = `3d|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
+
+          if (!forcarRebuild && assinaturaDomAtual === novaAssinatura) {
+            cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]").forEach((wrap, idx) => {
+              wrap.classList.remove("slot-center", "slot-left", "slot-right", "slot-hidden");
+              let slotClass = "slot-hidden";
+              if (idx === indiceCarrossel) slotClass = "slot-center";
+              else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+              else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+              wrap.classList.add(slotClass);
+            });
+          } else {
+            assinaturaDomAtual = novaAssinatura;
+            cardsWrapper.innerHTML = itens.map((item, idx) => {
+              let slotClass = "slot-hidden";
+              if (idx === indiceCarrossel) slotClass = "slot-center";
+              else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+              else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+              return criarHtmlCard(item, favs, idx, slotClass);
+            }).join("");
+            vincularEventosCards();
+            aplicarTilt3D();
+          }
+        } else if (modoVisualizacao === "grade") {
+          const novaAssinatura = `grade|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
+          if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
+            assinaturaDomAtual = novaAssinatura;
+            cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
+            vincularEventosCards();
+            aplicarTilt3D();
+          }
+        } else {
+          const listaExibida = [];
+          for (let i = 0; i < qtdVisivel; i++) {
+            listaExibida.push(itens[(indiceCarrossel + i) % total]);
+          }
+          document.documentElement.style.setProperty("--card-count", Math.max(1, listaExibida.length));
+          const novaAssinatura = `carrossel|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
+          if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
+            assinaturaDomAtual = novaAssinatura;
+            cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
+            vincularEventosCards();
+            aplicarTilt3D();
+          }
+        }
+
+        if (mostraSetas) {
+          paginationDots.innerHTML = itens.map((_, idx) => `
+            <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
+          `).join("");
+
+          paginationDots.querySelectorAll(".p-dot").forEach(dot => {
+            dot.addEventListener("click", () => {
+              indiceCarrossel = Number(dot.getAttribute("data-dot-idx"));
+              renderizarCards(false);
+            });
+          });
+        }
+      }
+
+      function vincularEventosCards() {
+        cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const mod = MODULOS_HOME.find(m => m.key === btn.getAttribute("data-key"));
+            if (!mod || !usuarioTemAcesso(mod)) return;
+            navegarParaDestino(mod);
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".btn-detalhes-mod").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            abrirDrawerDetalhes(btn.getAttribute("data-key"));
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".btn-fav-card").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const key = btn.getAttribute("data-fav-key");
+            let favs = obterFavoritos();
+            if (favs.includes(key)) favs = favs.filter(x => x !== key);
+            else favs.unshift(key);
+            salvarFavoritos(favs);
+            renderizarCards(true);
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".card-3d-wrap").forEach(wrap => {
+          wrap.addEventListener("click", () => {
+            if (modoVisualizacao !== "3d") return;
+            const slotIdx = Number(wrap.getAttribute("data-slot-idx"));
+            if (!Number.isNaN(slotIdx) && slotIdx !== indiceCarrossel) {
+              indiceCarrossel = slotIdx;
+              renderizarCards(false);
+            }
+          });
+        });
+      }
+
+      function aplicarTilt3D() {
+        document.querySelectorAll(".card-3d-wrap:not(.sem-acesso):not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
+          const surface = wrap.querySelector(".card-surface");
+          if (!surface || wrap.dataset.tiltBound) return;
+          wrap.dataset.tiltBound = "1";
+          wrap.addEventListener("mousemove", (e) => {
+            if (modoVisualizacao === "3d") return;
+            const rect = wrap.getBoundingClientRect();
+            const nx = (e.clientX - rect.left) / rect.width - 0.5;
+            const ny = (e.clientY - rect.top) / rect.height - 0.5;
+            surface.style.setProperty("--ry", `${(nx * 2.2).toFixed(2)}deg`);
+            surface.style.setProperty("--rx", `${(-ny * 2.2).toFixed(2)}deg`);
+          });
+          wrap.addEventListener("mouseleave", () => {
+            surface.style.setProperty("--ry", "0deg");
+            surface.style.setProperty("--rx", "0deg");
+          });
+        });
+      }
+
+      function abrirDrawerDetalhes(key) {
+        const mod = MODULOS_HOME.find(m => m.key === key);
+        if (!mod) return;
+        itemAtualDrawer = mod;
+        const permitido = usuarioTemAcesso(mod);
+
+        document.getElementById("drawerModTitulo").textContent = mod.titulo;
+        document.getElementById("drawerModDesc").textContent = mod.desc;
+        document.getElementById("drawerModCat").textContent = mod.categoria;
+        document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
+        document.getElementById("drawerModRota").textContent = mod.setorLabel;
+        document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
+        document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
+
+        document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
+          <li>
+            <span>${rec}</span>
+            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i>
+          </li>
+        `).join("");
+
+        const btnDrawer = document.getElementById("btnDrawerAcessar");
+        btnDrawer.disabled = !permitido;
+        btnDrawer.style.opacity = permitido ? "1" : "0.45";
+        btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
+        btnDrawer.innerHTML = permitido
+          ? `ACESSAR MÓDULO <i class="fa-solid fa-arrow-right"></i>`
+          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
+
+        detailsBackdrop.classList.add("open");
+        detailsDrawer.classList.add("open");
+      }
+
+      function fecharDrawerDetalhes() {
+        detailsDrawer.classList.remove("open");
+        detailsBackdrop.classList.remove("open");
+      }
+
+      document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
+      detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
+      document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
+        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
+        navegarParaDestino(itemAtualDrawer);
+      });
+
+      function avancarCarrossel(passo) {
+        const total = obterItensFiltrados().length;
+        if (total <= 1) return;
+        indiceCarrossel = (indiceCarrossel + passo + total) % total;
+        renderizarCards(false);
+      }
+
+      document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
+      document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
+
+      function iniciarAutoPlay() {
+        clearInterval(timerCarrossel);
+        document.body.classList.toggle("glow-paused", !autoPlayAtivo);
+        if (!autoPlayAtivo) return;
+        if (modoVisualizacao === "3d") {
+          timerCarrossel = setInterval(() => avancarCarrossel(1), 5000);
+        }
+      }
+
+      function alternarAutoPlay() {
+        autoPlayAtivo = !autoPlayAtivo;
+        document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
+        document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
+        iniciarAutoPlay();
+      }
+
+      document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
+
+      document.addEventListener("keydown", (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        if (detailsDrawer.classList.contains("open")) {
+          if (e.key === "Escape") fecharDrawerDetalhes();
+          return;
+        }
+
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          avancarCarrossel(1);
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          avancarCarrossel(-1);
+        } else if (e.code === "Space" || e.key === " ") {
+          e.preventDefault();
+          alternarAutoPlay();
+        }
+      });
+
+      const btnModoCarrossel = document.getElementById("btnModoCarrossel");
+      const btnModoCarrossel3D = document.getElementById("btnModoCarrossel3D");
+      const btnModoGrade = document.getElementById("btnModoGrade");
+
+      function atualizarBotoesModo(novoModo) {
+        modoVisualizacao = novoModo;
+        btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        renderizarCards(true);
+        iniciarAutoPlay();
+      }
+
+      btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
+      btnModoCarrossel3D.addEventListener("click", () => atualizarBotoesModo("3d"));
+      btnModoGrade.addEventListener("click", () => atualizarBotoesModo("grade"));
+
+      document.getElementById("btnFiltroFavoritos").addEventListener("click", () => {
+        somenteFavoritos = !somenteFavoritos;
+        document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
+        indiceCarrossel = 0;
+        renderizarCards(true);
+      });
+
+      document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#categoryPills .cat-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          categoriaAtiva = btn.getAttribute("data-cat");
+          indiceCarrossel = 0;
+          renderizarCards(true);
+        });
+      });
+
+      document.getElementById("moduleSearch").addEventListener("input", () => {
+        indiceCarrossel = 0;
+        renderizarCards(true);
+      });
+
+      document.getElementById("btnToggleMenu").addEventListener("click", () => {
+        const oculto = document.body.classList.toggle("menu-hidden");
+        document.getElementById("iconToggleMenu").className = oculto ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
+        document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
+      });
+
+      window.addEventListener("resize", () => {
+        if (modoVisualizacao === "carrossel") renderizarCards(true);
+      });
+
+      renderizarCards(true);
+      iniciarAutoPlay();
+    })();
+  </script>
+</body>
+
+</html>
