@@ -23,7 +23,7 @@
       --card-h: clamp(326px, 39vh, 354px);
       --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
-      --card-count: 5;
+      --card-count: 4;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
@@ -33,31 +33,25 @@
       inherits: false;
     }
 
-    /* Feixe contínuo 360 graus: nunca reseta nem pisca */
+    /* Feixe contínuo de 360 graus: completa 1 volta exata a cada --card-turn (3.2s) */
     @keyframes borderSweepContinuous {
       from { --sweep-angle: 0deg; }
       to { --sweep-angle: 360deg; }
     }
 
-    /* Revezamento suave de brilho entre todos os cards em sequência */
+    /* Cada card fica ativo por 1 ciclo inteiro (--card-turn = 25% de 4 cards) antes de passar ao próximo */
     @keyframes cardGlowRelay {
-      0%, 100% {
-        opacity: 0.78;
-        background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
-        border-color: rgba(147, 197, 253, 0.20);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-      }
-      4%, 17% {
+      0%, 26% {
         opacity: 1;
         background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
-        border-color: rgba(250, 204, 21, 0.68);
+        border-color: rgba(250, 204, 21, 0.72);
         box-shadow:
           0 20px 44px rgba(0, 0, 0, 0.68),
           0 0 32px rgba(56, 189, 248, 0.34),
-          0 0 14px rgba(250, 204, 21, 0.22),
+          0 0 14px rgba(250, 204, 21, 0.24),
           inset 0 1px 0 rgba(255, 255, 255, 0.30);
       }
-      22% {
+      28%, 100% {
         opacity: 0.78;
         background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
         border-color: rgba(147, 197, 253, 0.20);
@@ -66,9 +60,8 @@
     }
 
     @keyframes borderBeamRelay {
-      0%, 100% { opacity: 0; }
-      3.5%, 17.5% { opacity: 1; }
-      21.5% { opacity: 0; }
+      0%, 25% { opacity: 1; }
+      27%, 100% { opacity: 0; }
     }
 
     @keyframes paletteCycle360 {
@@ -358,13 +351,8 @@
       gap: 5px;
     }
 
-    .hero-greeting-pill .pill-temp {
-      color: #7dd3fc;
-    }
-
-    .hero-greeting-pill .pill-clock {
-      color: #6ee7b7;
-    }
+    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
+    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
 
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px);
@@ -664,9 +652,10 @@
       color: #ffffff;
     }
 
+    /* MODO CARROSSEL: 1 LINHA COM ATÉ 4 CARDS NO TAMANHO OFICIAL DA HOME */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
+      grid-template-columns: repeat(4, minmax(272px, var(--card-w)));
       gap: 18px;
       justify-content: center;
       align-items: center;
@@ -692,6 +681,12 @@
       height: var(--card-img-h);
     }
 
+    @media (max-width: 1180px) {
+      .cards-track {
+        grid-template-columns: repeat(2, minmax(272px, var(--card-w)));
+      }
+    }
+
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -700,6 +695,17 @@
       align-items: stretch;
       align-content: start;
       padding: 4px 2px 8px;
+    }
+
+    .cards-track.grid-mode .card-3d-wrap {
+      max-width: var(--card-w);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
+    }
+
+    .cards-track.grid-mode .card-img-banner {
+      height: var(--card-img-h);
     }
 
     .cards-track.mode-3d {
@@ -714,17 +720,17 @@
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: clamp(304px, 25vw, 356px);
-      min-width: clamp(304px, 25vw, 356px);
-      max-width: clamp(304px, 25vw, 356px);
-      height: 344px;
-      min-height: 344px;
-      max-height: 344px;
+      width: var(--card-w);
+      min-width: var(--card-w);
+      max-width: var(--card-w);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
     .cards-track.mode-3d .card-img-banner {
-      height: 104px;
+      height: var(--card-img-h);
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
@@ -805,9 +811,7 @@
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
-    .card-3d-wrap.sem-acesso .card-surface::before {
-      opacity: 0.10 !important;
-    }
+    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
     .card-3d-wrap.sem-acesso .btn-nova-aba {
@@ -843,7 +847,7 @@
       overflow: hidden;
       animation:
         paletteCycle360 48s steps(1, end) infinite,
-        cardGlowRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
+        cardGlowRelay var(--cycle-total) linear var(--relay-delay) infinite;
     }
 
     .card-surface::before {
@@ -869,7 +873,7 @@
       z-index: 4;
       animation:
         borderSweepContinuous var(--card-turn) linear infinite,
-        borderBeamRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
+        borderBeamRelay var(--cycle-total) linear var(--relay-delay) infinite;
     }
 
     .card-surface:hover {
@@ -883,9 +887,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
     }
 
-    .card-surface:hover::before {
-      opacity: 1 !important;
-    }
+    .card-surface:hover::before { opacity: 1 !important; }
 
     body.glow-paused .card-surface,
     body.glow-paused .card-surface::before {
@@ -1343,7 +1345,6 @@
 <body>
   <div class="page-container">
 
-    <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
     <div class="top-navbar-collapse">
       <header class="top-navbar">
         <div class="nav-brand-side">
@@ -1372,7 +1373,6 @@
       </header>
     </div>
 
-    <!-- 2. HERO BANNER -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
@@ -1440,7 +1440,6 @@
       </div>
     </section>
 
-    <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
         <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (<span id="catTodosCount">5</span>)</button>
@@ -1455,11 +1454,10 @@
       </div>
     </div>
 
-    <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-layer-group"></i> EXIBINDO 5 DE 5 MÓDULOS · MODO CARROSSEL
+          <i class="fa-solid fa-layer-group"></i> EXIBINDO 4 DE 5 MÓDULOS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1479,7 +1477,6 @@
       <div class="pagination-dots" id="paginationDots"></div>
     </section>
 
-    <!-- 5. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <div class="footer-system-text">
         <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
@@ -1500,7 +1497,6 @@
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES (ABRE SOMENTE VIA BOTÃO DE DETALHES / ÍCONE INFO) -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
@@ -1565,13 +1561,6 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
-      /* ========================================================================
-         MÓDULOS DA HOME:
-         - Para adicionar um novo card: copie um bloco `{ ... }`, defina uma `key`
-           única e preencha `url: "caminho.html"` (ou deixe `url: "#"` para travar
-           o botão ACESSAR até a página ficar pronta).
-         - A gaveta lateral abre apenas pelos botões de DETALHES / ícone info.
-      ======================================================================== */
       const MODULOS_HOME = [
         {
           key: "dashboards",
@@ -1719,7 +1708,6 @@
         window.location.href = mod.url;
       }
 
-      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
       const estadoClima = {
         cidade: "Belém - PA",
         temperatura: "--°C",
@@ -1876,369 +1864,15 @@
           });
       }
 
+      // 1 linha com até 4 cards no carrossel
       function obterQtdVisivelCarrossel() {
-        const containerW = cardsWrapper.clientWidth || window.innerWidth;
-        const minCardW = 272;
-        const gap = 18;
-        const cabem = Math.floor((containerW + gap) / (minCardW + gap));
-        return Math.max(1, Math.min(5, cabem));
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 1180) return 2;
+        return 4;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
         const travado = rotaTravada(mod.url);
         const isFav = favs.includes(mod.key);
-        const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
-
-        return `
-          <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" data-slot-idx="${slotIdx}" data-mod-key="${mod.key}">
-            <div class="card-surface" style="--relay-delay: ${relayDelay};">
-              <div class="card-body">
-                <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
-                  <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
-                    ${permitido ? `${mod.badge} <i class="fa-solid ${mod.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
-                  </span>
-                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos">
-                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
-                  </button>
-                </div>
-
-                <div>
-                  <h3 class="card-title-txt">${mod.titulo}</h3>
-                  <p class="card-desc-txt">${mod.desc}</p>
-                </div>
-
-                <div class="kpi-pills-row">
-                  <span class="kpi-pill-item">${mod.kpi1}</span>
-                  <span class="kpi-pill-item">${mod.kpi2}</span>
-                </div>
-
-                <div class="card-actions-stack">
-                  <div class="acessar-line">
-                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"} title="${travado ? "Link pendente (#)" : "Acessar módulo"}">
-                      ${permitido ? `ACESSAR <i class="fa-solid fa-rocket"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
-                    </button>
-                    <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes">
-                      <i class="fa-solid fa-circle-info"></i>
-                    </button>
-                  </div>
-                  <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
-                    DETALHES
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      function renderizarCards(forcarRebuild = false) {
-        const itens = obterItensFiltrados();
-        const total = itens.length;
-
-        document.documentElement.style.setProperty("--card-count", Math.max(1, total));
-        cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
-        cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
-
-        const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
-        const mostraSetas = modoVisualizacao !== "grade" && (modoVisualizacao === "3d" ? total > 1 : total > qtdVisivel);
-        document.getElementById("carouselNavControls").style.display = mostraSetas ? "inline-flex" : "none";
-        paginationDots.style.display = mostraSetas ? "flex" : "none";
-
-        const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
-        document.getElementById("carouselStatusLabel").innerHTML =
-          `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE ${MODULOS_HOME.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
-
-        if (total === 0) {
-          assinaturaDomAtual = "vazio";
-          cardsWrapper.innerHTML = `
-            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none; max-width: 100%;">
-              <div class="card-surface">
-                <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
-                  <strong style="color:#7dd3fc; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
-                  <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
-                </div>
-              </div>
-            </div>
-          `;
-          paginationDots.innerHTML = "";
-          return;
-        }
-
-        if (indiceCarrossel >= total) indiceCarrossel = 0;
-        const favs = obterFavoritos();
-
-        if (modoVisualizacao === "3d") {
-          const prevIdx = (indiceCarrossel - 1 + total) % total;
-          const nextIdx = (indiceCarrossel + 1) % total;
-          const novaAssinatura = `3d|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
-
-          if (!forcarRebuild && assinaturaDomAtual === novaAssinatura) {
-            cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]").forEach((wrap, idx) => {
-              wrap.classList.remove("slot-center", "slot-left", "slot-right", "slot-hidden");
-              let slotClass = "slot-hidden";
-              if (idx === indiceCarrossel) slotClass = "slot-center";
-              else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
-              else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
-              wrap.classList.add(slotClass);
-            });
-          } else {
-            assinaturaDomAtual = novaAssinatura;
-            cardsWrapper.innerHTML = itens.map((item, idx) => {
-              let slotClass = "slot-hidden";
-              if (idx === indiceCarrossel) slotClass = "slot-center";
-              else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
-              else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
-              return criarHtmlCard(item, favs, idx, slotClass);
-            }).join("");
-            vincularEventosCards();
-            aplicarTilt3D();
-          }
-        } else if (modoVisualizacao === "grade") {
-          const novaAssinatura = `grade|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
-          if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
-            assinaturaDomAtual = novaAssinatura;
-            cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
-            vincularEventosCards();
-            aplicarTilt3D();
-          }
-        } else {
-          const listaExibida = [];
-          for (let i = 0; i < qtdVisivel; i++) {
-            listaExibida.push(itens[(indiceCarrossel + i) % total]);
-          }
-          document.documentElement.style.setProperty("--card-count", Math.max(1, listaExibida.length));
-          const novaAssinatura = `carrossel|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
-          if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
-            assinaturaDomAtual = novaAssinatura;
-            cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
-            vincularEventosCards();
-            aplicarTilt3D();
-          }
-        }
-
-        if (mostraSetas) {
-          paginationDots.innerHTML = itens.map((_, idx) => `
-            <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
-          `).join("");
-
-          paginationDots.querySelectorAll(".p-dot").forEach(dot => {
-            dot.addEventListener("click", () => {
-              indiceCarrossel = Number(dot.getAttribute("data-dot-idx"));
-              renderizarCards(false);
-            });
-          });
-        }
-      }
-
-      function vincularEventosCards() {
-        cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(btn => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const mod = MODULOS_HOME.find(m => m.key === btn.getAttribute("data-key"));
-            navegarParaModulo(mod);
-          });
-        });
-
-        cardsWrapper.querySelectorAll(".btn-detalhes-mod").forEach(btn => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            abrirDrawerDetalhes(btn.getAttribute("data-key"));
-          });
-        });
-
-        cardsWrapper.querySelectorAll(".btn-fav-card").forEach(btn => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const key = btn.getAttribute("data-fav-key");
-            let favs = obterFavoritos();
-            if (favs.includes(key)) favs = favs.filter(x => x !== key);
-            else favs.unshift(key);
-            salvarFavoritos(favs);
-            renderizarCards(true);
-          });
-        });
-
-        cardsWrapper.querySelectorAll(".card-3d-wrap").forEach(wrap => {
-          wrap.addEventListener("click", () => {
-            if (modoVisualizacao !== "3d") return;
-            const slotIdx = Number(wrap.getAttribute("data-slot-idx"));
-            if (!Number.isNaN(slotIdx) && slotIdx !== indiceCarrossel) {
-              indiceCarrossel = slotIdx;
-              renderizarCards(false);
-            }
-          });
-        });
-      }
-
-      function aplicarTilt3D() {
-        document.querySelectorAll(".card-3d-wrap:not(.sem-acesso):not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
-          const surface = wrap.querySelector(".card-surface");
-          if (!surface || wrap.dataset.tiltBound) return;
-          wrap.dataset.tiltBound = "1";
-          wrap.addEventListener("mousemove", (e) => {
-            if (modoVisualizacao === "3d") return;
-            const rect = wrap.getBoundingClientRect();
-            const nx = (e.clientX - rect.left) / rect.width - 0.5;
-            const ny = (e.clientY - rect.top) / rect.height - 0.5;
-            surface.style.setProperty("--ry", `${(nx * 2.2).toFixed(2)}deg`);
-            surface.style.setProperty("--rx", `${(-ny * 2.2).toFixed(2)}deg`);
-          });
-          wrap.addEventListener("mouseleave", () => {
-            surface.style.setProperty("--ry", "0deg");
-            surface.style.setProperty("--rx", "0deg");
-          });
-        });
-      }
-
-      function abrirDrawerDetalhes(key) {
-        const mod = MODULOS_HOME.find(m => m.key === key);
-        if (!mod) return;
-        itemAtualDrawer = mod;
-        const permitido = usuarioTemAcesso(mod);
-        const travado = rotaTravada(mod.url);
-
-        document.getElementById("drawerModTitulo").textContent = mod.titulo;
-        document.getElementById("drawerModDesc").textContent = mod.desc;
-        document.getElementById("drawerModCat").textContent = mod.categoria;
-        document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
-        document.getElementById("drawerModRota").textContent = travado ? "Não vinculado (#)" : mod.url;
-        document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
-        document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
-
-        document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
-          <li>
-            <span>${rec}</span>
-            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i>
-          </li>
-        `).join("");
-
-        const btnDrawer = document.getElementById("btnDrawerAcessar");
-        const podeClicar = permitido && !travado;
-        btnDrawer.disabled = !podeClicar;
-        btnDrawer.style.opacity = podeClicar ? "1" : "0.45";
-        btnDrawer.style.pointerEvents = podeClicar ? "auto" : "none";
-        btnDrawer.innerHTML = !permitido
-          ? `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`
-          : (travado ? `<i class="fa-solid fa-link-slash"></i> LINK PENDENTE` : `ACESSAR MÓDULO <i class="fa-solid fa-rocket"></i>`);
-
-        detailsBackdrop.classList.add("open");
-        detailsDrawer.classList.add("open");
-      }
-
-      function fecharDrawerDetalhes() {
-        detailsDrawer.classList.remove("open");
-        detailsBackdrop.classList.remove("open");
-      }
-
-      document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
-      detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
-
-      document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
-        navegarParaModulo(itemAtualDrawer);
-      });
-
-      function avancarCarrossel(passo) {
-        const total = obterItensFiltrados().length;
-        if (total <= 1) return;
-        indiceCarrossel = (indiceCarrossel + passo + total) % total;
-        renderizarCards(false);
-      }
-
-      document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
-      document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
-
-      function iniciarAutoPlay() {
-        clearInterval(timerCarrossel);
-        document.body.classList.toggle("glow-paused", !autoPlayAtivo);
-        if (!autoPlayAtivo) return;
-        if (modoVisualizacao === "3d") {
-          timerCarrossel = setInterval(() => avancarCarrossel(1), 5000);
-        }
-      }
-
-      function alternarAutoPlay() {
-        autoPlayAtivo = !autoPlayAtivo;
-        document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
-        document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
-        iniciarAutoPlay();
-      }
-
-      document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
-
-      document.addEventListener("keydown", (e) => {
-        const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-        if (detailsDrawer.classList.contains("open")) {
-          if (e.key === "Escape") fecharDrawerDetalhes();
-          return;
-        }
-
-        if (e.key === "ArrowRight") {
-          e.preventDefault();
-          avancarCarrossel(1);
-        } else if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          avancarCarrossel(-1);
-        } else if (e.code === "Space" || e.key === " ") {
-          e.preventDefault();
-          alternarAutoPlay();
-        }
-      });
-
-      const btnModoCarrossel = document.getElementById("btnModoCarrossel");
-      const btnModoCarrossel3D = document.getElementById("btnModoCarrossel3D");
-      const btnModoGrade = document.getElementById("btnModoGrade");
-
-      function atualizarBotoesModo(novoModo) {
-        modoVisualizacao = novoModo;
-        btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
-        btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
-        btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
-        renderizarCards(true);
-        iniciarAutoPlay();
-      }
-
-      btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
-      btnModoCarrossel3D.addEventListener("click", () => atualizarBotoesModo("3d"));
-      btnModoGrade.addEventListener("click", () => atualizarBotoesModo("grade"));
-
-      document.getElementById("btnFiltroFavoritos").addEventListener("click", () => {
-        somenteFavoritos = !somenteFavoritos;
-        document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
-        indiceCarrossel = 0;
-        renderizarCards(true);
-      });
-
-      document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          document.querySelectorAll("#categoryPills .cat-btn").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          categoriaAtiva = btn.getAttribute("data-cat");
-          indiceCarrossel = 0;
-          renderizarCards(true);
-        });
-      });
-
-      document.getElementById("moduleSearch").addEventListener("input", () => {
-        indiceCarrossel = 0;
-        renderizarCards(true);
-      });
-
-      document.getElementById("btnToggleMenu").addEventListener("click", () => {
-        const oculto = document.body.classList.toggle("menu-hidden");
-        document.getElementById("iconToggleMenu").className = oculto ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
-        document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
-      });
-
-      window.addEventListener("resize", () => {
-        if (modoVisualizacao === "carrossel") renderizarCards(false);
-      });
-
-      renderizarCards(true);
-      iniciarAutoPlay();
-    })();
-  </script>
-</body>
-
-</html>
+        const
