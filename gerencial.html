@@ -302,9 +302,9 @@
     .hero-banner {
       position: relative;
       border-radius: 16px;
-      padding: 13px 20px;
+      padding: 14px 20px;
       background:
-        linear-gradient(135deg, rgba(14, 32, 66, 0.88) 0%, rgba(9, 17, 36, 0.92) 55%, rgba(15, 32, 64, 0.86) 100%),
+        linear-gradient(135deg, rgba(14, 32, 66, 0.80) 0%, rgba(9, 17, 36, 0.85) 55%, rgba(15, 32, 64, 0.78) 100%),
         url('img/Card_gerencial.jpg') center/cover no-repeat;
       backdrop-filter: blur(20px) saturate(145%);
       -webkit-backdrop-filter: blur(20px) saturate(145%);
@@ -314,7 +314,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -344,16 +344,16 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      max-width: 860px;
+      max-width: 1020px;
     }
 
     .hero-icon-box {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 12px;
       background: linear-gradient(145deg, rgba(234, 179, 8, 0.28), rgba(37, 99, 235, 0.34));
       border: 1px solid rgba(250, 204, 21, 0.52);
-      box-shadow: 0 6px 18px rgba(234, 179, 8, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+      box-shadow: 0 6px 18px rgba(234, 179, 8, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
       color: #fde047;
       display: flex;
       align-items: center;
@@ -365,17 +365,41 @@
     .hero-greeting-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 9.5px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #fde047;
-      background: rgba(234, 179, 8, 0.12);
-      border: 1px solid rgba(250, 204, 21, 0.34);
-      padding: 2px 9px;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 30px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.15px;
+      color: #fef08a;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      padding: 6px 15px;
       border-radius: 999px;
-      margin-bottom: 3px;
+      margin-bottom: 6px;
+    }
+
+    .hero-greeting-pill .pill-sep {
+      opacity: 0.5;
+      color: #cbd5e1;
+      margin: 0 2px;
+    }
+
+    .hero-greeting-pill .pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .hero-greeting-pill .pill-temp {
+      color: #7dd3fc;
+    }
+
+    .hero-greeting-pill .pill-clock {
+      color: #6ee7b7;
     }
 
     .hero-main-title {
@@ -399,15 +423,18 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .quick-stat-pill {
-      padding: 6px 12px;
-      border-radius: 10px;
-      background: rgba(5, 10, 22, 0.72);
-      border: 1px solid rgba(56, 189, 248, 0.26);
-      min-width: 110px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      min-width: 114px;
     }
 
     .quick-stat-pill small {
@@ -416,7 +443,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #94a3b8;
+      color: #cbd5e1;
     }
 
     .quick-stat-pill strong {
@@ -424,7 +451,7 @@
       font-size: 12.5px;
       font-weight: 800;
       color: #ffffff;
-      margin-top: 1px;
+      margin-top: 2px;
     }
 
     /* FAIXA IA EXCLUSIVA DA GERÊNCIA */
@@ -436,10 +463,13 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      padding: 6px 12px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, rgba(14, 165, 233, 0.14) 0%, rgba(30, 58, 138, 0.28) 55%, rgba(234, 179, 8, 0.12) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.34);
+      padding: 7px 13px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
     }
 
     .exec-ai-msg-wrap {
@@ -508,8 +538,8 @@
       width: 26px;
       height: 26px;
       border-radius: 7px;
-      background: rgba(15, 23, 42, 0.78);
-      border: 1px solid rgba(56, 189, 248, 0.36);
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       color: #bae6fd;
       cursor: pointer;
       display: inline-flex;
@@ -1599,9 +1629,9 @@
             <i class="fa-solid fa-crown"></i>
           </div>
           <div>
-            <div class="hero-greeting-pill" id="execGreetingPill">
-              <i class="fa-solid fa-sun"></i>
-              <span id="execGreetingText">Bom dia, Executivo • Turno Operacional Ativo</span>
+            <div class="hero-greeting-pill tabular" id="execGreetingPill">
+              <i class="fa-solid fa-sun" id="execGreetingIcon"></i>
+              <span id="execGreetingText">Olá, Bom dia, Rodrigo Lopes • Carregando local e clima...</span>
             </div>
             <h1 class="hero-main-title">GERÊNCIA <span>EXECUTIVA</span></h1>
             <p class="hero-subtitle">
@@ -1927,8 +1957,24 @@
         "Recomendação IA: revisar o fechamento periódico nos Relatórios Gerenciais antes do alinhamento semanal."
       ];
 
+      function capitalizarPrimeira(texto) {
+        const limpo = String(texto || "").trim();
+        if (!limpo) return "";
+        return limpo.charAt(0).toUpperCase() + limpo.slice(1).toLowerCase();
+      }
+
+      function formatarNomeSobrenome(nomeCompleto) {
+        const partes = String(nomeCompleto || "Rodrigo Lopes")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+        if (partes.length === 0) return "Rodrigo Lopes";
+        if (partes.length === 1) return capitalizarPrimeira(partes[0]);
+        return `${capitalizarPrimeira(partes[0])} ${capitalizarPrimeira(partes[partes.length - 1])}`;
+      }
+
       const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
-      const primeiroNome = String(usuarioAtual).trim().split(/\s+/)[0] || "Executivo";
+      const nomeExibicao = formatarNomeSobrenome(usuarioAtual);
 
       let setoresSessao = null;
       try {
@@ -1958,37 +2004,111 @@
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
       }
 
-      function obterSaudacaoPorHorario() {
-        const hora = new Date().getHours();
-        if (hora >= 5 && hora < 12) {
-          return {
-            saudacao: "Bom dia",
-            icone: "fa-sun",
-            contexto: "Abertura Executiva · Planejamento e Metas do Dia"
-          };
-        }
-        if (hora >= 12 && hora < 18) {
-          return {
-            saudacao: "Boa tarde",
-            icone: "fa-cloud-sun",
-            contexto: "Acompanhamento de Turno · Consolidado Operacional"
-          };
-        }
-        return {
-          saudacao: "Boa noite",
-          icone: "fa-moon",
-          contexto: "Fechamento Executivo · Síntese e Governança"
-        };
+      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
+      const estadoClima = {
+        cidade: "Belém - PA",
+        temperatura: "--°C",
+        icone: "fa-cloud-sun"
+      };
+
+      function obterSaudacaoPorHorario(hora) {
+        if (hora >= 5 && hora < 12) return "Bom dia";
+        if (hora >= 12 && hora < 18) return "Boa tarde";
+        return "Boa noite";
       }
 
-      function atualizarSaudacaoExecutiva() {
-        const info = obterSaudacaoPorHorario();
-        const pill = document.getElementById("execGreetingPill");
-        const iconEl = pill.querySelector("i");
-        if (iconEl) iconEl.className = `fa-solid ${info.icone}`;
-        document.getElementById("execGreetingText").textContent =
-          `${info.saudacao}, ${primeiroNome} • ${info.contexto}`;
+      function obterContextoTurno(hora) {
+        if (hora >= 5 && hora < 12) return "Abertura Executiva · Planejamento e Metas do Dia";
+        if (hora >= 12 && hora < 18) return "Acompanhamento de Turno · Consolidado Operacional";
+        return "Fechamento Executivo · Síntese e Governança";
       }
+
+      function mapearIconeClima(weatherCode, isDay) {
+        if (weatherCode === 0) return isDay ? "fa-sun" : "fa-moon";
+        if ([1, 2, 3].includes(weatherCode)) return isDay ? "fa-cloud-sun" : "fa-cloud-moon";
+        if ([45, 48].includes(weatherCode)) return "fa-smog";
+        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "fa-cloud-showers-heavy";
+        if ([95, 96, 99].includes(weatherCode)) return "fa-cloud-bolt";
+        return "fa-cloud";
+      }
+
+      function renderizarSaudacaoEHorario() {
+        const now = new Date();
+        const h = now.getHours();
+        const hh = String(h).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        const ss = String(now.getSeconds()).padStart(2, "0");
+        const saudacao = obterSaudacaoPorHorario(h);
+
+        const iconEl = document.getElementById("execGreetingIcon");
+        const textEl = document.getElementById("execGreetingText");
+        const clockEl = document.getElementById("liveClockTxt");
+
+        if (iconEl) iconEl.className = `fa-solid ${estadoClima.icone}`;
+        if (textEl) {
+          textEl.innerHTML = `
+            <span class="pill-item">Olá, ${saudacao}, ${nomeExibicao}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-item"><i class="fa-solid fa-location-dot"></i>${estadoClima.cidade}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-item pill-temp">${estadoClima.temperatura}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-item pill-clock">${hh}:${mm}:${ss}</span>
+          `;
+        }
+        if (clockEl) clockEl.textContent = `Painel Gerencial · ${hh}:${mm}`;
+      }
+
+      async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
+        try {
+          const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
+          const meteoResp = await fetch(meteoUrl);
+          if (meteoResp.ok) {
+            const meteoData = await meteoResp.json();
+            if (meteoData.current) {
+              estadoClima.temperatura = `${Math.round(meteoData.current.temperature_2m)}°C`;
+              estadoClima.icone = mapearIconeClima(meteoData.current.weather_code, meteoData.current.is_day === 1);
+            }
+          }
+
+          if (!cidadePadrao) {
+            const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`;
+            const geoResp = await fetch(geoUrl);
+            if (geoResp.ok) {
+              const geoData = await geoResp.json();
+              const cidadeRaw = geoData.city || geoData.locality || "Belém";
+              const cidade = capitalizarPrimeira(cidadeRaw);
+              const uf = (geoData.principalSubdivisionCode || "BR-PA").replace("BR-", "").toUpperCase();
+              estadoClima.cidade = `${cidade} - ${uf}`;
+            }
+          } else {
+            estadoClima.cidade = cidadePadrao;
+          }
+        } catch (err) {
+          console.warn("Falha ao buscar clima/localização:", err);
+        } finally {
+          renderizarSaudacaoEHorario();
+        }
+      }
+
+      function iniciarLocalizacaoClima() {
+        const defaultLat = -1.4558;
+        const defaultLon = -48.5044;
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
+            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA"),
+            { timeout: 6000, maximumAge: 600000 }
+          );
+        } else {
+          buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA");
+        }
+      }
+
+      renderizarSaudacaoEHorario();
+      iniciarLocalizacaoClima();
+      setInterval(renderizarSaudacaoEHorario, 1000);
+      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
 
       function obterSetoresPermitidosUsuario() {
         if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
@@ -2020,16 +2140,6 @@
         window.location.href = "login.html";
       });
 
-      function atualizarRelogio() {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        document.getElementById("liveClockTxt").textContent = `Painel Gerencial · ${hh}:${mm}`;
-        atualizarSaudacaoExecutiva();
-      }
-      atualizarRelogio();
-      setInterval(atualizarRelogio, 30000);
-
       function mostrarInsightIA(novoIdx) {
         indiceInsightIA = (novoIdx + INSIGHTS_IA_EXECUTIVOS.length) % INSIGHTS_IA_EXECUTIVOS.length;
         const el = document.getElementById("execAiTickerTxt");
@@ -2049,8 +2159,10 @@
       }, 9000);
 
       function gerarTextoBriefingIA(topico) {
-        const info = obterSaudacaoPorHorario();
-        const cabecalho = `<strong>${info.saudacao}, ${usuarioAtual}!</strong><br/><br/>`;
+        const hora = new Date().getHours();
+        const saudacao = obterSaudacaoPorHorario(hora);
+        const contexto = obterContextoTurno(hora);
+        const cabecalho = `<strong>Olá, ${saudacao}, ${nomeExibicao}!</strong><br/><br/>`;
 
         if (topico === "gargalos") {
           return `${cabecalho}<strong>Radar de Desvios & Gargalos:</strong><br/>• Aderência global mantida em <strong>92%</strong> dentro da faixa esperada.<br/>• Atenção preventiva às frentes externas em horário de pico de deslocamento.<br/>• <strong>Ação sugerida:</strong> validar reprogramações do dia com a Supervisão de Produção.`;
@@ -2061,7 +2173,7 @@
         if (topico === "pauta") {
           return `${cabecalho}<strong>Sugestão de Pauta Executiva:</strong><br/>1. Abertura: Consolidado mensal e aderência às metas (92%).<br/>2. Operação: Produtividade das equipes de campo e apoio logístico.<br/>3. Governança: Conformidade documental e próximos marcos.<br/>4. Encerramento: Definição de prioridades para o próximo ciclo.`;
         }
-        return `${cabecalho}<strong>Resumo Executivo do Turno (${info.contexto}):</strong><br/>• Os 4 pilares gerenciais estão sincronizados e disponíveis para consulta.<br/>• Indicador consolidado de aderência em <strong>92%</strong> com estabilidade operacional.<br/>• Use os cards ao lado para aprofundar metas, governança ou relatórios da diretoria.`;
+        return `${cabecalho}<strong>Resumo Executivo do Turno (${contexto}):</strong><br/>• Os 4 pilares gerenciais estão sincronizados e disponíveis para consulta.<br/>• Indicador consolidado de aderência em <strong>92%</strong> com estabilidade operacional.<br/>• Use os cards ao lado para aprofundar metas, governança ou relatórios da diretoria.`;
       }
 
       function abrirCopilotoIA(topico = "resumo") {
