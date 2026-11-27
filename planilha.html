@@ -23,7 +23,7 @@
       --card-h: clamp(326px, 39vh, 354px);
       --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
-      --card-count: 6;
+      --card-count: 13;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
@@ -33,17 +33,11 @@
       inherits: false;
     }
 
-    /* Feixe contínuo 360 graus: nunca reseta nem pisca */
     @keyframes borderSweepContinuous {
-      from {
-        --sweep-angle: 0deg;
-      }
-      to {
-        --sweep-angle: 360deg;
-      }
+      from { --sweep-angle: 0deg; }
+      to { --sweep-angle: 360deg; }
     }
 
-    /* Revezamento suave de brilho entre todos os cards em sequência */
     @keyframes cardGlowRelay {
       0%, 100% {
         opacity: 0.78;
@@ -70,38 +64,16 @@
     }
 
     @keyframes borderBeamRelay {
-      0%, 100% {
-        opacity: 0;
-      }
-      2.5%, 13.5% {
-        opacity: 1;
-      }
-      17.5% {
-        opacity: 0;
-      }
+      0%, 100% { opacity: 0; }
+      2.5%, 13.5% { opacity: 1; }
+      17.5% { opacity: 0; }
     }
 
     @keyframes paletteCycle360 {
-      0%, 24.99% {
-        --edge-a: #38bdf8;
-        --edge-b: #2563eb;
-        --edge-c: #bae6fd;
-      }
-      25%, 49.99% {
-        --edge-a: #facc15;
-        --edge-b: #f59e0b;
-        --edge-c: #fef08a;
-      }
-      50%, 74.99% {
-        --edge-a: #34d399;
-        --edge-b: #0284c7;
-        --edge-c: #a7f3d0;
-      }
-      75%, 100% {
-        --edge-a: #818cf8;
-        --edge-b: #06b6d4;
-        --edge-c: #e0e7ff;
-      }
+      0%, 24.99% { --edge-a: #38bdf8; --edge-b: #2563eb; --edge-c: #bae6fd; }
+      25%, 49.99% { --edge-a: #facc15; --edge-b: #f59e0b; --edge-c: #fef08a; }
+      50%, 74.99% { --edge-a: #34d399; --edge-b: #0284c7; --edge-c: #a7f3d0; }
+      75%, 100% { --edge-a: #818cf8; --edge-b: #06b6d4; --edge-c: #e0e7ff; }
     }
 
     @keyframes pulseDot {
@@ -427,13 +399,8 @@
       gap: 5px;
     }
 
-    .hero-greeting-pill .pill-temp {
-      color: #7dd3fc;
-    }
-
-    .hero-greeting-pill .pill-clock {
-      color: #6ee7b7;
-    }
+    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
+    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
 
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px);
@@ -733,7 +700,6 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -758,11 +724,8 @@
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
-    .cards-track .card-img-banner {
-      height: var(--card-img-h);
-    }
+    .cards-track .card-img-banner { height: var(--card-img-h); }
 
-    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -773,7 +736,6 @@
       padding: 4px 2px 8px;
     }
 
-    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
@@ -795,9 +757,7 @@
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
-    .cards-track.mode-3d .card-img-banner {
-      height: var(--card-img-h);
-    }
+    .cards-track.mode-3d .card-img-banner { height: var(--card-img-h); }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
       transform: translate3d(0, 0, 0) scale(1);
@@ -870,7 +830,6 @@
       pointer-events: none;
     }
 
-    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
@@ -878,9 +837,7 @@
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
-    .card-3d-wrap.sem-acesso .card-surface::before {
-      opacity: 0.10 !important;
-    }
+    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
     .card-3d-wrap.sem-acesso .btn-nova-aba {
@@ -956,9 +913,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
     }
 
-    .card-surface:hover::before {
-      opacity: 1 !important;
-    }
+    .card-surface:hover::before { opacity: 1 !important; }
 
     body.glow-paused .card-surface,
     body.glow-paused .card-surface::before {
@@ -1404,9 +1359,7 @@
       .cards-track.grid-mode {
         grid-template-columns: 1fr;
       }
-      .cards-track .card-3d-wrap {
-        max-width: 100%;
-      }
+      .cards-track .card-3d-wrap { max-width: 100%; }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
     }
@@ -1474,7 +1427,7 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Bases Ativas</small>
-            <strong id="statQtdPlanilhas">6 Planilhas</strong>
+            <strong id="statQtdPlanilhas">13 Planilhas</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Auditoria / Dados</small>
@@ -1523,10 +1476,13 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todas (6)</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todas (13)</button>
         <button type="button" class="cat-btn" data-cat="OPERACIONAL"><i class="fa-solid fa-hard-hat"></i> Operacional</button>
-        <button type="button" class="cat-btn" data-cat="AUDITORIA"><i class="fa-solid fa-clipboard-check"></i> Auditoria</button>
-        <button type="button" class="cat-btn" data-cat="CORPORATIVO"><i class="fa-solid fa-building"></i> Corporativo</button>
+        <button type="button" class="cat-btn" data-cat="PESSOAS"><i class="fa-solid fa-users"></i> Pessoas</button>
+        <button type="button" class="cat-btn" data-cat="SEGURANÇA"><i class="fa-solid fa-helmet-safety"></i> Segurança</button>
+        <button type="button" class="cat-btn" data-cat="ADMINISTRATIVO"><i class="fa-solid fa-file-invoice-dollar"></i> Administrativo</button>
+        <button type="button" class="cat-btn" data-cat="GOVERNANÇA"><i class="fa-solid fa-sitemap"></i> Governança</button>
+        <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-building"></i> Suporte</button>
       </div>
 
       <div class="search-box-wrap">
@@ -1539,7 +1495,7 @@
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-file-excel"></i> EXIBINDO 6 PLANILHAS · MODO CARROSSEL
+          <i class="fa-solid fa-file-excel"></i> EXIBINDO 13 PLANILHAS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1646,242 +1602,241 @@
       };
 
       const PLANILHAS_BASE = [
-      
-  {
-    key: "almox.EPI/EPC",
-    setor: "almoxarifado",
-    categoria: "OPERACIONAL",
-    badge: "EPI/EPC",
-    badgeGold: true,
-    icone: "fa-ruler-combined",
-    imagem: "img/capa_excel.png",
-    titulo: "Almox. EPI/EPC",
-    desc: "Controle de estoque, validade, inspeção e entrega de equipamentos de proteção.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
-    kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
-    kpiResumo: "94% · Mensal",
-    url: "#controle-epi-epc",
-    origemLabel: "Base Operacional",
-    searchTags: "controle de estoque de EPI e EPC validade inspeção entrega",
-    recursos: ["Conferência por período e equipe", "Histórico de entregas e CA", "Validação de validade e estoque"]
-  },
-  {
-    key: "almoxarifado",
-    setor: "almoxarifado",
-    categoria: "OPERACIONAL",
-    badge: "ALMOXARIFADO",
-    badgeGold: false,
-    icone: "fa-boxes-stacked",
-    imagem: "img/capa_excel.png",
-    titulo: "Almoxarifado",
-    desc: "Gestão de materiais, recebimento, inventário e suprimento das equipes.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
-    kpi2: '<span><i class="fa-solid fa-rotate"></i> Diário</span>',
-    kpiResumo: "96% · Diário",
-    url: "#controle-almoxarifado",
-    origemLabel: "Base Operacional",
-    searchTags: "almoxarifado estoque recebimento inventário materiais suprimento",
-    recursos: ["Controle de entradas e saídas", "Inventário e giro de itens", "Rastreabilidade de suprimentos"]
-  },
-  {
-    key: "backoffice",
-    setor: "backoffice",
-    categoria: "ADMINISTRATIVO",
-    badge: "BACKOFFICE",
-    badgeGold: false,
-    icone: "fa-file-invoice-dollar",
-    imagem: "img/capa_excel.png",
-    titulo: "Backoffice",
-    desc: "Suporte administrativo, conferência de processos, medições e faturamento.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
-    kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
-    kpiResumo: "92% · Mensal",
-    url: "#controle-backoffice",
-    origemLabel: "Base Operacional",
-    searchTags: "backoffice administrativo conferência processos medições faturamento",
-    recursos: ["Conferência de medições e notas", "Acompanhamento de pendências", "Consolidado de fechamento"]
-  },
-  {
-    key: "dp",
-    setor: "dp",
-    categoria: "PESSOAS",
-    badge: "DP",
-    badgeGold: false,
-    icone: "fa-id-card",
-    imagem: "img/capa_excel.png",
-    titulo: "DP",
-    desc: "Gestão de ponto, folha de pagamento, benefícios, férias e rotinas trabalhistas.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 98%</span>',
-    kpi2: '<span><i class="fa-solid fa-clock"></i> Mensal</span>',
-    kpiResumo: "98% · Mensal",
-    url: "#controle-dp",
-    origemLabel: "Base Operacional",
-    searchTags: "dp departamento pessoal ponto folha benefícios férias trabalhistas",
-    recursos: ["Apuração de ponto e horas", "Controle de férias e afastamentos", "Conferência de benefícios"]
-  },
-  {
-    key: "dsc",
-    setor: "dsc",
-    categoria: "OPERACIONAL",
-    badge: "DSC",
-    badgeGold: false,
-    icone: "fa-clipboard-check",
-    imagem: "img/capa_excel.png",
-    titulo: "DSC",
-    desc: "Acompanhamento de indicadores, conformidade em campo e controle de desvios.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 91%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
-    kpiResumo: "91% · Semanal",
-    url: "#controle-dsc",
-    origemLabel: "Base Operacional",
-    searchTags: "dsc indicadores conformidade campo desvios qualidade",
-    recursos: ["Monitoramento de desvios", "Indicadores de conformidade", "Histórico de planos de ação"]
-  },
-  {
-    key: "estrutura",
-    setor: "estrutura",
-    categoria: "GOVERNANÇA",
-    badge: "ESTRUTURA",
-    badgeGold: true,
-    icone: "fa-sitemap",
-    imagem: "img/capa_excel.png",
-    titulo: "Estrutura",
-    desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
-    kpi2: '<span><i class="fa-solid fa-users"></i> Geral</span>',
-    kpiResumo: "100% · Geral",
-    url: "#controle-estrutura",
-    origemLabel: "Base Operacional",
-    searchTags: "estrutura organograma hierarquia liderança setores equipes",
-    recursos: ["Mapeamento de cargos e setores", "Distribuição de lideranças", "Integração intersetorial"]
-  },
-  {
-    key: "frota",
-    setor: "frota",
-    categoria: "OPERACIONAL",
-    badge: "FROTA",
-    badgeGold: false,
-    icone: "fa-truck",
-    imagem: "img/capa_excel.png",
-    titulo: "Frota",
-    desc: "Controle de veículos, manutenções preventivas/corretivas, combustível e rastreio.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
-    kpi2: '<span><i class="fa-solid fa-gas-pump"></i> Diário</span>',
-    kpiResumo: "93% · Diário",
-    url: "#controle-frota",
-    origemLabel: "Base Operacional",
-    searchTags: "frota veículos manutenção preventiva corretiva combustível rastreio",
-    recursos: ["Controle de manutenções", "Consumo e abastecimento", "Disponibilidade de veículos"]
-  },
-  {
-    key: "infraestrutura",
-    setor: "infraestrutura",
-    categoria: "SUPORTE",
-    badge: "INFRAESTRUTURA",
-    badgeGold: false,
-    icone: "fa-building",
-    imagem: "img/capa_excel.png",
-    titulo: "Infraestrutura",
-    desc: "Manutenção predial, bases operacionais, energia e serviços de apoio.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
-    kpi2: '<span><i class="fa-solid fa-wrench"></i> Contínuo</span>',
-    kpiResumo: "95% · Contínuo",
-    url: "#controle-infraestrutura",
-    origemLabel: "Base Operacional",
-    searchTags: "infraestrutura predial bases operacionais energia manutenção apoio",
-    recursos: ["Acompanhamento de bases", "Manutenção predial e utilidades", "Chamados de serviços gerais"]
-  },
-  {
-    key: "produtividade",
-    setor: "produtividade",
-    categoria: "OPERACIONAL",
-    badge: "PRODUTIVIDADE",
-    badgeGold: true,
-    icone: "fa-gauge-high",
-    imagem: "img/capa_excel.png",
-    titulo: "Produtividade",
-    desc: "Monitoramento de rendimento, metas operacionais, indicadores e eficiência.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 89%</span>',
-    kpi2: '<span><i class="fa-solid fa-bullseye"></i> Diário</span>',
-    kpiResumo: "89% · Diário",
-    url: "#controle-produtividade",
-    origemLabel: "Base Operacional",
-    searchTags: "produtividade rendimento metas indicadores eficiência desempenho",
-    recursos: ["Acompanhamento de metas", "Comparativo por equipe e período", "Indicadores de eficiência"]
-  },
-  {
-    key: "programacao",
-    setor: "programacao",
-    categoria: "OPERACIONAL",
-    badge: "PROGRAMAÇÃO",
-    badgeGold: false,
-    icone: "fa-calendar-check",
-    imagem: "img/capa_excel.png",
-    titulo: "Programação",
-    desc: "Planejamento diário, roteirização de ordens de serviço e alocação de equipes.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
-    kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
-    kpiResumo: "95% · Diário",
-    url: "#controle-programacao",
-    origemLabel: "Base Operacional",
-    searchTags: "programação planejamento roteirização ordens de serviço equipes",
-    recursos: ["Distribuição de ordens de serviço", "Roteirização e agenda diária", "Acompanhamento de execução"]
-  },
-  {
-    key: "projeto",
-    setor: "projeto",
-    categoria: "OPERACIONAL",
-    badge: "PROJETO",
-    badgeGold: false,
-    icone: "fa-compass-drafting",
-    imagem: "img/capa_excel.png",
-    titulo: "Projeto",
-    desc: "Análise técnica, levantamentos, desenhos e acompanhamento de obras e projetos.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 90%</span>',
-    kpi2: '<span><i class="fa-solid fa-folder-open"></i> Etapas</span>',
-    kpiResumo: "90% · Etapas",
-    url: "#controle-projeto",
-    origemLabel: "Base Operacional",
-    searchTags: "projeto análise técnica levantamentos desenhos obras acompanhamento",
-    recursos: ["Controle de etapas técnicas", "Levantamentos e especificações", "Status de entregas e obras"]
-  },
-  {
-    key: "rh",
-    setor: "rh",
-    categoria: "PESSOAS",
-    badge: "RH",
-    badgeGold: false,
-    icone: "fa-users",
-    imagem: "img/capa_excel.png",
-    titulo: "RH",
-    desc: "Recrutamento e seleção, integração, treinamentos, desenvolvimento e clima.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
-    kpi2: '<span><i class="fa-solid fa-user-plus"></i> Mensal</span>',
-    kpiResumo: "94% · Mensal",
-    url: "#controle-rh",
-    origemLabel: "Base Operacional",
-    searchTags: "rh recursos humanos recrutamento seleção integração treinamentos clima",
-    recursos: ["Controle de vagas e admissões", "Matriz de treinamentos", "Acompanhamento de equipes"]
-  },
-  {
-    key: "sesmt",
-    setor: "sesmt",
-    categoria: "SEGURANÇA",
-    badge: "SESMT",
-    badgeGold: true,
-    icone: "fa-helmet-safety",
-    imagem: "img/capa_excel.png",
-    titulo: "SESMT",
-    desc: "Segurança do trabalho, prevenção de riscos, normas regulamentadoras e saúde ocupacional.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 97%</span>',
-    kpi2: '<span><i class="fa-solid fa-shield-halved"></i> Contínuo</span>',
-    kpiResumo: "97% · Contínuo",
-    url: "#controle-sesmt",
-    origemLabel: "Base Operacional",
-    searchTags: "sesmt segurança do trabalho prevenção riscos normas saúde ocupacional",
-    recursos: ["Inspeções e normas regulamentadoras", "Prevenção e controle de riscos", "Indicadores de segurança"]
-  }
-];
+        {
+          key: "almox.EPI/EPC",
+          setor: "almoxarifado",
+          categoria: "OPERACIONAL",
+          badge: "EPI/EPC",
+          badgeGold: true,
+          icone: "fa-ruler-combined",
+          imagem: "img/capa_excel.png",
+          titulo: "Almox. EPI/EPC",
+          desc: "Controle de estoque, validade, inspeção e entrega de equipamentos de proteção.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
+          kpiResumo: "94% · Mensal",
+          url: "#controle-epi-epc",
+          origemLabel: "Base Operacional",
+          searchTags: "controle de estoque de EPI e EPC validade inspeção entrega",
+          recursos: ["Conferência por período e equipe", "Histórico de entregas e CA", "Validação de validade e estoque"]
+        },
+        {
+          key: "almoxarifado",
+          setor: "almoxarifado",
+          categoria: "OPERACIONAL",
+          badge: "ALMOXARIFADO",
+          badgeGold: false,
+          icone: "fa-boxes-stacked",
+          imagem: "img/capa_excel.png",
+          titulo: "Almoxarifado",
+          desc: "Gestão de materiais, recebimento, inventário e suprimento das equipes.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
+          kpi2: '<span><i class="fa-solid fa-rotate"></i> Diário</span>',
+          kpiResumo: "96% · Diário",
+          url: "#controle-almoxarifado",
+          origemLabel: "Base Operacional",
+          searchTags: "almoxarifado estoque recebimento inventário materiais suprimento",
+          recursos: ["Controle de entradas e saídas", "Inventário e giro de itens", "Rastreabilidade de suprimentos"]
+        },
+        {
+          key: "backoffice",
+          setor: "backoffice",
+          categoria: "ADMINISTRATIVO",
+          badge: "BACKOFFICE",
+          badgeGold: false,
+          icone: "fa-file-invoice-dollar",
+          imagem: "img/capa_excel.png",
+          titulo: "Backoffice",
+          desc: "Suporte administrativo, conferência de processos, medições e faturamento.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
+          kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
+          kpiResumo: "92% · Mensal",
+          url: "#controle-backoffice",
+          origemLabel: "Base Operacional",
+          searchTags: "backoffice administrativo conferência processos medições faturamento",
+          recursos: ["Conferência de medições e notas", "Acompanhamento de pendências", "Consolidado de fechamento"]
+        },
+        {
+          key: "dp",
+          setor: "dp",
+          categoria: "PESSOAS",
+          badge: "DP",
+          badgeGold: false,
+          icone: "fa-id-card",
+          imagem: "img/capa_excel.png",
+          titulo: "DP",
+          desc: "Gestão de ponto, folha de pagamento, benefícios, férias e rotinas trabalhistas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 98%</span>',
+          kpi2: '<span><i class="fa-solid fa-clock"></i> Mensal</span>',
+          kpiResumo: "98% · Mensal",
+          url: "#controle-dp",
+          origemLabel: "Base Operacional",
+          searchTags: "dp departamento pessoal ponto folha benefícios férias trabalhistas",
+          recursos: ["Apuração de ponto e horas", "Controle de férias e afastamentos", "Conferência de benefícios"]
+        },
+        {
+          key: "dsc",
+          setor: "dsc",
+          categoria: "OPERACIONAL",
+          badge: "DSC",
+          badgeGold: false,
+          icone: "fa-clipboard-check",
+          imagem: "img/capa_excel.png",
+          titulo: "DSC",
+          desc: "Acompanhamento de indicadores, conformidade em campo e controle de desvios.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 91%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
+          kpiResumo: "91% · Semanal",
+          url: "#controle-dsc",
+          origemLabel: "Base Operacional",
+          searchTags: "dsc indicadores conformidade campo desvios qualidade",
+          recursos: ["Monitoramento de desvios", "Indicadores de conformidade", "Histórico de planos de ação"]
+        },
+        {
+          key: "estrutura",
+          setor: "estrutura",
+          categoria: "GOVERNANÇA",
+          badge: "ESTRUTURA",
+          badgeGold: true,
+          icone: "fa-sitemap",
+          imagem: "img/capa_excel.png",
+          titulo: "Estrutura",
+          desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
+          kpi2: '<span><i class="fa-solid fa-users"></i> Geral</span>',
+          kpiResumo: "100% · Geral",
+          url: "#controle-estrutura",
+          origemLabel: "Base Operacional",
+          searchTags: "estrutura organograma hierarquia liderança setores equipes",
+          recursos: ["Mapeamento de cargos e setores", "Distribuição de lideranças", "Integração intersetorial"]
+        },
+        {
+          key: "frota",
+          setor: "frota",
+          categoria: "OPERACIONAL",
+          badge: "FROTA",
+          badgeGold: false,
+          icone: "fa-truck",
+          imagem: "img/capa_excel.png",
+          titulo: "Frota",
+          desc: "Controle de veículos, manutenções preventivas/corretivas, combustível e rastreio.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
+          kpi2: '<span><i class="fa-solid fa-gas-pump"></i> Diário</span>',
+          kpiResumo: "93% · Diário",
+          url: "#controle-frota",
+          origemLabel: "Base Operacional",
+          searchTags: "frota veículos manutenção preventiva corretiva combustível rastreio",
+          recursos: ["Controle de manutenções", "Consumo e abastecimento", "Disponibilidade de veículos"]
+        },
+        {
+          key: "infraestrutura",
+          setor: "infraestrutura",
+          categoria: "SUPORTE",
+          badge: "INFRAESTRUTURA",
+          badgeGold: false,
+          icone: "fa-building",
+          imagem: "img/capa_excel.png",
+          titulo: "Infraestrutura",
+          desc: "Manutenção predial, bases operacionais, energia e serviços de apoio.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
+          kpi2: '<span><i class="fa-solid fa-wrench"></i> Contínuo</span>',
+          kpiResumo: "95% · Contínuo",
+          url: "#controle-infraestrutura",
+          origemLabel: "Base Operacional",
+          searchTags: "infraestrutura predial bases operacionais energia manutenção apoio",
+          recursos: ["Acompanhamento de bases", "Manutenção predial e utilidades", "Chamados de serviços gerais"]
+        },
+        {
+          key: "produtividade",
+          setor: "produtividade",
+          categoria: "OPERACIONAL",
+          badge: "PRODUTIVIDADE",
+          badgeGold: true,
+          icone: "fa-gauge-high",
+          imagem: "img/capa_excel.png",
+          titulo: "Produtividade",
+          desc: "Monitoramento de rendimento, metas operacionais, indicadores e eficiência.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 89%</span>',
+          kpi2: '<span><i class="fa-solid fa-bullseye"></i> Diário</span>',
+          kpiResumo: "89% · Diário",
+          url: "#controle-produtividade",
+          origemLabel: "Base Operacional",
+          searchTags: "produtividade rendimento metas indicadores eficiência desempenho",
+          recursos: ["Acompanhamento de metas", "Comparativo por equipe e período", "Indicadores de eficiência"]
+        },
+        {
+          key: "programacao",
+          setor: "programacao",
+          categoria: "OPERACIONAL",
+          badge: "PROGRAMAÇÃO",
+          badgeGold: false,
+          icone: "fa-calendar-check",
+          imagem: "img/capa_excel.png",
+          titulo: "Programação",
+          desc: "Planejamento diário, roteirização de ordens de serviço e alocação de equipes.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
+          kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
+          kpiResumo: "95% · Diário",
+          url: "#controle-programacao",
+          origemLabel: "Base Operacional",
+          searchTags: "programação planejamento roteirização ordens de serviço equipes",
+          recursos: ["Distribuição de ordens de serviço", "Roteirização e agenda diária", "Acompanhamento de execução"]
+        },
+        {
+          key: "projeto",
+          setor: "projeto",
+          categoria: "OPERACIONAL",
+          badge: "PROJETO",
+          badgeGold: false,
+          icone: "fa-compass-drafting",
+          imagem: "img/capa_excel.png",
+          titulo: "Projeto",
+          desc: "Análise técnica, levantamentos, desenhos e acompanhamento de obras e projetos.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 90%</span>',
+          kpi2: '<span><i class="fa-solid fa-folder-open"></i> Etapas</span>',
+          kpiResumo: "90% · Etapas",
+          url: "#controle-projeto",
+          origemLabel: "Base Operacional",
+          searchTags: "projeto análise técnica levantamentos desenhos obras acompanhamento",
+          recursos: ["Controle de etapas técnicas", "Levantamentos e especificações", "Status de entregas e obras"]
+        },
+        {
+          key: "rh",
+          setor: "rh",
+          categoria: "PESSOAS",
+          badge: "RH",
+          badgeGold: false,
+          icone: "fa-users",
+          imagem: "img/capa_excel.png",
+          titulo: "RH",
+          desc: "Recrutamento e seleção, integração, treinamentos, desenvolvimento e clima.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-user-plus"></i> Mensal</span>',
+          kpiResumo: "94% · Mensal",
+          url: "#controle-rh",
+          origemLabel: "Base Operacional",
+          searchTags: "rh recursos humanos recrutamento seleção integração treinamentos clima",
+          recursos: ["Controle de vagas e admissões", "Matriz de treinamentos", "Acompanhamento de equipes"]
+        },
+        {
+          key: "sesmt",
+          setor: "sesmt",
+          categoria: "SEGURANÇA",
+          badge: "SESMT",
+          badgeGold: true,
+          icone: "fa-helmet-safety",
+          imagem: "img/capa_excel.png",
+          titulo: "SESMT",
+          desc: "Segurança do trabalho, prevenção de riscos, normas regulamentadoras e saúde ocupacional.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 97%</span>',
+          kpi2: '<span><i class="fa-solid fa-shield-halved"></i> Contínuo</span>',
+          kpiResumo: "97% · Contínuo",
+          url: "#controle-sesmt",
+          origemLabel: "Base Operacional",
+          searchTags: "sesmt segurança do trabalho prevenção riscos normas saúde ocupacional",
+          recursos: ["Inspeções e normas regulamentadoras", "Prevenção e controle de riscos", "Indicadores de segurança"]
+        }
+      ];
 
       function capitalizarPrimeira(texto) {
         const limpo = String(texto || "").trim();
@@ -1928,7 +1883,6 @@
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
       }
 
-      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
       const estadoClima = {
         cidade: "Belém - PA",
         temperatura: "--°C",
@@ -2040,6 +1994,14 @@
         if (!item.setor) return true;
         const permitidos = obterSetoresPermitidosUsuario();
         return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(item.setor).toLowerCase());
+      }
+
+      // Atualiza contadores iniciais dinamicamente
+      const qtdAutorizadas = PLANILHAS_BASE.filter(usuarioTemAcesso).length;
+      document.getElementById("statQtdPlanilhas").textContent = `${qtdAutorizadas} de ${PLANILHAS_BASE.length} Bases`;
+      const btnTodas = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
+      if (btnTodas) {
+        btnTodas.innerHTML = `<i class="fa-solid fa-layer-group"></i> Todas (${PLANILHAS_BASE.length})`;
       }
 
       document.getElementById("footerUserName").textContent = usuarioAtual;
@@ -2345,7 +2307,11 @@
       detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
       document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
         if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
-        alert(`Planilha selecionada: ${itemAtualDrawer.titulo}. Vincule aqui a URL da planilha.`);
+        if (itemAtualDrawer.url && !itemAtualDrawer.url.startsWith("#")) {
+          window.open(itemAtualDrawer.url, "_blank", "noopener");
+        } else {
+          alert(`Planilha selecionada: ${itemAtualDrawer.titulo}. Vincule aqui a URL da planilha.`);
+        }
       });
 
       function avancarCarrossel(passo) {
@@ -2376,7 +2342,6 @@
 
       document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
 
-      /* Atalhos de teclado: Setas Esquerda/Direita e Espaço para pausar/retomar */
       document.addEventListener("keydown", (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
