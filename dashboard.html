@@ -406,13 +406,8 @@
       gap: 5px;
     }
 
-    .hero-greeting-pill .pill-temp {
-      color: #7dd3fc;
-    }
-
-    .hero-greeting-pill .pill-clock {
-      color: #6ee7b7;
-    }
+    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
+    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
 
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px);
@@ -712,12 +707,13 @@
       color: #ffffff;
     }
 
+    /* MODO CARROSSEL: 4 EM CIMA E 4 EM BAIXO (8 CARDS POR TELA) */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
-      gap: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
       justify-content: center;
-      align-items: center;
+      align-items: stretch;
       align-content: center;
       flex: 1 1 auto;
       width: 100%;
@@ -727,17 +723,23 @@
     .cards-track .card-3d-wrap {
       width: 100%;
       min-width: 0;
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
+      max-width: 100%;
+      height: clamp(304px, 34vh, 336px);
+      min-height: clamp(304px, 34vh, 336px);
+      max-height: clamp(304px, 34vh, 336px);
       perspective: 1400px;
       margin: 0 auto;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .cards-track .card-img-banner {
-      height: var(--card-img-h);
+      height: clamp(112px, 11vh, 132px);
+    }
+
+    @media (max-width: 1180px) {
+      .cards-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     .cards-track.grid-mode {
@@ -748,6 +750,17 @@
       align-items: stretch;
       align-content: start;
       padding: 4px 2px 8px;
+    }
+
+    .cards-track.grid-mode .card-3d-wrap {
+      max-width: var(--card-w);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
+    }
+
+    .cards-track.grid-mode .card-img-banner {
+      height: var(--card-img-h);
     }
 
     .cards-track.mode-3d {
@@ -943,13 +956,13 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 13px 15px 14px;
+      padding: 12px 14px 13px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 7px;
+      gap: 6px;
     }
 
     .card-img-banner {
@@ -1023,7 +1036,7 @@
     }
 
     .card-title-txt {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.25px;
@@ -1031,8 +1044,8 @@
     }
 
     .card-desc-txt {
-      font-size: 11px;
-      line-height: 1.35;
+      font-size: 10.5px;
+      line-height: 1.32;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -1052,7 +1065,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 2.5px 8px;
+      padding: 2px 8px;
       border-radius: 6px;
       background: rgba(6, 16, 36, 0.68);
       border: 1px solid rgba(56, 189, 248, 0.25);
@@ -1076,15 +1089,15 @@
       align-items: center;
       gap: 6px;
       width: 100%;
-      height: 30px;
+      height: 29px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 30px;
-      min-height: 30px;
-      max-height: 30px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(56, 189, 248, 0.58);
@@ -1110,11 +1123,11 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 29px;
+      flex: 0 0 28px;
       width: 100%;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
+      height: 28px;
+      min-height: 28px;
+      max-height: 28px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(147, 197, 253, 0.28);
@@ -1139,10 +1152,10 @@
     }
 
     .btn-nova-aba {
-      width: 30px;
-      height: 30px;
-      min-height: 30px;
-      max-height: 30px;
+      width: 29px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -1381,6 +1394,9 @@
       }
       .cards-track .card-3d-wrap {
         max-width: 100%;
+        height: var(--card-h);
+        min-height: var(--card-h);
+        max-height: var(--card-h);
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
@@ -1616,12 +1632,6 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
-      /* ========================================================================
-         DASHBOARDS:
-         - Preencha `url` com o link/arquivo de destino quando estiver pronto.
-         - Deixe `url: "#"` para travar o botão ABRIR até ter o link.
-         - A gaveta lateral abre apenas pelos botões de DETALHES / ícone info.
-      ======================================================================== */
       const DASHBOARDS_LISTA = [
         {
           key: "bi_almox_epi_epc",
@@ -1918,7 +1928,6 @@
         window.location.href = mod.url;
       }
 
-      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
       const estadoClima = {
         cidade: "Belém - PA",
         temperatura: "--°C",
@@ -2078,12 +2087,11 @@
           });
       }
 
+      // 4 em cima e 4 embaixo = 8 cards no carrossel
       function obterQtdVisivelCarrossel() {
-        const containerW = cardsWrapper.clientWidth || window.innerWidth;
-        const minCardW = 272;
-        const gap = 18;
-        const cabem = Math.floor((containerW + gap) / (minCardW + gap));
-        return Math.max(1, Math.min(5, cabem));
+        if (window.innerWidth <= 520) return 2;
+        if (window.innerWidth <= 1180) return 4;
+        return 8;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
@@ -2339,6 +2347,7 @@
         abrirDashboard(itemAtualDrawer);
       });
 
+      // Avança 1 card por vez
       function avancarCarrossel(passo) {
         const total = obterItensFiltrados().length;
         if (total <= 1) return;
@@ -2433,7 +2442,7 @@
       });
 
       window.addEventListener("resize", () => {
-        if (modoVisualizacao === "carrossel") renderizarCards(false);
+        if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
       renderizarCards(true);
