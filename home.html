@@ -266,9 +266,9 @@
     .hero-banner {
       position: relative;
       border-radius: 16px;
-      padding: 13px 20px;
+      padding: 15px 22px;
       background:
-        linear-gradient(135deg, rgba(14, 32, 66, 0.88) 0%, rgba(9, 17, 36, 0.92) 55%, rgba(15, 32, 64, 0.86) 100%),
+        linear-gradient(135deg, rgba(14, 32, 66, 0.82) 0%, rgba(9, 17, 36, 0.86) 55%, rgba(15, 32, 64, 0.80) 100%),
         url('img/Card_dashboard.jpg') center/cover no-repeat;
       backdrop-filter: blur(20px) saturate(145%);
       -webkit-backdrop-filter: blur(20px) saturate(145%);
@@ -278,7 +278,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 10px;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -299,7 +299,7 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 16px;
       position: relative;
       z-index: 2;
     }
@@ -307,17 +307,17 @@
     .hero-title-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      max-width: 960px;
+      gap: 14px;
+      max-width: 1040px;
     }
 
     .hero-icon-box {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 12px;
-      background: linear-gradient(145deg, rgba(37, 99, 235, 0.36), rgba(14, 165, 233, 0.28));
-      border: 1px solid rgba(125, 211, 252, 0.50);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.32), rgba(14, 165, 233, 0.22));
+      border: 1px solid rgba(125, 211, 252, 0.45);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
       color: #7dd3fc;
       display: flex;
       align-items: center;
@@ -330,29 +330,40 @@
       display: inline-flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 6px;
-      font-size: 11px;
+      gap: 10px;
+      min-height: 30px;
+      font-size: 11.5px;
       font-weight: 700;
-      letter-spacing: 0.2px;
-      color: #fde047;
-      background: rgba(15, 23, 42, 0.82);
-      border: 1px solid rgba(250, 204, 21, 0.38);
-      padding: 3px 11px;
+      letter-spacing: 0.15px;
+      color: #fef08a;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      padding: 6px 15px;
       border-radius: 999px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .hero-greeting-pill .pill-sep {
-      opacity: 0.45;
-      color: #94a3b8;
+      opacity: 0.5;
+      color: #cbd5e1;
+      margin: 0 2px;
+    }
+
+    .hero-greeting-pill .pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .hero-greeting-pill .pill-temp {
-      color: #38bdf8;
+      color: #7dd3fc;
     }
 
     .hero-greeting-pill .pill-clock {
-      color: #34d399;
+      color: #6ee7b7;
     }
 
     .hero-main-title {
@@ -376,15 +387,18 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .quick-stat-pill {
-      padding: 6px 12px;
-      border-radius: 10px;
-      background: rgba(5, 10, 22, 0.72);
-      border: 1px solid rgba(56, 189, 248, 0.26);
-      min-width: 110px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      min-width: 114px;
     }
 
     .quick-stat-pill small {
@@ -393,7 +407,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #94a3b8;
+      color: #cbd5e1;
     }
 
     .quick-stat-pill strong {
@@ -401,7 +415,7 @@
       font-size: 12.5px;
       font-weight: 800;
       color: #ffffff;
-      margin-top: 1px;
+      margin-top: 2px;
     }
 
     .hero-actions-row {
@@ -1368,7 +1382,7 @@
           <div>
             <div class="hero-greeting-pill tabular" id="homeGreetingPill">
               <i class="fa-solid fa-sun" id="homeGreetingIcon"></i>
-              <span id="homeGreetingText">Olá, Boa tarde, Rodrigo • Carregando local e clima...</span>
+              <span id="homeGreetingText">Olá, Boa tarde, Rodrigo Lopes • Carregando local e clima...</span>
             </div>
             <h1 class="hero-main-title">CENTRAL DE <span>CONTROLE ELLCA</span></h1>
             <p class="hero-subtitle">
@@ -1384,11 +1398,11 @@
           </div>
           <div class="quick-stat-pill">
             <small>Ambiente</small>
-            <strong style="color:#38bdf8;">Integrado</strong>
+            <strong style="color:#7dd3fc;">Integrado</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Status</small>
-            <strong style="color:#34d399;">Online</strong>
+            <strong style="color:#6ee7b7;">Online</strong>
           </div>
         </div>
       </div>
@@ -1396,7 +1410,7 @@
       <div class="hero-actions-row">
         <span class="live-badge tabular">
           <i class="fa-solid fa-circle-check"></i>
-          <span id="liveClockTxt">Portal Ativo · --:--</span>
+          <span id="liveClockTxt">Portal ativo · --:--</span>
         </span>
 
         <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
@@ -1645,8 +1659,18 @@
         return limpo.charAt(0).toUpperCase() + limpo.slice(1).toLowerCase();
       }
 
+      function formatarNomeSobrenome(nomeCompleto) {
+        const partes = String(nomeCompleto || "Rodrigo Lopes")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean);
+        if (partes.length === 0) return "Rodrigo Lopes";
+        if (partes.length === 1) return capitalizarPrimeira(partes[0]);
+        return `${capitalizarPrimeira(partes[0])} ${capitalizarPrimeira(partes[partes.length - 1])}`;
+      }
+
       const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
-      const primeiroNome = capitalizarPrimeira(String(usuarioAtual).trim().split(/\s+/)[0]);
+      const nomeExibicao = formatarNomeSobrenome(usuarioAtual);
 
       let setoresSessao = null;
       try {
@@ -1676,7 +1700,7 @@
 
       // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
       const estadoClima = {
-        cidade: "Ananindeua - PA",
+        cidade: "Belém - PA",
         temperatura: "--°C",
         icone: "fa-cloud-sun"
       };
@@ -1711,13 +1735,13 @@
         if (iconEl) iconEl.className = `fa-solid ${estadoClima.icone}`;
         if (textEl) {
           textEl.innerHTML = `
-            <span>Olá, ${saudacao}, ${primeiroNome}</span>
+            <span class="pill-item">Olá, ${saudacao}, ${nomeExibicao}</span>
             <span class="pill-sep">•</span>
-            <span><i class="fa-solid fa-location-dot" style="margin-right:3px;"></i>${estadoClima.cidade}</span>
+            <span class="pill-item"><i class="fa-solid fa-location-dot"></i>${estadoClima.cidade}</span>
             <span class="pill-sep">•</span>
-            <span class="pill-temp">${estadoClima.temperatura}</span>
+            <span class="pill-item pill-temp">${estadoClima.temperatura}</span>
             <span class="pill-sep">•</span>
-            <span class="pill-clock">${hh}:${mm}:${ss}</span>
+            <span class="pill-item pill-clock">${hh}:${mm}:${ss}</span>
           `;
         }
         if (clockEl) clockEl.textContent = `Portal ativo · ${hh}:${mm}`;
@@ -1740,7 +1764,7 @@
             const geoResp = await fetch(geoUrl);
             if (geoResp.ok) {
               const geoData = await geoResp.json();
-              const cidadeRaw = geoData.city || geoData.locality || "Ananindeua";
+              const cidadeRaw = geoData.city || geoData.locality || "Belém";
               const cidade = capitalizarPrimeira(cidadeRaw);
               const uf = (geoData.principalSubdivisionCode || "BR-PA").replace("BR-", "").toUpperCase();
               estadoClima.cidade = `${cidade} - ${uf}`;
@@ -1756,16 +1780,16 @@
       }
 
       function iniciarLocalizacaoClima() {
-        const defaultLat = -1.3656;
-        const defaultLon = -48.3722;
+        const defaultLat = -1.4558;
+        const defaultLon = -48.5044;
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
-            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA"),
+            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA"),
             { timeout: 6000, maximumAge: 600000 }
           );
         } else {
-          buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA");
+          buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA");
         }
       }
 
