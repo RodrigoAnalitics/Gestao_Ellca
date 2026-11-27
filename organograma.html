@@ -82,18 +82,18 @@
 
         /* Barra de rolagem estilizada e visível */
         ::-webkit-scrollbar {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: rgba(3, 7, 18, 0.85);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(0, 212, 255, 0.45);
-            border-radius: 10px;
+            background: rgba(0, 212, 255, 0.38);
+            border-radius: 999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 212, 255, 0.8);
+            background: rgba(0, 212, 255, 0.72);
         }
 
         .org-wrapper {
@@ -116,6 +116,7 @@
         body.fit-screen-mode .org-wrapper {
             max-width: 100%;
             height: 100vh;
+            height: 100dvh;
             padding-bottom: 14px;
             gap: 14px;
             overflow: hidden;
@@ -130,11 +131,11 @@
             gap: 12px;
             padding: 14px 22px;
             border-radius: 16px;
-            background: linear-gradient(135deg, rgba(4, 9, 20, 0.78) 0%, rgba(12, 36, 84, 0.65) 100%);
+            background: linear-gradient(135deg, rgba(4, 9, 20, 0.82) 0%, rgba(12, 36, 84, 0.68) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(0, 212, 255, 0.32);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
             flex-shrink: 0;
             z-index: 10;
         }
@@ -348,11 +349,11 @@
             min-height: 266px;
             padding: 18px 16px 15px 16px;
             border-radius: 16px;
-            background: rgba(8, 15, 30, 0.56);
+            background: rgba(8, 15, 30, 0.58);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(0, 212, 255, 0.24);
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.48);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.12);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -367,6 +368,46 @@
             transform: translateY(-4px);
             border-color: rgba(0, 212, 255, 0.65);
             box-shadow: 0 16px 34px rgba(0, 0, 0, 0.65);
+        }
+
+        /* Toques sutis por domínio de setor nos líderes */
+        .org-card.domain-estoque {
+            --stroke-color: #facc15;
+            border-color: rgba(250, 204, 21, 0.30);
+        }
+        .org-card.domain-estoque .org-badge {
+            background: rgba(250, 204, 21, 0.14);
+            border-color: rgba(250, 204, 21, 0.40);
+            color: #fde047;
+        }
+        .org-card.domain-estoque .org-avatar {
+            border-color: rgba(250, 204, 21, 0.62);
+        }
+
+        .org-card.domain-pessoas {
+            --stroke-color: #34d399;
+            border-color: rgba(52, 211, 153, 0.30);
+        }
+        .org-card.domain-pessoas .org-badge {
+            background: rgba(52, 211, 153, 0.14);
+            border-color: rgba(52, 211, 153, 0.40);
+            color: #6ee7b7;
+        }
+        .org-card.domain-pessoas .org-avatar {
+            border-color: rgba(52, 211, 153, 0.62);
+        }
+
+        .org-card.domain-suporte {
+            --stroke-color: #a5b4fc;
+            border-color: rgba(129, 140, 248, 0.32);
+        }
+        .org-card.domain-suporte .org-badge {
+            background: rgba(129, 140, 248, 0.15);
+            border-color: rgba(129, 140, 248, 0.42);
+            color: #c7d2fe;
+        }
+        .org-card.domain-suporte .org-avatar {
+            border-color: rgba(129, 140, 248, 0.65);
         }
 
         .card-border-svg {
@@ -652,7 +693,7 @@
             width: 100%;
             max-width: 400px;
             border-radius: 20px;
-            background: linear-gradient(145deg, rgba(10, 20, 42, 0.92) 0%, rgba(5, 11, 24, 0.96) 100%);
+            background: linear-gradient(145deg, rgba(10, 20, 42, 0.94) 0%, rgba(5, 11, 24, 0.98) 100%);
             border: 1px solid rgba(0, 212, 255, 0.45);
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
             padding: 26px 22px 22px 22px;
@@ -895,7 +936,7 @@
             <!-- RODAPÉ -->
             <footer class="footer-bar">
                 <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
                     <span class="separator">•</span>
                     <span>Módulo: <strong id="footerModuloOrg">Estrutura Organizacional</strong></span>
                 </div>
@@ -976,6 +1017,7 @@
                     {
                         id: 'almox_epi',
                         setor: 'Almox. EPI e EPC',
+                        domainClass: 'domain-estoque',
                         nome: 'Lilianne Lima',
                         funcao: 'Técnica de Segurança',
                         descricao: 'Controle de estoque, inspeção, validade e entrega de EPIs e EPCs às equipes.',
@@ -1020,12 +1062,12 @@
                                 whatsapp: '5591999990108',
                                 email: 'epi@ellca2.com.br'
                             }
-                           
                         ]
                     },
                     {
                         id: 'almoxarifado',
                         setor: 'Almoxarifado',
+                        domainClass: 'domain-estoque',
                         nome: 'Adriana Souza',
                         funcao: 'Supervisora de Almoxarifado',
                         descricao: 'Gestão de estoque, recebimento, inventário e abastecimento de materiais operacionais.',
@@ -1147,6 +1189,7 @@
                     {
                         id: 'backoffice',
                         setor: 'Backoffice',
+                        domainClass: 'domain-pessoas',
                         nome: 'Suellem Nunes',
                         funcao: 'Analista Administrativo',
                         descricao: 'Controle de processos administrativos, faturamento, medições e suporte operacional.',
@@ -1169,6 +1212,7 @@
                     {
                         id: 'dados_bi',
                         setor: 'Dados e Inteligência (BI)',
+                        domainClass: 'domain-suporte',
                         nome: 'Rodrigo Lopes',
                         funcao: 'Analista de Dados',
                         descricao: 'Desenvolvimento de dashboards gerenciais, automações e inteligência de indicadores.',
@@ -1191,6 +1235,7 @@
                     {
                         id: 'dp',
                         setor: 'DP',
+                        domainClass: 'domain-pessoas',
                         nome: 'Vanessa Soares',
                         funcao: 'Analista Administrativo',
                         descricao: 'Gestão de departamento pessoal, ponto eletrônico, folha de pagamento e benefícios.',
@@ -1213,6 +1258,7 @@
                     {
                         id: 'frota',
                         setor: 'Frota',
+                        domainClass: 'domain-operacao',
                         nome: 'Alex Caldeira',
                         funcao: 'Supervisor de Frota',
                         descricao: 'Controle de veículos, manutenções preventivas/corretivas, abastecimento e rastreamento.',
@@ -1235,6 +1281,7 @@
                     {
                         id: 'infraestrutura',
                         setor: 'Infraestrutura',
+                        domainClass: 'domain-suporte',
                         nome: 'Jacqueline Pimentel',
                         funcao: 'Analista Administrativo',
                         descricao: 'Gestão da infraestrutura predial, manutenção de bases operacionais e suporte logístico.',
@@ -1257,6 +1304,7 @@
                     {
                         id: 'programacao',
                         setor: 'Programação',
+                        domainClass: 'domain-operacao',
                         nome: 'Jadison Santos',
                         funcao: 'Técnico em Eletrotécnica',
                         descricao: 'Planejamento, roteirização e programação diária das ordens de serviço e equipes.',
@@ -1279,6 +1327,7 @@
                     {
                         id: 'projeto',
                         setor: 'Projeto',
+                        domainClass: 'domain-operacao',
                         nome: 'Fabio de Lima',
                         funcao: 'Técnico em Eletrotécnica',
                         descricao: 'Elaboração, análise técnica e acompanhamento de projetos elétricos e obras.',
@@ -1301,6 +1350,7 @@
                     {
                         id: 'rh',
                         setor: 'Recursos Humanos',
+                        domainClass: 'domain-pessoas',
                         nome: 'Eduarda Ribeiro',
                         funcao: 'Analista de RH',
                         descricao: 'Recrutamento e seleção, integração de colaboradores, treinamentos e clima interno.',
@@ -1323,6 +1373,7 @@
                     {
                         id: 'sesmt',
                         setor: 'SESMT',
+                        domainClass: 'domain-suporte',
                         nome: 'Vinicius Alves',
                         funcao: 'Engenheiro de Segurança',
                         descricao: 'Coordenação de segurança do trabalho, prevenção de acidentes, DSC e normas regulamentadoras.',
@@ -1345,6 +1396,7 @@
                     {
                         id: 'ti',
                         setor: 'Tecnologia da Informação',
+                        domainClass: 'domain-suporte',
                         nome: 'Endel Amaral',
                         funcao: 'Analista de TI',
                         descricao: 'Gestão de infraestrutura de rede, sistemas internos, suporte técnico e hardware.',
@@ -1375,7 +1427,6 @@
             const btnVoltarGeral = document.getElementById('btnVoltarGeral');
             const navStatus = document.getElementById('navOrgStatus');
 
-            // Controles de Enquadramento e Barras
             const btnToggleFitScreen = document.getElementById('btnToggleFitScreen');
             const iconFitScreen = document.getElementById('iconFitScreen');
             const textFitScreen = document.getElementById('textFitScreen');
@@ -1385,9 +1436,8 @@
             const textToggleBars = document.getElementById('textToggleBars');
 
             let isFitScreen = false;
-            let areBarsCollapsed = true; // Inicia encolhido conforme solicitado
+            let areBarsCollapsed = true;
 
-            // Elementos do Modal
             const modalOverlay = document.getElementById('perfilModalOverlay');
             const btnFecharModal = document.getElementById('btnFecharModal');
             const modalAvatar = document.getElementById('modalAvatar');
@@ -1402,12 +1452,10 @@
             const REGISTRO_PESSOAS = {};
             let animacaoSequencialId = null;
 
-            // ================= FUNÇÃO DE ENQUADRAMENTO AUTOMÁTICO NA TELA =================
             function aplicarAjusteDeTela() {
                 const tree = container.querySelector('.org-tree');
                 if (!tree) return;
 
-                // Reset inicial para medição real
                 container.style.transform = 'none';
                 tree.classList.remove('fit-single-row', 'fit-two-rows');
 
@@ -1418,14 +1466,12 @@
 
                 document.body.classList.add('fit-screen-mode');
 
-                // Calcula área disponível na janela descontando cabeçalho e barras (se visíveis)
                 const headerRect = headerBar.getBoundingClientRect();
                 const topUsed = headerRect.bottom + 14;
                 const bottomMargin = areBarsCollapsed ? 18 : 68;
                 const availW = window.innerWidth - 36;
                 const availH = Math.max(220, window.innerHeight - topUsed - bottomMargin);
 
-                // Testa 1 linha contínua de líderes vs 2 linhas equilibradas e escolhe a que gera maior escala (cards maiores)
                 tree.classList.add('fit-single-row');
                 const w1 = tree.scrollWidth;
                 const h1 = tree.scrollHeight;
@@ -1448,7 +1494,6 @@
                 container.style.transform = `scale(${finalScale.toFixed(4)})`;
             }
 
-            // Alternar modo "Ajustar à Tela" vs "Tamanho Original"
             btnToggleFitScreen.addEventListener('click', () => {
                 isFitScreen = !isFitScreen;
                 if (isFitScreen) {
@@ -1464,7 +1509,6 @@
                 aplicarAjusteDeTela();
             });
 
-            // Alternar Navbar e Rodapé Encolhidos vs Visíveis
             btnToggleBars.addEventListener('click', () => {
                 areBarsCollapsed = !areBarsCollapsed;
                 if (areBarsCollapsed) {
@@ -1478,7 +1522,6 @@
                     iconToggleBars.className = 'fa-solid fa-eye-slash';
                     textToggleBars.textContent = 'Ocultar Menu';
                 }
-                // Recalcula escala caso esteja no modo Ajustar à Tela
                 setTimeout(aplicarAjusteDeTela, 50);
             });
 
@@ -1486,7 +1529,6 @@
                 if (isFitScreen) aplicarAjusteDeTela();
             });
 
-            // ================= ANIMAÇÃO SEQUENCIAL VAI-E-VOLTA NOS CARDS =================
             function iniciarTraçoSequencialPingPong() {
                 if (animacaoSequencialId) {
                     cancelAnimationFrame(animacaoSequencialId);
@@ -1549,7 +1591,6 @@
                 animacaoSequencialId = requestAnimationFrame(step);
             }
 
-            // ================= MODAL DE PERFIL =================
             function abrirModalPessoa(personKey) {
                 const info = REGISTRO_PESSOAS[personKey];
                 if (!info) return;
@@ -1587,14 +1628,14 @@
             });
 
             function criarCardHTML(pessoa, opcoes = {}) {
-                const { badgeText = '', tierClass = '', isLeader = false, leaderId = '', uniqueKey = '' } = opcoes;
+                const { badgeText = '', tierClass = '', domainClass = '', isLeader = false, leaderId = '', uniqueKey = '' } = opcoes;
                 REGISTRO_PESSOAS[uniqueKey] = { pessoa, badgeText, leaderId: isLeader ? leaderId : null };
 
                 const wppLink = `https://wa.me/${pessoa.whatsapp}?text=${encodeURIComponent('Olá ' + pessoa.nome + ', tudo bem?')}`;
                 const mailLink = `mailto:${pessoa.email}`;
 
                 return `
-                    <div class="org-card ${tierClass}" data-person-key="${uniqueKey}">
+                    <div class="org-card ${tierClass} ${domainClass}" data-person-key="${uniqueKey}">
                         <svg class="card-border-svg" aria-hidden="true">
                             <rect class="card-border-rect" x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="16" ry="16" pathLength="100"></rect>
                         </svg>
@@ -1649,10 +1690,9 @@
                 });
             }
 
-            // RENDERIZA A VISÃO GERAL
             function renderizarGeral() {
                 headerTitle.textContent = 'Organograma Geral ELLCA';
-                headerSubtitle.textContent = 'Clique no card para ver o perfil ou em "Equipe" para abrir o organograma do setor';
+                headerSubtitle.textContent = 'Clique no card para ver o perfil ou em "Equipe" para abrir o setor';
                 headerIcon.className = 'fa-solid fa-sitemap';
                 navStatus.textContent = 'ESTRUTURA • VISÃO GERAL';
                 btnVoltarGeral.style.display = 'none';
@@ -1664,6 +1704,7 @@
                 const htmlLideres = lideresOrdenados.map(lider =>
                     criarCardHTML(lider, {
                         badgeText: lider.setor,
+                        domainClass: lider.domainClass || '',
                         isLeader: true,
                         leaderId: lider.id,
                         uniqueKey: `lider_${lider.id}`
@@ -1714,7 +1755,6 @@
                 aplicarAjusteDeTela();
             }
 
-            // RENDERIZA O ORGANOGRAMA ESPECÍFICO DA EQUIPE
             function renderizarEquipe(leaderId) {
                 const lider = ORGANOGRAMA_DADOS.lideres.find(l => l.id === leaderId);
                 if (!lider) return;
@@ -1728,6 +1768,7 @@
                 const htmlMembros = lider.equipe.map((membro, idx) =>
                     criarCardHTML(membro, {
                         badgeText: lider.setor,
+                        domainClass: lider.domainClass || '',
                         uniqueKey: `membro_${lider.id}_${idx}`
                     })
                 ).join('');
@@ -1759,7 +1800,6 @@
 
             btnVoltarGeral.addEventListener('click', renderizarGeral);
 
-            // Inicializa na visão geral
             renderizarGeral();
         })();
     </script>
