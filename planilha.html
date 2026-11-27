@@ -2,373 +2,2113 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELLCA | PLANILHAS & BASE DE DADOS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELLCA | PLANILHAS & BASE DE DADOS • PREMIUM MAX STAR 2.0</title>
 
-    <!-- Fonte -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <!-- Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    if (sessionStorage.getItem('ellca_auth') !== 'true') {
+      window.location.replace('login.html');
+    }
+  </script>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles_index.css">
+  <style>
+    @property --sweep-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes borderSweep {
+      to { --sweep-angle: 360deg; }
+    }
+
+    @keyframes paletteCycle360 {
+      0%, 24.99% {
+        --edge-a: #38bdf8;
+        --edge-b: #2563eb;
+        --edge-c: #93c5fd;
+      }
+      25%, 49.99% {
+        --edge-a: #facc15;
+        --edge-b: #f59e0b;
+        --edge-c: #fef08a;
+      }
+      50%, 74.99% {
+        --edge-a: #34d399;
+        --edge-b: #0284c7;
+        --edge-c: #a7f3d0;
+      }
+      75%, 100% {
+        --edge-a: #818cf8;
+        --edge-b: #06b6d4;
+        --edge-c: #e0e7ff;
+      }
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+
+    @keyframes card3dTurnIn {
+      0% { transform: translate3d(0, 8px, -40px) rotateY(14deg) scale(0.95); }
+      100% { transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1); }
+    }
+
+    @keyframes starGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); }
+      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: #050811;
+      background-image:
+        radial-gradient(ellipse 75% 55% at 15% 4%, rgba(37, 99, 235, 0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 48% at 88% 12%, rgba(56, 189, 248, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%);
+      color: #f8fafc;
+      height: 100vh;
+      height: 100dvh;
+      padding: 12px 22px 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
+
+    .planilha-container {
+      max-width: 1520px;
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
+    .top-navbar-collapse {
+      max-height: 60px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.25s ease, margin 0.25s ease;
+    }
+
+    body.menu-hidden .top-navbar-collapse {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      margin-bottom: -10px;
+    }
+
+    .top-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 1px 2px;
+    }
+
+    .nav-brand-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .brand-logo img {
+      height: 34px;
+      width: auto;
+      max-width: 150px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 19px;
+      color: #60a5fa;
+    }
+
+    .module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #38bdf8;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+    }
+
+    .module-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulseDot 2s infinite;
+    }
+
+    .max-star-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16));
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: #fde047;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      animation: starGlow 3.2s infinite;
+    }
+
+    .user-avatar-ring {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .top-nav-link {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .top-nav-link:hover,
+    .top-nav-link.active {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .btn-back-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.22);
+      color: #ffffff;
+    }
+
+    /* ================= HERO BANNER ================= */
+    .hero-banner {
+      position: relative;
+      border-radius: 16px;
+      padding: 14px 20px;
+      background:
+        linear-gradient(135deg, rgba(14, 32, 66, 0.86) 0%, rgba(9, 17, 36, 0.90) 55%, rgba(15, 32, 64, 0.84) 100%),
+        url('img/Capa_Base_dados.jpg') center/cover no-repeat;
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      border: 1px solid rgba(96, 165, 250, 0.32);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 280px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-top-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 780px;
+    }
+
+    .hero-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.42), rgba(14, 165, 233, 0.18));
+      border: 1px solid rgba(96, 165, 250, 0.48);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .hero-kicker {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
+
+    .hero-main-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .hero-main-title span { color: #38bdf8; }
+
+    .hero-subtitle {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .hero-right-stats {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .quick-stat-pill {
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: rgba(5, 10, 22, 0.72);
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      min-width: 110px;
+    }
+
+    .quick-stat-pill small {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+
+    .quick-stat-pill strong {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 1px;
+    }
+
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 9px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    .live-badge {
+      height: 31px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: #34d399;
+      font-size: 10.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-btn {
+      height: 31px;
+      padding: 0 12px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .hero-btn-blue {
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #93c5fd;
+    }
+
+    .hero-btn-blue:hover,
+    .hero-btn-blue.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-cyan {
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      color: #bae6fd;
+    }
+
+    .hero-btn-cyan:hover,
+    .hero-btn-cyan.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-gold {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: #fde047;
+    }
+
+    .hero-btn-gold:hover,
+    .hero-btn-gold.active {
+      background: rgba(234, 179, 8, 0.30);
+      color: #fef08a;
+    }
+
+    .hero-btn-menu-toggle {
+      background: #34d399;
+      border: 1px solid #6ee7b7;
+      color: #042f2e;
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+    }
+
+    body.menu-hidden .hero-btn-menu-toggle {
+      background: rgba(30, 58, 138, 0.48);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #e0f2fe;
+      box-shadow: none;
+    }
+
+    /* ================= BARRA DE FILTROS & PESQUISA ================= */
+    .filter-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 13px;
+      background: rgba(13, 19, 34, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(16px);
+      flex-shrink: 0;
+    }
+
+    .category-pills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .cat-btn {
+      height: 29px;
+      padding: 0 11px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(6, 10, 20, 0.72);
+      color: #94a3b8;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .cat-btn:hover {
+      color: #e0f2fe;
+      border-color: rgba(56, 189, 248, 0.38);
+    }
+
+    .cat-btn.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+      font-weight: 800;
+    }
+
+    .search-box-wrap {
+      position: relative;
+      min-width: 250px;
+      flex: 0 1 340px;
+    }
+
+    .search-box-wrap i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #38bdf8;
+      font-size: 11.5px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 30px;
+      padding: 0 12px 0 32px;
+      border-radius: 8px;
+      background: rgba(5, 10, 22, 0.88);
+      border: 1px solid rgba(56, 189, 248, 0.30);
+      color: #f8fafc;
+      font-size: 11.5px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
+    }
+
+    /* ================= CARROSSEL + GRADE + CARROSSEL 3D ================= */
+    .carousel-shell {
+      position: relative;
+      border-radius: 16px;
+      background: rgba(10, 16, 30, 0.65);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      padding: 12px 16px 12px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .carousel-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .carousel-status-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .carousel-nav-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .carousel-arrow {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      background: rgba(15, 23, 42, 0.85);
+      color: #e0f2fe;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-arrow:hover {
+      background: #2563eb;
+      border-color: #7dd3fc;
+      color: #ffffff;
+    }
+
+    .cards-track {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .cards-track.grid-mode {
+      grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+      overflow-y: auto;
+      padding-right: 4px;
+      align-content: start;
+    }
+
+    .cards-track.mode-3d {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 290px;
+      perspective: 1400px;
+      transform-style: preserve-3d;
+      overflow: hidden;
+      padding: 4px 0;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap {
+      position: absolute;
+      width: 272px;
+      max-width: 88vw;
+      min-height: 292px;
+      height: auto;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-center {
+      transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1);
+      opacity: 1;
+      filter: blur(0px);
+      z-index: 5;
+      pointer-events: auto;
+      animation: card3dTurnIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-left {
+      transform: translate3d(-220px, 6px, -135px) rotateY(16deg) scale(0.84);
+      opacity: 0.24;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-right {
+      transform: translate3d(220px, 6px, -135px) rotateY(-16deg) scale(0.84);
+      opacity: 0.24;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface,
+    .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface {
+      background: linear-gradient(155deg, rgba(148, 163, 184, 0.24) 0%, rgba(30, 58, 138, 0.16) 55%, rgba(15, 23, 42, 0.26) 100%);
+      backdrop-filter: blur(22px) saturate(150%);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+      border-color: rgba(186, 230, 253, 0.34);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-hidden {
+      transform: translate3d(0, 14px, -240px) rotateY(28deg) scale(0.68);
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-3d-wrap {
+      perspective: 1400px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* CARD VISÍVEL PORÉM SEMI-INVISÍVEL QUANDO SEM ACESSO */
+    .card-3d-wrap.sem-acesso .card-surface {
+      opacity: 0.30;
+      filter: saturate(0.28) brightness(0.72);
+      border-color: rgba(148, 163, 184, 0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-3d-wrap.sem-acesso .card-surface::before {
+      opacity: 0.12;
+    }
+
+    .card-3d-wrap.sem-acesso .card-surface:hover {
+      opacity: 0.38;
+    }
+
+    .card-3d-wrap.sem-acesso .btn-acessar-card,
+    .card-3d-wrap.sem-acesso .btn-nova-aba {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+      border-color: rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.45);
+      color: #94a3b8;
+      box-shadow: none;
+    }
+
+    .card-surface {
+      --sweep-angle: 0deg;
+      --edge-a: #38bdf8;
+      --edge-b: #2563eb;
+      --edge-c: #93c5fd;
+      --sector-accent: #38bdf8;
+      --sector-tint: rgba(56, 189, 248, 0.22);
+      position: relative;
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(17, 35, 68, 0.56) 0%, rgba(7, 15, 32, 0.68) 100%);
+      backdrop-filter: blur(22px) saturate(155%);
+      -webkit-backdrop-filter: blur(22px) saturate(155%);
+      border: 1px solid rgba(147, 197, 253, 0.26);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.48),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
+      height: 100%;
+      overflow: hidden;
+      animation: paletteCycle360 44s steps(1, end) infinite;
+    }
+
+    /* Toque sutil por tipo de setor */
+    .card-surface[data-theme="estoque"] {
+      --sector-accent: #facc15;
+      --sector-tint: rgba(250, 204, 21, 0.24);
+    }
+
+    .card-surface[data-theme="operacao"] {
+      --sector-accent: #38bdf8;
+      --sector-tint: rgba(56, 189, 248, 0.24);
+    }
+
+    .card-surface[data-theme="pessoas"] {
+      --sector-accent: #34d399;
+      --sector-tint: rgba(52, 211, 153, 0.22);
+    }
+
+    .card-surface[data-theme="suporte"] {
+      --sector-accent: #a5b4fc;
+      --sector-tint: rgba(129, 140, 248, 0.24);
+    }
+
+    .card-surface::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 2px;
+      background: conic-gradient(
+        from var(--sweep-angle),
+        transparent 0deg,
+        transparent 240deg,
+        var(--edge-b) 288deg,
+        var(--edge-a) 328deg,
+        var(--edge-c) 354deg,
+        transparent 360deg
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderSweep 11s linear infinite;
+      opacity: 0.72;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .card-surface:hover::before,
+    .card-surface.is-center::before {
+      padding: 2.2px;
+      opacity: 0.94;
+    }
+
+    .card-surface:hover,
+    .card-surface.is-center {
+      background: linear-gradient(160deg, rgba(22, 46, 88, 0.62) 0%, rgba(8, 18, 38, 0.72) 100%);
+      border-color: var(--sector-accent);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.62),
+        0 0 24px var(--sector-tint),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 2;
+      padding: 10px 12px 11px;
+      border-radius: 15px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 7px;
+    }
+
+    .cards-track.mode-3d .card-body {
+      padding: 10px 12px 11px;
+      gap: 7px;
+    }
+
+    .cards-track.mode-3d .card-img-banner {
+      height: 88px;
+    }
+
+    .cards-track.mode-3d .btn-acessar-card,
+    .cards-track.mode-3d .btn-detalhes-card,
+    .cards-track.mode-3d .btn-nova-aba {
+      height: 31px;
+      min-height: 31px;
+      max-height: 31px;
+    }
+
+    .cards-track.mode-3d .acessar-line {
+      height: 31px;
+    }
+
+    .card-img-banner {
+      position: relative;
+      width: 100%;
+      height: 92px;
+      border-radius: 9px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .card-badge-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      z-index: 2;
+      padding: 2.5px 7px;
+      border-radius: 6px;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(5, 10, 22, 0.80);
+      border: 1px solid var(--sector-accent);
+      color: var(--sector-accent);
+    }
+
+    .card-badge-tag.locked {
+      background: rgba(30, 41, 59, 0.90);
+      border-color: rgba(148, 163, 184, 0.45);
+      color: #cbd5e1;
+    }
+
+    .btn-fav-card {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      z-index: 2;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(5, 10, 22, 0.72);
+      color: #cbd5e1;
+      font-size: 9.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-fav-card:hover {
+      border-color: #facc15;
+      color: #fde047;
+    }
+
+    .btn-fav-card.favorited {
+      background: rgba(234, 179, 8, 0.92);
+      border-color: #fef08a;
+      color: #1c1402;
+    }
+
+    .card-title-txt {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    .card-desc-txt {
+      font-size: 11px;
+      line-height: 1.32;
+      color: #cbd5e1;
+      margin-top: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .kpi-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .kpi-pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: rgba(6, 16, 36, 0.68);
+      border: 1px solid rgba(147, 197, 253, 0.24);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .kpi-pill-item i { color: var(--sector-accent); }
+
+    .card-actions-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .acessar-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      height: 32px;
+    }
+
+    .btn-acessar-card {
+      flex: 1 1 auto;
+      width: 100%;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid var(--sector-accent);
+      background: linear-gradient(180deg, var(--sector-tint) 0%, rgba(2, 132, 199, 0.18) 100%);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-acessar-card:hover {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #bae6fd;
+      color: #040d1e;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-nova-aba {
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      flex-shrink: 0;
+      background: rgba(6, 18, 42, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 7px;
+      color: var(--sector-accent);
+      font-size: 10.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nova-aba:hover:not(:disabled) {
+      background: #38bdf8;
+      border-color: #ffffff;
+      color: #02060f;
+    }
+
+    .btn-nova-aba:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-detalhes-card {
+      flex: 0 0 32px;
+      width: 100%;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid rgba(147, 197, 253, 0.28);
+      background: rgba(15, 29, 58, 0.52);
+      color: #e2e8f0;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-detalhes-card:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.16);
+    }
+
+    .pagination-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .p-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(148, 163, 184, 0.35);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .p-dot.active {
+      width: 24px;
+      background: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+
+    /* ================= DRAWER LATERAL DE DETALHES ================= */
+    .details-drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      background: rgba(2, 6, 15, 0.72);
+      backdrop-filter: blur(6px);
+    }
+
+    .details-drawer-backdrop.open { display: block; }
+
+    .details-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 100%;
+      max-width: 390px;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 9995;
+      background: linear-gradient(170deg, rgba(13, 22, 42, 0.97) 0%, rgba(5, 10, 22, 0.99) 100%);
+      border-left: 1px solid rgba(56, 189, 248, 0.38);
+      box-shadow: -16px 0 42px rgba(0, 0, 0, 0.75);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: right 0.3s ease;
+    }
+
+    .details-drawer.open { right: 0; }
+
+    .details-drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .details-drawer-top h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .details-drawer-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e2e8f0;
+      cursor: pointer;
+    }
+
+    .details-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .details-meta-box {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(5, 10, 22, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .details-meta-box small {
+      display: block;
+      font-size: 9.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .details-meta-box strong {
+      display: block;
+      font-size: 12px;
+      color: #f8fafc;
+      margin-top: 3px;
+    }
+
+    .details-sublist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      max-height: 44vh;
+    }
+
+    .details-sublist li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    /* ================= RODAPÉ OFICIAL ================= */
+    .ellca-official-footer {
+      padding: 2px 2px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+
+    .footer-system-text {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text strong { color: #f8fafc; font-weight: 700; }
+
+    .footer-right-actions {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-footer-support {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-footer-support:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .btn-footer-sair {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-footer-sair:hover {
+      background: rgba(239, 68, 68, 0.28);
+      color: #ffffff;
+    }
+
+    @media (max-width: 1320px) {
+      .cards-track { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1024px) {
+      body { height: auto; min-height: 100dvh; overflow-y: auto; }
+      .planilha-container { height: auto; min-height: calc(100dvh - 26px); }
+      .cards-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-height: 700px) and (min-width: 1025px) {
+      body { height: auto; min-height: 100dvh; overflow-y: auto; }
+      .planilha-container { height: auto; min-height: calc(100dvh - 26px); }
+    }
+
+    @media (max-width: 760px) {
+      .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards-track.mode-3d .card-3d-wrap { width: 244px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-135px, 6px, -135px) rotateY(14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(135px, 6px, -135px) rotateY(-14deg) scale(0.78); }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 10px 12px 14px; }
+      .cards-track,
+      .cards-track.grid-mode { grid-template-columns: 1fr; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left,
+      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.10; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="planilha-container">
 
-    <div class="desktop-view">
-        <!-- NAVBAR -->
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html"> 
-                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img"> 
-                </a>
-            </div>
+    <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
+    <div class="top-navbar-collapse">
+      <header class="top-navbar">
+        <div class="nav-brand-side">
+          <a href="index.html" class="brand-logo" title="ELLCA">
+            <img src="img/logo_ellca.png" alt="Logo ELLCA"
+                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+            <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
+          </a>
 
-            <!-- Ações Mobile: Voltar para Home + Menu Hambúrguer lado a lado -->
-            <div class="mobile-header-actions">
-                <button class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <button class="menu-mobile-btn" aria-label="Abrir Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
+          <span class="module-pill">
+            <span class="dot"></span>
+            REDES ONLINE • 12ms · PLANILHAS
+          </span>
 
-            <!-- Conteúdo da Navbar -->
-            <div class="nav-content">
-                <div class="nav-status">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text">REDES ONLINE • 12ms</span>
-                </div>
+          <span class="max-star-tag">
+            <i class="fa-solid fa-star"></i> MAX STAR 2.0
+          </span>
 
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="cardSearch" placeholder="Pesquisar...">
-                </div>
-
-                <div class="nav-links">
-                    <a href="home.html" class="nav-item"> HOME <i class="fa-solid fa-house-user"></i></a>
-                    <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i> </a>
-                    <a href="planilha.html" class="nav-item active">PLANILHAS <i class="fa-solid fa-file-excel"></i></a>
-                    
-                    <div class="nav-actions-group">
-                        <button class="grid-toggle-btn" title="Alternar visualização em Grade">
-                            <i class="fa-solid fa-table-cells"></i>
-                        </button>
-                        <button class="btn-voltar btn-voltar-desktop" id="btnVoltar" data-destino="home.html" title="Voltar para Home">
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- CONTAINER PRINCIPAL -->
-        <div class="container">
-
-            <!-- SLIDER -->
-            <div class="slide">
-
-                <div class="item active"
-                    style="background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.55)),
-                    url('img/Capa_Base_dados.jpg');">
-
-                    <div class="split-screen">
-
-                        <!-- TEXTO -->
-                        <div class="text-section">
-                            <div class="topic">CENTRAL DE DADOS</div>
-
-                            <h1 class="title">
-                                BASES & <br>
-                                <span>PLANILHAS</span>
-                            </h1>
-
-                            <p class="des">
-                                Gerencie os repositórios de dados consolidados e planilhas operacionais de cada setor. 
-                                Acesse fontes estruturadas para auditoria, controle de lançamentos e extração de relatórios detalhados.
-                                <br><br>
-                                Selecione a base correspondente para iniciar o gerenciamento.
-                            </p>
-                        </div>
-
-                        <!-- CARROSSEL 3D / GRADE DE SETORES -->
-                        <div class="cards-section">
-                            <div class="cards-wrapper">
-
-                                <!-- CARD 1: ALMOXARIFADO -->
-                                <div class="glass-card" data-setor="almoxarifado" data-index="0" data-title="almoxarifado estq estoque inventario materiais">
-                                    <div class="badge gold">ESTQ <i class="fa-solid fa-boxes-stacked"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>ALMOXARIFADO</h3>
-                                    <p class="card-desc">Base de dados de inventário, entradas, saídas e movimentações de materiais.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Automático</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="#"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-
-                                <!-- CARD 2: ALM. EPI/EPC -->
-                                <div class="glass-card" data-setor="almoxarifado_epi" data-index="1" data-title="almoxarifado epi epc ferramental seguranca">
-                                    <div class="badge gold">ESTQ <i class="fa-solid fa-boxes-stacked"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>ALM. EPI/EPC</h3>
-                                    <p class="card-desc">Base de dados de inventário, entradas, saídas e movimentações de EPI, EPC e FERRAMENTAL.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Automático</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1I6UkmlY0l5mIOZCS5uNgUC7hVOsnp_jxmzGFJmNFYfE/edit?gid=0#gid=0" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                                
-                                <!-- CARD 3: BACKOFFICE -->
-                                <div class="glass-card" data-setor="backoffice" data-index="2" data-title="backoffice data administrativo chamados processos">
-                                    <div class="badge gold">DATA <i class="fa-solid fa-briefcase"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>BACKOFFICE</h3>
-                                    <p class="card-desc">Registros de suporte administrativo, chamados e controle de processos.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Tempo Real</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="#"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                                
-                                <!-- CARD 4: DP -->
-                                <div class="glass-card" data-setor="dp" data-index="3" data-title="dp folha pagamento ponto ferias encargos">
-                                    <div class="badge gold">FOLHA <i class="fa-solid fa-file-invoice-dollar"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>DP</h3>
-                                    <p class="card-desc">Planilhas de controle de folha de pagamento, ponto, férias e encargos.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Mensal</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1j-maVH4qYVCuISlzI6Y0cKnBOAZwH3In-X0vhF4-cuU/edit?gid=391528799#gid=391528799" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                               
-                                <!-- CARD 5: ESTRUTURA -->
-                                <div class="glass-card" data-setor="estrutura" data-index="4" data-title="estrutura veiculos formacao mobilizacao processos">
-                                    <div class="badge gold">VEÍCULOS <i class="fa-solid fa-sitemap"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>ESTRUTURA</h3>
-                                    <p class="card-desc">Planilhas de controle de estrutura dos processos, formação e mobilização.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Mensal</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo/edit?gid=0#gid=0" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                                
-                                <!-- CARD 6: FROTA -->
-                                <div class="glass-card" data-setor="frota" data-index="5" data-title="frota fleet quilometragem abastecimento manutencoes">
-                                    <div class="badge">FLEET <i class="fa-solid fa-truck-fast"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>FROTA</h3>
-                                    <p class="card-desc">Planilhas de controle de quilometragem, abastecimento e manutenções.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Semanal</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1_BWswAx52A7_sGW8Wsd1OdBNxmxBH7h897UydQyVeyY/edit?gid=0#gid=0" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                                
-                                <!-- CARD 7: INFRAESTRUTURA -->
-                                <div class="glass-card" data-setor="infraestrutura" data-index="6" data-title="infraestrutura net ti ativos rede chamados">
-                                    <div class="badge">NET <i class="fa-solid fa-server"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>INFRAESTRUTURA</h3>
-                                    <p class="card-desc">Inventário de ativos de TI, histórico de manutenções e chamados de rede.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Diário</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="#"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-
-                                <!-- CARD 8: PRODUTIVIDADE -->
-                                <div class="glass-card" data-setor="produtividade" data-index="7" data-title="produtividade perf eficiencia rendimento metas">
-                                    <div class="badge">PERF <i class="fa-solid fa-gauge-high"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>PRODUTIVIDADE</h3>
-                                    <p class="card-desc">Planilhas de controle de eficiência operacional, rendimento de equipes e metas.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Diário</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1_BWswAx52A7_sGW8Wsd1OdBNxmxBH7h897UydQyVeyY/edit?gid=0#gid=0" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                               
-                                <!-- CARD 9: PROGRAMAÇÃO -->
-                                <div class="glass-card" data-setor="programacao" data-index="8" data-title="programacao agendamento servicos equipes">
-                                    <div class="badge">OPS <i class="fa-solid fa-calendar-check"></i></div>
-                                    <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
-                                    <h3>PROGRAMAÇÃO</h3>
-                                    <p class="card-desc">Base oficial de Programação 2027, frota por supervisor, materiais e espelho de OS.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> Google Sheets</span>
-                                        <span><i class="fa-solid fa-sync"></i> Tempo Real</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit?gid=1374247594#gid=1374247594" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-                                
-                                <!-- CARD 10: PROJETO -->
-                                <div class="glass-card" data-setor="projeto" data-index="9" data-title="projeto xls escopo marcos cronograma">
-                                    <div class="badge">XLS <i class="fa-solid fa-diagram-project"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>PROJETO</h3>
-                                    <p class="card-desc">Planilhas de controle de escopo, marcos contratuais e cronograma físico.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Diário</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="#"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-
-                                <!-- CARD 11: RH -->
-                                <div class="glass-card" data-setor="rh" data-index="10" data-title="rh team colaboradores talentos treinamentos">
-                                    <div class="badge">TEAM <i class="fa-solid fa-user-tie"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>RH</h3>
-                                    <p class="card-desc">Base de colaboradores, banco de talentos, treinamentos e avaliações.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Semanal</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="https://docs.google.com/spreadsheets/d/1j-maVH4qYVCuISlzI6Y0cKnBOAZwH3In-X0vhF4-cuU/edit?gid=391528799#gid=391528799" target="_blank"> ACESSAR <i class="fa-solid fa-rocket"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-
-                                <!-- CARD 12: SESMT -->
-                                <div class="glass-card" data-setor="sesmt" data-index="11" data-title="sesmt seg epi inspecao ocorrencias">
-                                    <div class="badge gold">SEG <i class="fa-solid fa-helmet-safety"></i></div>
-                                    <div class="img-box" style="background-image: url('https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60');"></div>
-                                    <h3>SESMT</h3>
-                                    <p class="card-desc">Controle de entrega de EPIs, fichas de inspeção e registros de ocorrências.</p>
-                                    <div class="kpi-mini">
-                                        <span><i class="fa-solid fa-file-excel"></i> .XLSX</span>
-                                        <span><i class="fa-solid fa-sync"></i> Contínuo</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button class="btn-primary"><a href="#"> ACESSAR <i class="fa-solid fa-lock"></i></a></button>
-                                        <button class="btn-glass">DETALHES</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- CONTROLES & PAGINAÇÃO -->
-            <div class="controls-container">
-                <div class="controls">
-                    <button class="prev"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="next"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-                <div class="pagination-dots"></div>
-            </div>
-
-            <!-- RODAPÉ -->
-            <footer class="footer-bar">
-                <div class="footer-info">
-                    <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.4.0</strong></span>
-                    <span class="separator">•</span>
-                    <span>Dominio: <strong>Rodrigo Lopes</strong></span>
-                </div>
-                <div class="footer-actions">
-                    <button class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                        <i class="fa-solid fa-headset"></i> Suporte
-                    </button>
-                </div>
-            </footer>
-
+          <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
+
+        <nav class="nav-links-side" aria-label="Menu do Portal">
+          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house-user"></i> HOME</a>
+          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
+          <a href="planilha.html" class="top-nav-link active"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
+          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para Home">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </nav>
+      </header>
     </div>
 
-    <!-- Filtro SVG para Fumaça Volumétrica Suave -->
-    <svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
-        <filter id="hollywood-smoke-filter" x="-25%" y="-25%" width="150%" height="150%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.010 0.015" numOctaves="3" seed="8" result="noise">
-                <animate attributeName="baseFrequency" dur="18s" values="0.010 0.015;0.015 0.022;0.010 0.015" repeatCount="indefinite" />
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-    </svg>
+    <!-- 2. HERO BANNER -->
+    <section class="hero-banner">
+      <div class="hero-top-split">
+        <div class="hero-title-row">
+          <div class="hero-icon-box">
+            <i class="fa-solid fa-file-excel"></i>
+          </div>
+          <div>
+            <div class="hero-kicker">CENTRAL DE DADOS · PREMIUM MAX STAR 2.0</div>
+            <h1 class="hero-main-title">BASES & <span>PLANILHAS</span></h1>
+            <p class="hero-subtitle">
+              Gerencie os repositórios de dados consolidados e planilhas operacionais de cada setor para auditoria, controle de lançamentos e relatórios.
+            </p>
+          </div>
+        </div>
 
-    <!-- SCRIPT DE CONTROLE DE PERMISSÕES (RODA ANTES DO SCRIPT.JS) -->
-    <script>
-        (function aplicarPermissoesDeSetor() {
-            const isAuth = sessionStorage.getItem('ellca_auth');
-            if (isAuth !== 'true') {
-                window.location.href = 'login.html';
-                return;
-            }
+        <div class="hero-right-stats tabular">
+          <div class="quick-stat-pill">
+            <small>Bases Mapeadas</small>
+            <strong>12 Bases</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Liberadas p/ Você</small>
+            <strong id="statLiberados" style="color:#38bdf8;">--</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Favoritos</small>
+            <strong id="statFavoritos" style="color:#facc15;">0</strong>
+          </div>
+        </div>
+      </div>
 
-            const setoresRaw = sessionStorage.getItem('ellca_user_setores');
-            const setoresPermitidos = setoresRaw ? JSON.parse(setoresRaw) : [];
+      <div class="hero-actions-row">
+        <span class="live-badge tabular">
+          <i class="fa-solid fa-circle-check"></i>
+          <span id="liveClockTxt">Bases Sincronizadas · --:--</span>
+        </span>
 
-            // Filtra os cards se o usuário não tiver acesso total ('todos')
-            if (!setoresPermitidos.includes('todos')) {
-                const cards = document.querySelectorAll('.cards-wrapper .glass-card');
-                
-                cards.forEach(card => {
-                    const setorCard = card.getAttribute('data-setor');
-                    if (!setoresPermitidos.includes(setorCard)) {
-                        card.remove();
-                    }
-                });
+        <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
+          <i class="fa-solid fa-sliders"></i> MODO CARROSSEL
+        </button>
 
-                // Atualiza o data-index (0, 1, 2...) dos cards restantes para o carrossel 3D funcionar
-                const cardsRestantes = document.querySelectorAll('.cards-wrapper .glass-card');
-                cardsRestantes.forEach((card, novoIndex) => {
-                    card.setAttribute('data-index', novoIndex);
-                });
-            }
-        })();
-    </script>
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D">
+          <i class="fa-solid fa-cube"></i> MODO CARROSSEL 3D
+        </button>
 
-    <!-- JS -->
-    <script src="script.js"></script>
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade">
+          <i class="fa-solid fa-table-cells"></i> MODO GRADE
+        </button>
 
+        <button type="button" class="hero-btn hero-btn-gold" id="btnFiltroFavoritos">
+          <i class="fa-solid fa-star"></i> FAVORITOS (<span id="favCountTxt">0</span>)
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-blue" id="btnAutoPlay">
+          <i class="fa-solid fa-pause" id="iconAutoPlay"></i> <span id="txtAutoPlay">AUTOPLAY: ON</span>
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu" style="margin-left:auto;">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">OCULTAR MENU</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. BARRA DE FILTROS & PESQUISA -->
+    <div class="filter-toolbar">
+      <div class="category-pills" id="categoryPills">
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (12)</button>
+        <button type="button" class="cat-btn" data-cat="ESTOQUE"><i class="fa-solid fa-boxes-stacked"></i> Estoque & Materiais</button>
+        <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-bolt"></i> Operação & Frota</button>
+        <button type="button" class="cat-btn" data-cat="PESSOAS"><i class="fa-solid fa-users"></i> Pessoas & Gestão</button>
+        <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-shield-halved"></i> Suporte & Segurança</button>
+      </div>
+
+      <div class="search-box-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="sheetSearch" class="search-input" placeholder="Pesquisar base, planilha ou setor..." />
+      </div>
+    </div>
+
+    <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
+    <section class="carousel-shell">
+      <div class="carousel-header-bar">
+        <span class="carousel-status-label" id="carouselStatusLabel">
+          <i class="fa-solid fa-layer-group"></i> EXIBINDO 12 BASES · MODO CARROSSEL
+        </span>
+
+        <div class="carousel-nav-controls" id="carouselNavControls">
+          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="cards-track" id="cardsWrapper"></div>
+      <div class="pagination-dots" id="paginationDots"></div>
+    </section>
+
+    <!-- 5. RODAPÉ OFICIAL -->
+    <footer class="ellca-official-footer">
+      <div class="footer-system-text">
+        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
+        <span>•</span>
+        <span>Módulo: <strong>Planilhas & Base de Dados</strong></span>
+      </div>
+
+      <div class="footer-right-actions">
+        <button type="button" class="btn-footer-support" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+          <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
+        </button>
+        <span style="color:#cbd5e1;"><i class="fa-solid fa-user-check" style="color:#34d399;"></i> Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
+        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- DRAWER LATERAL DE DETALHES -->
+  <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
+  <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
+    <div class="details-drawer-top">
+      <h3 id="drawerBaseTitulo">Base</h3>
+      <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <p id="drawerBaseDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
+    <div class="details-meta-grid">
+      <div class="details-meta-box">
+        <small>Categoria</small>
+        <strong id="drawerBaseCat">ESTOQUE</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Formato / Ritmo</small>
+        <strong id="drawerBaseRitmo">.XLSX · Automático</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Status do Link</small>
+        <strong id="drawerBaseLinkStatus">CONECTADO</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Permissão</small>
+        <strong id="drawerBasePerm">AUTORIZADO</strong>
+      </div>
+    </div>
+    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
+      Escopo da Planilha
+    </div>
+    <ul class="details-sublist" id="drawerBaseItens"></ul>
+    <button type="button" class="btn-acessar-card" id="btnDrawerAbrirBase" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
+      ABRIR PLANILHA <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </button>
+  </aside>
+
+  <script>
+    (function iniciarPlanilhasMaxStar() {
+      const BASES_PLANILHAS = [
+        {
+          key: "almoxarifado",
+          nome: "ALMOXARIFADO",
+          categoria: "ESTOQUE",
+          theme: "estoque",
+          badge: "ESTQ",
+          icone: "fa-boxes-stacked",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Base de dados de inventário, entradas, saídas e movimentações de materiais.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Automático',
+          ritmoResumo: ".XLSX · Automático",
+          url: "",
+          tags: "almoxarifado estq estoque inventario materiais",
+          itens: ["Controle de entradas e saídas", "Inventário de materiais", "Rastreabilidade de movimentações"]
+        },
+        {
+          key: "almoxarifado_epi",
+          nome: "ALM. EPI/EPC",
+          categoria: "ESTOQUE",
+          theme: "estoque",
+          badge: "ESTQ",
+          icone: "fa-boxes-stacked",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Base de dados de inventário, entradas, saídas e movimentações de EPI, EPC e FERRAMENTAL.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Automático',
+          ritmoResumo: ".XLSX · Automático",
+          url: "https://docs.google.com/spreadsheets/d/1I6UkmlY0l5mIOZCS5uNgUC7hVOsnp_jxmzGFJmNFYfE/edit?gid=0#gid=0",
+          tags: "almoxarifado epi epc ferramental seguranca",
+          itens: ["Inventário de EPI e EPC", "Controle de ferramental", "Entradas, saídas e devoluções"]
+        },
+        {
+          key: "backoffice",
+          nome: "BACKOFFICE",
+          categoria: "PESSOAS",
+          theme: "pessoas",
+          badge: "DATA",
+          icone: "fa-briefcase",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Registros de suporte administrativo, chamados e controle de processos.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Tempo Real',
+          ritmoResumo: ".XLSX · Tempo Real",
+          url: "",
+          tags: "backoffice data administrativo chamados processos",
+          itens: ["Suporte administrativo", "Registro e status de chamados", "Controle de processos internos"]
+        },
+        {
+          key: "dp",
+          nome: "DP",
+          categoria: "PESSOAS",
+          theme: "pessoas",
+          badge: "FOLHA",
+          icone: "fa-file-invoice-dollar",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Planilhas de controle de folha de pagamento, ponto, férias e encargos.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Mensal',
+          ritmoResumo: ".XLSX · Mensal",
+          url: "https://docs.google.com/spreadsheets/d/1j-maVH4qYVCuISlzI6Y0cKnBOAZwH3In-X0vhF4-cuU/edit?gid=391528799#gid=391528799",
+          tags: "dp folha pagamento ponto ferias encargos",
+          itens: ["Folha de pagamento e encargos", "Controle de ponto", "Escalas e férias"]
+        },
+        {
+          key: "estrutura",
+          nome: "ESTRUTURA",
+          categoria: "OPERACAO",
+          theme: "operacao",
+          badge: "VEÍCULOS",
+          icone: "fa-sitemap",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Planilhas de controle de estrutura dos processos, formação e mobilização.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Mensal',
+          ritmoResumo: ".XLSX · Mensal",
+          url: "https://docs.google.com/spreadsheets/d/1RrdaiA8uhiflOJ9Eag0sv0Oa6hoM-D28knNZRYbjtTo/edit?gid=0#gid=0",
+          tags: "estrutura veiculos formacao mobilizacao processos",
+          itens: ["Estrutura de processos", "Formação de equipes", "Mobilização operacional"]
+        },
+        {
+          key: "frota",
+          nome: "FROTA",
+          categoria: "OPERACAO",
+          theme: "operacao",
+          badge: "FLEET",
+          icone: "fa-truck-fast",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Planilhas de controle de quilometragem, abastecimento e manutenções.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Semanal',
+          ritmoResumo: ".XLSX · Semanal",
+          url: "https://docs.google.com/spreadsheets/d/1_BWswAx52A7_sGW8Wsd1OdBNxmxBH7h897UydQyVeyY/edit?gid=0#gid=0",
+          tags: "frota fleet quilometragem abastecimento manutencoes",
+          itens: ["Controle de quilometragem", "Abastecimentos e consumo", "Manutenções preventivas e corretivas"]
+        },
+        {
+          key: "infraestrutura",
+          nome: "INFRAESTRUTURA",
+          categoria: "SUPORTE",
+          theme: "suporte",
+          badge: "NET",
+          icone: "fa-server",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Inventário de ativos de TI, histórico de manutenções e chamados de rede.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Diário',
+          ritmoResumo: ".XLSX · Diário",
+          url: "",
+          tags: "infraestrutura net ti ativos rede chamados",
+          itens: ["Inventário de ativos de TI", "Histórico de manutenções", "Chamados de rede"]
+        },
+        {
+          key: "produtividade",
+          nome: "PRODUTIVIDADE",
+          categoria: "OPERACAO",
+          theme: "operacao",
+          badge: "PERF",
+          icone: "fa-gauge-high",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Planilhas de controle de eficiência operacional, rendimento de equipes e metas.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Diário',
+          ritmoResumo: ".XLSX · Diário",
+          url: "https://docs.google.com/spreadsheets/d/1_BWswAx52A7_sGW8Wsd1OdBNxmxBH7h897UydQyVeyY/edit?gid=0#gid=0",
+          tags: "produtividade perf eficiencia rendimento metas",
+          itens: ["Eficiência operacional", "Rendimento por equipe", "Acompanhamento de metas"]
+        },
+        {
+          key: "programacao",
+          nome: "PROGRAMAÇÃO",
+          categoria: "OPERACAO",
+          theme: "operacao",
+          badge: "OPS",
+          icone: "fa-calendar-check",
+          imagem: "img/Programacao.jpg",
+          desc: "Base oficial de Programação 2027, frota por supervisor, materiais e espelho de OS.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> Google Sheets',
+          kpi2: '<i class="fa-solid fa-sync"></i> Tempo Real',
+          ritmoResumo: "Google Sheets · Tempo Real",
+          url: "https://docs.google.com/spreadsheets/d/1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs/edit?gid=1374247594#gid=1374247594",
+          tags: "programacao agendamento servicos equipes frota materiais",
+          itens: ["Programação 2027", "Frota por supervisor e materiais", "Espelho de Ordens de Serviço"]
+        },
+        {
+          key: "projeto",
+          nome: "PROJETO",
+          categoria: "OPERACAO",
+          theme: "operacao",
+          badge: "XLS",
+          icone: "fa-diagram-project",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Planilhas de controle de escopo, marcos contratuais e cronograma físico.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Diário',
+          ritmoResumo: ".XLSX · Diário",
+          url: "",
+          tags: "projeto xls escopo marcos cronograma",
+          itens: ["Controle de escopo", "Marcos contratuais", "Cronograma físico"]
+        },
+        {
+          key: "rh",
+          nome: "RH",
+          categoria: "PESSOAS",
+          theme: "pessoas",
+          badge: "TEAM",
+          icone: "fa-user-tie",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Base de colaboradores, banco de talentos, treinamentos e avaliações.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Semanal',
+          ritmoResumo: ".XLSX · Semanal",
+          url: "https://docs.google.com/spreadsheets/d/1j-maVH4qYVCuISlzI6Y0cKnBOAZwH3In-X0vhF4-cuU/edit?gid=391528799#gid=391528799",
+          tags: "rh team colaboradores talentos treinamentos",
+          itens: ["Cadastro de colaboradores", "Banco de talentos", "Treinamentos e avaliações"]
+        },
+        {
+          key: "sesmt",
+          nome: "SESMT",
+          categoria: "SUPORTE",
+          theme: "suporte",
+          badge: "SEG",
+          icone: "fa-helmet-safety",
+          imagem: "https://images.unsplash.com/photo-1658203897339-0b8c64a42fba?w=500&auto=format&fit=crop&q=60",
+          desc: "Controle de entrega de EPIs, fichas de inspeção e registros de ocorrências.",
+          kpi1: '<i class="fa-solid fa-file-excel"></i> .XLSX',
+          kpi2: '<i class="fa-solid fa-sync"></i> Contínuo',
+          ritmoResumo: ".XLSX · Contínuo",
+          url: "",
+          tags: "sesmt seg epi inspecao ocorrencias",
+          itens: ["Entrega de EPIs", "Fichas de inspeção", "Registros de ocorrências"]
+        }
+      ];
+
+      const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
+      let setoresSessao = [];
+      try {
+        const raw = sessionStorage.getItem("ellca_user_setores");
+        setoresSessao = raw ? JSON.parse(raw) : [];
+      } catch { setoresSessao = []; }
+
+      let modoVisualizacao = "carrossel";
+      let categoriaAtiva = "TODOS";
+      let somenteFavoritos = false;
+      let indiceCarrossel = 0;
+      let autoPlayAtivo = true;
+      let timerCarrossel = null;
+      let baseAtualDrawer = null;
+
+      const cardsWrapper = document.getElementById("cardsWrapper");
+      const paginationDots = document.getElementById("paginationDots");
+      const detailsBackdrop = document.getElementById("detailsBackdrop");
+      const detailsDrawer = document.getElementById("detailsDrawer");
+
+      function obterIniciais(nome) {
+        const partes = String(nome || "RL").trim().split(/\s+/);
+        if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+        return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      function usuarioTemAcessoBase(baseKey) {
+        const permitidos = Array.isArray(setoresSessao) ? setoresSessao.map(s => String(s).toLowerCase()) : [];
+        if (permitidos.includes("todos") || permitidos.includes("*")) return true;
+        const k = String(baseKey).toLowerCase();
+        if (permitidos.includes(k)) return true;
+        if (k === "almoxarifado_epi" && permitidos.includes("almoxarifado")) return true;
+        return false;
+      }
+
+      document.getElementById("footerUserName").textContent = usuarioAtual;
+      document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
+      document.getElementById("userAvatarInitials").title = usuarioAtual;
+      document.getElementById("statLiberados").textContent = `${BASES_PLANILHAS.filter(b => usuarioTemAcessoBase(b.key)).length} / 12`;
+
+      document.getElementById("btnVoltarHome").addEventListener("click", () => {
+        window.location.href = "home.html";
+      });
+
+      document.getElementById("btnSairRodape").addEventListener("click", () => {
+        sessionStorage.removeItem("ellca_auth");
+        sessionStorage.removeItem("ellca_user_name");
+        sessionStorage.removeItem("ellca_user_setores");
+        window.location.href = "login.html";
+      });
+
+      function atualizarRelogio() {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        document.getElementById("liveClockTxt").textContent = `Bases Sincronizadas · ${hh}:${mm}`;
+      }
+      atualizarRelogio();
+      setInterval(atualizarRelogio, 30000);
+
+      function obterFavoritos() {
+        try { return JSON.parse(localStorage.getItem("ellca_plan_favs") || "[]"); }
+        catch { return []; }
+      }
+
+      function salvarFavoritos(lista) {
+        localStorage.setItem("ellca_plan_favs", JSON.stringify(lista));
+        document.getElementById("favCountTxt").textContent = lista.length;
+        document.getElementById("statFavoritos").textContent = lista.length;
+      }
+      salvarFavoritos(obterFavoritos());
+
+      function obterBasesFiltradas() {
+        const termo = document.getElementById("sheetSearch").value.trim().toLowerCase();
+        const favs = obterFavoritos();
+
+        return BASES_PLANILHAS
+          .map((base, idx) => ({ ...base, origIdx: idx }))
+          .filter(base => {
+            const okCat = categoriaAtiva === "TODOS" || base.categoria === categoriaAtiva;
+            const okFav = !somenteFavoritos || favs.includes(base.key);
+            const okBusca = !termo || `${base.nome} ${base.badge} ${base.desc} ${base.tags}`.toLowerCase().includes(termo);
+            return okCat && okFav && okBusca;
+          })
+          .sort((a, b) => {
+            const aFav = favs.includes(a.key) ? 0 : 1;
+            const bFav = favs.includes(b.key) ? 0 : 1;
+            if (aFav !== bFav) return aFav - bFav;
+            return a.origIdx - b.origIdx;
+          });
+      }
+
+      function obterQtdVisivelCarrossel() {
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 760) return 2;
+        if (window.innerWidth <= 1024) return 3;
+        if (window.innerWidth <= 1320) return 4;
+        return 5;
+      }
+
+      function criarHtmlCardBase(base, favs, isCenter, slotClass = "") {
+        const permitido = usuarioTemAcessoBase(base.key);
+        const temLink = Boolean(base.url);
+        const habilitado = permitido && temLink;
+        const isFav = favs.includes(base.key);
+
+        const labelBotao = !permitido
+          ? '<i class="fa-solid fa-lock"></i> BLOQUEADO'
+          : (!temLink ? '<i class="fa-solid fa-lock"></i> EM BREVE' : 'ACESSAR <i class="fa-solid fa-rocket"></i>');
+
+        return `
+          <div class="card-3d-wrap ${slotClass} ${habilitado ? "" : "sem-acesso"}">
+            <div class="card-surface ${isCenter ? "is-center" : ""}" data-theme="${base.theme}">
+              <div class="card-body">
+                <div class="card-img-banner" style="background-image: url('${base.imagem}');">
+                  <span class="card-badge-tag ${habilitado ? "" : "locked"}">
+                    ${permitido ? `${base.badge} <i class="fa-solid ${base.icone}"></i>` : `<i class="fa-solid fa-lock"></i> Bloqueado`}
+                  </span>
+                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${base.key}" title="Fixar nos favoritos">
+                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                  </button>
+                </div>
+
+                <div>
+                  <h3 class="card-title-txt">${base.nome}</h3>
+                  <p class="card-desc-txt">${base.desc}</p>
+                </div>
+
+                <div class="kpi-pills-row">
+                  <span class="kpi-pill-item">${base.kpi1}</span>
+                  <span class="kpi-pill-item">${base.kpi2}</span>
+                </div>
+
+                <div class="card-actions-stack">
+                  <div class="acessar-line">
+                    <button type="button" class="btn-acessar-card btn-abrir-base" data-key="${base.key}" ${habilitado ? "" : "disabled"}>
+                      ${labelBotao}
+                    </button>
+                    <button type="button" class="btn-nova-aba btn-nova-aba-base" data-key="${base.key}" title="Abrir em nova aba" ${habilitado ? "" : "disabled"}>
+                      <i class="fa-solid fa-up-right-from-square"></i>
+                    </button>
+                  </div>
+                  <button type="button" class="btn-detalhes-card btn-detalhes-base" data-key="${base.key}">
+                    DETALHES
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderizarCards() {
+        const itens = obterBasesFiltradas();
+        const total = itens.length;
+
+        cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
+        cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
+
+        const mostraSetas = modoVisualizacao !== "grade" && total > 1;
+        document.getElementById("carouselNavControls").style.display = mostraSetas ? "inline-flex" : "none";
+        paginationDots.style.display = mostraSetas ? "flex" : "none";
+
+        const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
+        document.getElementById("carouselStatusLabel").innerHTML =
+          `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 12 BASES · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+
+        if (total === 0) {
+          cardsWrapper.innerHTML = `
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative;">
+              <div class="card-surface">
+                <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
+                  <strong style="color:#7dd3fc; font-size:15px;">Nenhuma base encontrada para o filtro atual.</strong>
+                  <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
+                </div>
+              </div>
+            </div>
+          `;
+          paginationDots.innerHTML = "";
+          return;
+        }
+
+        if (indiceCarrossel >= total) indiceCarrossel = 0;
+        const favs = obterFavoritos();
+
+        if (modoVisualizacao === "3d") {
+          const prevIdx = (indiceCarrossel - 1 + total) % total;
+          const nextIdx = (indiceCarrossel + 1) % total;
+
+          cardsWrapper.innerHTML = itens.map((item, idx) => {
+            let slotClass = "slot-hidden";
+            if (idx === indiceCarrossel) slotClass = "slot-center";
+            else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+            else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+            return criarHtmlCardBase(item, favs, idx === indiceCarrossel, slotClass);
+          }).join("");
+        } else if (modoVisualizacao === "grade") {
+          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCardBase(item, favs, i === 0, "")).join("");
+        } else {
+          const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
+          const listaExibida = [];
+          for (let i = 0; i < qtdVisivel; i++) {
+            listaExibida.push(itens[(indiceCarrossel + i) % total]);
+          }
+          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCardBase(item, favs, i === 0, "")).join("");
+        }
+
+        if (mostraSetas) {
+          paginationDots.innerHTML = itens.map((_, idx) => `
+            <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
+          `).join("");
+
+          paginationDots.querySelectorAll(".p-dot").forEach(dot => {
+            dot.addEventListener("click", () => {
+              indiceCarrossel = Number(dot.getAttribute("data-dot-idx"));
+              renderizarCards();
+            });
+          });
+        }
+
+        vincularEventosCards();
+        aplicarTilt3D();
+      }
+
+      function abrirBasePlanilha(base) {
+        if (!base || !usuarioTemAcessoBase(base.key) || !base.url) return;
+        window.open(base.url, "_blank", "noopener,noreferrer");
+      }
+
+      function vincularEventosCards() {
+        cardsWrapper.querySelectorAll(".btn-abrir-base, .btn-nova-aba-base").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const base = BASES_PLANILHAS.find(b => b.key === btn.getAttribute("data-key"));
+            abrirBasePlanilha(base);
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".btn-detalhes-base").forEach(btn => {
+          btn.addEventListener("click", () => abrirDrawerDetalhes(btn.getAttribute("data-key")));
+        });
+
+        cardsWrapper.querySelectorAll(".btn-fav-card").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const key = btn.getAttribute("data-fav-key");
+            let favs = obterFavoritos();
+            if (favs.includes(key)) favs = favs.filter(x => x !== key);
+            else favs.unshift(key);
+            salvarFavoritos(favs);
+            renderizarCards();
+          });
+        });
+      }
+
+      function aplicarTilt3D() {
+        document.querySelectorAll(".card-3d-wrap:not(.sem-acesso):not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
+          const surface = wrap.querySelector(".card-surface");
+          if (!surface || wrap.dataset.tiltBound) return;
+          wrap.dataset.tiltBound = "1";
+          wrap.addEventListener("mousemove", (e) => {
+            const rect = wrap.getBoundingClientRect();
+            const nx = (e.clientX - rect.left) / rect.width - 0.5;
+            const ny = (e.clientY - rect.top) / rect.height - 0.5;
+            surface.style.setProperty("--ry", `${(nx * 2.2).toFixed(2)}deg`);
+            surface.style.setProperty("--rx", `${(-ny * 2.2).toFixed(2)}deg`);
+          });
+          wrap.addEventListener("mouseleave", () => {
+            surface.style.setProperty("--ry", "0deg");
+            surface.style.setProperty("--rx", "0deg");
+          });
+        });
+      }
+
+      function abrirDrawerDetalhes(key) {
+        const base = BASES_PLANILHAS.find(b => b.key === key);
+        if (!base) return;
+        baseAtualDrawer = base;
+        const permitido = usuarioTemAcessoBase(base.key);
+        const temLink = Boolean(base.url);
+        const habilitado = permitido && temLink;
+
+        document.getElementById("drawerBaseTitulo").textContent = base.nome;
+        document.getElementById("drawerBaseDesc").textContent = base.desc;
+        document.getElementById("drawerBaseCat").textContent = base.categoria;
+        document.getElementById("drawerBaseRitmo").textContent = base.ritmoResumo;
+
+        const statusLinkEl = document.getElementById("drawerBaseLinkStatus");
+        statusLinkEl.textContent = temLink ? "CONECTADO" : "EM BREVE";
+        statusLinkEl.style.color = temLink ? "#38bdf8" : "#94a3b8";
+
+        const permEl = document.getElementById("drawerBasePerm");
+        permEl.textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
+        permEl.style.color = permitido ? "#34d399" : "#f87171";
+
+        document.getElementById("drawerBaseItens").innerHTML = (base.itens || []).map(item => `
+          <li>
+            <span>${item}</span>
+            <i class="fa-solid ${habilitado ? "fa-table" : "fa-lock"}" style="color:${habilitado ? "#38bdf8" : "#94a3b8"}; font-size:11px;"></i>
+          </li>
+        `).join("");
+
+        const btnDrawer = document.getElementById("btnDrawerAbrirBase");
+        btnDrawer.disabled = !habilitado;
+        btnDrawer.style.opacity = habilitado ? "1" : "0.45";
+        btnDrawer.style.pointerEvents = habilitado ? "auto" : "none";
+        btnDrawer.innerHTML = habilitado
+          ? 'ABRIR PLANILHA <i class="fa-solid fa-arrow-up-right-from-square"></i>'
+          : (!permitido ? '<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO' : '<i class="fa-solid fa-lock"></i> LINK EM BREVE');
+
+        detailsBackdrop.classList.add("open");
+        detailsDrawer.classList.add("open");
+      }
+
+      function fecharDrawerDetalhes() {
+        detailsBackdrop.classList.remove("open");
+        detailsDrawer.classList.remove("open");
+      }
+
+      document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
+      detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
+      document.getElementById("btnDrawerAbrirBase").addEventListener("click", () => {
+        if (!baseAtualDrawer || !usuarioTemAcessoBase(baseAtualDrawer.key) || !baseAtualDrawer.url) return;
+        const alvo = baseAtualDrawer;
+        fecharDrawerDetalhes();
+        abrirBasePlanilha(alvo);
+      });
+
+      function avancarCarrossel(passo) {
+        const total = obterBasesFiltradas().length;
+        if (total <= 1) return;
+        indiceCarrossel = (indiceCarrossel + passo + total) % total;
+        renderizarCards();
+      }
+
+      document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
+      document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
+
+      function iniciarAutoPlay() {
+        clearInterval(timerCarrossel);
+        if (!autoPlayAtivo || modoVisualizacao === "grade") return;
+        timerCarrossel = setInterval(() => avancarCarrossel(1), 5500);
+      }
+
+      document.getElementById("btnAutoPlay").addEventListener("click", () => {
+        autoPlayAtivo = !autoPlayAtivo;
+        document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
+        document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
+        iniciarAutoPlay();
+      });
+
+      const btnModoCarrossel = document.getElementById("btnModoCarrossel");
+      const btnModoCarrossel3D = document.getElementById("btnModoCarrossel3D");
+      const btnModoGrade = document.getElementById("btnModoGrade");
+
+      function atualizarBotoesModo(novoModo) {
+        modoVisualizacao = novoModo;
+        btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+
+        iniciarAutoPlay();
+        renderizarCards();
+      }
+
+      btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
+      btnModoCarrossel3D.addEventListener("click", () => atualizarBotoesModo("3d"));
+      btnModoGrade.addEventListener("click", () => atualizarBotoesModo("grade"));
+
+      document.getElementById("btnFiltroFavoritos").addEventListener("click", () => {
+        somenteFavoritos = !somenteFavoritos;
+        document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
+        indiceCarrossel = 0;
+        renderizarCards();
+      });
+
+      document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#categoryPills .cat-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          categoriaAtiva = btn.getAttribute("data-cat");
+          indiceCarrossel = 0;
+          renderizarCards();
+        });
+      });
+
+      document.getElementById("sheetSearch").addEventListener("input", () => {
+        indiceCarrossel = 0;
+        renderizarCards();
+      });
+
+      document.getElementById("btnToggleMenu").addEventListener("click", () => {
+        const oculto = document.body.classList.toggle("menu-hidden");
+        document.getElementById("iconToggleMenu").className = oculto ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
+        document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
+      });
+
+      window.addEventListener("resize", () => {
+        if (modoVisualizacao === "carrossel") renderizarCards();
+      });
+
+      renderizarCards();
+      iniciarAutoPlay();
+    })();
+  </script>
 </body>
+
 </html>
