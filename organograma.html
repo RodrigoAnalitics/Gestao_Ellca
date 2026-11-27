@@ -66,6 +66,11 @@
 
     body.fit-screen-mode {
       overflow: hidden;
+      padding: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 10%, rgba(37, 99, 235, 0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 55% at 50% 90%, rgba(56, 189, 248, 0.12) 0%, transparent 70%),
+        #040711;
     }
 
     .tabular { font-variant-numeric: tabular-nums; }
@@ -87,9 +92,21 @@
     }
 
     body.fit-screen-mode .page-container {
-      height: calc(100dvh - 28px);
-      min-height: 0;
+      max-width: 100%;
+      width: 100vw;
+      height: 100dvh;
+      min-height: 100dvh;
+      margin: 0;
+      gap: 0;
       overflow: hidden;
+    }
+
+    body.fit-screen-mode .top-navbar-collapse,
+    body.fit-screen-mode .hero-banner,
+    body.fit-screen-mode .filter-toolbar,
+    body.fit-screen-mode .org-shell-header,
+    body.fit-screen-mode .ellca-official-footer {
+      display: none !important;
     }
 
     /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
@@ -516,6 +533,63 @@
       transition: all 0.2s ease;
     }
 
+    .hero-btn-fit {
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.55px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.32), rgba(56, 189, 248, 0.22));
+      border: 1px solid rgba(125, 211, 252, 0.62);
+      color: #e0f2fe;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28);
+    }
+
+    .hero-btn-fit:hover,
+    .hero-btn-fit.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #bae6fd;
+      color: #040d1e;
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-exit-pure-fit {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      z-index: 950;
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 11px;
+      border: 1px solid rgba(125, 211, 252, 0.65);
+      background: rgba(10, 18, 36, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: #e0f2fe;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65);
+      transition: all 0.2s ease;
+    }
+
+    body.fit-screen-mode .btn-exit-pure-fit {
+      display: inline-flex;
+    }
+
+    .btn-exit-pure-fit:hover {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      color: #040d1e;
+      border-color: #bae6fd;
+    }
+
     .hero-btn-blue {
       background: rgba(37, 99, 235, 0.22);
       border: 1px solid rgba(96, 165, 250, 0.45);
@@ -679,7 +753,18 @@
     }
 
     body.fit-screen-mode .org-shell {
-      min-height: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
+      padding: 18px 24px;
+      gap: 0;
       overflow: hidden;
     }
 
@@ -1033,6 +1118,7 @@
       color: #ffffff;
       margin-bottom: 2px;
       line-height: 1.25;
+      text-transform: lowercase;
     }
 
     .org-role {
@@ -1222,7 +1308,7 @@
       margin-bottom: 8px;
     }
 
-    .modal-name { font-size: 17px; font-weight: 900; margin-bottom: 3px; }
+    .modal-name { font-size: 17px; font-weight: 900; margin-bottom: 3px; text-transform: lowercase; }
     .modal-role { font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 12px; }
 
     .modal-bio {
@@ -1333,6 +1419,11 @@
 </head>
 
 <body>
+  <button type="button" class="btn-exit-pure-fit" id="btnExitPureFit" title="Sair da visão exclusiva do organograma">
+    <i class="fa-solid fa-expand"></i>
+    <span>TAMANHO ORIGINAL</span>
+  </button>
+
   <div class="page-container">
 
     <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
@@ -1429,7 +1520,7 @@
           <i class="fa-solid fa-sitemap"></i> VISÃO GERAL
         </button>
 
-        <button type="button" class="hero-btn hero-btn-blue" id="btnToggleFitScreen">
+        <button type="button" class="hero-btn hero-btn-fit" id="btnToggleFitScreen">
           <i class="fa-solid fa-compress" id="iconFitScreen"></i>
           <span id="textFitScreen">AJUSTAR À TELA</span>
         </button>
@@ -1937,6 +2028,7 @@
       const btnVoltarEquipeHeader = document.getElementById('btnVoltarEquipeHeader');
 
       const btnToggleFitScreen = document.getElementById('btnToggleFitScreen');
+      const btnExitPureFit = document.getElementById('btnExitPureFit');
       const iconFitScreen = document.getElementById('iconFitScreen');
       const textFitScreen = document.getElementById('textFitScreen');
 
@@ -1989,8 +2081,8 @@
 
         document.body.classList.add('fit-screen-mode');
         const stageRect = stage.getBoundingClientRect();
-        const availW = Math.max(260, stageRect.width - 16);
-        const availH = Math.max(160, stageRect.height - 12);
+        const availW = Math.max(260, stageRect.width - 28);
+        const availH = Math.max(160, stageRect.height - 20);
 
         let melhorLayout = 'fit-single-row';
         let melhorScale = 0;
@@ -2001,7 +2093,7 @@
           const w = tree.scrollWidth || tree.getBoundingClientRect().width;
           const h = tree.scrollHeight || tree.getBoundingClientRect().height;
           if (!w || !h) continue;
-          const scale = Math.min(availW / w, availH / h, 1);
+          const scale = Math.min(availW / w, availH / h, 1.35);
           if (scale > melhorScale) {
             melhorScale = scale;
             melhorLayout = layout;
@@ -2014,18 +2106,23 @@
         container.style.transform = `scale(${safeScale.toFixed(4)})`;
       }
 
-      btnToggleFitScreen.addEventListener('click', () => {
-        isFitScreen = !isFitScreen;
+      function definirModoAjusteTela(ativo) {
+        isFitScreen = Boolean(ativo);
         btnToggleFitScreen.classList.toggle('active', isFitScreen);
         iconFitScreen.className = isFitScreen ? 'fa-solid fa-expand' : 'fa-solid fa-compress';
         textFitScreen.textContent = isFitScreen ? 'TAMANHO ORIGINAL' : 'AJUSTAR À TELA';
         if (isFitScreen) {
+          document.body.classList.add('fit-screen-mode');
           window.scrollTo({ top: 0, behavior: 'instant' });
           requestAnimationFrame(() => requestAnimationFrame(aplicarAjusteDeTela));
         } else {
+          document.body.classList.remove('fit-screen-mode');
           aplicarAjusteDeTela();
         }
-      });
+      }
+
+      btnToggleFitScreen.addEventListener('click', () => definirModoAjusteTela(!isFitScreen));
+      btnExitPureFit.addEventListener('click', () => definirModoAjusteTela(false));
 
       window.addEventListener('resize', () => {
         if (isFitScreen) aplicarAjusteDeTela();
