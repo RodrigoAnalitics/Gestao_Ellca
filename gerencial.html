@@ -19,9 +19,9 @@
 
   <style>
     :root {
-      --card-w: clamp(248px, 19.5vw, 296px);
-      --card-h: clamp(376px, 46vh, 412px);
-      --card-img-h: clamp(112px, 14vh, 134px);
+      --card-w: clamp(276px, 19.5vw, 316px);
+      --card-h: clamp(326px, 39vh, 354px);
+      --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
       --card-count: 4;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
@@ -139,14 +139,14 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
 
     .page-container {
-      max-width: 1520px;
+      max-width: 1560px;
       width: 100%;
       min-height: calc(100dvh - 30px);
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 12px;
+      gap: 11px;
     }
 
     /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
@@ -319,7 +319,7 @@
     .hero-banner {
       position: relative;
       border-radius: 16px;
-      padding: 14px 20px;
+      padding: 13px 20px;
       background:
         linear-gradient(135deg, rgba(14, 32, 66, 0.88) 0%, rgba(9, 17, 36, 0.92) 55%, rgba(15, 32, 64, 0.86) 100%),
         url('img/Card_gerencial.jpg') center/cover no-repeat;
@@ -331,7 +331,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 8px;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -365,8 +365,8 @@
     }
 
     .hero-icon-box {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
       background: linear-gradient(145deg, rgba(234, 179, 8, 0.28), rgba(37, 99, 235, 0.34));
       border: 1px solid rgba(250, 204, 21, 0.52);
@@ -375,7 +375,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 17px;
       flex-shrink: 0;
     }
 
@@ -383,16 +383,16 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       color: #fde047;
       background: rgba(234, 179, 8, 0.12);
       border: 1px solid rgba(250, 204, 21, 0.34);
-      padding: 2.5px 9px;
+      padding: 2px 9px;
       border-radius: 999px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .hero-main-title {
@@ -453,7 +453,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      padding: 7px 12px;
+      padding: 6px 12px;
       border-radius: 10px;
       background: linear-gradient(90deg, rgba(14, 165, 233, 0.14) 0%, rgba(30, 58, 138, 0.28) 55%, rgba(234, 179, 8, 0.12) 100%);
       border: 1px solid rgba(56, 189, 248, 0.34);
@@ -499,7 +499,7 @@
     }
 
     .btn-ai-trigger {
-      height: 27px;
+      height: 26px;
       padding: 0 11px;
       border-radius: 7px;
       background: linear-gradient(90deg, #2563eb, #38bdf8);
@@ -522,8 +522,8 @@
     }
 
     .btn-ai-next {
-      width: 27px;
-      height: 27px;
+      width: 26px;
+      height: 26px;
       border-radius: 7px;
       background: rgba(15, 23, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.36);
@@ -546,14 +546,14 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
-      padding-top: 8px;
+      padding-top: 7px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       position: relative;
       z-index: 2;
     }
 
     .live-badge {
-      height: 30px;
+      height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       background: rgba(16, 185, 129, 0.14);
@@ -567,7 +567,7 @@
     }
 
     .hero-btn {
-      height: 30px;
+      height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       font-size: 10px;
@@ -641,7 +641,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      padding: 9px 14px;
+      padding: 8px 14px;
       border-radius: 13px;
       background: rgba(13, 19, 34, 0.76);
       border: 1px solid rgba(255, 255, 255, 0.09);
@@ -657,7 +657,7 @@
     }
 
     .cat-btn {
-      height: 29px;
+      height: 28px;
       padding: 0 11px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.10);
@@ -697,7 +697,7 @@
 
     .search-input {
       width: 100%;
-      height: 30px;
+      height: 29px;
       padding: 0 12px 0 32px;
       border-radius: 8px;
       background: rgba(5, 10, 22, 0.88);
@@ -718,15 +718,15 @@
       border-radius: 16px;
       background: rgba(10, 16, 30, 0.65);
       border: 1px solid rgba(56, 189, 248, 0.24);
-      padding: 16px 20px 16px;
+      padding: 13px 18px 13px;
       backdrop-filter: blur(16px);
       box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
       flex: 1 1 auto;
-      min-height: 446px;
+      min-height: 392px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .carousel-header-bar {
@@ -768,8 +768,8 @@
     }
 
     .carousel-arrow {
-      width: 28px;
-      height: 28px;
+      width: 27px;
+      height: 27px;
       border-radius: 9px;
       border: 1px solid rgba(56, 189, 248, 0.38);
       background: rgba(15, 23, 42, 0.85);
@@ -787,27 +787,28 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO */
+    /* MODO CARROSSEL PADRÃO (MESMAS PROPORÇÕES DAS DEMAIS ABAS) */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(252px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
       gap: 18px;
-      justify-content: stretch;
+      justify-content: center;
       align-items: center;
       align-content: center;
       flex: 1 1 auto;
       width: 100%;
-      padding: 4px 0;
+      padding: 2px 0;
     }
 
     .cards-track .card-3d-wrap {
       width: 100%;
       min-width: 0;
-      max-width: 100%;
+      max-width: var(--card-w);
       height: var(--card-h);
       min-height: var(--card-h);
       max-height: var(--card-h);
       perspective: 1400px;
+      margin: 0 auto;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
@@ -818,12 +819,12 @@
     /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
       gap: 18px;
-      justify-content: stretch;
+      justify-content: center;
       align-items: stretch;
       align-content: start;
-      padding: 6px 2px 10px;
+      padding: 4px 2px 8px;
     }
 
     /* MODO CARROSSEL 3D: CARDS PRETO FOSCO VIDRO COM FILETES DOURADOS */
@@ -832,24 +833,24 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 432px;
+      min-height: 378px;
       overflow: hidden;
-      padding: 18px 0;
+      padding: 12px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: clamp(284px, 24vw, 336px);
-      min-width: clamp(284px, 24vw, 336px);
-      max-width: clamp(284px, 24vw, 336px);
-      height: 396px;
-      min-height: 396px;
-      max-height: 396px;
+      width: clamp(304px, 25vw, 356px);
+      min-width: clamp(304px, 25vw, 356px);
+      max-width: clamp(304px, 25vw, 356px);
+      height: 344px;
+      min-height: 344px;
+      max-height: 344px;
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
     .cards-track.mode-3d .card-img-banner {
-      height: 128px;
+      height: var(--card-img-h);
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
@@ -1033,13 +1034,13 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 15px 16px 16px;
+      padding: 13px 15px 14px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 11px;
+      gap: 7px;
     }
 
     .card-img-banner {
@@ -1068,7 +1069,7 @@
       top: 7px;
       left: 7px;
       z-index: 2;
-      padding: 3px 8px;
+      padding: 2.5px 8px;
       border-radius: 6px;
       font-size: 8.5px;
       font-weight: 800;
@@ -1100,8 +1101,8 @@
       top: 7px;
       right: 7px;
       z-index: 2;
-      width: 25px;
-      height: 25px;
+      width: 24px;
+      height: 24px;
       border-radius: 6px;
       border: 1px solid rgba(250, 204, 21, 0.34);
       background: rgba(8, 10, 14, 0.82);
@@ -1122,20 +1123,20 @@
     }
 
     .card-title-txt {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #fefce8;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.25px;
       text-transform: uppercase;
     }
 
     .card-desc-txt {
-      font-size: 11.5px;
-      line-height: 1.44;
+      font-size: 11px;
+      line-height: 1.35;
       color: #cbd5e1;
-      margin-top: 4px;
+      margin-top: 2px;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -1151,11 +1152,11 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 3.5px 8px;
+      padding: 2.5px 8px;
       border-radius: 6px;
       background: rgba(8, 10, 14, 0.82);
       border: 1px solid rgba(250, 204, 21, 0.26);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       color: #f8fafc;
     }
@@ -1166,24 +1167,24 @@
     .card-actions-stack {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 5px;
       margin-top: auto;
     }
 
     .acessar-line {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       width: 100%;
-      height: 34px;
+      height: 30px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 34px;
-      min-height: 34px;
-      max-height: 34px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(250, 204, 21, 0.56);
@@ -1191,7 +1192,7 @@
       color: #fef08a;
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.55px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       cursor: pointer;
       display: inline-flex;
@@ -1209,17 +1210,17 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 33px;
+      flex: 0 0 29px;
       width: 100%;
-      height: 33px;
-      min-height: 33px;
-      max-height: 33px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(250, 204, 21, 0.22);
       background: rgba(16, 18, 24, 0.72);
       color: #e2e8f0;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -1238,10 +1239,10 @@
     }
 
     .btn-nova-aba {
-      width: 34px;
-      height: 34px;
-      min-height: 34px;
-      max-height: 34px;
+      width: 30px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       flex-shrink: 0;
       background: rgba(10, 12, 16, 0.88);
       border: 1px solid rgba(250, 204, 21, 0.42);
@@ -1269,7 +1270,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 4px;
+      margin-top: 2px;
       flex-shrink: 0;
     }
 
@@ -1539,7 +1540,7 @@
     .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
 
     @media (max-width: 760px) {
-      .cards-track.mode-3d .card-3d-wrap { width: 268px; min-width: 268px; max-width: 268px; }
+      .cards-track.mode-3d .card-3d-wrap { width: 278px; min-width: 278px; max-width: 278px; }
       .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); }
       .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); }
       .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
@@ -1552,6 +1553,9 @@
       .cards-track,
       .cards-track.grid-mode {
         grid-template-columns: 1fr;
+      }
+      .cards-track .card-3d-wrap {
+        max-width: 100%;
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
@@ -2140,7 +2144,7 @@
 
       function obterQtdVisivelCarrossel() {
         const containerW = cardsWrapper.clientWidth || window.innerWidth;
-        const minCardW = 252;
+        const minCardW = 272;
         const gap = 18;
         const cabem = Math.floor((containerW + gap) / (minCardW + gap));
         return Math.max(1, Math.min(5, cabem));
@@ -2201,7 +2205,8 @@
         cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
         cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
 
-        const mostraSetas = modoVisualizacao !== "grade" && total > 1;
+        const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
+        const mostraSetas = modoVisualizacao !== "grade" && (modoVisualizacao === "3d" ? total > 1 : total > qtdVisivel);
         document.getElementById("carouselNavControls").style.display = mostraSetas ? "inline-flex" : "none";
         paginationDots.style.display = mostraSetas ? "flex" : "none";
 
@@ -2212,7 +2217,7 @@
         if (total === 0) {
           assinaturaDomAtual = "vazio";
           cardsWrapper.innerHTML = `
-            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none; max-width: 100%;">
               <div class="card-surface">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
                   <strong style="color:#fde047; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
@@ -2263,7 +2268,6 @@
             aplicarTilt3D();
           }
         } else {
-          const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
           const listaExibida = [];
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
