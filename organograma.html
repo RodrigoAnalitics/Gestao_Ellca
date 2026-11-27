@@ -288,7 +288,7 @@
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      max-width: 860px;
+      max-width: 960px;
     }
 
     .hero-icon-box {
@@ -310,17 +310,31 @@
     .greeting-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 4px 12px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.78);
-      border: 1px solid rgba(250, 204, 21, 0.36);
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid rgba(250, 204, 21, 0.38);
       color: #fde047;
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.55px;
       text-transform: uppercase;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+    }
+
+    .greeting-pill .pill-sep {
+      opacity: 0.45;
+      color: #94a3b8;
+    }
+
+    .greeting-pill .pill-temp {
+      color: #38bdf8;
+    }
+
+    .greeting-pill .pill-clock {
+      color: #34d399;
     }
 
     .hero-main-title {
@@ -1361,9 +1375,9 @@
             <i class="fa-solid fa-crown"></i>
           </div>
           <div>
-            <div class="greeting-pill">
-              <i class="fa-solid fa-sun"></i>
-              <span id="greetingDynamicTxt">BOA TARDE, RODRIGO · ESTRUTURA ORGANIZACIONAL · CONSOLIDADO OPERACIONAL</span>
+            <div class="greeting-pill tabular">
+              <i class="fa-solid fa-sun" id="greetingWeatherIcon"></i>
+              <span id="greetingDynamicTxt">OLÁ, BOA TARDE, RODRIGO • CARREGANDO LOCAL E CLIMA...</span>
             </div>
             <h1 class="hero-main-title" id="orgHeaderTitle">ORGANOGRAMA <span>CORPORATIVO</span></h1>
             <p class="hero-subtitle" id="orgHeaderSubtitle">
@@ -1782,21 +1796,106 @@
       document.getElementById('userAvatarInitials').textContent = obterIniciais(usuarioAtual);
       document.getElementById('userAvatarInitials').title = usuarioAtual;
 
-      function atualizarRelogioESaudacao() {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(now.getMinutes()).padStart(2, '0');
-        const hNum = now.getHours();
-        const saudacao = hNum < 12 ? 'BOM DIA' : (hNum < 18 ? 'BOA TARDE' : 'BOA NOITE');
-        document.getElementById('liveClockTxt').textContent = `Organograma · ${hh}:${mm}`;
-        document.getElementById('greetingDynamicTxt').textContent =
-          `${saUDACAO_FORMAT(saudacao)}, ${primeiroNome} · ACOMPANHAMENTO DE TURNO · ESTRUTURA CORPORATIVA`;
+      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
+      const estadoClima = {
+        cidade: 'ANANINDEUA - PA',
+        temperatura: '--°C',
+        icone: 'fa-cloud-sun'
+      };
+
+      function obterSaudacao(hora) {
+        if (hora >= 5 && hora < 12) return 'BOM DIA';
+        if (hora >= 12 && hora < 18) return 'BOA TARDE';
+        return 'BOA NOITE';
       }
 
-      function saUDACAO_FORMAT(s) { return s; }
-      atualizarRelogioESaudacao();
-      setInterval(atualizarRelogioESaudacao, 30000);
+      function mapearIconeClima(weatherCode, isDay) {
+        if (weatherCode === 0) return isDay ? 'fa-sun' : 'fa-moon';
+        if ([1, 2, 3].includes(weatherCode)) return isDay ? 'fa-cloud-sun' : 'fa-cloud-moon';
+        if ([45, 48].includes(weatherCode)) return 'fa-smog';
+        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return 'fa-cloud-showers-heavy';
+        if ([95, 96, 99].includes(weatherCode)) return 'fa-cloud-bolt';
+        return 'fa-cloud';
+      }
 
+      function renderizarSaudacaoCompleta() {
+        const agora = new Date();
+        const h = agora.getHours();
+        const hh = String(h).padStart(2, '0');
+        const mm = String(agora.getMinutes()).padStart(2, '0');
+        const ss = String(agora.getSeconds()).padStart(2, '0');
+        const saudacao = obterSaudacao(h);
+
+        const iconEl = document.getElementById('greetingWeatherIcon');
+        const pillEl = document.getElementById('greetingDynamicTxt');
+        const clockEl = document.getElementById('liveClockTxt');
+
+        if (iconEl) iconEl.className = `fa-solid ${estadoClima.icone}`;
+        if (pillEl) {
+          pillEl.innerHTML = `
+            <span>OLÁ, ${saudacao}, ${primeiroNome}</span>
+            <span class="pill-sep">•</span>
+            <span><i class="fa-solid fa-location-dot" style="margin-right:4px;"></i>${estadoClima.cidade}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-temp">${estadoClima.temperatura}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-clock">${hh}:${mm}:${ss}</span>
+          `;
+        }
+        if (clockEl) clockEl.textContent = `Organograma · ${hh}:${mm}`;
+      }
+
+      async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
+        try {
+          const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
+          const meteoResp = await fetch(meteoUrl);
+          if (meteoResp.ok) {
+            const meteoData = await meteoResp.json();
+            if (meteoData.current) {
+              estadoClima.temperatura = `${Math.round(meteoData.current.temperature_2m)}°C`;
+              estadoClima.icone = mapearIconeClima(meteoData.current.weather_code, meteoData.current.is_day === 1);
+            }
+          }
+
+          if (!cidadePadrao) {
+            const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`;
+            const geoResp = await fetch(geoUrl);
+            if (geoResp.ok) {
+              const geoData = await geoResp.json();
+              const cidade = geoData.city || geoData.locality || 'ANANINDEUA';
+              const uf = (geoData.principalSubdivisionCode || 'BR-PA').replace('BR-', '');
+              estadoClima.cidade = `${cidade.toUpperCase()} - ${uf.toUpperCase()}`;
+            }
+          } else {
+            estadoClima.cidade = cidadePadrao;
+          }
+        } catch (err) {
+          console.warn('Falha ao buscar clima/localização:', err);
+        } finally {
+          renderizarSaudacaoCompleta();
+        }
+      }
+
+      function iniciarLocalizacaoClima() {
+        const defaultLat = -1.3656;
+        const defaultLon = -48.3722;
+        if ('geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
+            () => buscarClimaELocalizacao(defaultLat, defaultLon, 'ANANINDEUA - PA'),
+            { timeout: 6000, maximumAge: 600000 }
+          );
+        } else {
+          buscarClimaELocalizacao(defaultLat, defaultLon, 'ANANINDEUA - PA');
+        }
+      }
+
+      renderizarSaudacaoCompleta();
+      iniciarLocalizacaoClima();
+      setInterval(renderizarSaudacaoCompleta, 1000);
+      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
+
+      // ================= INSIGHTS E BRIEFING =================
       let insightIdx = 0;
       document.getElementById('btnCycleInsight').addEventListener('click', () => {
         insightIdx = (insightIdx + 1) % INSIGHTS_LISTA.length;
@@ -1815,6 +1914,7 @@
         );
       });
 
+      // ================= FAVORITOS =================
       function obterFavoritos() {
         try { return JSON.parse(localStorage.getItem('ellca_org_favs') || '[]'); }
         catch { return []; }
@@ -1826,6 +1926,7 @@
       }
       document.getElementById('favCountTxt').textContent = obterFavoritos().length;
 
+      // ================= CONTROLES E RENDERIZAÇÃO =================
       const container = document.getElementById('organogramaContainer');
       const stage = document.getElementById('orgStage');
       const headerTitle = document.getElementById('orgHeaderTitle');
