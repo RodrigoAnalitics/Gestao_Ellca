@@ -19,9 +19,9 @@
 
   <style>
     :root {
-      --card-w: clamp(232px, 18.2vw, 276px);
-      --card-h: clamp(326px, 41vh, 368px);
-      --card-img-h: clamp(96px, 12.5vh, 122px);
+      --card-w: clamp(236px, 18.5vw, 282px);
+      --card-h: clamp(332px, 42vh, 372px);
+      --card-img-h: clamp(98px, 12.8vh, 124px);
       --card-turn: 3.2s;
       --card-count: 5;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
@@ -33,7 +33,7 @@
       inherits: false;
     }
 
-    /* Faz 360 graus exatamente durante a janela ativa do card (20% do ciclo de 5 cards) e passa para o próximo */
+    /* Faz 360 graus exatamente durante a janela ativa do card e passa para o próximo */
     @keyframes borderSweepRelay {
       0% {
         --sweep-angle: 0deg;
@@ -101,8 +101,8 @@
     }
 
     @keyframes card3dTurnIn {
-      0% { transform: translate3d(0, 4px, 0) rotateY(12deg) scale(0.86); }
-      100% { transform: translate3d(0, 0, 0) rotateY(0deg) scale(0.92); }
+      0% { transform: translate3d(0, 6px, 0) rotateY(12deg) scale(0.94); }
+      100% { transform: translate3d(0, 0, 0) rotateY(0deg) scale(1); }
     }
 
     * {
@@ -130,6 +130,18 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+    }
+
+    /* No Modo Carrossel 3D permite ampliar levemente na vertical com respiro e barra lateral suave se precisar */
+    body.mode-3d-active {
+      height: auto;
+      min-height: 100dvh;
+      overflow-y: auto;
+    }
+
+    body.mode-3d-active .home-container {
+      height: auto;
+      min-height: calc(100dvh - 28px);
     }
 
     .tabular { font-variant-numeric: tabular-nums; }
@@ -604,7 +616,7 @@
       border-radius: 16px;
       background: rgba(10, 16, 30, 0.65);
       border: 1px solid rgba(56, 189, 248, 0.24);
-      padding: 10px 16px 10px;
+      padding: 12px 16px 12px;
       backdrop-filter: blur(16px);
       box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
       flex: 1 1 auto;
@@ -621,7 +633,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       flex-shrink: 0;
     }
 
@@ -662,23 +674,23 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO */
+    /* MODO CARROSSEL PADRÃO: APROVEITA TODO O ESPAÇO LATERAL IGUAL AO MODO GRADE */
     .cards-track {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
+      gap: 14px;
+      justify-content: stretch;
       align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      gap: clamp(10px, 1.1vw, 16px);
+      align-content: center;
       flex: 1 1 auto;
       min-height: 0;
       width: 100%;
     }
 
     .cards-track .card-3d-wrap {
-      flex: 0 0 var(--card-w);
-      width: var(--card-w);
-      min-width: var(--card-w);
-      max-width: var(--card-w);
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
       height: var(--card-h);
       min-height: var(--card-h);
       max-height: var(--card-h);
@@ -689,7 +701,7 @@
       height: var(--card-img-h);
     }
 
-    /* MODO GRADE: APROVEITA TODO O ESPAÇO HORIZONTAL */
+    /* MODO GRADE: MESMO APROVEITAMENTO DE ESPAÇO */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
@@ -701,46 +713,37 @@
       padding: 2px 4px 6px;
     }
 
-    .cards-track.grid-mode .card-3d-wrap {
-      flex: initial;
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
-    }
-
-    /* MODO CARROSSEL 3D: AJUSTADO PARA CABER INTEIRO SEM CORTAR TOPO NEM BOTÕES */
+    /* MODO CARROSSEL 3D: RESPIRO VERTICAL E PROFISSIONALISMO */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+      min-height: 416px;
       perspective: 1400px;
       transform-style: preserve-3d;
       overflow: hidden;
-      padding: 4px 0;
+      padding: 18px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: clamp(248px, 21vw, 296px);
-      min-width: clamp(248px, 21vw, 296px);
-      max-width: clamp(248px, 21vw, 296px);
-      height: 100%;
-      min-height: 0;
-      max-height: min(356px, 100%);
+      width: clamp(276px, 23vw, 326px);
+      min-width: clamp(276px, 23vw, 326px);
+      max-width: clamp(276px, 23vw, 326px);
+      height: 374px;
+      min-height: 374px;
+      max-height: 374px;
       transform-style: preserve-3d;
       transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
     }
 
     .cards-track.mode-3d .card-img-banner {
-      height: clamp(86px, 11vh, 114px);
+      height: 120px;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
-      transform: translate3d(0, 0, 0) rotateY(0deg) scale(0.92);
+      transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
       opacity: 1;
       filter: blur(0px);
       z-index: 5;
@@ -749,14 +752,14 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-86%, 0, 0) rotateY(16deg) scale(0.76);
+      transform: translate3d(-88%, 0, 0) rotateY(16deg) scale(0.84);
       opacity: 0.32;
       z-index: 2;
       pointer-events: none;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(86%, 0, 0) rotateY(-16deg) scale(0.76);
+      transform: translate3d(88%, 0, 0) rotateY(-16deg) scale(0.84);
       opacity: 0.32;
       z-index: 2;
       pointer-events: none;
@@ -772,7 +775,7 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
-      transform: translate3d(0, 8px, 0) rotateY(28deg) scale(0.60);
+      transform: translate3d(0, 10px, 0) rotateY(28deg) scale(0.66);
       opacity: 0;
       z-index: 1;
       pointer-events: none;
@@ -873,13 +876,13 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 11px 13px 12px;
+      padding: 12px 14px 13px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 7px;
+      gap: 8px;
     }
 
     .card-img-banner {
@@ -957,7 +960,7 @@
     }
 
     .card-title-txt {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.2px;
@@ -965,8 +968,8 @@
     }
 
     .card-desc-txt {
-      font-size: 10.8px;
-      line-height: 1.35;
+      font-size: 11px;
+      line-height: 1.38;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -1010,15 +1013,15 @@
       align-items: center;
       gap: 6px;
       width: 100%;
-      height: 31px;
+      height: 32px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 31px;
-      min-height: 31px;
-      max-height: 31px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
       padding: 0 10px;
       border-radius: 7px;
       border: 1px solid rgba(56, 189, 248, 0.58);
@@ -1044,11 +1047,11 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 31px;
+      flex: 0 0 32px;
       width: 100%;
-      height: 31px;
-      min-height: 31px;
-      max-height: 31px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
       padding: 0 10px;
       border-radius: 7px;
       border: 1px solid rgba(147, 197, 253, 0.28);
@@ -1073,10 +1076,10 @@
     }
 
     .btn-nova-aba {
-      width: 31px;
-      height: 31px;
-      min-height: 31px;
-      max-height: 31px;
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -1107,7 +1110,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 6px;
+      margin-top: 8px;
       flex-shrink: 0;
     }
 
@@ -1309,8 +1312,7 @@
 
     @media (max-width: 1024px) {
       :root {
-        --card-w: clamp(220px, 28vw, 265px);
-        --card-h: clamp(320px, 44vh, 360px);
+        --card-h: clamp(324px, 44vh, 364px);
       }
       body { height: auto; min-height: 100dvh; overflow-y: auto; }
       .home-container { height: auto; min-height: calc(100dvh - 26px); }
@@ -1318,30 +1320,24 @@
 
     @media (max-height: 700px) and (min-width: 1025px) {
       :root {
-        --card-h: clamp(296px, 46vh, 340px);
-        --card-img-h: clamp(82px, 12vh, 108px);
+        --card-h: clamp(304px, 46vh, 346px);
+        --card-img-h: clamp(86px, 12vh, 110px);
       }
       body { height: auto; min-height: 100dvh; overflow-y: auto; }
       .home-container { height: auto; min-height: calc(100dvh - 26px); }
     }
 
     @media (max-width: 760px) {
-      :root {
-        --card-w: clamp(205px, 44vw, 250px);
-      }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) rotateY(14deg) scale(0.72); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) rotateY(-14deg) scale(0.72); }
+      .cards-track.mode-3d .card-3d-wrap { width: 268px; min-width: 268px; max-width: 268px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) rotateY(14deg) scale(0.76); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) rotateY(-14deg) scale(0.76); }
     }
 
     @media (max-width: 520px) {
-      :root {
-        --card-w: min(290px, 86vw);
-        --card-h: clamp(318px, 46vh, 356px);
-      }
       body { padding: 10px 12px 14px; }
-      .cards-track:not(.mode-3d):not(.grid-mode) {
-        flex-wrap: wrap;
-        overflow-y: auto;
+      .cards-track,
+      .cards-track.grid-mode {
+        grid-template-columns: 1fr;
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.12; }
@@ -1764,9 +1760,9 @@
 
       function obterQtdVisivelCarrossel() {
         const containerW = cardsWrapper.clientWidth || window.innerWidth;
-        const cardW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--card-w")) || 256;
+        const minCardW = 236;
         const gap = 14;
-        const cabem = Math.floor((containerW + gap) / (cardW + gap));
+        const cabem = Math.floor((containerW + gap) / (minCardW + gap));
         return Math.max(1, Math.min(5, cabem));
       }
 
@@ -1830,6 +1826,7 @@
         const itens = obterModulosFiltrados();
         const total = itens.length;
 
+        document.body.classList.toggle("mode-3d-active", modoVisualizacao === "3d");
         cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
         cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
 
@@ -1843,7 +1840,7 @@
 
         if (total === 0) {
           cardsWrapper.innerHTML = `
-            <div class="card-3d-wrap" style="position: relative; height: auto; max-height: none;">
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
               <div class="card-surface">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
                   <strong style="color:#7dd3fc; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
