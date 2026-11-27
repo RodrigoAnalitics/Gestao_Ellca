@@ -67,21 +67,169 @@
             background-position: center;
         }
 
-        .navbar,
+        /* ================= NAVBAR PADRONIZADA DOS SETORES ================= */
+        .top-navbar-collapse,
         .footer-bar {
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease, max-height 0.28s ease;
         }
 
-        body.bars-collapsed .navbar {
-            transform: translateY(-110%);
+        body.bars-collapsed .top-navbar-collapse {
+            max-height: 0;
             opacity: 0;
+            transform: translateY(-10px);
             pointer-events: none;
+            overflow: hidden;
         }
 
         body.bars-collapsed .footer-bar {
             transform: translateY(110%);
             opacity: 0;
             pointer-events: none;
+        }
+
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 24px;
+            width: 100%;
+            background: rgba(5, 10, 22, 0.86);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.22);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 950;
+            box-sizing: border-box;
+        }
+
+        .nav-brand-side {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .brand-logo img {
+            height: 32px;
+            width: auto;
+            max-width: 140px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .brand-fallback {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 18px;
+            color: #60a5fa;
+        }
+
+        .module-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(14, 165, 233, 0.14);
+            border: 1px solid rgba(56, 189, 248, 0.38);
+            color: #38bdf8;
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .module-pill .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 8px #34d399;
+        }
+
+        .user-avatar-ring {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1.5px solid #facc15;
+            background: rgba(15, 23, 42, 0.85);
+            box-shadow: 0 0 12px rgba(250, 204, 21, 0.32);
+            color: #fde047;
+            font-size: 10.5px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nav-links-side {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 4px;
+        }
+
+        .top-nav-link {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .top-nav-link:hover,
+        .top-nav-link.active {
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.14);
+        }
+
+        .btn-back-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            background: rgba(15, 23, 42, 0.8);
+            color: #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 11px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-left: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back-circle:hover {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.22);
+            color: #ffffff;
         }
 
         ::-webkit-scrollbar {
@@ -103,7 +251,7 @@
             width: 100%;
             max-width: 1520px;
             margin: 0 auto;
-            padding: 95px 24px 85px 24px;
+            padding: 76px 24px 85px 24px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -1047,6 +1195,20 @@
             color: #030712;
         }
 
+        @media (max-width: 1180px) {
+            .top-navbar {
+                flex-wrap: wrap;
+                padding: 8px 16px;
+            }
+            .nav-links-side {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            body:not(.bars-collapsed) .org-wrapper {
+                padding-top: 104px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .panel-kpis-row {
                 grid-template-columns: repeat(2, minmax(140px, 1fr));
@@ -1054,8 +1216,11 @@
         }
 
         @media (max-width: 768px) {
+            .module-pill {
+                display: none;
+            }
             body:not(.fit-screen-mode) .org-wrapper {
-                padding: 80px 12px 75px 12px;
+                padding: 96px 12px 75px 12px;
             }
             body.bars-collapsed:not(.fit-screen-mode) .org-wrapper {
                 padding: 14px 12px 24px 12px;
@@ -1096,30 +1261,25 @@
 
 <body class="bars-collapsed">
     <div class="desktop-view">
-        <!-- NAVBAR -->
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
-                </a>
-            </div>
+        <!-- BARRA SUPERIOR PADRONIZADA DOS SETORES -->
+        <div class="top-navbar-collapse">
+            <header class="top-navbar">
+                <div class="nav-brand-side">
+                    <a href="index.html" class="brand-logo" title="ELLCA">
+                        <img src="img/logo_ellca.png" alt="Logo ELLCA"
+                             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';">
+                        <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
+                    </a>
 
-            <div class="mobile-header-actions">
-                <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar ao Início">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <button type="button" class="menu-mobile-btn" aria-label="Abrir Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
+                    <span class="module-pill">
+                        <span class="dot"></span>
+                        <span id="navOrgStatus">REDES ONLINE • 12ms · ORGANOGRAMA</span>
+                    </span>
 
-            <div class="nav-content">
-                <div class="nav-status">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text" id="navOrgStatus">ESTRUTURA • ONLINE</span>
+                    <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
                 </div>
 
-                <div class="nav-links-side" aria-label="Menu do Portal">
+                <nav class="nav-links-side" aria-label="Menu do Portal">
                     <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house-user"></i> HOME</a>
                     <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
                     <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
@@ -1129,9 +1289,9 @@
                     <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
-                </div>
-            </div>
-        </nav>
+                </nav>
+            </header>
+        </div>
 
         <!-- FUNDO E ÁREA DO ORGANOGRAMA -->
         <div class="container">
@@ -1514,6 +1674,20 @@
                 ]
             };
 
+            const usuarioAtual = sessionStorage.getItem('ellca_user_name') || 'Rodrigo Lopes';
+
+            function obterIniciais(nome) {
+                const partes = String(nome || 'RL').trim().split(/\s+/);
+                if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+                return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+            }
+
+            const avatarRing = document.getElementById('userAvatarInitials');
+            if (avatarRing) {
+                avatarRing.textContent = obterIniciais(usuarioAtual);
+                avatarRing.title = usuarioAtual;
+            }
+
             const container = document.getElementById('organogramaContainer');
             const headerBar = document.getElementById('orgHeaderBar');
             const headerTitle = document.getElementById('orgHeaderTitle');
@@ -1539,7 +1713,7 @@
 
             let isFitScreen = false;
             let areBarsCollapsed = true;
-            let viewMode = 'geral'; // 'geral' | 'equipe'
+            let viewMode = 'geral';
             let activeLeaderId = null;
             let activeDomain = 'TODOS';
             let searchTerm = '';
@@ -1561,7 +1735,7 @@
             function preencherResumoPainel() {
                 const totalSetores = ORGANOGRAMA_DADOS.lideres.length;
                 const totalEquipe = ORGANOGRAMA_DADOS.lideres.reduce((acc, l) => acc + (l.equipe ? l.equipe.length : 0), 0);
-                const totalExecutivo = 3; // Contrato, Operacional, Coordenação
+                const totalExecutivo = 3;
                 const totalGeral = totalExecutivo + totalSetores + totalEquipe;
 
                 document.getElementById('kpiTotalSetores').textContent = String(totalSetores);
@@ -1837,7 +2011,7 @@
                 headerTitle.textContent = 'Organograma Geral ELLCA';
                 headerSubtitle.textContent = 'Clique no card para ver o perfil ou em "Equipe" para abrir o setor';
                 headerIcon.className = 'fa-solid fa-sitemap';
-                navStatus.textContent = 'ESTRUTURA • VISÃO GERAL';
+                navStatus.textContent = 'REDES ONLINE • 12ms · ORGANOGRAMA GERAL';
                 btnVoltarGeral.style.display = 'none';
 
                 const lideresFiltrados = [...ORGANOGRAMA_DADOS.lideres]
@@ -1933,7 +2107,7 @@
                 headerTitle.textContent = `Equipe • ${lider.setor}`;
                 headerSubtitle.textContent = `Liderança direta de ${lider.nome} (${lider.equipe.length} colaborador${lider.equipe.length > 1 ? 'es' : ''})`;
                 headerIcon.className = 'fa-solid fa-users-gear';
-                navStatus.textContent = `${lider.setor.toUpperCase()} • EQUIPE`;
+                navStatus.textContent = `REDES ONLINE • 12ms · ${lider.setor.toUpperCase()}`;
                 btnVoltarGeral.style.display = 'inline-flex';
 
                 const membrosFiltrados = (lider.equipe || []).filter(m => correspondeBusca(m, lider.setor));
