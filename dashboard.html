@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ELLCA | DASHBOARDS & BI • CENTRAL DE CONTROLE</title>
+  <title>ELLCA | DASHBOARDS EXECUTIVOS • PORTAL CORPORATIVO</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,7 +23,7 @@
       --card-h: clamp(326px, 39vh, 354px);
       --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
-      --card-count: 8;
+      --card-count: 4;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
@@ -51,7 +51,7 @@
         border-color: rgba(147, 197, 253, 0.20);
         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
       }
-      2.5%, 10% {
+      3%, 13% {
         opacity: 1;
         background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
         border-color: rgba(125, 211, 252, 0.78);
@@ -61,7 +61,7 @@
           0 0 12px rgba(125, 211, 252, 0.26),
           inset 0 1px 0 rgba(255, 255, 255, 0.30);
       }
-      14% {
+      18% {
         opacity: 0.78;
         background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
         border-color: rgba(147, 197, 253, 0.20);
@@ -73,10 +73,10 @@
       0%, 100% {
         opacity: 0;
       }
-      2%, 10.5% {
+      2.5%, 13.5% {
         opacity: 1;
       }
-      13.5% {
+      17.5% {
         opacity: 0;
       }
     }
@@ -162,7 +162,7 @@
 
     /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
     .top-navbar-collapse {
-      max-height: 60px;
+      max-height: 90px;
       opacity: 1;
       transform: translateY(0);
       overflow: hidden;
@@ -182,22 +182,22 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       padding: 1px 2px;
+      width: 100%;
     }
 
     .nav-brand-side {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .brand-logo {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
@@ -205,9 +205,9 @@
     }
 
     .brand-logo img {
-      height: 34px;
+      height: 32px;
       width: auto;
-      max-width: 150px;
+      max-width: 140px;
       object-fit: contain;
       display: block;
     }
@@ -217,23 +217,24 @@
       align-items: center;
       gap: 8px;
       font-weight: 800;
-      font-size: 19px;
+      font-size: 18px;
       color: #60a5fa;
     }
 
     .module-pill {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 4px 12px;
+      gap: 6px;
+      padding: 4px 10px;
       border-radius: 999px;
       background: rgba(14, 165, 233, 0.14);
       border: 1px solid rgba(56, 189, 248, 0.38);
       color: #38bdf8;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 0.45px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .module-pill .dot {
@@ -246,39 +247,41 @@
     }
 
     .user-avatar-ring {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 1.5px solid #38bdf8;
       background: rgba(15, 23, 42, 0.85);
       box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
       color: #7dd3fc;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .nav-links-side {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      flex-wrap: nowrap;
+      gap: 4px;
     }
 
     .top-nav-link {
       text-decoration: none;
       color: #cbd5e1;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
+      gap: 5px;
+      padding: 5px 7px;
       border-radius: 8px;
+      white-space: nowrap;
       transition: color 0.2s ease, background 0.2s ease;
     }
 
@@ -289,8 +292,8 @@
     }
 
     .btn-back-circle {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 1px solid rgba(56, 189, 248, 0.35);
       background: rgba(15, 23, 42, 0.8);
@@ -299,8 +302,9 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
-      font-size: 11.5px;
+      font-size: 11px;
       cursor: pointer;
+      flex-shrink: 0;
       transition: all 0.2s ease;
     }
 
@@ -317,7 +321,7 @@
       padding: 15px 22px;
       background:
         linear-gradient(135deg, rgba(14, 32, 66, 0.82) 0%, rgba(9, 17, 36, 0.86) 55%, rgba(15, 32, 64, 0.80) 100%),
-        url('img/Capa_dashboard.jpg') center/cover no-repeat;
+        url('img/Card_Produtividade.jpg') center/cover no-repeat;
       backdrop-filter: blur(20px) saturate(145%);
       -webkit-backdrop-filter: blur(20px) saturate(145%);
       border: 1px solid rgba(96, 165, 250, 0.32);
@@ -406,8 +410,13 @@
       gap: 5px;
     }
 
-    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
-    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
+    .hero-greeting-pill .pill-temp {
+      color: #7dd3fc;
+    }
+
+    .hero-greeting-pill .pill-clock {
+      color: #6ee7b7;
+    }
 
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px);
@@ -707,13 +716,13 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL: 4 EM CIMA E 4 EM BAIXO (8 CARDS POR TELA) */
+    /* MODO CARROSSEL: 1 LINHA COM ATÉ 4 CARDS NO DESKTOP */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(4, minmax(272px, var(--card-w)));
+      gap: 18px;
       justify-content: center;
-      align-items: stretch;
+      align-items: center;
       align-content: center;
       flex: 1 1 auto;
       width: 100%;
@@ -723,25 +732,26 @@
     .cards-track .card-3d-wrap {
       width: 100%;
       min-width: 0;
-      max-width: 100%;
-      height: clamp(304px, 34vh, 336px);
-      min-height: clamp(304px, 34vh, 336px);
-      max-height: clamp(304px, 34vh, 336px);
+      max-width: var(--card-w);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
       perspective: 1400px;
       margin: 0 auto;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .cards-track .card-img-banner {
-      height: clamp(112px, 11vh, 132px);
+      height: var(--card-img-h);
     }
 
-    @media (max-width: 1180px) {
+    @media (max-width: 1100px) {
       .cards-track {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(272px, var(--card-w)));
       }
     }
 
+    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -752,35 +762,25 @@
       padding: 4px 2px 8px;
     }
 
-    .cards-track.grid-mode .card-3d-wrap {
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
-    }
-
-    .cards-track.grid-mode .card-img-banner {
-      height: var(--card-img-h);
-    }
-
+    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 378px;
+      min-height: 392px;
       overflow: hidden;
       padding: 12px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: clamp(304px, 25vw, 356px);
-      min-width: clamp(304px, 25vw, 356px);
-      max-width: clamp(304px, 25vw, 356px);
-      height: 344px;
-      min-height: 344px;
-      max-height: 344px;
+      width: clamp(290px, 23vw, 332px);
+      min-width: clamp(290px, 23vw, 332px);
+      max-width: clamp(290px, 23vw, 332px);
+      height: 362px;
+      min-height: 362px;
+      max-height: 362px;
       transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
     }
 
@@ -859,6 +859,7 @@
       pointer-events: none;
     }
 
+    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
@@ -881,6 +882,7 @@
       box-shadow: none;
     }
 
+    /* LUZ 360° CONTÍNUA EM TODOS OS CARDS */
     .card-surface {
       --sweep-angle: 0deg;
       --edge-a: #38bdf8;
@@ -956,13 +958,13 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 12px 14px 13px;
+      padding: 13px 15px 14px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 6px;
+      gap: 7px;
     }
 
     .card-img-banner {
@@ -1036,7 +1038,7 @@
     }
 
     .card-title-txt {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.25px;
@@ -1044,8 +1046,8 @@
     }
 
     .card-desc-txt {
-      font-size: 10.5px;
-      line-height: 1.32;
+      font-size: 11px;
+      line-height: 1.35;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -1065,7 +1067,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 2px 8px;
+      padding: 2.5px 8px;
       border-radius: 6px;
       background: rgba(6, 16, 36, 0.68);
       border: 1px solid rgba(56, 189, 248, 0.25);
@@ -1089,15 +1091,15 @@
       align-items: center;
       gap: 6px;
       width: 100%;
-      height: 29px;
+      height: 30px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(56, 189, 248, 0.58);
@@ -1123,11 +1125,11 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 28px;
+      flex: 0 0 29px;
       width: 100%;
-      height: 28px;
-      min-height: 28px;
-      max-height: 28px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(147, 197, 253, 0.28);
@@ -1152,10 +1154,10 @@
     }
 
     .btn-nova-aba {
-      width: 29px;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
+      width: 30px;
+      height: 30px;
+      min-height: 30px;
+      max-height: 30px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -1377,8 +1379,20 @@
 
     .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
 
+    @media (max-width: 1180px) {
+      .top-navbar {
+        flex-wrap: wrap;
+      }
+
+      .nav-links-side {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
     @media (max-width: 760px) {
-      .cards-track.mode-3d .card-3d-wrap { width: 278px; min-width: 278px; max-width: 278px; }
+      .cards-track.mode-3d .card-3d-wrap { width: 274px; min-width: 274px; max-width: 274px; }
       .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); }
       .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); }
       .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
@@ -1394,9 +1408,6 @@
       }
       .cards-track .card-3d-wrap {
         max-width: 100%;
-        height: var(--card-h);
-        min-height: var(--card-h);
-        max-height: var(--card-h);
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
@@ -1451,9 +1462,9 @@
               <i class="fa-solid fa-sun" id="dashGreetingIcon"></i>
               <span id="dashGreetingText">Olá, Boa tarde, Rodrigo Lopes • Carregando local e clima...</span>
             </div>
-            <h1 class="hero-main-title">DASHBOARDS <span>CORPORATIVOS</span></h1>
+            <h1 class="hero-main-title">DASHBOARDS <span>EXECUTIVOS</span></h1>
             <p class="hero-subtitle">
-              Centralização de indicadores e painéis visuais por departamento com acesso controlado por permissão de usuário.
+              Painéis analíticos em Power BI e Looker Studio com indicadores de produção, faturamento, frota, suprimentos e segurança.
             </p>
           </div>
         </div>
@@ -1461,23 +1472,23 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Painéis Ativos</small>
-            <strong id="heroTotalPaineis">13 Dashboards</strong>
+            <strong id="statQtdDashboards">6 Painéis</strong>
           </div>
           <div class="quick-stat-pill">
-            <small>Desempenho BI</small>
-            <strong style="color:#7dd3fc;">+18% Mensal</strong>
+            <small>Atualização BI</small>
+            <strong style="color:#6ee7b7;">Automática</strong>
           </div>
           <div class="quick-stat-pill">
-            <small>Atualização</small>
-            <strong style="color:#6ee7b7;">Sincronizado</strong>
+            <small>Integrações</small>
+            <strong style="color:#7dd3fc;">Power BI · Looker</strong>
           </div>
         </div>
       </div>
 
       <div class="hero-actions-row">
         <span class="live-badge tabular">
-          <i class="fa-solid fa-circle-check"></i>
-          <span id="liveClockTxt">BI Sincronizado · --:--</span>
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span id="liveClockTxt">BI Conectado · --:--</span>
         </span>
 
         <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
@@ -1510,15 +1521,15 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (<span id="catTodosCount">13</span>)</button>
-        <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-chart-line"></i> Operação</button>
-        <button type="button" class="cat-btn" data-cat="GESTAO"><i class="fa-solid fa-users-gear"></i> Gestão & Pessoas</button>
-        <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-server"></i> Suporte & Frota</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (6)</button>
+        <button type="button" class="cat-btn" data-cat="OPERACIONAL"><i class="fa-solid fa-bolt"></i> Operacional</button>
+        <button type="button" class="cat-btn" data-cat="LOGISTICA"><i class="fa-solid fa-truck-fast"></i> Frota & Suprimentos</button>
+        <button type="button" class="cat-btn" data-cat="CORPORATIVO"><i class="fa-solid fa-shield-halved"></i> Corporativo & Segurança</button>
       </div>
 
       <div class="search-box-wrap">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar dashboard por setor ou KPI..." />
+        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar dashboard, KPI ou setor..." />
       </div>
     </div>
 
@@ -1526,7 +1537,7 @@
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 13 DASHBOARDS · MODO CARROSSEL
+          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 6 PAINÉIS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1551,7 +1562,7 @@
       <div class="footer-system-text">
         <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
         <span>•</span>
-        <span>Módulo: <strong>Dashboards BI</strong></span>
+        <span>Módulo: <strong>Dashboards Executivos</strong></span>
       </div>
 
       <div class="footer-right-actions">
@@ -1567,7 +1578,7 @@
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES (ABRE SOMENTE VIA BOTÃO DE DETALHES / ÍCONE INFO) -->
+  <!-- DRAWER LATERAL DE DETALHES -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
@@ -1580,15 +1591,15 @@
     <div class="details-meta-grid">
       <div class="details-meta-box">
         <small>Categoria</small>
-        <strong id="drawerModCat">OPERACAO</strong>
+        <strong id="drawerModCat">OPERACIONAL</strong>
       </div>
       <div class="details-meta-box">
         <small>Indicador</small>
-        <strong id="drawerModKpi">+18% Mensal</strong>
+        <strong id="drawerModKpi">Power BI</strong>
       </div>
       <div class="details-meta-box">
         <small>Setor</small>
-        <strong id="drawerModRota">Produtividade</strong>
+        <strong id="drawerModRota">Produção</strong>
       </div>
       <div class="details-meta-box">
         <small>Permissão</small>
@@ -1596,11 +1607,11 @@
       </div>
     </div>
     <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
-      Métricas Monitoradas
+      Indicadores do Painel
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
     <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ABRIR DASHBOARD <i class="fa-solid fa-chart-simple"></i>
+      ABRIR DASHBOARD <i class="fa-solid fa-chart-pie"></i>
     </button>
   </aside>
 
@@ -1634,243 +1645,114 @@
 
       const DASHBOARDS_LISTA = [
         {
-          key: "bi_almox_epi_epc",
-          setor: "almoxarifado",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: true,
-          icone: "fa-shield-halved",
-          imagem: "img/epi_epc.jpg",
-          titulo: "ALMOX. EPI/EPC",
-          desc: "Controle de estoque, validade, inspeção e entrega de equipamentos de proteção.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-          kpiResumo: "94% · Mensal",
-          url: "#",
-          setorLabel: "Almox. EPI/EPC",
-          searchTags: "epi epc estoque validade inspeção entrega equipamentos proteção bi",
-          recursos: ["Conferência de estoque e CA", "Acompanhamento de validades", "Histórico de entregas por equipe"]
-        },
-        {
-          key: "bi_almoxarifado",
-          setor: "almoxarifado",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-boxes-stacked",
-          imagem: "img/almoxarifado.jpg",
-          titulo: "ALMOXARIFADO",
-          desc: "Gestão de materiais, recebimento, inventário e suprimento das equipes.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 96%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
-          kpiResumo: "96% · Diário",
-          url: "#",
-          setorLabel: "Almoxarifado",
-          searchTags: "almoxarifado materiais recebimento inventário giro suprimento bi",
-          recursos: ["Monitoramento de entradas e saídas", "Indicadores de inventário", "Disponibilidade de suprimentos"]
-        },
-        {
-          key: "bi_backoffice",
-          setor: "backoffice",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-file-invoice-dollar",
-          imagem: "img/backoffice.jpg",
-          titulo: "BACKOFFICE",
-          desc: "Suporte administrativo, conferência de processos, medições e faturamento.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 92%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-          kpiResumo: "92% · Mensal",
-          url: "#",
-          setorLabel: "Backoffice",
-          searchTags: "backoffice administrativo processos medições faturamento conferência bi",
-          recursos: ["Evolução de medições e faturamento", "Tempo médio de conferência", "Painel de pendências"]
-        },
-        {
-          key: "bi_dp",
-          setor: "dp",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-id-card",
-          imagem: "img/Card_DP.jpg",
-          titulo: "DP",
-          desc: "Gestão de ponto, folha de pagamento, benefícios, férias e rotinas trabalhistas.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 98%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-          kpiResumo: "98% · Mensal",
-          url: "#",
-          setorLabel: "DP",
-          searchTags: "dp departamento pessoal ponto folha benefícios férias trabalhistas bi",
-          recursos: ["Indicadores de ponto e horas extras", "Programação de férias e afastamentos", "Conferência de folha e benefícios"]
-        },
-        {
-          key: "bi_dsc",
-          setor: "dsc",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-clipboard-check",
-          imagem: "img/DSC.jpg",
-          titulo: "DSC",
-          desc: "Acompanhamento de indicadores, conformidade em campo e controle de desvios.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 91%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
-          kpiResumo: "91% · Semanal",
-          url: "#",
-          setorLabel: "DSC",
-          searchTags: "dsc conformidade campo desvios indicadores qualidade bi",
-          recursos: ["Taxa de conformidade operacional", "Evolução de desvios e tratativas", "Indicadores semanais de campo"]
-        },
-        {
-          key: "bi_estrutura",
-          setor: "estrutura",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: true,
-          icone: "fa-sitemap",
-          imagem: "img/estrutura.jpg",
-          titulo: "ESTRUTURA",
-          desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 100%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Geral</span>',
-          kpiResumo: "100% · Geral",
-          url: "#",
-          setorLabel: "Estrutura",
-          searchTags: "estrutura hierarquia liderança setores equipes organograma bi",
-          recursos: ["Distribuição de efetivo por área", "Cobertura de lideranças setoriais", "Visão consolidada da estrutura"]
-        },
-        {
-          key: "bi_frota",
-          setor: "frota",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-truck",
-          imagem: "img/frota.jpg",
-          titulo: "FROTA",
-          desc: "Controle de veículos, manutenções preventivas/corretivas, combustível e rastreio.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 93%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
-          kpiResumo: "93% · Diário",
-          url: "#",
-          setorLabel: "Frota",
-          searchTags: "frota veículos manutenção combustível rastreio disponibilidade bi",
-          recursos: ["Disponibilidade da frota operacional", "Indicadores de combustível e km", "Acompanhamento de manutenções"]
-        },
-        {
-          key: "bi_infraestrutura",
-          setor: "infraestrutura",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-building",
-          imagem: "img/infraestrutura.jpg",
-          titulo: "INFRAESTRUTURA",
-          desc: "Manutenção predial, bases operacionais, energia e serviços de apoio.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 95%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Contínuo</span>',
-          kpiResumo: "95% · Contínuo",
-          url: "#",
-          setorLabel: "Infraestrutura",
-          searchTags: "infraestrutura predial bases operacionais energia serviços apoio bi",
-          recursos: ["Status das bases operacionais", "Indicadores de manutenção predial", "Acompanhamento de serviços gerais"]
-        },
-        {
-          key: "bi_produtividade",
+          key: "dash_produtividade",
           setor: "produtividade",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
+          categoria: "OPERACIONAL",
+          badge: "POWER BI",
+          badgeGold: true,
           icone: "fa-chart-line",
           imagem: "img/Card_Produtividade.jpg",
-          titulo: "PRODUTIVIDADE",
-          desc: "Desempenho operacional, metas atingidas e evolução por equipe.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-          kpiResumo: "+18% · Mensal",
-          url: "#",
+          titulo: "BI PRODUTIVIDADE & FATURAMENTO",
+          desc: "Acompanhamento de metas diárias, faturamento por frente, equipes e ranking operacional.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94,8%</span>',
+          kpi2: '<span><i class="fa-solid fa-bolt"></i> Produção</span>',
+          kpiResumo: "94,8% · Produção",
+          url: "#dash-produtividade",
           setorLabel: "Produtividade",
-          searchTags: "produtividade metas equipes desempenho bi",
-          recursos: ["Atingimento de metas por equipe", "Comparativo mensal de entregas", "Indicadores de eficiência"]
+          searchTags: "produtividade faturamento metas equipes ranking power bi",
+          recursos: ["Evolução diária e acumulada", "Comparativo previsto vs. realizado", "Desempenho por supervisor e equipe"]
         },
         {
-          key: "bi_programacao",
+          key: "dash_programacao",
           setor: "programacao",
-          categoria: "OPERACAO",
-          badge: "BI",
+          categoria: "OPERACIONAL",
+          badge: "LOOKER STUDIO",
           badgeGold: false,
           icone: "fa-calendar-check",
           imagem: "img/Programacao.jpg",
-          titulo: "PROGRAMAÇÃO",
-          desc: "Planejamento diário, roteirização de ordens de serviço e alocação de equipes.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 95%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
-          kpiResumo: "95% · Diário",
-          url: "#",
+          titulo: "BI PROGRAMAÇÃO & CARTEIRA",
+          desc: "Controle de ordens de serviço programadas, executadas, pendentes e SLA de atendimento.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96,2%</span>',
+          kpi2: '<span><i class="fa-solid fa-route"></i> Carteira</span>',
+          kpiResumo: "96,2% · Carteira",
+          url: "#dash-programacao",
           setorLabel: "Programação",
-          searchTags: "programação planejamento roteirização ordens de serviço equipes bi",
-          recursos: ["Aderência da programação diária", "Status de ordens de serviço", "Alocação e roteirização de equipes"]
+          searchTags: "programação carteira ordens de serviço sla aderência looker",
+          recursos: ["Taxa de aderência à programação", "Carteira aberta por regional", "Análise de motivos de reprogramação"]
         },
         {
-          key: "bi_projeto",
-          setor: "projeto",
-          categoria: "OPERACAO",
-          badge: "BI",
+          key: "dash_backoffice",
+          setor: "backoffice",
+          categoria: "OPERACIONAL",
+          badge: "POWER BI",
           badgeGold: false,
-          icone: "fa-compass-drafting",
-          imagem: "img/Card_Projeto.jpg",
-          titulo: "PROJETO",
-          desc: "Análise técnica, levantamentos, desenhos e acompanhamento de obras e projetos.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 90%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Etapas</span>',
-          kpiResumo: "90% · Etapas",
-          url: "#",
-          setorLabel: "Projeto",
-          searchTags: "projeto análise técnica levantamentos desenhos obras acompanhamento bi",
-          recursos: ["Avanço físico por etapa de projeto", "Status de levantamentos e desenhos", "Acompanhamento de entregas técnicas"]
+          icone: "fa-file-invoice-dollar",
+          imagem: "img/estrutura.jpg",
+          titulo: "BI MEDIÇÃO & BACKOFFICE",
+          desc: "Status de medições enviadas, aprovadas, glosas e prazos de fechamento administrativo.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-file-check"></i> 98,1%</span>',
+          kpi2: '<span><i class="fa-solid fa-coins"></i> Medição</span>',
+          kpiResumo: "98,1% · Medição",
+          url: "#dash-backoffice",
+          setorLabel: "Backoffice",
+          searchTags: "backoffice medição faturamento aprovação glosas fechamento",
+          recursos: ["Funil de aprovação de medições", "Controle de pendências documentais", "Prazo médio de faturamento"]
         },
         {
-          key: "bi_rh",
-          setor: "rh",
-          categoria: "OPERACAO",
-          badge: "BI",
-          badgeGold: false,
-          icone: "fa-users",
-          imagem: "img/Card_RH.jpg",
-          titulo: "RH",
-          desc: "Recrutamento e seleção, integração, treinamentos, desenvolvimento e clima.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-          kpiResumo: "94% · Mensal",
-          url: "#",
-          setorLabel: "RH",
-          searchTags: "rh recursos humanos recrutamento seleção integração treinamentos clima bi",
-          recursos: ["Cobertura de treinamentos e capacitação", "Indicadores de admissão e integração", "Acompanhamento de equipes e clima"]
-        },
-        {
-          key: "bi_sesmt",
-          setor: "sesmt",
-          categoria: "OPERACAO",
-          badge: "BI",
+          key: "dash_frota",
+          setor: "frota",
+          categoria: "LOGISTICA",
+          badge: "TELEMETRIA",
           badgeGold: true,
-          icone: "fa-helmet-safety",
+          icone: "fa-truck-fast",
+          imagem: "img/Programacao.jpg",
+          titulo: "BI FROTA & COMBUSTÍVEL",
+          desc: "Indicadores de consumo, quilometragem rodada, manutenções preventivas e disponibilidade.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-gauge-high"></i> 97,5%</span>',
+          kpi2: '<span><i class="fa-solid fa-gas-pump"></i> Frota</span>',
+          kpiResumo: "97,5% · Frota",
+          url: "#dash-frota",
+          setorLabel: "Frota",
+          searchTags: "frota veículos combustível manutenção telemetria disponibilidade",
+          recursos: ["Custo por km e consumo médio", "Alertas de manutenção preventiva", "Disponibilidade operacional da frota"]
+        },
+        {
+          key: "dash_almoxarifado",
+          setor: "almoxarifado",
+          categoria: "LOGISTICA",
+          badge: "ESTOQUE",
+          badgeGold: false,
+          icone: "fa-boxes-stacked",
+          imagem: "img/Card_Produtividade.jpg",
+          titulo: "BI ALMOXARIFADO & MATERIAIS",
+          desc: "Giro de estoque, saldo crítico de insumos, requisições atendidas e rastreabilidade.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-box-open"></i> 99,0%</span>',
+          kpi2: '<span><i class="fa-solid fa-warehouse"></i> Estoque</span>',
+          kpiResumo: "99,0% · Estoque",
+          url: "#dash-almoxarifado",
+          setorLabel: "Almoxarifado",
+          searchTags: "almoxarifado estoque materiais insumos giro requisição",
+          recursos: ["Monitoramento de estoque mínimo", "Consumo de materiais por frente", "Acuracidade de inventário"]
+        },
+        {
+          key: "dash_sesmt",
+          setor: "sesmt",
+          categoria: "CORPORATIVO",
+          badge: "SEGURANÇA",
+          badgeGold: true,
+          icone: "fa-shield-halved",
           imagem: "img/sesmt.jpg",
-          titulo: "SESMT",
-          desc: "Segurança do trabalho, prevenção de riscos, normas regulamentadoras e saúde ocupacional.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 97%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Contínuo</span>',
-          kpiResumo: "97% · Contínuo",
-          url: "#",
+          titulo: "BI SESMT & CONFORMIDADE",
+          desc: "Painel de inspeções de segurança, entregas de EPIs, treinamentos e indicadores preventivos.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-check"></i> 100%</span>',
+          kpi2: '<span><i class="fa-solid fa-helmet-safety"></i> SESMT</span>',
+          kpiResumo: "100% · SESMT",
+          url: "#dash-sesmt",
           setorLabel: "SESMT",
-          searchTags: "sesmt segurança trabalho prevenção riscos normas saúde ocupacional bi",
-          recursos: ["Indicadores de segurança e prevenção", "Acompanhamento de NRs e inspeções", "Saúde ocupacional e conformidade"]
+          searchTags: "sesmt segurança trabalho epi inspeções treinamentos conformidade",
+          recursos: ["Índice de conformidade em campo", "Controle de validade de EPIs e ASOs", "Acompanhamento de planos de ação"]
         }
       ];
-
-      document.getElementById("heroTotalPaineis").textContent = `${DASHBOARDS_LISTA.length} Dashboards`;
-      document.getElementById("catTodosCount").textContent = DASHBOARDS_LISTA.length;
 
       function capitalizarPrimeira(texto) {
         const limpo = String(texto || "").trim();
@@ -1915,17 +1797,6 @@
         const partes = String(nome || "RL").trim().split(/\s+/);
         if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
-      }
-
-      function rotaTravada(url) {
-        const destino = String(url || "").trim();
-        return !destino || destino === "#";
-      }
-
-      function abrirDashboard(mod) {
-        if (!mod || !usuarioTemAcesso(mod)) return;
-        if (rotaTravada(mod.url)) return;
-        window.location.href = mod.url;
       }
 
       const estadoClima = {
@@ -1973,7 +1844,7 @@
             <span class="pill-item pill-clock">${hh}:${mm}:${ss}</span>
           `;
         }
-        if (clockEl) clockEl.textContent = `BI Sincronizado · ${hh}:${mm}`;
+        if (clockEl) clockEl.textContent = `BI Conectado · ${hh}:${mm}`;
       }
 
       async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
@@ -2041,6 +1912,27 @@
         return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(item.setor).toLowerCase());
       }
 
+      function temLinkValido(url) {
+        const limpo = String(url || "").trim();
+        return limpo !== "" && limpo !== "#";
+      }
+
+      function navegarParaDestino(mod, novaAba = false) {
+        if (!mod || !usuarioTemAcesso(mod)) return;
+        if (temLinkValido(mod.url)) {
+          if (novaAba) window.open(mod.url.trim(), "_blank", "noopener");
+          else window.location.href = mod.url.trim();
+        } else {
+          abrirDrawerDetalhes(mod.key);
+        }
+      }
+
+      document.getElementById("statQtdDashboards").textContent = `${DASHBOARDS_LISTA.length} Painéis`;
+      const btnTodosCat = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
+      if (btnTodosCat) {
+        btnTodosCat.innerHTML = `<i class="fa-solid fa-layer-group"></i> Todos (${DASHBOARDS_LISTA.length})`;
+      }
+
       document.getElementById("footerUserName").textContent = usuarioAtual;
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
@@ -2087,16 +1979,15 @@
           });
       }
 
-      // 4 em cima e 4 embaixo = 8 cards no carrossel
+      // 1 linha com até 4 cards no carrossel desktop, 2 no tablet e 1 no mobile
       function obterQtdVisivelCarrossel() {
-        if (window.innerWidth <= 520) return 2;
-        if (window.innerWidth <= 1180) return 4;
-        return 8;
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 1100) return 2;
+        return 4;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
-        const travado = rotaTravada(mod.url);
         const isFav = favs.includes(mod.key);
         const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
 
@@ -2125,11 +2016,11 @@
 
                 <div class="card-actions-stack">
                   <div class="acessar-line">
-                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"} title="${travado ? "Link pendente (#)" : "Abrir dashboard"}">
-                      ${permitido ? `ABRIR <i class="fa-solid fa-chart-simple"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                      ${permitido ? `ABRIR BI <i class="fa-solid fa-chart-pie"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
-                    <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes do dashboard">
-                      <i class="fa-solid fa-circle-info"></i>
+                    <button type="button" class="btn-nova-aba btn-abrir-nova-aba" data-key="${mod.key}" title="Abrir em nova aba" ${permitido ? "" : "disabled"}>
+                      <i class="fa-solid fa-up-right-from-square"></i>
                     </button>
                   </div>
                   <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
@@ -2157,7 +2048,7 @@
 
         const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
         document.getElementById("carouselStatusLabel").innerHTML =
-          `<i class="fa-solid fa-chart-pie"></i> EXIBINDO ${total} DE ${DASHBOARDS_LISTA.length} DASHBOARDS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+          `<i class="fa-solid fa-chart-pie"></i> EXIBINDO ${total} DE ${DASHBOARDS_LISTA.length} PAINÉIS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
         if (total === 0) {
           assinaturaDomAtual = "vazio";
@@ -2246,7 +2137,17 @@
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const mod = DASHBOARDS_LISTA.find(m => m.key === btn.getAttribute("data-key"));
-            abrirDashboard(mod);
+            if (!mod || !usuarioTemAcesso(mod)) return;
+            navegarParaDestino(mod, false);
+          });
+        });
+
+        cardsWrapper.querySelectorAll(".btn-abrir-nova-aba").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const mod = DASHBOARDS_LISTA.find(m => m.key === btn.getAttribute("data-key"));
+            if (!mod || !usuarioTemAcesso(mod)) return;
+            navegarParaDestino(mod, true);
           });
         });
 
@@ -2306,13 +2207,12 @@
         if (!mod) return;
         itemAtualDrawer = mod;
         const permitido = usuarioTemAcesso(mod);
-        const travado = rotaTravada(mod.url);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
         document.getElementById("drawerModDesc").textContent = mod.desc;
         document.getElementById("drawerModCat").textContent = mod.categoria;
         document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
-        document.getElementById("drawerModRota").textContent = travado ? `${mod.setorLabel} (#)` : `${mod.setorLabel} · ${mod.url}`;
+        document.getElementById("drawerModRota").textContent = mod.setorLabel;
         document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
         document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
 
@@ -2324,13 +2224,12 @@
         `).join("");
 
         const btnDrawer = document.getElementById("btnDrawerAcessar");
-        const podeClicar = permitido && !travado;
-        btnDrawer.disabled = !podeClicar;
-        btnDrawer.style.opacity = podeClicar ? "1" : "0.45";
-        btnDrawer.style.pointerEvents = podeClicar ? "auto" : "none";
-        btnDrawer.innerHTML = !permitido
-          ? `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`
-          : (travado ? `<i class="fa-solid fa-link-slash"></i> LINK PENDENTE` : `ABRIR DASHBOARD <i class="fa-solid fa-chart-simple"></i>`);
+        btnDrawer.disabled = !permitido;
+        btnDrawer.style.opacity = permitido ? "1" : "0.45";
+        btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
+        btnDrawer.innerHTML = permitido
+          ? `ABRIR DASHBOARD <i class="fa-solid fa-chart-pie"></i>`
+          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
 
         detailsBackdrop.classList.add("open");
         detailsDrawer.classList.add("open");
@@ -2344,10 +2243,10 @@
       document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
       detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
       document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
-        abrirDashboard(itemAtualDrawer);
+        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
+        navegarParaDestino(itemAtualDrawer, false);
       });
 
-      // Avança 1 card por vez
       function avancarCarrossel(passo) {
         const total = obterItensFiltrados().length;
         if (total <= 1) return;
