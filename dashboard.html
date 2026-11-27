@@ -33,13 +33,51 @@
       inherits: false;
     }
 
-    /* Volta completa de 360 graus exatamente durante a janela do card atual */
-    @keyframes borderSweep360 {
-      0% {
+    /* Feixe contínuo 360 graus: nunca reseta nem pisca */
+    @keyframes borderSweepContinuous {
+      from {
         --sweep-angle: 0deg;
       }
-      100% {
+      to {
         --sweep-angle: 360deg;
+      }
+    }
+
+    /* Revezamento suave de brilho entre todos os cards em sequência */
+    @keyframes cardGlowRelay {
+      0%, 100% {
+        opacity: 0.78;
+        background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
+        border-color: rgba(147, 197, 253, 0.20);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+      2.5%, 10% {
+        opacity: 1;
+        background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
+        border-color: rgba(125, 211, 252, 0.78);
+        box-shadow:
+          0 20px 44px rgba(0, 0, 0, 0.68),
+          0 0 32px rgba(56, 189, 248, 0.36),
+          0 0 12px rgba(125, 211, 252, 0.26),
+          inset 0 1px 0 rgba(255, 255, 255, 0.30);
+      }
+      14% {
+        opacity: 0.78;
+        background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
+        border-color: rgba(147, 197, 253, 0.20);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+    }
+
+    @keyframes borderBeamRelay {
+      0%, 100% {
+        opacity: 0;
+      }
+      2%, 10.5% {
+        opacity: 1;
+      }
+      13.5% {
+        opacity: 0;
       }
     }
 
@@ -750,11 +788,36 @@
 
     .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface,
     .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface {
+      animation: none !important;
+      opacity: 1;
       background: linear-gradient(155deg, rgba(186, 230, 253, 0.16) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(15, 23, 42, 0.24) 100%);
       backdrop-filter: blur(22px) saturate(140%);
       -webkit-backdrop-filter: blur(22px) saturate(140%);
       border-color: rgba(186, 230, 253, 0.30);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface::before,
+    .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface::before {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-center .card-surface {
+      animation: paletteCycle360 48s steps(1, end) infinite;
+      opacity: 1;
+      background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
+      border-color: rgba(125, 211, 252, 0.78);
+      box-shadow:
+        0 20px 44px rgba(0, 0, 0, 0.68),
+        0 0 32px rgba(56, 189, 248, 0.36),
+        0 0 12px rgba(125, 211, 252, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.30);
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-center .card-surface::before {
+      opacity: 1;
+      animation: borderSweepContinuous var(--card-turn) linear infinite;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
@@ -766,14 +829,14 @@
 
     /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
-      opacity: 0.30;
+      opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
       border-color: rgba(148, 163, 184, 0.18);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
     .card-3d-wrap.sem-acesso .card-surface::before {
-      opacity: 0.10;
+      opacity: 0.10 !important;
     }
 
     .card-3d-wrap.sem-acesso .btn-primary-card,
@@ -787,12 +850,13 @@
       box-shadow: none;
     }
 
-    /* LUZ 360° CONTÍNUA DO 1º AO ÚLTIMO + DESTAQUE FORTE NO ATIVO E TRANSPARÊNCIA LEVE NOS INATIVOS */
+    /* LUZ 360° CONTÍNUA EM TODOS OS CARDS SEM PISCAR NEM RESETAR */
     .card-surface {
       --sweep-angle: 0deg;
       --edge-a: #38bdf8;
       --edge-b: #2563eb;
       --edge-c: #bae6fd;
+      --relay-delay: 0s;
       position: relative;
       border-radius: 16px;
       background: linear-gradient(160deg, rgba(17, 35, 68, 0.46) 0%, rgba(7, 15, 32, 0.58) 100%);
@@ -808,7 +872,9 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
-      animation: paletteCycle360 48s steps(1, end) infinite;
+      animation:
+        paletteCycle360 48s steps(1, end) infinite,
+        cardGlowRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
     }
 
     .card-surface::before {
@@ -832,35 +898,30 @@
       opacity: 0;
       pointer-events: none;
       z-index: 4;
-      transition: opacity 0.25s ease;
+      animation:
+        borderSweepContinuous var(--card-turn) linear infinite,
+        borderBeamRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
     }
 
-    /* Card ativo no ciclo de luz 360 ou no hover */
-    .card-surface.is-lit,
+    /* Destaque manual ao passar o mouse */
     .card-surface:hover {
-      opacity: 1;
-      background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%);
-      border-color: rgba(125, 211, 252, 0.78);
+      opacity: 1 !important;
+      background: linear-gradient(160deg, rgba(24, 52, 98, 0.74) 0%, rgba(9, 21, 44, 0.82) 100%) !important;
+      border-color: rgba(125, 211, 252, 0.82) !important;
       box-shadow:
         0 20px 44px rgba(0, 0, 0, 0.68),
-        0 0 32px rgba(56, 189, 248, 0.38),
-        0 0 12px rgba(125, 211, 252, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.32);
+        0 0 32px rgba(56, 189, 248, 0.40),
+        0 0 12px rgba(125, 211, 252, 0.30),
+        inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
     }
 
-    .card-surface.is-lit::before {
-      opacity: 1;
-      animation: borderSweep360 var(--card-turn) linear infinite;
+    .card-surface:hover::before {
+      opacity: 1 !important;
     }
 
-    .card-surface:not(.is-lit):hover::before {
-      opacity: 0.92;
-      animation: borderSweep360 var(--card-turn) linear infinite;
-    }
-
-    body.glow-paused .card-surface.is-lit::before,
-    body.glow-paused .card-surface:hover::before {
-      animation-play-state: paused;
+    body.glow-paused .card-surface,
+    body.glow-paused .card-surface::before {
+      animation-play-state: paused !important;
     }
 
     .card-body {
@@ -1702,13 +1763,11 @@
       let categoriaAtiva = "TODOS";
       let somenteFavoritos = false;
       let indiceCarrossel = 0;
-      let indiceLuz360 = 0;
       let autoPlayAtivo = true;
-      let timerLuz360 = null;
+      let timerCarrossel = null;
       let itemAtualDrawer = null;
       let assinaturaDomAtual = "";
 
-      const TURN_MS = 3200;
       const cardsWrapper = document.getElementById("cardsWrapper");
       const paginationDots = document.getElementById("paginationDots");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
@@ -1797,13 +1856,14 @@
         return Math.max(1, Math.min(5, cabem));
       }
 
-      function criarHtmlCard(mod, favs, isLit, slotClass = "", slotIdx = 0) {
+      function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
         const isFav = favs.includes(mod.key);
+        const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
 
         return `
           <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" data-slot-idx="${slotIdx}" data-mod-key="${mod.key}">
-            <div class="card-surface ${isLit ? "is-lit" : ""}">
+            <div class="card-surface" style="--relay-delay: ${relayDelay};">
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
                   <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
@@ -1843,30 +1903,11 @@
         `;
       }
 
-      function atualizarDestaqueLuz360() {
-        const wraps = cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]");
-        const totalVisivel = wraps.length;
-        if (totalVisivel === 0) return;
-
-        if (modoVisualizacao === "3d") {
-          wraps.forEach(w => {
-            const surface = w.querySelector(".card-surface");
-            if (surface) surface.classList.toggle("is-lit", w.classList.contains("slot-center"));
-          });
-          return;
-        }
-
-        if (indiceLuz360 >= totalVisivel) indiceLuz360 = 0;
-        wraps.forEach((w, idx) => {
-          const surface = w.querySelector(".card-surface");
-          if (surface) surface.classList.toggle("is-lit", idx === indiceLuz360);
-        });
-      }
-
       function renderizarCards(forcarRebuild = false) {
         const itens = obterItensFiltrados();
         const total = itens.length;
 
+        document.documentElement.style.setProperty("--card-count", Math.max(1, total));
         document.body.classList.toggle("mode-3d-active", modoVisualizacao === "3d");
         cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
         cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
@@ -1883,7 +1924,7 @@
           assinaturaDomAtual = "vazio";
           cardsWrapper.innerHTML = `
             <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
-              <div class="card-surface is-lit">
+              <div class="card-surface">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
                   <strong style="color:#7dd3fc; font-size:15px;">Nenhum dashboard encontrado para o filtro atual.</strong>
                   <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
@@ -1912,7 +1953,6 @@
               else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
               wrap.classList.add(slotClass);
             });
-            atualizarDestaqueLuz360();
           } else {
             assinaturaDomAtual = novaAssinatura;
             cardsWrapper.innerHTML = itens.map((item, idx) => {
@@ -1920,7 +1960,7 @@
               if (idx === indiceCarrossel) slotClass = "slot-center";
               else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
               else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
-              return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass, idx);
+              return criarHtmlCard(item, favs, idx, slotClass);
             }).join("");
             vincularEventosCards();
             aplicarTilt3D();
@@ -1929,12 +1969,9 @@
           const novaAssinatura = `grade|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
           if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
             assinaturaDomAtual = novaAssinatura;
-            if (indiceLuz360 >= total) indiceLuz360 = 0;
-            cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i === indiceLuz360, "", i)).join("");
+            cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
             vincularEventosCards();
             aplicarTilt3D();
-          } else {
-            atualizarDestaqueLuz360();
           }
         } else {
           const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
@@ -1942,40 +1979,25 @@
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
+          document.documentElement.style.setProperty("--card-count", Math.max(1, listaExibida.length));
           const novaAssinatura = `carrossel|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
           if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
             assinaturaDomAtual = novaAssinatura;
-            if (indiceLuz360 >= listaExibida.length) indiceLuz360 = 0;
-            cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i === indiceLuz360, "", i)).join("");
+            cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
             vincularEventosCards();
             aplicarTilt3D();
-          } else {
-            atualizarDestaqueLuz360();
           }
         }
 
         if (mostraSetas) {
-          const dotAtivo = modoVisualizacao === "3d" ? indiceCarrossel : (indiceCarrossel + indiceLuz360) % total;
           paginationDots.innerHTML = itens.map((_, idx) => `
-            <button type="button" class="p-dot ${idx === dotAtivo ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
+            <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
           `).join("");
 
           paginationDots.querySelectorAll(".p-dot").forEach(dot => {
             dot.addEventListener("click", () => {
-              const target = Number(dot.getAttribute("data-dot-idx"));
-              if (modoVisualizacao === "3d") {
-                indiceCarrossel = target;
-              } else {
-                const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
-                if (qtdVisivel >= total) {
-                  indiceLuz360 = target;
-                } else {
-                  indiceCarrossel = target;
-                  indiceLuz360 = 0;
-                }
-              }
+              indiceCarrossel = Number(dot.getAttribute("data-dot-idx"));
               renderizarCards(false);
-              reiniciarCicloLuz360();
             });
           });
         }
@@ -2017,7 +2039,6 @@
             if (!Number.isNaN(slotIdx) && slotIdx !== indiceCarrossel) {
               indiceCarrossel = slotIdx;
               renderizarCards(false);
-              reiniciarCicloLuz360();
             }
           });
         });
@@ -2088,62 +2109,30 @@
         alert(`Dashboard selecionado: ${itemAtualDrawer.titulo}. Vincule aqui o link do Looker Studio ou Power BI.`);
       });
 
-      function avancarPasso(passo) {
-        const itens = obterItensFiltrados();
-        const total = itens.length;
+      function avancarCarrossel(passo) {
+        const total = obterItensFiltrados().length;
         if (total <= 1) return;
-
-        if (modoVisualizacao === "3d") {
-          indiceCarrossel = (indiceCarrossel + passo + total) % total;
-          renderizarCards(false);
-          return;
-        }
-
-        if (modoVisualizacao === "grade") {
-          indiceLuz360 = (indiceLuz360 + passo + total) % total;
-          atualizarDestaqueLuz360();
-          return;
-        }
-
-        const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
-        if (qtdVisivel >= total) {
-          indiceLuz360 = (indiceLuz360 + passo + total) % total;
-          renderizarCards(false);
-        } else {
-          const proximoSlot = indiceLuz360 + passo;
-          if (proximoSlot >= 0 && proximoSlot < qtdVisivel) {
-            indiceLuz360 = proximoSlot;
-            renderizarCards(false);
-          } else {
-            indiceCarrossel = (indiceCarrossel + passo + total) % total;
-            indiceLuz360 = passo > 0 ? 0 : qtdVisivel - 1;
-            renderizarCards(true);
-          }
-        }
+        indiceCarrossel = (indiceCarrossel + passo + total) % total;
+        renderizarCards(false);
       }
 
-      document.getElementById("btnPrevCard").addEventListener("click", () => {
-        avancarPasso(-1);
-        reiniciarCicloLuz360();
-      });
+      document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
+      document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
 
-      document.getElementById("btnNextCard").addEventListener("click", () => {
-        avancarPasso(1);
-        reiniciarCicloLuz360();
-      });
-
-      function reiniciarCicloLuz360() {
-        clearInterval(timerLuz360);
+      function iniciarAutoPlay() {
+        clearInterval(timerCarrossel);
         document.body.classList.toggle("glow-paused", !autoPlayAtivo);
         if (!autoPlayAtivo) return;
-        timerLuz360 = setInterval(() => avancarPasso(1), TURN_MS);
+        if (modoVisualizacao === "3d") {
+          timerCarrossel = setInterval(() => avancarCarrossel(1), 5000);
+        }
       }
 
       function alternarAutoPlay() {
         autoPlayAtivo = !autoPlayAtivo;
         document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
         document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
-        reiniciarCicloLuz360();
+        iniciarAutoPlay();
       }
 
       document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
@@ -2159,12 +2148,10 @@
 
         if (e.key === "ArrowRight") {
           e.preventDefault();
-          avancarPasso(1);
-          reiniciarCicloLuz360();
+          avancarCarrossel(1);
         } else if (e.key === "ArrowLeft") {
           e.preventDefault();
-          avancarPasso(-1);
-          reiniciarCicloLuz360();
+          avancarCarrossel(-1);
         } else if (e.code === "Space" || e.key === " ") {
           e.preventDefault();
           alternarAutoPlay();
@@ -2181,7 +2168,7 @@
         btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
         btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
         renderizarCards(true);
-        reiniciarCicloLuz360();
+        iniciarAutoPlay();
       }
 
       btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
@@ -2192,9 +2179,7 @@
         somenteFavoritos = !somenteFavoritos;
         document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
         indiceCarrossel = 0;
-        indiceLuz360 = 0;
         renderizarCards(true);
-        reiniciarCicloLuz360();
       });
 
       document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
@@ -2203,17 +2188,13 @@
           btn.classList.add("active");
           categoriaAtiva = btn.getAttribute("data-cat");
           indiceCarrossel = 0;
-          indiceLuz360 = 0;
           renderizarCards(true);
-          reiniciarCicloLuz360();
         });
       });
 
       document.getElementById("moduleSearch").addEventListener("input", () => {
         indiceCarrossel = 0;
-        indiceLuz360 = 0;
         renderizarCards(true);
-        reiniciarCicloLuz360();
       });
 
       document.getElementById("btnToggleMenu").addEventListener("click", () => {
@@ -2227,7 +2208,7 @@
       });
 
       renderizarCards(true);
-      reiniciarCicloLuz360();
+      iniciarAutoPlay();
     })();
   </script>
 </body>
