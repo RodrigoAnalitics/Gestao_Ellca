@@ -33,13 +33,11 @@
       inherits: false;
     }
 
-    /* Feixe contínuo 360 graus: nunca reseta nem pisca */
     @keyframes borderSweepContinuous {
       from { --sweep-angle: 0deg; }
       to { --sweep-angle: 360deg; }
     }
 
-    /* Revezamento suave Preto Fosco Vidro + Ouro exclusivamente nos cards */
     @keyframes cardGlowRelay {
       0%, 100% {
         opacity: 0.86;
@@ -75,7 +73,6 @@
       25.5% { opacity: 0; }
     }
 
-    /* Paleta 360° em Ouro Metálico para o feixe da borda dos cards */
     @keyframes paletteCycle360 {
       0%, 24.99% { --edge-a: #facc15; --edge-b: #b45309; --edge-c: #fef08a; }
       25%, 49.99% { --edge-a: #eab308; --edge-b: #92400e; --edge-c: #fde047; }
@@ -795,12 +792,13 @@
       color: #ffffff;
     }
 
+    /* MODO CARROSSEL: 4 EM CIMA E 4 EM BAIXO (8 CARDS POR TELA) */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
-      gap: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
       justify-content: center;
-      align-items: center;
+      align-items: stretch;
       align-content: center;
       flex: 1 1 auto;
       width: 100%;
@@ -810,16 +808,24 @@
     .cards-track .card-3d-wrap {
       width: 100%;
       min-width: 0;
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
+      max-width: 100%;
+      height: clamp(304px, 34vh, 336px);
+      min-height: clamp(304px, 34vh, 336px);
+      max-height: clamp(304px, 34vh, 336px);
       perspective: 1400px;
       margin: 0 auto;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
-    .cards-track .card-img-banner { height: var(--card-img-h); }
+    .cards-track .card-img-banner {
+      height: clamp(112px, 11vh, 132px);
+    }
+
+    @media (max-width: 1180px) {
+      .cards-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
     .cards-track.grid-mode {
       display: grid;
@@ -829,6 +835,17 @@
       align-items: stretch;
       align-content: start;
       padding: 4px 2px 8px;
+    }
+
+    .cards-track.grid-mode .card-3d-wrap {
+      max-width: var(--card-w);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
+    }
+
+    .cards-track.grid-mode .card-img-banner {
+      height: var(--card-img-h);
     }
 
     .cards-track.mode-3d {
@@ -1028,13 +1045,13 @@
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 13px 15px 14px;
+      padding: 12px 14px 13px;
       border-radius: 15px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 7px;
+      gap: 6px;
     }
 
     .card-img-banner {
@@ -1117,7 +1134,7 @@
     }
 
     .card-title-txt {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       color: #fefce8;
       letter-spacing: 0.25px;
@@ -1125,8 +1142,8 @@
     }
 
     .card-desc-txt {
-      font-size: 11px;
-      line-height: 1.35;
+      font-size: 10.5px;
+      line-height: 1.32;
       color: #cbd5e1;
       margin-top: 2px;
       display: -webkit-box;
@@ -1146,7 +1163,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 2.5px 8px;
+      padding: 2px 8px;
       border-radius: 6px;
       background: rgba(8, 10, 14, 0.82);
       border: 1px solid rgba(250, 204, 21, 0.26);
@@ -1170,15 +1187,15 @@
       align-items: center;
       gap: 6px;
       width: 100%;
-      height: 30px;
+      height: 29px;
     }
 
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
-      height: 30px;
-      min-height: 30px;
-      max-height: 30px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(250, 204, 21, 0.56);
@@ -1204,11 +1221,11 @@
     }
 
     .btn-glass-card {
-      flex: 0 0 29px;
+      flex: 0 0 28px;
       width: 100%;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
+      height: 28px;
+      min-height: 28px;
+      max-height: 28px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(250, 204, 21, 0.22);
@@ -1233,10 +1250,10 @@
     }
 
     .btn-nova-aba {
-      width: 30px;
-      height: 30px;
-      min-height: 30px;
-      max-height: 30px;
+      width: 29px;
+      height: 29px;
+      min-height: 29px;
+      max-height: 29px;
       flex-shrink: 0;
       background: rgba(10, 12, 16, 0.88);
       border: 1px solid rgba(250, 204, 21, 0.42);
@@ -1552,7 +1569,12 @@
       .quick-stat-pill { min-width: 0; flex: 1 1 auto; }
       .cards-track,
       .cards-track.grid-mode { grid-template-columns: 1fr; }
-      .cards-track .card-3d-wrap { max-width: 100%; }
+      .cards-track .card-3d-wrap {
+        max-width: 100%;
+        height: var(--card-h);
+        min-height: var(--card-h);
+        max-height: var(--card-h);
+      }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
       .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
     }
@@ -1849,7 +1871,6 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
-      // Lista solicitada em ordem alfabética (com "Instalação de Clientes" ao final conforme informado)
       const MODULOS_GERENCIA = [
         {
           key: "base",
@@ -2332,12 +2353,11 @@
           });
       }
 
+      // 4 em cima e 4 embaixo = 8 cards no carrossel
       function obterQtdVisivelCarrossel() {
-        const containerW = cardsWrapper.clientWidth || window.innerWidth;
-        const minCardW = 272;
-        const gap = 18;
-        const cabem = Math.floor((containerW + gap) / (minCardW + gap));
-        return Math.max(1, Math.min(5, cabem));
+        if (window.innerWidth <= 520) return 2;
+        if (window.innerWidth <= 1180) return 4;
+        return 8;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
@@ -2599,6 +2619,7 @@
         alert(`Módulo gerencial selecionado: ${itemAtualDrawer.titulo}. Vincule aqui a rota ou relatório correspondente.`);
       });
 
+      // Avança 1 card por vez
       function avancarCarrossel(passo) {
         const total = obterItensFiltrados().length;
         if (total <= 1) return;
@@ -2696,7 +2717,7 @@
       });
 
       window.addEventListener("resize", () => {
-        if (modoVisualizacao === "carrossel") renderizarCards(false);
+        if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
       renderizarCards(true);
