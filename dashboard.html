@@ -37,6 +37,30 @@
       50% { transform: scale(1.35); opacity: 0.65; }
     }
 
+    @keyframes orbitSpin3D {
+      0% {
+        transform: translate3d(-245px, 12px, -180px) scale(0.74) rotateY(22deg) rotateZ(-2deg);
+      }
+      50% {
+        transform: translate3d(245px, 12px, -180px) scale(0.74) rotateY(-22deg) rotateZ(2deg);
+      }
+      100% {
+        transform: translate3d(-245px, 12px, -180px) scale(0.74) rotateY(22deg) rotateZ(-2deg);
+      }
+    }
+
+    @keyframes orbitSpin3DReverse {
+      0% {
+        transform: translate3d(245px, 12px, -180px) scale(0.74) rotateY(-22deg) rotateZ(2deg);
+      }
+      50% {
+        transform: translate3d(-245px, 12px, -180px) scale(0.74) rotateY(22deg) rotateZ(-2deg);
+      }
+      100% {
+        transform: translate3d(245px, 12px, -180px) scale(0.74) rotateY(-22deg) rotateZ(2deg);
+      }
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -582,17 +606,17 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL NORMAL (4 COLUNAS) */
+    /* MODO CARROSSEL NORMAL (CARDS MAIS ESTREITOS - ATÉ 5 COLUNAS) */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 15px;
       align-items: stretch;
     }
 
-    /* MODO GRADE */
+    /* MODO GRADE (CARDS MAIS ESTREITOS) */
     .cards-track.grid-mode {
-      grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
     }
 
     /* MODO CARROSSEL 3D (UM NA FRENTE, DOIS QUASE INVISÍVEIS ATRÁS RODANDO) */
@@ -601,22 +625,23 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 455px;
+      min-height: 495px;
       perspective: 1800px;
       overflow: hidden;
-      padding: 12px 0;
+      padding: 14px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
-      width: 380px;
-      max-width: 92vw;
-      height: 425px;
-      transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
+      width: 315px;
+      max-width: 90vw;
+      min-height: 455px;
+      height: auto;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center {
-      transform: translate3d(0, 0, 90px) scale(1);
+      transform: translate3d(0, 0, 105px) scale(1);
       opacity: 1;
       filter: blur(0px);
       z-index: 5;
@@ -624,19 +649,19 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-255px, 10px, -160px) scale(0.76) rotateY(14deg);
       opacity: 0.14;
       filter: blur(1.2px);
       z-index: 2;
       pointer-events: none;
+      animation: orbitSpin3D 8s ease-in-out infinite;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(255px, 10px, -160px) scale(0.76) rotateY(-14deg);
       opacity: 0.14;
       filter: blur(1.2px);
       z-index: 2;
       pointer-events: none;
+      animation: orbitSpin3DReverse 8s ease-in-out infinite;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
@@ -648,7 +673,7 @@
 
     .card-3d-wrap {
       perspective: 1400px;
-      min-height: 365px;
+      min-height: 415px;
       height: 100%;
     }
 
@@ -707,13 +732,13 @@
     .card-surface:hover::before,
     .card-surface.is-center::before { opacity: 0.92; }
 
-    /* CARDS MAIS COMPRIDOS */
+    /* CARDS COMPRIDOS E ESTREITOS */
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 16px 17px 18px;
+      padding: 15px 15px 16px;
       border-radius: 16px;
-      min-height: 365px;
+      min-height: 415px;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -732,12 +757,7 @@
       overflow: hidden;
     }
 
-    .card-img-banner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(7, 12, 23, 0.86) 0%, rgba(7, 12, 23, 0.15) 60%, transparent 100%);
-    }
+    /* Camada escura removida da imagem */
 
     .card-badge-tag {
       position: absolute;
@@ -753,15 +773,15 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      background: rgba(14, 165, 233, 0.24);
+      background: rgba(6, 18, 42, 0.78);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(56, 189, 248, 0.48);
+      border: 1px solid rgba(56, 189, 248, 0.55);
       color: #e0f2fe;
     }
 
     .card-badge-tag.gold {
-      background: rgba(234, 179, 8, 0.24);
-      border-color: rgba(250, 204, 21, 0.52);
+      background: rgba(28, 22, 6, 0.80);
+      border-color: rgba(250, 204, 21, 0.62);
       color: #fef08a;
     }
 
@@ -773,10 +793,10 @@
       width: 29px;
       height: 29px;
       border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       background: rgba(5, 10, 22, 0.78);
       backdrop-filter: blur(8px);
-      color: #94a3b8;
+      color: #cbd5e1;
       font-size: 11px;
       cursor: pointer;
       display: inline-flex;
@@ -791,14 +811,14 @@
     }
 
     .btn-fav-card.favorited {
-      background: rgba(234, 179, 8, 0.26);
+      background: rgba(28, 22, 6, 0.85);
       border-color: #facc15;
       color: #facc15;
       box-shadow: 0 0 12px rgba(250, 204, 21, 0.35);
     }
 
     .card-title-txt {
-      font-size: 15.5px;
+      font-size: 15px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.2px;
@@ -816,12 +836,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      padding: 8px 11px;
+      gap: 6px;
+      padding: 8px 10px;
       border-radius: 9px;
       background: rgba(5, 10, 22, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.07);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
       color: #94a3b8;
     }
@@ -830,15 +850,24 @@
     .kpi-success { color: #34d399 !important; font-weight: 700; }
     .kpi-warning { color: #fbbf24 !important; font-weight: 700; }
 
-    .card-actions-row {
+    /* BOTÕES EMPILHADOS: ACESSAR EM CIMA, DETALHES EMBAIXO */
+    .card-actions-stack {
       display: flex;
+      flex-direction: column;
       gap: 7px;
       margin-top: auto;
     }
 
+    .acessar-line {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+    }
+
     .btn-primary-card {
       flex: 1;
-      height: 36px;
+      width: 100%;
+      height: 35px;
       padding: 0 12px;
       border-radius: 9px;
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -864,7 +893,8 @@
     }
 
     .btn-glass-card {
-      height: 36px;
+      width: 100%;
+      height: 34px;
       padding: 0 11px;
       border-radius: 9px;
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -888,8 +918,8 @@
     }
 
     .btn-nova-aba {
-      width: 36px;
-      height: 36px;
+      width: 35px;
+      height: 35px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.85);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -1187,17 +1217,19 @@
       color: #ffffff;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1320px) {
+      .cards-track { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1024px) {
       .cards-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 760px) {
       .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-150px, 10px, -160px) scale(0.72); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(150px, 10px, -160px) scale(0.72); }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 520px) {
       body { padding: 12px 14px 22px; }
       .cards-track,
       .cards-track.grid-mode { grid-template-columns: 1fr; }
@@ -1417,7 +1449,7 @@
         <a href="#" id="btnOpenExternalEmbed" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-gold">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> ABRIR EM NOVA ABA
         </a>
-        <button type="button" class="btn-glass-card" style="padding:0 14px;" id="btnFecharEmbed">
+        <button type="button" class="btn-glass-card" style="width:auto; padding:0 14px;" id="btnFecharEmbed">
           <i class="fa-solid fa-xmark"></i> FECHAR PAINEL
         </button>
       </div>
@@ -1442,9 +1474,6 @@
 
   <script>
     (function iniciarCentralDashboards() {
-      // =========================================================================
-      // 1. ESTRUTURA COMPLETA DOS 13 SETORES E 29 SUB-PAINÉIS
-      // =========================================================================
       const ESTRUTURA_DASHBOARDS = {
         almoxarifado: {
           titulo: "ALMOXARIFADO",
@@ -1699,9 +1728,6 @@
         }
       };
 
-      // =========================================================================
-      // 2. ESTADO DA APLICAÇÃO ('carrossel' | '3d' | 'grade')
-      // =========================================================================
       let emSubDashboards = false;
       let setorAtualKey = null;
       let modoVisualizacao = "carrossel";
@@ -1750,9 +1776,6 @@
       }
       document.getElementById("favCountTxt").textContent = obterFavoritos().length;
 
-      // =========================================================================
-      // 3. RENDERIZAÇÃO (CARROSSEL, CARROSSEL 3D E GRADE)
-      // =========================================================================
       function obterItensAtuais() {
         const termo = document.getElementById("cardSearch").value.trim().toLowerCase();
 
@@ -1781,17 +1804,18 @@
       }
 
       function obterQtdVisivelCarrossel() {
-        if (window.innerWidth <= 600) return 1;
-        if (window.innerWidth <= 900) return 2;
-        if (window.innerWidth <= 1200) return 3;
-        return 4;
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 760) return 2;
+        if (window.innerWidth <= 1024) return 3;
+        if (window.innerWidth <= 1320) return 4;
+        return 5;
       }
 
       function criarHtmlCard(item, favs, isCenter, slotClass = "") {
         if (emSubDashboards) {
           const bgImg = item.imagem
             ? `url('${item.imagem}')`
-            : `linear-gradient(135deg, rgba(12, 36, 84, 0.70) 0%, rgba(4, 10, 24, 0.90) 100%), url('img/dashboards.jpg')`;
+            : `url('img/dashboards.jpg')`;
           const statusClass = item.embed ? "kpi-success" : "kpi-warning";
           const statusTxt = item.embed ? "Ativo" : "Pendente";
 
@@ -1812,15 +1836,17 @@
                       <span><i class="fa-solid fa-display"></i> ${item.plataforma || "Looker Studio"}</span>
                       <span class="${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTxt}</span>
                     </div>
-                    <div class="card-actions-row">
-                      <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${item.titulo}" data-embed="${item.embed || ""}">
-                        ACESSAR <i class="fa-solid fa-arrow-right"></i>
-                      </button>
+                    <div class="card-actions-stack">
+                      <div class="acessar-line">
+                        <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${item.titulo}" data-embed="${item.embed || ""}">
+                          ACESSAR <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button type="button" class="btn-nova-aba" data-embed="${item.embed || ""}" ${item.embed ? "" : "disabled"} title="Abrir em nova aba">
+                          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </button>
+                      </div>
                       <button type="button" class="btn-glass-card btn-detalhes-sub" data-setor="${item.setorKey}" data-sub-idx="${item.subIdx}">
                         DETALHES
-                      </button>
-                      <button type="button" class="btn-nova-aba" data-embed="${item.embed || ""}" ${item.embed ? "" : "disabled"} title="Abrir em nova aba">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
                       </button>
                     </div>
                   </div>
@@ -1853,7 +1879,7 @@
                     <span>${item.kpi1}</span>
                     <span>${item.kpi2}</span>
                   </div>
-                  <div class="card-actions-row">
+                  <div class="card-actions-stack">
                     <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${item.key}">
                       ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-arrow-right"}"></i>
                     </button>
@@ -2000,9 +2026,6 @@
         });
       }
 
-      // =========================================================================
-      // 4. NAVEGAÇÃO ENTRE SETORES PRINCIPAIS E SUB-PAINÉIS
-      // =========================================================================
       function entrarNoSetor(setorKey, subIndiceInicial = 0) {
         const dados = ESTRUTURA_DASHBOARDS[setorKey];
         if (!dados) return;
@@ -2069,9 +2092,6 @@
         }
       });
 
-      // =========================================================================
-      // 5. MODAL LOOKER STUDIO + DRAWER DE DETALHES
-      // =========================================================================
       embedIframe.addEventListener("load", () => {
         if (embedIframe.src && embedIframe.src !== window.location.href) {
           embedLoader.classList.add("hidden");
@@ -2190,9 +2210,6 @@
         else if (chave) entrarNoSetor(chave, 0);
       });
 
-      // =========================================================================
-      // 6. CONTROLES DO CARROSSEL, CARROSSEL 3D, GRADE, FILTROS E MENU
-      // =========================================================================
       function avancarCarrossel(passo) {
         const total = obterItensAtuais().length;
         if (total <= 1) return;
@@ -2222,23 +2239,9 @@
 
       function atualizarBotoesModo(novoModo) {
         modoVisualizacao = novoModo;
-        btnModoCarrossel.classList.toggle("active", novoModo === "carrossel");
-        btnModoCarrossel3D.classList.toggle("active", novoModo === "3d");
-        btnModoGrade.classList.toggle("active", novoModo === "grade");
-
-        if (novoModo === "carrossel") {
-          btnModoCarrossel.className = "hero-btn hero-btn-cyan active";
-          btnModoCarrossel3D.className = "hero-btn hero-btn-blue";
-          btnModoGrade.className = "hero-btn hero-btn-blue";
-        } else if (novoModo === "3d") {
-          btnModoCarrossel.className = "hero-btn hero-btn-blue";
-          btnModoCarrossel3D.className = "hero-btn hero-btn-cyan active";
-          btnModoGrade.className = "hero-btn hero-btn-blue";
-        } else {
-          btnModoCarrossel.className = "hero-btn hero-btn-blue";
-          btnModoCarrossel3D.className = "hero-btn hero-btn-blue";
-          btnModoGrade.className = "hero-btn hero-btn-cyan active";
-        }
+        btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
 
         iniciarAutoPlay();
         renderizarCards();
