@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ELLCA | CENTRAL DE CONTROLE • PREMIUM </title>
+  <title>ELLCA | CENTRAL DE CONTROLE</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,11 +86,6 @@
     @keyframes card3dTurnIn {
       0% { transform: translate3d(0, 6px, 0) scale(0.95); }
       100% { transform: translate3d(0, 0, 0) scale(1); }
-    }
-
-    @keyframes starGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); }
-      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); }
     }
 
     * {
@@ -224,22 +219,6 @@
       animation: pulseDot 2s infinite;
     }
 
-    .max-star-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16));
-      border: 1px solid rgba(250, 204, 21, 0.45);
-      color: #fde047;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      animation: starGlow 3.2s infinite;
-    }
-
     .user-avatar-ring {
       width: 32px;
       height: 32px;
@@ -329,7 +308,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      max-width: 860px;
+      max-width: 960px;
     }
 
     .hero-icon-box {
@@ -350,17 +329,30 @@
     .hero-greeting-pill {
       display: inline-flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #7dd3fc;
-      background: rgba(14, 165, 233, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.36);
-      padding: 2px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      color: #fde047;
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid rgba(250, 204, 21, 0.38);
+      padding: 3px 11px;
       border-radius: 999px;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
+    }
+
+    .hero-greeting-pill .pill-sep {
+      opacity: 0.45;
+      color: #94a3b8;
+    }
+
+    .hero-greeting-pill .pill-temp {
+      color: #38bdf8;
+    }
+
+    .hero-greeting-pill .pill-clock {
+      color: #34d399;
     }
 
     .hero-main-title {
@@ -658,7 +650,6 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO (LARGURA MAIOR, ALTURA COMPACTA E CENTRALIZADO NOS FILTROS) */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -687,7 +678,6 @@
       height: var(--card-img-h);
     }
 
-    /* MODO GRADE */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -698,7 +688,6 @@
       padding: 4px 2px 8px;
     }
 
-    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
@@ -795,7 +784,6 @@
       pointer-events: none;
     }
 
-    /* CARD SEM ACESSO */
     .card-3d-wrap.sem-acesso .card-surface {
       opacity: 0.30 !important;
       filter: saturate(0.28) brightness(0.72);
@@ -818,7 +806,6 @@
       box-shadow: none;
     }
 
-    /* LUZ 360° CONTÍNUA EM TODOS OS CARDS */
     .card-surface {
       --sweep-angle: 0deg;
       --edge-a: #facc15;
@@ -1357,10 +1344,6 @@
             REDES ONLINE • 12ms · CENTRAL DE CONTROLE
           </span>
 
-          <span class="max-star-tag">
-            <i class="fa-solid fa-star"></i> MAX STAR 2.0
-          </span>
-
           <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
 
@@ -1383,9 +1366,9 @@
             <i class="fa-solid fa-layer-group"></i>
           </div>
           <div>
-            <div class="hero-greeting-pill" id="homeGreetingPill">
-              <i class="fa-solid fa-sun"></i>
-              <span id="homeGreetingText">Bom dia, Colaborador • Portal Operacional Ativo</span>
+            <div class="hero-greeting-pill tabular" id="homeGreetingPill">
+              <i class="fa-solid fa-sun" id="homeGreetingIcon"></i>
+              <span id="homeGreetingText">Olá, Boa tarde, Rodrigo • Carregando local e clima...</span>
             </div>
             <h1 class="hero-main-title">CENTRAL DE <span>CONTROLE ELLCA</span></h1>
             <p class="hero-subtitle">
@@ -1485,7 +1468,7 @@
     <!-- 5. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <div class="footer-system-text">
-        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
+        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
         <span>•</span>
         <span>Módulo: <strong>Central de Controle</strong></span>
       </div>
@@ -1541,7 +1524,7 @@
   </aside>
 
   <script>
-    (function iniciarHomeMaxStar() {
+    (function iniciarHomeExecutivo() {
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
         "Rodrigo Lopes": ["todos"],
@@ -1656,8 +1639,14 @@
         }
       ];
 
+      function capitalizarPrimeira(texto) {
+        const limpo = String(texto || "").trim();
+        if (!limpo) return "";
+        return limpo.charAt(0).toUpperCase() + limpo.slice(1).toLowerCase();
+      }
+
       const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
-      const primeiroNome = String(usuarioAtual).trim().split(/\s+/)[0] || "Colaborador";
+      const primeiroNome = capitalizarPrimeira(String(usuarioAtual).trim().split(/\s+/)[0]);
 
       let setoresSessao = null;
       try {
@@ -1685,37 +1674,105 @@
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
       }
 
-      function obterSaudacaoPorHorario() {
-        const hora = new Date().getHours();
-        if (hora >= 5 && hora < 12) {
-          return {
-            saudacao: "Bom dia",
-            icone: "fa-sun",
-            contexto: "Turno Matutino · Central de Operações"
-          };
-        }
-        if (hora >= 12 && hora < 18) {
-          return {
-            saudacao: "Boa tarde",
-            icone: "fa-cloud-sun",
-            contexto: "Turno Vespertino · Central de Operações"
-          };
-        }
-        return {
-          saudacao: "Boa noite",
-          icone: "fa-moon",
-          contexto: "Turno Noturno · Central de Operações"
-        };
+      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
+      const estadoClima = {
+        cidade: "Ananindeua - PA",
+        temperatura: "--°C",
+        icone: "fa-cloud-sun"
+      };
+
+      function obterSaudacaoPorHorario(hora) {
+        if (hora >= 5 && hora < 12) return "Bom dia";
+        if (hora >= 12 && hora < 18) return "Boa tarde";
+        return "Boa noite";
       }
 
-      function atualizarSaudacao() {
-        const info = obterSaudacaoPorHorario();
-        const pill = document.getElementById("homeGreetingPill");
-        const iconEl = pill.querySelector("i");
-        if (iconEl) iconEl.className = `fa-solid ${info.icone}`;
-        document.getElementById("homeGreetingText").textContent =
-          `${info.saudacao}, ${primeiroNome} • ${info.contexto}`;
+      function mapearIconeClima(weatherCode, isDay) {
+        if (weatherCode === 0) return isDay ? "fa-sun" : "fa-moon";
+        if ([1, 2, 3].includes(weatherCode)) return isDay ? "fa-cloud-sun" : "fa-cloud-moon";
+        if ([45, 48].includes(weatherCode)) return "fa-smog";
+        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "fa-cloud-showers-heavy";
+        if ([95, 96, 99].includes(weatherCode)) return "fa-cloud-bolt";
+        return "fa-cloud";
       }
+
+      function renderizarSaudacaoEHorario() {
+        const now = new Date();
+        const h = now.getHours();
+        const hh = String(h).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        const ss = String(now.getSeconds()).padStart(2, "0");
+        const saudacao = obterSaudacaoPorHorario(h);
+
+        const iconEl = document.getElementById("homeGreetingIcon");
+        const textEl = document.getElementById("homeGreetingText");
+        const clockEl = document.getElementById("liveClockTxt");
+
+        if (iconEl) iconEl.className = `fa-solid ${estadoClima.icone}`;
+        if (textEl) {
+          textEl.innerHTML = `
+            <span>Olá, ${saudacao}, ${primeiroNome}</span>
+            <span class="pill-sep">•</span>
+            <span><i class="fa-solid fa-location-dot" style="margin-right:3px;"></i>${estadoClima.cidade}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-temp">${estadoClima.temperatura}</span>
+            <span class="pill-sep">•</span>
+            <span class="pill-clock">${hh}:${mm}:${ss}</span>
+          `;
+        }
+        if (clockEl) clockEl.textContent = `Portal ativo · ${hh}:${mm}`;
+      }
+
+      async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
+        try {
+          const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
+          const meteoResp = await fetch(meteoUrl);
+          if (meteoResp.ok) {
+            const meteoData = await meteoResp.json();
+            if (meteoData.current) {
+              estadoClima.temperatura = `${Math.round(meteoData.current.temperature_2m)}°C`;
+              estadoClima.icone = mapearIconeClima(meteoData.current.weather_code, meteoData.current.is_day === 1);
+            }
+          }
+
+          if (!cidadePadrao) {
+            const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`;
+            const geoResp = await fetch(geoUrl);
+            if (geoResp.ok) {
+              const geoData = await geoResp.json();
+              const cidadeRaw = geoData.city || geoData.locality || "Ananindeua";
+              const cidade = capitalizarPrimeira(cidadeRaw);
+              const uf = (geoData.principalSubdivisionCode || "BR-PA").replace("BR-", "").toUpperCase();
+              estadoClima.cidade = `${cidade} - ${uf}`;
+            }
+          } else {
+            estadoClima.cidade = cidadePadrao;
+          }
+        } catch (err) {
+          console.warn("Falha ao buscar clima/localização:", err);
+        } finally {
+          renderizarSaudacaoEHorario();
+        }
+      }
+
+      function iniciarLocalizacaoClima() {
+        const defaultLat = -1.3656;
+        const defaultLon = -48.3722;
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
+            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA"),
+            { timeout: 6000, maximumAge: 600000 }
+          );
+        } else {
+          buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA");
+        }
+      }
+
+      renderizarSaudacaoEHorario();
+      iniciarLocalizacaoClima();
+      setInterval(renderizarSaudacaoEHorario, 1000);
+      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
 
       function obterSetoresPermitidosUsuario() {
         if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
@@ -1742,16 +1799,6 @@
         sessionStorage.removeItem("ellca_user_setores");
         window.location.href = "login.html";
       });
-
-      function atualizarRelogio() {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        document.getElementById("liveClockTxt").textContent = `Portal Ativo · ${hh}:${mm}`;
-        atualizarSaudacao();
-      }
-      atualizarRelogio();
-      setInterval(atualizarRelogio, 30000);
 
       function obterFavoritos() {
         try { return JSON.parse(localStorage.getItem("ellca_home_favs") || "[]"); }
@@ -2073,7 +2120,6 @@
 
       document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
 
-      /* Atalhos de teclado: Setas Esquerda/Direita e Espaço para pausar/retomar */
       document.addEventListener("keydown", (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
