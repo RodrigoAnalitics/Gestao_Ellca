@@ -554,7 +554,7 @@
       border-radius: 18px;
       background: rgba(10, 16, 30, 0.65);
       border: 1px solid rgba(56, 189, 248, 0.24);
-      padding: 18px 20px 22px;
+      padding: 16px 20px 20px;
       backdrop-filter: blur(16px);
       box-shadow: 0 18px 42px rgba(0, 0, 0, 0.56);
     }
@@ -565,7 +565,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .carousel-status-label {
@@ -609,7 +609,7 @@
     .cards-track {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 15px;
+      gap: 14px;
       align-items: stretch;
     }
 
@@ -624,17 +624,17 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      min-height: 415px;
+      min-height: 376px;
       perspective: 1600px;
       overflow: hidden;
-      padding: 12px 0;
+      padding: 8px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
       width: 325px;
       max-width: 90vw;
-      min-height: 372px;
+      min-height: 334px;
       height: auto;
       transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease, filter 0.42s ease, z-index 0.2s ease;
     }
@@ -647,7 +647,6 @@
       pointer-events: auto;
     }
 
-    /* Cards traseiros de frente (sem inclinação) e em efeito vidro */
     .cards-track.mode-3d .card-3d-wrap.slot-left {
       transform: translate3d(-245px, 6px, -140px) scale(0.84);
       opacity: 0.24;
@@ -680,7 +679,7 @@
 
     .card-3d-wrap {
       perspective: 1400px;
-      min-height: 372px;
+      min-height: 334px;
       height: 100%;
     }
 
@@ -746,37 +745,38 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
-    /* CORPO DO CARD MAIS COMPACTO / MENOS LONGO */
+    /* SEQUÊNCIA EXATA: IMAGEM -> TÍTULO -> PARÁGRAFO -> SUBITENS/PILLULAS -> BOTÕES */
     .card-body {
       position: relative;
       z-index: 2;
-      padding: 13px 14px 14px;
+      padding: 12px 13px 13px;
       border-radius: 16px;
-      min-height: 372px;
+      min-height: 334px;
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
+      justify-content: flex-start;
+      gap: 9px;
     }
 
     .card-img-banner {
       position: relative;
       width: 100%;
-      height: 124px;
-      border-radius: 11px;
+      height: 108px;
+      border-radius: 10px;
       background-size: cover;
       background-position: center;
       border: 1px solid rgba(255, 255, 255, 0.15);
       overflow: hidden;
+      flex-shrink: 0;
     }
 
     .card-badge-tag {
       position: absolute;
-      top: 8px;
-      left: 8px;
+      top: 7px;
+      left: 7px;
       z-index: 2;
-      padding: 3.5px 9px;
+      padding: 3px 8px;
       border-radius: 7px;
       font-size: 9px;
       font-weight: 800;
@@ -799,16 +799,16 @@
 
     .btn-fav-card {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 7px;
+      right: 7px;
       z-index: 2;
-      width: 26px;
-      height: 26px;
+      width: 25px;
+      height: 25px;
       border-radius: 7px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       background: rgba(5, 10, 22, 0.72);
       color: #cbd5e1;
-      font-size: 10.5px;
+      font-size: 10px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -828,37 +828,38 @@
     }
 
     .card-title-txt {
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.2px;
-      margin-top: 10px;
       text-transform: uppercase;
     }
 
     .card-desc-txt {
       font-size: 11.5px;
-      line-height: 1.42;
+      line-height: 1.38;
       color: #cbd5e1;
-      margin-top: 4px;
+      margin-top: 3px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
+    /* SUBITENS LOGO ABAIXO DO PARÁGRAFO */
     .kpi-pills-row {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
+      margin-top: 2px;
     }
 
     .kpi-pill-item {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4.5px 9px;
+      gap: 4px;
+      padding: 4px 8px;
       border-radius: 7px;
       background: rgba(6, 16, 36, 0.68);
       border: 1px solid rgba(56, 189, 248, 0.25);
@@ -871,24 +872,24 @@
     .kpi-success { color: #34d399 !important; border-color: rgba(52, 211, 153, 0.35) !important; }
     .kpi-warning { color: #fbbf24 !important; border-color: rgba(251, 191, 36, 0.35) !important; }
 
-    /* BOTÕES ACESSAR E DETALHES COM A MESMA ESPESSURA (35PX) */
+    /* BOTÕES ACESSAR E DETALHES COM MESMA ESPESSURA E MESMO GAP */
     .card-actions-stack {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
       margin-top: auto;
     }
 
     .acessar-line {
       display: flex;
-      gap: 6px;
+      gap: 7px;
       width: 100%;
     }
 
     .btn-primary-card {
       flex: 1;
       width: 100%;
-      height: 35px;
+      height: 34px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(56, 189, 248, 0.58);
@@ -915,7 +916,7 @@
 
     .btn-glass-card {
       width: 100%;
-      height: 35px;
+      height: 34px;
       padding: 0 12px;
       border-radius: 8px;
       border: 1px solid rgba(147, 197, 253, 0.28);
@@ -940,8 +941,8 @@
     }
 
     .btn-nova-aba {
-      width: 35px;
-      height: 35px;
+      width: 34px;
+      height: 34px;
       flex-shrink: 0;
       background: rgba(6, 18, 42, 0.78);
       border: 1px solid rgba(56, 189, 248, 0.45);
@@ -972,7 +973,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 7px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     .p-dot {
@@ -1454,7 +1455,7 @@
       Painéis Vinculados
     </div>
     <ul class="details-sublist" id="drawerSublist"></ul>
-    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:40px;">
+    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px;">
       ABRIR SETOR <i class="fa-solid fa-arrow-right"></i>
     </button>
   </aside>
@@ -1507,8 +1508,8 @@
           icone: "fa-boxes-stacked",
           imagem: "img/almoxarifado.jpg",
           cardDesc: "Controle de estoque, entradas, saídas e inventário de materiais.",
-          kpi1: '<i class="fa-solid fa-box"></i> 1.240',
-          kpi2: '<i class="fa-solid fa-warehouse"></i> Itens',
+          kpi1: '<i class="fa-solid fa-box"></i> Estoque',
+          kpi2: '<i class="fa-solid fa-warehouse"></i> Painel Principal',
           searchTags: "almoxarifado log estoque materiais",
           descricao: "Monitoramento completo de saldo físico, giro de materiais, entradas de notas fiscais e requisições.",
           frequencia: "Diária • 07h00",
@@ -1524,8 +1525,8 @@
           icone: "fa-helmet-safety",
           imagem: "img/epi_epc.jpg",
           cardDesc: "Estoque e Estoque (Saídas) de Equipamentos de Proteção.",
-          kpi1: '<i class="fa-solid fa-boxes"></i> 2 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-right-from-bracket"></i> Estoque/Saídas',
+          kpi1: '<i class="fa-solid fa-boxes"></i> Estoque',
+          kpi2: '<i class="fa-solid fa-right-from-bracket"></i> Saídas',
           searchTags: "almox epi epc estoque saidas seg seguranca equipamento",
           descricao: "Gestão de estoque e entregas de Equipamentos de Proteção Individual e Coletiva às equipes de campo.",
           frequencia: "Diária • 07h30",
@@ -1543,7 +1544,7 @@
           icone: "fa-briefcase",
           imagem: "img/backoffice.jpg",
           cardDesc: "Indicadores de suporte administrativo e controle de processos internos.",
-          kpi1: '<i class="fa-solid fa-check"></i> 98%',
+          kpi1: '<i class="fa-solid fa-check"></i> SLA',
           kpi2: '<i class="fa-solid fa-chart-line"></i> Eficiência',
           searchTags: "backoffice gestor administrativo",
           descricao: "Acompanhamento de SLA administrativo, tratamento de pendências e produtividade de retaguarda.",
@@ -1560,8 +1561,8 @@
           icone: "fa-file-invoice-dollar",
           imagem: "img/Card_DP.jpg",
           cardDesc: "Efetivo, Banco de Horas e Controle de Faltas.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 3 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-clock"></i> Ponto/Horas',
+          kpi1: '<i class="fa-solid fa-users"></i> Efetivo',
+          kpi2: '<i class="fa-solid fa-clock"></i> Banco de Horas',
           searchTags: "dp efetivo banco de horas controle de faltas fin departamento pessoal",
           descricao: "Indicadores consolidados de quadro de colaboradores, saldos de banco de horas e absenteísmo.",
           frequencia: "Diária • 08h00",
@@ -1580,7 +1581,7 @@
           icone: "fa-hard-hat",
           imagem: "img/DSC.jpg",
           cardDesc: "Registros e histórico dos Diálogos Semanais do Cliente.",
-          kpi1: '<i class="fa-solid fa-users"></i> 100% Pauta',
+          kpi1: '<i class="fa-solid fa-users"></i> Pauta',
           kpi2: '<i class="fa-solid fa-signature"></i> Atas',
           searchTags: "dsc dialogo semanal seguranca treinamento eqtl",
           descricao: "Controle de realização, presença e atas digitais dos Diálogos Semanais do Cliente.",
@@ -1597,8 +1598,8 @@
           icone: "fa-sitemap",
           imagem: "img/estrutura.jpg",
           cardDesc: "Mobilização Diária, Estrutura e Estrutura Base.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 3 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-building"></i> Mobilização',
+          kpi1: '<i class="fa-solid fa-calendar-day"></i> Mobilização',
+          kpi2: '<i class="fa-solid fa-building"></i> Estrutura Base',
           searchTags: "estrutura mobilizacao diaria estrutura base corp filiais",
           descricao: "Visão executiva da mobilização diária de equipes, composição operacional e estrutura base.",
           frequencia: "Diária • 08h30",
@@ -1623,8 +1624,8 @@
           icone: "fa-truck-fast",
           imagem: "img/frota.jpg",
           cardDesc: "Manutenção e Combustível da frota operacional.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 2 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-gas-pump"></i> Frota/Comb.',
+          kpi1: '<i class="fa-solid fa-wrench"></i> Manutenção',
+          kpi2: '<i class="fa-solid fa-gas-pump"></i> Combustível',
           searchTags: "frota manutencao combustivel ops veiculos rotas",
           descricao: "Indicadores de disponibilidade mecânica, manutenções preventivas/corretivas e consumo de combustível.",
           frequencia: "Diária • 09h00",
@@ -1642,8 +1643,8 @@
           icone: "fa-server",
           imagem: "img/infraestrutura.jpg",
           cardDesc: "DSC e monitoramento de ativos, redes e suporte.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 1 Sub-painel',
-          kpi2: '<i class="fa-solid fa-signal"></i> 99.9%',
+          kpi1: '<i class="fa-solid fa-file-lines"></i> DSC',
+          kpi2: '<i class="fa-solid fa-signal"></i> Redes',
           searchTags: "infraestrutura dsc ti servidores redes hardware",
           descricao: "Monitoramento de ativos tecnológicos, conectividade de bases e indicadores de DSC técnico.",
           frequencia: "Diária • 08h00",
@@ -1660,8 +1661,8 @@
           icone: "fa-gauge-high",
           imagem: "img/Card_Produtividade.jpg",
           cardDesc: "Receita, Sustentação, Negociação e Negociadores.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 4 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-chart-simple"></i> Metas',
+          kpi1: '<i class="fa-solid fa-coins"></i> Receita',
+          kpi2: '<i class="fa-solid fa-handshake"></i> Negociação',
           searchTags: "produtividade receita sustentacao negociacao negociadores perf eficiencia metas",
           descricao: "Acompanhamento de receita operacional, metas de sustentação e desempenho individual dos negociadores.",
           frequencia: "Intraday • 2h",
@@ -1698,8 +1699,8 @@
           icone: "fa-diagram-project",
           imagem: "img/Card_Projeto.jpg",
           cardDesc: "UC & CS, Encerramento de Notas, Projetos e As Built.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 4 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-clock"></i> Prazo',
+          kpi1: '<i class="fa-solid fa-plug"></i> UC & CS',
+          kpi2: '<i class="fa-solid fa-drafting-compass"></i> As Built',
           searchTags: "projeto instalacao de uc cs encerramento de notas projetos as built bi cronogramas",
           descricao: "Controle ponta a ponta de instalação de UC & CS, encerramento de notas técnicas e entrega de As Built.",
           frequencia: "Diária • 08h00",
@@ -1719,8 +1720,8 @@
           icone: "fa-user-tie",
           imagem: "img/Card_RH.jpg",
           cardDesc: "Efetivo, talentos, recrutamento e clima organizacional.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 1 Sub-painel',
-          kpi2: '<i class="fa-solid fa-users"></i> 100%',
+          kpi1: '<i class="fa-solid fa-users"></i> Efetivo',
+          kpi2: '<i class="fa-solid fa-award"></i> Talentos',
           searchTags: "rh efetivo talent recursos humanos recrutamento clima",
           descricao: "Evolução de headcount, movimentações internas, recrutamento e indicadores de pessoas.",
           frequencia: "Diária • 08h30",
@@ -1737,8 +1738,8 @@
           icone: "fa-helmet-safety",
           imagem: "img/sesmt.jpg",
           cardDesc: "CDS, Insuflador, Inspeções e Controle de ASO.",
-          kpi1: '<i class="fa-solid fa-layer-group"></i> 4 Sub-painéis',
-          kpi2: '<i class="fa-solid fa-shield-halved"></i> 0 Acidentes',
+          kpi1: '<i class="fa-solid fa-clipboard-check"></i> Inspeções',
+          kpi2: '<i class="fa-solid fa-file-medical"></i> Controle ASO',
           searchTags: "sesmt cds insuflador inspecoes controle de aso seg seguranca do trabalho riscos",
           descricao: "Gestão preventiva de segurança do trabalho, inspeções de campo, insufladores e vencimentos de ASO.",
           frequencia: "Diária • 07h00",
@@ -1845,32 +1846,32 @@
             <div class="card-3d-wrap ${slotClass}">
               <div class="card-surface ${isCenter ? "is-center" : ""}">
                 <div class="card-body">
+                  <div class="card-img-banner" style="background-image: ${bgImg};">
+                    <span class="card-badge-tag gold">BI <i class="fa-solid fa-chart-bar"></i></span>
+                  </div>
+
                   <div>
-                    <div class="card-img-banner" style="background-image: ${bgImg};">
-                      <span class="card-badge-tag gold">BI <i class="fa-solid fa-chart-bar"></i></span>
-                    </div>
                     <h3 class="card-title-txt">${item.titulo}</h3>
                     <p class="card-desc-txt">${item.desc || "Painel analítico do setor."}</p>
                   </div>
 
-                  <div style="display:flex; flex-direction:column; gap:8px;">
-                    <div class="kpi-pills-row">
-                      <span class="kpi-pill-item"><i class="fa-solid fa-display"></i> ${item.plataforma || "Looker Studio"}</span>
-                      <span class="kpi-pill-item ${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTxt}</span>
-                    </div>
-                    <div class="card-actions-stack">
-                      <div class="acessar-line">
-                        <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${item.titulo}" data-embed="${item.embed || ""}">
-                          ACESSAR <i class="fa-solid fa-rocket"></i>
-                        </button>
-                        <button type="button" class="btn-nova-aba" data-embed="${item.embed || ""}" ${item.embed ? "" : "disabled"} title="Abrir em nova aba">
-                          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </button>
-                      </div>
-                      <button type="button" class="btn-glass-card btn-detalhes-sub" data-setor="${item.setorKey}" data-sub-idx="${item.subIdx}">
-                        DETALHES
+                  <div class="kpi-pills-row">
+                    <span class="kpi-pill-item"><i class="fa-solid fa-display"></i> ${item.plataforma || "Looker Studio"}</span>
+                    <span class="kpi-pill-item ${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusTxt}</span>
+                  </div>
+
+                  <div class="card-actions-stack">
+                    <div class="acessar-line">
+                      <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${item.titulo}" data-embed="${item.embed || ""}">
+                        ACESSAR <i class="fa-solid fa-rocket"></i>
+                      </button>
+                      <button type="button" class="btn-nova-aba" data-embed="${item.embed || ""}" ${item.embed ? "" : "disabled"} title="Abrir em nova aba">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
                       </button>
                     </div>
+                    <button type="button" class="btn-glass-card btn-detalhes-sub" data-setor="${item.setorKey}" data-sub-idx="${item.subIdx}">
+                      DETALHES
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1885,30 +1886,30 @@
           <div class="card-3d-wrap ${slotClass}">
             <div class="card-surface ${isCenter ? "is-center" : ""}">
               <div class="card-body">
+                <div class="card-img-banner" style="background-image: url('${item.imagem}');">
+                  <span class="card-badge-tag ${item.badgeGold ? "gold" : ""}">${item.badge} <i class="fa-solid ${item.icone}"></i></span>
+                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${item.key}" title="Fixar nos favoritos">
+                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                  </button>
+                </div>
+
                 <div>
-                  <div class="card-img-banner" style="background-image: url('${item.imagem}');">
-                    <span class="card-badge-tag ${item.badgeGold ? "gold" : ""}">${item.badge} <i class="fa-solid ${item.icone}"></i></span>
-                    <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${item.key}" title="Fixar nos favoritos">
-                      <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
-                    </button>
-                  </div>
                   <h3 class="card-title-txt">${item.titulo}</h3>
                   <p class="card-desc-txt">${item.cardDesc}</p>
                 </div>
 
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                  <div class="kpi-pills-row">
-                    <span class="kpi-pill-item">${item.kpi1}</span>
-                    <span class="kpi-pill-item">${item.kpi2}</span>
-                  </div>
-                  <div class="card-actions-stack">
-                    <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${item.key}">
-                      ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-rocket"}"></i>
-                    </button>
-                    <button type="button" class="btn-glass-card btn-detalhes-dash" data-setor-key="${item.key}">
-                      DETALHES
-                    </button>
-                  </div>
+                <div class="kpi-pills-row">
+                  <span class="kpi-pill-item">${item.kpi1}</span>
+                  <span class="kpi-pill-item">${item.kpi2}</span>
+                </div>
+
+                <div class="card-actions-stack">
+                  <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${item.key}">
+                    ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-rocket"}"></i>
+                  </button>
+                  <button type="button" class="btn-glass-card btn-detalhes-dash" data-setor-key="${item.key}">
+                    DETALHES
+                  </button>
                 </div>
               </div>
             </div>
@@ -1939,7 +1940,7 @@
           cardsWrapper.innerHTML = `
             <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative;">
               <div class="card-surface">
-                <div class="card-body" style="text-align:center; padding:28px; min-height:180px;">
+                <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
                   <strong style="color:#7dd3fc; font-size:15px;">Nenhum painel encontrado para o filtro atual.</strong>
                   <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a pesquisa ou altere a categoria selecionada.</span>
                 </div>
