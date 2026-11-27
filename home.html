@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ELLCA | HOME • PREMIUM MAX STAR 2.0</title>
+  <title>ELLCA | HOME • CENTRAL DE CONTROLE</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,8 +22,9 @@
       --card-w: clamp(232px, 18.2vw, 276px);
       --card-h: clamp(326px, 41vh, 368px);
       --card-img-h: clamp(96px, 12.5vh, 122px);
-      --sweep-duration: 10s;
+      --card-turn: 3.2s;
       --card-count: 5;
+      --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
     @property --sweep-angle {
@@ -32,22 +33,42 @@
       inherits: false;
     }
 
-    @keyframes borderSweep {
-      to { --sweep-angle: 360deg; }
+    /* Faz 360 graus exatamente durante a janela ativa do card (20% do ciclo de 5 cards) e passa para o próximo */
+    @keyframes borderSweepRelay {
+      0% {
+        --sweep-angle: 0deg;
+        opacity: 0;
+      }
+      2% {
+        opacity: 1;
+      }
+      18% {
+        opacity: 1;
+      }
+      20% {
+        --sweep-angle: 360deg;
+        opacity: 0;
+      }
+      100% {
+        --sweep-angle: 360deg;
+        opacity: 0;
+      }
     }
 
-    @keyframes relayPassGlow {
-      0%, 100% {
-        opacity: 0.45;
-        filter: drop-shadow(0 0 0 transparent);
+    /* Brilho do card acende junto com a volta 360 da borda e apaga quando passa para o próximo */
+    @keyframes cardGlowRelay {
+      0%, 20%, 100% {
+        border-color: rgba(147, 197, 253, 0.24);
+        box-shadow:
+          0 14px 32px rgba(0, 0, 0, 0.48),
+          inset 0 1px 0 rgba(255, 255, 255, 0.16);
       }
-      12% {
-        opacity: 1;
-        filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.55));
-      }
-      24% {
-        opacity: 0.55;
-        filter: drop-shadow(0 0 0 transparent);
+      3%, 17% {
+        border-color: rgba(125, 211, 252, 0.62);
+        box-shadow:
+          0 18px 40px rgba(0, 0, 0, 0.62),
+          0 0 24px rgba(56, 189, 248, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.26);
       }
     }
 
@@ -80,13 +101,8 @@
     }
 
     @keyframes card3dTurnIn {
-      0% { transform: translate3d(0, 8px, -40px) rotateY(14deg) scale(0.95); }
-      100% { transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1); }
-    }
-
-    @keyframes starGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); }
-      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); }
+      0% { transform: translate3d(0, 4px, 0) rotateY(12deg) scale(0.86); }
+      100% { transform: translate3d(0, 0, 0) rotateY(0deg) scale(0.92); }
     }
 
     * {
@@ -218,22 +234,6 @@
       background: #34d399;
       box-shadow: 0 0 8px #34d399;
       animation: pulseDot 2s infinite;
-    }
-
-    .max-star-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16));
-      border: 1px solid rgba(250, 204, 21, 0.45);
-      color: #fde047;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      animation: starGlow 3.2s infinite;
     }
 
     .user-avatar-ring {
@@ -662,7 +662,7 @@
       color: #ffffff;
     }
 
-    /* TAMANHO PADRÃO UNIFICADO EM TODOS OS MODOS COM CONTROLE CLAMP */
+    /* MODO CARROSSEL PADRÃO */
     .cards-track {
       display: flex;
       align-items: center;
@@ -689,18 +689,29 @@
       height: var(--card-img-h);
     }
 
-    /* MODO GRADE: MESMO TAMANHO PADRÃO DO CARD */
+    /* MODO GRADE: APROVEITA TODO O ESPAÇO HORIZONTAL */
     .cards-track.grid-mode {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(var(--card-w), var(--card-w)));
-      justify-content: center;
-      align-items: start;
+      grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
+      gap: 14px;
+      justify-content: stretch;
+      align-items: stretch;
       align-content: start;
       overflow-y: auto;
       padding: 2px 4px 6px;
     }
 
-    /* MODO CARROSSEL 3D: MESMO TAMANHO PADRÃO DO CARD + ESCALA DE PROFUNDIDADE */
+    .cards-track.grid-mode .card-3d-wrap {
+      flex: initial;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
+    }
+
+    /* MODO CARROSSEL 3D: AJUSTADO PARA CABER INTEIRO SEM CORTAR TOPO NEM BOTÕES */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
@@ -709,16 +720,27 @@
       perspective: 1400px;
       transform-style: preserve-3d;
       overflow: hidden;
+      padding: 4px 0;
     }
 
     .cards-track.mode-3d .card-3d-wrap {
       position: absolute;
+      width: clamp(248px, 21vw, 296px);
+      min-width: clamp(248px, 21vw, 296px);
+      max-width: clamp(248px, 21vw, 296px);
+      height: 100%;
+      min-height: 0;
+      max-height: min(356px, 100%);
       transform-style: preserve-3d;
       transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
     }
 
+    .cards-track.mode-3d .card-img-banner {
+      height: clamp(86px, 11vh, 114px);
+    }
+
     .cards-track.mode-3d .card-3d-wrap.slot-center {
-      transform: translate3d(0, 0, 75px) rotateY(0deg) scale(1);
+      transform: translate3d(0, 0, 0) rotateY(0deg) scale(0.92);
       opacity: 1;
       filter: blur(0px);
       z-index: 5;
@@ -727,15 +749,15 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(calc(var(--card-w) * -0.92), 6px, -135px) rotateY(16deg) scale(0.86);
-      opacity: 0.28;
+      transform: translate3d(-86%, 0, 0) rotateY(16deg) scale(0.76);
+      opacity: 0.32;
       z-index: 2;
       pointer-events: none;
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(calc(var(--card-w) * 0.92), 6px, -135px) rotateY(-16deg) scale(0.86);
-      opacity: 0.28;
+      transform: translate3d(86%, 0, 0) rotateY(-16deg) scale(0.76);
+      opacity: 0.32;
       z-index: 2;
       pointer-events: none;
     }
@@ -750,7 +772,7 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
-      transform: translate3d(0, 14px, -240px) rotateY(28deg) scale(0.68);
+      transform: translate3d(0, 8px, 0) rotateY(28deg) scale(0.60);
       opacity: 0;
       z-index: 1;
       pointer-events: none;
@@ -783,10 +805,10 @@
       box-shadow: none;
     }
 
-    /* LUZ PASSANDO EM SEQUÊNCIA DE UM CARD PARA O OUTRO */
+    /* LUZ 360° SINCRONIZADA COM O BRILHO DO CARD PASSANDO DE UM PARA O OUTRO */
     .card-surface {
       --sweep-angle: 0deg;
-      --sweep-delay: calc(var(--card-index, 0) * -2s);
+      --relay-delay: calc(var(--card-index, 0) * var(--card-turn));
       --edge-a: #38bdf8;
       --edge-b: #2563eb;
       --edge-c: #93c5fd;
@@ -795,18 +817,18 @@
       background: linear-gradient(160deg, rgba(17, 35, 68, 0.56) 0%, rgba(7, 15, 32, 0.68) 100%);
       backdrop-filter: blur(22px) saturate(155%);
       -webkit-backdrop-filter: blur(22px) saturate(155%);
-      border: 1px solid rgba(147, 197, 253, 0.26);
+      border: 1px solid rgba(147, 197, 253, 0.24);
       box-shadow:
         0 14px 32px rgba(0, 0, 0, 0.48),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
+      transition: transform 0.35s ease-out, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
       height: 100%;
       width: 100%;
       overflow: hidden;
       animation:
-        paletteCycle360 44s steps(1, end) var(--sweep-delay) infinite,
-        relayPassGlow var(--sweep-duration) ease-in-out var(--sweep-delay) infinite;
+        paletteCycle360 48s steps(1, end) infinite,
+        cardGlowRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
     }
 
     .card-surface::before {
@@ -814,38 +836,37 @@
       position: absolute;
       inset: 0;
       border-radius: 16px;
-      padding: 2px;
+      padding: 2.2px;
       background: conic-gradient(
         from var(--sweep-angle),
         transparent 0deg,
-        transparent 255deg,
-        var(--edge-b) 292deg,
-        var(--edge-a) 328deg,
+        transparent 220deg,
+        var(--edge-b) 275deg,
+        var(--edge-a) 322deg,
         var(--edge-c) 354deg,
         transparent 360deg
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      animation: borderSweep var(--sweep-duration) linear var(--sweep-delay) infinite;
-      opacity: 0.78;
+      animation: borderSweepRelay var(--cycle-total) linear var(--relay-delay) infinite;
+      opacity: 0;
       pointer-events: none;
       z-index: 4;
     }
 
     .card-surface:hover::before,
     .card-surface.is-center::before {
-      padding: 2.2px;
       opacity: 0.96;
     }
 
     .card-surface:hover,
     .card-surface.is-center {
       background: linear-gradient(160deg, rgba(22, 46, 88, 0.62) 0%, rgba(8, 18, 38, 0.72) 100%);
-      border-color: rgba(125, 211, 252, 0.52);
+      border-color: rgba(125, 211, 252, 0.56);
       box-shadow:
         0 18px 40px rgba(0, 0, 0, 0.62),
-        0 0 24px rgba(56, 189, 248, 0.18),
+        0 0 24px rgba(56, 189, 248, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
@@ -1308,8 +1329,8 @@
       :root {
         --card-w: clamp(205px, 44vw, 250px);
       }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(calc(var(--card-w) * -0.72), 6px, -135px) rotateY(14deg) scale(0.82); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(calc(var(--card-w) * 0.72), 6px, -135px) rotateY(-14deg) scale(0.82); }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) rotateY(14deg) scale(0.72); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) rotateY(-14deg) scale(0.72); }
     }
 
     @media (max-width: 520px) {
@@ -1318,7 +1339,7 @@
         --card-h: clamp(318px, 46vh, 356px);
       }
       body { padding: 10px 12px 14px; }
-      .cards-track:not(.mode-3d) {
+      .cards-track:not(.mode-3d):not(.grid-mode) {
         flex-wrap: wrap;
         overflow-y: auto;
       }
@@ -1346,10 +1367,6 @@
             REDES ONLINE • 12ms · CENTRAL DE CONTROLE
           </span>
 
-          <span class="max-star-tag">
-            <i class="fa-solid fa-star"></i> MAX STAR 2.0
-          </span>
-
           <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
 
@@ -1373,7 +1390,7 @@
             <i class="fa-solid fa-satellite-dish"></i>
           </div>
           <div>
-            <div class="hero-kicker">CENTRAL DE CONTROLE · PREMIUM MAX STAR 2.0</div>
+            <div class="hero-kicker">CENTRAL DE CONTROLE · PORTAL CORPORATIVO</div>
             <h1 class="hero-main-title">GESTÃO & <span>PERFORMANCE</span></h1>
             <p class="hero-subtitle">
               Escolha como deseja visualizar seus resultados. Acesse dashboards dinâmicos para uma análise visual rápida ou utilize nossas planilhas inteligentes para um controle detalhado de dados.
@@ -1469,7 +1486,7 @@
     <!-- 5. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
       <div class="footer-system-text">
-        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
+        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
         <span>•</span>
         <span>Módulo: <strong>Central de Controle</strong></span>
       </div>
@@ -1525,7 +1542,7 @@
   </aside>
 
   <script>
-    (function iniciarHomeMaxStar() {
+    (function iniciarHome() {
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
         "Rodrigo Lopes": ["todos"],
@@ -1757,8 +1774,9 @@
         const permitido = usuarioTemAcessoModulo(mod);
         const isFav = favs.includes(mod.key);
         const safeTotal = Math.max(1, relayTotal);
-        const stepSec = 10 / safeTotal;
-        const sweepDelaySec = -(relayIdx * stepSec).toFixed(3);
+        const turnSec = 3.2;
+        const cycleSec = (safeTotal * turnSec).toFixed(2);
+        const relayDelaySec = (relayIdx * turnSec).toFixed(2);
 
         const secondaryBtnHtml = mod.secondaryUrl
           ? `<button type="button" class="btn-glass-card btn-secundario-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
@@ -1770,7 +1788,7 @@
 
         return `
           <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" style="--card-index:${relayIdx};">
-            <div class="card-surface ${isCenter ? "is-center" : ""}" style="--card-index:${relayIdx}; --sweep-delay:${sweepDelaySec}s;">
+            <div class="card-surface ${isCenter ? "is-center" : ""}" style="--card-index:${relayIdx}; --card-turn:${turnSec}s; --cycle-total:${cycleSec}s; --relay-delay:${relayDelaySec}s;">
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
                   <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
@@ -1854,14 +1872,14 @@
             return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass, ordemLuz, total);
           }).join("");
         } else if (modoVisualizacao === "grade") {
-          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i === 0, "", i, total)).join("");
+          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, false, "", i, total)).join("");
         } else {
           const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
           const listaExibida = [];
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
-          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i === 0, "", i, qtdVisivel)).join("");
+          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, false, "", i, qtdVisivel)).join("");
         }
 
         if (mostraSetas) {
