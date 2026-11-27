@@ -23,7 +23,7 @@
       --card-h: clamp(326px, 39vh, 354px);
       --card-img-h: clamp(125px, 12.1vh, 145px);
       --card-turn: 3.2s;
-      --card-count: 6;
+      --card-count: 4;
       --cycle-total: calc(var(--card-turn) * var(--card-count));
     }
 
@@ -716,10 +716,10 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL PADRÃO */
+    /* MODO CARROSSEL: 1 LINHA COM ATÉ 4 CARDS NO DESKTOP */
     .cards-track {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
+      grid-template-columns: repeat(4, minmax(272px, var(--card-w)));
       gap: 18px;
       justify-content: center;
       align-items: center;
@@ -743,6 +743,12 @@
 
     .cards-track .card-img-banner {
       height: var(--card-img-h);
+    }
+
+    @media (max-width: 1100px) {
+      .cards-track {
+        grid-template-columns: repeat(2, minmax(272px, var(--card-w)));
+      }
     }
 
     /* MODO GRADE */
@@ -1466,7 +1472,7 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Frentes Ativas</small>
-            <strong>3 Frentes</strong>
+            <strong id="statQtdFrentes">4 Frentes</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Programado vs. Real</small>
@@ -1515,7 +1521,7 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (3)</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (4)</button>
         <button type="button" class="cat-btn" data-cat="CAMPO"><i class="fa-solid fa-hard-hat"></i> Campo & Equipes</button>
         <button type="button" class="cat-btn" data-cat="PLANEJAMENTO"><i class="fa-solid fa-calendar-check"></i> Programação</button>
         <button type="button" class="cat-btn" data-cat="QUALIDADE"><i class="fa-solid fa-clipboard-check"></i> Qualidade & Segurança</button>
@@ -1531,7 +1537,7 @@
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-user-shield"></i> EXIBINDO 3 FRENTES · MODO CARROSSEL
+          <i class="fa-solid fa-user-shield"></i> EXIBINDO 4 FRENTES · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1638,80 +1644,79 @@
       };
 
       const FRENTES_SUPERVISAO = [
-        
-  {
-    key: "sup_programacao",
-    setor: "programacao",
-    categoria: "CAMPO",
-    badge: "AGENDA",
-    badgeGold: false,
-    icone: "fa-calendar-check",
-    imagem: "img/Programacao.jpg",
-    titulo: "PROGRAMAÇÃO DE CAMPO",
-    desc: "Distribuição diária de ordens de serviço, roteirização e alocação das equipes.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
-    kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
-    kpiResumo: "96% · Diário",
-    url: "#sup-programacao",
-    setorLabel: "Programação",
-    searchTags: "programação campo agenda ordens de serviço roteirização equipes",
-    recursos: ["Distribuição de OS por equipe", "Acompanhamento de roteiros diários", "Reprogramação e prioridades"]
-  },
-  {
-    key: "sup_produtividade",
-    setor: "produtividade",
-    categoria: "CAMPO",
-    badge: "EQUIPES",
-    badgeGold: true,
-    icone: "fa-people-group",
-    imagem: "img/Card_Produtividade.jpg",
-    titulo: "PRODUÇÃO DE CAMPO",
-    desc: "Acompanhamento diário de entregas, ritmo das equipes e metas por frente.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
-    kpi2: '<span><i class="fa-solid fa-users"></i> Equipes</span>',
-    kpiResumo: "94% · Equipes",
-    url: "#sup-produtividade",
-    setorLabel: "Produção",
-    searchTags: "produção produtividade campo equipes ritmo metas entregas",
-    recursos: ["Acompanhamento diário por equipe", "Comparativo com meta do dia", "Identificação de atrasos"]
-  },
-  {
-    key: "sup_inspecoes",
-    setor: "sesmt",
-    categoria: "CAMPO",
-    badge: "INSPEÇÕES",
-    badgeGold: true,
-    icone: "fa-clipboard-check",
-    imagem: "img/sesmt.jpg",
-    titulo: "INSPEÇÕES DE CAMPO E BASE",
-    desc: "Vistorias técnicas, conformidade operacional, segurança e organização nas bases.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> 98%</span>',
-    kpi2: '<span><i class="fa-solid fa-list-check"></i> Vistorias</span>',
-    kpiResumo: "98% · Vistorias",
-    url: "#sup-inspecoes",
-    setorLabel: "Inspeções de Campo e Base",
-    searchTags: "inspeções campo base vistorias segurança conformidade checklist",
-    recursos: ["Checklist de campo e bases", "Registro de não conformidades", "Acompanhamento de tratativas"]
-  },
-  {
-    key: "sup_estrutura",
-    setor: "estrutura",
-    categoria: "CAMPO",
-    badge: "ESTRUTURA",
-    badgeGold: false,
-    icone: "fa-sitemap",
-    imagem: "img/estrutura.jpg",
-    titulo: "ESTRUTURA OPERACIONAL",
-    desc: "Visão organizacional, formação de equipes, lideranças e alocação por frente.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
-    kpi2: '<span><i class="fa-solid fa-users-gear"></i> Equipes</span>',
-    kpiResumo: "100% · Equipes",
-    url: "estrutura.html",
-    setorLabel: "Estrutura",
-    searchTags: "estrutura equipes formação lideranças organização frente campo",
-    recursos: ["Composição e efetivo por frente", "Mapeamento de lideranças de campo", "Cobertura e remanejamento de equipes"]
-  }
-];
+        {
+          key: "sup_programacao",
+          setor: "programacao",
+          categoria: "CAMPO",
+          badge: "AGENDA",
+          badgeGold: false,
+          icone: "fa-calendar-check",
+          imagem: "img/Programacao.jpg",
+          titulo: "PROGRAMAÇÃO DE CAMPO",
+          desc: "Distribuição diária de ordens de serviço, roteirização e alocação das equipes.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
+          kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
+          kpiResumo: "96% · Diário",
+          url: "#sup-programacao",
+          setorLabel: "Programação",
+          searchTags: "programação campo agenda ordens de serviço roteirização equipes",
+          recursos: ["Distribuição de OS por equipe", "Acompanhamento de roteiros diários", "Reprogramação e prioridades"]
+        },
+        {
+          key: "sup_produtividade",
+          setor: "produtividade",
+          categoria: "CAMPO",
+          badge: "EQUIPES",
+          badgeGold: true,
+          icone: "fa-people-group",
+          imagem: "img/Card_Produtividade.jpg",
+          titulo: "PRODUÇÃO DE CAMPO",
+          desc: "Acompanhamento diário de entregas, ritmo das equipes e metas por frente.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-users"></i> Equipes</span>',
+          kpiResumo: "94% · Equipes",
+          url: "#sup-produtividade",
+          setorLabel: "Produção",
+          searchTags: "produção produtividade campo equipes ritmo metas entregas",
+          recursos: ["Acompanhamento diário por equipe", "Comparativo com meta do dia", "Identificação de atrasos"]
+        },
+        {
+          key: "sup_inspecoes",
+          setor: "sesmt",
+          categoria: "CAMPO",
+          badge: "INSPEÇÕES",
+          badgeGold: true,
+          icone: "fa-clipboard-check",
+          imagem: "img/sesmt.jpg",
+          titulo: "INSPEÇÕES DE CAMPO E BASE",
+          desc: "Vistorias técnicas, conformidade operacional, segurança e organização nas bases.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> 98%</span>',
+          kpi2: '<span><i class="fa-solid fa-list-check"></i> Vistorias</span>',
+          kpiResumo: "98% · Vistorias",
+          url: "#sup-inspecoes",
+          setorLabel: "Inspeções de Campo e Base",
+          searchTags: "inspeções campo base vistorias segurança conformidade checklist",
+          recursos: ["Checklist de campo e bases", "Registro de não conformidades", "Acompanhamento de tratativas"]
+        },
+        {
+          key: "sup_estrutura",
+          setor: "estrutura",
+          categoria: "CAMPO",
+          badge: "ESTRUTURA",
+          badgeGold: false,
+          icone: "fa-sitemap",
+          imagem: "img/estrutura.jpg",
+          titulo: "ESTRUTURA OPERACIONAL",
+          desc: "Visão organizacional, formação de equipes, lideranças e alocação por frente.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
+          kpi2: '<span><i class="fa-solid fa-users-gear"></i> Equipes</span>',
+          kpiResumo: "100% · Equipes",
+          url: "estrutura.html",
+          setorLabel: "Estrutura",
+          searchTags: "estrutura equipes formação lideranças organização frente campo",
+          recursos: ["Composição e efetivo por frente", "Mapeamento de lideranças de campo", "Cobertura e remanejamento de equipes"]
+        }
+      ];
 
       function capitalizarPrimeira(texto) {
         const limpo = String(texto || "").trim();
@@ -1758,7 +1763,6 @@
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
       }
 
-      // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
       const estadoClima = {
         cidade: "Belém - PA",
         temperatura: "--°C",
@@ -1884,6 +1888,12 @@
         }
       }
 
+      document.getElementById("statQtdFrentes").textContent = `${FRENTES_SUPERVISAO.length} Frentes`;
+      const btnTodosCat = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
+      if (btnTodosCat) {
+        btnTodosCat.innerHTML = `<i class="fa-solid fa-layer-group"></i> Todos (${FRENTES_SUPERVISAO.length})`;
+      }
+
       document.getElementById("footerUserName").textContent = usuarioAtual;
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
@@ -1930,12 +1940,11 @@
           });
       }
 
+      // 1 linha com até 4 cards no carrossel desktop, 2 no tablet e 1 no mobile
       function obterQtdVisivelCarrossel() {
-        const containerW = cardsWrapper.clientWidth || window.innerWidth;
-        const minCardW = 272;
-        const gap = 18;
-        const cabem = Math.floor((containerW + gap) / (minCardW + gap));
-        return Math.max(1, Math.min(5, cabem));
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 1100) return 2;
+        return 4;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
@@ -2218,7 +2227,6 @@
 
       document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
 
-      /* Atalhos de teclado: Setas Esquerda/Direita e Espaço para pausar/retomar */
       document.addEventListener("keydown", (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
@@ -2285,7 +2293,7 @@
       });
 
       window.addEventListener("resize", () => {
-        if (modoVisualizacao === "carrossel") renderizarCards(false);
+        if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
       renderizarCards(true);
