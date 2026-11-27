@@ -194,6 +194,23 @@
       justify-content: center;
     }
 
+    .user-switcher-select {
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 9px;
+      background: rgba(5, 10, 22, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #e2e8f0;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .user-switcher-select:focus {
+      border-color: #38bdf8;
+    }
+
     .nav-links-side {
       display: flex;
       align-items: center;
@@ -618,7 +635,7 @@
       grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
     }
 
-    /* MODO CARROSSEL 3D: PRINCIPAL NA FRENTE, DOIS ATRÁS DE FRENTE E COM EFEITO VIDRO */
+    /* MODO CARROSSEL 3D */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
@@ -683,7 +700,33 @@
       height: 100%;
     }
 
-    /* CONTORNO QUE PERCORRE TODO O CARD E MUDA A CADA 360° + EFEITO VIDRO MAIS TRANSPARENTE */
+    /* CARD VISÍVEL PORÉM SEMI-INVISÍVEL QUANDO SEM ACESSO */
+    .card-3d-wrap.sem-acesso .card-surface {
+      opacity: 0.30;
+      filter: saturate(0.28) brightness(0.72);
+      border-color: rgba(148, 163, 184, 0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-3d-wrap.sem-acesso .card-surface::before {
+      opacity: 0.12;
+    }
+
+    .card-3d-wrap.sem-acesso .card-surface:hover {
+      opacity: 0.38;
+    }
+
+    .card-3d-wrap.sem-acesso .btn-primary-card,
+    .card-3d-wrap.sem-acesso .btn-nova-aba {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+      border-color: rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.45);
+      color: #94a3b8;
+      box-shadow: none;
+    }
+
     .card-surface {
       --sweep-angle: 0deg;
       --edge-a: #38bdf8;
@@ -699,7 +742,7 @@
         0 16px 36px rgba(0, 0, 0, 0.48),
         inset 0 1px 0 rgba(255, 255, 255, 0.18);
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
       height: 100%;
       overflow: hidden;
       animation: paletteCycle360 44s steps(1, end) infinite;
@@ -745,7 +788,6 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
-    /* SEQUÊNCIA EXATA: IMAGEM -> TÍTULO -> PARÁGRAFO -> SUBITENS/PILLULAS -> BOTÕES */
     .card-body {
       position: relative;
       z-index: 2;
@@ -797,6 +839,12 @@
       color: #1c1402;
     }
 
+    .card-badge-tag.locked {
+      background: rgba(30, 41, 59, 0.92);
+      border-color: rgba(148, 163, 184, 0.45);
+      color: #cbd5e1;
+    }
+
     .btn-fav-card {
       position: absolute;
       top: 7px;
@@ -846,7 +894,6 @@
       overflow: hidden;
     }
 
-    /* SUBITENS LOGO ABAIXO DO PARÁGRAFO */
     .kpi-pills-row {
       display: flex;
       align-items: center;
@@ -872,7 +919,6 @@
     .kpi-success { color: #34d399 !important; border-color: rgba(52, 211, 153, 0.35) !important; }
     .kpi-warning { color: #fbbf24 !important; border-color: rgba(251, 191, 36, 0.35) !important; }
 
-    /* BOTÕES ACESSAR E DETALHES COM ALTURA E ESPESSURA EXATAS */
     .card-actions-stack {
       display: flex;
       flex-direction: column;
@@ -1291,7 +1337,33 @@
             REDES ONLINE • 12ms · CENTRAL BI
           </span>
 
-          <span class="user-avatar-ring" title="Rodrigo Lopes">RL</span>
+          <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
+
+          <select id="userTestSwitcher" class="user-switcher-select" title="Trocar usuário para teste de permissão">
+            <option value="Rodrigo Lopes">Usuário: Rodrigo Lopes</option>
+            <option value="Administrador">Usuário: Administrador</option>
+            <option value="Arioston Paixão">Usuário: Arioston Paixão</option>
+            <option value="Jhonattan Alencar">Usuário: Jhonattan Alencar</option>
+            <option value="Adriana Costa">Usuário: Adriana Costa</option>
+            <option value="Adriano Leite">Usuário: Adriano Leite</option>
+            <option value="Elenilson Lima">Usuário: Elenilson Lima</option>
+            <option value="Jadison Santos">Usuário: Jadison Santos</option>
+            <option value="Janilson Vieira">Usuário: Janilson Vieira</option>
+            <option value="José Amiel">Usuário: José Amiel</option>
+            <option value="Júlio Moura">Usuário: Júlio Moura</option>
+            <option value="Fabio Lima">Usuário: Fabio Lima</option>
+            <option value="Ana Carolina">Usuário: Ana Carolina</option>
+            <option value="Danel Pantoja">Usuário: Danel Pantoja</option>
+            <option value="Gladson Afonso">Usuário: Gladson Afonso</option>
+            <option value="Suellem Lopes">Usuário: Suellem Lopes</option>
+            <option value="Eduarda Ribeiro">Usuário: Eduarda Ribeiro</option>
+            <option value="Alex Sandro">Usuário: Alex Sandro</option>
+            <option value="Andreza Gomes">Usuário: Andreza Gomes</option>
+            <option value="Vanessa Oliveira">Usuário: Vanessa Oliveira</option>
+            <option value="Wellington Pantoja">Usuário: Wellington Pantoja</option>
+            <option value="Jacqueline Pimentel">Usuário: Jacqueline Pimentel</option>
+            <option value="Fernanda Dantas">Usuário: Fernanda Dantas</option>
+          </select>
         </div>
 
         <nav class="nav-links-side" aria-label="Menu do Portal">
@@ -1508,6 +1580,33 @@
 
   <script>
     (function iniciarCentralDashboards() {
+      // Permissões por nome de usuário conforme cadastro do login.html
+      const PERMISSOES_POR_USUARIO = {
+        "Administrador": ["todos"],
+        "Rodrigo Lopes": ["todos"],
+        "Arioston Paixão": ["todos"],
+        "Jhonattan Alencar": ["todos"],
+        "Adriana Costa": ["almoxarifado"],
+        "Adriano Leite": ["produtividade", "estrutura", "programacao"],
+        "Elenilson Lima": ["produtividade", "estrutura", "programacao"],
+        "Jadison Santos": ["produtividade", "estrutura", "programacao", "backoffice"],
+        "Janilson Vieira": ["produtividade", "estrutura", "programacao"],
+        "José Amiel": ["produtividade", "estrutura", "programacao"],
+        "Júlio Moura": ["produtividade", "estrutura", "programacao"],
+        "Fabio Lima": ["projeto", "programacao"],
+        "Ana Carolina": ["backoffice"],
+        "Danel Pantoja": ["backoffice"],
+        "Gladson Afonso": ["backoffice"],
+        "Suellem Lopes": ["projeto", "programacao"],
+        "Eduarda Ribeiro": ["rh", "dp"],
+        "Alex Sandro": ["frota"],
+        "Andreza Gomes": ["rh", "dp"],
+        "Vanessa Oliveira": ["rh", "dp"],
+        "Wellington Pantoja": ["rh", "dp"],
+        "Jacqueline Pimentel": ["infraestrutura"],
+        "Fernanda Dantas": ["infraestrutura"]
+      };
+
       const ESTRUTURA_DASHBOARDS = {
         almoxarifado: {
           titulo: "ALMOXARIFADO",
@@ -1762,6 +1861,13 @@
         }
       };
 
+      let usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
+      let setoresSessao = null;
+      try {
+        const raw = sessionStorage.getItem("ellca_user_setores");
+        if (raw) setoresSessao = JSON.parse(raw);
+      } catch { setoresSessao = null; }
+
       let emSubDashboards = false;
       let setorAtualKey = null;
       let modoVisualizacao = "carrossel";
@@ -1781,9 +1887,54 @@
       const embedLoader = document.getElementById("embedLoader");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
       const detailsDrawer = document.getElementById("detailsDrawer");
+      const userTestSwitcher = document.getElementById("userTestSwitcher");
 
-      const nomeSessao = sessionStorage.getItem("ellca_user_name") || localStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
-      document.getElementById("footerUserName").textContent = nomeSessao;
+      function obterIniciais(nome) {
+        const partes = String(nome || "RL").trim().split(/\s+/);
+        if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+        return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      function obterSetoresPermitidosUsuario() {
+        if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
+          return setoresSessao.map(s => String(s).toLowerCase());
+        }
+        const lista = PERMISSOES_POR_USUARIO[usuarioAtual] || [];
+        return lista.map(s => String(s).toLowerCase());
+      }
+
+      function usuarioTemAcesso(setorKey) {
+        const permitidos = obterSetoresPermitidosUsuario();
+        return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(setorKey).toLowerCase());
+      }
+
+      function aplicarIdentidadeUsuario() {
+        document.getElementById("footerUserName").textContent = usuarioAtual;
+        document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
+        document.getElementById("userAvatarInitials").title = usuarioAtual;
+        if (!Array.from(userTestSwitcher.options).some(opt => opt.value === usuarioAtual)) {
+          const opt = document.createElement("option");
+          opt.value = usuarioAtual;
+          opt.textContent = `Usuário: ${usuarioAtual}`;
+          userTestSwitcher.appendChild(opt);
+        }
+        userTestSwitcher.value = usuarioAtual;
+      }
+
+      aplicarIdentidadeUsuario();
+
+      userTestSwitcher.addEventListener("change", () => {
+        usuarioAtual = userTestSwitcher.value;
+        setoresSessao = PERMISSOES_POR_USUARIO[usuarioAtual] || [];
+        sessionStorage.setItem("ellca_user_name", usuarioAtual);
+        sessionStorage.setItem("ellca_user_setores", JSON.stringify(setoresSessao));
+        if (emSubDashboards && setorAtualKey && !usuarioTemAcesso(setorAtualKey)) {
+          restaurarSetoresPrincipais();
+        } else {
+          renderizarCards();
+        }
+        aplicarIdentidadeUsuario();
+      });
 
       document.getElementById("btnSairRodape").addEventListener("click", () => {
         sessionStorage.removeItem("ellca_auth");
@@ -1847,16 +1998,19 @@
 
       function criarHtmlCard(item, favs, isCenter, slotClass = "") {
         if (emSubDashboards) {
+          const permitido = usuarioTemAcesso(item.setorKey);
           const bgImg = item.imagem ? `url('${item.imagem}')` : `url('img/dashboards.jpg')`;
           const statusClass = item.embed ? "kpi-success" : "kpi-warning";
           const statusTxt = item.embed ? "Ativo" : "Pendente";
 
           return `
-            <div class="card-3d-wrap ${slotClass}">
+            <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}">
               <div class="card-surface ${isCenter ? "is-center" : ""}">
                 <div class="card-body">
                   <div class="card-img-banner" style="background-image: ${bgImg};">
-                    <span class="card-badge-tag gold">BI <i class="fa-solid fa-chart-bar"></i></span>
+                    <span class="card-badge-tag ${permitido ? "gold" : "locked"}">
+                      ${permitido ? 'BI <i class="fa-solid fa-chart-bar"></i>' : 'BLOQUEADO <i class="fa-solid fa-lock"></i>'}
+                    </span>
                   </div>
 
                   <div>
@@ -1871,10 +2025,10 @@
 
                   <div class="card-actions-stack">
                     <div class="acessar-line">
-                      <button type="button" class="btn-primary-card btn-abrir-sub" data-titulo="${item.titulo}" data-embed="${item.embed || ""}">
-                        ACESSAR <i class="fa-solid fa-rocket"></i>
+                      <button type="button" class="btn-primary-card btn-abrir-sub" data-setor="${item.setorKey}" data-titulo="${item.titulo}" data-embed="${item.embed || ""}" ${permitido ? "" : "disabled"}>
+                        ${permitido ? 'ACESSAR <i class="fa-solid fa-rocket"></i>' : '<i class="fa-solid fa-lock"></i> BLOQUEADO'}
                       </button>
-                      <button type="button" class="btn-nova-aba" data-embed="${item.embed || ""}" ${item.embed ? "" : "disabled"} title="Abrir em nova aba">
+                      <button type="button" class="btn-nova-aba" data-setor="${item.setorKey}" data-embed="${item.embed || ""}" ${(permitido && item.embed) ? "" : "disabled"} title="Abrir em nova aba">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                       </button>
                     </div>
@@ -1888,15 +2042,18 @@
           `;
         }
 
+        const permitido = usuarioTemAcesso(item.key);
         const isFav = favs.includes(item.key);
         const hasSub = item.subitens && item.subitens.length > 0;
 
         return `
-          <div class="card-3d-wrap ${slotClass}">
+          <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}">
             <div class="card-surface ${isCenter ? "is-center" : ""}">
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${item.imagem}');">
-                  <span class="card-badge-tag ${item.badgeGold ? "gold" : ""}">${item.badge} <i class="fa-solid ${item.icone}"></i></span>
+                  <span class="card-badge-tag ${!permitido ? "locked" : (item.badgeGold ? "gold" : "")}">
+                    ${permitido ? `${item.badge} <i class="fa-solid ${item.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
+                  </span>
                   <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${item.key}" title="Fixar nos favoritos">
                     <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
                   </button>
@@ -1913,8 +2070,8 @@
                 </div>
 
                 <div class="card-actions-stack">
-                  <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${item.key}">
-                    ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-rocket"}"></i>
+                  <button type="button" class="btn-primary-card btn-abrir-dash" data-setor-key="${item.key}" ${permitido ? "" : "disabled"}>
+                    ${permitido ? `ACESSAR <i class="fa-solid ${hasSub ? "fa-layer-group" : "fa-rocket"}"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                   </button>
                   <button type="button" class="btn-glass-card btn-detalhes-dash" data-setor-key="${item.key}">
                     DETALHES
@@ -1942,7 +2099,7 @@
         if (emSubDashboards && setorAtualKey) {
           statusEl.innerHTML = `<i class="fa-solid fa-folder-open"></i> SETOR ${ESTRUTURA_DASHBOARDS[setorAtualKey].titulo} · ${total} ${total === 1 ? "SUB-PAINEL" : "SUB-PAINÉIS"} · ${nomeModo}`;
         } else {
-          statusEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 13 DEPARTAMENTOS · ${nomeModo}`;
+          statusEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE 13 DEPARTAMENTOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
         }
 
         if (total === 0) {
@@ -2004,7 +2161,11 @@
 
       function vincularEventosCards() {
         cardsWrapper.querySelectorAll(".btn-abrir-dash").forEach(btn => {
-          btn.addEventListener("click", () => entrarNoSetor(btn.getAttribute("data-setor-key"), 0));
+          btn.addEventListener("click", () => {
+            const key = btn.getAttribute("data-setor-key");
+            if (!usuarioTemAcesso(key)) return;
+            entrarNoSetor(key, 0);
+          });
         });
 
         cardsWrapper.querySelectorAll(".btn-detalhes-dash").forEach(btn => {
@@ -2024,7 +2185,11 @@
         });
 
         cardsWrapper.querySelectorAll(".btn-abrir-sub").forEach(btn => {
-          btn.addEventListener("click", () => abrirEmbed(btn.getAttribute("data-titulo"), btn.getAttribute("data-embed")));
+          btn.addEventListener("click", () => {
+            const key = btn.getAttribute("data-setor");
+            if (!usuarioTemAcesso(key)) return;
+            abrirEmbed(btn.getAttribute("data-titulo"), btn.getAttribute("data-embed"), key);
+          });
         });
 
         cardsWrapper.querySelectorAll(".btn-detalhes-sub").forEach(btn => {
@@ -2033,14 +2198,15 @@
 
         cardsWrapper.querySelectorAll(".btn-nova-aba").forEach(btn => {
           btn.addEventListener("click", () => {
+            const key = btn.getAttribute("data-setor");
             const url = btn.getAttribute("data-embed");
-            if (url) window.open(url, "_blank", "noopener,noreferrer");
+            if (usuarioTemAcesso(key) && url) window.open(url, "_blank", "noopener,noreferrer");
           });
         });
       }
 
       function aplicarTilt3D() {
-        document.querySelectorAll(".card-3d-wrap:not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
+        document.querySelectorAll(".card-3d-wrap:not(.sem-acesso):not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
           const surface = wrap.querySelector(".card-surface");
           if (!surface || wrap.dataset.tiltBound) return;
           wrap.dataset.tiltBound = "1";
@@ -2059,11 +2225,12 @@
       }
 
       function entrarNoSetor(setorKey, subIndiceInicial = 0) {
+        if (!usuarioTemAcesso(setorKey)) return;
         const dados = ESTRUTURA_DASHBOARDS[setorKey];
         if (!dados) return;
 
         if (!dados.subitens || dados.subitens.length === 0) {
-          abrirEmbed(dados.titulo, dados.embed);
+          abrirEmbed(dados.titulo, dados.embed, setorKey);
           return;
         }
 
@@ -2130,7 +2297,8 @@
         }
       });
 
-      function abrirEmbed(titulo, url) {
+      function abrirEmbed(titulo, url, setorKey = null) {
+        if (setorKey && !usuarioTemAcesso(setorKey)) return;
         if (!url) {
           alert(`O painel "${titulo}" ainda está com link pendente.`);
           return;
@@ -2161,6 +2329,7 @@
       function abrirDrawerDetalhes(setorKey, subIdx = null) {
         const dados = ESTRUTURA_DASHBOARDS[setorKey];
         if (!dados) return;
+        const permitido = usuarioTemAcesso(setorKey);
 
         if (subIdx !== null && dados.subitens && dados.subitens[subIdx]) {
           const sub = dados.subitens[subIdx];
@@ -2182,12 +2351,20 @@
               </span>
             </li>
             <li>
-              <span>Departamento Origem</span>
-              <span style="font-size:10.5px; font-weight:800; color:#38bdf8;">${dados.titulo}</span>
+              <span>Permissão (${usuarioAtual})</span>
+              <span style="font-size:10.5px; font-weight:800; color:${permitido ? "#34d399" : "#f87171"};">
+                ${permitido ? "AUTORIZADO" : "BLOQUEADO"}
+              </span>
             </li>
           `;
 
-          document.getElementById("btnDrawerAcessar").innerHTML = `ACESSAR PAINEL <i class="fa-solid fa-arrow-up-right-from-square"></i>`;
+          const btnDrawer = document.getElementById("btnDrawerAcessar");
+          btnDrawer.disabled = !permitido;
+          btnDrawer.style.opacity = permitido ? "1" : "0.45";
+          btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
+          btnDrawer.innerHTML = permitido
+            ? `ACESSAR PAINEL <i class="fa-solid fa-arrow-up-right-from-square"></i>`
+            : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
         } else {
           setorAtualDrawer = setorKey;
           subItemAtualDrawer = null;
@@ -2220,7 +2397,13 @@
                 </li>
               `;
 
-          document.getElementById("btnDrawerAcessar").innerHTML = `ABRIR SETOR <i class="fa-solid fa-arrow-right"></i>`;
+          const btnDrawer = document.getElementById("btnDrawerAcessar");
+          btnDrawer.disabled = !permitido;
+          btnDrawer.style.opacity = permitido ? "1" : "0.45";
+          btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
+          btnDrawer.innerHTML = permitido
+            ? `ABRIR SETOR <i class="fa-solid fa-arrow-right"></i>`
+            : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
         }
 
         detailsBackdrop.classList.add("open");
@@ -2237,8 +2420,9 @@
       document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
         const chave = setorAtualDrawer;
         const subItem = subItemAtualDrawer;
+        if (chave && !usuarioTemAcesso(chave)) return;
         fecharDrawerDetalhes();
-        if (subItem) abrirEmbed(subItem.titulo, subItem.embed);
+        if (subItem) abrirEmbed(subItem.titulo, subItem.embed, setorAtualKey);
         else if (chave) entrarNoSetor(chave, 0);
       });
 
@@ -2313,6 +2497,7 @@
         if (!termo || emSubDashboards) return;
 
         for (const [key, dados] of Object.entries(ESTRUTURA_DASHBOARDS)) {
+          if (!usuarioTemAcesso(key)) continue;
           if (dados.subitens && dados.subitens.length > 0) {
             const subIdx = dados.subitens.findIndex(s =>
               s.titulo.toLowerCase().includes(termo) ||
