@@ -278,6 +278,10 @@
             overflow: hidden;
         }
 
+        body.fit-screen-mode:not(.bars-collapsed) .org-wrapper {
+            padding-bottom: 58px;
+        }
+
         /* CABEÇALHO DA PÁGINA */
         .org-header {
             display: flex;
@@ -624,8 +628,10 @@
         }
 
         body.fit-screen-mode .org-stage {
-            flex: 1;
+            flex: 1 1 auto;
+            min-height: 0;
             align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
 
@@ -633,6 +639,7 @@
             width: 100%;
             display: flex;
             justify-content: center;
+            align-items: center;
             transform-origin: center center;
             transition: transform 0.25s ease;
         }
@@ -674,6 +681,18 @@
             width: 1620px;
         }
         .org-tree.fit-two-rows .org-connector-bar {
+            width: 92%;
+            max-width: none;
+        }
+
+        .org-tree.fit-three-rows {
+            width: 1120px;
+        }
+        .org-tree.fit-three-rows .org-level {
+            flex-wrap: wrap;
+            width: 1120px;
+        }
+        .org-tree.fit-three-rows .org-connector-bar {
             width: 92%;
             max-width: none;
         }
@@ -1687,6 +1706,7 @@
             }
 
             const container = document.getElementById('organogramaContainer');
+            const stage = document.getElementById('orgStage');
             const headerBar = document.getElementById('orgHeaderBar');
             const headerTitle = document.getElementById('orgHeaderTitle');
             const headerSubtitle = document.getElementById('orgHeaderSubtitle');
@@ -1750,10 +1770,11 @@
 
             function aplicarAjusteDeTela() {
                 const tree = container.querySelector('.org-tree');
-                if (!tree) return;
+                if (!tree || !stage) return;
 
+                const fitClasses = ['fit-single-row', 'fit-two-rows', 'fit-three-rows'];
                 container.style.transform = 'none';
-                tree.classList.remove('fit-single-row', 'fit-two-rows');
+                tree.classList.remove(...fitClasses);
 
                 if (!isFitScreen) {
                     document.body.classList.remove('fit-screen-mode');
@@ -1762,32 +1783,33 @@
 
                 document.body.classList.add('fit-screen-mode');
 
-                const headerRect = headerBar.getBoundingClientRect();
-                const topUsed = headerRect.bottom + 14;
-                const bottomMargin = areBarsCollapsed ? 18 : 68;
-                const availW = window.innerWidth - 36;
-                const availH = Math.max(220, window.innerHeight - topUsed - bottomMargin);
+                // Força reflow para obter dimensões reais do palco (.org-stage) após alternar classes
+                const stageRect = stage.getBoundingClientRect();
+                const availW = Math.max(260, stageRect.width - 16);
+                const availH = Math.max(160, stageRect.height - 12);
 
-                tree.classList.add('fit-single-row');
-                const w1 = tree.scrollWidth;
-                const h1 = tree.scrollHeight;
-                const scale1 = Math.min(availW / w1, availH / h1, 1);
+                let melhorLayout = 'fit-single-row';
+                let melhorScale = 0;
 
-                tree.classList.remove('fit-single-row');
-                tree.classList.add('fit-two-rows');
-                const w2 = tree.scrollWidth;
-                const h2 = tree.scrollHeight;
-                const scale2 = Math.min(availW / w2, availH / h2, 1);
+                for (const layout of fitClasses) {
+                    tree.classList.remove(...fitClasses);
+                    tree.classList.add(layout);
 
-                let finalScale = scale1;
-                if (scale2 > scale1) {
-                    finalScale = scale2;
-                } else {
-                    tree.classList.remove('fit-two-rows');
-                    tree.classList.add('fit-single-row');
+                    const w = tree.scrollWidth || tree.getBoundingClientRect().width;
+                    const h = tree.scrollHeight || tree.getBoundingClientRect().height;
+                    if (!w || !h) continue;
+
+                    const scale = Math.min(availW / w, availH / h, 1);
+                    if (scale > melhorScale) {
+                        melhorScale = scale;
+                        melhorLayout = layout;
+                    }
                 }
 
-                container.style.transform = `scale(${finalScale.toFixed(4)})`;
+                tree.classList.remove(...fitClasses);
+                tree.classList.add(melhorLayout);
+                const safeScale = melhorScale > 0 ? melhorScale : 1;
+                container.style.transform = `scale(${safeScale.toFixed(4)})`;
             }
 
             btnToggleFitScreen.addEventListener('click', () => {
@@ -1797,12 +1819,13 @@
                     iconFitScreen.className = 'fa-solid fa-expand';
                     textFitScreen.textContent = 'Tamanho Original';
                     window.scrollTo({ top: 0, behavior: 'instant' });
+                    requestAnimationFrame(() => requestAnimationFrame(aplicarAjusteDeTela));
                 } else {
                     btnToggleFitScreen.classList.remove('active-mode');
                     iconFitScreen.className = 'fa-solid fa-compress';
                     textFitScreen.textContent = 'Ajustar à Tela';
+                    aplicarAjusteDeTela();
                 }
-                aplicarAjusteDeTela();
             });
 
             btnToggleBars.addEventListener('click', () => {
@@ -1818,7 +1841,7 @@
                     iconToggleBars.className = 'fa-solid fa-eye-slash';
                     textToggleBars.textContent = 'Ocultar Menu';
                 }
-                setTimeout(aplicarAjusteDeTela, 50);
+                setTimeout(aplicarAjusteDeTela, 320);
             });
 
             window.addEventListener('resize', () => {
