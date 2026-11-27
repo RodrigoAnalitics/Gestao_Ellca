@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="styles_index.css">
 
     <style>
+        html,
+        body {
+            height: 100%;
+        }
+
         /* Barra de rolagem fina e quase transparente */
         html::-webkit-scrollbar,
         body::-webkit-scrollbar {
@@ -32,6 +37,27 @@
         html::-webkit-scrollbar-thumb:hover,
         body::-webkit-scrollbar-thumb:hover {
             background: rgba(0, 212, 255, 0.45);
+        }
+
+        /* Encaixe na tela no desktop sem barra de rolagem */
+        @media (min-width: 1181px) and (min-height: 701px) {
+            html,
+            body,
+            .container,
+            .item,
+            .item.active,
+            .split-screen {
+                height: 100vh;
+                height: 100dvh;
+                overflow: hidden;
+            }
+
+            .cards-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 0;
+            }
         }
 
         /* Navbar e rodapé recolhíveis */
@@ -259,7 +285,7 @@
         }
 
         /* ==================== RESPONSIVIDADE TABLET E MOBILE ==================== */
-        @media (max-width: 1180px) {
+        @media (max-width: 1180px), (max-height: 700px) {
             html, body {
                 height: auto !important;
                 min-height: 100dvh !important;
