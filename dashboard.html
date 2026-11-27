@@ -33,7 +33,6 @@
       inherits: false;
     }
 
-    /* Feixe contínuo 360 graus: nunca reseta nem pisca */
     @keyframes borderSweepContinuous {
       from {
         --sweep-angle: 0deg;
@@ -43,7 +42,6 @@
       }
     }
 
-    /* Revezamento suave de brilho entre todos os cards em sequência */
     @keyframes cardGlowRelay {
       0%, 100% {
         opacity: 0.78;
@@ -729,6 +727,7 @@
       padding: 2px 0;
     }
 
+    /* TAMANHO DO CARD PADRONIZADO */
     .cards-track .card-3d-wrap {
       width: 100%;
       min-width: 0;
@@ -1464,7 +1463,7 @@
             </div>
             <h1 class="hero-main-title">DASHBOARDS <span>EXECUTIVOS</span></h1>
             <p class="hero-subtitle">
-              Painéis analíticos em Power BI e Looker Studio com indicadores de produção, faturamento, frota, suprimentos e segurança.
+              Painéis analíticos por setor com acesso rápido, filtros, pesquisa e visualização em Carrossel, Carrossel 3D e Grade.
             </p>
           </div>
         </div>
@@ -1472,7 +1471,7 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Painéis Ativos</small>
-            <strong id="statQtdDashboards">6 Painéis</strong>
+            <strong id="statQtdDashboards">13 Painéis</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Atualização BI</small>
@@ -1480,7 +1479,7 @@
           </div>
           <div class="quick-stat-pill">
             <small>Integrações</small>
-            <strong style="color:#7dd3fc;">Power BI · Looker</strong>
+            <strong style="color:#7dd3fc;">Data Studio · BI</strong>
           </div>
         </div>
       </div>
@@ -1521,15 +1520,15 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (6)</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (13)</button>
         <button type="button" class="cat-btn" data-cat="OPERACIONAL"><i class="fa-solid fa-bolt"></i> Operacional</button>
         <button type="button" class="cat-btn" data-cat="LOGISTICA"><i class="fa-solid fa-truck-fast"></i> Frota & Suprimentos</button>
-        <button type="button" class="cat-btn" data-cat="CORPORATIVO"><i class="fa-solid fa-shield-halved"></i> Corporativo & Segurança</button>
+        <button type="button" class="cat-btn" data-cat="CORPORATIVO"><i class="fa-solid fa-shield-halved"></i> Corporativo & Gestão</button>
       </div>
 
       <div class="search-box-wrap">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar dashboard, KPI ou setor..." />
+        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar dashboard ou setor..." />
       </div>
     </div>
 
@@ -1537,7 +1536,7 @@
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 6 PAINÉIS · MODO CARROSSEL
+          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 13 PAINÉIS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1595,11 +1594,11 @@
       </div>
       <div class="details-meta-box">
         <small>Indicador</small>
-        <strong id="drawerModKpi">Power BI</strong>
+        <strong id="drawerModKpi">Data Studio</strong>
       </div>
       <div class="details-meta-box">
         <small>Setor</small>
-        <strong id="drawerModRota">Produção</strong>
+        <strong id="drawerModRota">Almoxarifado</strong>
       </div>
       <div class="details-meta-box">
         <small>Permissão</small>
@@ -1607,7 +1606,7 @@
       </div>
     </div>
     <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
-      Indicadores do Painel
+      Detalhes do Painel
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
     <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
@@ -1645,112 +1644,238 @@
 
       const DASHBOARDS_LISTA = [
         {
-          key: "dash_produtividade",
-          setor: "produtividade",
-          categoria: "OPERACIONAL",
-          badge: "POWER BI",
-          badgeGold: true,
-          icone: "fa-chart-line",
+          key: "dash_almoxarifado",
+          setor: "almoxarifado",
+          categoria: "LOGISTICA",
+          badge: "DATA STUDIO",
+          badgeGold: false,
+          icone: "fa-boxes-stacked",
           imagem: "img/Card_Produtividade.jpg",
-          titulo: "BI PRODUTIVIDADE & FATURAMENTO",
-          desc: "Acompanhamento de metas diárias, faturamento por frente, equipes e ranking operacional.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94,8%</span>',
-          kpi2: '<span><i class="fa-solid fa-bolt"></i> Produção</span>',
-          kpiResumo: "94,8% · Produção",
-          url: "#dash-produtividade",
-          setorLabel: "Produtividade",
-          searchTags: "produtividade faturamento metas equipes ranking power bi",
-          recursos: ["Evolução diária e acumulada", "Comparativo previsto vs. realizado", "Desempenho por supervisor e equipe"]
+          titulo: "ALMOXARIFADO",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-warehouse"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Almoxarifado",
+          searchTags: "almoxarifado estoque materiais insumos",
+          recursos: ["Painel setorial: Almoxarifado", "Acesso via Data Studio / BI"]
         },
         {
-          key: "dash_programacao",
-          setor: "programacao",
-          categoria: "OPERACIONAL",
-          badge: "LOOKER STUDIO",
-          badgeGold: false,
-          icone: "fa-calendar-check",
-          imagem: "img/Programacao.jpg",
-          titulo: "BI PROGRAMAÇÃO & CARTEIRA",
-          desc: "Controle de ordens de serviço programadas, executadas, pendentes e SLA de atendimento.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96,2%</span>',
-          kpi2: '<span><i class="fa-solid fa-route"></i> Carteira</span>',
-          kpiResumo: "96,2% · Carteira",
-          url: "#dash-programacao",
-          setorLabel: "Programação",
-          searchTags: "programação carteira ordens de serviço sla aderência looker",
-          recursos: ["Taxa de aderência à programação", "Carteira aberta por regional", "Análise de motivos de reprogramação"]
+          key: "dash_almoxarifado_epi_epc",
+          setor: "almoxarifado",
+          categoria: "LOGISTICA",
+          badge: "DATA STUDIO",
+          badgeGold: true,
+          icone: "fa-helmet-safety",
+          imagem: "img/sesmt.jpg",
+          titulo: "ALMOXARIFADO EPI/EPC",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Almoxarifado EPI/EPC",
+          searchTags: "almoxarifado epi epc equipamentos proteção",
+          recursos: ["Painel setorial: Almoxarifado EPI/EPC", "Acesso via Data Studio / BI"]
         },
         {
           key: "dash_backoffice",
           setor: "backoffice",
           categoria: "OPERACIONAL",
-          badge: "POWER BI",
+          badge: "DATA STUDIO",
           badgeGold: false,
           icone: "fa-file-invoice-dollar",
           imagem: "img/estrutura.jpg",
-          titulo: "BI MEDIÇÃO & BACKOFFICE",
-          desc: "Status de medições enviadas, aprovadas, glosas e prazos de fechamento administrativo.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-file-check"></i> 98,1%</span>',
-          kpi2: '<span><i class="fa-solid fa-coins"></i> Medição</span>',
-          kpiResumo: "98,1% · Medição",
-          url: "#dash-backoffice",
+          titulo: "BACKOFFICE",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-file-check"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
           setorLabel: "Backoffice",
-          searchTags: "backoffice medição faturamento aprovação glosas fechamento",
-          recursos: ["Funil de aprovação de medições", "Controle de pendências documentais", "Prazo médio de faturamento"]
+          searchTags: "backoffice medição faturamento controle",
+          recursos: ["Painel setorial: Backoffice", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_dp",
+          setor: "dp",
+          categoria: "CORPORATIVO",
+          badge: "DATA STUDIO",
+          badgeGold: false,
+          icone: "fa-id-card",
+          imagem: "img/estrutura.jpg",
+          titulo: "DP",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-users"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "DP",
+          searchTags: "dp departamento pessoal folha ponto",
+          recursos: ["Painel setorial: DP", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_dsc",
+          setor: "todos",
+          categoria: "OPERACIONAL",
+          badge: "DATA STUDIO",
+          badgeGold: true,
+          icone: "fa-diagram-project",
+          imagem: "img/Programacao.jpg",
+          titulo: "DSC",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-bolt"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "DSC",
+          searchTags: "dsc operação indicadores",
+          recursos: ["Painel setorial: DSC", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_estrutura",
+          setor: "estrutura",
+          categoria: "CORPORATIVO",
+          badge: "DATA STUDIO",
+          badgeGold: false,
+          icone: "fa-building",
+          imagem: "img/estrutura.jpg",
+          titulo: "ESTRUTURA",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-sitemap"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Estrutura",
+          searchTags: "estrutura bases unidades",
+          recursos: ["Painel setorial: Estrutura", "Acesso via Data Studio / BI"]
         },
         {
           key: "dash_frota",
           setor: "frota",
           categoria: "LOGISTICA",
-          badge: "TELEMETRIA",
+          badge: "DATA STUDIO",
           badgeGold: true,
           icone: "fa-truck-fast",
           imagem: "img/Programacao.jpg",
-          titulo: "BI FROTA & COMBUSTÍVEL",
-          desc: "Indicadores de consumo, quilometragem rodada, manutenções preventivas e disponibilidade.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-gauge-high"></i> 97,5%</span>',
-          kpi2: '<span><i class="fa-solid fa-gas-pump"></i> Frota</span>',
-          kpiResumo: "97,5% · Frota",
-          url: "#dash-frota",
+          titulo: "FROTA",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-gauge-high"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
           setorLabel: "Frota",
-          searchTags: "frota veículos combustível manutenção telemetria disponibilidade",
-          recursos: ["Custo por km e consumo médio", "Alertas de manutenção preventiva", "Disponibilidade operacional da frota"]
+          searchTags: "frota veículos combustível manutenção",
+          recursos: ["Painel setorial: Frota", "Acesso via Data Studio / BI"]
         },
         {
-          key: "dash_almoxarifado",
-          setor: "almoxarifado",
-          categoria: "LOGISTICA",
-          badge: "ESTOQUE",
+          key: "dash_infraestrutura",
+          setor: "infraestrutura",
+          categoria: "CORPORATIVO",
+          badge: "DATA STUDIO",
           badgeGold: false,
-          icone: "fa-boxes-stacked",
+          icone: "fa-network-wired",
+          imagem: "img/estrutura.jpg",
+          titulo: "INFRAESTRUTURA",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-server"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Infraestrutura",
+          searchTags: "infraestrutura redes suporte",
+          recursos: ["Painel setorial: Infraestrutura", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_produtividade",
+          setor: "produtividade",
+          categoria: "OPERACIONAL",
+          badge: "DATA STUDIO",
+          badgeGold: true,
+          icone: "fa-chart-line",
           imagem: "img/Card_Produtividade.jpg",
-          titulo: "BI ALMOXARIFADO & MATERIAIS",
-          desc: "Giro de estoque, saldo crítico de insumos, requisições atendidas e rastreabilidade.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-box-open"></i> 99,0%</span>',
-          kpi2: '<span><i class="fa-solid fa-warehouse"></i> Estoque</span>',
-          kpiResumo: "99,0% · Estoque",
-          url: "#dash-almoxarifado",
-          setorLabel: "Almoxarifado",
-          searchTags: "almoxarifado estoque materiais insumos giro requisição",
-          recursos: ["Monitoramento de estoque mínimo", "Consumo de materiais por frente", "Acuracidade de inventário"]
+          titulo: "PRODUTIVIDADE",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-trend-up"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Produtividade",
+          searchTags: "produtividade metas produção equipes",
+          recursos: ["Painel setorial: Produtividade", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_programacao",
+          setor: "programacao",
+          categoria: "OPERACIONAL",
+          badge: "DATA STUDIO",
+          badgeGold: false,
+          icone: "fa-calendar-check",
+          imagem: "img/Programacao.jpg",
+          titulo: "PROGRAMAÇÃO",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-calendar-days"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Programação",
+          searchTags: "programação carteira ordens serviço",
+          recursos: ["Painel setorial: Programação", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_projeto",
+          setor: "projeto",
+          categoria: "OPERACIONAL",
+          badge: "DATA STUDIO",
+          badgeGold: false,
+          icone: "fa-compass-drafting",
+          imagem: "img/Card_Produtividade.jpg",
+          titulo: "PROJETO",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-folder-open"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "Projeto",
+          searchTags: "projeto obras implantação",
+          recursos: ["Painel setorial: Projeto", "Acesso via Data Studio / BI"]
+        },
+        {
+          key: "dash_rh",
+          setor: "rh",
+          categoria: "CORPORATIVO",
+          badge: "DATA STUDIO",
+          badgeGold: false,
+          icone: "fa-user-group",
+          imagem: "img/estrutura.jpg",
+          titulo: "RH",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-user-check"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
+          setorLabel: "RH",
+          searchTags: "rh recursos humanos pessoas quadro",
+          recursos: ["Painel setorial: RH", "Acesso via Data Studio / BI"]
         },
         {
           key: "dash_sesmt",
-          setor: "sesmt",
+          setor: "todos",
           categoria: "CORPORATIVO",
-          badge: "SEGURANÇA",
+          badge: "DATA STUDIO",
           badgeGold: true,
           icone: "fa-shield-halved",
           imagem: "img/sesmt.jpg",
-          titulo: "BI SESMT & CONFORMIDADE",
-          desc: "Painel de inspeções de segurança, entregas de EPIs, treinamentos e indicadores preventivos.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-check"></i> 100%</span>',
-          kpi2: '<span><i class="fa-solid fa-helmet-safety"></i> SESMT</span>',
-          kpiResumo: "100% · SESMT",
-          url: "#dash-sesmt",
+          titulo: "SESMT",
+          desc: "",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-check"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-simple"></i> BI</span>',
+          kpiResumo: "Ativo · BI",
+          url: "#",
           setorLabel: "SESMT",
-          searchTags: "sesmt segurança trabalho epi inspeções treinamentos conformidade",
-          recursos: ["Índice de conformidade em campo", "Controle de validade de EPIs e ASOs", "Acompanhamento de planos de ação"]
+          searchTags: "sesmt segurança trabalho epi inspeções",
+          recursos: ["Painel setorial: SESMT", "Acesso via Data Studio / BI"]
         }
       ];
 
@@ -1800,7 +1925,7 @@
       }
 
       const estadoClima = {
-        cidade: "Belém - PA",
+        cidade: "Ananindeua - PA",
         temperatura: "--°C",
         icone: "fa-cloud-sun"
       };
@@ -1864,7 +1989,7 @@
             const geoResp = await fetch(geoUrl);
             if (geoResp.ok) {
               const geoData = await geoResp.json();
-              const cidadeRaw = geoData.city || geoData.locality || "Belém";
+              const cidadeRaw = geoData.city || geoData.locality || "Ananindeua";
               const cidade = capitalizarPrimeira(cidadeRaw);
               const uf = (geoData.principalSubdivisionCode || "BR-PA").replace("BR-", "").toUpperCase();
               estadoClima.cidade = `${cidade} - ${uf}`;
@@ -1880,16 +2005,16 @@
       }
 
       function iniciarLocalizacaoClima() {
-        const defaultLat = -1.4558;
-        const defaultLon = -48.5044;
+        const defaultLat = -1.3656;
+        const defaultLon = -48.3722;
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
-            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA"),
+            () => buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA"),
             { timeout: 6000, maximumAge: 600000 }
           );
         } else {
-          buscarClimaELocalizacao(defaultLat, defaultLon, "Belém - PA");
+          buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA");
         }
       }
 
@@ -1919,12 +2044,9 @@
 
       function navegarParaDestino(mod, novaAba = false) {
         if (!mod || !usuarioTemAcesso(mod)) return;
-        if (temLinkValido(mod.url)) {
-          if (novaAba) window.open(mod.url.trim(), "_blank", "noopener");
-          else window.location.href = mod.url.trim();
-        } else {
-          abrirDrawerDetalhes(mod.key);
-        }
+        const destino = temLinkValido(mod.url) ? mod.url.trim() : "#";
+        if (novaAba) window.open(destino, "_blank", "noopener");
+        else window.location.href = destino;
       }
 
       document.getElementById("statQtdDashboards").textContent = `${DASHBOARDS_LISTA.length} Painéis`;
@@ -1979,7 +2101,6 @@
           });
       }
 
-      // 1 linha com até 4 cards no carrossel desktop, 2 no tablet e 1 no mobile
       function obterQtdVisivelCarrossel() {
         if (window.innerWidth <= 520) return 1;
         if (window.innerWidth <= 1100) return 2;
@@ -2006,7 +2127,7 @@
 
                 <div>
                   <h3 class="card-title-txt">${mod.titulo}</h3>
-                  <p class="card-desc-txt">${mod.desc}</p>
+                  ${mod.desc ? `<p class="card-desc-txt">${mod.desc}</p>` : ""}
                 </div>
 
                 <div class="kpi-pills-row">
@@ -2017,7 +2138,7 @@
                 <div class="card-actions-stack">
                   <div class="acessar-line">
                     <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
-                      ${permitido ? `ABRIR BI <i class="fa-solid fa-chart-pie"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                      ${permitido ? `ABRIR <i class="fa-solid fa-chart-pie"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
                     <button type="button" class="btn-nova-aba btn-abrir-nova-aba" data-key="${mod.key}" title="Abrir em nova aba" ${permitido ? "" : "disabled"}>
                       <i class="fa-solid fa-up-right-from-square"></i>
@@ -2209,7 +2330,7 @@
         const permitido = usuarioTemAcesso(mod);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
-        document.getElementById("drawerModDesc").textContent = mod.desc;
+        document.getElementById("drawerModDesc").textContent = mod.desc || `Painel setorial de ${mod.setorLabel}.`;
         document.getElementById("drawerModCat").textContent = mod.categoria;
         document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
         document.getElementById("drawerModRota").textContent = mod.setorLabel;
