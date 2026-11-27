@@ -1445,7 +1445,7 @@
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Painéis Ativos</small>
-            <strong>8 Dashboards</strong>
+            <strong id="heroTotalPaineis">13 Dashboards</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Desempenho BI</small>
@@ -1494,7 +1494,7 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (8)</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (<span id="catTodosCount">13</span>)</button>
         <button type="button" class="cat-btn" data-cat="OPERACAO"><i class="fa-solid fa-chart-line"></i> Operação</button>
         <button type="button" class="cat-btn" data-cat="GESTAO"><i class="fa-solid fa-users-gear"></i> Gestão & Pessoas</button>
         <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-server"></i> Suporte & Frota</button>
@@ -1510,7 +1510,7 @@
     <section class="carousel-shell">
       <div class="carousel-header-bar">
         <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 8 DASHBOARDS · MODO CARROSSEL
+          <i class="fa-solid fa-chart-pie"></i> EXIBINDO 13 DASHBOARDS · MODO CARROSSEL
         </span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
@@ -1551,7 +1551,7 @@
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES -->
+  <!-- DRAWER LATERAL DE DETALHES (ABRE SOMENTE VIA BOTÃO DE DETALHES / ÍCONE INFO) -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
@@ -1616,242 +1616,251 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
+      /* ========================================================================
+         DASHBOARDS:
+         - Preencha `url` com o link/arquivo de destino quando estiver pronto.
+         - Deixe `url: "#"` para travar o botão ABRIR até ter o link.
+         - A gaveta lateral abre apenas pelos botões de DETALHES / ícone info.
+      ======================================================================== */
       const DASHBOARDS_LISTA = [
-  {
-    key: "bi_almox_epi_epc",
-    setor: "almoxarifado",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: true,
-    icone: "fa-shield-halved",
-    imagem: "img/epi_epc.jpg",
-    titulo: "ALMOX. EPI/EPC",
-    desc: "Controle de estoque, validade, inspeção e entrega de equipamentos de proteção.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-    kpiResumo: "94% · Mensal",
-    url: "#bi-almox-epi-epc",
-    setorLabel: "Almox. EPI/EPC",
-    searchTags: "epi epc estoque validade inspeção entrega equipamentos proteção bi",
-    recursos: ["Conferência de estoque e CA", "Acompanhamento de validades", "Histórico de entregas por equipe"]
-  },
-  {
-    key: "bi_almoxarifado",
-    setor: "almoxarifado",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-boxes-stacked",
-    imagem: "img/almoxarifado.jpg",
-    titulo: "ALMOXARIFADO",
-    desc: "Gestão de materiais, recebimento, inventário e suprimento das equipes.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 96%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
-    kpiResumo: "96% · Diário",
-    url: "#bi-almoxarifado",
-    setorLabel: "Almoxarifado",
-    searchTags: "almoxarifado materiais recebimento inventário giro suprimento bi",
-    recursos: ["Monitoramento de entradas e saídas", "Indicadores de inventário", "Disponibilidade de suprimentos"]
-  },
-  {
-    key: "bi_backoffice",
-    setor: "backoffice",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-file-invoice-dollar",
-    imagem: "img/backoffice.jpg",
-    titulo: "BACKOFFICE",
-    desc: "Suporte administrativo, conferência de processos, medições e faturamento.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 92%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-    kpiResumo: "92% · Mensal",
-    url: "#bi-backoffice",
-    setorLabel: "Backoffice",
-    searchTags: "backoffice administrativo processos medições faturamento conferência bi",
-    recursos: ["Evolução de medições e faturamento", "Tempo médio de conferência", "Painel de pendências"]
-  },
-  {
-    key: "bi_dp",
-    setor: "dp",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-id-card",
-    imagem: "img/Card_DP.jpg",
-    titulo: "DP",
-    desc: "Gestão de ponto, folha de pagamento, benefícios, férias e rotinas trabalhistas.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 98%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-    kpiResumo: "98% · Mensal",
-    url: "#bi-dp",
-    setorLabel: "DP",
-    searchTags: "dp departamento pessoal ponto folha benefícios férias trabalhistas bi",
-    recursos: ["Indicadores de ponto e horas extras", "Programação de férias e afastamentos", "Conferência de folha e benefícios"]
-  },
-  {
-    key: "bi_dsc",
-    setor: "dsc",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-clipboard-check",
-    imagem: "img/DSC.jpg",
-    titulo: "DSC",
-    desc: "Acompanhamento de indicadores, conformidade em campo e controle de desvios.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 91%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
-    kpiResumo: "91% · Semanal",
-    url: "#bi-dsc",
-    setorLabel: "DSC",
-    searchTags: "dsc conformidade campo desvios indicadores qualidade bi",
-    recursos: ["Taxa de conformidade operacional", "Evolução de desvios e tratativas", "Indicadores semanais de campo"]
-  },
-  {
-    key: "bi_estrutura",
-    setor: "estrutura",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: true,
-    icone: "fa-sitemap",
-    imagem: "img/estrutura.jpg",
-    titulo: "ESTRUTURA",
-    desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 100%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Geral</span>',
-    kpiResumo: "100% · Geral",
-    url: "#bi-estrutura",
-    setorLabel: "Estrutura",
-    searchTags: "estrutura hierarquia liderança setores equipes organograma bi",
-    recursos: ["Distribuição de efetivo por área", "Cobertura de lideranças setoriais", "Visão consolidada da estrutura"]
-  },
-  {
-    key: "bi_frota",
-    setor: "frota",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-truck",
-    imagem: "img/frota.jpg",
-    titulo: "FROTA",
-    desc: "Controle de veículos, manutenções preventivas/corretivas, combustível e rastreio.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 93%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
-    kpiResumo: "93% · Diário",
-    url: "#bi-frota",
-    setorLabel: "Frota",
-    searchTags: "frota veículos manutenção combustível rastreio disponibilidade bi",
-    recursos: ["Disponibilidade da frota operacional", "Indicadores de combustível e km", "Acompanhamento de manutenções"]
-  },
-  {
-    key: "bi_infraestrutura",
-    setor: "infraestrutura",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-building",
-    imagem: "img/infraestrutura.jpg",
-    titulo: "INFRAESTRUTURA",
-    desc: "Manutenção predial, bases operacionais, energia e serviços de apoio.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 95%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Contínuo</span>',
-    kpiResumo: "95% · Contínuo",
-    url: "#bi-infraestrutura",
-    setorLabel: "Infraestrutura",
-    searchTags: "infraestrutura predial bases operacionais energia serviços apoio bi",
-    recursos: ["Status das bases operacionais", "Indicadores de manutenção predial", "Acompanhamento de serviços gerais"]
-  },
-  {
-    key: "bi_produtividade",
-    setor: "produtividade",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-chart-line",
-    imagem: "img/Card_Produtividade.jpg",
-    titulo: "PRODUTIVIDADE",
-    desc: "Desempenho operacional, metas atingidas e evolução por equipe.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-    kpiResumo: "+18% · Mensal",
-    url: "#bi-produtividade",
-    setorLabel: "Produtividade",
-    searchTags: "produtividade metas equipes desempenho bi",
-    recursos: ["Atingimento de metas por equipe", "Comparativo mensal de entregas", "Indicadores de eficiência"]
-  },
-  {
-    key: "bi_programacao",
-    setor: "programacao",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-calendar-check",
-    imagem: "img/Programacao.jpg",
-    titulo: "PROGRAMAÇÃO",
-    desc: "Planejamento diário, roteirização de ordens de serviço e alocação de equipes.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 95%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
-    kpiResumo: "95% · Diário",
-    url: "#bi-programacao",
-    setorLabel: "Programação",
-    searchTags: "programação planejamento roteirização ordens de serviço equipes bi",
-    recursos: ["Aderência da programação diária", "Status de ordens de serviço", "Alocação e roteirização de equipes"]
-  },
-  {
-    key: "bi_projeto",
-    setor: "projeto",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-compass-drafting",
-    imagem: "img/Card_Projeto.jpg",
-    titulo: "PROJETO",
-    desc: "Análise técnica, levantamentos, desenhos e acompanhamento de obras e projetos.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 90%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Etapas</span>',
-    kpiResumo: "90% · Etapas",
-    url: "#bi-projeto",
-    setorLabel: "Projeto",
-    searchTags: "projeto análise técnica levantamentos desenhos obras acompanhamento bi",
-    recursos: ["Avanço físico por etapa de projeto", "Status de levantamentos e desenhos", "Acompanhamento de entregas técnicas"]
-  },
-  {
-    key: "bi_rh",
-    setor: "rh",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: false,
-    icone: "fa-users",
-    imagem: "img/Card_RH.jpg",
-    titulo: "RH",
-    desc: "Recrutamento e seleção, integração, treinamentos, desenvolvimento e clima.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
-    kpiResumo: "94% · Mensal",
-    url: "#bi-rh",
-    setorLabel: "RH",
-    searchTags: "rh recursos humanos recrutamento seleção integração treinamentos clima bi",
-    recursos: ["Cobertura de treinamentos e capacitação", "Indicadores de admissão e integração", "Acompanhamento de equipes e clima"]
-  },
-  {
-    key: "bi_sesmt",
-    setor: "sesmt",
-    categoria: "OPERACAO",
-    badge: "BI",
-    badgeGold: true,
-    icone: "fa-helmet-safety",
-    imagem: "img/sesmt.jpg",
-    titulo: "SESMT",
-    desc: "Segurança do trabalho, prevenção de riscos, normas regulamentadoras e saúde ocupacional.",
-    kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 97%</span>',
-    kpi2: '<span><i class="fa-solid fa-chart-line"></i> Contínuo</span>',
-    kpiResumo: "97% · Contínuo",
-    url: "#bi-sesmt",
-    setorLabel: "SESMT",
-    searchTags: "sesmt segurança trabalho prevenção riscos normas saúde ocupacional bi",
-    recursos: ["Indicadores de segurança e prevenção", "Acompanhamento de NRs e inspeções", "Saúde ocupacional e conformidade"]
-  }
-];
+        {
+          key: "bi_almox_epi_epc",
+          setor: "almoxarifado",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: true,
+          icone: "fa-shield-halved",
+          imagem: "img/epi_epc.jpg",
+          titulo: "ALMOX. EPI/EPC",
+          desc: "Controle de estoque, validade, inspeção e entrega de equipamentos de proteção.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpiResumo: "94% · Mensal",
+          url: "#",
+          setorLabel: "Almox. EPI/EPC",
+          searchTags: "epi epc estoque validade inspeção entrega equipamentos proteção bi",
+          recursos: ["Conferência de estoque e CA", "Acompanhamento de validades", "Histórico de entregas por equipe"]
+        },
+        {
+          key: "bi_almoxarifado",
+          setor: "almoxarifado",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-boxes-stacked",
+          imagem: "img/almoxarifado.jpg",
+          titulo: "ALMOXARIFADO",
+          desc: "Gestão de materiais, recebimento, inventário e suprimento das equipes.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 96%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
+          kpiResumo: "96% · Diário",
+          url: "#",
+          setorLabel: "Almoxarifado",
+          searchTags: "almoxarifado materiais recebimento inventário giro suprimento bi",
+          recursos: ["Monitoramento de entradas e saídas", "Indicadores de inventário", "Disponibilidade de suprimentos"]
+        },
+        {
+          key: "bi_backoffice",
+          setor: "backoffice",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-file-invoice-dollar",
+          imagem: "img/backoffice.jpg",
+          titulo: "BACKOFFICE",
+          desc: "Suporte administrativo, conferência de processos, medições e faturamento.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 92%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpiResumo: "92% · Mensal",
+          url: "#",
+          setorLabel: "Backoffice",
+          searchTags: "backoffice administrativo processos medições faturamento conferência bi",
+          recursos: ["Evolução de medições e faturamento", "Tempo médio de conferência", "Painel de pendências"]
+        },
+        {
+          key: "bi_dp",
+          setor: "dp",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-id-card",
+          imagem: "img/Card_DP.jpg",
+          titulo: "DP",
+          desc: "Gestão de ponto, folha de pagamento, benefícios, férias e rotinas trabalhistas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 98%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpiResumo: "98% · Mensal",
+          url: "#",
+          setorLabel: "DP",
+          searchTags: "dp departamento pessoal ponto folha benefícios férias trabalhistas bi",
+          recursos: ["Indicadores de ponto e horas extras", "Programação de férias e afastamentos", "Conferência de folha e benefícios"]
+        },
+        {
+          key: "bi_dsc",
+          setor: "dsc",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-clipboard-check",
+          imagem: "img/DSC.jpg",
+          titulo: "DSC",
+          desc: "Acompanhamento de indicadores, conformidade em campo e controle de desvios.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 91%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
+          kpiResumo: "91% · Semanal",
+          url: "#",
+          setorLabel: "DSC",
+          searchTags: "dsc conformidade campo desvios indicadores qualidade bi",
+          recursos: ["Taxa de conformidade operacional", "Evolução de desvios e tratativas", "Indicadores semanais de campo"]
+        },
+        {
+          key: "bi_estrutura",
+          setor: "estrutura",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: true,
+          icone: "fa-sitemap",
+          imagem: "img/estrutura.jpg",
+          titulo: "ESTRUTURA",
+          desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 100%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Geral</span>',
+          kpiResumo: "100% · Geral",
+          url: "#",
+          setorLabel: "Estrutura",
+          searchTags: "estrutura hierarquia liderança setores equipes organograma bi",
+          recursos: ["Distribuição de efetivo por área", "Cobertura de lideranças setoriais", "Visão consolidada da estrutura"]
+        },
+        {
+          key: "bi_frota",
+          setor: "frota",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-truck",
+          imagem: "img/frota.jpg",
+          titulo: "FROTA",
+          desc: "Controle de veículos, manutenções preventivas/corretivas, combustível e rastreio.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 93%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
+          kpiResumo: "93% · Diário",
+          url: "#",
+          setorLabel: "Frota",
+          searchTags: "frota veículos manutenção combustível rastreio disponibilidade bi",
+          recursos: ["Disponibilidade da frota operacional", "Indicadores de combustível e km", "Acompanhamento de manutenções"]
+        },
+        {
+          key: "bi_infraestrutura",
+          setor: "infraestrutura",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-building",
+          imagem: "img/infraestrutura.jpg",
+          titulo: "INFRAESTRUTURA",
+          desc: "Manutenção predial, bases operacionais, energia e serviços de apoio.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 95%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Contínuo</span>',
+          kpiResumo: "95% · Contínuo",
+          url: "#",
+          setorLabel: "Infraestrutura",
+          searchTags: "infraestrutura predial bases operacionais energia serviços apoio bi",
+          recursos: ["Status das bases operacionais", "Indicadores de manutenção predial", "Acompanhamento de serviços gerais"]
+        },
+        {
+          key: "bi_produtividade",
+          setor: "produtividade",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-chart-line",
+          imagem: "img/Card_Produtividade.jpg",
+          titulo: "PRODUTIVIDADE",
+          desc: "Desempenho operacional, metas atingidas e evolução por equipe.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpiResumo: "+18% · Mensal",
+          url: "#",
+          setorLabel: "Produtividade",
+          searchTags: "produtividade metas equipes desempenho bi",
+          recursos: ["Atingimento de metas por equipe", "Comparativo mensal de entregas", "Indicadores de eficiência"]
+        },
+        {
+          key: "bi_programacao",
+          setor: "programacao",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-calendar-check",
+          imagem: "img/Programacao.jpg",
+          titulo: "PROGRAMAÇÃO",
+          desc: "Planejamento diário, roteirização de ordens de serviço e alocação de equipes.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 95%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Diário</span>',
+          kpiResumo: "95% · Diário",
+          url: "#",
+          setorLabel: "Programação",
+          searchTags: "programação planejamento roteirização ordens de serviço equipes bi",
+          recursos: ["Aderência da programação diária", "Status de ordens de serviço", "Alocação e roteirização de equipes"]
+        },
+        {
+          key: "bi_projeto",
+          setor: "projeto",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-compass-drafting",
+          imagem: "img/Card_Projeto.jpg",
+          titulo: "PROJETO",
+          desc: "Análise técnica, levantamentos, desenhos e acompanhamento de obras e projetos.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 90%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Etapas</span>',
+          kpiResumo: "90% · Etapas",
+          url: "#",
+          setorLabel: "Projeto",
+          searchTags: "projeto análise técnica levantamentos desenhos obras acompanhamento bi",
+          recursos: ["Avanço físico por etapa de projeto", "Status de levantamentos e desenhos", "Acompanhamento de entregas técnicas"]
+        },
+        {
+          key: "bi_rh",
+          setor: "rh",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: false,
+          icone: "fa-users",
+          imagem: "img/Card_RH.jpg",
+          titulo: "RH",
+          desc: "Recrutamento e seleção, integração, treinamentos, desenvolvimento e clima.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpiResumo: "94% · Mensal",
+          url: "#",
+          setorLabel: "RH",
+          searchTags: "rh recursos humanos recrutamento seleção integração treinamentos clima bi",
+          recursos: ["Cobertura de treinamentos e capacitação", "Indicadores de admissão e integração", "Acompanhamento de equipes e clima"]
+        },
+        {
+          key: "bi_sesmt",
+          setor: "sesmt",
+          categoria: "OPERACAO",
+          badge: "BI",
+          badgeGold: true,
+          icone: "fa-helmet-safety",
+          imagem: "img/sesmt.jpg",
+          titulo: "SESMT",
+          desc: "Segurança do trabalho, prevenção de riscos, normas regulamentadoras e saúde ocupacional.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 97%</span>',
+          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Contínuo</span>',
+          kpiResumo: "97% · Contínuo",
+          url: "#",
+          setorLabel: "SESMT",
+          searchTags: "sesmt segurança trabalho prevenção riscos normas saúde ocupacional bi",
+          recursos: ["Indicadores de segurança e prevenção", "Acompanhamento de NRs e inspeções", "Saúde ocupacional e conformidade"]
+        }
+      ];
+
+      document.getElementById("heroTotalPaineis").textContent = `${DASHBOARDS_LISTA.length} Dashboards`;
+      document.getElementById("catTodosCount").textContent = DASHBOARDS_LISTA.length;
 
       function capitalizarPrimeira(texto) {
         const limpo = String(texto || "").trim();
@@ -1896,6 +1905,17 @@
         const partes = String(nome || "RL").trim().split(/\s+/);
         if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      function rotaTravada(url) {
+        const destino = String(url || "").trim();
+        return !destino || destino === "#";
+      }
+
+      function abrirDashboard(mod) {
+        if (!mod || !usuarioTemAcesso(mod)) return;
+        if (rotaTravada(mod.url)) return;
+        window.location.href = mod.url;
       }
 
       // ================= SAUDAÇÃO + USUÁRIO + LOCAL + TEMPERATURA + HORÁRIO =================
@@ -2068,6 +2088,7 @@
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
+        const travado = rotaTravada(mod.url);
         const isFav = favs.includes(mod.key);
         const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
 
@@ -2096,7 +2117,7 @@
 
                 <div class="card-actions-stack">
                   <div class="acessar-line">
-                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"} title="${travado ? "Link pendente (#)" : "Abrir dashboard"}">
                       ${permitido ? `ABRIR <i class="fa-solid fa-chart-simple"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
                     </button>
                     <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes do dashboard">
@@ -2217,8 +2238,7 @@
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const mod = DASHBOARDS_LISTA.find(m => m.key === btn.getAttribute("data-key"));
-            if (!mod || !usuarioTemAcesso(mod)) return;
-            abrirDrawerDetalhes(mod.key);
+            abrirDashboard(mod);
           });
         });
 
@@ -2278,12 +2298,13 @@
         if (!mod) return;
         itemAtualDrawer = mod;
         const permitido = usuarioTemAcesso(mod);
+        const travado = rotaTravada(mod.url);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
         document.getElementById("drawerModDesc").textContent = mod.desc;
         document.getElementById("drawerModCat").textContent = mod.categoria;
         document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
-        document.getElementById("drawerModRota").textContent = mod.setorLabel;
+        document.getElementById("drawerModRota").textContent = travado ? `${mod.setorLabel} (#)` : `${mod.setorLabel} · ${mod.url}`;
         document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
         document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
 
@@ -2295,12 +2316,13 @@
         `).join("");
 
         const btnDrawer = document.getElementById("btnDrawerAcessar");
-        btnDrawer.disabled = !permitido;
-        btnDrawer.style.opacity = permitido ? "1" : "0.45";
-        btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
-        btnDrawer.innerHTML = permitido
-          ? `ABRIR DASHBOARD <i class="fa-solid fa-chart-simple"></i>`
-          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
+        const podeClicar = permitido && !travado;
+        btnDrawer.disabled = !podeClicar;
+        btnDrawer.style.opacity = podeClicar ? "1" : "0.45";
+        btnDrawer.style.pointerEvents = podeClicar ? "auto" : "none";
+        btnDrawer.innerHTML = !permitido
+          ? `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`
+          : (travado ? `<i class="fa-solid fa-link-slash"></i> LINK PENDENTE` : `ABRIR DASHBOARD <i class="fa-solid fa-chart-simple"></i>`);
 
         detailsBackdrop.classList.add("open");
         detailsDrawer.classList.add("open");
@@ -2314,8 +2336,7 @@
       document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
       detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
       document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
-        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
-        alert(`Dashboard selecionado: ${itemAtualDrawer.titulo}. Vincule aqui o link do Looker Studio ou Power BI.`);
+        abrirDashboard(itemAtualDrawer);
       });
 
       function avancarCarrossel(passo) {
