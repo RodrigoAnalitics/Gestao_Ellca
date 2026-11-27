@@ -1,656 +1,1990 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ELLCA | SUPERVISOR — PROGRAMAÇÃO & PRODUÇÃO</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELLCA | SUPERVISÃO DE PRODUÇÃO • PREMIUM MAX STAR 2.0</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles_index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
+  <script>
+    if (sessionStorage.getItem('ellca_auth') !== 'true') {
+      window.location.replace('login.html');
+    }
+  </script>
 
-        /* Barra de rolagem fina e quase transparente */
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
+  <style>
+    @property --sweep-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
 
-        html::-webkit-scrollbar-track,
-        body::-webkit-scrollbar-track {
-            background: transparent;
-        }
+    @keyframes borderSweep {
+      to { --sweep-angle: 360deg; }
+    }
 
-        html::-webkit-scrollbar-thumb,
-        body::-webkit-scrollbar-thumb {
-            background: rgba(0, 212, 255, 0.22);
-            border-radius: 999px;
-        }
+    @keyframes paletteCycle360 {
+      0%, 24.99% { --edge-a: #38bdf8; --edge-b: #2563eb; --edge-c: #93c5fd; }
+      25%, 49.99% { --edge-a: #facc15; --edge-b: #f59e0b; --edge-c: #fef08a; }
+      50%, 74.99% { --edge-a: #34d399; --edge-b: #0284c7; --edge-c: #a7f3d0; }
+      75%, 100% { --edge-a: #818cf8; --edge-b: #06b6d4; --edge-c: #e0e7ff; }
+    }
 
-        html::-webkit-scrollbar-thumb:hover,
-        body::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 212, 255, 0.45);
-        }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
 
-        /* Encaixe na tela no desktop sem barra de rolagem */
-        @media (min-width: 1181px) and (min-height: 701px) {
-            html,
-            body,
-            .container,
-            .item,
-            .item.active,
-            .split-screen {
-                height: 100vh;
-                height: 100dvh;
-                overflow: hidden;
-            }
+    @keyframes card3dTurnIn {
+      0% { transform: translate3d(0, 8px, -40px) rotateY(14deg) scale(0.95); }
+      100% { transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1); }
+    }
 
-            .cards-section {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 0;
-            }
-        }
+    @keyframes starGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); }
+      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); }
+    }
 
-        /* Navbar e rodapé recolhíveis */
-        .navbar,
-        .footer-bar {
-            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
 
-        body.bars-collapsed .navbar {
-            transform: translateY(-110%);
-            opacity: 0;
-            pointer-events: none;
-        }
+    html, body {
+      height: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
 
-        body.bars-collapsed .footer-bar {
-            transform: translateY(110%);
-            opacity: 0;
-            pointer-events: none;
-        }
+    body {
+      background-color: #050811;
+      background-image:
+        radial-gradient(ellipse 75% 55% at 15% 4%, rgba(37, 99, 235, 0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 48% at 88% 12%, rgba(56, 189, 248, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%);
+      color: #f8fafc;
+      height: 100vh;
+      height: 100dvh;
+      padding: 12px 22px 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-        body.bars-collapsed .split-screen {
-            padding-top: 32px;
-            padding-bottom: 32px;
-        }
+    .tabular { font-variant-numeric: tabular-nums; }
 
-        /* Botão de controle de menu integrado na coluna esquerda */
-        .sup-left-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #050811; }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
 
-        .btn-exec {
-            padding: 8px 14px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 212, 255, 0.4);
-            background: rgba(6, 18, 42, 0.65);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: #00d4ff;
-            font-size: 9.5px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-            transition: all 0.25s ease;
-        }
+    .page-container {
+      max-width: 1520px;
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 0;
+      overflow-x: hidden;
+    }
 
-        .btn-exec:hover,
-        .btn-exec.active-mode {
-            background: var(--primary);
-            color: #02060f;
-            border-color: #ffffff;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.55);
-            transform: translateY(-1px);
-        }
+    .top-navbar-collapse {
+      max-height: 60px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.25s ease, margin 0.25s ease;
+    }
 
-        /* Fileira de cards lado a lado na coluna direita, alinhados e sem estourar */
-        .sup-cards-row {
-            display: grid !important;
-            grid-template-columns: repeat(2, minmax(0, 268px)) !important;
-            justify-content: center !important;
-            align-items: stretch !important;
-            gap: 20px !important;
-            width: 100% !important;
-            max-width: 560px !important;
-            margin: 0 auto !important;
-            box-sizing: border-box !important;
-            z-index: 15 !important;
-        }
+    body.menu-hidden .top-navbar-collapse {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      margin-bottom: -10px;
+    }
 
-        /* Bloqueia classes de carrossel que o script.js possa tentar aplicar */
-        .sup-cards-row .glass-card,
-        .sup-cards-row .glass-card.card-front,
-        .sup-cards-row .glass-card.card-back-left,
-        .sup-cards-row .glass-card.card-back-right,
-        .sup-cards-row .glass-card.card-hidden {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            bottom: auto !important;
-            margin: 0 !important;
-            width: 100% !important;
-            min-width: 0 !important;
-            max-width: 100% !important;
-            height: 332px !important;
-            box-sizing: border-box !important;
-            transform: translate3d(0, 0, 0) scale(1) !important;
-            opacity: 1 !important;
-            filter: brightness(1) blur(0px) !important;
-            z-index: 20 !important;
-            pointer-events: auto !important;
-            cursor: pointer;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
-            overflow: hidden !important;
-            background:
-                linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 55%),
-                linear-gradient(
-                    148deg,
-                    rgba(2, 4, 10, 0.66) 0%,
-                    rgba(3, 7, 16, 0.58) 62%,
-                    rgba(10, 32, 74, 0.52) 86%,
-                    rgba(16, 56, 128, 0.45) 100%
-                ) !important;
-            backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
-            -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
-            border: 1px solid rgba(0, 212, 255, 0.38) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.52) !important;
-            border-left: 1px solid rgba(255, 255, 255, 0.36) !important;
-            box-shadow:
-                0 30px 60px rgba(0, 0, 0, 0.88),
-                0 0 30px rgba(0, 165, 255, 0.28),
-                inset 0 1px 1px rgba(255, 255, 255, 0.50),
-                inset 0 -2px 6px rgba(14, 52, 122, 0.48),
-                inset 0 0 20px rgba(0, 0, 0, 0.35) !important;
-        }
+    .top-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 1px 2px;
+    }
 
-        .sup-cards-row .glass-card:hover {
-            transform: translateY(-8px) scale(1.02) !important;
-            border-color: rgba(0, 212, 255, 0.78) !important;
-            border-top-color: #ffffff !important;
-            box-shadow:
-                0 40px 80px rgba(0, 0, 0, 0.92),
-                0 0 42px rgba(0, 212, 255, 0.45),
-                0 0 14px rgba(255, 255, 255, 0.28) !important;
-        }
+    .nav-brand-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-        /* Tema dourado para o card de Produção */
-        .sup-cards-row .glass-card.card-gerencial {
-            border-color: rgba(241, 196, 15, 0.58) !important;
-            border-top-color: rgba(255, 243, 196, 0.72) !important;
-            box-shadow:
-                0 30px 60px rgba(0, 0, 0, 0.88),
-                0 0 30px rgba(241, 196, 15, 0.28),
-                inset 0 1px 1px rgba(255, 243, 196, 0.55),
-                inset 0 -2px 6px rgba(180, 130, 10, 0.45) !important;
-        }
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 18px;
+    }
 
-        .sup-cards-row .glass-card.card-gerencial:hover {
-            border-color: #f1c40f !important;
-            border-top-color: #ffffff !important;
-            box-shadow:
-                0 40px 80px rgba(0, 0, 0, 0.92),
-                0 0 42px rgba(241, 196, 15, 0.48),
-                0 0 14px rgba(255, 255, 255, 0.30) !important;
-        }
+    .brand-logo img {
+      height: 34px;
+      width: auto;
+      max-width: 150px;
+      object-fit: contain;
+      display: block;
+    }
 
-        .sup-cards-row .glass-card h3 {
-            font-size: 15px !important;
-            margin-bottom: 3px !important;
-            margin-top: 2px !important;
-            color: #ffffff !important;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 19px;
+      color: #60a5fa;
+    }
 
-        .sup-cards-row .glass-card .card-desc {
-            font-size: 11px !important;
-            line-height: 1.35 !important;
-            margin-bottom: 5px !important;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+    .module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: #38bdf8;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.45px;
+      text-transform: uppercase;
+    }
 
-        .sup-cards-row .glass-card .img-box {
-            height: 104px !important;
-            margin-bottom: 8px !important;
-            border-color: rgba(30, 88, 185, 0.45) !important;
-            flex-shrink: 0;
-        }
+    .module-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulseDot 2s infinite;
+    }
 
-        .sup-cards-row .kpi-mini {
-            min-width: 0;
-        }
+    .max-star-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16));
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: #fde047;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      animation: starGlow 3.2s infinite;
+    }
 
-        .sup-cards-row .kpi-mini span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            min-width: 0;
-        }
+    .user-avatar-ring {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .footer-greeting {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: rgba(255, 255, 255, 0.72);
-        }
+    .nav-links-side {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
 
-        .footer-greeting strong {
-            color: #ffffff;
-        }
+    .top-nav-link {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
 
-        .btn-footer-sair {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #cbd5e1;
-            padding: 3px 9px;
-            border-radius: 12px;
-            font-size: 8.5px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: 0.3s;
-        }
+    .top-nav-link:hover,
+    .top-nav-link.active {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.14);
+    }
 
-        .btn-footer-sair:hover {
-            background: rgba(239, 68, 68, 0.22);
-            border-color: rgba(239, 68, 68, 0.55);
-            color: #ffffff;
-        }
+    .btn-back-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-        /* ==================== RESPONSIVIDADE TABLET E MOBILE ==================== */
-        @media (max-width: 1180px), (max-height: 700px) {
-            html, body {
-                height: auto !important;
-                min-height: 100dvh !important;
-                overflow-y: auto !important;
-                overflow-x: hidden !important;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(0, 212, 255, 0.22) transparent;
-            }
+    .btn-back-circle:hover {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.22);
+      color: #ffffff;
+    }
 
-            .container,
-            .item,
-            .item.active {
-                position: relative !important;
-                height: auto !important;
-                min-height: 100dvh !important;
-                overflow: visible !important;
-            }
+    .hero-banner {
+      position: relative;
+      border-radius: 16px;
+      padding: 14px 20px;
+      background:
+        linear-gradient(135deg, rgba(14, 32, 66, 0.86) 0%, rgba(9, 17, 36, 0.90) 55%, rgba(15, 32, 64, 0.84) 100%),
+        url('img/Programacao.jpg') center/cover no-repeat;
+      backdrop-filter: blur(20px) saturate(145%);
+      -webkit-backdrop-filter: blur(20px) saturate(145%);
+      border: 1px solid rgba(96, 165, 250, 0.32);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
 
-            .split-screen {
-                height: auto !important;
-                min-height: 100dvh !important;
-                grid-template-columns: 1fr !important;
-                grid-template-rows: auto auto !important;
-                padding: 84px 4% 36px 4% !important;
-                gap: 22px !important;
-                overflow: visible !important;
-                text-align: center;
-            }
+    .hero-banner::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 280px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-            body.bars-collapsed .split-screen {
-                padding-top: 28px !important;
-                padding-bottom: 28px !important;
-            }
+    .hero-top-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
 
-            .sup-left-controls {
-                justify-content: center;
-            }
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 820px;
+    }
 
-            .cards-section {
-                height: auto !important;
-                overflow: visible !important;
-                padding-bottom: 16px !important;
-            }
+    .hero-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.42), rgba(14, 165, 233, 0.18));
+      border: 1px solid rgba(96, 165, 250, 0.48);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
 
-            .sup-cards-row {
-                max-width: 560px !important;
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 16px !important;
-            }
-        }
+    .hero-kicker {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
 
-        @media (max-width: 768px) {
-            .split-screen {
-                padding: 72px 4% 28px 4% !important;
-                gap: 16px !important;
-            }
+    .hero-main-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
 
-            body.bars-collapsed .split-screen {
-                padding-top: 22px !important;
-                padding-bottom: 24px !important;
-            }
+    .hero-main-title span { color: #38bdf8; }
 
-            .des {
-                -webkit-line-clamp: unset !important;
-                overflow: visible !important;
-            }
+    .hero-subtitle {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
 
-            .sup-left-controls {
-                margin-top: 12px;
-            }
+    .hero-right-stats {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-            .sup-cards-row {
-                width: 100% !important;
-                max-width: 100% !important;
-                grid-template-columns: minmax(0, 1fr) !important;
-                gap: 14px !important;
-                padding: 0 2px 16px 2px !important;
-            }
+    .quick-stat-pill {
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: rgba(5, 10, 22, 0.72);
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      min-width: 110px;
+    }
 
-            .sup-cards-row .glass-card,
-            .sup-cards-row .glass-card.card-front {
-                width: 100% !important;
-                min-width: 0 !important;
-                max-width: 100% !important;
-                height: auto !important;
-                min-height: 286px !important;
-                padding: 14px !important;
-            }
+    .quick-stat-pill small {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
 
-            .sup-cards-row .glass-card .img-box {
-                height: 96px !important;
-            }
+    .quick-stat-pill strong {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 1px;
+    }
 
-            .sup-cards-row .glass-card:hover {
-                transform: none !important;
-            }
-        }
-    </style>
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 9px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    .live-badge {
+      height: 31px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.38);
+      color: #34d399;
+      font-size: 10.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-btn {
+      height: 31px;
+      padding: 0 12px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .hero-btn-blue {
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #93c5fd;
+    }
+
+    .hero-btn-blue:hover,
+    .hero-btn-blue.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-cyan {
+      background: rgba(14, 165, 233, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      color: #bae6fd;
+    }
+
+    .hero-btn-cyan:hover,
+    .hero-btn-cyan.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+    }
+
+    .hero-btn-gold {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: #fde047;
+    }
+
+    .hero-btn-gold:hover,
+    .hero-btn-gold.active {
+      background: rgba(234, 179, 8, 0.30);
+      color: #fef08a;
+    }
+
+    .hero-btn-menu-toggle {
+      background: #34d399;
+      border: 1px solid #6ee7b7;
+      color: #042f2e;
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+    }
+
+    body.menu-hidden .hero-btn-menu-toggle {
+      background: rgba(30, 58, 138, 0.48);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #e0f2fe;
+      box-shadow: none;
+    }
+
+    .filter-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 13px;
+      background: rgba(13, 19, 34, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(16px);
+      flex-shrink: 0;
+    }
+
+    .category-pills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .cat-btn {
+      height: 29px;
+      padding: 0 11px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(6, 10, 20, 0.72);
+      color: #94a3b8;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .cat-btn:hover { color: #e0f2fe; border-color: rgba(56, 189, 248, 0.38); }
+    .cat-btn.active {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #7dd3fc;
+      color: #040d1e;
+      font-weight: 800;
+    }
+
+    .search-box-wrap {
+      position: relative;
+      min-width: 220px;
+      max-width: 100%;
+      flex: 0 1 340px;
+    }
+
+    .search-box-wrap i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #38bdf8;
+      font-size: 11.5px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 30px;
+      padding: 0 12px 0 32px;
+      border-radius: 8px;
+      background: rgba(5, 10, 22, 0.88);
+      border: 1px solid rgba(56, 189, 248, 0.30);
+      color: #f8fafc;
+      font-size: 11.5px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
+    }
+
+    .carousel-shell {
+      position: relative;
+      border-radius: 16px;
+      background: rgba(10, 16, 30, 0.65);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      padding: 12px 16px 12px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .carousel-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .carousel-status-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .carousel-nav-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .carousel-arrow {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      background: rgba(15, 23, 42, 0.85);
+      color: #e0f2fe;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-arrow:hover {
+      background: #2563eb;
+      border-color: #7dd3fc;
+      color: #ffffff;
+    }
+
+    .cards-track {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: center;
+      align-content: center;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+    }
+
+    .cards-track:not(.grid-mode):not(.mode-3d) .card-3d-wrap {
+      min-height: 306px;
+      height: 306px;
+      max-height: 306px;
+    }
+
+    .cards-track:not(.grid-mode):not(.mode-3d) .card-img-banner {
+      height: 98px;
+    }
+
+    .cards-track.grid-mode {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      align-items: stretch;
+      align-content: start;
+    }
+
+    .cards-track.grid-mode .card-3d-wrap {
+      min-height: 306px;
+      height: 306px;
+      max-height: 306px;
+    }
+
+    .cards-track.grid-mode .card-img-banner {
+      height: 98px;
+    }
+
+    .cards-track.mode-3d {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 316px;
+      perspective: 1400px;
+      transform-style: preserve-3d;
+      overflow: hidden;
+      padding: 4px 0;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap {
+      position: absolute;
+      width: 274px;
+      max-width: calc(100% - 24px);
+      min-height: 306px;
+      height: 306px;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease, filter 0.48s ease, z-index 0.2s ease;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-center {
+      transform: translate3d(0, 0, 85px) rotateY(0deg) scale(1);
+      opacity: 1;
+      filter: blur(0px);
+      z-index: 5;
+      pointer-events: auto;
+      animation: card3dTurnIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-left {
+      transform: translate3d(-210px, 6px, -135px) rotateY(16deg) scale(0.84);
+      opacity: 0.24;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-right {
+      transform: translate3d(210px, 6px, -135px) rotateY(-16deg) scale(0.84);
+      opacity: 0.24;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface,
+    .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface {
+      background: linear-gradient(155deg, rgba(148, 163, 184, 0.24) 0%, rgba(30, 58, 138, 0.16) 55%, rgba(15, 23, 42, 0.26) 100%);
+      backdrop-filter: blur(22px) saturate(150%);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+      border-color: rgba(186, 230, 253, 0.34);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .cards-track.mode-3d .card-3d-wrap.slot-hidden {
+      transform: translate3d(0, 14px, -240px) rotateY(28deg) scale(0.68);
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-3d-wrap {
+      perspective: 1400px;
+      min-height: 0;
+      max-width: 100%;
+    }
+
+    .card-3d-wrap.sem-acesso .card-surface {
+      opacity: 0.30;
+      filter: saturate(0.28) brightness(0.72);
+      border-color: rgba(148, 163, 184, 0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.12; }
+    .card-3d-wrap.sem-acesso .card-surface:hover { opacity: 0.38; }
+
+    .card-3d-wrap.sem-acesso .btn-primary-card,
+    .card-3d-wrap.sem-acesso .btn-nova-aba {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+      border-color: rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.45);
+      color: #94a3b8;
+      box-shadow: none;
+    }
+
+    .card-surface {
+      --sweep-angle: 0deg;
+      --edge-a: #38bdf8;
+      --edge-b: #2563eb;
+      --edge-c: #93c5fd;
+      position: relative;
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(17, 35, 68, 0.56) 0%, rgba(7, 15, 32, 0.68) 100%);
+      backdrop-filter: blur(22px) saturate(155%);
+      -webkit-backdrop-filter: blur(22px) saturate(155%);
+      border: 1px solid rgba(147, 197, 253, 0.26);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.35s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, opacity 0.25s ease, filter 0.25s ease;
+      height: 100%;
+      overflow: hidden;
+      animation: paletteCycle360 44s steps(1, end) infinite;
+    }
+
+    .card-surface::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 2px;
+      background: conic-gradient(
+        from var(--sweep-angle),
+        transparent 0deg,
+        transparent 240deg,
+        var(--edge-b) 288deg,
+        var(--edge-a) 328deg,
+        var(--edge-c) 354deg,
+        transparent 360deg
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderSweep 11s linear infinite;
+      opacity: 0.72;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .card-surface:hover::before,
+    .card-surface.is-center::before {
+      padding: 2.2px;
+      opacity: 0.94;
+    }
+
+    .card-surface:hover,
+    .card-surface.is-center {
+      background: linear-gradient(160deg, rgba(22, 46, 88, 0.62) 0%, rgba(8, 18, 38, 0.72) 100%);
+      border-color: rgba(125, 211, 252, 0.52);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.62), 0 0 24px rgba(56, 189, 248, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 2;
+      padding: 10px 12px 11px;
+      border-radius: 15px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 7px;
+    }
+
+    .cards-track.mode-3d .card-body { padding: 10px 12px 11px; gap: 7px; }
+    .cards-track.mode-3d .card-img-banner { height: 96px; }
+
+    .cards-track.mode-3d .btn-primary-card,
+    .cards-track.mode-3d .btn-glass-card,
+    .cards-track.mode-3d .btn-nova-aba {
+      height: 31px;
+      min-height: 31px;
+      max-height: 31px;
+    }
+
+    .cards-track.mode-3d .acessar-line { height: 31px; }
+
+    .card-img-banner {
+      position: relative;
+      width: 100%;
+      height: 98px;
+      border-radius: 9px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .card-badge-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      z-index: 2;
+      padding: 2.5px 7px;
+      border-radius: 6px;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(14, 165, 233, 0.88);
+      border: 1px solid rgba(186, 230, 253, 0.65);
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-badge-tag.gold {
+      background: rgba(234, 179, 8, 0.92);
+      border-color: rgba(254, 240, 138, 0.75);
+      color: #1c1402;
+    }
+
+    .card-badge-tag.locked {
+      background: rgba(30, 41, 59, 0.92);
+      border-color: rgba(148, 163, 184, 0.45);
+      color: #cbd5e1;
+    }
+
+    .btn-fav-card {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      z-index: 2;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(5, 10, 22, 0.72);
+      color: #cbd5e1;
+      font-size: 9.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-fav-card:hover { border-color: #facc15; color: #fde047; }
+    .btn-fav-card.favorited {
+      background: rgba(234, 179, 8, 0.92);
+      border-color: #fef08a;
+      color: #1c1402;
+    }
+
+    .card-title-txt {
+      font-size: 13.5px;
+      line-height: 1.22;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    .card-desc-txt {
+      font-size: 11.5px;
+      line-height: 1.38;
+      color: #cbd5e1;
+      margin-top: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .kpi-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .kpi-pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: rgba(6, 16, 36, 0.68);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .kpi-pill-item i { color: #38bdf8; }
+    .kpi-success { color: #34d399 !important; border-color: rgba(52, 211, 153, 0.35) !important; }
+
+    .card-actions-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .acessar-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      height: 32px;
+    }
+
+    .btn-primary-card {
+      flex: 1 1 auto;
+      width: 100%;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid rgba(56, 189, 248, 0.58);
+      background: linear-gradient(180deg, rgba(14, 165, 233, 0.32) 0%, rgba(2, 132, 199, 0.20) 100%);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary-card:hover {
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      border-color: #bae6fd;
+      color: #040d1e;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-glass-card {
+      flex: 0 0 32px;
+      width: 100%;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid rgba(147, 197, 253, 0.28);
+      background: rgba(15, 29, 58, 0.52);
+      color: #e2e8f0;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-glass-card:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.16);
+    }
+
+    .btn-nova-aba {
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      flex-shrink: 0;
+      background: rgba(6, 18, 42, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 7px;
+      color: #38bdf8;
+      font-size: 10.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nova-aba:hover:not(:disabled) {
+      background: #38bdf8;
+      border-color: #ffffff;
+      color: #02060f;
+    }
+
+    .btn-nova-aba:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .pagination-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .p-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(148, 163, 184, 0.35);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .p-dot.active {
+      width: 24px;
+      background: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+
+    .details-drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      background: rgba(2, 6, 15, 0.72);
+      backdrop-filter: blur(6px);
+    }
+
+    .details-drawer-backdrop.open { display: block; }
+
+    .details-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 100%;
+      max-width: 390px;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 9995;
+      background: linear-gradient(170deg, rgba(13, 22, 42, 0.97) 0%, rgba(5, 10, 22, 0.99) 100%);
+      border-left: 1px solid rgba(56, 189, 248, 0.38);
+      box-shadow: -16px 0 42px rgba(0, 0, 0, 0.75);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: right 0.3s ease;
+    }
+
+    .details-drawer.open { right: 0; }
+
+    .details-drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .details-drawer-top h3 { font-size: 17px; font-weight: 800; color: #ffffff; }
+
+    .details-drawer-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e2e8f0;
+      cursor: pointer;
+    }
+
+    .details-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .details-meta-box {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(5, 10, 22, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .details-meta-box small {
+      display: block;
+      font-size: 9.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .details-meta-box strong {
+      display: block;
+      font-size: 12px;
+      color: #f8fafc;
+      margin-top: 3px;
+    }
+
+    .details-sublist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      max-height: 44vh;
+    }
+
+    .details-sublist li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .ellca-official-footer {
+      padding: 2px 2px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+
+    .footer-system-text {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: #94a3b8;
+    }
+
+    .footer-system-text strong { color: #f8fafc; font-weight: 700; }
+
+    .footer-right-actions {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-footer-support {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-footer-support:hover {
+      border-color: #38bdf8;
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .btn-footer-sair {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
+
+    @media (max-width: 1320px) { .cards-track { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+    @media (max-width: 1024px) {
+      body { height: auto; min-height: 100dvh; overflow-y: auto; overflow-x: hidden; }
+      .page-container { height: auto; min-height: calc(100dvh - 26px); }
+      .cards-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-height: 700px) and (min-width: 1025px) {
+      body { height: auto; min-height: 100dvh; overflow-y: auto; overflow-x: hidden; }
+      .page-container { height: auto; min-height: calc(100dvh - 26px); }
+    }
+
+    @media (max-width: 760px) {
+      .cards-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards-track.mode-3d .card-3d-wrap { width: 240px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-96px, 6px, -135px) rotateY(14deg) scale(0.78); }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(96px, 6px, -135px) rotateY(-14deg) scale(0.78); }
+      .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 10px 12px 14px; }
+      .hero-banner { padding: 12px 14px; }
+      .quick-stat-pill { min-width: 0; flex: 1 1 auto; }
+      .cards-track, .cards-track.grid-mode { grid-template-columns: 1fr; }
+      .cards-track.mode-3d .card-3d-wrap { width: 220px; }
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-58px, 6px, -135px) rotateY(14deg) scale(0.74); opacity: 0.12; }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(58px, 6px, -135px) rotateY(-14deg) scale(0.74); opacity: 0.12; }
+    }
+  </style>
 </head>
 
-<body class="bars-collapsed">
-    <script>
-        if (sessionStorage.getItem('ellca_auth') !== 'true') {
-            window.location.replace('login.html');
-        }
-    </script>
+<body>
+  <div class="page-container">
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">
-            <a href="index.html">
-                <img src="img/logo_ellca.png" alt="Logo ELLCA" class="logo-img">
-            </a>
+    <div class="top-navbar-collapse">
+      <header class="top-navbar">
+        <div class="nav-brand-side">
+          <a href="index.html" class="brand-logo" title="ELLCA">
+            <img src="img/logo_ellca.png" alt="Logo ELLCA"
+                 onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
+            <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
+          </a>
+
+          <span class="module-pill">
+            <span class="dot"></span>
+            REDES ONLINE • 12ms · SUPERVISÃO PRODUÇÃO
+          </span>
+
+          <span class="max-star-tag">
+            <i class="fa-solid fa-star"></i> MAX STAR 2.0
+          </span>
+
+          <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
 
-        <div class="mobile-header-actions">
-            <button type="button" class="btn-voltar btn-voltar-mobile" data-destino="home.html" title="Voltar para Home">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <button type="button" class="menu-mobile-btn" id="btnMenuMobileSup" aria-label="Abrir Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
-
-        <div class="nav-content" id="navContentSup">
-            <div class="nav-status">
-                <span class="pulse-dot"></span>
-                <span class="status-text">SUPERVISOR • OPERAÇÕES</span>
-            </div>
-
-            <div class="nav-links">
-                <a href="home.html" class="nav-item">HOME <i class="fa-solid fa-house-user"></i></a>
-                <a href="programacao_live.html" class="nav-item">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></a>
-                <a href="producao.html" class="nav-item">PRODUÇÃO <i class="fa-solid fa-industry"></i></a>
-                <a href="dashboard.html" class="nav-item">DASHBOARD <i class="fa-solid fa-chart-pie"></i></a>
-
-                <div class="nav-actions-group">
-                    <button type="button" class="btn-voltar btn-voltar-desktop" data-destino="home.html" title="Voltar para Home">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- CONTAINER PRINCIPAL PADRONIZADO COM SPLIT-SCREEN -->
-    <div class="container">
-        <div class="item active" style="background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.55)), url('img/Capa_home.jpg');">
-
-            <div class="split-screen">
-
-                <!-- COLUNA ESQUERDA -->
-                <div class="text-section">
-                    <div class="topic">OPERAÇÕES & CAMPO</div>
-
-                    <h1 class="title">
-                        MÓDULO <br>
-                        <span>SUPERVISOR</span>
-                    </h1>
-
-                    <p class="des">
-                        Selecione o painel ao lado para gerenciar as Ordens de Serviço programadas ou acompanhar o realizado em campo, apontamentos pendentes e aderência por equipe.
-                    </p>
-
-                    <div class="home-quick-stats">
-                        <div class="quick-stat-box">
-                            <small>Módulos Ativos</small>
-                            <strong>2 Painéis</strong>
-                        </div>
-                        <div class="quick-stat-box">
-                            <small>Base Operacional</small>
-                            <strong>Programação & Prod.</strong>
-                        </div>
-                        <div class="quick-stat-box">
-                            <small>Sincronização</small>
-                            <strong>Google Sheets</strong>
-                        </div>
-                    </div>
-
-                    <div class="sup-left-controls">
-                        <button type="button" class="btn-exec" id="btnToggleBars" title="Exibir ou ocultar menu superior e rodapé">
-                            <i class="fa-solid fa-bars" id="iconToggleBars"></i>
-                            <span id="textToggleBars">Mostrar Menu</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- COLUNA DIREITA: CARDS LADO A LADO (DESKTOP) E EMPILHADOS (MOBILE) -->
-                <div class="cards-section">
-                    <div class="sup-cards-row">
-
-                        <!-- CARD 1: PROGRAMAÇÃO -->
-                        <div class="glass-card card-front" data-title="programacao ordens servico frota">
-                            <div class="badge">PROGRAMAÇÃO <i class="fa-solid fa-calendar-check"></i></div>
-                            <div class="img-box" style="background-image: url('img/Programacao.jpg');"></div>
-                            <h3>PROGRAMAÇÃO</h3>
-                            <p class="card-desc">Ordens de Serviço programadas, escalas de equipes, supervisores, bairros e materiais solicitados.</p>
-                            <div class="kpi-mini">
-                                <span class="kpi-success" id="cardProgValor"><i class="fa-solid fa-sack-dollar"></i> R$ 223.630,00</span>
-                                <span id="cardProgQtd"><i class="fa-solid fa-list-check"></i> 34 OS</span>
-                            </div>
-                            <div class="actions">
-                                <button type="button" class="btn-primary" onclick="window.location.href='programacao_live.html'">
-                                    ACESSAR <i class="fa-solid fa-rocket"></i>
-                                </button>
-                                <button type="button" class="btn-glass" onclick="window.location.href='programacao_live.html'">
-                                    PAINEL
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- CARD 2: PRODUÇÃO -->
-                        <div class="glass-card card-front card-gerencial" data-title="producao realizado campo apontamento">
-                            <div class="badge gold">PRODUÇÃO <i class="fa-solid fa-chart-line"></i></div>
-                            <div class="img-box" style="background-image: url('img/Card_dashboard.jpg');"></div>
-                            <h3>PRODUÇÃO</h3>
-                            <p class="card-desc">Complemento para acompanhar o realizado em campo, apontamentos pendentes, desvios e aderência por equipe.</p>
-                            <div class="kpi-mini">
-                                <span class="kpi-success" id="cardProdReal"><i class="fa-solid fa-check-double"></i> R$ 0,00</span>
-                                <span id="cardProdPend"><i class="fa-solid fa-hourglass-half"></i> 43 pendentes</span>
-                            </div>
-                            <div class="actions">
-                                <button type="button" class="btn-primary" onclick="window.location.href='producao.html'">
-                                    ACESSAR <i class="fa-solid fa-rocket"></i>
-                                </button>
-                                <button type="button" class="btn-glass" onclick="window.location.href='producao.html'">
-                                    DASHBOARD
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- RODAPÉ -->
-        <footer class="footer-bar">
-            <div class="footer-info">
-                <span><i class="fa-solid fa-shield-halved"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
-                <span class="separator">•</span>
-                <span>Módulo: <strong>Supervisor</strong></span>
-            </div>
-            <div class="footer-actions">
-                <button type="button" class="footer-btn" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-                    <i class="fa-solid fa-headset"></i> Suporte
-                </button>
-                <span class="separator">•</span>
-                <span class="footer-greeting"><i class="fa-solid fa-user-check"></i> Olá, <strong id="footerUserName">Rodrigo Lopes</strong></span>
-                <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
-                    <i class="fa-solid fa-right-from-bracket"></i> Sair
-                </button>
-            </div>
-        </footer>
+        <nav class="nav-links-side" aria-label="Menu do Portal">
+          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house-user"></i> HOME</a>
+          <a href="supervisor.html" class="top-nav-link active"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
+          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
+          <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
+          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Home">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+        </nav>
+      </header>
     </div>
 
-    <script>
-        (function iniciarSupervisor() {
-            const SHEET_ID = '1IwjJSuEgawEpNEGdj654InZgEhM-85vS7F7I6zBK8Fs';
-            const fmtBRL = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            const parseNum = (v) => {
-                if (typeof v === 'number') return v;
-                if (!v) return 0;
-                const clean = String(v).replace(/R\$/g, '').replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '').trim();
-                return parseFloat(clean) || 0;
-            };
+    <section class="hero-banner">
+      <div class="hero-top-split">
+        <div class="hero-title-row">
+          <div class="hero-icon-box">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <div class="hero-kicker">ACOMPANHAMENTO DE FRENTES & EQUIPES · PREMIUM MAX STAR 2.0</div>
+            <h1 class="hero-main-title">SUPERVISÃO DE <span>PRODUÇÃO</span></h1>
+            <p class="hero-subtitle">
+              Acompanhamento de frentes ativas, programação de campo, produtividade por equipe e controle operacional em tempo real.
+            </p>
+          </div>
+        </div>
 
-            const footerUserName = document.getElementById('footerUserName');
-            const btnSairRodape = document.getElementById('btnSairRodape');
-            const nomeSessao =
-                sessionStorage.getItem('ellca_user_name') ||
-                localStorage.getItem('ellca_user_name') ||
-                'Rodrigo Lopes';
+        <div class="hero-right-stats tabular">
+          <div class="quick-stat-pill">
+            <small>Frentes Ativas</small>
+            <strong>6 Frentes</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Programado vs. Real</small>
+            <strong style="color:#34d399;">93% Aderência</strong>
+          </div>
+          <div class="quick-stat-pill">
+            <small>Status Campo</small>
+            <strong style="color:#38bdf8;">Em Operação</strong>
+          </div>
+        </div>
+      </div>
 
-            if (footerUserName) {
-                footerUserName.textContent = nomeSessao;
-            }
+      <div class="hero-actions-row">
+        <span class="live-badge tabular">
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span id="liveClockTxt">Campo Monitorado · --:--</span>
+        </span>
 
-            if (btnSairRodape) {
-                btnSairRodape.addEventListener('click', () => {
-                    sessionStorage.removeItem('ellca_auth');
-                    window.location.href = 'login.html';
-                });
-            }
+        <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
+          <i class="fa-solid fa-sliders"></i> MODO CARROSSEL
+        </button>
 
-            const btnToggleBars = document.getElementById('btnToggleBars');
-            const iconToggleBars = document.getElementById('iconToggleBars');
-            const textToggleBars = document.getElementById('textToggleBars');
-            let collapsed = true;
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D">
+          <i class="fa-solid fa-cube"></i> MODO CARROSSEL 3D
+        </button>
 
-            if (btnToggleBars) {
-                btnToggleBars.addEventListener('click', () => {
-                    collapsed = !collapsed;
-                    document.body.classList.toggle('bars-collapsed', collapsed);
-                    btnToggleBars.classList.toggle('active-mode', !collapsed);
-                    iconToggleBars.className = collapsed ? 'fa-solid fa-bars' : 'fa-solid fa-eye-slash';
-                    textToggleBars.textContent = collapsed ? 'Mostrar Menu' : 'Ocultar Menu';
-                });
-            }
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade">
+          <i class="fa-solid fa-table-cells"></i> MODO GRADE
+        </button>
 
-            // Menu mobile e botões voltar
-            const btnMenuMobile = document.getElementById('btnMenuMobileSup');
-            const navContent = document.getElementById('navContentSup');
-            if (btnMenuMobile && navContent) {
-                btnMenuMobile.addEventListener('click', () => {
-                    navContent.classList.toggle('ativo');
-                });
-            }
+        <button type="button" class="hero-btn hero-btn-gold" id="btnFiltroFavoritos">
+          <i class="fa-solid fa-star"></i> FAVORITOS (<span id="favCountTxt">0</span>)
+        </button>
 
-            document.querySelectorAll('.btn-voltar').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    window.location.href = btn.getAttribute('data-destino') || 'home.html';
-                });
+        <button type="button" class="hero-btn hero-btn-blue" id="btnAutoPlay">
+          <i class="fa-solid fa-pause" id="iconAutoPlay"></i> <span id="txtAutoPlay">AUTOPLAY: ON</span>
+        </button>
+
+        <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu" style="margin-left:auto;">
+          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="txtToggleMenu">OCULTAR MENU</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="filter-toolbar">
+      <div class="category-pills" id="categoryPills">
+        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (6)</button>
+        <button type="button" class="cat-btn" data-cat="CAMPO"><i class="fa-solid fa-hard-hat"></i> Campo & Equipes</button>
+        <button type="button" class="cat-btn" data-cat="PLANEJAMENTO"><i class="fa-solid fa-calendar-check"></i> Programação</button>
+        <button type="button" class="cat-btn" data-cat="QUALIDADE"><i class="fa-solid fa-clipboard-check"></i> Qualidade & Segurança</button>
+      </div>
+
+      <div class="search-box-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar frente, equipe ou rotina de supervisão..." />
+      </div>
+    </div>
+
+    <section class="carousel-shell">
+      <div class="carousel-header-bar">
+        <span class="carousel-status-label" id="carouselStatusLabel">
+          <i class="fa-solid fa-user-shield"></i> EXIBINDO 6 FRENTES · MODO CARROSSEL
+        </span>
+
+        <div class="carousel-nav-controls" id="carouselNavControls">
+          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="cards-track" id="cardsWrapper"></div>
+      <div class="pagination-dots" id="paginationDots"></div>
+    </section>
+
+    <footer class="ellca-official-footer">
+      <div class="footer-system-text">
+        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
+        <span>•</span>
+        <span>Módulo: <strong>Supervisão de Produção</strong></span>
+      </div>
+
+      <div class="footer-right-actions">
+        <button type="button" class="btn-footer-support" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
+          <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
+        </button>
+        <span style="color:#cbd5e1;"><i class="fa-solid fa-user-check" style="color:#34d399;"></i> Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
+        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
+  <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
+    <div class="details-drawer-top">
+      <h3 id="drawerModTitulo">Frente de Supervisão</h3>
+      <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <p id="drawerModDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
+    <div class="details-meta-grid">
+      <div class="details-meta-box">
+        <small>Categoria</small>
+        <strong id="drawerModCat">CAMPO</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Indicador</small>
+        <strong id="drawerModKpi">93% Aderência</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Área</small>
+        <strong id="drawerModRota">Produção</strong>
+      </div>
+      <div class="details-meta-box">
+        <small>Permissão</small>
+        <strong id="drawerModPerm">AUTORIZADO</strong>
+      </div>
+    </div>
+    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
+      Rotinas de Supervisão
+    </div>
+    <ul class="details-sublist" id="drawerModRecursos"></ul>
+    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
+      ABRIR PAINEL DE SUPERVISÃO <i class="fa-solid fa-user-shield"></i>
+    </button>
+  </aside>
+
+  <script>
+    (function iniciarSupervisorMaxStar() {
+      const PERMISSOES_POR_USUARIO = {
+        "Administrador": ["todos"],
+        "Rodrigo Lopes": ["todos"],
+        "Arioston Paixão": ["todos"],
+        "Jhonattan Alencar": ["todos"],
+        "Adriana Costa": ["almoxarifado"],
+        "Adriano Leite": ["produtividade", "estrutura", "programacao"],
+        "Elenilson Lima": ["produtividade", "estrutura", "programacao"],
+        "Jadison Santos": ["produtividade", "estrutura", "programacao", "backoffice"],
+        "Janilson Vieira": ["produtividade", "estrutura", "programacao"],
+        "José Amiel": ["produtividade", "estrutura", "programacao"],
+        "Júlio Moura": ["produtividade", "estrutura", "programacao"],
+        "Fabio Lima": ["projeto", "programacao"],
+        "Ana Carolina": ["backoffice"],
+        "Danel Pantoja": ["backoffice"],
+        "Gladson Afonso": ["backoffice"],
+        "Suellem Lopes": ["projeto", "programacao"],
+        "Eduarda Ribeiro": ["rh", "dp"],
+        "Alex Sandro": ["frota"],
+        "Andreza Gomes": ["rh", "dp"],
+        "Vanessa Oliveira": ["rh", "dp"],
+        "Wellington Pantoja": ["rh", "dp"],
+        "Jacqueline Pimentel": ["infraestrutura"],
+        "Fernanda Dantas": ["infraestrutura"]
+      };
+
+      const FRENTES_SUPERVISAO = [
+        {
+          key: "sup_produtividade",
+          setor: "produtividade",
+          categoria: "CAMPO",
+          badge: "EQUIPES",
+          badgeGold: true,
+          icone: "fa-people-group",
+          imagem: "img/Card_produtividade.jpg",
+          titulo: "PRODUTIVIDADE DE CAMPO",
+          desc: "Acompanhamento diário de entregas, ritmo das equipes e metas por frente.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> 94%</span>',
+          kpi2: '<span><i class="fa-solid fa-users"></i> Equipes</span>',
+          kpiResumo: "94% · Equipes",
+          url: "#sup-produtividade",
+          setorLabel: "Produtividade",
+          searchTags: "produtividade campo equipes ritmo metas",
+          recursos: ["Acompanhamento diário por equipe", "Comparativo com meta do dia", "Identificação de atrasos"]
+        },
+        {
+          key: "sup_programacao",
+          setor: "programacao",
+          categoria: "PLANEJAMENTO",
+          badge: "AGENDA",
+          badgeGold: false,
+          icone: "fa-calendar-check",
+          imagem: "img/Programacao.jpg",
+          titulo: "PROGRAMAÇÃO DIÁRIA",
+          desc: "Conferência do plano de execução, distribuição de serviços e reagendamentos.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
+          kpi2: '<span><i class="fa-solid fa-calendar-day"></i> Hoje</span>',
+          kpiResumo: "93% · Hoje",
+          url: "#sup-programacao",
+          setorLabel: "Programação",
+          searchTags: "programacao diaria agenda execucao frentes",
+          recursos: ["Programado vs. Executado", "Ajustes de alocação em campo", "Status das ordens e frentes"]
+        },
+        {
+          key: "sup_estrutura",
+          setor: "estrutura",
+          categoria: "CAMPO",
+          badge: "ESTRUTURA",
+          badgeGold: true,
+          icone: "fa-helmet-safety",
+          imagem: "img/Card_produtividade.jpg",
+          titulo: "ESTRUTURA & RECURSOS",
+          desc: "Disponibilidade de recursos de campo, apoio logístico e condições de execução.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> Ativo</span>',
+          kpi2: '<span><i class="fa-solid fa-screwdriver-wrench"></i> Apoio</span>',
+          kpiResumo: "Ativo · Apoio",
+          url: "#sup-estrutura",
+          setorLabel: "Estrutura",
+          searchTags: "estrutura recursos apoio campo logistica",
+          recursos: ["Condições operacionais das frentes", "Solicitações de apoio em campo", "Alinhamento de recursos"]
+        },
+        {
+          key: "sup_auditoria_campo",
+          setor: "programacao",
+          categoria: "QUALIDADE",
+          badge: "AUDITORIA",
+          badgeGold: false,
+          icone: "fa-clipboard-check",
+          imagem: "img/Card_base_dados.jpg",
+          titulo: "INSPEÇÕES & QUALIDADE",
+          desc: "Validação de execução em campo, registros fotográficos e tratativa de desvios.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> 92%</span>',
+          kpi2: '<span><i class="fa-solid fa-check"></i> Qualidade</span>',
+          kpiResumo: "92% · Qualidade",
+          url: "#sup-auditoria-campo",
+          setorLabel: "Qualidade de Campo",
+          searchTags: "inspecoes qualidade auditoria desvios campo",
+          recursos: ["Conferência de padrões de execução", "Acompanhamento de pendências", "Validação de encerramento"]
+        },
+        {
+          key: "sup_frota_campo",
+          setor: "frota",
+          categoria: "PLANEJAMENTO",
+          badge: "FROTA",
+          badgeGold: true,
+          icone: "fa-truck-fast",
+          imagem: "img/Card_dashboard.jpg",
+          titulo: "DESLOCAMENTO & FROTA",
+          desc: "Monitoramento de veículos alocados, manutenções e apoio às equipes externas.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-truck"></i> 91%</span>',
+          kpi2: '<span><i class="fa-solid fa-route"></i> Rota</span>',
+          kpiResumo: "91% · Rota",
+          url: "#sup-frota-campo",
+          setorLabel: "Frota",
+          searchTags: "frota deslocamento veiculos equipes campo",
+          recursos: ["Disponibilidade de veículos por frente", "Alertas de manutenção", "Apoio ao deslocamento"]
+        },
+        {
+          key: "sup_seguranca",
+          setor: "produtividade",
+          categoria: "QUALIDADE",
+          badge: "SEGURANÇA",
+          badgeGold: false,
+          icone: "fa-shield-virus",
+          imagem: "img/Card_gerencial.jpg",
+          titulo: "CONFORMIDADE & DDS",
+          desc: "Alinhamento de segurança operacional, orientações de início de turno e prevenção.",
+          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> 98%</span>',
+          kpi2: '<span><i class="fa-solid fa-clipboard-list"></i> Turno</span>',
+          kpiResumo: "98% · Turno",
+          url: "#sup-seguranca",
+          setorLabel: "Segurança Operacional",
+          searchTags: "seguranca dds conformidade turno campo",
+          recursos: ["Registros de orientação diária", "Acompanhamento de práticas seguras", "Prevenção de incidentes"]
+        }
+      ];
+
+      const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
+      let setoresSessao = null;
+      try {
+        const raw = sessionStorage.getItem("ellca_user_setores");
+        if (raw) setoresSessao = JSON.parse(raw);
+      } catch { setoresSessao = null; }
+
+      let modoVisualizacao = "carrossel";
+      let categoriaAtiva = "TODOS";
+      let somenteFavoritos = false;
+      let indiceCarrossel = 0;
+      let autoPlayAtivo = true;
+      let timerCarrossel = null;
+      let itemAtualDrawer = null;
+
+      const cardsWrapper = document.getElementById("cardsWrapper");
+      const paginationDots = document.getElementById("paginationDots");
+      const detailsBackdrop = document.getElementById("detailsBackdrop");
+      const detailsDrawer = document.getElementById("detailsDrawer");
+
+      function obterIniciais(nome) {
+        const partes = String(nome || "RL").trim().split(/\s+/);
+        if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+        return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      function obterSetoresPermitidosUsuario() {
+        if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
+          return setoresSessao.map(s => String(s).toLowerCase());
+        }
+        const lista = PERMISSOES_POR_USUARIO[usuarioAtual] || [];
+        return lista.map(s => String(s).toLowerCase());
+      }
+
+      function usuarioTemAcesso(item) {
+        if (!item.setor) return true;
+        const permitidos = obterSetoresPermitidosUsuario();
+        return permitidos.includes("todos") || permitidos.includes("*") || permitidos.includes(String(item.setor).toLowerCase());
+      }
+
+      document.getElementById("footerUserName").textContent = usuarioAtual;
+      document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
+      document.getElementById("userAvatarInitials").title = usuarioAtual;
+
+      document.getElementById("btnVoltarHome").addEventListener("click", () => {
+        window.location.href = "home.html";
+      });
+
+      document.getElementById("btnSairRodape").addEventListener("click", () => {
+        sessionStorage.removeItem("ellca_auth");
+        sessionStorage.removeItem("ellca_user_name");
+        sessionStorage.removeItem("ellca_user_setores");
+        window.location.href = "login.html";
+      });
+
+      function atualizarRelogio() {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        document.getElementById("liveClockTxt").textContent = `Campo Monitorado · ${hh}:${mm}`;
+      }
+      atualizarRelogio();
+      setInterval(atualizarRelogio, 30000);
+
+      function obterFavoritos() {
+        try { return JSON.parse(localStorage.getItem("ellca_supervisor_favs") || "[]"); }
+        catch { return []; }
+      }
+
+      function salvarFavoritos(lista) {
+        localStorage.setItem("ellca_supervisor_favs", JSON.stringify(lista));
+        document.getElementById("favCountTxt").textContent = lista.length;
+      }
+      document.getElementById("favCountTxt").textContent = obterFavoritos().length;
+
+      function obterItensFiltrados() {
+        const termo = document.getElementById("moduleSearch").value.trim().toLowerCase();
+        const favs = obterFavoritos();
+
+        return FRENTES_SUPERVISAO
+          .map((mod, idx) => ({ ...mod, origIdx: idx }))
+          .filter(mod => {
+            const okCat = categoriaAtiva === "TODOS" || mod.categoria === categoriaAtiva;
+            const okFav = !somenteFavoritos || favs.includes(mod.key);
+            const okBusca = !termo || `${mod.titulo} ${mod.desc} ${mod.searchTags}`.toLowerCase().includes(termo);
+            return okCat && okFav && okBusca;
+          })
+          .sort((a, b) => {
+            const aFav = favs.includes(a.key) ? 0 : 1;
+            const bFav = favs.includes(b.key) ? 0 : 1;
+            if (aFav !== bFav) return aFav - bFav;
+            return a.origIdx - b.origIdx;
+          });
+      }
+
+      function obterQtdVisivelCarrossel() {
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 760) return 2;
+        if (window.innerWidth <= 1024) return 3;
+        if (window.innerWidth <= 1320) return 4;
+        return 5;
+      }
+
+      function criarHtmlCard(mod, favs, isCenter, slotClass = "") {
+        const permitido = usuarioTemAcesso(mod);
+        const isFav = favs.includes(mod.key);
+
+        return `
+          <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}">
+            <div class="card-surface ${isCenter ? "is-center" : ""}">
+              <div class="card-body">
+                <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
+                  <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
+                    ${permitido ? `${mod.badge} <i class="fa-solid ${mod.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
+                  </span>
+                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos">
+                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                  </button>
+                </div>
+
+                <div>
+                  <h3 class="card-title-txt">${mod.titulo}</h3>
+                  <p class="card-desc-txt">${mod.desc}</p>
+                </div>
+
+                <div class="kpi-pills-row">
+                  <span class="kpi-pill-item">${mod.kpi1}</span>
+                  <span class="kpi-pill-item">${mod.kpi2}</span>
+                </div>
+
+                <div class="card-actions-stack">
+                  <div class="acessar-line">
+                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                      ${permitido ? `ABRIR <i class="fa-solid fa-user-shield"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                    </button>
+                    <button type="button" class="btn-nova-aba btn-detalhes-mod" data-key="${mod.key}" title="Detalhes">
+                      <i class="fa-solid fa-circle-info"></i>
+                    </button>
+                  </div>
+                  <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
+                    DETALHES
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderizarCards() {
+        const itens = obterItensFiltrados();
+        const total = itens.length;
+
+        cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
+        cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
+
+        const mostraSetas = modoVisualizacao !== "grade" && total > 1;
+        document.getElementById("carouselNavControls").style.display = mostraSetas ? "inline-flex" : "none";
+        paginationDots.style.display = mostraSetas ? "flex" : "none";
+
+        const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
+        document.getElementById("carouselStatusLabel").innerHTML =
+          `<i class="fa-solid fa-user-shield"></i> EXIBINDO ${total} DE ${FRENTES_SUPERVISAO.length} FRENTES · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+
+        if (total === 0) {
+          cardsWrapper.innerHTML = `
+            <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none;">
+              <div class="card-surface">
+                <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
+                  <strong style="color:#7dd3fc; font-size:15px;">Nenhuma frente encontrada para o filtro atual.</strong>
+                  <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
+                </div>
+              </div>
+            </div>
+          `;
+          paginationDots.innerHTML = "";
+          return;
+        }
+
+        if (indiceCarrossel >= total) indiceCarrossel = 0;
+        const favs = obterFavoritos();
+
+        if (modoVisualizacao === "3d") {
+          const prevIdx = (indiceCarrossel - 1 + total) % total;
+          const nextIdx = (indiceCarrossel + 1) % total;
+
+          cardsWrapper.innerHTML = itens.map((item, idx) => {
+            let slotClass = "slot-hidden";
+            if (idx === indiceCarrossel) slotClass = "slot-center";
+            else if (total > 1 && idx === prevIdx) slotClass = "slot-left";
+            else if (total > 2 && idx === nextIdx) slotClass = "slot-right";
+            return criarHtmlCard(item, favs, idx === indiceCarrossel, slotClass);
+          }).join("");
+        } else if (modoVisualizacao === "grade") {
+          cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i === 0, "")).join("");
+        } else {
+          const qtdVisivel = Math.min(obterQtdVisivelCarrossel(), total);
+          const listaExibida = [];
+          for (let i = 0; i < qtdVisivel; i++) {
+            listaExibida.push(itens[(indiceCarrossel + i) % total]);
+          }
+          cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i === 0, "")).join("");
+        }
+
+        if (mostraSetas) {
+          paginationDots.innerHTML = itens.map((_, idx) => `
+            <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
+          `).join("");
+
+          paginationDots.querySelectorAll(".p-dot").forEach(dot => {
+            dot.addEventListener("click", () => {
+              indiceCarrossel = Number(dot.getAttribute("data-dot-idx"));
+              renderizarCards();
             });
+          });
+        }
 
-            const cbName = 'cbSup_' + Math.random().toString(36).slice(2, 9);
-            const script = document.createElement('script');
-            const timer = setTimeout(() => {
-                delete window[cbName];
-                if (script.parentNode) script.parentNode.removeChild(script);
-            }, 6000);
+        vincularEventosCards();
+        aplicarTilt3D();
+      }
 
-            window[cbName] = function (json) {
-                clearTimeout(timer);
-                delete window[cbName];
-                if (script.parentNode) script.parentNode.removeChild(script);
+      function vincularEventosCards() {
+        cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const mod = FRENTES_SUPERVISAO.find(m => m.key === btn.getAttribute("data-key"));
+            if (!mod || !usuarioTemAcesso(mod)) return;
+            abrirDrawerDetalhes(mod.key);
+          });
+        });
 
-                if (!json || !json.table || !Array.isArray(json.table.rows)) return;
+        cardsWrapper.querySelectorAll(".btn-detalhes-mod").forEach(btn => {
+          btn.addEventListener("click", () => abrirDrawerDetalhes(btn.getAttribute("data-key")));
+        });
 
-                const osSet = new Set();
-                let valProg = 0;
-                let valReal = 0;
-                let pendentes = 0;
+        cardsWrapper.querySelectorAll(".btn-fav-card").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const key = btn.getAttribute("data-fav-key");
+            let favs = obterFavoritos();
+            if (favs.includes(key)) favs = favs.filter(x => x !== key);
+            else favs.unshift(key);
+            salvarFavoritos(favs);
+            renderizarCards();
+          });
+        });
+      }
 
-                json.table.rows.forEach((r) => {
-                    const c = r.c || [];
-                    const getStr = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? String(c[i].v).trim() : '';
-                    const getNum = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? parseNum(c[i].v) : 0;
+      function aplicarTilt3D() {
+        document.querySelectorAll(".card-3d-wrap:not(.sem-acesso):not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
+          const surface = wrap.querySelector(".card-surface");
+          if (!surface || wrap.dataset.tiltBound) return;
+          wrap.dataset.tiltBound = "1";
+          wrap.addEventListener("mousemove", (e) => {
+            const rect = wrap.getBoundingClientRect();
+            const nx = (e.clientX - rect.left) / rect.width - 0.5;
+            const ny = (e.clientY - rect.top) / rect.height - 0.5;
+            surface.style.setProperty("--ry", `${(nx * 2.2).toFixed(2)}deg`);
+            surface.style.setProperty("--rx", `${(-ny * 2.2).toFixed(2)}deg`);
+          });
+          wrap.addEventListener("mouseleave", () => {
+            surface.style.setProperty("--ry", "0deg");
+            surface.style.setProperty("--rx", "0deg");
+          });
+        });
+      }
 
-                    const os = getStr(1);
-                    const equipe = getStr(3);
-                    if (os && os !== 'OS' && equipe) {
-                        osSet.add(os);
-                        valProg += getNum(12);
-                        const st = (getStr(13) || 'AGUARDANDO APONTAMENTO').toUpperCase();
-                        valReal += getNum(16);
-                        if (st.includes('AGUARDANDO')) pendentes++;
-                    }
-                });
+      function abrirDrawerDetalhes(key) {
+        const mod = FRENTES_SUPERVISAO.find(m => m.key === key);
+        if (!mod) return;
+        itemAtualDrawer = mod;
+        const permitido = usuarioTemAcesso(mod);
 
-                if (osSet.size > 0) {
-                    document.getElementById('cardProgValor').innerHTML = `<i class="fa-solid fa-sack-dollar"></i> ${fmtBRL(valProg)}`;
-                    document.getElementById('cardProgQtd').innerHTML = `<i class="fa-solid fa-list-check"></i> ${osSet.size} OS`;
-                    document.getElementById('cardProdReal').innerHTML = `<i class="fa-solid fa-check-double"></i> ${fmtBRL(valReal)}`;
-                    document.getElementById('cardProdPend').innerHTML = `<i class="fa-solid fa-hourglass-half"></i> ${pendentes} pendentes`;
-                }
-            };
+        document.getElementById("drawerModTitulo").textContent = mod.titulo;
+        document.getElementById("drawerModDesc").textContent = mod.desc;
+        document.getElementById("drawerModCat").textContent = mod.categoria;
+        document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
+        document.getElementById("drawerModRota").textContent = mod.setorLabel;
+        document.getElementById("drawerModPerm").textContent = permitido ? "AUTORIZADO" : "BLOQUEADO";
+        document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
 
-            script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent('Produção')}&tqx=responseHandler:${cbName}`;
-            script.onerror = () => clearTimeout(timer);
-            document.body.appendChild(script);
-        })();
-    </script>
-    <script src="script.js"></script>
+        document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
+          <li>
+            <span>${rec}</span>
+            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i>
+          </li>
+        `).join("");
+
+        const btnDrawer = document.getElementById("btnDrawerAcessar");
+        btnDrawer.disabled = !permitido;
+        btnDrawer.style.opacity = permitido ? "1" : "0.45";
+        btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
+        btnDrawer.innerHTML = permitido
+          ? `ABRIR PAINEL DE SUPERVISÃO <i class="fa-solid fa-user-shield"></i>`
+          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
+
+        detailsBackdrop.classList.add("open");
+        detailsDrawer.classList.add("open");
+      }
+
+      function fecharDrawerDetalhes() {
+        detailsBackdrop.classList.remove("open");
+        detailsDrawer.classList.remove("open");
+      }
+
+      document.getElementById("btnFecharDrawer").addEventListener("click", fecharDrawerDetalhes);
+      detailsBackdrop.addEventListener("click", fecharDrawerDetalhes);
+      document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
+        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
+        alert(`Frente selecionada: ${itemAtualDrawer.titulo}. Vincule aqui a rota ou painel correspondente.`);
+      });
+
+      function avancarCarrossel(passo) {
+        const total = obterItensFiltrados().length;
+        if (total <= 1) return;
+        indiceCarrossel = (indiceCarrossel + passo + total) % total;
+        renderizarCards();
+      }
+
+      document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
+      document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
+
+      function iniciarAutoPlay() {
+        clearInterval(timerCarrossel);
+        if (!autoPlayAtivo || modoVisualizacao === "grade") return;
+        timerCarrossel = setInterval(() => avancarCarrossel(1), 5500);
+      }
+
+      document.getElementById("btnAutoPlay").addEventListener("click", () => {
+        autoPlayAtivo = !autoPlayAtivo;
+        document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
+        document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
+        iniciarAutoPlay();
+      });
+
+      const btnModoCarrossel = document.getElementById("btnModoCarrossel");
+      const btnModoCarrossel3D = document.getElementById("btnModoCarrossel3D");
+      const btnModoGrade = document.getElementById("btnModoGrade");
+
+      function atualizarBotoesModo(novoModo) {
+        modoVisualizacao = novoModo;
+        btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoCarrossel3D.className = novoModo === "3d" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        btnModoGrade.className = novoModo === "grade" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
+        iniciarAutoPlay();
+        renderizarCards();
+      }
+
+      btnModoCarrossel.addEventListener("click", () => atualizarBotoesModo("carrossel"));
+      btnModoCarrossel3D.addEventListener("click", () => atualizarBotoesModo("3d"));
+      btnModoGrade.addEventListener("click", () => atualizarBotoesModo("grade"));
+
+      document.getElementById("btnFiltroFavoritos").addEventListener("click", () => {
+        somenteFavoritos = !somenteFavoritos;
+        document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
+        indiceCarrossel = 0;
+        renderizarCards();
+      });
+
+      document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#categoryPills .cat-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          categoriaAtiva = btn.getAttribute("data-cat");
+          indiceCarrossel = 0;
+          renderizarCards();
+        });
+      });
+
+      document.getElementById("moduleSearch").addEventListener("input", () => {
+        indiceCarrossel = 0;
+        renderizarCards();
+      });
+
+      document.getElementById("btnToggleMenu").addEventListener("click", () => {
+        const oculto = document.body.classList.toggle("menu-hidden");
+        document.getElementById("iconToggleMenu").className = oculto ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
+        document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
+      });
+
+      window.addEventListener("resize", () => {
+        if (modoVisualizacao === "carrossel") renderizarCards();
+      });
+
+      renderizarCards();
+      iniciarAutoPlay();
+    })();
+  </script>
 </body>
 
 </html>
