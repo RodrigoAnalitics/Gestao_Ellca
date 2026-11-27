@@ -27,6 +27,11 @@
             --bronze-glow: rgba(205, 127, 50, 0.22);
         }
 
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.65; }
+        }
+
         html, body {
             height: 100%;
             margin: 0;
@@ -67,7 +72,7 @@
             background-position: center;
         }
 
-        /* ================= NAVBAR PADRONIZADA DOS SETORES ================= */
+        /* ================= NAVBAR IGUAL AO DASHBOARD.HTML ================= */
         .top-navbar-collapse,
         .footer-bar {
             transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease, max-height 0.28s ease;
@@ -91,13 +96,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
             gap: 10px;
-            padding: 10px 24px;
+            padding: 8px 20px;
             width: 100%;
-            background: rgba(5, 10, 22, 0.86);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.22);
+            background: rgba(5, 8, 17, 0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.24);
             position: fixed;
             top: 0;
             left: 0;
@@ -108,14 +114,14 @@
         .nav-brand-side {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
-            flex-shrink: 0;
         }
 
         .brand-logo {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             text-decoration: none;
             color: #ffffff;
             font-weight: 800;
@@ -123,9 +129,9 @@
         }
 
         .brand-logo img {
-            height: 32px;
+            height: 34px;
             width: auto;
-            max-width: 140px;
+            max-width: 150px;
             object-fit: contain;
             display: block;
         }
@@ -135,22 +141,22 @@
             align-items: center;
             gap: 8px;
             font-weight: 800;
-            font-size: 18px;
+            font-size: 19px;
             color: #60a5fa;
         }
 
         .module-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
+            gap: 7px;
+            padding: 4px 12px;
             border-radius: 999px;
             background: rgba(14, 165, 233, 0.14);
             border: 1px solid rgba(56, 189, 248, 0.38);
             color: #38bdf8;
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.45px;
             text-transform: uppercase;
             white-space: nowrap;
         }
@@ -161,17 +167,18 @@
             border-radius: 50%;
             background: #34d399;
             box-shadow: 0 0 8px #34d399;
+            animation: pulseDot 2s infinite;
         }
 
         .user-avatar-ring {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 1.5px solid #facc15;
+            border: 1.5px solid #38bdf8;
             background: rgba(15, 23, 42, 0.85);
-            box-shadow: 0 0 12px rgba(250, 204, 21, 0.32);
-            color: #fde047;
-            font-size: 10.5px;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+            color: #7dd3fc;
+            font-size: 11px;
             font-weight: 800;
             display: inline-flex;
             align-items: center;
@@ -182,21 +189,21 @@
         .nav-links-side {
             display: flex;
             align-items: center;
-            flex-wrap: nowrap;
-            gap: 4px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .top-nav-link {
             text-decoration: none;
             color: #cbd5e1;
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 700;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
             text-transform: uppercase;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 6px 9px;
+            gap: 6px;
+            padding: 5px 9px;
             border-radius: 8px;
             white-space: nowrap;
             transition: color 0.2s ease, background 0.2s ease;
@@ -209,8 +216,8 @@
         }
 
         .btn-back-circle {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             border: 1px solid rgba(56, 189, 248, 0.35);
             background: rgba(15, 23, 42, 0.8);
@@ -219,10 +226,9 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            font-size: 11px;
+            font-size: 11.5px;
             cursor: pointer;
             flex-shrink: 0;
-            margin-left: 2px;
             transition: all 0.2s ease;
         }
 
@@ -1195,17 +1201,9 @@
             color: #030712;
         }
 
-        @media (max-width: 1180px) {
-            .top-navbar {
-                flex-wrap: wrap;
-                padding: 8px 16px;
-            }
-            .nav-links-side {
-                flex-wrap: wrap;
-                justify-content: flex-end;
-            }
+        @media (max-width: 1240px) {
             body:not(.bars-collapsed) .org-wrapper {
-                padding-top: 104px;
+                padding-top: 108px;
             }
         }
 
@@ -1220,7 +1218,7 @@
                 display: none;
             }
             body:not(.fit-screen-mode) .org-wrapper {
-                padding: 96px 12px 75px 12px;
+                padding: 104px 12px 75px 12px;
             }
             body.bars-collapsed:not(.fit-screen-mode) .org-wrapper {
                 padding: 14px 12px 24px 12px;
@@ -1261,7 +1259,7 @@
 
 <body class="bars-collapsed">
     <div class="desktop-view">
-        <!-- BARRA SUPERIOR PADRONIZADA DOS SETORES -->
+        <!-- BARRA SUPERIOR IGUAL AO DASHBOARD.HTML -->
         <div class="top-navbar-collapse">
             <header class="top-navbar">
                 <div class="nav-brand-side">
