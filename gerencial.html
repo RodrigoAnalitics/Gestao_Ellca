@@ -849,7 +849,7 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL: 1 LINHA COM 4 CARDS EM TELAS LARGAS */
+    /* MODO CARROSSEL: 1 LINHA COM 4 CARDS EM TELAS LARGAS (TAMANHO PADRÃO UNIFICADO) */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -884,6 +884,7 @@
       }
     }
 
+    /* MODO GRADE: TAMANHO IDÊNTICO AOS DEMAIS MÓDULOS */
     .cards-track.grid-mode {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
@@ -905,6 +906,7 @@
       height: var(--card-img-h);
     }
 
+    /* MODO CARROSSEL 3D: TAMANHOS E TRANSIÇÕES IDÊNTICOS */
     .cards-track.mode-3d {
       display: flex;
       align-items: center;
