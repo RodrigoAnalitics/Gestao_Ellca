@@ -1994,7 +1994,7 @@
 
       // ================= ÍCONES DO SITE (LUCIDE CDN) COM FALLBACK NATIVO =================
       const SITE_ICON_CDN = "https://unpkg.com/lucide-static@0.469.0/icons/";
-      const LUCIDE_NAME_MAP = {
+     const LUCIDE_NAME_MAP = {
         info: "info",
         star: "star",
         starFilled: "star",
@@ -2005,16 +2005,16 @@
         cloud: "cloud",
         rain: "cloud-rain",
         bolt: "zap",
-        checkCircle: "check-circle-2",
+        checkCircle: "circle-check",
         check: "check",
         arrowRight: "arrow-right",
         arrowLeft: "arrow-left",
         arrowUp: "arrow-up",
         lock: "lock",
         layers: "layers",
-        pie: "pie-chart",
+        pie: "chart-pie",
         calendar: "calendar",
-        calendarCheck: "calendar-check-2",
+        calendarCheck: "calendar-check",
         sheet: "file-spreadsheet",
         crown: "crown",
         shield: "shield",
@@ -2042,23 +2042,22 @@
         route: "route",
         hardHat: "hard-hat",
         building: "building-2",
-        invoiceDollar: "file-spreadsheet",
+        invoiceDollar: "receipt",
         ruler: "ruler",
-        fileContract: "file-check-2",
+        fileContract: "file-check",
         truck: "truck",
         clock: "clock",
         factory: "factory",
-        chartLine: "trending-up",
+        chartLine: "chart-line",
         gauge: "gauge",
         bullseye: "target",
         plugCheck: "plug-zap",
         sparkles: "sparkles",
         robot: "bot",
         rotate: "rotate-cw",
-        alertTriangle: "alert-triangle",
+        alertTriangle: "triangle-alert",
         copy: "copy"
       };
-
       function svg(name) {
         if (modoIconeAtivo === "site" && siteCdnDisponivel === true && cacheIconesSite[name]) {
           return cacheIconesSite[name];
@@ -2070,9 +2069,9 @@
         if (!rawSvg || !rawSvg.includes("<svg")) return null;
         const extraClass = name === "search" ? "ico-svg search-ico" : "ico-svg";
         const filledStyle = name === "starFilled" ? ' style="fill:currentColor;"' : "";
-        return rawSvg
-          .replace(/<svg\b([^>]*)>/i, `<svg class="${extraClass}"${filledStyle} viewBox="0 0 24 24">`)
-          .replace(/class="[^"]*"/i, `class="${extraClass}"`);
+        const innerMatch = rawSvg.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
+        if (!innerMatch) return null;
+        return `<svg class="${extraClass}"${filledStyle} viewBox="0 0 24 24">${innerMatch[1]}</svg>`;
       }
 
       async function tentarAtivarIconesDoSite() {
