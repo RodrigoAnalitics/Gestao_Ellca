@@ -19,12 +19,10 @@
 
   <style>
     :root {
-      --card-w: clamp(276px, 19.5vw, 316px);
-      --card-h: clamp(326px, 39vh, 354px);
-      --card-img-h: clamp(125px, 12.1vh, 145px);
-      --card-turn: 3.2s;
-      --card-count: 10;
-      --cycle-total: calc(var(--card-turn) * var(--card-count));
+      --card-w: clamp(276px, 19.5vw, 320px);
+      --card-h: clamp(326px, 38vh, 356px);
+      --card-img-h: clamp(122px, 12vh, 142px);
+      --card-turn: 4.2s;
     }
 
     @property --sweep-angle {
@@ -36,48 +34,6 @@
     @keyframes borderSweepContinuous {
       from { --sweep-angle: 0deg; }
       to { --sweep-angle: 360deg; }
-    }
-
-    @keyframes cardGlowRelay {
-      0%, 100% {
-        opacity: 0.86;
-        background: linear-gradient(160deg, rgba(14, 16, 21, 0.74) 0%, rgba(5, 6, 9, 0.86) 100%);
-        border-color: rgba(250, 204, 21, 0.22);
-        box-shadow:
-          0 14px 30px rgba(0, 0, 0, 0.65),
-          inset 0 1px 0 rgba(254, 240, 138, 0.12);
-      }
-      4%, 20% {
-        opacity: 1;
-        background: linear-gradient(160deg, rgba(22, 24, 30, 0.86) 0%, rgba(7, 8, 12, 0.94) 100%);
-        border-color: rgba(250, 204, 21, 0.78);
-        box-shadow:
-          0 22px 46px rgba(0, 0, 0, 0.82),
-          0 0 32px rgba(234, 179, 8, 0.26),
-          0 0 14px rgba(250, 204, 21, 0.24),
-          inset 0 1px 0 rgba(254, 240, 138, 0.32);
-      }
-      26% {
-        opacity: 0.86;
-        background: linear-gradient(160deg, rgba(14, 16, 21, 0.74) 0%, rgba(5, 6, 9, 0.86) 100%);
-        border-color: rgba(250, 204, 21, 0.22);
-        box-shadow:
-          0 14px 30px rgba(0, 0, 0, 0.65),
-          inset 0 1px 0 rgba(254, 240, 138, 0.12);
-      }
-    }
-
-    @keyframes borderBeamRelay {
-      0%, 100% { opacity: 0; }
-      3.5%, 20.5% { opacity: 1; }
-      25.5% { opacity: 0; }
-    }
-
-    @keyframes paletteCycle360 {
-      0%, 24.99% { --edge-a: #facc15; --edge-b: #b45309; --edge-c: #fef08a; }
-      25%, 49.99% { --edge-a: #eab308; --edge-b: #92400e; --edge-c: #fde047; }
-      50%, 74.99% { --edge-a: #fde047; --edge-b: #d97706; --edge-c: #fef9c3; }
-      75%, 100% { --edge-a: #f59e0b; --edge-b: #78350f; --edge-c: #fde68a; }
     }
 
     @keyframes pulseDot {
@@ -95,7 +51,7 @@
       50% { box-shadow: 0 0 16px rgba(56, 189, 248, 0.38); }
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -124,6 +80,21 @@
     }
 
     .tabular { font-variant-numeric: tabular-nums; }
+
+    .ellipsis-single {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    .ellipsis-multi {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      min-width: 0;
+    }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #050811; }
@@ -173,6 +144,7 @@
       align-items: center;
       gap: 8px;
       flex-shrink: 0;
+      min-width: 0;
     }
 
     .brand-logo {
@@ -183,6 +155,7 @@
       color: #ffffff;
       font-weight: 800;
       font-size: 18px;
+      flex-shrink: 0;
     }
 
     .brand-logo img {
@@ -342,6 +315,7 @@
       align-items: center;
       gap: 12px;
       max-width: 1020px;
+      min-width: 0;
     }
 
     .hero-icon-box {
@@ -363,9 +337,10 @@
       display: inline-flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
-      min-height: 30px;
-      font-size: 11.5px;
+      gap: 8px;
+      max-width: 100%;
+      min-height: 28px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.15px;
       color: #fef08a;
@@ -374,9 +349,9 @@
       -webkit-backdrop-filter: blur(14px) saturate(150%);
       border: 1px solid rgba(255, 255, 255, 0.18);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      padding: 6px 15px;
+      padding: 5px 14px;
       border-radius: 999px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .hero-greeting-pill .pill-sep {
@@ -493,6 +468,10 @@
       font-size: 11.5px;
       color: #e2e8f0;
       line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
       transition: opacity 0.25s ease;
     }
 
@@ -723,7 +702,7 @@
       border-radius: 16px;
       background: rgba(10, 16, 30, 0.65);
       border: 1px solid rgba(56, 189, 248, 0.24);
-      padding: 13px 18px 13px;
+      padding: 14px 18px 14px;
       backdrop-filter: blur(16px);
       box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
       flex: 1 1 auto;
@@ -752,6 +731,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      max-width: 100%;
     }
 
     .kbd-hint {
@@ -792,7 +772,7 @@
       color: #ffffff;
     }
 
-    /* MODO CARROSSEL: 4 EM CIMA E 4 EM BAIXO (8 CARDS POR TELA) */
+    /* MODO CARROSSEL: 1 LINHA COM 4 CARDS EM TELAS LARGAS */
     .cards-track {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -809,16 +789,16 @@
       width: 100%;
       min-width: 0;
       max-width: 100%;
-      height: clamp(304px, 34vh, 336px);
-      min-height: clamp(304px, 34vh, 336px);
-      max-height: clamp(304px, 34vh, 336px);
+      height: var(--card-h);
+      min-height: var(--card-h);
+      max-height: var(--card-h);
       perspective: 1400px;
       margin: 0 auto;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .cards-track .card-img-banner {
-      height: clamp(112px, 11vh, 132px);
+      height: var(--card-img-h);
     }
 
     @media (max-width: 1180px) {
@@ -919,7 +899,6 @@
     }
 
     .cards-track.mode-3d .card-3d-wrap.slot-center .card-surface {
-      animation: paletteCycle360 48s steps(1, end) infinite;
       opacity: 1;
       background: linear-gradient(160deg, rgba(22, 24, 30, 0.86) 0%, rgba(7, 8, 12, 0.94) 100%);
       border-color: rgba(250, 204, 21, 0.82);
@@ -967,7 +946,6 @@
       --edge-a: #facc15;
       --edge-b: #b45309;
       --edge-c: #fef08a;
-      --relay-delay: 0s;
       position: relative;
       border-radius: 16px;
       background: linear-gradient(160deg, rgba(14, 16, 21, 0.74) 0%, rgba(5, 6, 9, 0.86) 100%);
@@ -977,15 +955,13 @@
       box-shadow:
         0 14px 30px rgba(0, 0, 0, 0.65),
         inset 0 1px 0 rgba(254, 240, 138, 0.12);
-      opacity: 0.86;
+      opacity: 0.90;
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
       transition: transform 0.35s ease-out, background 0.35s ease, opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
       height: 100%;
       width: 100%;
+      min-width: 0;
       overflow: hidden;
-      animation:
-        paletteCycle360 48s steps(1, end) infinite,
-        cardGlowRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
     }
 
     .card-surface::after {
@@ -1019,12 +995,10 @@
       opacity: 0;
       pointer-events: none;
       z-index: 4;
-      animation:
-        borderSweepContinuous var(--card-turn) linear infinite,
-        borderBeamRelay var(--cycle-total) ease-in-out var(--relay-delay) infinite;
+      transition: opacity 0.25s ease;
     }
 
-    .card-surface:hover {
+    .card-3d-wrap:not(.sem-acesso) .card-surface:hover {
       opacity: 1 !important;
       background: linear-gradient(160deg, rgba(24, 26, 33, 0.88) 0%, rgba(8, 9, 13, 0.95) 100%) !important;
       border-color: rgba(250, 204, 21, 0.88) !important;
@@ -1035,9 +1009,11 @@
         inset 0 1px 0 rgba(254, 240, 138, 0.36) !important;
     }
 
-    .card-surface:hover::before { opacity: 1 !important; }
+    .card-3d-wrap:not(.sem-acesso) .card-surface:hover::before {
+      opacity: 1 !important;
+      animation: borderSweepContinuous var(--card-turn) linear infinite;
+    }
 
-    body.glow-paused .card-surface,
     body.glow-paused .card-surface::before {
       animation-play-state: paused !important;
     }
@@ -1048,6 +1024,7 @@
       padding: 12px 14px 13px;
       border-radius: 15px;
       height: 100%;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1080,12 +1057,16 @@
       top: 7px;
       left: 7px;
       z-index: 2;
+      max-width: calc(100% - 44px);
       padding: 2.5px 8px;
       border-radius: 6px;
       font-size: 8.5px;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -1139,6 +1120,9 @@
       color: #fefce8;
       letter-spacing: 0.25px;
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .card-desc-txt {
@@ -1156,7 +1140,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      min-width: 0;
     }
 
     .kpi-pill-item {
@@ -1170,9 +1155,13 @@
       font-size: 9.5px;
       font-weight: 700;
       color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
-    .kpi-pill-item i { color: #facc15; }
+    .kpi-pill-item i { color: #facc15; flex-shrink: 0; }
     .kpi-success { color: #fde047 !important; }
 
     .card-actions-stack {
@@ -1193,6 +1182,7 @@
     .btn-primary-card {
       flex: 1 1 auto;
       width: 100%;
+      min-width: 0;
       height: 29px;
       min-height: 29px;
       max-height: 29px;
@@ -1205,6 +1195,9 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -1223,6 +1216,7 @@
     .btn-glass-card {
       flex: 0 0 28px;
       width: 100%;
+      min-width: 0;
       height: 28px;
       min-height: 28px;
       max-height: 28px;
@@ -1235,6 +1229,9 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -1339,15 +1336,24 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
       padding-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .details-drawer-top h3 { font-size: 16.5px; font-weight: 800; color: #ffffff; }
+    .details-drawer-top h3 {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .details-drawer-close {
       width: 32px;
       height: 32px;
+      flex-shrink: 0;
       border-radius: 9px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       background: rgba(15, 23, 42, 0.8);
@@ -1366,6 +1372,7 @@
       border-radius: 10px;
       background: rgba(5, 10, 22, 0.78);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      min-width: 0;
     }
 
     .details-meta-box small {
@@ -1381,6 +1388,9 @@
       font-size: 12px;
       color: #f8fafc;
       margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .details-sublist {
@@ -1396,6 +1406,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
       padding: 10px 12px;
       border-radius: 10px;
       background: rgba(15, 23, 42, 0.75);
@@ -1403,6 +1414,13 @@
       font-size: 11.5px;
       font-weight: 600;
       color: #e2e8f0;
+    }
+
+    .details-sublist li span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
     .btn-drawer-blue {
@@ -1469,6 +1487,13 @@
       justify-content: space-between;
       gap: 8px;
       transition: all 0.2s ease;
+    }
+
+    .ai-chip-btn span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
     .ai-chip-btn:hover {
@@ -1616,7 +1641,7 @@
       </header>
     </div>
 
-    <!-- 2. HERO BANNER EXECUTIVO + SAUDAÇÃO + ASSISTENTE IA -->
+    <!-- 2. HERO BANNER EXECUTIVO + SAUDAÇÃO IA -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
@@ -1723,7 +1748,7 @@
     <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
     <section class="carousel-shell">
       <div class="carousel-header-bar">
-        <span class="carousel-status-label" id="carouselStatusLabel">
+        <span class="carousel-status-label ellipsis-single" id="carouselStatusLabel">
           <i class="fa-solid fa-crown"></i> EXIBINDO 10 MÓDULOS · MODO CARROSSEL
         </span>
 
@@ -1774,7 +1799,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
-    <p id="drawerModDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
+    <p id="drawerModDesc" class="ellipsis-multi" style="font-size:12px; color:#cbd5e1; line-height:1.55; -webkit-line-clamp: 4;"></p>
     <div class="details-meta-grid">
       <div class="details-meta-box">
         <small>Categoria</small>
@@ -2353,21 +2378,20 @@
           });
       }
 
-      // 4 em cima e 4 embaixo = 8 cards no carrossel
+      // 1 linha com 4 cards em telas largas
       function obterQtdVisivelCarrossel() {
-        if (window.innerWidth <= 520) return 2;
-        if (window.innerWidth <= 1180) return 4;
-        return 8;
+        if (window.innerWidth <= 520) return 1;
+        if (window.innerWidth <= 1180) return 2;
+        return 4;
       }
 
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
         const isFav = favs.includes(mod.key);
-        const relayDelay = `${(slotIdx * 3.2).toFixed(1)}s`;
 
         return `
           <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" data-slot-idx="${slotIdx}" data-mod-key="${mod.key}">
-            <div class="card-surface" style="--relay-delay: ${relayDelay};">
+            <div class="card-surface">
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
                   <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
@@ -2378,9 +2402,9 @@
                   </button>
                 </div>
 
-                <div>
-                  <h3 class="card-title-txt">${mod.titulo}</h3>
-                  <p class="card-desc-txt">${mod.desc}</p>
+                <div style="min-width:0;">
+                  <h3 class="card-title-txt" title="${mod.titulo}">${mod.titulo}</h3>
+                  <p class="card-desc-txt" title="${mod.desc}">${mod.desc}</p>
                 </div>
 
                 <div class="kpi-pills-row">
@@ -2411,7 +2435,6 @@
         const itens = obterItensFiltrados();
         const total = itens.length;
 
-        document.documentElement.style.setProperty("--card-count", Math.max(1, total));
         cardsWrapper.classList.toggle("grid-mode", modoVisualizacao === "grade");
         cardsWrapper.classList.toggle("mode-3d", modoVisualizacao === "3d");
 
@@ -2482,7 +2505,6 @@
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
-          document.documentElement.style.setProperty("--card-count", Math.max(1, listaExibida.length));
           const novaAssinatura = `carrossel|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
           if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
             assinaturaDomAtual = novaAssinatura;
@@ -2575,6 +2597,7 @@
         const permitido = usuarioTemAcesso(mod);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
+        document.getElementById("drawerModTitulo").title = mod.titulo;
         document.getElementById("drawerModDesc").textContent = mod.desc;
         document.getElementById("drawerModCat").textContent = mod.categoria;
         document.getElementById("drawerModKpi").textContent = mod.kpiResumo;
@@ -2584,8 +2607,8 @@
 
         document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
           <li>
-            <span>${rec}</span>
-            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i>
+            <span title="${rec}">${rec}</span>
+            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px; flex-shrink:0;"></i>
           </li>
         `).join("");
 
@@ -2619,7 +2642,6 @@
         alert(`Módulo gerencial selecionado: ${itemAtualDrawer.titulo}. Vincule aqui a rota ou relatório correspondente.`);
       });
 
-      // Avança 1 card por vez
       function avancarCarrossel(passo) {
         const total = obterItensFiltrados().length;
         if (total <= 1) return;
@@ -2633,10 +2655,9 @@
       function iniciarAutoPlay() {
         clearInterval(timerCarrossel);
         document.body.classList.toggle("glow-paused", !autoPlayAtivo);
-        if (!autoPlayAtivo) return;
-        if (modoVisualizacao === "3d") {
-          timerCarrossel = setInterval(() => avancarCarrossel(1), 5000);
-        }
+        if (!autoPlayAtivo || modoVisualizacao === "grade") return;
+        const intervalo = modoVisualizacao === "3d" ? 5000 : 5500;
+        timerCarrossel = setInterval(() => avancarCarrossel(1), intervalo);
       }
 
       function alternarAutoPlay() {
