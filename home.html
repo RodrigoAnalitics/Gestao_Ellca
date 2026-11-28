@@ -1474,6 +1474,20 @@
 
   <script>
     (function iniciarHomeMaxStar() {
+      // ================= ESTADO GLOBAL INICIALIZADO NO TOPO =================
+      let modoVisualizacao = "carrossel";
+      let categoriaAtiva = "TODOS";
+      let somenteFavoritos = false;
+      let indiceCarrossel = 0;
+      let autoPlayAtivo = true;
+      let timerCarrossel = null;
+      let itemAtualDrawer = null;
+      let assinaturaDomAtual = "";
+
+      let modoIconeAtivo = "nativo"; // "nativo" | "site"
+      const cacheIconesSite = {};
+      let siteCdnDisponivel = null;
+
       // ================= ÍCONES NATIVOS (FALLBACK LOCAL GARANTIDO) =================
       const SVG_MAP = {
         info: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.2"/><circle cx="12" cy="8.2" r="0.6" fill="currentColor" stroke="none"/></svg>',
@@ -1571,10 +1585,6 @@
         logout: "log-out"
       };
 
-      let modoIconeAtivo = "nativo"; // "nativo" | "site"
-      const cacheIconesSite = {};
-      let siteCdnDisponivel = null; // null = testando, true = ok, false = bloqueado/falhou
-
       function svg(name) {
         if (modoIconeAtivo === "site" && siteCdnDisponivel === true && cacheIconesSite[name]) {
           return cacheIconesSite[name];
@@ -1596,7 +1606,6 @@
         const timer = setTimeout(() => controller.abort(), 1400);
 
         try {
-          // Testa primeiro com 1 ícone leve para não gastar banda se estiver bloqueado
           const probeUrl = `${SITE_ICON_CDN}${LUCIDE_NAME_MAP.layers}.svg`;
           const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
           if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
@@ -1625,48 +1634,10 @@
           renderizarCards(true);
         } catch {
           clearTimeout(timer);
-          // Bloqueado, offline ou lento: mantém silenciosamente os SVGs nativos
           siteCdnDisponivel = false;
           modoIconeAtivo = "nativo";
         }
       }
-
-      function reaplicarTodosOsIcones() {
-        document.querySelectorAll("[data-svg]").forEach(el => {
-          const antiga = el.querySelector("svg.ico-svg");
-          if (antiga) antiga.remove();
-          el.insertAdjacentHTML("afterbegin", svg(el.getAttribute("data-svg")));
-        });
-        document.getElementById("heroMainIconBox").innerHTML = svg("layers");
-        const clockEl = document.getElementById("liveClockTxt");
-        const clockText = clockEl ? clockEl.textContent : "Portal ativo · --:--";
-        document.getElementById("liveBadgeEl").innerHTML = `${svg("checkCircle")}<span id="liveClockTxt">${clockText}</span>`;
-        document.getElementById("favStarIcon").innerHTML = svg("starFilled");
-        document.getElementById("iconAutoPlayWrap").innerHTML = svg(autoPlayAtivo ? "pause" : "play");
-        const oculto = document.body.classList.contains("menu-hidden");
-        document.getElementById("iconToggleMenuWrap").innerHTML = svg(oculto ? "menu" : "eyeOff");
-        const oldSearch = document.querySelector("#searchBoxWrap svg.search-ico");
-        if (oldSearch) oldSearch.remove();
-        document.getElementById("searchBoxWrap").insertAdjacentHTML("afterbegin", svg("search"));
-        const oldKbd = document.querySelector("#kbdHintEl svg.ico-svg");
-        if (oldKbd) oldKbd.remove();
-        document.getElementById("kbdHintEl").insertAdjacentHTML("afterbegin", svg("keyboard"));
-        document.getElementById("btnPrevCard").innerHTML = svg("chevronLeft");
-        document.getElementById("btnNextCard").innerHTML = svg("chevronRight");
-        document.querySelectorAll("#footerSysText > span[data-footer-ico]").forEach(n => n.remove());
-        document.getElementById("footerSysText").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#64748b;">${svg("shield")}</span>`);
-        document.querySelectorAll("#btnFooterSupport > span[data-footer-ico]").forEach(n => n.remove());
-        document.getElementById("btnFooterSupport").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#38bdf8;">${svg("headset")}</span>`);
-        document.querySelectorAll("#footerUserWrap > span[data-footer-ico]").forEach(n => n.remove());
-        document.getElementById("footerUserWrap").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#34d399;">${svg("userCheck")}</span>`);
-        document.querySelectorAll("#btnSairRodape > svg.ico-svg").forEach(n => n.remove());
-        document.getElementById("btnSairRodape").insertAdjacentHTML("afterbegin", svg("logout"));
-        document.getElementById("btnFecharDrawer").innerHTML = svg("close");
-        renderizarSaudacaoEHorario();
-      }
-
-      reaplicarTodosOsIcones();
-      tentarAtivarIconesDoSite();
 
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
@@ -1705,8 +1676,6 @@
           imagem: "img/Card_dashboard.jpg",
           titulo: "DASHBOARDS",
           desc: "Centralização de dados e indicadores para acompanhamento ágil e visual das informações.",
-          kpi1: `<span class="kpi-success" data-kpi="trendUp">+18%</span>`,
-          kpi2: `<span data-kpi="chart">Mensal</span>`,
           kpiResumo: "+18% · Mensal",
           url: "dashboard.html",
           searchTags: "dashboards bi indicadores graficos",
@@ -1722,8 +1691,6 @@
           imagem: "img/Card_base_dados.jpg",
           titulo: "BANCO DE DADOS",
           desc: "Controle unificado e planilhas inteligentes para auditoria.",
-          kpi1: `<span class="kpi-success" data-kpi="checkCircle">92%</span>`,
-          kpi2: `<span data-kpi="calendar">Período</span>`,
           kpiResumo: "92% · Período",
           url: "planilha.html",
           searchTags: "banco dados planilhas auditoria registros",
@@ -1739,8 +1706,6 @@
           imagem: "img/Card_gerencial.jpg",
           titulo: "GERÊNCIA 🏆",
           desc: "Indicadores estratégicos e operacionais para uma visão integrada dos resultados da empresa.",
-          kpi1: `<span class="kpi-success" data-kpi="shield">Restrito</span>`,
-          kpi2: `<span data-kpi="crown">Diretoria</span>`,
           kpiResumo: "Restrito · Diretoria",
           url: "gerencial.html",
           searchTags: "gerencial diretoria executivo resultados metas",
@@ -1756,8 +1721,6 @@
           imagem: "img/Card_Organograma.jpg",
           titulo: "ORGANOGRAMA",
           desc: "Gestão centralizada de informações, acessos e cadastros dos colaboradores da empresa.",
-          kpi1: `<span class="kpi-success" data-kpi="userCheck">Ativo</span>`,
-          kpi2: `<span data-kpi="idBadge">Cadastros</span>`,
           kpiResumo: "Ativo · Cadastros",
           url: "organograma.html",
           searchTags: "colaboradores equipe rh dp acessos cadastros",
@@ -1773,8 +1736,6 @@
           imagem: "img/Card_supervisor.jpg",
           titulo: "SUPERVISOR",
           desc: "Acompanhamento de equipes, rotinas operacionais e metas da supervisão em campo.",
-          kpi1: `<span class="kpi-success" data-kpi="bolt">93%</span>`,
-          kpi2: `<span data-kpi="clipboardCheck">Turno</span>`,
           kpiResumo: "93% · Turno",
           url: "supervisor.html",
           searchTags: "supervisor campo equipes produtividade programacao",
@@ -1820,15 +1781,6 @@
         const raw = sessionStorage.getItem("ellca_user_setores");
         if (raw) setoresSessao = JSON.parse(raw);
       } catch { setoresSessao = null; }
-
-      let modoVisualizacao = "carrossel";
-      let categoriaAtiva = "TODOS";
-      let somenteFavoritos = false;
-      let indiceCarrossel = 0;
-      let autoPlayAtivo = true;
-      let timerCarrossel = null;
-      let itemAtualDrawer = null;
-      let assinaturaDomAtual = "";
 
       const cardsWrapper = document.getElementById("cardsWrapper");
       const paginationDots = document.getElementById("paginationDots");
@@ -1890,6 +1842,44 @@
         if (liveClockTxt) liveClockTxt.textContent = `Portal ativo · ${hh}:${mm}`;
       }
 
+      function reaplicarTodosOsIcones() {
+        try {
+          document.querySelectorAll("[data-svg]").forEach(el => {
+            const antiga = el.querySelector("svg.ico-svg");
+            if (antiga) antiga.remove();
+            el.insertAdjacentHTML("afterbegin", svg(el.getAttribute("data-svg")));
+          });
+          document.getElementById("heroMainIconBox").innerHTML = svg("layers");
+          const clockEl = document.getElementById("liveClockTxt");
+          const clockText = clockEl ? clockEl.textContent : "Portal ativo · --:--";
+          document.getElementById("liveBadgeEl").innerHTML = `${svg("checkCircle")}<span id="liveClockTxt">${clockText}</span>`;
+          document.getElementById("favStarIcon").innerHTML = svg("starFilled");
+          document.getElementById("iconAutoPlayWrap").innerHTML = svg(autoPlayAtivo ? "pause" : "play");
+          const oculto = document.body.classList.contains("menu-hidden");
+          document.getElementById("iconToggleMenuWrap").innerHTML = svg(oculto ? "menu" : "eyeOff");
+          const oldSearch = document.querySelector("#searchBoxWrap svg.search-ico");
+          if (oldSearch) oldSearch.remove();
+          document.getElementById("searchBoxWrap").insertAdjacentHTML("afterbegin", svg("search"));
+          const oldKbd = document.querySelector("#kbdHintEl svg.ico-svg");
+          if (oldKbd) oldKbd.remove();
+          document.getElementById("kbdHintEl").insertAdjacentHTML("afterbegin", svg("keyboard"));
+          document.getElementById("btnPrevCard").innerHTML = svg("chevronLeft");
+          document.getElementById("btnNextCard").innerHTML = svg("chevronRight");
+          document.querySelectorAll("#footerSysText > span[data-footer-ico]").forEach(n => n.remove());
+          document.getElementById("footerSysText").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#64748b;">${svg("shield")}</span>`);
+          document.querySelectorAll("#btnFooterSupport > span[data-footer-ico]").forEach(n => n.remove());
+          document.getElementById("btnFooterSupport").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#38bdf8;">${svg("headset")}</span>`);
+          document.querySelectorAll("#footerUserWrap > span[data-footer-ico]").forEach(n => n.remove());
+          document.getElementById("footerUserWrap").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#34d399;">${svg("userCheck")}</span>`);
+          document.querySelectorAll("#btnSairRodape > svg.ico-svg").forEach(n => n.remove());
+          document.getElementById("btnSairRodape").insertAdjacentHTML("afterbegin", svg("logout"));
+          document.getElementById("btnFecharDrawer").innerHTML = svg("close");
+          renderizarSaudacaoEHorario();
+        } catch (err) {
+          console.warn("Aviso ao aplicar ícones:", err);
+        }
+      }
+
       async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
         try {
           const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
@@ -1932,11 +1922,6 @@
           buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA");
         }
       }
-
-      renderizarSaudacaoEHorario();
-      iniciarLocalizacaoClima();
-      setInterval(renderizarSaudacaoEHorario, 1000);
-      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
 
       function obterSetoresPermitidosUsuario() {
         if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
@@ -2058,9 +2043,8 @@
         paginationDots.style.display = mostraSetas ? "flex" : "none";
 
         const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
-        const origemIcone = modoIconeAtivo === "site" ? "SITE+FALLBACK" : "NATIVO";
         document.getElementById("carouselStatusLabel").innerHTML =
-          `${svg("layers")} EXIBINDO ${total} DE ${MODULOS_HOME.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo} · ÍCONES: ${origemIcone}`;
+          `${svg("layers")} EXIBINDO ${total} DE ${MODULOS_HOME.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
         if (total === 0) {
           assinaturaDomAtual = "vazio";
@@ -2332,8 +2316,14 @@
         if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
+      // ================= INICIALIZAÇÃO ORDENADA =================
+      reaplicarTodosOsIcones();
+      iniciarLocalizacaoClima();
+      setInterval(renderizarSaudacaoEHorario, 1000);
+      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
       renderizarCards(true);
       iniciarAutoPlay();
+      tentarAtivarIconesDoSite();
     })();
   </script>
 </body>
