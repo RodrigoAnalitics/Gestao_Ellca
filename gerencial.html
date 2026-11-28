@@ -1822,7 +1822,7 @@
 
     /* Breakpoint para smartphones até 520px */
 
-    /* ================= AJUSTES: BORDA 360 SEQUENCIAL + BOTAO VOLTAR ================= */
+    /* ================= AJUSTES: BORDA 360 SEQUENCIAL + BOTAO VOLTAR DOURADO + ABA ATIVA ================= */
     @keyframes sequentialCardBorder360 {
       0% {
         --sweep-angle: 0deg;
@@ -1834,26 +1834,36 @@
 
     .card-3d-wrap:not(.sem-acesso).seq-border-active .card-surface {
       opacity: 1 !important;
-      border-color: rgba(250, 204, 21, 0.92) !important;
+      border-color: rgba(250, 204, 21, 0.94) !important;
       box-shadow:
         0 20px 44px rgba(0, 0, 0, 0.78),
-        0 0 28px rgba(250, 204, 21, 0.28),
-        inset 0 1px 0 rgba(254, 240, 138, 0.35) !important;
+        0 0 28px rgba(250, 204, 21, 0.30),
+        inset 0 1px 0 rgba(254, 240, 138, 0.38) !important;
     }
 
     .card-3d-wrap:not(.sem-acesso).seq-border-active .card-surface::before {
       opacity: 1 !important;
       animation: sequentialCardBorder360 var(--card-turn) linear 1 forwards !important;
+      animation-play-state: running !important;
     }
 
-    body.glow-paused .card-3d-wrap.seq-border-active .card-surface::before {
-      animation-play-state: paused !important;
+    /* Menu de marcação (aba/card ativo) com detalhes dourados estilo Gerência / Supervisão */
+    .top-nav-link.active {
+      color: #fde047 !important;
+      background: linear-gradient(90deg, rgba(234, 179, 8, 0.24), rgba(250, 204, 21, 0.14)) !important;
+      border: 1px solid rgba(250, 204, 21, 0.62) !important;
+      box-shadow: 0 0 14px rgba(250, 204, 21, 0.24), inset 0 1px 0 rgba(254, 240, 138, 0.28) !important;
+    }
+
+    .top-nav-link.active .ico-svg {
+      color: #facc15 !important;
+      filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.45));
     }
 
     .top-nav-link.prev-tab-highlight:not(.active) {
       color: #fde047;
-      background: rgba(250, 204, 21, 0.14);
-      box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.32);
+      background: rgba(250, 204, 21, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.28);
     }
 
     .btn-back-circle {
@@ -1861,10 +1871,10 @@
       overflow: hidden;
       width: 32px;
       height: 32px;
-      border: 1px solid rgba(56, 189, 248, 0.58);
-      background: linear-gradient(145deg, rgba(14, 165, 233, 0.25), rgba(15, 23, 42, 0.94));
-      color: #e0f2fe;
-      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(250, 204, 21, 0.72);
+      background: linear-gradient(145deg, rgba(234, 179, 8, 0.24), rgba(15, 23, 42, 0.94));
+      color: #fde047;
+      box-shadow: 0 4px 14px rgba(234, 179, 8, 0.24), inset 0 1px 0 rgba(254, 240, 138, 0.35);
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, background 0.22s ease, box-shadow 0.25s ease, color 0.2s ease;
     }
 
@@ -1872,7 +1882,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.42) 50%, transparent 80%);
+      background: linear-gradient(120deg, transparent 20%, rgba(254, 240, 138, 0.45) 50%, transparent 80%);
       transform: translateX(-140%);
       transition: transform 0.52s ease;
       pointer-events: none;
@@ -1880,10 +1890,10 @@
 
     .btn-back-circle:hover:not(:disabled) {
       transform: translateX(-2px) scale(1.06);
-      border-color: #7dd3fc;
-      background: linear-gradient(135deg, #2563eb, #38bdf8);
-      color: #040d1e;
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.58), 0 6px 18px rgba(2, 132, 199, 0.36);
+      border-color: #fef08a;
+      background: linear-gradient(135deg, #eab308, #facc15);
+      color: #140f02;
+      box-shadow: 0 0 18px rgba(250, 204, 21, 0.62), 0 6px 18px rgba(202, 138, 4, 0.38);
     }
 
     .btn-back-circle:hover:not(:disabled)::before {
@@ -1895,8 +1905,8 @@
     }
 
     .btn-back-circle.has-prev-tab {
-      border-color: rgba(250, 204, 21, 0.76);
-      box-shadow: 0 0 14px rgba(250, 204, 21, 0.26), inset 0 1px 0 rgba(254, 240, 138, 0.35);
+      border-color: rgba(250, 204, 21, 0.88);
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.34), inset 0 1px 0 rgba(254, 240, 138, 0.42);
     }
 
     @media (max-width: 520px) {
@@ -3205,7 +3215,7 @@
           }
         }
 
-        iniciarSequenciaBordaCards(true);
+        iniciarSequenciaBordaCards(false);
 
         // Renderiza os indicadores de posição (dots) quando a navegação é aplicável
         if (mostraSetas) {
@@ -3355,15 +3365,10 @@
       document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
       document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
 
-      // Configura ou limpa o temporizador de rotação automática do carrossel
+      // Configura ou limpa o temporizador de rotação automática do carrossel (sem pausar a borda 360°)
       function iniciarAutoPlay() {
         clearInterval(timerCarrossel);
-        document.body.classList.toggle("glow-paused", !autoPlayAtivo);
-        if (autoPlayAtivo) {
-          executarPassoBorda360();
-        } else {
-          clearTimeout(timerBordaSeq);
-        }
+        document.body.classList.toggle("glow-paused", false);
         if (!autoPlayAtivo || modoVisualizacao === "grade") return;
         const intervalo = modoVisualizacao === "3d" ? 5000 : 5500;
         timerCarrossel = setInterval(() => avancarCarrossel(1), intervalo);
@@ -3458,7 +3463,9 @@
         if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
-      // ================= EFEITO DE BORDA 360° SEQUENCIAL ENTRE CARDS =================
+      // ================= EFEITO DE BORDA 360° SEQUENCIAL INDEPENDENTE =================
+      let chaveCardAtualSeq360 = "";
+
       function obterDuracaoGiroBordaMs() {
         const val = getComputedStyle(document.documentElement).getPropertyValue("--card-turn").trim();
         if (val.endsWith("ms")) return Math.max(400, parseFloat(val) || 4200);
@@ -3466,54 +3473,74 @@
         return 4200;
       }
 
-      function obterCardsAlvoBorda360() {
-        const cards = Array.from(cardsWrapper.querySelectorAll(".card-3d-wrap:not(.sem-acesso)"));
-        if (modoVisualizacao === "3d") {
-          const central = cards.filter(c => c.classList.contains("slot-center"));
-          return central.length ? central : cards;
-        }
-        return cards.filter(c => !c.classList.contains("slot-hidden"));
+      function obterOrdemGlobalCards360() {
+        const filtrados = obterItensFiltrados();
+        const acessiveis = filtrados.filter(mod => usuarioTemAcesso(mod));
+        return acessiveis.length ? acessiveis : filtrados;
       }
 
-      function limparDestaqueBordaSeq() {
-        clearTimeout(timerBordaSeq);
+      function aplicarDestaqueVisualBorda360(cardKeyAlvo, reiniciarAnimacao = false) {
         cardsWrapper.querySelectorAll(".card-3d-wrap.seq-border-active").forEach(c => {
           c.classList.remove("seq-border-active");
         });
-      }
+        if (!cardKeyAlvo) return;
 
-      function executarPassoBorda360() {
-        clearTimeout(timerBordaSeq);
-        const alvos = obterCardsAlvoBorda360();
-        cardsWrapper.querySelectorAll(".card-3d-wrap.seq-border-active").forEach(c => {
-          c.classList.remove("seq-border-active");
-        });
+        const wrapAlvo = Array.from(cardsWrapper.querySelectorAll(".card-3d-wrap:not(.sem-acesso)")).find(
+          w => w.getAttribute("data-mod-key") === cardKeyAlvo
+        );
+        if (!wrapAlvo) return;
 
-        if (!alvos.length || !autoPlayAtivo) return;
-
-        if (indiceBordaSeq >= alvos.length) {
-          indiceBordaSeq = 0;
-        }
-
-        const cardAtual = alvos[indiceBordaSeq];
-        const surface = cardAtual.querySelector(".card-surface");
-        if (surface) {
+        const surface = wrapAlvo.querySelector(".card-surface");
+        if (surface && reiniciarAnimacao) {
           surface.style.setProperty("--sweep-angle", "0deg");
-          void surface.offsetWidth; // Reinicia o giro de 360° a partir de 0deg
+          void surface.offsetWidth;
         }
-        cardAtual.classList.add("seq-border-active");
+        wrapAlvo.classList.add("seq-border-active");
+      }
 
+      function agendarProximoPassoBorda360() {
+        clearTimeout(timerBordaSeq);
         const duracaoMs = obterDuracaoGiroBordaMs();
-        indiceBordaSeq = (indiceBordaSeq + 1) % alvos.length;
-
         timerBordaSeq = setTimeout(() => {
-          executarPassoBorda360();
+          const ordem = obterOrdemGlobalCards360();
+          if (!ordem.length) return;
+          indiceBordaSeq = (indiceBordaSeq + 1) % ordem.length;
+          chaveCardAtualSeq360 = ordem[indiceBordaSeq].key;
+          aplicarDestaqueVisualBorda360(chaveCardAtualSeq360, true);
+          agendarProximoPassoBorda360();
         }, duracaoMs);
       }
 
-      function iniciarSequenciaBordaCards(resetarIndice = false) {
-        if (resetarIndice) indiceBordaSeq = 0;
-        executarPassoBorda360();
+      function sincronizarBorda360AposMudancaCards() {
+        const ordem = obterOrdemGlobalCards360();
+        if (!ordem.length) {
+          clearTimeout(timerBordaSeq);
+          chaveCardAtualSeq360 = "";
+          return;
+        }
+        if (indiceBordaSeq >= ordem.length) {
+          indiceBordaSeq = indiceBordaSeq % ordem.length;
+        }
+        if (!chaveCardAtualSeq360 || !ordem.some(m => m.key === chaveCardAtualSeq360)) {
+          chaveCardAtualSeq360 = ordem[indiceBordaSeq].key;
+        } else {
+          indiceBordaSeq = ordem.findIndex(m => m.key === chaveCardAtualSeq360);
+        }
+        // Mantém o card atual da sequência 360° sem reiniciar o ciclo nem voltar para o 1º card
+        aplicarDestaqueVisualBorda360(chaveCardAtualSeq360, false);
+      }
+
+      function iniciarSequenciaBordaCards(reiniciarIndice = false) {
+        const ordem = obterOrdemGlobalCards360();
+        if (!ordem.length) return;
+        if (reiniciarIndice || !chaveCardAtualSeq360) {
+          indiceBordaSeq = 0;
+          chaveCardAtualSeq360 = ordem[0].key;
+          aplicarDestaqueVisualBorda360(chaveCardAtualSeq360, true);
+          agendarProximoPassoBorda360();
+        } else {
+          sincronizarBorda360AposMudancaCards();
+        }
       }
 
       // ================= INICIALIZAÇÃO ORDENADA =================
