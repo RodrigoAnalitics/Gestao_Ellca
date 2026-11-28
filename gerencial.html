@@ -1259,6 +1259,7 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1509,6 +1510,7 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      text-decoration: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -1872,7 +1874,7 @@
       Pontos Executivos
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
-    <button type="button" class="btn-drawer-blue" id="btnDrawerAcessar"></button>
+    <a href="#" class="btn-drawer-blue" id="btnDrawerAcessar"></a>
   </aside>
 
   <!-- DRAWER EXCLUSIVO DO ASSISTENTE EXECUTIVO ELLCA IA -->
@@ -1918,7 +1920,6 @@
       let indiceInsightIA = 0;
       let autoPlayAtivo = true;
       let timerCarrossel = null;
-      let itemAtualDrawer = null;
       let assinaturaDomAtual = "";
 
       let modoIconeAtivo = "nativo"; // "nativo" | "site"
@@ -2154,7 +2155,7 @@
           kpi2Ico: "building",
           kpi2Txt: "Diário",
           kpiResumo: "96% · Diário",
-          url: "#gerencia-base",
+          url: "#",
           escopoLabel: "Bases Operacionais",
           searchTags: "base bases operacionais prontidao logistica estrutura",
           recursos: ["Prontidão operacional das bases", "Controle de apoio e suprimentos", "Acompanhamento de ocorrências"]
@@ -2174,7 +2175,7 @@
           kpi2Ico: "users",
           kpi2Txt: "Geral",
           kpiResumo: "100% · Geral",
-          url: "#gerencia-estrutura",
+          url: "#",
           escopoLabel: "Governança Organizacional",
           searchTags: "estrutura organograma hierarquia lideranca setores",
           recursos: ["Mapeamento de cargos e setores", "Distribuição de lideranças", "Integração entre áreas"]
@@ -2194,7 +2195,7 @@
           kpi2Ico: "calendar",
           kpi2Txt: "Mensal",
           kpiResumo: "Consolidado · Mensal",
-          url: "#gerencia-faturamento",
+          url: "#",
           escopoLabel: "Resultado Financeiro",
           searchTags: "faturamento notas receita financeiro glosas fechamento",
           recursos: ["Evolução de faturamento por período", "Conferência de pendências e glosas", "Fechamento executivo"]
@@ -2214,7 +2215,7 @@
           kpi2Ico: "shield",
           kpi2Txt: "Contínuo",
           kpiResumo: "94% · Contínuo",
-          url: "#gerencia-inspecao-campo",
+          url: "#",
           escopoLabel: "Qualidade & Campo",
           searchTags: "inspecao de campo auditoria qualidade seguranca conformidade",
           recursos: ["Taxa de conformidade em campo", "Tratativa de desvios e não conformidades", "Acompanhamento por equipe"]
@@ -2234,7 +2235,7 @@
           kpi2Ico: "fileContract",
           kpi2Txt: "Ciclo",
           kpiResumo: "92% · Ciclo",
-          url: "#gerencia-medicao",
+          url: "#",
           escopoLabel: "Boletins & Medição",
           searchTags: "medicao boletins contratos consolidado faturamento",
           recursos: ["Apuração por ciclo de medição", "Validação de itens medidos", "Comparativo com programação"]
@@ -2254,7 +2255,7 @@
           kpi2Ico: "clock",
           kpi2Txt: "Diário",
           kpiResumo: "95% · Diário",
-          url: "#gerencia-mobilizacao-diaria",
+          url: "#",
           escopoLabel: "Saída & Mobilização",
           searchTags: "mobilizacao diaria equipes veiculos kits saida turno",
           recursos: ["Presença e formação de equipes", "Disponibilidade de frota e recursos", "Indicador de saída no horário"]
@@ -2274,7 +2275,7 @@
           kpi2Ico: "chartLine",
           kpi2Txt: "Diário",
           kpiResumo: "91% · Diário",
-          url: "#gerencia-producao",
+          url: "#",
           escopoLabel: "Resultado Operacional",
           searchTags: "producao volume entregas ordens metas operacao",
           recursos: ["Produção acumulada vs. meta", "Entregas por frente e região", "Histórico de ritmo diário"]
@@ -2294,7 +2295,7 @@
           kpi2Ico: "gauge",
           kpi2Txt: "Eficiência",
           kpiResumo: "89% · Eficiência",
-          url: "#gerencia-produtividade",
+          url: "#",
           escopoLabel: "Eficiência & Metas",
           searchTags: "produtividade eficiencia rendimento metas indicadores",
           recursos: ["Rendimento por equipe e turno", "Comparativo de eficiência", "Identificação de pontos de melhoria"]
@@ -2314,7 +2315,7 @@
           kpi2Ico: "route",
           kpi2Txt: "Diário",
           kpiResumo: "93% · Diário",
-          url: "#gerencia-programacao",
+          url: "#",
           escopoLabel: "Planejamento Operacional",
           searchTags: "programacao planejamento ordens roteirizacao aderencia",
           recursos: ["Aderência à programação diária", "Distribuição de ordens e rotas", "Reprogramações e ajustes"]
@@ -2334,7 +2335,7 @@
           kpi2Ico: "userCheck",
           kpi2Txt: "SLA",
           kpiResumo: "92% · SLA",
-          url: "#gerencia-instalacao-clientes",
+          url: "#",
           escopoLabel: "Atendimento & Instalação",
           searchTags: "instalacao de clientes ligacoes atendimento sla prazos",
           recursos: ["Acompanhamento de instalações concluídas", "Cumprimento de prazos e SLA", "Status de pendências com clientes"]
@@ -2694,6 +2695,7 @@
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
         const isFav = favs.includes(mod.key);
+        const hrefDestino = permitido ? (mod.url || "#") : "#";
 
         return `
           <div class="card-3d-wrap ${slotClass} ${permitido ? "" : "sem-acesso"}" data-slot-idx="${slotIdx}" data-mod-key="${mod.key}">
@@ -2720,9 +2722,9 @@
 
                 <div class="card-actions-stack">
                   <div class="acessar-line">
-                    <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
+                    <a href="${hrefDestino}" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : 'aria-disabled="true" tabindex="-1"'}>
                       ${permitido ? `ABRIR ${svg("crown")}` : `${svg("lock")} BLOQUEADO`}
-                    </button>
+                    </a>
                     <button type="button" class="btn-info-aba btn-detalhes-mod" data-key="${mod.key}" title="Ver detalhes na barra lateral" aria-label="Ver detalhes na barra lateral" ${permitido ? "" : "disabled"}>
                       ${svg("info")}
                     </button>
@@ -2835,12 +2837,14 @@
       }
 
       function vincularEventosCards() {
-        cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(btn => {
-          btn.addEventListener("click", (e) => {
+        cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(link => {
+          link.addEventListener("click", (e) => {
             e.stopPropagation();
-            const mod = MODULOS_GERENCIA.find(m => m.key === btn.getAttribute("data-key"));
-            if (!mod || !usuarioTemAcesso(mod)) return;
-            abrirDrawerDetalhes(mod.key);
+            const mod = MODULOS_GERENCIA.find(m => m.key === link.getAttribute("data-key"));
+            const href = link.getAttribute("href") || "#";
+            if (!mod || !usuarioTemAcesso(mod) || href === "#" || href.startsWith("#")) {
+              e.preventDefault();
+            }
           });
         });
 
@@ -2899,7 +2903,6 @@
         fecharCopilotoIA();
         const mod = MODULOS_GERENCIA.find(m => m.key === key);
         if (!mod) return;
-        itemAtualDrawer = mod;
         const permitido = usuarioTemAcesso(mod);
 
         document.getElementById("drawerModTitulo").textContent = mod.titulo;
@@ -2919,7 +2922,7 @@
         `).join("");
 
         const btnDrawer = document.getElementById("btnDrawerAcessar");
-        btnDrawer.disabled = !permitido;
+        btnDrawer.setAttribute("href", permitido ? (mod.url || "#") : "#");
         btnDrawer.style.opacity = permitido ? "1" : "0.45";
         btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
         btnDrawer.innerHTML = permitido
@@ -2943,9 +2946,11 @@
         fecharCopilotoIA();
       });
 
-      document.getElementById("btnDrawerAcessar").addEventListener("click", () => {
-        if (!itemAtualDrawer || !usuarioTemAcesso(itemAtualDrawer)) return;
-        alert(`Módulo gerencial selecionado: ${itemAtualDrawer.titulo}. Vincule aqui a rota ou relatório correspondente.`);
+      document.getElementById("btnDrawerAcessar").addEventListener("click", (e) => {
+        const href = document.getElementById("btnDrawerAcessar").getAttribute("href") || "#";
+        if (href === "#" || href.startsWith("#")) {
+          e.preventDefault();
+        }
       });
 
       function avancarCarrossel(passo) {
