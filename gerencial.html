@@ -1993,7 +1993,11 @@
       };
 
       // ================= ÍCONES DO SITE (LUCIDE CDN) COM FALLBACK NATIVO =================
-      const SITE_ICON_CDN = "https://unpkg.com/lucide-static@0.469.0/icons/";
+      const SITE_ICON_CDNS = [
+        "https://cdn.jsdelivr.net/npm/lucide-static@0.469.0/icons/",
+        "https://unpkg.com/lucide-static@0.469.0/icons/"
+      ];
+      const SITE_ICON_CDN = SITE_ICON_CDNS[0];
      const LUCIDE_NAME_MAP = {
         info: "info",
         star: "star",
@@ -2076,10 +2080,11 @@
 
       async function tentarAtivarIconesDoSite() {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 6000);
+        const timer = setTimeout(() => controller.abort(), 7000);
 
         try {
-          const probeUrl = `${SITE_ICON_CDN}${LUCIDE_NAME_MAP.layers}.svg`;
+          for (const baseCdn of SITE_ICON_CDNS) {
+          const probeUrl = `${baseCdn}${LUCIDE_NAME_MAP.layers}.svg`;
           const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
           if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
 
@@ -2092,7 +2097,7 @@
           const entries = Object.entries(LUCIDE_NAME_MAP).filter(([k]) => k !== "layers");
           await Promise.allSettled(
             entries.map(async ([key, slug]) => {
-              const r = await fetch(`${SITE_ICON_CDN}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
+              const r = await fetch(`${baseCdn}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
               if (!r.ok) return;
               const txt = await r.text();
               const clean = normalizarSvgExterno(txt, key);
