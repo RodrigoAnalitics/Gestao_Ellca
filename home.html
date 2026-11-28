@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <script>
     if (sessionStorage.getItem('ellca_auth') !== 'true') {
@@ -90,7 +89,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     html, body { min-height: 100%; }
@@ -112,6 +111,19 @@
       overflow-x: hidden;
     }
 
+    .ico-svg {
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      vertical-align: -0.14em;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .tabular { font-variant-numeric: tabular-nums; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -130,7 +142,6 @@
       gap: 11px;
     }
 
-    /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
     .top-navbar-collapse {
       max-height: 90px;
       opacity: 1;
@@ -261,7 +272,6 @@
       background: rgba(56, 189, 248, 0.14);
     }
 
-    /* ================= HERO BANNER ================= */
     .hero-banner {
       position: relative;
       border-radius: 16px;
@@ -321,7 +331,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
@@ -495,7 +505,6 @@
       box-shadow: none;
     }
 
-    /* ================= BARRA DE FILTROS & PESQUISA ================= */
     .filter-toolbar {
       display: flex;
       align-items: center;
@@ -537,13 +546,14 @@
     }
 
     .search-box-wrap { position: relative; min-width: 240px; flex: 0 1 340px; }
-    .search-box-wrap i {
+    .search-box-wrap .search-ico {
       position: absolute;
       left: 11px;
       top: 50%;
       transform: translateY(-50%);
       color: #38bdf8;
-      font-size: 11.5px;
+      font-size: 12px;
+      pointer-events: none;
     }
 
     .search-input {
@@ -563,7 +573,6 @@
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
     }
 
-    /* ================= CARROSSEL + GRADE + CARROSSEL 3D ================= */
     .carousel-shell {
       position: relative;
       border-radius: 16px;
@@ -610,6 +619,9 @@
       border-radius: 6px;
       background: rgba(15, 23, 42, 0.72);
       border: 1px solid rgba(148, 163, 184, 0.22);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .carousel-nav-controls { display: inline-flex; align-items: center; gap: 7px; }
@@ -661,9 +673,7 @@
     .cards-track .card-img-banner { height: var(--card-img-h); }
 
     @media (max-width: 1100px) {
-      .cards-track {
-        grid-template-columns: repeat(2, minmax(272px, var(--card-w)));
-      }
+      .cards-track { grid-template-columns: repeat(2, minmax(272px, var(--card-w))); }
     }
 
     .cards-track.grid-mode {
@@ -923,7 +933,7 @@
       border: 1px solid rgba(255, 255, 255, 0.25);
       background: rgba(5, 10, 22, 0.72);
       color: #cbd5e1;
-      font-size: 10px;
+      font-size: 11px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -977,7 +987,7 @@
       color: #e2e8f0;
     }
 
-    .kpi-pill-item i { color: #38bdf8; }
+    .kpi-pill-item .ico-svg { color: #38bdf8; }
     .kpi-success { color: #34d399 !important; border-color: rgba(52, 211, 153, 0.35) !important; }
 
     .card-actions-stack {
@@ -1064,7 +1074,7 @@
       border: 1px solid rgba(56, 189, 248, 0.45);
       border-radius: 8px;
       color: #38bdf8;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
@@ -1107,7 +1117,6 @@
       box-shadow: 0 0 10px #38bdf8;
     }
 
-    /* ================= DRAWER LATERAL DE DETALHES ================= */
     .details-drawer-backdrop {
       display: none;
       position: fixed;
@@ -1159,6 +1168,9 @@
       background: rgba(15, 23, 42, 0.8);
       color: #e2e8f0;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .details-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -1202,7 +1214,6 @@
       color: #e2e8f0;
     }
 
-    /* ================= RODAPÉ OFICIAL ================= */
     .ellca-official-footer {
       padding: 2px 2px 0;
       display: flex;
@@ -1281,7 +1292,6 @@
 <body>
   <div class="page-container">
 
-    <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
     <div class="top-navbar-collapse">
       <header class="top-navbar">
         <div class="nav-brand-side">
@@ -1300,26 +1310,23 @@
         </div>
 
         <nav class="nav-links-side" aria-label="Menu do Portal">
-          <a href="home.html" class="top-nav-link active"><i class="fa-solid fa-house-user"></i> HOME</a>
-          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
-          <a href="planilha.html" class="top-nav-link"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
-          <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
-          <a href="gerencial.html" class="top-nav-link"><i class="fa-solid fa-crown"></i> GERÊNCIA</a>
-          <a href="organograma.html" class="top-nav-link"><i class="fa-solid fa-sitemap"></i> ORGANOGRAMA</a>
+          <a href="home.html" class="top-nav-link active" data-svg="home">HOME</a>
+          <a href="dashboard.html" class="top-nav-link" data-svg="pie">DASHBOARD</a>
+          <a href="planilha.html" class="top-nav-link" data-svg="sheet">PLANILHAS</a>
+          <a href="supervisor.html" class="top-nav-link" data-svg="shieldUser">SUPERVISÃO</a>
+          <a href="gerencial.html" class="top-nav-link" data-svg="crown">GERÊNCIA</a>
+          <a href="organograma.html" class="top-nav-link" data-svg="sitemap">ORGANOGRAMA</a>
         </nav>
       </header>
     </div>
 
-    <!-- 2. HERO BANNER -->
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
-          <div class="hero-icon-box">
-            <i class="fa-solid fa-layer-group"></i>
-          </div>
+          <div class="hero-icon-box" id="heroMainIconBox"></div>
           <div>
             <div class="hero-greeting-pill tabular" id="homeGreetingPill">
-              <i class="fa-solid fa-sun" id="homeGreetingIcon"></i>
+              <span id="homeGreetingIconWrap"></span>
               <span id="homeGreetingText">Olá, Rodrigo Lopes • Carregando local e clima...</span>
             </div>
             <h1 class="hero-main-title">CENTRAL DE <span>CONTROLE ELLCA</span></h1>
@@ -1346,70 +1353,50 @@
       </div>
 
       <div class="hero-actions-row">
-        <span class="live-badge tabular">
-          <i class="fa-solid fa-circle-check"></i>
-          <span id="liveClockTxt">Portal ativo · --:--</span>
-        </span>
+        <span class="live-badge tabular" id="liveBadgeEl"></span>
 
-        <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
-          <i class="fa-solid fa-sliders"></i> MODO CARROSSEL
-        </button>
-
-        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D">
-          <i class="fa-solid fa-cube"></i> MODO CARROSSEL 3D
-        </button>
-
-        <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade">
-          <i class="fa-solid fa-table-cells"></i> MODO GRADE
-        </button>
+        <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel" data-svg="sliders">MODO CARROSSEL</button>
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D" data-svg="cube">MODO CARROSSEL 3D</button>
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade" data-svg="grid">MODO GRADE</button>
 
         <button type="button" class="hero-btn hero-btn-gold" id="btnFiltroFavoritos">
-          <i class="fa-solid fa-star"></i> FAVORITOS (<span id="favCountTxt">0</span>)
+          <span id="favStarIcon"></span> FAVORITOS (<span id="favCountTxt">0</span>)
         </button>
 
         <button type="button" class="hero-btn hero-btn-blue" id="btnAutoPlay">
-          <i class="fa-solid fa-pause" id="iconAutoPlay"></i> <span id="txtAutoPlay">AUTOPLAY: ON</span>
+          <span id="iconAutoPlayWrap"></span> <span id="txtAutoPlay">AUTOPLAY: ON</span>
         </button>
 
         <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu" style="margin-left:auto;">
-          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="iconToggleMenuWrap"></span>
           <span id="txtToggleMenu">OCULTAR MENU</span>
         </button>
       </div>
     </section>
 
-    <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todos (<span id="catTodosCount">5</span>)</button>
-        <button type="button" class="cat-btn" data-cat="BI_DADOS"><i class="fa-solid fa-chart-pie"></i> BI & Dados</button>
-        <button type="button" class="cat-btn" data-cat="EXECUTIVO"><i class="fa-solid fa-crown"></i> Executivo & Equipe</button>
-        <button type="button" class="cat-btn" data-cat="SUPERVISAO"><i class="fa-solid fa-user-shield"></i> Supervisão</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS" data-svg="layers">Todos (<span id="catTodosCount">5</span>)</button>
+        <button type="button" class="cat-btn" data-cat="BI_DADOS" data-svg="pie">BI &amp; Dados</button>
+        <button type="button" class="cat-btn" data-cat="EXECUTIVO" data-svg="crown">Executivo &amp; Equipe</button>
+        <button type="button" class="cat-btn" data-cat="SUPERVISAO" data-svg="shieldUser">Supervisão</button>
       </div>
 
-      <div class="search-box-wrap">
-        <i class="fa-solid fa-magnifying-glass"></i>
+      <div class="search-box-wrap" id="searchBoxWrap">
         <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar módulo na Central de Controle..." />
       </div>
     </div>
 
-    <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
     <section class="carousel-shell">
       <div class="carousel-header-bar">
-        <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-layer-group"></i> EXIBINDO 5 DE 5 MÓDULOS · MODO CARROSSEL
-        </span>
+        <span class="carousel-status-label" id="carouselStatusLabel"></span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
-          <span class="kbd-hint" title="Use as setas do teclado para navegar e Espaço para pausar">
-            <i class="fa-solid fa-keyboard"></i> ← → Navegar · Espaço Pausar
+          <span class="kbd-hint" id="kbdHintEl" title="Use as setas do teclado para navegar e Espaço para pausar">
+            ← → Navegar · Espaço Pausar
           </span>
-          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior (Seta Esquerda)" aria-label="Anterior">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo (Seta Direita)" aria-label="Próximo">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
+          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior (Seta Esquerda)" aria-label="Anterior"></button>
+          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo (Seta Direita)" aria-label="Próximo"></button>
         </div>
       </div>
 
@@ -1417,35 +1404,27 @@
       <div class="pagination-dots" id="paginationDots"></div>
     </section>
 
-    <!-- 5. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
-      <div class="footer-system-text">
-        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0</strong></span>
+      <div class="footer-system-text" id="footerSysText">
+        <span>Sistema ELLCA <strong>v2.5.0</strong></span>
         <span>•</span>
         <span>Módulo: <strong>Central de Controle</strong></span>
       </div>
 
       <div class="footer-right-actions">
-        <button type="button" class="btn-footer-support" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-          <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
-        </button>
-        <span style="color:#cbd5e1;"><i class="fa-solid fa-user-check" style="color:#34d399;"></i> Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
-        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
+        <button type="button" class="btn-footer-support" id="btnFooterSupport" title="Rodrigo.lopes@ellca2.com.br">Suporte</button>
+        <span style="color:#cbd5e1;" id="footerUserWrap">Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
+        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">Sair</button>
       </div>
     </footer>
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
       <h3 id="drawerModTitulo">Módulo</h3>
-      <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes" aria-label="Fechar Detalhes">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes" aria-label="Fechar Detalhes"></button>
     </div>
     <p id="drawerModDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
     <div class="details-meta-grid">
@@ -1458,13 +1437,80 @@
       Recursos Disponíveis
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
-    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ACESSAR MÓDULO <i class="fa-solid fa-rocket"></i>
-    </button>
+    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;"></button>
   </aside>
 
   <script>
     (function iniciarHomeMaxStar() {
+      const SVG_MAP = {
+        info: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+        star: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+        starFilled: '<svg class="ico-svg" style="fill:currentColor;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+        pin: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+        sun: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
+        moon: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+        cloudSun: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>',
+        cloud: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',
+        rain: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></svg>',
+        bolt: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+        checkCircle: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+        check: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+        rocket: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+        lock: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+        layers: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+        pie: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>',
+        chart: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+        trendUp: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
+        calendar: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+        database: '<svg class="ico-svg" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+        sheet: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>',
+        crown: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>',
+        shield: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        shieldUser: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+        users: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        userCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>',
+        idBadge: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="9" r="2.5"/><path d="M8 16c0-1.8 1.8-3 4-3s4 1.2 4 3"/></svg>',
+        clipboardCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><polyline points="9 14 11 16 15 12"/></svg>',
+        home: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        sitemap: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-5h14v5"/></svg>',
+        sliders: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>',
+        cube: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+        grid: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+        pause: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>',
+        play: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+        eyeOff: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>',
+        menu: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>',
+        search: '<svg class="ico-svg search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+        chevronLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>',
+        chevronRight: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>',
+        keyboard: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></svg>',
+        close: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+        headset: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>',
+        logout: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
+      };
+
+      function svg(name) {
+        return SVG_MAP[name] || SVG_MAP.info;
+      }
+
+      document.querySelectorAll("[data-svg]").forEach(el => {
+        el.insertAdjacentHTML("afterbegin", svg(el.getAttribute("data-svg")));
+      });
+      document.getElementById("heroMainIconBox").innerHTML = svg("layers");
+      document.getElementById("liveBadgeEl").innerHTML = `${svg("checkCircle")}<span id="liveClockTxt">Portal ativo · --:--</span>`;
+      document.getElementById("favStarIcon").innerHTML = svg("starFilled");
+      document.getElementById("iconAutoPlayWrap").innerHTML = svg("pause");
+      document.getElementById("iconToggleMenuWrap").innerHTML = svg("eyeOff");
+      document.getElementById("searchBoxWrap").insertAdjacentHTML("afterbegin", svg("search"));
+      document.getElementById("kbdHintEl").insertAdjacentHTML("afterbegin", svg("keyboard"));
+      document.getElementById("btnPrevCard").innerHTML = svg("chevronLeft");
+      document.getElementById("btnNextCard").innerHTML = svg("chevronRight");
+      document.getElementById("footerSysText").insertAdjacentHTML("afterbegin", `<span style="color:#64748b;">${svg("shield")}</span>`);
+      document.getElementById("btnFooterSupport").insertAdjacentHTML("afterbegin", `<span style="color:#38bdf8;">${svg("headset")}</span>`);
+      document.getElementById("footerUserWrap").insertAdjacentHTML("afterbegin", `<span style="color:#34d399;">${svg("userCheck")}</span>`);
+      document.getElementById("btnSairRodape").insertAdjacentHTML("afterbegin", svg("logout"));
+      document.getElementById("btnFecharDrawer").innerHTML = svg("close");
+
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
         "Rodrigo Lopes": ["todos"],
@@ -1498,12 +1544,12 @@
           categoria: "BI_DADOS",
           badge: "BI",
           badgeGold: false,
-          icone: "fa-chart-column",
+          icone: "chart",
           imagem: "img/Card_dashboard.jpg",
           titulo: "DASHBOARDS",
           desc: "Centralização de dados e indicadores para acompanhamento ágil e visual das informações.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-arrow-up"></i> +18%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Mensal</span>',
+          kpi1: `<span class="kpi-success">${svg("trendUp")} +18%</span>`,
+          kpi2: `<span>${svg("chart")} Mensal</span>`,
           kpiResumo: "+18% · Mensal",
           url: "dashboard.html",
           searchTags: "dashboards bi indicadores graficos",
@@ -1515,12 +1561,12 @@
           categoria: "BI_DADOS",
           badge: "PLANILHA",
           badgeGold: true,
-          icone: "fa-database",
+          icone: "database",
           imagem: "img/Card_base_dados.jpg",
           titulo: "BANCO DE DADOS",
           desc: "Controle unificado e planilhas inteligentes para auditoria.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
-          kpi2: '<span><i class="fa-solid fa-calendar"></i> Período</span>',
+          kpi1: `<span class="kpi-success">${svg("checkCircle")} 92%</span>`,
+          kpi2: `<span>${svg("calendar")} Período</span>`,
           kpiResumo: "92% · Período",
           url: "planilha.html",
           searchTags: "banco dados planilhas auditoria registros",
@@ -1532,12 +1578,12 @@
           categoria: "EXECUTIVO",
           badge: "EXECUTIVO",
           badgeGold: true,
-          icone: "fa-crown",
+          icone: "crown",
           imagem: "img/Card_gerencial.jpg",
           titulo: "GERÊNCIA 🏆",
           desc: "Indicadores estratégicos e operacionais para uma visão integrada dos resultados da empresa.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-shield-halved"></i> Restrito</span>',
-          kpi2: '<span><i class="fa-solid fa-crown"></i> Diretoria</span>',
+          kpi1: `<span class="kpi-success">${svg("shield")} Restrito</span>`,
+          kpi2: `<span>${svg("crown")} Diretoria</span>`,
           kpiResumo: "Restrito · Diretoria",
           url: "gerencial.html",
           searchTags: "gerencial diretoria executivo resultados metas",
@@ -1549,12 +1595,12 @@
           categoria: "EXECUTIVO",
           badge: "EQUIPE",
           badgeGold: false,
-          icone: "fa-users",
+          icone: "users",
           imagem: "img/Card_Organograma.jpg",
           titulo: "ORGANOGRAMA",
           desc: "Gestão centralizada de informações, acessos e cadastros dos colaboradores da empresa.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-user-check"></i> Ativo</span>',
-          kpi2: '<span><i class="fa-solid fa-id-badge"></i> Cadastros</span>',
+          kpi1: `<span class="kpi-success">${svg("userCheck")} Ativo</span>`,
+          kpi2: `<span>${svg("idBadge")} Cadastros</span>`,
           kpiResumo: "Ativo · Cadastros",
           url: "organograma.html",
           searchTags: "colaboradores equipe rh dp acessos cadastros",
@@ -1566,12 +1612,12 @@
           categoria: "SUPERVISAO",
           badge: "CAMPO",
           badgeGold: false,
-          icone: "fa-user-shield",
+          icone: "shieldUser",
           imagem: "img/Card_supervisor.jpg",
           titulo: "SUPERVISOR",
           desc: "Acompanhamento de equipes, rotinas operacionais e metas da supervisão em campo.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-bolt"></i> 93%</span>',
-          kpi2: '<span><i class="fa-solid fa-clipboard-check"></i> Turno</span>',
+          kpi1: `<span class="kpi-success">${svg("bolt")} 93%</span>`,
+          kpi2: `<span>${svg("clipboardCheck")} Turno</span>`,
           kpiResumo: "93% · Turno",
           url: "supervisor.html",
           searchTags: "supervisor campo equipes produtividade programacao",
@@ -1627,6 +1673,10 @@
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
 
+      document.getElementById("btnFooterSupport").addEventListener("click", () => {
+        alert("E-mail de suporte: Rodrigo.lopes@ellca2.com.br");
+      });
+
       document.getElementById("btnSairRodape").addEventListener("click", () => {
         sessionStorage.removeItem("ellca_auth");
         sessionStorage.removeItem("ellca_user_name");
@@ -1634,7 +1684,7 @@
         window.location.href = "login.html";
       });
 
-      const estadoClima = { cidade: "Ananindeua - PA", temperatura: "--°C", icone: "fa-cloud-sun" };
+      const estadoClima = { cidade: "Ananindeua - PA", temperatura: "--°C", icone: "cloudSun" };
 
       function obterSaudacaoPorHorario(hora) {
         if (hora >= 5 && hora < 12) return "Bom dia";
@@ -1643,12 +1693,11 @@
       }
 
       function mapearIconeClima(weatherCode, isDay) {
-        if (weatherCode === 0) return isDay ? "fa-sun" : "fa-moon";
-        if ([1, 2, 3].includes(weatherCode)) return isDay ? "fa-cloud-sun" : "fa-cloud-moon";
-        if ([45, 48].includes(weatherCode)) return "fa-smog";
-        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "fa-cloud-showers-heavy";
-        if ([95, 96, 99].includes(weatherCode)) return "fa-cloud-bolt";
-        return "fa-cloud";
+        if (weatherCode === 0) return isDay ? "sun" : "moon";
+        if ([1, 2, 3].includes(weatherCode)) return isDay ? "cloudSun" : "moon";
+        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "rain";
+        if ([95, 96, 99].includes(weatherCode)) return "bolt";
+        return "cloud";
       }
 
       function renderizarSaudacaoEHorario() {
@@ -1659,11 +1708,11 @@
         const ss = String(now.getSeconds()).padStart(2, "0");
         const saudacao = obterSaudacaoPorHorario(h);
 
-        document.getElementById("homeGreetingIcon").className = `fa-solid ${estadoClima.icone}`;
+        document.getElementById("homeGreetingIconWrap").innerHTML = svg(estadoClima.icone);
         document.getElementById("homeGreetingText").innerHTML = `
           <span class="pill-item">Olá, ${saudacao}, ${nomeExibicao}</span>
           <span class="pill-sep">•</span>
-          <span class="pill-item"><i class="fa-solid fa-location-dot"></i>${estadoClima.cidade}</span>
+          <span class="pill-item">${svg("pin")}${estadoClima.cidade}</span>
           <span class="pill-sep">•</span>
           <span class="pill-item pill-temp">${estadoClima.temperatura}</span>
           <span class="pill-sep">•</span>
@@ -1790,10 +1839,10 @@
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
                   <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
-                    ${permitido ? `${mod.badge} <i class="fa-solid ${mod.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
+                    ${permitido ? `${mod.badge} ${svg(mod.icone)}` : `BLOQUEADO ${svg("lock")}`}
                   </span>
                   <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos" aria-label="Fixar nos favoritos">
-                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                    ${isFav ? svg("starFilled") : svg("star")}
                   </button>
                 </div>
 
@@ -1810,10 +1859,10 @@
                 <div class="card-actions-stack">
                   <div class="acessar-line">
                     <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido && !travado ? "" : "disabled"} title="${travado ? "Link pendente (#)" : "Acessar módulo"}">
-                      ${permitido ? `ACESSAR <i class="fa-solid fa-rocket"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                      ${permitido ? `ACESSAR ${svg("rocket")}` : `${svg("lock")} BLOQUEADO`}
                     </button>
                     <button type="button" class="btn-info-aba btn-detalhes-mod" data-key="${mod.key}" title="Ver detalhes na barra lateral" aria-label="Ver detalhes na barra lateral">
-                      <i class="fa-solid fa-info"></i>
+                      ${svg("info")}
                     </button>
                   </div>
                   <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
@@ -1841,7 +1890,7 @@
 
         const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
         document.getElementById("carouselStatusLabel").innerHTML =
-          `<i class="fa-solid fa-layer-group"></i> EXIBINDO ${total} DE ${MODULOS_HOME.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+          `${svg("layers")} EXIBINDO ${total} DE ${MODULOS_HOME.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
         if (total === 0) {
           assinaturaDomAtual = "vazio";
@@ -1999,7 +2048,7 @@
         document.getElementById("drawerModPerm").style.color = permitido ? "#34d399" : "#f87171";
 
         document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
-          <li><span>${rec}</span><i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i></li>
+          <li><span>${rec}</span><span style="color:#38bdf8;">${svg("check")}</span></li>
         `).join("");
 
         const btnDrawer = document.getElementById("btnDrawerAcessar");
@@ -2008,8 +2057,8 @@
         btnDrawer.style.opacity = podeClicar ? "1" : "0.45";
         btnDrawer.style.pointerEvents = podeClicar ? "auto" : "none";
         btnDrawer.innerHTML = !permitido
-          ? `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`
-          : (travado ? `<i class="fa-solid fa-link-slash"></i> LINK PENDENTE` : `ACESSAR MÓDULO <i class="fa-solid fa-rocket"></i>`);
+          ? `${svg("lock")} ACESSO BLOQUEADO`
+          : (travado ? `${svg("lock")} LINK PENDENTE` : `ACESSAR MÓDULO ${svg("rocket")}`);
 
         detailsBackdrop.classList.add("open");
         detailsDrawer.classList.add("open");
@@ -2045,7 +2094,7 @@
 
       function alternarAutoPlay() {
         autoPlayAtivo = !autoPlayAtivo;
-        document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
+        document.getElementById("iconAutoPlayWrap").innerHTML = autoPlayAtivo ? svg("pause") : svg("play");
         document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
         iniciarAutoPlay();
       }
@@ -2105,7 +2154,7 @@
 
       document.getElementById("btnToggleMenu").addEventListener("click", () => {
         const oculto = document.body.classList.toggle("menu-hidden");
-        document.getElementById("iconToggleMenu").className = oculto ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
+        document.getElementById("iconToggleMenuWrap").innerHTML = oculto ? svg("menu") : svg("eyeOff");
         document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
       });
 
