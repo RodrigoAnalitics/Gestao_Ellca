@@ -1821,6 +1821,84 @@
     }
 
     /* Breakpoint para smartphones até 520px */
+
+    /* ================= AJUSTES: BORDA 360 SEQUENCIAL + BOTAO VOLTAR ================= */
+    @keyframes sequentialCardBorder360 {
+      0% {
+        --sweep-angle: 0deg;
+      }
+      100% {
+        --sweep-angle: 360deg;
+      }
+    }
+
+    .card-3d-wrap:not(.sem-acesso).seq-border-active .card-surface {
+      opacity: 1 !important;
+      border-color: rgba(250, 204, 21, 0.92) !important;
+      box-shadow:
+        0 20px 44px rgba(0, 0, 0, 0.78),
+        0 0 28px rgba(250, 204, 21, 0.28),
+        inset 0 1px 0 rgba(254, 240, 138, 0.35) !important;
+    }
+
+    .card-3d-wrap:not(.sem-acesso).seq-border-active .card-surface::before {
+      opacity: 1 !important;
+      animation: sequentialCardBorder360 var(--card-turn) linear 1 forwards !important;
+    }
+
+    body.glow-paused .card-3d-wrap.seq-border-active .card-surface::before {
+      animation-play-state: paused !important;
+    }
+
+    .top-nav-link.prev-tab-highlight:not(.active) {
+      color: #fde047;
+      background: rgba(250, 204, 21, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.32);
+    }
+
+    .btn-back-circle {
+      position: relative;
+      overflow: hidden;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(56, 189, 248, 0.58);
+      background: linear-gradient(145deg, rgba(14, 165, 233, 0.25), rgba(15, 23, 42, 0.94));
+      color: #e0f2fe;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, background 0.22s ease, box-shadow 0.25s ease, color 0.2s ease;
+    }
+
+    .btn-back-circle::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.42) 50%, transparent 80%);
+      transform: translateX(-140%);
+      transition: transform 0.52s ease;
+      pointer-events: none;
+    }
+
+    .btn-back-circle:hover:not(:disabled) {
+      transform: translateX(-2px) scale(1.06);
+      border-color: #7dd3fc;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: #040d1e;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.58), 0 6px 18px rgba(2, 132, 199, 0.36);
+    }
+
+    .btn-back-circle:hover:not(:disabled)::before {
+      transform: translateX(140%);
+    }
+
+    .btn-back-circle:active:not(:disabled) {
+      transform: translateX(-1px) scale(0.95);
+    }
+
+    .btn-back-circle.has-prev-tab {
+      border-color: rgba(250, 204, 21, 0.76);
+      box-shadow: 0 0 14px rgba(250, 204, 21, 0.26), inset 0 1px 0 rgba(254, 240, 138, 0.35);
+    }
+
     @media (max-width: 520px) {
       body { padding: 10px 12px 14px; } /* Padding lateral menor no mobile */
       .hero-banner { padding: 12px 14px; } /* Padding compacto no hero */
@@ -1878,7 +1956,7 @@
           <a href="gerencial.html" class="top-nav-link active" data-svg="crown">GERÊNCIA</a>
           <a href="organograma.html" class="top-nav-link" data-svg="sitemap">ORGANOGRAMA</a>
           <!-- Botão rápido de retorno à home -->
-          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle" aria-label="Voltar para a Central de Controle"></button>
+          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a aba anterior" aria-label="Voltar para a aba anterior"></button>
         </nav>
       </header>
     </div>
@@ -2101,6 +2179,9 @@
       let autoPlayAtivo = true; // Controla rotação automática do carrossel e insights
       let timerCarrossel = null; // Guarda o ID do setInterval do carrossel para limpar/reiniciar com segurança
       let assinaturaDomAtual = ""; // Cache de estado para evitar recriar o DOM sem necessidade
+      let timerBordaSeq = null; // Temporizador para passar a borda de 360° de um card ao próximo
+      let indiceBordaSeq = 0; // Índice do card recebendo a borda de 360° no momento
+      const pilhaHistoricoAbas = ["home.html"]; // Histórico das abas/telas visitadas
 
       let modoIconeAtivo = "nativo"; // Alterna entre "nativo" (SVG local) e "site" (SVG baixado do CDN)
       const cacheIconesSite = {}; // Cache em memória para SVGs baixados do CDN
@@ -2774,9 +2855,89 @@
         alert("E-mail de suporte: Rodrigo.lopes@ellca2.com.br");
       });
 
-      // Navega para a home ao clicar no botão voltar circular
-      document.getElementById("btnVoltarHome").addEventListener("click", () => {
-        window.location.href = "home.html";
+      // Gerencia pilha de abas/rotas para retornar sempre para a aba anterior ao clicar em Voltar
+      const btnVoltarPortal = document.getElementById("btnVoltarHome");
+
+      function obterAbaAtual() {
+        const path = window.location.pathname || "";
+        const nomeArquivo = path.split("/").pop();
+        return nomeArquivo || "gerencial.html";
+      }
+
+      function sincronizarHistoricoAbas() {
+        try {
+          const salvo = JSON.parse(sessionStorage.getItem("ellca_tab_history") || "null");
+          if (Array.isArray(salvo) && salvo.length > 0) {
+            pilhaHistoricoAbas.splice(0, pilhaHistoricoAbas.length, ...salvo);
+          }
+        } catch {}
+        const atual = obterAbaAtual();
+        if (pilhaHistoricoAbas[pilhaHistoricoAbas.length - 1] !== atual) {
+          pilhaHistoricoAbas.push(atual);
+        }
+        try {
+          sessionStorage.setItem("ellca_tab_history", JSON.stringify(pilhaHistoricoAbas));
+        } catch {}
+      }
+
+      function registrarVisitaAba(destinoHref) {
+        if (!destinoHref || destinoHref === "#" || destinoHref.startsWith("#") || destinoHref.startsWith("javascript:")) return;
+        const destino = destinoHref.split("/").pop();
+        const atual = obterAbaAtual();
+        if (pilhaHistoricoAbas[pilhaHistoricoAbas.length - 1] !== atual) {
+          pilhaHistoricoAbas.push(atual);
+        }
+        if (destino && pilhaHistoricoAbas[pilhaHistoricoAbas.length - 1] !== destino) {
+          pilhaHistoricoAbas.push(destino);
+        }
+        try {
+          sessionStorage.setItem("ellca_tab_history", JSON.stringify(pilhaHistoricoAbas));
+        } catch {}
+      }
+
+      function descobrirAbaAnterior() {
+        const atual = obterAbaAtual();
+        for (let i = pilhaHistoricoAbas.length - 1; i >= 0; i--) {
+          if (pilhaHistoricoAbas[i] && pilhaHistoricoAbas[i] !== atual) {
+            return pilhaHistoricoAbas[i];
+          }
+        }
+        return "home.html";
+      }
+
+      function atualizarVisualBotaoVoltar() {
+        const abaAnterior = descobrirAbaAnterior();
+        const labelAnterior = abaAnterior.replace(".html", "").toUpperCase();
+        btnVoltarPortal.dataset.prevTab = abaAnterior;
+        btnVoltarPortal.classList.toggle("has-prev-tab", abaAnterior !== "home.html");
+        btnVoltarPortal.title = `Voltar para a aba anterior (${labelAnterior})`;
+        btnVoltarPortal.setAttribute("aria-label", `Voltar para a aba anterior (${labelAnterior})`);
+
+        document.querySelectorAll(".top-nav-link").forEach(link => {
+          const hrefArquivo = (link.getAttribute("href") || "").split("/").pop();
+          link.classList.toggle("prev-tab-highlight", hrefArquivo === abaAnterior && !link.classList.contains("active"));
+        });
+      }
+
+      sincronizarHistoricoAbas();
+      atualizarVisualBotaoVoltar();
+
+      document.querySelectorAll(".top-nav-link").forEach(link => {
+        link.addEventListener("click", () => {
+          registrarVisitaAba(link.getAttribute("href"));
+        });
+      });
+
+      btnVoltarPortal.addEventListener("click", () => {
+        const atual = obterAbaAtual();
+        while (pilhaHistoricoAbas.length > 0 && pilhaHistoricoAbas[pilhaHistoricoAbas.length - 1] === atual) {
+          pilhaHistoricoAbas.pop();
+        }
+        const abaAnterior = pilhaHistoricoAbas.pop() || btnVoltarPortal.dataset.prevTab || "home.html";
+        try {
+          sessionStorage.setItem("ellca_tab_history", JSON.stringify(pilhaHistoricoAbas));
+        } catch {}
+        window.location.href = abaAnterior;
       });
 
       // Limpa dados de sessão e retorna para login.html ao sair
@@ -3044,6 +3205,8 @@
           }
         }
 
+        iniciarSequenciaBordaCards(true);
+
         // Renderiza os indicadores de posição (dots) quando a navegação é aplicável
         if (mostraSetas) {
           paginationDots.innerHTML = itens.map((_, idx) => `
@@ -3196,6 +3359,11 @@
       function iniciarAutoPlay() {
         clearInterval(timerCarrossel);
         document.body.classList.toggle("glow-paused", !autoPlayAtivo);
+        if (autoPlayAtivo) {
+          executarPassoBorda360();
+        } else {
+          clearTimeout(timerBordaSeq);
+        }
         if (!autoPlayAtivo || modoVisualizacao === "grade") return;
         const intervalo = modoVisualizacao === "3d" ? 5000 : 5500;
         timerCarrossel = setInterval(() => avancarCarrossel(1), intervalo);
@@ -3289,6 +3457,64 @@
       window.addEventListener("resize", () => {
         if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
+
+      // ================= EFEITO DE BORDA 360° SEQUENCIAL ENTRE CARDS =================
+      function obterDuracaoGiroBordaMs() {
+        const val = getComputedStyle(document.documentElement).getPropertyValue("--card-turn").trim();
+        if (val.endsWith("ms")) return Math.max(400, parseFloat(val) || 4200);
+        if (val.endsWith("s")) return Math.max(400, (parseFloat(val) || 4.2) * 1000);
+        return 4200;
+      }
+
+      function obterCardsAlvoBorda360() {
+        const cards = Array.from(cardsWrapper.querySelectorAll(".card-3d-wrap:not(.sem-acesso)"));
+        if (modoVisualizacao === "3d") {
+          const central = cards.filter(c => c.classList.contains("slot-center"));
+          return central.length ? central : cards;
+        }
+        return cards.filter(c => !c.classList.contains("slot-hidden"));
+      }
+
+      function limparDestaqueBordaSeq() {
+        clearTimeout(timerBordaSeq);
+        cardsWrapper.querySelectorAll(".card-3d-wrap.seq-border-active").forEach(c => {
+          c.classList.remove("seq-border-active");
+        });
+      }
+
+      function executarPassoBorda360() {
+        clearTimeout(timerBordaSeq);
+        const alvos = obterCardsAlvoBorda360();
+        cardsWrapper.querySelectorAll(".card-3d-wrap.seq-border-active").forEach(c => {
+          c.classList.remove("seq-border-active");
+        });
+
+        if (!alvos.length || !autoPlayAtivo) return;
+
+        if (indiceBordaSeq >= alvos.length) {
+          indiceBordaSeq = 0;
+        }
+
+        const cardAtual = alvos[indiceBordaSeq];
+        const surface = cardAtual.querySelector(".card-surface");
+        if (surface) {
+          surface.style.setProperty("--sweep-angle", "0deg");
+          void surface.offsetWidth; // Reinicia o giro de 360° a partir de 0deg
+        }
+        cardAtual.classList.add("seq-border-active");
+
+        const duracaoMs = obterDuracaoGiroBordaMs();
+        indiceBordaSeq = (indiceBordaSeq + 1) % alvos.length;
+
+        timerBordaSeq = setTimeout(() => {
+          executarPassoBorda360();
+        }, duracaoMs);
+      }
+
+      function iniciarSequenciaBordaCards(resetarIndice = false) {
+        if (resetarIndice) indiceBordaSeq = 0;
+        executarPassoBorda360();
+      }
 
       // ================= INICIALIZAÇÃO ORDENADA =================
       reaplicarTodosOsIcones(); // 1. Insere SVGs iniciais na interface
