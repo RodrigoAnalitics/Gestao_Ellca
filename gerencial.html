@@ -2079,42 +2079,45 @@
       }
 
       async function tentarAtivarIconesDoSite() {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 7000);
+        for (const baseCdn of SITE_ICON_CDNS) {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 7000);
 
-        try {
-          for (const baseCdn of SITE_ICON_CDNS) {
-          const probeUrl = `${baseCdn}${LUCIDE_NAME_MAP.layers}.svg`;
-          const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
-          if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
+          try {
+            const probeUrl = `${baseCdn}${LUCIDE_NAME_MAP.layers}.svg`;
+            const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
+            if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
 
-          const probeText = await probeResp.text();
-          const parsedProbe = normalizarSvgExterno(probeText, "layers");
-          if (!parsedProbe) throw new Error("SVG inválido");
+            const probeText = await probeResp.text();
+            const parsedProbe = normalizarSvgExterno(probeText, "layers");
+            if (!parsedProbe) throw new Error("SVG inválido");
 
-          cacheIconesSite["layers"] = parsedProbe;
+            cacheIconesSite["layers"] = parsedProbe;
 
-          const entries = Object.entries(LUCIDE_NAME_MAP).filter(([k]) => k !== "layers");
-          await Promise.allSettled(
-            entries.map(async ([key, slug]) => {
-              const r = await fetch(`${baseCdn}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
-              if (!r.ok) return;
-              const txt = await r.text();
-              const clean = normalizarSvgExterno(txt, key);
-              if (clean) cacheIconesSite[key] = clean;
-            })
-          );
+            const entries = Object.entries(LUCIDE_NAME_MAP).filter(([k]) => k !== "layers");
+            await Promise.allSettled(
+              entries.map(async ([key, slug]) => {
+                const r = await fetch(`${baseCdn}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
+                if (!r.ok) return;
+                const txt = await r.text();
+                const clean = normalizarSvgExterno(txt, key);
+                if (clean) cacheIconesSite[key] = clean;
+              })
+            );
 
-          clearTimeout(timer);
-          siteCdnDisponivel = true;
-          modoIconeAtivo = "site";
-          reaplicarTodosOsIcones();
-          renderizarCards(true);
-        } catch {
-          clearTimeout(timer);
-          siteCdnDisponivel = false;
-          modoIconeAtivo = "nativo";
+            clearTimeout(timer);
+            siteCdnDisponivel = true;
+            modoIconeAtivo = "site";
+            reaplicarTodosOsIcones();
+            renderizarCards(true);
+            return;
+          } catch {
+            clearTimeout(timer);
+          }
         }
+
+        siteCdnDisponivel = false;
+        modoIconeAtivo = "nativo";
       }
 
       const PERMISSOES_POR_USUARIO = {
