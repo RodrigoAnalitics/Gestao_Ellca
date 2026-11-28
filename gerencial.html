@@ -2,103 +2,120 @@
 <html lang="pt-BR">
 
 <head>
+  <!-- Define o conjunto de caracteres UTF-8 para suportar acentos e símbolos especiais -->
   <meta charset="UTF-8" />
+  <!-- Garante responsividade em telas de diferentes tamanhos (mobile, tablet, desktop) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Título exibido na aba do navegador -->
   <title>ELLCA | GERÊNCIA EXECUTIVA • PREMIUM MAX STAR 2.0</title>
 
+  <!-- Pré-conecta ao servidor de fontes para acelerar o carregamento -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Importa a família tipográfica Inter com vários pesos (400 a 900) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
+  <!-- Guarda de autenticação: redireciona para login.html se a sessão não estiver autenticada -->
   <script>
-    if (sessionStorage.getItem('ellca_auth') !== 'true') {
-      window.location.replace('login.html');
+    if (sessionStorage.getItem('ellca_auth') !== 'true') { // Verifica flag de autenticação na sessão atual
+      window.location.replace('login.html'); // Substitui a URL atual sem deixar histórico de volta
     }
   </script>
 
   <style>
+    /* Variáveis globais CSS para dimensões adaptativas e duração da animação da borda */
     :root {
-      --card-w: clamp(276px, 19.5vw, 320px);
-      --card-h: clamp(326px, 38vh, 356px);
-      --card-img-h: clamp(122px, 12vh, 142px);
-      --card-turn: 4.2s;
+      --card-w: clamp(276px, 19.5vw, 320px); /* Largura fluida do card entre 276px e 320px */
+      --card-h: clamp(326px, 38vh, 356px); /* Altura fluida do card baseada na viewport */
+      --card-img-h: clamp(122px, 12vh, 142px); /* Altura da imagem de capa dentro do card */
+      --card-turn: 4.2s; /* Tempo de um giro completo do brilho na borda */
     }
 
+    /* Registra propriedade customizada do tipo <angle> para animar rotação com CSS */
     @property --sweep-angle {
-      syntax: "<angle>";
-      initial-value: 0deg;
-      inherits: false;
+      syntax: "<angle>"; /* Aceita valores angulares como deg ou turn */
+      initial-value: 0deg; /* Ângulo inicial da varredura luminosa */
+      inherits: false; /* Não herda automaticamente para elementos filhos */
     }
 
+    /* Animação contínua de 0deg a 360deg para o feixe da borda */
     @keyframes borderSweepContinuous {
-      from { --sweep-angle: 0deg; }
-      to { --sweep-angle: 360deg; }
+      from { --sweep-angle: 0deg; } /* Ponto de partida */
+      to { --sweep-angle: 360deg; } /* Volta completa ao círculo */
     }
 
+    /* Pulso suave do indicador de status online */
     @keyframes pulseDot {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.35); opacity: 0.65; }
+      0%, 100% { transform: scale(1); opacity: 1; } /* Tamanho e opacidade normais */
+      50% { transform: scale(1.35); opacity: 0.65; } /* Leve expansão e transparência no pico */
     }
 
+    /* Entrada suave do card central no modo carrossel 3D */
     @keyframes card3dTurnIn {
-      0% { transform: translate3d(0, 6px, 0) scale(0.95); }
-      100% { transform: translate3d(0, 0, 0) scale(1); }
+      0% { transform: translate3d(0, 6px, 0) scale(0.95); } /* Começa levemente abaixo e menor */
+      100% { transform: translate3d(0, 0, 0) scale(1); } /* Assenta na posição final */
     }
 
+    /* Glow pulsante para o selo da IA executiva */
     @keyframes aiPulse {
-      0%, 100% { box-shadow: 0 0 0 rgba(56, 189, 248, 0); }
-      50% { box-shadow: 0 0 16px rgba(56, 189, 248, 0.38); }
+      0%, 100% { box-shadow: 0 0 0 rgba(56, 189, 248, 0); } /* Sem halo externo */
+      50% { box-shadow: 0 0 16px rgba(56, 189, 248, 0.38); } /* Halo azul-ciano no meio do ciclo */
     }
 
+    /* Glow dourado suave para o selo Max Star 2.0 */
     @keyframes starGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); }
-      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); }
+      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); } /* Estado base */
+      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); } /* Brilho dourado no pico */
     }
 
+    /* Reset universal de margens, preenchimentos, box-sizing e fonte padrão */
     *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      box-sizing: border-box; /* Inclui borda e padding no cálculo de largura/altura */
+      margin: 0; /* Remove margem padrão do navegador */
+      padding: 0; /* Remove padding padrão do navegador */
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Pilha de fontes */
     }
 
+    /* Garante altura mínima de 100% em html e body */
     html, body {
-      min-height: 100%;
+      min-height: 100%; /* Ocupa ao menos toda a altura disponível */
     }
 
+    /* Fundo escuro executivo com múltiplas camadas de luz radial (gradiente atmosférico) */
     body {
-      background-color: #050811;
+      background-color: #050811; /* Cor base azul-marinho quase preto */
       background-image:
-        radial-gradient(ellipse 75% 55% at 15% 4%, rgba(37, 99, 235, 0.25) 0%, transparent 65%),
-        radial-gradient(ellipse 65% 48% at 88% 12%, rgba(56, 189, 248, 0.18) 0%, transparent 60%),
-        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%);
-      color: #f8fafc;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: clamp(10px, 1.4vh, 16px) clamp(14px, 2vw, 24px);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      overflow-x: hidden;
+        radial-gradient(ellipse 75% 55% at 15% 4%, rgba(37, 99, 235, 0.25) 0%, transparent 65%), /* Luz azul superior esquerda */
+        radial-gradient(ellipse 65% 48% at 88% 12%, rgba(56, 189, 248, 0.18) 0%, transparent 60%), /* Luz ciano superior direita */
+        radial-gradient(ellipse 65% 50% at 50% 55%, rgba(29, 78, 216, 0.12) 0%, transparent 70%), /* Luz central difusa */
+        radial-gradient(ellipse 75% 50% at 50% 98%, rgba(30, 64, 175, 0.18) 0%, transparent 65%); /* Luz azul na base */
+      color: #f8fafc; /* Cor principal do texto (branco gelo) */
+      min-height: 100vh; /* Fallback de altura total da janela */
+      min-height: 100dvh; /* Altura dinâmica da viewport (evita cortes em barras mobile) */
+      padding: clamp(10px, 1.4vh, 16px) clamp(14px, 2vw, 24px); /* Espaçamento externo responsivo */
+      display: flex; /* Layout flexível vertical */
+      flex-direction: column; /* Empilha seções de cima para baixo */
+      overflow-y: auto; /* Permite rolagem vertical quando necessário */
+      overflow-x: hidden; /* Evita rolagem horizontal indesejada */
     }
 
     /* ================= SISTEMA DE ÍCONES SVG BOLD + FALLBACK NATIVO ================= */
     .ico-svg {
-      width: 1.08em;
-      height: 1.08em;
-      display: inline-block;
-      vertical-align: -0.16em;
-      flex-shrink: 0;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2.45;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      shape-rendering: geometricPrecision;
-      overflow: visible;
+      width: 1.08em; /* Escala proporcional ao tamanho da fonte do elemento pai */
+      height: 1.08em; /* Mantém proporção quadrada 1:1 */
+      display: inline-block; /* Permite alinhamento com texto */
+      vertical-align: -0.16em; /* Ajuste fino de alinhamento óptico com a linha de base */
+      flex-shrink: 0; /* Impede que o ícone seja esmagado em flex containers */
+      stroke: currentColor; /* Herda a cor do texto atual para o traço */
+      fill: none; /* Ícones de linha sem preenchimento interno por padrão */
+      stroke-width: 2.45; /* Espessura do traço */
+      stroke-linecap: round; /* Extremidades arredondadas nos traços */
+      stroke-linejoin: round; /* Junções arredondadas entre segmentos */
+      shape-rendering: geometricPrecision; /* Renderização nítida de geometria */
+      overflow: visible; /* Evita corte de traços nas bordas do viewBox */
     }
 
+    /* Aumenta espessura do traço em ícones de botões e controles principais */
     .hero-icon-box .ico-svg,
     .hero-btn .ico-svg,
     .cat-btn .ico-svg,
@@ -110,15 +127,17 @@
     .btn-ai-trigger .ico-svg,
     .btn-ai-next .ico-svg,
     .btn-drawer-blue .ico-svg {
-      stroke-width: 2.65;
+      stroke-width: 2.65; /* Traço mais marcante para botões de ação */
     }
 
+    /* Tamanho e brilho dourado do ícone principal no hero */
     .hero-icon-box .ico-svg {
-      width: 21px;
-      height: 21px;
-      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.45));
+      width: 21px; /* Largura fixa do ícone da coroa/hero */
+      height: 21px; /* Altura fixa do ícone da coroa/hero */
+      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.45)); /* Brilho dourado sutil */
     }
 
+    /* Espessura refinada para ícones de pílulas, badges e navegação */
     .kpi-pill-item .ico-svg,
     .btn-fav-card .ico-svg,
     .hero-greeting-pill .ico-svg,
@@ -127,1586 +146,1730 @@
     .max-star-tag .ico-svg,
     .exec-ai-badge .ico-svg,
     .ai-chip-btn .ico-svg {
-      stroke-width: 2.25;
+      stroke-width: 2.25; /* Traço equilibrado para textos compactos */
     }
 
+    /* Destaque dourado nos ícones de KPI */
     .kpi-pill-item .ico-svg {
-      color: #facc15;
-      filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.35));
+      color: #facc15; /* Amarelo ouro */
+      filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.35)); /* Leve glow dourado */
     }
 
+    /* Alinha números com largura uniforme para não "dançarem" ao atualizar relógio/KPIs */
     .tabular { font-variant-numeric: tabular-nums; }
 
+    /* Trunca texto em uma única linha com reticências (...) */
     .ellipsis-single {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
+      white-space: nowrap; /* Impede quebra de linha */
+      overflow: hidden; /* Esconde o que ultrapassa a caixa */
+      text-overflow: ellipsis; /* Exibe "..." no final */
+      min-width: 0; /* Permite encolher dentro de grid/flex */
     }
 
+    /* Trunca texto em até 2 linhas com reticências */
     .ellipsis-multi {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
-      min-width: 0;
+      display: -webkit-box; /* Necessário para line-clamp WebKit */
+      -webkit-box-orient: vertical; /* Orientação vertical das linhas */
+      -webkit-line-clamp: 2; /* Limita a 2 linhas */
+      overflow: hidden; /* Oculta excedente */
+      min-width: 0; /* Permite encolher corretamente */
     }
 
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #050811; }
-    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); }
+    /* Customização da barra de rolagem (WebKit) */
+    ::-webkit-scrollbar { width: 6px; height: 6px; } /* Largura/altura fina da scrollbar */
+    ::-webkit-scrollbar-track { background: #050811; } /* Trilho escuro */
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.38); border-radius: 999px; } /* Alça azul translúcida */
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.65); } /* Alça mais visível no hover */
 
+    /* Container principal centralizado que organiza toda a página */
     .page-container {
-      max-width: 1560px;
-      width: 100%;
-      min-height: calc(100dvh - 30px);
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 11px;
+      max-width: 1560px; /* Largura máxima em telas largas */
+      width: 100%; /* Ocupa 100% até o limite máximo */
+      min-height: calc(100dvh - 30px); /* Garante altura mínima próxima da tela inteira */
+      margin: 0 auto; /* Centraliza horizontalmente */
+      display: flex; /* Layout em coluna */
+      flex-direction: column; /* Elementos empilhados verticalmente */
+      justify-content: space-between; /* Distribui espaço entre topo, meio e rodapé */
+      gap: 11px; /* Espaçamento entre blocos principais */
     }
 
     /* ================= BARRA SUPERIOR RECOLHÍVEL ================= */
     .top-navbar-collapse {
-      max-height: 90px;
-      opacity: 1;
-      transform: translateY(0);
-      overflow: hidden;
-      flex-shrink: 0;
-      transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.25s ease, margin 0.25s ease;
+      max-height: 90px; /* Altura máxima quando expandida */
+      opacity: 1; /* Totalmente visível */
+      transform: translateY(0); /* Posição normal */
+      overflow: hidden; /* Esconde conteúdo durante transição de recolhimento */
+      flex-shrink: 0; /* Não encolhe verticalmente sem transição */
+      transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.25s ease, margin 0.25s ease; /* Animação suave */
     }
 
+    /* Estado recolhido quando o usuário clica em "Ocultar menu" */
     body.menu-hidden .top-navbar-collapse {
-      max-height: 0;
-      opacity: 0;
-      transform: translateY(-10px);
-      pointer-events: none;
-      margin-bottom: -10px;
+      max-height: 0; /* Recolhe altura a zero */
+      opacity: 0; /* Fica invisível */
+      transform: translateY(-10px); /* Desliza levemente para cima */
+      pointer-events: none; /* Bloqueia cliques quando oculto */
+      margin-bottom: -10px; /* Compensa o gap para fechar o espaço */
     }
 
+    /* Linha horizontal da barra de navegação superior */
     .top-navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 1px 2px;
-      width: 100%;
+      display: flex; /* Itens em linha */
+      align-items: center; /* Centraliza verticalmente */
+      justify-content: space-between; /* Marca à esquerda, links à direita */
+      gap: 8px; /* Espaço entre grupos */
+      padding: 1px 2px; /* Pequeno respiro lateral */
+      width: 100%; /* Largura total */
     }
 
+    /* Lado esquerdo: logo, status de rede, badge Max Star e avatar */
     .nav-brand-side {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-      min-width: 0;
+      display: flex; /* Itens em linha */
+      align-items: center; /* Alinhamento vertical central */
+      gap: 8px; /* Espaço entre badges e logo */
+      flex-shrink: 0; /* Evita quebra prematura */
+      min-width: 0; /* Permite truncamento interno se necessário */
     }
 
+    /* Link/logo da marca ELLCA */
     .brand-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 18px;
-      flex-shrink: 0;
+      display: inline-flex; /* Alinha imagem e texto lado a lado */
+      align-items: center; /* Centraliza verticalmente */
+      gap: 8px; /* Espaço entre ícone e nome */
+      text-decoration: none; /* Remove sublinhado de link */
+      color: #ffffff; /* Texto branco */
+      font-weight: 800; /* Peso extra-negrito */
+      font-size: 18px; /* Tamanho da marca */
+      flex-shrink: 0; /* Mantém logo íntegro */
     }
 
+    /* Imagem do logotipo */
     .brand-logo img {
-      height: 32px;
-      width: auto;
-      max-width: 140px;
-      object-fit: contain;
-      display: block;
+      height: 32px; /* Altura fixa da logo na navbar */
+      width: auto; /* Largura proporcional automática */
+      max-width: 140px; /* Limite máximo de largura */
+      object-fit: contain; /* Mantém proporção sem distorcer */
+      display: block; /* Remove espaço inline inferior */
     }
 
+    /* Texto alternativo exibido apenas se a imagem da logo falhar ao carregar */
     .brand-fallback {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      font-weight: 800;
-      font-size: 18px;
-      color: #60a5fa;
+      display: none; /* Oculto por padrão */
+      align-items: center; /* Alinha verticalmente quando ativado via JS */
+      gap: 8px; /* Espaço entre emoji e nome */
+      font-weight: 800; /* Negrito forte */
+      font-size: 18px; /* Mesmo porte da logo */
+      color: #60a5fa; /* Azul claro de destaque */
     }
 
+    /* Pílula de status da rede e módulo atual */
     .module-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(14, 165, 233, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.38);
-      color: #38bdf8;
-      font-size: 9.5px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      white-space: nowrap;
+      display: inline-flex; /* Conteúdo em linha */
+      align-items: center; /* Centraliza verticalmente */
+      gap: 6px; /* Espaço entre bolinha e texto */
+      padding: 4px 10px; /* Preenchimento interno */
+      border-radius: 999px; /* Formato pílula */
+      background: rgba(14, 165, 233, 0.14); /* Fundo azul translúcido */
+      border: 1px solid rgba(56, 189, 248, 0.38); /* Borda ciano suave */
+      color: #38bdf8; /* Texto azul-ciano */
+      font-size: 9.5px; /* Fonte compacta */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.4px; /* Espaçamento entre letras */
+      text-transform: uppercase; /* Caixa alta */
+      white-space: nowrap; /* Não quebra linha */
     }
 
+    /* Bolinha verde pulsante indicando rede online */
     .module-pill .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #34d399;
-      box-shadow: 0 0 8px #34d399;
-      animation: pulseDot 2s infinite;
+      width: 6px; /* Diâmetro da bolinha */
+      height: 6px; /* Diâmetro da bolinha */
+      border-radius: 50%; /* Círculo perfeito */
+      background: #34d399; /* Verde esmeralda */
+      box-shadow: 0 0 8px #34d399; /* Brilho verde */
+      animation: pulseDot 2s infinite; /* Pulsa continuamente */
     }
 
+    /* Badge dourado do plano/edição Max Star 2.0 */
     .max-star-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16));
-      border: 1px solid rgba(250, 204, 21, 0.45);
-      color: #fde047;
-      font-size: 9.5px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      animation: starGlow 3.2s infinite;
+      display: inline-flex; /* Layout em linha */
+      align-items: center; /* Centraliza ícone e texto */
+      gap: 5px; /* Espaço entre estrela e rótulo */
+      padding: 4px 10px; /* Espaçamento interno */
+      border-radius: 999px; /* Formato pílula */
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16)); /* Gradiente dourado/ciano */
+      border: 1px solid rgba(250, 204, 21, 0.45); /* Borda dourada */
+      color: #fde047; /* Amarelo claro vibrante */
+      font-size: 9.5px; /* Tamanho compacto */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento de letras */
+      text-transform: uppercase; /* Caixa alta */
+      white-space: nowrap; /* Mantém em uma linha */
+      animation: starGlow 3.2s infinite; /* Brilho pulsante */
     }
 
+    /* Círculo com as iniciais do usuário logado */
     .user-avatar-ring {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1.5px solid #facc15;
-      background: rgba(15, 23, 42, 0.85);
-      box-shadow: 0 0 12px rgba(250, 204, 21, 0.32);
-      color: #fde047;
-      font-size: 10.5px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      width: 30px; /* Largura do círculo */
+      height: 30px; /* Altura do círculo */
+      border-radius: 50%; /* Formato circular */
+      border: 1.5px solid #facc15; /* Aro dourado */
+      background: rgba(15, 23, 42, 0.85); /* Fundo escuro */
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.32); /* Halo dourado */
+      color: #fde047; /* Iniciais em amarelo claro */
+      font-size: 10.5px; /* Tamanho das iniciais */
+      font-weight: 800; /* Negrito */
+      display: inline-flex; /* Centralização flex */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      flex-shrink: 0; /* Não deforma */
     }
 
+    /* Container dos links de navegação à direita */
     .nav-links-side {
-      display: flex;
-      align-items: center;
-      flex-wrap: nowrap;
-      gap: 4px;
+      display: flex; /* Links em linha */
+      align-items: center; /* Alinhamento vertical central */
+      flex-wrap: nowrap; /* Mantém em uma única linha no desktop */
+      gap: 4px; /* Espaço curto entre links */
     }
 
+    /* Cada link de navegação superior */
     .top-nav-link {
-      text-decoration: none;
-      color: #cbd5e1;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 7px;
-      border-radius: 8px;
-      white-space: nowrap;
-      transition: color 0.2s ease, background 0.2s ease;
+      text-decoration: none; /* Sem sublinhado */
+      color: #cbd5e1; /* Cinza claro */
+      font-size: 10px; /* Tamanho compacto */
+      font-weight: 700; /* Seminegrito/negrito */
+      letter-spacing: 0.3px; /* Leve espaçamento */
+      text-transform: uppercase; /* Caixa alta */
+      display: inline-flex; /* Ícone + texto lado a lado */
+      align-items: center; /* Centraliza verticalmente */
+      gap: 5px; /* Espaço entre ícone e rótulo */
+      padding: 5px 7px; /* Área clicável confortável */
+      border-radius: 8px; /* Cantos arredondados */
+      white-space: nowrap; /* Não quebra texto */
+      transition: color 0.2s ease, background 0.2s ease; /* Transição suave de hover/ativo */
     }
 
+    /* Estado hover e página ativa na navegação superior */
     .top-nav-link:hover,
     .top-nav-link.active {
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.14);
+      color: #38bdf8; /* Destaque ciano */
+      background: rgba(56, 189, 248, 0.14); /* Fundo sutil ciano */
     }
 
+    /* Botão circular de voltar para home.html */
     .btn-back-circle {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      background: rgba(15, 23, 42, 0.8);
-      color: #e2e8f0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 11px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: all 0.2s ease;
+      width: 28px; /* Largura circular */
+      height: 28px; /* Altura circular */
+      border-radius: 50%; /* Círculo perfeito */
+      border: 1px solid rgba(56, 189, 248, 0.35); /* Borda ciano suave */
+      background: rgba(15, 23, 42, 0.8); /* Fundo escuro */
+      color: #e2e8f0; /* Seta clara */
+      display: inline-flex; /* Centraliza ícone */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      text-decoration: none; /* Remove sublinhado caso vire <a> */
+      font-size: 11px; /* Tamanho base */
+      cursor: pointer; /* Cursor de botão clicável */
+      flex-shrink: 0; /* Não encolhe */
+      transition: all 0.2s ease; /* Suaviza mudanças visuais */
     }
 
+    /* Hover do botão circular de voltar */
     .btn-back-circle:hover {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.22);
-      color: #ffffff;
+      border-color: #38bdf8; /* Borda mais brilhante */
+      background: rgba(56, 189, 248, 0.22); /* Fundo azulado */
+      color: #ffffff; /* Ícone branco */
     }
 
     /* ================= HERO BANNER EXECUTIVO + SAUDAÇÃO IA ================= */
     .hero-banner {
-      position: relative;
-      border-radius: 16px;
-      padding: 14px 20px;
+      position: relative; /* Referência para pseudo-elementos decorativos */
+      border-radius: 16px; /* Cantos arredondados do banner */
+      padding: 14px 20px; /* Espaçamento interno */
       background:
-        linear-gradient(135deg, rgba(14, 32, 66, 0.80) 0%, rgba(9, 17, 36, 0.85) 55%, rgba(15, 32, 64, 0.78) 100%),
-        url('img/Card_gerencial.jpg') center/cover no-repeat;
-      backdrop-filter: blur(20px) saturate(145%);
-      -webkit-backdrop-filter: blur(20px) saturate(145%);
-      border: 1px solid rgba(250, 204, 21, 0.30);
+        linear-gradient(135deg, rgba(14, 32, 66, 0.80) 0%, rgba(9, 17, 36, 0.85) 55%, rgba(15, 32, 64, 0.78) 100%), /* Camada escura para contraste do texto */
+        url('img/Card_gerencial.jpg') center/cover no-repeat; /* Imagem de fundo cobrindo o banner */
+      backdrop-filter: blur(20px) saturate(145%); /* Efeito glassmorphism atrás do banner */
+      -webkit-backdrop-filter: blur(20px) saturate(145%); /* Prefixo Safari/iOS */
+      border: 1px solid rgba(250, 204, 21, 0.30); /* Borda dourada discreta */
       box-shadow:
-        0 14px 32px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14);
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      overflow: hidden;
-      flex-shrink: 0;
+        0 14px 32px rgba(0, 0, 0, 0.55), /* Sombra externa profunda */
+        inset 0 1px 0 rgba(255, 255, 255, 0.14); /* Filete de luz superior interno */
+      display: flex; /* Layout em coluna */
+      flex-direction: column; /* Empilha topo, faixa IA e barra de ações */
+      gap: 9px; /* Espaçamento entre linhas do hero */
+      overflow: hidden; /* Contém o brilho decorativo ::after */
+      flex-shrink: 0; /* Mantém altura estável */
     }
 
+    /* Mancha de luz decorativa no canto superior direito do hero */
     .hero-banner::after {
-      content: "";
-      position: absolute;
-      top: -60px;
-      right: -40px;
-      width: 280px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(250, 204, 21, 0.16) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 72%);
-      pointer-events: none;
+      content: ""; /* Elemento puramente visual */
+      position: absolute; /* Posicionado em relação ao .hero-banner */
+      top: -60px; /* Ultrapassa levemente o topo */
+      right: -40px; /* Ultrapassa levemente a direita */
+      width: 280px; /* Largura da luz radial */
+      height: 200px; /* Altura da luz radial */
+      background: radial-gradient(circle, rgba(250, 204, 21, 0.16) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 72%); /* Gradiente dourado/ciano */
+      pointer-events: none; /* Não intercepta cliques ou seleção de texto */
     }
 
+    /* Linha superior do hero: título à esquerda e métricas rápidas à direita */
     .hero-top-split {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 14px;
-      position: relative;
-      z-index: 2;
+      display: flex; /* Layout horizontal */
+      align-items: center; /* Alinhamento vertical central */
+      justify-content: space-between; /* Separa título e cards de resumo */
+      flex-wrap: wrap; /* Permite quebra em telas menores */
+      gap: 14px; /* Espaço entre colunas */
+      position: relative; /* Fica acima do fundo */
+      z-index: 2; /* Camada superior ao ::after */
     }
 
+    /* Bloco do ícone principal + saudação + título e subtítulo */
     .hero-title-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      max-width: 1020px;
-      min-width: 0;
+      display: flex; /* Ícone ao lado do bloco de texto */
+      align-items: center; /* Alinhamento central vertical */
+      gap: 12px; /* Espaço entre ícone e textos */
+      max-width: 1020px; /* Limita largura para boa leitura */
+      min-width: 0; /* Permite truncamento interno */
     }
 
+    /* Caixa quadrada arredondada para o ícone executivo */
     .hero-icon-box {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(145deg, rgba(234, 179, 8, 0.28), rgba(37, 99, 235, 0.34));
-      border: 1px solid rgba(250, 204, 21, 0.52);
-      box-shadow: 0 6px 18px rgba(234, 179, 8, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-      color: #fde047;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      flex-shrink: 0;
+      width: 42px; /* Largura da caixa */
+      height: 42px; /* Altura da caixa */
+      border-radius: 12px; /* Cantos arredondados */
+      background: linear-gradient(145deg, rgba(234, 179, 8, 0.28), rgba(37, 99, 235, 0.34)); /* Fundo dourado/azul */
+      border: 1px solid rgba(250, 204, 21, 0.52); /* Borda dourada */
+      box-shadow: 0 6px 18px rgba(234, 179, 8, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22); /* Sombra e brilho interno */
+      color: #fde047; /* Cor do ícone */
+      display: flex; /* Centraliza o SVG */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      font-size: 17px; /* Tamanho base */
+      flex-shrink: 0; /* Não encolhe */
     }
 
+    /* Pílula de saudação personalizada, cidade, temperatura e relógio */
     .hero-greeting-pill {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      max-width: 100%;
-      min-height: 28px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.15px;
-      color: #fef08a;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(14px) saturate(150%);
-      -webkit-backdrop-filter: blur(14px) saturate(150%);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      padding: 5px 14px;
-      border-radius: 999px;
-      margin-bottom: 5px;
+      display: inline-flex; /* Itens em linha */
+      align-items: center; /* Centraliza verticalmente */
+      flex-wrap: wrap; /* Quebra suavemente em telas estreitas */
+      gap: 8px; /* Espaço entre itens */
+      max-width: 100%; /* Não ultrapassa o container */
+      min-height: 28px; /* Altura mínima uniforme */
+      font-size: 11px; /* Texto compacto */
+      font-weight: 700; /* Negrito */
+      letter-spacing: 0.15px; /* Leve espaçamento */
+      color: #fef08a; /* Amarelo suave */
+      background: rgba(255, 255, 255, 0.06); /* Vidro translúcido */
+      backdrop-filter: blur(14px) saturate(150%); /* Desfoque de fundo */
+      -webkit-backdrop-filter: blur(14px) saturate(150%); /* Compatibilidade Safari */
+      border: 1px solid rgba(255, 255, 255, 0.18); /* Borda sutil de vidro */
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16); /* Reflexo superior */
+      padding: 5px 14px; /* Preenchimento interno */
+      border-radius: 999px; /* Formato pílula */
+      margin-bottom: 5px; /* Espaço antes do título principal */
     }
 
+    /* Separador visual entre segmentos da pílula de saudação */
     .hero-greeting-pill .pill-sep {
-      opacity: 0.5;
-      color: #cbd5e1;
-      margin: 0 2px;
+      opacity: 0.5; /* Mais discreto que o texto principal */
+      color: #cbd5e1; /* Cinza claro */
+      margin: 0 2px; /* Pequena margem lateral */
     }
 
+    /* Agrupa ícone e valor de cada informação dentro da pílula */
     .hero-greeting-pill .pill-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      display: inline-flex; /* Alinha ícone e texto */
+      align-items: center; /* Centro vertical */
+      gap: 5px; /* Espaço entre ícone e dado */
     }
 
-    .hero-greeting-pill .pill-temp { color: #7dd3fc; }
-    .hero-greeting-pill .pill-clock { color: #6ee7b7; }
+    .hero-greeting-pill .pill-temp { color: #7dd3fc; } /* Destaque azul claro para temperatura */
+    .hero-greeting-pill .pill-clock { color: #6ee7b7; } /* Destaque verde menta para horário */
 
+    /* Título principal da seção ("GERÊNCIA EXECUTIVA") */
     .hero-main-title {
-      font-size: clamp(16px, 1.5vw, 18px);
-      font-weight: 800;
-      letter-spacing: 0.2px;
-      color: #ffffff;
-      text-transform: uppercase;
+      font-size: clamp(16px, 1.5vw, 18px); /* Escala fluida entre 16px e 18px */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.2px; /* Espaçamento sutil */
+      color: #ffffff; /* Branco puro */
+      text-transform: uppercase; /* Caixa alta */
     }
 
+    /* Palavra "EXECUTIVA" destacada em amarelo */
     .hero-main-title span { color: #fde047; }
 
+    /* Descrição curta abaixo do título principal */
     .hero-subtitle {
-      font-size: 11.5px;
-      color: #cbd5e1;
-      margin-top: 2px;
-      line-height: 1.35;
+      font-size: 11.5px; /* Tamanho legível e compacto */
+      color: #cbd5e1; /* Cinza claro */
+      margin-top: 2px; /* Pequeno afastamento do título */
+      line-height: 1.35; /* Altura de linha confortável */
     }
 
+    /* Container dos cartões rápidos à direita do hero */
     .hero-right-stats {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+      display: flex; /* Cartões lado a lado */
+      align-items: center; /* Alinhamento central */
+      flex-wrap: wrap; /* Quebra em telas menores */
+      gap: 10px; /* Espaçamento entre cartões */
     }
 
+    /* Cada mini-card de estatística rápida ("Painéis Executivos", "Escopo", "Segurança") */
     .quick-stat-pill {
-      padding: 8px 14px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(14px) saturate(150%);
-      -webkit-backdrop-filter: blur(14px) saturate(150%);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      min-width: 114px;
+      padding: 8px 14px; /* Preenchimento interno */
+      border-radius: 12px; /* Cantos arredondados */
+      background: rgba(255, 255, 255, 0.06); /* Efeito vidro */
+      backdrop-filter: blur(14px) saturate(150%); /* Desfoque de fundo */
+      -webkit-backdrop-filter: blur(14px) saturate(150%); /* Prefixo Safari */
+      border: 1px solid rgba(255, 255, 255, 0.18); /* Borda sutil */
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16); /* Brilho interno superior */
+      min-width: 114px; /* Largura mínima para manter alinhamento */
     }
 
+    /* Rótulo superior pequeno de cada mini-card */
     .quick-stat-pill small {
-      display: block;
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #cbd5e1;
+      display: block; /* Fica em linha própria acima do valor */
+      font-size: 9px; /* Tamanho diminuto */
+      font-weight: 700; /* Negrito */
+      text-transform: uppercase; /* Caixa alta */
+      letter-spacing: 0.5px; /* Espaçamento de letras */
+      color: #cbd5e1; /* Cinza claro */
     }
 
+    /* Valor principal de cada mini-card */
     .quick-stat-pill strong {
-      display: block;
-      font-size: 12.5px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-top: 2px;
+      display: block; /* Linha própria abaixo do rótulo */
+      font-size: 12.5px; /* Tamanho de destaque */
+      font-weight: 800; /* Extra-negrito */
+      color: #ffffff; /* Branco */
+      margin-top: 2px; /* Pequeno espaço vertical */
     }
 
     /* FAIXA IA EXCLUSIVA DA GERÊNCIA */
     .exec-ai-strip {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 7px 13px;
-      border-radius: 11px;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(14px) saturate(150%);
-      -webkit-backdrop-filter: blur(14px) saturate(150%);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      position: relative; /* Camada acima do fundo do hero */
+      z-index: 2; /* Garante interatividade */
+      display: flex; /* Texto à esquerda e botões à direita */
+      align-items: center; /* Centraliza verticalmente */
+      justify-content: space-between; /* Separa mensagem e ações */
+      flex-wrap: wrap; /* Permite quebra em telas menores */
+      gap: 10px; /* Espaçamento entre blocos */
+      padding: 7px 13px; /* Preenchimento interno compacto */
+      border-radius: 11px; /* Cantos arredondados */
+      background: rgba(255, 255, 255, 0.06); /* Vidro translúcido */
+      backdrop-filter: blur(14px) saturate(150%); /* Desfoque de fundo */
+      -webkit-backdrop-filter: blur(14px) saturate(150%); /* Prefixo Safari */
+      border: 1px solid rgba(255, 255, 255, 0.18); /* Borda translúcida */
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16); /* Destaque superior */
     }
 
+    /* Área que contém o badge da IA e o texto do insight */
     .exec-ai-msg-wrap {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      min-width: 0;
-      flex: 1 1 420px;
+      display: flex; /* Badge e texto em linha */
+      align-items: center; /* Centraliza verticalmente */
+      gap: 9px; /* Espaço entre badge e texto */
+      min-width: 0; /* Permite truncar o texto sem estourar a linha */
+      flex: 1 1 420px; /* Cresce ocupando espaço disponível */
     }
 
+    /* Selo "ELLCA IA • INSIGHT" */
     .exec-ai-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: rgba(56, 189, 248, 0.22);
-      border: 1px solid rgba(125, 211, 252, 0.45);
-      color: #7dd3fc;
-      font-size: 9.5px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      flex-shrink: 0;
-      animation: aiPulse 3s infinite;
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 5px; /* Espaço entre ícone e rótulo */
+      padding: 3px 8px; /* Preenchimento interno */
+      border-radius: 6px; /* Cantos levemente arredondados */
+      background: rgba(56, 189, 248, 0.22); /* Fundo azul-ciano */
+      border: 1px solid rgba(125, 211, 252, 0.45); /* Borda ciano clara */
+      color: #7dd3fc; /* Texto azul claro */
+      font-size: 9.5px; /* Fonte compacta */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento entre letras */
+      text-transform: uppercase; /* Caixa alta */
+      flex-shrink: 0; /* Não encolhe o badge */
+      animation: aiPulse 3s infinite; /* Pulso sutil contínuo */
     }
 
+    /* Texto rotativo do insight executivo */
     .exec-ai-text {
-      font-size: 11.5px;
-      color: #e2e8f0;
-      line-height: 1.35;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
-      transition: opacity 0.25s ease;
+      font-size: 11.5px; /* Tamanho legível */
+      color: #e2e8f0; /* Cinza muito claro */
+      line-height: 1.35; /* Espaçamento de linha */
+      white-space: nowrap; /* Mantém em uma linha */
+      overflow: hidden; /* Esconde excesso */
+      text-overflow: ellipsis; /* Adiciona "..." se não couber */
+      min-width: 0; /* Necessário para ellipsis em flex */
+      transition: opacity 0.25s ease; /* Suaviza troca de insight */
     }
 
+    /* Agrupamento dos botões de controle da faixa IA */
     .exec-ai-actions {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
+      display: inline-flex; /* Botões lado a lado */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre botões */
+      flex-shrink: 0; /* Mantém botões intactos */
     }
 
+    /* Botão principal "BRIEFING IA" */
     .btn-ai-trigger {
-      height: 26px;
-      padding: 0 11px;
-      border-radius: 7px;
-      background: linear-gradient(90deg, #2563eb, #38bdf8);
-      border: 1px solid #bae6fd;
-      color: #040d1e;
-      font-size: 9.5px;
-      font-weight: 900;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      height: 26px; /* Altura compacta */
+      padding: 0 11px; /* Preenchimento horizontal */
+      border-radius: 7px; /* Cantos arredondados */
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Gradiente azul para ciano */
+      border: 1px solid #bae6fd; /* Borda clara */
+      color: #040d1e; /* Texto escuro para alto contraste */
+      font-size: 9.5px; /* Tamanho pequeno e firme */
+      font-weight: 900; /* Peso máximo */
+      letter-spacing: 0.4px; /* Espaçamento de letras */
+      text-transform: uppercase; /* Caixa alta */
+      cursor: pointer; /* Mãozinha ao passar o mouse */
+      display: inline-flex; /* Alinha ícone e texto */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre ícone e texto */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Efeito hover no botão "BRIEFING IA" */
     .btn-ai-trigger:hover {
-      filter: brightness(1.08);
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
+      filter: brightness(1.08); /* Leve aumento de brilho */
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.45); /* Halo luminoso ciano */
     }
 
+    /* Botão secundário para avançar manualmente para o próximo insight da IA */
     .btn-ai-next {
-      width: 26px;
-      height: 26px;
-      border-radius: 7px;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #bae6fd;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10.5px;
-      transition: all 0.2s ease;
+      width: 26px; /* Largura quadrada compacta */
+      height: 26px; /* Altura quadrada compacta */
+      border-radius: 7px; /* Cantos arredondados */
+      background: rgba(15, 23, 42, 0.65); /* Fundo escuro translúcido */
+      border: 1px solid rgba(255, 255, 255, 0.18); /* Borda sutil */
+      color: #bae6fd; /* Ícone azul claro */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Centraliza ícone */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      font-size: 10.5px; /* Tamanho base */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover do botão próximo insight */
     .btn-ai-next:hover {
-      border-color: #38bdf8;
-      color: #ffffff;
+      border-color: #38bdf8; /* Destaca borda em ciano */
+      color: #ffffff; /* Ícone branco */
     }
 
+    /* Linha inferior do hero com badge de status, modos de visualização, favoritos e toggle de menu */
     .hero-actions-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding-top: 7px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      position: relative;
-      z-index: 2;
+      display: flex; /* Botões em linha */
+      align-items: center; /* Centraliza verticalmente */
+      flex-wrap: wrap; /* Quebra em telas menores */
+      gap: 8px; /* Espaçamento entre botões */
+      padding-top: 7px; /* Espaço acima da linha divisória */
+      border-top: 1px solid rgba(255, 255, 255, 0.08); /* Linha divisória sutil */
+      position: relative; /* Camada acima do fundo */
+      z-index: 2; /* Mantém botões clicáveis */
     }
 
+    /* Badge de status ao vivo do painel gerencial */
     .live-badge {
-      height: 29px;
-      padding: 0 12px;
-      border-radius: 8px;
-      background: rgba(16, 185, 129, 0.14);
-      border: 1px solid rgba(52, 211, 153, 0.38);
-      color: #34d399;
-      font-size: 10.5px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      height: 29px; /* Mesma altura dos botões de ação */
+      padding: 0 12px; /* Espaçamento horizontal */
+      border-radius: 8px; /* Cantos arredondados */
+      background: rgba(16, 185, 129, 0.14); /* Fundo verde translúcido */
+      border: 1px solid rgba(52, 211, 153, 0.38); /* Borda verde suave */
+      color: #34d399; /* Texto verde esmeralda */
+      font-size: 10.5px; /* Fonte compacta */
+      font-weight: 700; /* Negrito */
+      display: inline-flex; /* Alinha ícone e texto */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre ícone e horário */
     }
 
+    /* Estilo base compartilhado pelos botões de ação do hero */
     .hero-btn {
-      height: 29px;
-      padding: 0 12px;
-      border-radius: 8px;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: all 0.2s ease;
+      height: 29px; /* Altura padronizada */
+      padding: 0 12px; /* Espaçamento horizontal interno */
+      border-radius: 8px; /* Cantos arredondados */
+      font-size: 10px; /* Tamanho compacto */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.4px; /* Espaçamento de letras */
+      text-transform: uppercase; /* Caixa alta */
+      cursor: pointer; /* Cursor de clique */
+      display: inline-flex; /* Alinha ícone e rótulo */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre ícone e texto */
+      text-decoration: none; /* Remove sublinhado se usado em links */
+      transition: all 0.2s ease; /* Suaviza transições */
     }
 
+    /* Variante azul para botões do hero */
     .hero-btn-blue {
-      background: rgba(37, 99, 235, 0.22);
-      border: 1px solid rgba(96, 165, 250, 0.45);
-      color: #93c5fd;
+      background: rgba(37, 99, 235, 0.22); /* Fundo azul translúcido */
+      border: 1px solid rgba(96, 165, 250, 0.45); /* Borda azul clara */
+      color: #93c5fd; /* Texto azul claro */
     }
 
+    /* Hover e estado ativo da variante azul */
     .hero-btn-blue:hover,
     .hero-btn-blue.active {
-      background: linear-gradient(90deg, #2563eb, #38bdf8);
-      border-color: #7dd3fc;
-      color: #040d1e;
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Gradiente ativo */
+      border-color: #7dd3fc; /* Borda ciano brilhante */
+      color: #040d1e; /* Texto escuro contrastante */
     }
 
+    /* Variante ciano (usada no modo de visualização ativo por padrão) */
     .hero-btn-cyan {
-      background: rgba(14, 165, 233, 0.16);
-      border: 1px solid rgba(56, 189, 248, 0.42);
-      color: #bae6fd;
+      background: rgba(14, 165, 233, 0.16); /* Fundo ciano translúcido */
+      border: 1px solid rgba(56, 189, 248, 0.42); /* Borda ciano */
+      color: #bae6fd; /* Texto ciano claro */
     }
 
+    /* Hover e estado ativo da variante ciano */
     .hero-btn-cyan:hover,
     .hero-btn-cyan.active {
-      background: linear-gradient(90deg, #2563eb, #38bdf8);
-      border-color: #7dd3fc;
-      color: #040d1e;
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Gradiente azul/ciano */
+      border-color: #7dd3fc; /* Borda clara */
+      color: #040d1e; /* Texto escuro */
     }
 
+    /* Variante dourada (usada no filtro de favoritos) */
     .hero-btn-gold {
-      background: rgba(234, 179, 8, 0.15);
-      border: 1px solid rgba(250, 204, 21, 0.45);
-      color: #fde047;
+      background: rgba(234, 179, 8, 0.15); /* Fundo amarelo translúcido */
+      border: 1px solid rgba(250, 204, 21, 0.45); /* Borda dourada */
+      color: #fde047; /* Texto amarelo claro */
     }
 
+    /* Hover e estado ativo do botão de favoritos */
     .hero-btn-gold:hover,
     .hero-btn-gold.active {
-      background: rgba(234, 179, 8, 0.30);
-      color: #fef08a;
+      background: rgba(234, 179, 8, 0.30); /* Fundo amarelo mais intenso */
+      color: #fef08a; /* Texto amarelo brilhante */
     }
 
+    /* Botão de ocultar/mostrar menu superior (empurrado para a direita via margin-left: auto) */
     .hero-btn-menu-toggle {
-      background: #34d399;
-      border: 1px solid #6ee7b7;
-      color: #042f2e;
-      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28);
+      background: #34d399; /* Verde esmeralda sólido quando menu visível */
+      border: 1px solid #6ee7b7; /* Borda verde clara */
+      color: #042f2e; /* Texto verde muito escuro */
+      box-shadow: 0 4px 14px rgba(52, 211, 153, 0.28); /* Brilho verde sutil */
     }
 
+    /* Aparência alternativa quando o menu superior está oculto */
     body.menu-hidden .hero-btn-menu-toggle {
-      background: rgba(30, 58, 138, 0.48);
-      border: 1px solid rgba(96, 165, 250, 0.45);
-      color: #e0f2fe;
-      box-shadow: none;
+      background: rgba(30, 58, 138, 0.48); /* Fundo azul escuro translúcido */
+      border: 1px solid rgba(96, 165, 250, 0.45); /* Borda azul */
+      color: #e0f2fe; /* Texto azul-branco */
+      box-shadow: none; /* Remove sombra verde */
     }
 
     /* ================= BARRA DE FILTROS & PESQUISA ================= */
     .filter-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 8px 14px;
-      border-radius: 13px;
-      background: rgba(13, 19, 34, 0.76);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      backdrop-filter: blur(16px);
-      flex-shrink: 0;
+      display: flex; /* Categorias à esquerda e busca à direita */
+      align-items: center; /* Centraliza verticalmente */
+      justify-content: space-between; /* Espaça extremidades */
+      flex-wrap: wrap; /* Quebra em telas menores */
+      gap: 10px; /* Espaçamento entre grupos */
+      padding: 8px 14px; /* Preenchimento interno */
+      border-radius: 13px; /* Cantos arredondados */
+      background: rgba(13, 19, 34, 0.76); /* Fundo escuro translúcido */
+      border: 1px solid rgba(255, 255, 255, 0.09); /* Borda discreta */
+      backdrop-filter: blur(16px); /* Efeito vidro */
+      flex-shrink: 0; /* Mantém altura fixa */
     }
 
+    /* Container dos botões de filtro por categoria */
     .category-pills {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      display: flex; /* Botões em linha */
+      align-items: center; /* Centro vertical */
+      flex-wrap: wrap; /* Quebra se faltar largura */
+      gap: 6px; /* Espaço entre botões de categoria */
     }
 
+    /* Cada botão de categoria (Todos, Operação, Resultados, Governança) */
     .cat-btn {
-      height: 28px;
-      padding: 0 11px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      background: rgba(6, 10, 20, 0.72);
-      color: #94a3b8;
-      font-size: 10.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      height: 28px; /* Altura compacta */
+      padding: 0 11px; /* Preenchimento lateral */
+      border-radius: 8px; /* Cantos arredondados */
+      border: 1px solid rgba(255, 255, 255, 0.10); /* Borda sutil */
+      background: rgba(6, 10, 20, 0.72); /* Fundo escuro */
+      color: #94a3b8; /* Texto cinza-azulado */
+      font-size: 10.5px; /* Fonte compacta */
+      font-weight: 700; /* Negrito */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre ícone e nome da categoria */
+      transition: all 0.2s ease; /* Suaviza seleção e hover */
     }
 
-    .cat-btn:hover { color: #e0f2fe; border-color: rgba(56, 189, 248, 0.38); }
+    .cat-btn:hover { color: #e0f2fe; border-color: rgba(56, 189, 248, 0.38); } /* Destaque no hover */
+    /* Categoria selecionada no momento */
     .cat-btn.active {
-      background: linear-gradient(90deg, #2563eb, #38bdf8);
-      border-color: #7dd3fc;
-      color: #040d1e;
-      font-weight: 800;
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Gradiente azul/ciano */
+      border-color: #7dd3fc; /* Borda clara */
+      color: #040d1e; /* Texto escuro */
+      font-weight: 800; /* Peso mais forte */
     }
 
+    /* Wrapper do campo de busca textual */
     .search-box-wrap {
-      position: relative;
-      min-width: 240px;
-      flex: 0 1 340px;
+      position: relative; /* Permite posicionar a lupa absoluta dentro do input */
+      min-width: 240px; /* Largura mínima no desktop */
+      flex: 0 1 340px; /* Pode encolher até 0 mas prefere até 340px */
     }
 
+    /* Ícone de lupa posicionado à esquerda dentro da caixa de pesquisa */
     .search-box-wrap .search-ico {
-      position: absolute;
-      left: 11px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #38bdf8;
-      font-size: 12.5px;
-      pointer-events: none;
+      position: absolute; /* Ancorado na caixa de busca */
+      left: 11px; /* Distância da borda esquerda */
+      top: 50%; /* Meio vertical */
+      transform: translateY(-50%); /* Centraliza perfeitamente no eixo Y */
+      color: #38bdf8; /* Cor azul-ciano */
+      font-size: 12.5px; /* Tamanho da lupa */
+      pointer-events: none; /* Permite clicar no input mesmo sobre o ícone */
     }
 
+    /* Campo de texto de pesquisa de módulos */
     .search-input {
-      width: 100%;
-      height: 29px;
-      padding: 0 12px 0 32px;
-      border-radius: 8px;
-      background: rgba(5, 10, 22, 0.88);
-      border: 1px solid rgba(56, 189, 248, 0.30);
-      color: #f8fafc;
-      font-size: 11.5px;
-      outline: none;
+      width: 100%; /* Ocupa todo o .search-box-wrap */
+      height: 29px; /* Altura alinhada aos botões */
+      padding: 0 12px 0 32px; /* Espaço à esquerda para não sobrepor a lupa */
+      border-radius: 8px; /* Cantos arredondados */
+      background: rgba(5, 10, 22, 0.88); /* Fundo escuro */
+      border: 1px solid rgba(56, 189, 248, 0.30); /* Borda ciano discreta */
+      color: #f8fafc; /* Texto branco */
+      font-size: 11.5px; /* Tamanho legível */
+      outline: none; /* Remove outline padrão do navegador (substituído por :focus) */
     }
 
+    /* Destaque ao focar no campo de pesquisa */
     .search-input:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
+      border-color: #38bdf8; /* Borda ciano viva */
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18); /* Anel de foco suave */
     }
 
     /* ================= CARROSSEL + GRADE + CARROSSEL 3D ================= */
     .carousel-shell {
-      position: relative;
-      border-radius: 16px;
-      background: rgba(10, 16, 30, 0.65);
-      border: 1px solid rgba(56, 189, 248, 0.24);
-      padding: 14px 18px 14px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52);
-      flex: 1 1 auto;
-      min-height: 392px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
+      position: relative; /* Referência de posicionamento */
+      border-radius: 16px; /* Cantos arredondados */
+      background: rgba(10, 16, 30, 0.65); /* Fundo escuro translúcido */
+      border: 1px solid rgba(56, 189, 248, 0.24); /* Borda ciano sutil */
+      padding: 14px 18px 14px; /* Preenchimento interno */
+      backdrop-filter: blur(16px); /* Efeito vidro */
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.52); /* Sombra externa */
+      flex: 1 1 auto; /* Expande para preencher espaço vertical disponível */
+      min-height: 392px; /* Altura mínima para acomodar cards confortavelmente */
+      display: flex; /* Layout em coluna */
+      flex-direction: column; /* Cabeçalho, área de cards e paginação */
+      justify-content: space-between; /* Distribui verticalmente */
+      gap: 10px; /* Espaçamento entre sub-blocos */
     }
 
+    /* Barra superior da área de cards (contador/status à esquerda e setas à direita) */
     .carousel-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      flex-shrink: 0;
+      display: flex; /* Layout horizontal */
+      align-items: center; /* Centro vertical */
+      justify-content: space-between; /* Separa status e controles */
+      flex-wrap: wrap; /* Quebra em telas pequenas */
+      gap: 8px; /* Espaçamento */
+      flex-shrink: 0; /* Não encolhe */
     }
 
+    /* Texto informativo sobre quantidade exibida, usuário e modo */
     .carousel-status-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #7dd3fc;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      max-width: 100%;
+      font-size: 11px; /* Tamanho compacto */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento entre letras */
+      text-transform: uppercase; /* Caixa alta */
+      color: #7dd3fc; /* Azul claro */
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 8px; /* Espaço entre ícone e texto */
+      max-width: 100%; /* Respeita largura do container */
     }
 
+    /* Dica discreta de atalhos de teclado (← → e Espaço) */
     .kbd-hint {
-      font-size: 9.5px;
-      font-weight: 600;
-      color: #94a3b8;
-      text-transform: none;
-      letter-spacing: 0.2px;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: rgba(15, 23, 42, 0.72);
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      font-size: 9.5px; /* Tamanho pequeno */
+      font-weight: 600; /* Seminegrito */
+      color: #94a3b8; /* Cinza discreto */
+      text-transform: none; /* Mantém capitalização natural */
+      letter-spacing: 0.2px; /* Espaçamento leve */
+      padding: 2px 8px; /* Preenchimento interno */
+      border-radius: 6px; /* Cantos arredondados */
+      background: rgba(15, 23, 42, 0.72); /* Fundo escuro */
+      border: 1px solid rgba(148, 163, 184, 0.22); /* Borda sutil */
+      display: inline-flex; /* Ícone + atalhos */
+      align-items: center; /* Centro vertical */
+      gap: 5px; /* Espaço */
     }
 
+    /* Agrupamento da dica de teclado e setas anterior/próximo */
     .carousel-nav-controls {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
+      display: inline-flex; /* Controles em linha */
+      align-items: center; /* Centro vertical */
+      gap: 7px; /* Espaço entre elementos */
     }
 
+    /* Botões de seta (anterior / próximo) */
     .carousel-arrow {
-      width: 27px;
-      height: 27px;
-      border-radius: 9px;
-      border: 1px solid rgba(56, 189, 248, 0.38);
-      background: rgba(15, 23, 42, 0.85);
-      color: #e0f2fe;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
+      width: 27px; /* Largura do botão */
+      height: 27px; /* Altura do botão */
+      border-radius: 9px; /* Cantos arredondados */
+      border: 1px solid rgba(56, 189, 248, 0.38); /* Borda ciano */
+      background: rgba(15, 23, 42, 0.85); /* Fundo escuro */
+      color: #e0f2fe; /* Cor da seta */
+      cursor: pointer; /* Cursor de clique */
+      display: inline-flex; /* Centraliza o ícone SVG */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover das setas de navegação */
     .carousel-arrow:hover {
-      background: #2563eb;
-      border-color: #7dd3fc;
-      color: #ffffff;
+      background: #2563eb; /* Azul forte */
+      border-color: #7dd3fc; /* Borda clara */
+      color: #ffffff; /* Seta branca */
     }
 
-    /* MODO CARROSSEL: MESMO TAMANHO EXATO DOS DEMAIS MÓDULOS E DO MODO GRADE */
+    /* MODO CARROSSEL: grade responsiva ajustada ao número de cards visíveis */
     .cards-track {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
-      gap: 18px;
-      justify-content: center;
-      align-items: stretch;
-      align-content: center;
-      flex: 1 1 auto;
-      width: 100%;
-      padding: 2px 0;
+      display: grid; /* Grade CSS */
+      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w))); /* Colunas automáticas até --card-w */
+      gap: 18px; /* Espaçamento entre cards */
+      justify-content: center; /* Centraliza cards na linha */
+      align-items: stretch; /* Cards com mesma altura na linha */
+      align-content: center; /* Centraliza verticalmente no espaço disponível */
+      flex: 1 1 auto; /* Ocupa altura restante do .carousel-shell */
+      width: 100%; /* Largura total */
+      padding: 2px 0; /* Pequeno respiro vertical */
     }
 
+    /* Wrapper externo de cada card (define perspectiva 3D e dimensões fixas por modo) */
     .cards-track .card-3d-wrap {
-      width: 100%;
-      min-width: 0;
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
-      perspective: 1400px;
-      margin: 0 auto;
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      width: 100%; /* Ocupa a coluna da grade */
+      min-width: 0; /* Permite encolher em grid */
+      max-width: var(--card-w); /* Limite máximo de largura */
+      height: var(--card-h); /* Altura fixa do card */
+      min-height: var(--card-h); /* Garante altura mínima igual */
+      max-height: var(--card-h); /* Garante altura máxima igual */
+      perspective: 1400px; /* Profundidade para rotação tilt 3D */
+      margin: 0 auto; /* Centraliza dentro da célula */
+      transition: opacity 0.35s ease, transform 0.35s ease; /* Suaviza transições */
     }
 
+    /* Altura da imagem dentro do card */
     .cards-track .card-img-banner {
-      height: var(--card-img-h);
+      height: var(--card-img-h); /* Usa variável CSS responsiva */
     }
 
-    /* MODO GRADE: TAMANHO IDÊNTICO AOS DEMAIS MÓDULOS */
+    /* MODO GRADE: exibe todos os cards filtrados em grade */
     .cards-track.grid-mode {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w)));
-      gap: 18px;
-      justify-content: center;
-      align-items: stretch;
-      align-content: start;
-      padding: 4px 2px 8px;
+      display: grid; /* Grade CSS */
+      grid-template-columns: repeat(auto-fit, minmax(272px, var(--card-w))); /* Colunas responsivas */
+      gap: 18px; /* Espaçamento entre cards */
+      justify-content: center; /* Centraliza colunas */
+      align-items: stretch; /* Estica cards da mesma linha */
+      align-content: start; /* Alinha linhas a partir do topo */
+      padding: 4px 2px 8px; /* Espaçamento interno da grade */
     }
 
+    /* Dimensões dos cards no modo grade */
     .cards-track.grid-mode .card-3d-wrap {
-      max-width: var(--card-w);
-      height: var(--card-h);
-      min-height: var(--card-h);
-      max-height: var(--card-h);
+      max-width: var(--card-w); /* Largura máxima do card */
+      height: var(--card-h); /* Altura fixa */
+      min-height: var(--card-h); /* Altura mínima */
+      max-height: var(--card-h); /* Altura máxima */
     }
 
     .cards-track.grid-mode .card-img-banner {
-      height: var(--card-img-h);
+      height: var(--card-img-h); /* Altura da capa */
     }
 
-    /* MODO CARROSSEL 3D: TAMANHOS E TRANSIÇÕES IDÊNTICOS */
+    /* MODO CARROSSEL 3D: posiciona cards sobrepostos com profundidade lateral */
     .cards-track.mode-3d {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      min-height: 392px;
-      overflow: hidden;
-      padding: 12px 0;
+      display: flex; /* Flex para centralizar referência */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      position: relative; /* Permite posicionar .card-3d-wrap de forma absoluta */
+      min-height: 392px; /* Altura mínima para acomodar cards em destaque */
+      overflow: hidden; /* Esconde cards deslocados fora da área visível */
+      padding: 12px 0; /* Respiro vertical */
     }
 
+    /* Tamanho dos cards no modo 3D */
     .cards-track.mode-3d .card-3d-wrap {
-      position: absolute;
-      width: clamp(290px, 23vw, 332px);
-      min-width: clamp(290px, 23vw, 332px);
-      max-width: clamp(290px, 23vw, 332px);
-      height: 362px;
-      min-height: 362px;
-      max-height: 362px;
-      transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease;
+      position: absolute; /* Sobrepostos no centro e laterais */
+      width: clamp(290px, 23vw, 332px); /* Largura fluida do card 3D */
+      min-width: clamp(290px, 23vw, 332px); /* Largura mínima */
+      max-width: clamp(290px, 23vw, 332px); /* Largura máxima */
+      height: 362px; /* Altura fixa no modo 3D */
+      min-height: 362px; /* Altura mínima */
+      max-height: 362px; /* Altura máxima */
+      transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, filter 0.45s ease, z-index 0.2s ease; /* Curva suave de movimento */
     }
 
-    .cards-track.mode-3d .card-img-banner { height: var(--card-img-h); }
+    .cards-track.mode-3d .card-img-banner { height: var(--card-img-h); } /* Altura da imagem no modo 3D */
 
+    /* Card central em foco no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-center {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 1;
-      filter: blur(0px);
-      z-index: 5;
-      pointer-events: auto;
-      animation: card3dTurnIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+      transform: translate3d(0, 0, 0) scale(1); /* Centralizado e em escala 100% */
+      opacity: 1; /* Totalmente opaco */
+      filter: blur(0px); /* Sem desfoque */
+      z-index: 5; /* Acima dos cards laterais */
+      pointer-events: auto; /* Interativo */
+      animation: card3dTurnIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) both; /* Animação de entrada */
     }
 
+    /* Card posicionado à esquerda no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-left {
-      transform: translate3d(-86%, 0, 0) scale(0.86);
-      opacity: 0.56;
-      z-index: 2;
-      pointer-events: auto;
-      cursor: pointer;
+      transform: translate3d(-86%, 0, 0) scale(0.86); /* Deslocado para esquerda e menor */
+      opacity: 0.56; /* Semitransparente */
+      z-index: 2; /* Atrás do centro */
+      pointer-events: auto; /* Clicável para trazer ao centro */
+      cursor: pointer; /* Indica que pode ser clicado */
     }
 
+    /* Card posicionado à direita no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-right {
-      transform: translate3d(86%, 0, 0) scale(0.86);
-      opacity: 0.56;
-      z-index: 2;
-      pointer-events: auto;
-      cursor: pointer;
+      transform: translate3d(86%, 0, 0) scale(0.86); /* Deslocado para direita e menor */
+      opacity: 0.56; /* Semitransparente */
+      z-index: 2; /* Atrás do centro */
+      pointer-events: auto; /* Clicável para trazer ao centro */
+      cursor: pointer; /* Indica que pode ser clicado */
     }
 
+    /* Aumenta levemente a opacidade dos cards laterais ao passar o mouse */
     .cards-track.mode-3d .card-3d-wrap.slot-left:hover,
     .cards-track.mode-3d .card-3d-wrap.slot-right:hover {
-      opacity: 0.78;
+      opacity: 0.78; /* Mais visível no hover */
     }
 
+    /* Estilo de vidro fosco mais discreto para cards laterais no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface,
     .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface {
-      animation: none !important;
-      opacity: 1;
-      background: linear-gradient(155deg, rgba(16, 18, 22, 0.62) 0%, rgba(8, 9, 12, 0.74) 100%);
-      backdrop-filter: blur(22px) saturate(130%);
-      -webkit-backdrop-filter: blur(22px) saturate(130%);
-      border-color: rgba(250, 204, 21, 0.26);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(254, 240, 138, 0.14);
+      animation: none !important; /* Desativa animações extras */
+      opacity: 1; /* Controlado pelo wrapper externo */
+      background: linear-gradient(155deg, rgba(16, 18, 22, 0.62) 0%, rgba(8, 9, 12, 0.74) 100%); /* Fundo escuro translúcido */
+      backdrop-filter: blur(22px) saturate(130%); /* Desfoque intenso */
+      -webkit-backdrop-filter: blur(22px) saturate(130%); /* Prefixo Safari */
+      border-color: rgba(250, 204, 21, 0.26); /* Borda dourada suave */
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(254, 240, 138, 0.14); /* Sombra moderada */
     }
 
+    /* Oculta a borda animada de varredura nos cards laterais do modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-left .card-surface::before,
     .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface::before {
-      animation: none !important;
-      opacity: 0 !important;
+      animation: none !important; /* Sem animação */
+      opacity: 0 !important; /* Sem brilho giratório */
     }
 
+    /* Destaque dourado e borda animada para o card central no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-center .card-surface {
-      opacity: 1;
-      background: linear-gradient(160deg, rgba(22, 24, 30, 0.86) 0%, rgba(7, 8, 12, 0.94) 100%);
-      border-color: rgba(250, 204, 21, 0.82);
+      opacity: 1; /* Opacidade total */
+      background: linear-gradient(160deg, rgba(22, 24, 30, 0.86) 0%, rgba(7, 8, 12, 0.94) 100%); /* Fundo mais denso */
+      border-color: rgba(250, 204, 21, 0.82); /* Borda dourada forte */
       box-shadow:
-        0 22px 46px rgba(0, 0, 0, 0.82),
-        0 0 32px rgba(234, 179, 8, 0.28),
-        0 0 14px rgba(250, 204, 21, 0.26),
-        inset 0 1px 0 rgba(254, 240, 138, 0.32);
+        0 22px 46px rgba(0, 0, 0, 0.82), /* Sombra profunda */
+        0 0 32px rgba(234, 179, 8, 0.28), /* Halo dourado externo */
+        0 0 14px rgba(250, 204, 21, 0.26), /* Brilho dourado próximo */
+        inset 0 1px 0 rgba(254, 240, 138, 0.32); /* Filete luminoso interno */
     }
 
+    /* Ativa a animação contínua da borda no card central do modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-center .card-surface::before {
-      opacity: 1;
-      animation: borderSweepContinuous var(--card-turn) linear infinite;
+      opacity: 1; /* Mostra o feixe da borda */
+      animation: borderSweepContinuous var(--card-turn) linear infinite; /* Gira continuamente */
     }
 
+    /* Cards que não estão no centro nem nas laterais imediatas no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-hidden {
-      transform: translate3d(0, 8px, 0) scale(0.72);
-      opacity: 0;
-      z-index: 1;
-      pointer-events: none;
+      transform: translate3d(0, 8px, 0) scale(0.72); /* Recolhido e menor */
+      opacity: 0; /* Invisível */
+      z-index: 1; /* Camada inferior */
+      pointer-events: none; /* Não clicável */
     }
 
+    /* Aparência esmaecida para módulos sem permissão para o usuário atual */
     .card-3d-wrap.sem-acesso .card-surface {
-      opacity: 0.30 !important;
-      filter: saturate(0.28) brightness(0.72);
-      border-color: rgba(148, 163, 184, 0.18);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+      opacity: 0.30 !important; /* Bem mais transparente */
+      filter: saturate(0.28) brightness(0.72); /* Dessaturado e escurecido */
+      border-color: rgba(148, 163, 184, 0.18); /* Borda acinzentada */
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); /* Sombra reduzida */
     }
 
-    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; }
+    .card-3d-wrap.sem-acesso .card-surface::before { opacity: 0.10 !important; } /* Quase sem brilho de borda */
 
+    /* Bloqueia visualmente e por eventos os botões principais de cards sem acesso */
     .card-3d-wrap.sem-acesso .btn-primary-card,
     .card-3d-wrap.sem-acesso .btn-info-aba {
-      opacity: 0.45;
-      cursor: not-allowed;
-      pointer-events: none;
-      border-color: rgba(148, 163, 184, 0.25);
-      background: rgba(15, 17, 22, 0.45);
-      color: #94a3b8;
-      box-shadow: none;
+      opacity: 0.45; /* Semitransparente */
+      cursor: not-allowed; /* Cursor de bloqueio */
+      pointer-events: none; /* Desabilita cliques */
+      border-color: rgba(148, 163, 184, 0.25); /* Borda cinza */
+      background: rgba(15, 17, 22, 0.45); /* Fundo neutro */
+      color: #94a3b8; /* Texto cinza */
+      box-shadow: none; /* Sem sombra */
     }
 
+    /* Superfície principal do card (glassmorphism + borda gradiente animada) */
     .card-surface {
-      --sweep-angle: 0deg;
-      --edge-a: #facc15;
-      --edge-b: #b45309;
-      --edge-c: #fef08a;
-      position: relative;
-      border-radius: 16px;
-      background: linear-gradient(160deg, rgba(14, 16, 21, 0.74) 0%, rgba(5, 6, 9, 0.86) 100%);
-      backdrop-filter: blur(22px) saturate(135%);
-      -webkit-backdrop-filter: blur(22px) saturate(135%);
-      border: 1px solid rgba(250, 204, 21, 0.22);
+      --sweep-angle: 0deg; /* Ângulo inicial do gradiente cônico */
+      --edge-a: #facc15; /* Cor principal do feixe (ouro) */
+      --edge-b: #b45309; /* Cor de transição (âmbar escuro) */
+      --edge-c: #fef08a; /* Pico de brilho (amarelo claro) */
+      position: relative; /* Base para ::before e ::after */
+      border-radius: 16px; /* Cantos arredondados */
+      background: linear-gradient(160deg, rgba(14, 16, 21, 0.74) 0%, rgba(5, 6, 9, 0.86) 100%); /* Gradiente escuro translúcido */
+      backdrop-filter: blur(22px) saturate(135%); /* Desfoque de vidro */
+      -webkit-backdrop-filter: blur(22px) saturate(135%); /* Prefixo Safari */
+      border: 1px solid rgba(250, 204, 21, 0.22); /* Borda dourada sutil */
       box-shadow:
-        0 14px 30px rgba(0, 0, 0, 0.65),
-        inset 0 1px 0 rgba(254, 240, 138, 0.12);
-      opacity: 0.90;
-      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      transition: transform 0.35s ease-out, background 0.35s ease, opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-      height: 100%;
-      width: 100%;
-      min-width: 0;
-      overflow: hidden;
+        0 14px 30px rgba(0, 0, 0, 0.65), /* Sombra externa */
+        inset 0 1px 0 rgba(254, 240, 138, 0.12); /* Brilho interno superior */
+      opacity: 0.90; /* Opacidade base */
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); /* Inclinação 3D controlada via JS */
+      transition: transform 0.35s ease-out, background 0.35s ease, opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; /* Transições suaves */
+      height: 100%; /* Ocupa altura total do wrapper */
+      width: 100%; /* Ocupa largura total do wrapper */
+      min-width: 0; /* Permite encolher */
+      overflow: hidden; /* Recorta bordas e efeitos internos */
     }
 
+    /* Reflexo diagonal sutil sobre a superfície do card */
     .card-surface::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(254, 240, 138, 0.06) 0%, transparent 42%, rgba(255, 255, 255, 0.02) 100%);
-      pointer-events: none;
-      z-index: 1;
+      content: ""; /* Camada decorativa */
+      position: absolute; /* Cobre todo o .card-surface */
+      inset: 0; /* Top/right/bottom/left = 0 */
+      border-radius: 16px; /* Mesmo raio de canto */
+      background: linear-gradient(135deg, rgba(254, 240, 138, 0.06) 0%, transparent 42%, rgba(255, 255, 255, 0.02) 100%); /* Reflexo sutil */
+      pointer-events: none; /* Não bloqueia interação */
+      z-index: 1; /* Acima do fundo, abaixo do conteúdo */
     }
 
+    /* Borda luminosa giratória usando máscara (exibe apenas o anel de 2.5px) */
     .card-surface::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 16px;
-      padding: 2.5px;
+      content: ""; /* Camada do feixe luminoso */
+      position: absolute; /* Cobre o card */
+      inset: 0; /* Preenche toda a área */
+      border-radius: 16px; /* Mesmo raio de canto */
+      padding: 2.5px; /* Espessura da faixa luminosa visível na borda */
       background: conic-gradient(
-        from var(--sweep-angle),
-        transparent 0deg,
-        transparent 195deg,
-        var(--edge-b) 258deg,
-        var(--edge-a) 315deg,
-        var(--edge-c) 352deg,
-        transparent 360deg
+        from var(--sweep-angle), /* Gira conforme --sweep-angle muda */
+        transparent 0deg, /* Início transparente */
+        transparent 195deg, /* Maior parte da volta apagada */
+        var(--edge-b) 258deg, /* Entrada âmbar */
+        var(--edge-a) 315deg, /* Corpo dourado */
+        var(--edge-c) 352deg, /* Ponta mais brilhante */
+        transparent 360deg /* Fecha o círculo suavemente */
       );
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 4;
-      transition: opacity 0.25s ease;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); /* Máscara dupla no WebKit */
+      -webkit-mask-composite: xor; /* Recorta o miolo deixando apenas o padding de 2.5px */
+      mask-composite: exclude; /* Padrão CSS de exclusão de máscara */
+      opacity: 0; /* Oculto até hover ou foco central no 3D */
+      pointer-events: none; /* Não interfere em cliques */
+      z-index: 4; /* Acima do conteúdo para contornar a borda */
+      transition: opacity 0.25s ease; /* Aparece/some suavemente */
     }
 
+    /* Efeito de destaque ao passar o mouse sobre cards acessíveis */
     .card-3d-wrap:not(.sem-acesso) .card-surface:hover {
-      opacity: 1 !important;
-      background: linear-gradient(160deg, rgba(24, 26, 33, 0.88) 0%, rgba(8, 9, 13, 0.95) 100%) !important;
-      border-color: rgba(250, 204, 21, 0.88) !important;
+      opacity: 1 !important; /* Opacidade máxima */
+      background: linear-gradient(160deg, rgba(24, 26, 33, 0.88) 0%, rgba(8, 9, 13, 0.95) 100%) !important; /* Fundo mais rico */
+      border-color: rgba(250, 204, 21, 0.88) !important; /* Borda dourada forte */
       box-shadow:
-        0 22px 46px rgba(0, 0, 0, 0.84),
-        0 0 32px rgba(234, 179, 8, 0.30),
-        0 0 14px rgba(250, 204, 21, 0.28),
-        inset 0 1px 0 rgba(254, 240, 138, 0.36) !important;
+        0 22px 46px rgba(0, 0, 0, 0.84), /* Sombra profunda */
+        0 0 32px rgba(234, 179, 8, 0.30), /* Halo dourado */
+        0 0 14px rgba(250, 204, 21, 0.28), /* Brilho próximo */
+        inset 0 1px 0 rgba(254, 240, 138, 0.36) !important; /* Brilho interno superior */
     }
 
+    /* Ativa a rotação da borda no hover de cards acessíveis */
     .card-3d-wrap:not(.sem-acesso) .card-surface:hover::before {
-      opacity: 1 !important;
-      animation: borderSweepContinuous var(--card-turn) linear infinite;
+      opacity: 1 !important; /* Exibe o feixe */
+      animation: borderSweepContinuous var(--card-turn) linear infinite; /* Gira continuamente */
     }
 
+    /* Pausa a animação da borda quando o autoplay/animação está pausado */
     body.glow-paused .card-surface::before {
-      animation-play-state: paused !important;
+      animation-play-state: paused !important; /* Congela o quadro atual da animação */
     }
 
+    /* Conteúdo interno do card organizado em coluna flexível */
     .card-body {
-      position: relative;
-      z-index: 2;
-      padding: 12px 14px 13px;
-      border-radius: 15px;
-      height: 100%;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 6px;
+      position: relative; /* Acima do ::after */
+      z-index: 2; /* Camada de conteúdo */
+      padding: 12px 14px 13px; /* Preenchimento interno do card */
+      border-radius: 15px; /* Raio interno compatível */
+      height: 100%; /* Ocupa altura total do .card-surface */
+      min-width: 0; /* Permite truncamento de textos internos */
+      display: flex; /* Layout em coluna */
+      flex-direction: column; /* Imagem, textos, KPIs e botões empilhados */
+      justify-content: space-between; /* Distribui verticalmente */
+      gap: 6px; /* Espaçamento entre blocos do card */
     }
 
     /* FOTO LIMPA E NÍTIDA SEM SOMBRA OU CAMADA ESCURA */
     .card-img-banner {
-      position: relative;
-      width: 100%;
-      height: var(--card-img-h);
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      border: 1px solid rgba(250, 204, 21, 0.26);
-      overflow: hidden;
-      flex-shrink: 0;
+      position: relative; /* Referência para badge e botão de favorito */
+      width: 100%; /* Largura total do card */
+      height: var(--card-img-h); /* Altura definida pela variável CSS */
+      border-radius: 10px; /* Cantos arredondados da imagem */
+      background-size: cover; /* Preenche sem distorcer proporção */
+      background-position: center; /* Centraliza o foco da imagem */
+      border: 1px solid rgba(250, 204, 21, 0.26); /* Moldura dourada sutil */
+      overflow: hidden; /* Recorta cantos */
+      flex-shrink: 0; /* Não reduz altura */
     }
 
+    /* Etiqueta superior esquerda sobre a foto (categoria/módulo ou BLOQUEADO) */
     .card-badge-tag {
-      position: absolute;
-      top: 7px;
-      left: 7px;
-      z-index: 2;
-      max-width: calc(100% - 44px);
-      padding: 2.5px 8px;
-      border-radius: 6px;
-      font-size: 8.5px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(10, 12, 16, 0.86);
-      border: 1px solid rgba(250, 204, 21, 0.55);
-      color: #fde047;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.55);
+      position: absolute; /* Flutua sobre a imagem */
+      top: 7px; /* Distância do topo */
+      left: 7px; /* Distância da esquerda */
+      z-index: 2; /* Acima da imagem */
+      max-width: calc(100% - 44px); /* Deixa espaço para o botão de favorito à direita */
+      padding: 2.5px 8px; /* Preenchimento interno */
+      border-radius: 6px; /* Cantos arredondados */
+      font-size: 8.5px; /* Fonte diminuta de etiqueta */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento entre letras */
+      text-transform: uppercase; /* Caixa alta */
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Esconde excedente */
+      text-overflow: ellipsis; /* Reticências se longo */
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 4px; /* Espaço entre texto e ícone */
+      background: rgba(10, 12, 16, 0.86); /* Fundo escuro legível */
+      border: 1px solid rgba(250, 204, 21, 0.55); /* Borda dourada */
+      color: #fde047; /* Texto amarelo */
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.55); /* Sombra para destacar sobre a foto */
     }
 
+    /* Variante dourada destacada para módulos prioritários */
     .card-badge-tag.gold {
-      background: linear-gradient(90deg, #eab308, #facc15);
-      border-color: #fef08a;
-      color: #140f02;
+      background: linear-gradient(90deg, #eab308, #facc15); /* Gradiente dourado */
+      border-color: #fef08a; /* Borda amarela clara */
+      color: #140f02; /* Texto escuro de alto contraste */
     }
 
+    /* Variante bloqueada quando o usuário não tem acesso ao módulo */
     .card-badge-tag.locked {
-      background: rgba(24, 26, 32, 0.92);
-      border-color: rgba(148, 163, 184, 0.45);
-      color: #cbd5e1;
+      background: rgba(24, 26, 32, 0.92); /* Fundo cinza-escuro */
+      border-color: rgba(148, 163, 184, 0.45); /* Borda cinza */
+      color: #cbd5e1; /* Texto cinza claro */
     }
 
+    /* Botão de estrela para favoritar/desfavoritar o card */
     .btn-fav-card {
-      position: absolute;
-      top: 7px;
-      right: 7px;
-      z-index: 2;
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: 1px solid rgba(250, 204, 21, 0.34);
-      background: rgba(8, 10, 14, 0.82);
-      color: #fde047;
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
+      position: absolute; /* Canto superior direito da imagem */
+      top: 7px; /* Distância do topo */
+      right: 7px; /* Distância da direita */
+      z-index: 2; /* Acima da imagem */
+      width: 24px; /* Largura do botão */
+      height: 24px; /* Altura do botão */
+      border-radius: 6px; /* Cantos arredondados */
+      border: 1px solid rgba(250, 204, 21, 0.34); /* Borda dourada suave */
+      background: rgba(8, 10, 14, 0.82); /* Fundo escuro */
+      color: #fde047; /* Estrela amarela */
+      font-size: 11px; /* Tamanho base */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Centraliza estrela */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      transition: all 0.2s ease; /* Suaviza estado favoritado */
     }
 
-    .btn-fav-card:hover { border-color: #facc15; background: rgba(250, 204, 21, 0.18); }
+    .btn-fav-card:hover { border-color: #facc15; background: rgba(250, 204, 21, 0.18); } /* Destaque no hover */
+    /* Estado quando o módulo está salvo nos favoritos */
     .btn-fav-card.favorited {
-      background: linear-gradient(90deg, #eab308, #facc15);
-      border-color: #fef08a;
-      color: #140f02;
+      background: linear-gradient(90deg, #eab308, #facc15); /* Preenchimento dourado */
+      border-color: #fef08a; /* Borda clara */
+      color: #140f02; /* Ícone escuro sobre fundo claro */
     }
 
+    /* Título do módulo dentro do card */
     .card-title-txt {
-      font-size: 13px;
-      font-weight: 800;
-      color: #fefce8;
-      letter-spacing: 0.25px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 13px; /* Tamanho do título do card */
+      font-weight: 800; /* Negrito forte */
+      color: #fefce8; /* Branco levemente amarelado */
+      letter-spacing: 0.25px; /* Espaçamento sutil */
+      text-transform: uppercase; /* Caixa alta */
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Oculta excedente */
+      text-overflow: ellipsis; /* Reticências se ultrapassar largura */
     }
 
+    /* Descrição resumida de até 2 linhas do módulo */
     .card-desc-txt {
-      font-size: 10.5px;
-      line-height: 1.32;
-      color: #cbd5e1;
-      margin-top: 2px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 10.5px; /* Tamanho compacto */
+      line-height: 1.32; /* Altura de linha justa */
+      color: #cbd5e1; /* Cinza claro */
+      margin-top: 2px; /* Pequeno espaço após o título */
+      display: -webkit-box; /* Caixa flexível para truncar em linhas */
+      -webkit-line-clamp: 2; /* Máximo de 2 linhas */
+      -webkit-box-orient: vertical; /* Direção vertical */
+      overflow: hidden; /* Corta texto excedente */
     }
 
+    /* Linha horizontal que exibe as duas pílulas de indicadores (KPIs) do card */
     .kpi-pills-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: nowrap;
-      min-width: 0;
+      display: flex; /* Pílulas lado a lado */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre pílulas */
+      flex-wrap: nowrap; /* Mantém na mesma linha */
+      min-width: 0; /* Permite encolher dentro do card */
     }
 
+    /* Cada pílula de indicador/frequência do card */
     .kpi-pill-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: rgba(8, 10, 14, 0.82);
-      border: 1px solid rgba(250, 204, 21, 0.26);
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #f8fafc;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 5px; /* Espaço entre ícone e valor */
+      padding: 2px 8px; /* Preenchimento compacto */
+      border-radius: 6px; /* Cantos arredondados */
+      background: rgba(8, 10, 14, 0.82); /* Fundo escuro */
+      border: 1px solid rgba(250, 204, 21, 0.26); /* Borda dourada sutil */
+      font-size: 9.5px; /* Tamanho compacto */
+      font-weight: 700; /* Negrito */
+      color: #f8fafc; /* Texto branco */
+      white-space: nowrap; /* Não quebra linha */
+      overflow: hidden; /* Esconde excedente */
+      text-overflow: ellipsis; /* Reticências se longo */
+      min-width: 0; /* Permite truncamento */
     }
 
+    /* Destaque dourado para o primeiro indicador de desempenho */
     .kpi-success { color: #fde047 !important; }
 
+    /* Pilha de botões na base do card */
     .card-actions-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-top: auto;
+      display: flex; /* Empilha linha principal e botão secundário */
+      flex-direction: column; /* Ordem vertical */
+      gap: 5px; /* Espaçamento entre linhas de botões */
+      margin-top: auto; /* Empurra os botões para o fundo do card */
     }
 
+    /* Linha superior das ações: botão ABRIR + botão info lateral */
     .acessar-line {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      width: 100%;
-      height: 29px;
+      display: flex; /* Itens lado a lado */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre botão ABRIR e botão (i) */
+      width: 100%; /* Largura total do card */
+      height: 29px; /* Altura fixa da linha */
     }
 
+    /* Botão principal de acesso ao módulo ("ABRIR") */
     .btn-primary-card {
-      flex: 1 1 auto;
-      width: 100%;
-      min-width: 0;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
-      padding: 0 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(250, 204, 21, 0.56);
-      background: linear-gradient(180deg, rgba(234, 179, 8, 0.22) 0%, rgba(161, 98, 7, 0.14) 100%);
-      color: #fef08a;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      flex: 1 1 auto; /* Ocupa o espaço restante ao lado do botão de info */
+      width: 100%; /* Largura base */
+      min-width: 0; /* Permite encolher */
+      height: 29px; /* Altura fixa */
+      min-height: 29px; /* Altura mínima fixa */
+      max-height: 29px; /* Altura máxima fixa */
+      padding: 0 12px; /* Preenchimento horizontal */
+      border-radius: 8px; /* Cantos arredondados */
+      border: 1px solid rgba(250, 204, 21, 0.56); /* Borda dourada */
+      background: linear-gradient(180deg, rgba(234, 179, 8, 0.22) 0%, rgba(161, 98, 7, 0.14) 100%); /* Gradiente dourado suave */
+      color: #fef08a; /* Texto amarelo claro */
+      font-size: 10px; /* Tamanho compacto */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento entre letras */
+      text-transform: uppercase; /* Caixa alta */
+      text-decoration: none; /* Sem sublinhado */
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Corta excesso */
+      text-overflow: ellipsis; /* Reticências se necessário */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Alinha ícone e texto */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      gap: 6px; /* Espaço entre texto e ícone */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover do botão principal ABRIR */
     .btn-primary-card:hover {
-      background: linear-gradient(90deg, #eab308, #facc15);
-      border-color: #fef9c3;
-      color: #120d02;
-      box-shadow: 0 4px 18px rgba(250, 204, 21, 0.36);
+      background: linear-gradient(90deg, #eab308, #facc15); /* Dourado sólido vibrante */
+      border-color: #fef9c3; /* Borda amarela muito clara */
+      color: #120d02; /* Texto escuro para alto contraste */
+      box-shadow: 0 4px 18px rgba(250, 204, 21, 0.36); /* Sombra dourada */
     }
 
+    /* Botão secundário de largura total ("DETALHES") */
     .btn-glass-card {
-      flex: 0 0 28px;
-      width: 100%;
-      min-width: 0;
-      height: 28px;
-      min-height: 28px;
-      max-height: 28px;
-      padding: 0 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(250, 204, 21, 0.22);
-      background: rgba(16, 18, 24, 0.72);
-      color: #e2e8f0;
-      font-size: 9.5px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      flex: 0 0 28px; /* Altura fixa de 28px no flex container */
+      width: 100%; /* Largura total */
+      min-width: 0; /* Permite encolher */
+      height: 28px; /* Altura fixa */
+      min-height: 28px; /* Altura mínima */
+      max-height: 28px; /* Altura máxima */
+      padding: 0 12px; /* Preenchimento lateral */
+      border-radius: 8px; /* Cantos arredondados */
+      border: 1px solid rgba(250, 204, 21, 0.22); /* Borda dourada discreta */
+      background: rgba(16, 18, 24, 0.72); /* Fundo escuro translúcido */
+      color: #e2e8f0; /* Texto claro */
+      font-size: 9.5px; /* Tamanho compacto */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento de letras */
+      text-transform: uppercase; /* Caixa alta */
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Esconde excedente */
+      text-overflow: ellipsis; /* Reticências se necessário */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Centraliza conteúdo */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      gap: 6px; /* Espaço entre elementos */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover do botão DETALHES */
     .btn-glass-card:hover {
-      border-color: #facc15;
-      color: #fde047;
-      background: rgba(250, 204, 21, 0.12);
+      border-color: #facc15; /* Destaca borda em dourado */
+      color: #fde047; /* Texto amarelo */
+      background: rgba(250, 204, 21, 0.12); /* Fundo levemente dourado */
     }
 
+    /* Botão quadrado de informação (i) ao lado do botão ABRIR */
     .btn-info-aba {
-      width: 29px;
-      height: 29px;
-      min-height: 29px;
-      max-height: 29px;
-      flex-shrink: 0;
-      background: rgba(10, 12, 16, 0.88);
-      border: 1px solid rgba(250, 204, 21, 0.42);
-      border-radius: 8px;
-      color: #facc15;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
+      width: 29px; /* Largura quadrada */
+      height: 29px; /* Altura quadrada */
+      min-height: 29px; /* Altura mínima */
+      max-height: 29px; /* Altura máxima */
+      flex-shrink: 0; /* Não perde largura */
+      background: rgba(10, 12, 16, 0.88); /* Fundo escuro */
+      border: 1px solid rgba(250, 204, 21, 0.42); /* Borda dourada */
+      border-radius: 8px; /* Cantos arredondados */
+      color: #facc15; /* Ícone dourado */
+      font-size: 13px; /* Tamanho base */
+      font-weight: 800; /* Negrito */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Centraliza ícone */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover do botão (i) quando habilitado */
     .btn-info-aba:hover:not(:disabled) {
-      background: linear-gradient(90deg, #eab308, #facc15);
-      border-color: #fef08a;
-      color: #120d02;
+      background: linear-gradient(90deg, #eab308, #facc15); /* Preenchimento dourado */
+      border-color: #fef08a; /* Borda clara */
+      color: #120d02; /* Ícone escuro */
     }
 
+    /* Aparência quando o botão (i) está desabilitado */
     .btn-info-aba:disabled { opacity: 0.35; cursor: not-allowed; }
 
+    /* Container das bolinhas indicadoras de posição/slide */
     .pagination-dots {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 2px;
-      flex-shrink: 0;
+      display: flex; /* Bolinhas em linha */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centralizado horizontalmente */
+      flex-wrap: wrap; /* Quebra se houver muitos pontos */
+      gap: 6px; /* Espaço entre pontos */
+      margin-top: 2px; /* Pequeno afastamento */
+      flex-shrink: 0; /* Não encolhe */
     }
 
+    /* Cada bolinha de paginação */
     .p-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      border: none;
-      background: rgba(148, 163, 184, 0.35);
-      cursor: pointer;
-      transition: all 0.25s ease;
+      width: 7px; /* Largura inativa */
+      height: 7px; /* Altura circular */
+      border-radius: 999px; /* Formato pílula/círculo */
+      border: none; /* Sem borda padrão de botão */
+      background: rgba(148, 163, 184, 0.35); /* Cinza translúcido */
+      cursor: pointer; /* Cursor clicável */
+      transition: all 0.25s ease; /* Suaviza expansão ao ativar */
     }
 
+    /* Ponto ativo vira uma barra ciano brilhante */
     .p-dot.active {
-      width: 24px;
-      background: #38bdf8;
-      box-shadow: 0 0 10px #38bdf8;
+      width: 24px; /* Alonga horizontalmente */
+      background: #38bdf8; /* Azul-ciano */
+      box-shadow: 0 0 10px #38bdf8; /* Glow ciano */
     }
 
     /* ================= DRAWER LATERAL DE DETALHES & ASSISTENTE IA GERENCIAL ================= */
     .details-drawer-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9990;
-      background: rgba(2, 6, 15, 0.72);
-      backdrop-filter: blur(6px);
+      display: none; /* Oculto até abrir algum drawer */
+      position: fixed; /* Cobre toda a janela do navegador */
+      inset: 0; /* Top/right/bottom/left = 0 */
+      z-index: 9990; /* Abaixo dos drawers (9995), acima da página */
+      background: rgba(2, 6, 15, 0.72); /* Fundo escuro semitransparente */
+      backdrop-filter: blur(6px); /* Desfoque leve do conteúdo atrás */
     }
 
+    /* Exibe o backdrop quando .open é adicionada via JS */
     .details-drawer-backdrop.open { display: block; }
 
+    /* Painel deslizante lateral direito (usado para Detalhes do Módulo e Copiloto IA) */
     .details-drawer {
-      position: fixed;
-      top: 0;
-      right: -440px;
-      width: 100%;
-      max-width: 410px;
-      height: 100vh;
-      height: 100dvh;
-      z-index: 9995;
-      background: linear-gradient(170deg, rgba(13, 22, 42, 0.98) 0%, rgba(5, 10, 22, 0.99) 100%);
-      border-left: 1px solid rgba(56, 189, 248, 0.38);
-      box-shadow: -16px 0 42px rgba(0, 0, 0, 0.75);
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      transition: right 0.3s ease;
-      overflow-y: auto;
+      position: fixed; /* Fixo na lateral da tela */
+      top: 0; /* Alinhado ao topo */
+      right: -440px; /* Escondido fora da tela à direita por padrão */
+      width: 100%; /* Ocupa 100% em telas estreitas */
+      max-width: 410px; /* Largura máxima do drawer */
+      height: 100vh; /* Fallback de altura total */
+      height: 100dvh; /* Altura dinâmica da tela */
+      z-index: 9995; /* Acima do backdrop e demais elementos */
+      background: linear-gradient(170deg, rgba(13, 22, 42, 0.98) 0%, rgba(5, 10, 22, 0.99) 100%); /* Fundo azul-escuro quase opaco */
+      border-left: 1px solid rgba(56, 189, 248, 0.38); /* Borda esquerda ciano */
+      box-shadow: -16px 0 42px rgba(0, 0, 0, 0.75); /* Sombra projetada para a esquerda */
+      padding: 22px; /* Espaçamento interno */
+      display: flex; /* Layout em coluna */
+      flex-direction: column; /* Seções empilhadas verticalmente */
+      gap: 14px; /* Espaçamento entre blocos internos */
+      transition: right 0.3s ease; /* Desliza suavemente para dentro da tela */
+      overflow-y: auto; /* Permite rolagem se o conteúdo exceder a altura */
     }
 
+    /* Posição visível do drawer quando aberto */
     .details-drawer.open { right: 0; }
 
+    /* Cabeçalho interno do drawer (título + botão fechar X) */
     .details-drawer-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex; /* Título à esquerda e botão fechar à direita */
+      align-items: center; /* Centro vertical */
+      justify-content: space-between; /* Separa extremidades */
+      gap: 10px; /* Espaço entre título e botão */
+      padding-bottom: 12px; /* Respiro inferior */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linha divisória sutil */
     }
 
+    /* Título do drawer */
     .details-drawer-top h3 {
-      font-size: 16px;
-      font-weight: 800;
-      color: #ffffff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
+      font-size: 16px; /* Tamanho do título do drawer */
+      font-weight: 800; /* Negrito forte */
+      color: #ffffff; /* Branco */
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Esconde excedente */
+      text-overflow: ellipsis; /* Reticências se longo */
+      display: inline-flex; /* Permite ícone junto ao título */
+      align-items: center; /* Centro vertical */
+      gap: 7px; /* Espaço entre ícone e texto */
     }
 
+    /* Botão fechar (X) no topo do drawer */
     .details-drawer-close {
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-      border-radius: 9px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(15, 23, 42, 0.8);
-      color: #e2e8f0;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      width: 32px; /* Largura do botão */
+      height: 32px; /* Altura do botão */
+      flex-shrink: 0; /* Não encolhe */
+      border-radius: 9px; /* Cantos arredondados */
+      border: 1px solid rgba(255, 255, 255, 0.14); /* Borda discreta */
+      background: rgba(15, 23, 42, 0.8); /* Fundo escuro */
+      color: #e2e8f0; /* Ícone claro */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Centraliza o X */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
     }
 
+    /* Grade 2x2 de metadados dentro do drawer de detalhes */
     .details-meta-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      display: grid; /* Grade de 2 colunas */
+      grid-template-columns: 1fr 1fr; /* Duas colunas de igual largura */
+      gap: 10px; /* Espaçamento entre caixas */
     }
 
+    /* Cada caixa de metadado (Categoria, Indicador, Abrangência, Permissão) */
     .details-meta-box {
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: rgba(5, 10, 22, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      min-width: 0;
+      padding: 10px 12px; /* Preenchimento interno */
+      border-radius: 10px; /* Cantos arredondados */
+      background: rgba(5, 10, 22, 0.78); /* Fundo escuro */
+      border: 1px solid rgba(255, 255, 255, 0.08); /* Borda sutil */
+      min-width: 0; /* Permite truncamento interno */
     }
 
+    /* Rótulo pequeno do metadado */
     .details-meta-box small {
-      display: block;
-      font-size: 9.5px;
-      color: #94a3b8;
-      text-transform: uppercase;
-      font-weight: 700;
+      display: block; /* Linha própria acima do valor */
+      font-size: 9.5px; /* Fonte pequena */
+      color: #94a3b8; /* Cinza */
+      text-transform: uppercase; /* Caixa alta */
+      font-weight: 700; /* Negrito */
     }
 
+    /* Valor do metadado */
     .details-meta-box strong {
-      display: block;
-      font-size: 12px;
-      color: #f8fafc;
-      margin-top: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: block; /* Linha própria */
+      font-size: 12px; /* Tamanho legível */
+      color: #f8fafc; /* Branco gelo */
+      margin-top: 3px; /* Pequeno espaço após o rótulo */
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Corta excesso */
+      text-overflow: ellipsis; /* Reticências se necessário */
     }
 
+    /* Lista vertical de pontos executivos do módulo */
     .details-sublist {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      overflow-y: auto;
-      max-height: 44vh;
+      list-style: none; /* Remove marcadores padrão de lista (bolinhas) */
+      display: flex; /* Itens em coluna */
+      flex-direction: column; /* Ordem vertical */
+      gap: 8px; /* Espaço entre itens */
+      overflow-y: auto; /* Rolagem caso a lista cresça */
+      max-height: 44vh; /* Limite de altura para manter botão acessível */
     }
 
+    /* Cada item da lista de pontos executivos */
     .details-sublist li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(56, 189, 248, 0.22);
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #e2e8f0;
+      display: flex; /* Texto à esquerda e check à direita */
+      align-items: center; /* Centro vertical */
+      justify-content: space-between; /* Separa texto e ícone */
+      gap: 10px; /* Espaço entre texto e check */
+      padding: 10px 12px; /* Preenchimento interno */
+      border-radius: 10px; /* Cantos arredondados */
+      background: rgba(15, 23, 42, 0.75); /* Fundo escuro */
+      border: 1px solid rgba(56, 189, 248, 0.22); /* Borda ciano suave */
+      font-size: 11.5px; /* Tamanho do texto */
+      font-weight: 600; /* Seminegrito */
+      color: #e2e8f0; /* Texto claro */
     }
 
     .details-sublist li span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Esconde excedente */
+      text-overflow: ellipsis; /* Reticências se longo */
+      min-width: 0; /* Permite encolher */
     }
 
+    /* Botão azul principal na base do drawer (acessar visão ou copiar briefing) */
     .btn-drawer-blue {
-      width: 100%;
-      height: 38px;
-      min-height: 38px;
-      max-height: 38px;
-      margin-top: auto;
-      padding: 0 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(56, 189, 248, 0.58);
-      background: linear-gradient(180deg, rgba(14, 165, 233, 0.32) 0%, rgba(2, 132, 199, 0.20) 100%);
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      width: 100%; /* Largura total do drawer */
+      height: 38px; /* Altura fixa confortável */
+      min-height: 38px; /* Altura mínima */
+      max-height: 38px; /* Altura máxima */
+      margin-top: auto; /* Fixa próximo à base do flex container */
+      padding: 0 12px; /* Preenchimento lateral */
+      border-radius: 8px; /* Cantos arredondados */
+      border: 1px solid rgba(56, 189, 248, 0.58); /* Borda ciano */
+      background: linear-gradient(180deg, rgba(14, 165, 233, 0.32) 0%, rgba(2, 132, 199, 0.20) 100%); /* Gradiente azul/ciano */
+      color: #ffffff; /* Texto branco */
+      font-size: 10px; /* Tamanho compacto */
+      font-weight: 800; /* Negrito forte */
+      letter-spacing: 0.5px; /* Espaçamento entre letras */
+      text-transform: uppercase; /* Caixa alta */
+      text-decoration: none; /* Sem sublinhado */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Alinha ícone e texto */
+      align-items: center; /* Centro vertical */
+      justify-content: center; /* Centro horizontal */
+      gap: 6px; /* Espaço entre rótulo e ícone */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover do botão azul do drawer */
     .btn-drawer-blue:hover {
-      background: linear-gradient(90deg, #2563eb, #38bdf8);
-      border-color: #bae6fd;
-      color: #040d1e;
-      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Gradiente vibrante */
+      border-color: #bae6fd; /* Borda clara */
+      color: #040d1e; /* Texto escuro */
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35); /* Brilho ciano */
     }
 
+    /* Cartão de saída do diagnóstico/briefing gerado pela IA */
     .ai-briefing-card {
-      padding: 14px;
-      border-radius: 12px;
-      background: linear-gradient(155deg, rgba(14, 34, 72, 0.82) 0%, rgba(7, 15, 34, 0.92) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.36);
-      font-size: 12px;
-      line-height: 1.55;
-      color: #e2e8f0;
+      padding: 14px; /* Espaçamento interno */
+      border-radius: 12px; /* Cantos arredondados */
+      background: linear-gradient(155deg, rgba(14, 34, 72, 0.82) 0%, rgba(7, 15, 34, 0.92) 100%); /* Gradiente azul profundo */
+      border: 1px solid rgba(56, 189, 248, 0.36); /* Borda ciano */
+      font-size: 12px; /* Tamanho de leitura confortável */
+      line-height: 1.55; /* Espaçamento generoso entre linhas */
+      color: #e2e8f0; /* Texto claro */
     }
 
+    /* Destaque dourado dentro do briefing da IA */
     .ai-briefing-card strong { color: #fde047; }
 
+    /* Pilha de botões de tópicos rápidos da IA */
     .ai-prompt-chips {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
+      display: flex; /* Botões em coluna */
+      flex-direction: column; /* Ordem vertical */
+      gap: 7px; /* Espaço entre botões */
     }
 
+    /* Cada botão de análise rápida da IA */
     .ai-chip-btn {
-      width: 100%;
-      text-align: left;
-      padding: 10px 12px;
-      border-radius: 9px;
-      background: rgba(15, 23, 42, 0.78);
-      border: 1px solid rgba(56, 189, 248, 0.26);
-      color: #bae6fd;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      transition: all 0.2s ease;
+      width: 100%; /* Largura total */
+      text-align: left; /* Alinha rótulo à esquerda */
+      padding: 10px 12px; /* Área de toque confortável */
+      border-radius: 9px; /* Cantos arredondados */
+      background: rgba(15, 23, 42, 0.78); /* Fundo escuro */
+      border: 1px solid rgba(56, 189, 248, 0.26); /* Borda ciano sutil */
+      color: #bae6fd; /* Texto azul claro */
+      font-size: 11px; /* Tamanho compacto */
+      font-weight: 700; /* Negrito */
+      cursor: pointer; /* Cursor clicável */
+      display: flex; /* Rótulo à esquerda e seta à direita */
+      align-items: center; /* Centro vertical */
+      justify-content: space-between; /* Separa rótulo e chevron */
+      gap: 8px; /* Espaço entre partes */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
     .ai-chip-btn span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
+      white-space: nowrap; /* Uma linha */
+      overflow: hidden; /* Corta excesso */
+      text-overflow: ellipsis; /* Reticências se longo */
+      min-width: 0; /* Permite encolher */
+      display: inline-flex; /* Ícone + rótulo */
+      align-items: center; /* Centro vertical */
+      gap: 7px; /* Espaço entre ícone e texto */
     }
 
+    /* Hover dos botões de tópico rápido da IA */
     .ai-chip-btn:hover {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.16);
-      color: #ffffff;
+      border-color: #38bdf8; /* Borda ciano forte */
+      background: rgba(56, 189, 248, 0.16); /* Fundo levemente ciano */
+      color: #ffffff; /* Texto branco */
     }
 
     /* ================= RODAPÉ OFICIAL ================= */
     .ellca-official-footer {
-      padding: 2px 2px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 11.5px;
-      color: #94a3b8;
-      flex-shrink: 0;
+      padding: 2px 2px 0; /* Pequeno respiro superior */
+      display: flex; /* Informações à esquerda e ações à direita */
+      align-items: center; /* Centro vertical */
+      justify-content: space-between; /* Separa lados */
+      flex-wrap: wrap; /* Quebra em telas estreitas */
+      gap: 10px; /* Espaçamento entre blocos */
+      font-size: 11.5px; /* Tamanho de rodapé */
+      color: #94a3b8; /* Cinza discreto */
+      flex-shrink: 0; /* Não encolhe */
     }
 
+    /* Texto de versão e módulo do sistema no rodapé */
     .footer-system-text {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      color: #94a3b8;
+      display: inline-flex; /* Itens em linha */
+      align-items: center; /* Centro vertical */
+      flex-wrap: wrap; /* Quebra se necessário */
+      gap: 8px; /* Espaço entre trechos */
+      color: #94a3b8; /* Cinza suave */
     }
 
-    .footer-system-text strong { color: #f8fafc; font-weight: 700; }
+    .footer-system-text strong { color: #f8fafc; font-weight: 700; } /* Destaques em branco */
 
+    /* Ações à direita no rodapé (Suporte, saudação de usuário e Sair) */
     .footer-right-actions {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
+      display: inline-flex; /* Itens em linha */
+      align-items: center; /* Centro vertical */
+      flex-wrap: wrap; /* Quebra em telas pequenas */
+      gap: 8px; /* Espaço entre itens */
     }
 
+    /* Botão de suporte no rodapé */
     .btn-footer-support {
-      height: 28px;
-      padding: 0 12px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #cbd5e1;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      height: 28px; /* Altura compacta */
+      padding: 0 12px; /* Preenchimento lateral */
+      border-radius: 999px; /* Formato pílula */
+      background: rgba(15, 23, 42, 0.78); /* Fundo escuro */
+      border: 1px solid rgba(255, 255, 255, 0.14); /* Borda sutil */
+      color: #cbd5e1; /* Texto claro */
+      font-size: 11px; /* Tamanho compacto */
+      font-weight: 600; /* Seminegrito */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre ícone e rótulo */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
+    /* Hover do botão Suporte */
     .btn-footer-support:hover {
-      border-color: #38bdf8;
-      color: #ffffff;
-      background: rgba(56, 189, 248, 0.14);
+      border-color: #38bdf8; /* Borda ciano */
+      color: #ffffff; /* Texto branco */
+      background: rgba(56, 189, 248, 0.14); /* Fundo ciano sutil */
     }
 
+    /* Botão de encerrar sessão (Sair) no rodapé */
     .btn-footer-sair {
-      height: 28px;
-      padding: 0 12px;
-      border-radius: 999px;
-      background: rgba(239, 68, 68, 0.14);
-      border: 1px solid rgba(248, 113, 113, 0.35);
-      color: #fca5a5;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      height: 28px; /* Altura compacta */
+      padding: 0 12px; /* Preenchimento lateral */
+      border-radius: 999px; /* Formato pílula */
+      background: rgba(239, 68, 68, 0.14); /* Fundo vermelho suave */
+      border: 1px solid rgba(248, 113, 113, 0.35); /* Borda vermelha clara */
+      color: #fca5a5; /* Texto vermelho claro */
+      font-size: 11px; /* Tamanho compacto */
+      font-weight: 700; /* Negrito */
+      cursor: pointer; /* Cursor clicável */
+      display: inline-flex; /* Ícone + texto */
+      align-items: center; /* Centro vertical */
+      gap: 6px; /* Espaço entre ícone e rótulo */
+      transition: all 0.2s ease; /* Suaviza hover */
     }
 
-    .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; }
+    .btn-footer-sair:hover { background: rgba(239, 68, 68, 0.28); color: #ffffff; } /* Destaque vermelho no hover */
 
+    /* Breakpoint para telas até 1180px (tablets/notebooks menores) */
     @media (max-width: 1180px) {
-      .top-navbar { flex-wrap: wrap; }
+      .top-navbar { flex-wrap: wrap; } /* Permite quebra da barra superior */
       .nav-links-side {
-        flex-wrap: wrap;
-        width: 100%;
-        justify-content: flex-end;
+        flex-wrap: wrap; /* Links podem quebrar linha */
+        width: 100%; /* Ocupa largura total abaixo da marca */
+        justify-content: flex-end; /* Alinha links à direita */
       }
     }
 
+    /* Breakpoint para telas até 760px */
     @media (max-width: 760px) {
-      .cards-track.mode-3d .card-3d-wrap { width: 274px; min-width: 274px; max-width: 274px; }
-      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); }
-      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); }
-      .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; }
+      .cards-track.mode-3d .card-3d-wrap { width: 274px; min-width: 274px; max-width: 274px; } /* Card 3D mais estreito */
+      .cards-track.mode-3d .card-3d-wrap.slot-left { transform: translate3d(-65%, 0, 0) scale(0.78); } /* Menor deslocamento horizontal esquerdo */
+      .cards-track.mode-3d .card-3d-wrap.slot-right { transform: translate3d(65%, 0, 0) scale(0.78); } /* Menor deslocamento horizontal direito */
+      .search-box-wrap { min-width: 0; width: 100%; flex: 1 1 100%; } /* Busca ocupa largura total */
     }
 
+    /* Breakpoint para smartphones até 520px */
     @media (max-width: 520px) {
-      body { padding: 10px 12px 14px; }
-      .hero-banner { padding: 12px 14px; }
-      .quick-stat-pill { min-width: 0; flex: 1 1 auto; }
+      body { padding: 10px 12px 14px; } /* Padding lateral menor no mobile */
+      .hero-banner { padding: 12px 14px; } /* Padding compacto no hero */
+      .quick-stat-pill { min-width: 0; flex: 1 1 auto; } /* Mini-cards flexíveis na linha */
       .cards-track,
-      .cards-track.grid-mode { grid-template-columns: 1fr; }
+      .cards-track.grid-mode { grid-template-columns: 1fr; } /* Coluna única no mobile */
       .cards-track .card-3d-wrap {
-        max-width: 100%;
-        height: var(--card-h);
-        min-height: var(--card-h);
-        max-height: var(--card-h);
+        max-width: 100%; /* Ocupa largura disponível */
+        height: var(--card-h); /* Mantém altura definida */
+        min-height: var(--card-h); /* Altura mínima */
+        max-height: var(--card-h); /* Altura máxima */
       }
       .cards-track.mode-3d .card-3d-wrap.slot-left,
-      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; }
+      .cards-track.mode-3d .card-3d-wrap.slot-right { opacity: 0.16; } /* Reduz opacidade lateral para focar no centro */
     }
   </style>
 </head>
 
 <body>
+  <!-- Wrapper geral que estrutura a página do topo ao rodapé -->
   <div class="page-container">
 
     <!-- 1. BARRA SUPERIOR RECOLHÍVEL -->
     <div class="top-navbar-collapse">
       <header class="top-navbar">
         <div class="nav-brand-side">
+          <!-- Logotipo com fallback automático caso a imagem não carregue -->
           <a href="index.html" class="brand-logo" title="ELLCA">
             <img src="img/logo_ellca.png" alt="Logo ELLCA"
                  onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='inline-flex';" />
             <span id="logoFallback" class="brand-fallback">🌀Ellca</span>
           </a>
 
+          <!-- Indicador de conectividade e módulo ativo -->
           <span class="module-pill">
             <span class="dot"></span>
             REDES ONLINE • 12ms · GERÊNCIA EXECUTIVA
           </span>
 
+          <!-- Selo da versão Max Star 2.0 (ícone preenchido via JS) -->
           <span class="max-star-tag" id="maxStarTagEl">
             MAX STAR 2.0
           </span>
 
+          <!-- Avatar circular com iniciais do usuário -->
           <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
 
+        <!-- Menu de navegação principal entre páginas do portal -->
         <nav class="nav-links-side" aria-label="Menu do Portal">
           <a href="home.html" class="top-nav-link" data-svg="home">HOME</a>
           <a href="dashboard.html" class="top-nav-link" data-svg="pie">DASHBOARD</a>
@@ -1714,6 +1877,7 @@
           <a href="supervisor.html" class="top-nav-link" data-svg="shieldUser">SUPERVISÃO</a>
           <a href="gerencial.html" class="top-nav-link active" data-svg="crown">GERÊNCIA</a>
           <a href="organograma.html" class="top-nav-link" data-svg="sitemap">ORGANOGRAMA</a>
+          <!-- Botão rápido de retorno à home -->
           <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle" aria-label="Voltar para a Central de Controle"></button>
         </nav>
       </header>
@@ -1723,8 +1887,10 @@
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
+          <!-- Caixa de ícone principal da gerência -->
           <div class="hero-icon-box" id="heroMainIconBox"></div>
           <div>
+            <!-- Pílula dinâmica atualizada por JS com saudação, cidade, clima e relógio -->
             <div class="hero-greeting-pill tabular" id="execGreetingPill">
               <span id="execGreetingIconWrap"></span>
               <span id="execGreetingText">Olá, Bom dia, Rodrigo Lopes • Carregando local e clima...</span>
@@ -1736,6 +1902,7 @@
           </div>
         </div>
 
+        <!-- Resumo rápido de quantidade de módulos, escopo e segurança -->
         <div class="hero-right-stats tabular">
           <div class="quick-stat-pill">
             <small>Painéis Executivos</small>
@@ -1758,11 +1925,13 @@
           <span class="exec-ai-badge" id="execAiBadgeEl">
             ELLCA IA • INSIGHT
           </span>
+          <!-- Texto rotativo de insights estratégicos -->
           <span class="exec-ai-text" id="execAiTickerTxt">
             Consolidado geral operando em 92% de aderência às metas mensais, sem desvios críticos em campo.
           </span>
         </div>
 
+        <!-- Controles para trocar insight ou abrir o drawer de briefing da IA -->
         <div class="exec-ai-actions">
           <button type="button" class="btn-ai-next" id="btnNextAiInsight" title="Próximo insight estratégico da IA" aria-label="Próximo insight"></button>
           <button type="button" class="btn-ai-trigger" id="btnAbrirCopilotoIA" title="Abrir Briefing Executivo com Inteligência Artificial">
@@ -1771,6 +1940,7 @@
         </div>
       </div>
 
+      <!-- Barra de ações: status ao vivo, modos de visualização, favoritos, autoplay e ocultar menu -->
       <div class="hero-actions-row">
         <span class="live-badge tabular" id="liveBadgeEl"></span>
 
@@ -1788,6 +1958,7 @@
           <span id="iconAutoPlayWrap"></span> <span id="txtAutoPlay">AUTOPLAY: ON</span>
         </button>
 
+        <!-- Botão empurrado para a direita para recolher/expandir a barra superior -->
         <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu" style="margin-left:auto;">
           <span id="iconToggleMenuWrap"></span>
           <span id="txtToggleMenu">OCULTAR MENU</span>
@@ -1797,6 +1968,7 @@
 
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
+      <!-- Filtros por categoria estratégica -->
       <div class="category-pills" id="categoryPills">
         <button type="button" class="cat-btn active" data-cat="TODOS" data-svg="layers">Todos (10)</button>
         <button type="button" class="cat-btn" data-cat="OPERACAO" data-svg="hardHat">Operação</button>
@@ -1804,6 +1976,7 @@
         <button type="button" class="cat-btn" data-cat="GOVERNANCA" data-svg="shield">Governança</button>
       </div>
 
+      <!-- Campo de busca instantânea por palavra-chave -->
       <div class="search-box-wrap" id="searchBoxWrap">
         <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar visão gerencial ou relatório..." />
       </div>
@@ -1814,6 +1987,7 @@
       <div class="carousel-header-bar">
         <span class="carousel-status-label ellipsis-single" id="carouselStatusLabel"></span>
 
+        <!-- Dica de teclado e setas de navegação (ocultadas automaticamente no modo grade) -->
         <div class="carousel-nav-controls" id="carouselNavControls">
           <span class="kbd-hint" id="kbdHintEl" title="Use as setas do teclado para navegar e Espaço para pausar">
             ← → Navegar · Espaço Pausar
@@ -1823,7 +1997,9 @@
         </div>
       </div>
 
+      <!-- Container onde o JS injeta os cards conforme o modo e filtros -->
       <div class="cards-track" id="cardsWrapper"></div>
+      <!-- Pontos de paginação/slide -->
       <div class="pagination-dots" id="paginationDots"></div>
     </section>
 
@@ -1844,8 +2020,10 @@
 
   </div>
 
-  <!-- DRAWER LATERAL DE DETALHES -->
+  <!-- Fundo escurecido compartilhado pelos drawers laterais -->
   <div class="details-drawer-backdrop" id="detailsBackdrop"></div>
+
+  <!-- DRAWER LATERAL DE DETALHES -->
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
       <h3 id="drawerModTitulo">Módulo Gerencial</h3>
@@ -1892,6 +2070,7 @@
       Análises Rápidas para Diretoria
     </div>
 
+    <!-- Botões de tópicos rápidos que atualizam o diagnóstico exibido no drawer -->
     <div class="ai-prompt-chips">
       <button type="button" class="ai-chip-btn" data-ai-topic="resumo" data-chip-ico="chartLine" data-chip-color="#38bdf8" data-chip-label="Resumo Executivo do Turno">
         <span>Resumo Executivo do Turno</span>
@@ -1911,94 +2090,91 @@
   </aside>
 
   <script>
+    // IIFE (Immediately Invoked Function Expression) isola o escopo para não poluir window global
     (function iniciarGerenciaMaxStar() {
       // ================= ESTADO GLOBAL INICIALIZADO NO TOPO =================
-      let modoVisualizacao = "carrossel";
-      let categoriaAtiva = "TODOS";
-      let somenteFavoritos = false;
-      let indiceCarrossel = 0;
-      let indiceInsightIA = 0;
-      let autoPlayAtivo = true;
-      let timerCarrossel = null;
-      let assinaturaDomAtual = "";
+      let modoVisualizacao = "carrossel"; // Modos possíveis: "carrossel", "3d" ou "grade"
+      let categoriaAtiva = "TODOS"; // Filtro de categoria: "TODOS", "OPERACAO", "RESULTADOS" ou "GOVERNANCA"
+      let somenteFavoritos = false; // Quando true, exibe apenas módulos favoritados
+      let indiceCarrossel = 0; // Índice do item/slide atualmente em foco
+      let indiceInsightIA = 0; // Índice da mensagem exibida na faixa de insight da IA
+      let autoPlayAtivo = true; // Controla rotação automática do carrossel e insights
+      let timerCarrossel = null; // Guarda o ID do setInterval do carrossel para limpar/reiniciar com segurança
+      let assinaturaDomAtual = ""; // Cache de estado para evitar recriar o DOM sem necessidade
 
-      let modoIconeAtivo = "nativo"; // "nativo" | "site"
-      const cacheIconesSite = {};
-      let siteCdnDisponivel = null;
+      let modoIconeAtivo = "nativo"; // Alterna entre "nativo" (SVG local) e "site" (SVG baixado do CDN)
+      const cacheIconesSite = {}; // Cache em memória para SVGs baixados do CDN
+      let siteCdnDisponivel = null; // null = ainda não testado, true = disponível, false = indisponível
 
       // ================= ÍCONES NATIVOS (FALLBACK LOCAL GARANTIDO) =================
       const SVG_MAP = {
-        info: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.2"/><circle cx="12" cy="8.2" r="0.6" fill="currentColor" stroke="none"/></svg>',
-        star: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2.4 15 8.5 21.7 9.5 16.85 14.2 18 20.9 12 17.75 6 20.9 7.15 14.2 2.3 9.5 9 8.5 12 2.4"/></svg>',
-        starFilled: '<svg class="ico-svg" style="fill:currentColor;" viewBox="0 0 24 24"><polygon points="12 2.4 15 8.5 21.7 9.5 16.85 14.2 18 20.9 12 17.75 6 20.9 7.15 14.2 2.3 9.5 9 8.5 12 2.4"/></svg>',
-        pin: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.5 10c0 6.8-8.5 12.2-8.5 12.2S3.5 16.8 3.5 10a8.5 8.5 0 0 1 17 0z"/><circle cx="12" cy="10" r="2.8"/></svg>',
-        sun: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.6"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.55 1.55M17.52 17.52l1.55 1.55M2 12h2.2M19.8 12H22M4.93 19.07l1.55-1.55M17.52 6.48l1.55-1.55"/></svg>',
-        moon: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.5 13.2A8.8 8.8 0 1 1 10.8 3.5a7 7 0 0 0 9.7 9.7z"/></svg>',
-        cloudSun: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 2.5v2M5.2 5.2l1.4 1.4M19.8 12h2M18.8 5.2l-1.4 1.4"/><path d="M15.8 12.5a3.8 3.8 0 0 0-5.6-3.9"/><path d="M13 21.5H7.2a4.8 4.8 0 1 1 4.7-5.8H13a2.9 2.9 0 0 1 0 5.8Z"/></svg>',
-        cloud: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.5 19H9a6.8 6.8 0 1 1 6.5-8.8h2a4.4 4.4 0 1 1 0 8.8Z"/></svg>',
-        rain: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M4.5 14.8A6.8 6.8 0 1 1 15.6 8.2h1.9a4.4 4.4 0 0 1 2.3 8.1"/><path d="M16 14.5v5.5M8 14.5v5.5M12 16.5v5.5"/></svg>',
-        bolt: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="13 2.2 3.5 13.8 11.8 13.8 11 21.8 20.5 10.2 12.2 10.2 13 2.2"/></svg>',
-        checkCircle: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.5 11.2V12a9.5 9.5 0 1 1-5.6-8.7"/><polyline points="21.5 4.5 12 14 9 11"/></svg>',
-        check: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="20 6.5 9.5 17 4.5 12"/></svg>',
-        arrowRight: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
-        arrowLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>',
-        arrowUp: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>',
-        lock: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.5" y="11" width="17" height="10.5" rx="2.2"/><path d="M7.5 11V7.2a4.5 4.5 0 0 1 9 0V11"/></svg>',
-        layers: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5 12 2.5"/><polyline points="2.5 16.8 12 21.5 21.5 16.8"/><polyline points="2.5 12.2 12 17 21.5 12.2"/></svg>',
-        pie: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 15.8A9.5 9.5 0 1 1 8.2 3"/><path d="M21.5 12A9.5 9.5 0 0 0 12 2.5V12z"/></svg>',
-        calendar: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="16.8" rx="2.2"/><line x1="16" y1="2.2" x2="16" y2="6.2"/><line x1="8" y1="2.2" x2="8" y2="6.2"/><line x1="3.2" y1="10" x2="20.8" y2="10"/></svg>',
-        calendarCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="16.8" rx="2.2"/><line x1="16" y1="2.2" x2="16" y2="6.2"/><line x1="8" y1="2.2" x2="8" y2="6.2"/><line x1="3.2" y1="10" x2="20.8" y2="10"/><polyline points="9 15 11.2 17.2 15.5 13"/></svg>',
-        sheet: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>',
-        crown: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m2.5 4.8 2.8 11.4h13.4l2.8-11.4-5.7 6.5L12 4.8l-3.8 6.5-5.7-6.5z"/><line x1="5" y1="19.8" x2="19" y2="19.8"/></svg>',
-        shield: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 21.8s7.8-3.9 7.8-9.8V5.2L12 2.4 4.2 5.2V12c0 5.9 7.8 9.8 7.8 9.8z"/></svg>',
-        shieldUser: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 21.8s7.8-3.9 7.8-9.8V5.2L12 2.4 4.2 5.2V12c0 5.9 7.8 9.8 7.8 9.8z"/><circle cx="12" cy="10.2" r="2.4"/></svg>',
-        users: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="9.2" cy="7.5" r="3.6"/><path d="M22 20.5v-1.8a3.6 3.6 0 0 0-2.7-3.5"/><path d="M15.8 3.9a3.6 3.6 0 0 1 0 7.2"/></svg>',
-        userCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M15.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="8.8" cy="7.5" r="3.6"/><polyline points="17 11.2 19.2 13.4 22.8 9.4"/></svg>',
-        clipboardCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16 4.2h1.8a2 2 0 0 1 2 2v13.6a2 2 0 0 1-2 2H6.2a2 2 0 0 1-2-2V6.2a2 2 0 0 1 2-2H8"/><rect x="8" y="2.2" width="8" height="4" rx="1.1"/><polyline points="9 14 11.2 16.2 15.2 12"/></svg>',
-        listCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>',
-        home: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m3 9.5 9-7 9 7V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9.2 22 9.2 12.5 14.8 12.5 14.8 22"/></svg>',
-        sitemap: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="9" y="2.4" width="6" height="4.8" rx="1.1"/><rect x="2.4" y="16.8" width="6" height="4.8" rx="1.1"/><rect x="15.6" y="16.8" width="6" height="4.8" rx="1.1"/><path d="M12 7.2v4.8M5.4 16.8V12h13.2v4.8"/></svg>',
-        sliders: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="4.5" y1="21" x2="4.5" y2="14"/><line x1="4.5" y1="10" x2="4.5" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="19.5" y1="21" x2="19.5" y2="16"/><line x1="19.5" y1="12" x2="19.5" y2="3"/><line x1="1.8" y1="14" x2="7.2" y2="14"/><line x1="9.3" y1="8" x2="14.7" y2="8"/><line x1="16.8" y1="16" x2="22.2" y2="16"/></svg>',
-        cube: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.8 16V8a2 2 0 0 0-1-1.73l-6.8-3.9a2 2 0 0 0-2 0l-6.8 3.9A2 2 0 0 0 3.2 8v8a2 2 0 0 0 1 1.73l6.8 3.9a2 2 0 0 0 2 0l6.8-3.9a2 2 0 0 0 1-1.73z"/><polyline points="3.5 7.1 12 12 20.5 7.1"/><line x1="12" y1="21.8" x2="12" y2="12"/></svg>',
-        grid: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="3.2" width="7" height="7" rx="1.1"/><rect x="13.8" y="3.2" width="7" height="7" rx="1.1"/><rect x="13.8" y="13.8" width="7" height="7" rx="1.1"/><rect x="3.2" y="13.8" width="7" height="7" rx="1.1"/></svg>',
-        pause: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="6" y="4" width="4.2" height="16" rx="1"/><rect x="13.8" y="4" width="4.2" height="16" rx="1"/></svg>',
-        play: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="5.5 3.5 19.5 12 5.5 20.5 5.5 3.5"/></svg>',
-        eyeOff: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.9 17.9A10 10 0 0 1 12 20c-6.8 0-10.5-8-10.5-8a18 18 0 0 1 4.9-5.8M9.9 4.3A9 9 0 0 1 12 4c6.8 0 10.5 8 10.5 8a18 18 0 0 1-2.1 3.1m-6.6-1a3 3 0 1 1-4.2-4.2"/><line x1="2" y1="2" x2="22" y2="22"/></svg>',
-        menu: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>',
-        search: '<svg class="ico-svg search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><line x1="20.8" y1="20.8" x2="16.4" y2="16.4"/></svg>',
-        chevronLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>',
-        chevronRight: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>',
-        keyboard: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="2.2" y="4.2" width="19.6" height="15.6" rx="2.2"/><path d="M6.2 8.2h.01M10 8.2h.01M14 8.2h.01M17.8 8.2h.01M8 12h.01M12 12h.01M16 12h.01M7.2 15.8h9.6"/></svg>',
-        close: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-        headset: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M3.2 18v-6a8.8 8.8 0 0 1 17.6 0v6"/><path d="M20.8 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3.2 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3.2z"/></svg>',
-        logout: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M9.2 21H5.2a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
-        route: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>',
-        hardHat: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></svg>',
-        building: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="1.8"/><path d="M9 21.5v-4.5h6v4.5"/><path d="M8 7h.01M12 7h.01M16 7h.01M8 11h.01M12 11h.01M16 11h.01"/></svg>',
-        invoiceDollar: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><path d="M12 11v6M14 12.5a2 1.2 0 0 0-4 0c0 1.4 4 1 4 2.5a2 1.2 0 0 1-4 0"/></svg>',
-        ruler: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/></svg>',
-        fileContract: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><path d="M8 13h8M8 17h5"/></svg>',
-        truck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2.2"/><circle cx="7" cy="18" r="2.2"/></svg>',
-        clock: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><polyline points="12 6.5 12 12 15.5 14"/></svg>',
-        factory: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>',
-        chartLine: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
-        gauge: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>',
-        bullseye: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.8"/></svg>',
-        plugCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>',
-        sparkles: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>',
-        robot: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M12 2v6"/><circle cx="12" cy="2" r="1"/><path d="M9 14h.01M15 14h.01"/></svg>',
-        rotate: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>',
-        alertTriangle: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-        copy: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+        info: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.2"/><circle cx="12" cy="8.2" r="0.6" fill="currentColor" stroke="none"/></svg>', // Ícone de informação (i)
+        star: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2.4 15 8.5 21.7 9.5 16.85 14.2 18 20.9 12 17.75 6 20.9 7.15 14.2 2.3 9.5 9 8.5 12 2.4"/></svg>', // Estrela vazada
+        starFilled: '<svg class="ico-svg" style="fill:currentColor;" viewBox="0 0 24 24"><polygon points="12 2.4 15 8.5 21.7 9.5 16.85 14.2 18 20.9 12 17.75 6 20.9 7.15 14.2 2.3 9.5 9 8.5 12 2.4"/></svg>', // Estrela preenchida
+        pin: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.5 10c0 6.8-8.5 12.2-8.5 12.2S3.5 16.8 3.5 10a8.5 8.5 0 0 1 17 0z"/><circle cx="12" cy="10" r="2.8"/></svg>', // Marcador de localização
+        sun: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.6"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.55 1.55M17.52 17.52l1.55 1.55M2 12h2.2M19.8 12H22M4.93 19.07l1.55-1.55M17.52 6.48l1.55-1.55"/></svg>', // Sol (clima limpo de dia)
+        moon: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.5 13.2A8.8 8.8 0 1 1 10.8 3.5a7 7 0 0 0 9.7 9.7z"/></svg>', // Lua (período noturno)
+        cloudSun: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 2.5v2M5.2 5.2l1.4 1.4M19.8 12h2M18.8 5.2l-1.4 1.4"/><path d="M15.8 12.5a3.8 3.8 0 0 0-5.6-3.9"/><path d="M13 21.5H7.2a4.8 4.8 0 1 1 4.7-5.8H13a2.9 2.9 0 0 1 0 5.8Z"/></svg>', // Sol entre nuvens
+        cloud: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.5 19H9a6.8 6.8 0 1 1 6.5-8.8h2a4.4 4.4 0 1 1 0 8.8Z"/></svg>', // Nuvem fechada
+        rain: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M4.5 14.8A6.8 6.8 0 1 1 15.6 8.2h1.9a4.4 4.4 0 0 1 2.3 8.1"/><path d="M16 14.5v5.5M8 14.5v5.5M12 16.5v5.5"/></svg>', // Chuva
+        bolt: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="13 2.2 3.5 13.8 11.8 13.8 11 21.8 20.5 10.2 12.2 10.2 13 2.2"/></svg>', // Tempestade / raio
+        checkCircle: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.5 11.2V12a9.5 9.5 0 1 1-5.6-8.7"/><polyline points="21.5 4.5 12 14 9 11"/></svg>', // Check dentro de círculo
+        check: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="20 6.5 9.5 17 4.5 12"/></svg>', // Marca de confirmação simples
+        arrowRight: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>', // Seta para a direita
+        arrowLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>', // Seta para a esquerda
+        arrowUp: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>', // Seta para cima (crescimento/evolução)
+        lock: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.5" y="11" width="17" height="10.5" rx="2.2"/><path d="M7.5 11V7.2a4.5 4.5 0 0 1 9 0V11"/></svg>', // Cadeado de bloqueio
+        layers: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5 12 2.5"/><polyline points="2.5 16.8 12 21.5 21.5 16.8"/><polyline points="2.5 12.2 12 17 21.5 12.2"/></svg>', // Camadas (filtro Todos)
+        pie: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 15.8A9.5 9.5 0 1 1 8.2 3"/><path d="M21.5 12A9.5 9.5 0 0 0 12 2.5V12z"/></svg>', // Gráfico de pizza (Resultados / Dashboard)
+        calendar: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="16.8" rx="2.2"/><line x1="16" y1="2.2" x2="16" y2="6.2"/><line x1="8" y1="2.2" x2="8" y2="6.2"/><line x1="3.2" y1="10" x2="20.8" y2="10"/></svg>', // Calendário
+        calendarCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="16.8" rx="2.2"/><line x1="16" y1="2.2" x2="16" y2="6.2"/><line x1="8" y1="2.2" x2="8" y2="6.2"/><line x1="3.2" y1="10" x2="20.8" y2="10"/><polyline points="9 15 11.2 17.2 15.5 13"/></svg>', // Calendário com check (Programação)
+        sheet: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>', // Planilha / documento
+        crown: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m2.5 4.8 2.8 11.4h13.4l2.8-11.4-5.7 6.5L12 4.8l-3.8 6.5-5.7-6.5z"/><line x1="5" y1="19.8" x2="19" y2="19.8"/></svg>', // Coroa executiva (Gerência)
+        shield: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 21.8s7.8-3.9 7.8-9.8V5.2L12 2.4 4.2 5.2V12c0 5.9 7.8 9.8 7.8 9.8z"/></svg>', // Escudo de governança/segurança
+        shieldUser: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 21.8s7.8-3.9 7.8-9.8V5.2L12 2.4 4.2 5.2V12c0 5.9 7.8 9.8 7.8 9.8z"/><circle cx="12" cy="10.2" r="2.4"/></svg>', // Escudo com usuário (Supervisão)
+        users: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="9.2" cy="7.5" r="3.6"/><path d="M22 20.5v-1.8a3.6 3.6 0 0 0-2.7-3.5"/><path d="M15.8 3.9a3.6 3.6 0 0 1 0 7.2"/></svg>', // Equipe / pessoas
+        userCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M15.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="8.8" cy="7.5" r="3.6"/><polyline points="17 11.2 19.2 13.4 22.8 9.4"/></svg>', // Usuário validado / SLA cliente
+        clipboardCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16 4.2h1.8a2 2 0 0 1 2 2v13.6a2 2 0 0 1-2 2H6.2a2 2 0 0 1-2-2V6.2a2 2 0 0 1 2-2H8"/><rect x="8" y="2.2" width="8" height="4" rx="1.1"/><polyline points="9 14 11.2 16.2 15.2 12"/></svg>', // Prancheta com check (Inspeção)
+        listCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>', // Lista de verificação / pauta
+        home: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m3 9.5 9-7 9 7V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9.2 22 9.2 12.5 14.8 12.5 14.8 22"/></svg>', // Início / Home
+        sitemap: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="9" y="2.4" width="6" height="4.8" rx="1.1"/><rect x="2.4" y="16.8" width="6" height="4.8" rx="1.1"/><rect x="15.6" y="16.8" width="6" height="4.8" rx="1.1"/><path d="M12 7.2v4.8M5.4 16.8V12h13.2v4.8"/></svg>', // Organograma / Estrutura
+        sliders: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="4.5" y1="21" x2="4.5" y2="14"/><line x1="4.5" y1="10" x2="4.5" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="19.5" y1="21" x2="19.5" y2="16"/><line x1="19.5" y1="12" x2="19.5" y2="3"/><line x1="1.8" y1="14" x2="7.2" y2="14"/><line x1="9.3" y1="8" x2="14.7" y2="8"/><line x1="16.8" y1="16" x2="22.2" y2="16"/></svg>', // Controles deslizantes (Modo Carrossel)
+        cube: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.8 16V8a2 2 0 0 0-1-1.73l-6.8-3.9a2 2 0 0 0-2 0l-6.8 3.9A2 2 0 0 0 3.2 8v8a2 2 0 0 0 1 1.73l6.8 3.9a2 2 0 0 0 2 0l6.8-3.9a2 2 0 0 0 1-1.73z"/><polyline points="3.5 7.1 12 12 20.5 7.1"/><line x1="12" y1="21.8" x2="12" y2="12"/></svg>', // Cubo 3D (Modo Carrossel 3D)
+        grid: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="3.2" width="7" height="7" rx="1.1"/><rect x="13.8" y="3.2" width="7" height="7" rx="1.1"/><rect x="13.8" y="13.8" width="7" height="7" rx="1.1"/><rect x="3.2" y="13.8" width="7" height="7" rx="1.1"/></svg>', // Grade de quadrados (Modo Grade)
+        pause: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="6" y="4" width="4.2" height="16" rx="1"/><rect x="13.8" y="4" width="4.2" height="16" rx="1"/></svg>', // Ícone de pausar autoplay
+        play: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="5.5 3.5 19.5 12 5.5 20.5 5.5 3.5"/></svg>', // Ícone de reproduzir autoplay
+        eyeOff: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.9 17.9A10 10 0 0 1 12 20c-6.8 0-10.5-8-10.5-8a18 18 0 0 1 4.9-5.8M9.9 4.3A9 9 0 0 1 12 4c6.8 0 10.5 8 10.5 8a18 18 0 0 1-2.1 3.1m-6.6-1a3 3 0 1 1-4.2-4.2"/><line x1="2" y1="2" x2="22" y2="22"/></svg>', // Olho cortado (ocultar menu)
+        menu: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>', // Ícone de menu hambúrguer (mostrar menu)
+        search: '<svg class="ico-svg search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><line x1="20.8" y1="20.8" x2="16.4" y2="16.4"/></svg>', // Lupa de busca
+        chevronLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>', // Chevron esquerdo
+        chevronRight: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>', // Chevron direito
+        keyboard: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="2.2" y="4.2" width="19.6" height="15.6" rx="2.2"/><path d="M6.2 8.2h.01M10 8.2h.01M14 8.2h.01M17.8 8.2h.01M8 12h.01M12 12h.01M16 12h.01M7.2 15.8h9.6"/></svg>', // Teclado para atalhos
+        close: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>', // X de fechar
+        headset: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M3.2 18v-6a8.8 8.8 0 0 1 17.6 0v6"/><path d="M20.8 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3.2 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3.2z"/></svg>', // Fone de suporte
+        logout: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M9.2 21H5.2a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>', // Ícone de sair/logout
+        route: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>', // Rota / roteirização
+        hardHat: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></svg>', // Capacete de segurança (Operação)
+        building: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="1.8"/><path d="M9 21.5v-4.5h6v4.5"/><path d="M8 7h.01M12 7h.01M16 7h.01M8 11h.01M12 11h.01M16 11h.01"/></svg>', // Prédio / Base operacional
+        invoiceDollar: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><path d="M12 11v6M14 12.5a2 1.2 0 0 0-4 0c0 1.4 4 1 4 2.5a2 1.2 0 0 1-4 0"/></svg>', // Nota/faturamento financeiro
+        ruler: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/></svg>', // Régua de medição
+        fileContract: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><path d="M8 13h8M8 17h5"/></svg>', // Documento/contrato de medição
+        truck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2.2"/><circle cx="7" cy="18" r="2.2"/></svg>', // Caminhão / frota / mobilização
+        clock: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><polyline points="12 6.5 12 12 15.5 14"/></svg>', // Relógio / frequência diária
+        factory: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>', // Fábrica / produção
+        chartLine: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>', // Gráfico de linha de tendência
+        gauge: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>', // Velocímetro / eficiência de produtividade
+        bullseye: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.8"/></svg>', // Alvo de meta
+        plugCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>', // Plugue / ligação / instalação de clientes
+        sparkles: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>', // Brilhos de inteligência artificial
+        robot: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M12 2v6"/><circle cx="12" cy="2" r="1"/><path d="M9 14h.01M15 14h.01"/></svg>', // Robô / copiloto IA
+        rotate: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>', // Rotação / próximo insight
+        alertTriangle: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>', // Triângulo de alerta / gargalos
+        copy: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>' // Copiar para área de transferência
       };
 
       // ================= ÍCONES DO SITE (LUCIDE CDN) COM FALLBACK NATIVO =================
-      const SITE_ICON_CDNS = [
-        "https://cdn.jsdelivr.net/npm/lucide-static@0.469.0/icons/",
-        "https://unpkg.com/lucide-static@0.469.0/icons/"
-      ];
-      const SITE_ICON_CDN = SITE_ICON_CDNS[0];
-     const LUCIDE_NAME_MAP = {
+      const SITE_ICON_CDN = "https://unpkg.com/lucide-static@0.469.0/icons/"; // URL base dos SVGs da biblioteca Lucide
+      const LUCIDE_NAME_MAP = { // Mapeia chaves internas para nomes de arquivo no CDN
         info: "info",
         star: "star",
         starFilled: "star",
@@ -2062,6 +2238,8 @@
         alertTriangle: "triangle-alert",
         copy: "copy"
       };
+
+      // Retorna o SVG do cache do site (se disponível) ou o SVG nativo local
       function svg(name) {
         if (modoIconeAtivo === "site" && siteCdnDisponivel === true && cacheIconesSite[name]) {
           return cacheIconesSite[name];
@@ -2069,57 +2247,56 @@
         return SVG_MAP[name] || SVG_MAP.info;
       }
 
+      // Padroniza o SVG externo com as classes e estilos da aplicação
       function normalizarSvgExterno(rawSvg, name) {
-        if (!rawSvg || !rawSvg.includes("<svg")) return null;
-        const extraClass = name === "search" ? "ico-svg search-ico" : "ico-svg";
-        const filledStyle = name === "starFilled" ? ' style="fill:currentColor;"' : "";
-        const innerMatch = rawSvg.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
+        if (!rawSvg || !rawSvg.includes("<svg")) return null; // Valida presença de tag <svg>
+        const extraClass = name === "search" ? "ico-svg search-ico" : "ico-svg"; // Mantém classe da lupa de busca
+        const filledStyle = name === "starFilled" ? ' style="fill:currentColor;"' : ""; // Preenche estrela favoritada
+        const innerMatch = rawSvg.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i); // Extrai apenas o conteúdo interno do SVG
         if (!innerMatch) return null;
         return `<svg class="${extraClass}"${filledStyle} viewBox="0 0 24 24">${innerMatch[1]}</svg>`;
       }
 
+      // Testa e carrega em paralelo os ícones do CDN; se falhar ou expirar, mantém o fallback nativo
       async function tentarAtivarIconesDoSite() {
-        for (const baseCdn of SITE_ICON_CDNS) {
-          const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 7000);
+        const controller = new AbortController(); // Permite cancelar requisições em caso de timeout
+        const timer = setTimeout(() => controller.abort(), 6000); // Limite de 6 segundos
 
-          try {
-            const probeUrl = `${baseCdn}${LUCIDE_NAME_MAP.layers}.svg`;
-            const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
-            if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
+        try {
+          const probeUrl = `${SITE_ICON_CDN}${LUCIDE_NAME_MAP.layers}.svg`; // Requisição de teste inicial
+          const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
+          if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
 
-            const probeText = await probeResp.text();
-            const parsedProbe = normalizarSvgExterno(probeText, "layers");
-            if (!parsedProbe) throw new Error("SVG inválido");
+          const probeText = await probeResp.text();
+          const parsedProbe = normalizarSvgExterno(probeText, "layers");
+          if (!parsedProbe) throw new Error("SVG inválido");
 
-            cacheIconesSite["layers"] = parsedProbe;
+          cacheIconesSite["layers"] = parsedProbe;
 
-            const entries = Object.entries(LUCIDE_NAME_MAP).filter(([k]) => k !== "layers");
-            await Promise.allSettled(
-              entries.map(async ([key, slug]) => {
-                const r = await fetch(`${baseCdn}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
-                if (!r.ok) return;
-                const txt = await r.text();
-                const clean = normalizarSvgExterno(txt, key);
-                if (clean) cacheIconesSite[key] = clean;
-              })
-            );
+          const entries = Object.entries(LUCIDE_NAME_MAP).filter(([k]) => k !== "layers");
+          await Promise.allSettled( // Carrega demais ícones sem abortar o lote se um falhar
+            entries.map(async ([key, slug]) => {
+              const r = await fetch(`${SITE_ICON_CDN}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
+              if (!r.ok) return;
+              const txt = await r.text();
+              const clean = normalizarSvgExterno(txt, key);
+              if (clean) cacheIconesSite[key] = clean;
+            })
+          );
 
-            clearTimeout(timer);
-            siteCdnDisponivel = true;
-            modoIconeAtivo = "site";
-            reaplicarTodosOsIcones();
-            renderizarCards(true);
-            return;
-          } catch {
-            clearTimeout(timer);
-          }
+          clearTimeout(timer); // Cancela o timeout após concluir
+          siteCdnDisponivel = true;
+          modoIconeAtivo = "site";
+          reaplicarTodosOsIcones(); // Atualiza ícones estáticos da interface
+          renderizarCards(true); // Re-renderiza cards forçando reconstrução
+        } catch {
+          clearTimeout(timer);
+          siteCdnDisponivel = false;
+          modoIconeAtivo = "nativo"; // Mantém fallback nativo sem quebrar a interface
         }
-
-        siteCdnDisponivel = false;
-        modoIconeAtivo = "nativo";
       }
 
+      // Mapa de permissões por nome de usuário caso não venham setores explícitos na sessão
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
         "Rodrigo Lopes": ["todos"],
@@ -2146,26 +2323,27 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
+      // Catálogo dos 10 módulos exibidos na Gerência Executiva
       const MODULOS_GERENCIA = [
         {
-          key: "base",
-          setor: "gerencial",
-          categoria: "GOVERNANCA",
-          badge: "BASE",
-          badgeGold: false,
-          icone: "building",
-          imagem: "img/Card_base_dados.jpg",
-          titulo: "BASE",
-          desc: "Gestão operacional das bases, prontidão de recursos, apoio logístico e estrutura local.",
-          kpi1Ico: "checkCircle",
-          kpi1Txt: "96%",
-          kpi2Ico: "building",
-          kpi2Txt: "Diário",
-          kpiResumo: "96% · Diário",
-          url: "#",
-          escopoLabel: "Bases Operacionais",
-          searchTags: "base bases operacionais prontidao logistica estrutura",
-          recursos: ["Prontidão operacional das bases", "Controle de apoio e suprimentos", "Acompanhamento de ocorrências"]
+          key: "base", // Identificador único do módulo
+          setor: "gerencial", // Setor usado na checagem de permissão
+          categoria: "GOVERNANCA", // Categoria para filtro rápido
+          badge: "BASE", // Texto da etiqueta sobre a foto
+          badgeGold: false, // Se true, usa estilo dourado sólido
+          icone: "building", // Ícone da etiqueta
+          imagem: "img/Card_base_dados.jpg", // Imagem de capa do card
+          titulo: "BASE", // Título do card
+          desc: "Gestão operacional das bases, prontidão de recursos, apoio logístico e estrutura local.", // Descrição curta
+          kpi1Ico: "checkCircle", // Ícone do primeiro indicador
+          kpi1Txt: "96%", // Valor do primeiro indicador
+          kpi2Ico: "building", // Ícone do segundo indicador
+          kpi2Txt: "Diário", // Frequência/contexto do segundo indicador
+          kpiResumo: "96% · Diário", // Resumo exibido no drawer lateral
+          url: "#", // Destino ao clicar em ABRIR
+          escopoLabel: "Bases Operacionais", // Texto exibido em "Abrangência" no drawer
+          searchTags: "base bases operacionais prontidao logistica estrutura", // Palavras extras para busca
+          recursos: ["Prontidão operacional das bases", "Controle de apoio e suprimentos", "Acompanhamento de ocorrências"] // Lista de pontos no drawer
         },
         {
           key: "estrutura",
@@ -2349,6 +2527,7 @@
         }
       ];
 
+      // Mensagens curtas exibidas de forma rotativa na faixa ELLCA IA
       const INSIGHTS_IA_EXECUTIVOS = [
         "Consolidado geral operando em 92% de aderência às metas mensais, sem desvios críticos em campo.",
         "Programação diária e mobilização mantêm ritmo estável com 95% de prontidão operacional.",
@@ -2356,61 +2535,70 @@
         "Recomendação IA: cruzar Produção, Medição e Faturamento antes do fechamento executivo."
       ];
 
+      // Capitaliza apenas a primeira letra de uma palavra/texto
       function capitalizarPrimeira(texto) {
-        const limpo = String(texto || "").trim();
+        const limpo = String(texto || "").trim(); // Converte para string e remove espaços nas pontas
         if (!limpo) return "";
         return limpo.charAt(0).toUpperCase() + limpo.slice(1).toLowerCase();
       }
 
+      // Formata nome completo para "Primeiro Sobrenome" para exibição na saudação
       function formatarNomeSobrenome(nomeCompleto) {
         const partes = String(nomeCompleto || "Rodrigo Lopes")
           .trim()
-          .split(/\s+/)
-          .filter(Boolean);
+          .split(/\s+/) // Divide por um ou mais espaços em branco
+          .filter(Boolean); // Remove entradas vazias
         if (partes.length === 0) return "Rodrigo Lopes";
         if (partes.length === 1) return capitalizarPrimeira(partes[0]);
         return `${capitalizarPrimeira(partes[0])} ${capitalizarPrimeira(partes[partes.length - 1])}`;
       }
 
-      const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes";
-      const nomeExibicao = formatarNomeSobrenome(usuarioAtual);
+      const usuarioAtual = sessionStorage.getItem("ellca_user_name") || "Rodrigo Lopes"; // Nome do usuário na sessão
+      const nomeExibicao = formatarNomeSobrenome(usuarioAtual); // Nome formatado para saudação
 
+      // Tenta recuperar array de setores salvos em sessionStorage durante o login
       let setoresSessao = null;
       try {
         const raw = sessionStorage.getItem("ellca_user_setores");
         if (raw) setoresSessao = JSON.parse(raw);
-      } catch { setoresSessao = null; }
+      } catch { setoresSessao = null; } // Ignora erro de JSON malformado e cai no fallback
 
+      // Referências diretas aos elementos do DOM mais usados
       const cardsWrapper = document.getElementById("cardsWrapper");
       const paginationDots = document.getElementById("paginationDots");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
       const detailsDrawer = document.getElementById("detailsDrawer");
       const aiCopilotDrawer = document.getElementById("aiCopilotDrawer");
 
+      // Extrai iniciais (ex.: "Rodrigo Lopes" -> "RL") para o avatar circular
       function obterIniciais(nome) {
         const partes = String(nome || "RL").trim().split(/\s+/);
         if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
       }
 
+      // Estado local de cidade, temperatura e ícone climático
       const estadoClima = {
         cidade: "Ananindeua - PA",
         temperatura: "--°C",
         icone: "cloudSun"
       };
 
+      // Define saudação conforme a hora do dia
       function obterSaudacaoPorHorario(hora) {
         if (hora >= 5 && hora < 12) return "Bom dia";
         if (hora >= 12 && hora < 18) return "Boa tarde";
         return "Boa noite";
       }
 
+      // Define descrição de contexto executivo conforme o turno
       function obterContextoTurno(hora) {
         if (hora >= 5 && hora < 12) return "Abertura Executiva · Planejamento e Metas do Dia";
         if (hora >= 12 && hora < 18) return "Acompanhamento de Turno · Consolidado Operacional";
         return "Fechamento Executivo · Síntese e Governança";
       }
 
+      // Traduz códigos meteorológicos (WMO weather_code) para nomes de ícones do sistema
       function mapearIconeClima(weatherCode, isDay) {
         if (weatherCode === 0) return isDay ? "sun" : "moon";
         if ([1, 2, 3].includes(weatherCode)) return isDay ? "cloudSun" : "moon";
@@ -2419,12 +2607,13 @@
         return "cloud";
       }
 
+      // Atualiza a pílula de saudação/clima/relógio e o badge de horário do painel
       function renderizarSaudacaoEHorario() {
         const now = new Date();
         const h = now.getHours();
-        const hh = String(h).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        const ss = String(now.getSeconds()).padStart(2, "0");
+        const hh = String(h).padStart(2, "0"); // Formata hora com zero à esquerda
+        const mm = String(now.getMinutes()).padStart(2, "0"); // Formata minuto com zero à esquerda
+        const ss = String(now.getSeconds()).padStart(2, "0"); // Formata segundo com zero à esquerda
         const saudacao = obterSaudacaoPorHorario(h);
 
         const iconWrap = document.getElementById("execGreetingIconWrap");
@@ -2446,11 +2635,12 @@
         if (clockEl) clockEl.textContent = `Painel Gerencial · ${hh}:${mm}`;
       }
 
+      // Injeta/reaplica todos os SVGs estáticos da interface de forma idempotente
       function reaplicarTodosOsIcones() {
         try {
           document.querySelectorAll("[data-svg]").forEach(el => {
             const antiga = el.querySelector("svg.ico-svg");
-            if (antiga) antiga.remove();
+            if (antiga) antiga.remove(); // Evita duplicar ícone ao reaplicar
             el.insertAdjacentHTML("afterbegin", svg(el.getAttribute("data-svg")));
           });
           document.getElementById("maxStarTagEl").innerHTML = `${svg("starFilled")} MAX STAR 2.0`;
@@ -2503,6 +2693,7 @@
         }
       }
 
+      // Consulta clima atual (Open-Meteo) e geocodificação reversa (BigDataCloud) para a coordenada informada
       async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
         try {
           const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
@@ -2531,24 +2722,26 @@
         } catch (err) {
           console.warn("Falha ao buscar clima/localização:", err);
         } finally {
-          renderizarSaudacaoEHorario();
+          renderizarSaudacaoEHorario(); // Atualiza saudação mesmo se algum serviço falhar
         }
       }
 
+      // Solicita geolocalização do navegador com fallback automático para Ananindeua - PA
       function iniciarLocalizacaoClima() {
-        const defaultLat = -1.3656;
-        const defaultLon = -48.3722;
+        const defaultLat = -1.3656; // Latitude padrão de fallback (Ananindeua - PA)
+        const defaultLon = -48.3722; // Longitude padrão de fallback (Ananindeua - PA)
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(
             (pos) => buscarClimaELocalizacao(pos.coords.latitude, pos.coords.longitude),
             () => buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA"),
-            { timeout: 6000, maximumAge: 600000 }
+            { timeout: 6000, maximumAge: 600000 } // Aceita posição em cache de até 10 min e aguarda até 6s
           );
         } else {
           buscarClimaELocalizacao(defaultLat, defaultLon, "Ananindeua - PA");
         }
       }
 
+      // Retorna os setores permitidos normalizados em minúsculas para o usuário atual
       function obterSetoresPermitidosUsuario() {
         if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
           return setoresSessao.map(s => String(s).toLowerCase());
@@ -2557,6 +2750,7 @@
         return lista.map(s => String(s).toLowerCase());
       }
 
+      // Verifica se o usuário possui permissão para acessar um módulo específico
       function usuarioTemAcesso(item) {
         const permitidos = obterSetoresPermitidosUsuario();
         if (permitidos.includes("todos") || permitidos.includes("*")) return true;
@@ -2564,6 +2758,7 @@
         return permitidos.includes(String(item.setor).toLowerCase());
       }
 
+      // Sincroniza contagem total de módulos, avatar e nome do usuário no rodapé
       document.getElementById("statQtdModulos").textContent = `${MODULOS_GERENCIA.length} Módulos`;
       const btnTodos = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
       if (btnTodos) {
@@ -2574,14 +2769,17 @@
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
 
+      // Exibe contato de suporte ao clicar no botão correspondente do rodapé
       document.getElementById("btnFooterSupport").addEventListener("click", () => {
         alert("E-mail de suporte: Rodrigo.lopes@ellca2.com.br");
       });
 
+      // Navega para a home ao clicar no botão voltar circular
       document.getElementById("btnVoltarHome").addEventListener("click", () => {
         window.location.href = "home.html";
       });
 
+      // Limpa dados de sessão e retorna para login.html ao sair
       document.getElementById("btnSairRodape").addEventListener("click", () => {
         sessionStorage.removeItem("ellca_auth");
         sessionStorage.removeItem("ellca_user_name");
@@ -2589,6 +2787,7 @@
         window.location.href = "login.html";
       });
 
+      // Troca o texto exibido na faixa de insight da IA com transição de opacidade
       function mostrarInsightIA(novoIdx) {
         indiceInsightIA = (novoIdx + INSIGHTS_IA_EXECUTIVOS.length) % INSIGHTS_IA_EXECUTIVOS.length;
         const el = document.getElementById("execAiTickerTxt");
@@ -2599,14 +2798,17 @@
         }, 160);
       }
 
+      // Avança manualmente para o próximo insight da IA
       document.getElementById("btnNextAiInsight").addEventListener("click", () => {
         mostrarInsightIA(indiceInsightIA + 1);
       });
 
+      // Rotaciona automaticamente os insights da IA a cada 9 segundos quando autoplay estiver ativo
       setInterval(() => {
         if (autoPlayAtivo) mostrarInsightIA(indiceInsightIA + 1);
       }, 9000);
 
+      // Monta o texto HTML do briefing executivo conforme o tópico selecionado no drawer da IA
       function gerarTextoBriefingIA(topico) {
         const hora = new Date().getHours();
         const saudacao = obterSaudacaoPorHorario(hora);
@@ -2625,6 +2827,7 @@
         return `${cabecalho}<strong>Resumo Executivo do Turno (${contexto}):</strong><br/>• Os <strong>${MODULOS_GERENCIA.length} módulos gerenciais</strong> estão disponíveis para consulta.<br/>• Indicador consolidado de aderência em <strong>92%</strong> com estabilidade operacional.<br/>• Use os cards ao lado para aprofundar operação, resultados ou governança.`;
       }
 
+      // Abre o drawer do Copiloto IA e fecha o drawer de detalhes se estiver aberto
       function abrirCopilotoIA(topico = "resumo") {
         fecharDrawerDetalhes();
         document.getElementById("aiBriefingOutput").innerHTML = gerarTextoBriefingIA(topico);
@@ -2632,6 +2835,7 @@
         aiCopilotDrawer.classList.add("open");
       }
 
+      // Fecha o drawer do Copiloto IA e remove o backdrop caso nenhum drawer esteja aberto
       function fecharCopilotoIA() {
         aiCopilotDrawer.classList.remove("open");
         if (!detailsDrawer.classList.contains("open")) {
@@ -2642,6 +2846,7 @@
       document.getElementById("btnAbrirCopilotoIA").addEventListener("click", () => abrirCopilotoIA("resumo"));
       document.getElementById("btnFecharAiDrawer").addEventListener("click", fecharCopilotoIA);
 
+      // Atualiza o briefing ao clicar em qualquer chip de análise rápida
       document.querySelectorAll(".ai-chip-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           const topico = btn.getAttribute("data-ai-topic") || "resumo";
@@ -2649,6 +2854,7 @@
         });
       });
 
+      // Copia o texto do briefing atual para a área de transferência e dá feedback visual no botão
       document.getElementById("btnCopiarBriefingIA").addEventListener("click", () => {
         const textoLimpo = document.getElementById("aiBriefingOutput").innerText.trim();
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -2662,23 +2868,26 @@
         }
       });
 
+      // Lê a lista de chaves favoritadas no localStorage
       function obterFavoritos() {
         try { return JSON.parse(localStorage.getItem("ellca_gerencia_favs") || "[]"); }
         catch { return []; }
       }
 
+      // Salva favoritos no localStorage e atualiza o contador na barra de ações
       function salvarFavoritos(lista) {
         localStorage.setItem("ellca_gerencia_favs", JSON.stringify(lista));
         document.getElementById("favCountTxt").textContent = lista.length;
       }
       document.getElementById("favCountTxt").textContent = obterFavoritos().length;
 
+      // Aplica filtros de categoria, favoritos e busca textual, priorizando favoritos no topo
       function obterItensFiltrados() {
         const termo = document.getElementById("moduleSearch").value.trim().toLowerCase();
         const favs = obterFavoritos();
 
         return MODULOS_GERENCIA
-          .map((mod, idx) => ({ ...mod, origIdx: idx }))
+          .map((mod, idx) => ({ ...mod, origIdx: idx })) // Preserva ordem original para desempate
           .filter(mod => {
             const okCat = categoriaAtiva === "TODOS" || mod.categoria === categoriaAtiva;
             const okFav = !somenteFavoritos || favs.includes(mod.key);
@@ -2688,17 +2897,19 @@
           .sort((a, b) => {
             const aFav = favs.includes(a.key) ? 0 : 1;
             const bFav = favs.includes(b.key) ? 0 : 1;
-            if (aFav !== bFav) return aFav - bFav;
-            return a.origIdx - b.origIdx;
+            if (aFav !== bFav) return aFav - bFav; // Favoritos aparecem primeiro
+            return a.origIdx - b.origIdx; // Mantém ordem original dentro de cada grupo
           });
       }
 
+      // Define quantos cards aparecem simultaneamente no modo carrossel conforme a largura da tela
       function obterQtdVisivelCarrossel() {
         if (window.innerWidth <= 520) return 1;
         if (window.innerWidth <= 1180) return 2;
         return 4;
       }
 
+      // Monta o HTML completo de um card de módulo gerencial
       function criarHtmlCard(mod, favs, slotIdx = 0, slotClass = "") {
         const permitido = usuarioTemAcesso(mod);
         const isFav = favs.includes(mod.key);
@@ -2746,6 +2957,7 @@
         `;
       }
 
+      // Renderiza cards e pontos de paginação de acordo com o modo atual ("carrossel", "3d" ou "grade")
       function renderizarCards(forcarRebuild = false) {
         const itens = obterItensFiltrados();
         const total = itens.length;
@@ -2762,6 +2974,7 @@
         document.getElementById("carouselStatusLabel").innerHTML =
           `${svg("crown")} EXIBINDO ${total} DE ${MODULOS_GERENCIA.length} MÓDULOS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
+        // Estado vazio caso nenhum módulo corresponda ao filtro/busca
         if (total === 0) {
           assinaturaDomAtual = "vazio";
           cardsWrapper.innerHTML = `
@@ -2778,7 +2991,7 @@
           return;
         }
 
-        if (indiceCarrossel >= total) indiceCarrossel = 0;
+        if (indiceCarrossel >= total) indiceCarrossel = 0; // Evita índice fora dos limites após filtrar
         const favs = obterFavoritos();
 
         if (modoVisualizacao === "3d") {
@@ -2786,6 +2999,7 @@
           const nextIdx = (indiceCarrossel + 1) % total;
           const novaAssinatura = `3d|${modoIconeAtivo}|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
 
+          // Se os itens e favoritos não mudaram, atualiza apenas as classes de slot (centro/laterais)
           if (!forcarRebuild && assinaturaDomAtual === novaAssinatura) {
             cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]").forEach((wrap, idx) => {
               wrap.classList.remove("slot-center", "slot-left", "slot-right", "slot-hidden");
@@ -2816,6 +3030,7 @@
             aplicarTilt3D();
           }
         } else {
+          // Modo carrossel padrão: pega janela circular de tamanho qtdVisivel
           const listaExibida = [];
           for (let i = 0; i < qtdVisivel; i++) {
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
@@ -2829,6 +3044,7 @@
           }
         }
 
+        // Renderiza os indicadores de posição (dots) quando a navegação é aplicável
         if (mostraSetas) {
           paginationDots.innerHTML = itens.map((_, idx) => `
             <button type="button" class="p-dot ${idx === indiceCarrossel ? "active" : ""}" data-dot-idx="${idx}" aria-label="Slide ${idx + 1}"></button>
@@ -2843,6 +3059,7 @@
         }
       }
 
+      // Conecta eventos de clique para abrir módulo, ver detalhes, favoritar e focar card no modo 3D
       function vincularEventosCards() {
         cardsWrapper.querySelectorAll(".btn-abrir-mod").forEach(link => {
           link.addEventListener("click", (e) => {
@@ -2850,7 +3067,7 @@
             const mod = MODULOS_GERENCIA.find(m => m.key === link.getAttribute("data-key"));
             const href = link.getAttribute("href") || "#";
             if (!mod || !usuarioTemAcesso(mod) || href === "#" || href.startsWith("#")) {
-              e.preventDefault();
+              e.preventDefault(); // Evita navegação quando URL ainda é placeholder "#" ou bloqueada
             }
           });
         });
@@ -2886,16 +3103,17 @@
         });
       }
 
+      // Aplica leve inclinação 3D (--rx e --ry) conforme a posição do cursor sobre o card
       function aplicarTilt3D() {
         document.querySelectorAll(".card-3d-wrap:not(.sem-acesso):not(.slot-left):not(.slot-right):not(.slot-hidden)").forEach(wrap => {
           const surface = wrap.querySelector(".card-surface");
-          if (!surface || wrap.dataset.tiltBound) return;
+          if (!surface || wrap.dataset.tiltBound) return; // Evita registrar listener duplicado
           wrap.dataset.tiltBound = "1";
           wrap.addEventListener("mousemove", (e) => {
             if (modoVisualizacao === "3d") return;
             const rect = wrap.getBoundingClientRect();
-            const nx = (e.clientX - rect.left) / rect.width - 0.5;
-            const ny = (e.clientY - rect.top) / rect.height - 0.5;
+            const nx = (e.clientX - rect.left) / rect.width - 0.5; // Normaliza X entre -0.5 e +0.5
+            const ny = (e.clientY - rect.top) / rect.height - 0.5; // Normaliza Y entre -0.5 e +0.5
             surface.style.setProperty("--ry", `${(nx * 2.2).toFixed(2)}deg`);
             surface.style.setProperty("--rx", `${(-ny * 2.2).toFixed(2)}deg`);
           });
@@ -2906,6 +3124,7 @@
         });
       }
 
+      // Preenche e abre o drawer lateral com informações detalhadas do módulo escolhido
       function abrirDrawerDetalhes(key) {
         fecharCopilotoIA();
         const mod = MODULOS_GERENCIA.find(m => m.key === key);
@@ -2940,6 +3159,7 @@
         detailsDrawer.classList.add("open");
       }
 
+      // Fecha o drawer de detalhes e oculta o backdrop caso o Copiloto IA não esteja aberto
       function fecharDrawerDetalhes() {
         detailsDrawer.classList.remove("open");
         if (!aiCopilotDrawer.classList.contains("open")) {
@@ -2953,6 +3173,7 @@
         fecharCopilotoIA();
       });
 
+      // Impede navegação em link placeholder "#" no botão do drawer
       document.getElementById("btnDrawerAcessar").addEventListener("click", (e) => {
         const href = document.getElementById("btnDrawerAcessar").getAttribute("href") || "#";
         if (href === "#" || href.startsWith("#")) {
@@ -2960,6 +3181,7 @@
         }
       });
 
+      // Avança ou retrocede no carrossel de forma circular
       function avancarCarrossel(passo) {
         const total = obterItensFiltrados().length;
         if (total <= 1) return;
@@ -2970,6 +3192,7 @@
       document.getElementById("btnPrevCard").addEventListener("click", () => avancarCarrossel(-1));
       document.getElementById("btnNextCard").addEventListener("click", () => avancarCarrossel(1));
 
+      // Configura ou limpa o temporizador de rotação automática do carrossel
       function iniciarAutoPlay() {
         clearInterval(timerCarrossel);
         document.body.classList.toggle("glow-paused", !autoPlayAtivo);
@@ -2978,6 +3201,7 @@
         timerCarrossel = setInterval(() => avancarCarrossel(1), intervalo);
       }
 
+      // Liga/desliga o autoplay e atualiza ícone e rótulo do botão
       function alternarAutoPlay() {
         autoPlayAtivo = !autoPlayAtivo;
         document.getElementById("iconAutoPlayWrap").innerHTML = svg(autoPlayAtivo ? "pause" : "play");
@@ -2987,9 +3211,10 @@
 
       document.getElementById("btnAutoPlay").addEventListener("click", alternarAutoPlay);
 
+      // Atalhos globais de teclado: Esc fecha drawers; setas navegam; Espaço alterna autoplay
       document.addEventListener("keydown", (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return; // Não intercepta digitação em campos
         if (detailsDrawer.classList.contains("open") || aiCopilotDrawer.classList.contains("open")) {
           if (e.key === "Escape") {
             fecharDrawerDetalhes();
@@ -3005,7 +3230,7 @@
           e.preventDefault();
           avancarCarrossel(-1);
         } else if (e.code === "Space" || e.key === " ") {
-          e.preventDefault();
+          e.preventDefault(); // Evita rolagem da página ao pressionar Espaço
           alternarAutoPlay();
         }
       });
@@ -3014,6 +3239,7 @@
       const btnModoCarrossel3D = document.getElementById("btnModoCarrossel3D");
       const btnModoGrade = document.getElementById("btnModoGrade");
 
+      // Alterna o modo de visualização e atualiza classes ativas dos botões
       function atualizarBotoesModo(novoModo) {
         modoVisualizacao = novoModo;
         btnModoCarrossel.className = novoModo === "carrossel" ? "hero-btn hero-btn-cyan active" : "hero-btn hero-btn-blue";
@@ -3027,6 +3253,7 @@
       btnModoCarrossel3D.addEventListener("click", () => atualizarBotoesModo("3d"));
       btnModoGrade.addEventListener("click", () => atualizarBotoesModo("grade"));
 
+      // Alterna filtro para mostrar apenas módulos marcados como favoritos
       document.getElementById("btnFiltroFavoritos").addEventListener("click", () => {
         somenteFavoritos = !somenteFavoritos;
         document.getElementById("btnFiltroFavoritos").classList.toggle("active", somenteFavoritos);
@@ -3034,6 +3261,7 @@
         renderizarCards(true);
       });
 
+      // Seleciona categoria (TODOS, OPERACAO, RESULTADOS, GOVERNANCA) e re-renderiza cards
       document.querySelectorAll("#categoryPills .cat-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           document.querySelectorAll("#categoryPills .cat-btn").forEach(b => b.classList.remove("active"));
@@ -3044,29 +3272,32 @@
         });
       });
 
+      // Filtra em tempo real conforme o usuário digita na barra de pesquisa
       document.getElementById("moduleSearch").addEventListener("input", () => {
         indiceCarrossel = 0;
         renderizarCards(true);
       });
 
+      // Oculta ou exibe a barra superior recolhível e ajusta ícone/texto do botão
       document.getElementById("btnToggleMenu").addEventListener("click", () => {
         const oculto = document.body.classList.toggle("menu-hidden");
         document.getElementById("iconToggleMenuWrap").innerHTML = svg(oculto ? "menu" : "eyeOff");
         document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
       });
 
+      // Recalcula quantidade de cards visíveis quando a janela muda de largura no modo carrossel
       window.addEventListener("resize", () => {
         if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
       // ================= INICIALIZAÇÃO ORDENADA =================
-      reaplicarTodosOsIcones();
-      iniciarLocalizacaoClima();
-      setInterval(renderizarSaudacaoEHorario, 1000);
-      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
-      renderizarCards(true);
-      iniciarAutoPlay();
-      tentarAtivarIconesDoSite();
+      reaplicarTodosOsIcones(); // 1. Insere SVGs iniciais na interface
+      iniciarLocalizacaoClima(); // 2. Busca clima e cidade atuais
+      setInterval(renderizarSaudacaoEHorario, 1000); // 3. Mantém o relógio atualizado a cada segundo
+      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000); // 4. Atualiza clima/local a cada 15 minutos
+      renderizarCards(true); // 5. Renderiza os cards iniciais
+      iniciarAutoPlay(); // 6. Inicia a rotação automática se ativa
+      tentarAtivarIconesDoSite(); // 7. Tenta carregar ícones Lucide via CDN com fallback seguro
     })();
   </script>
 </body>
