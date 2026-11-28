@@ -62,10 +62,10 @@
       50% { box-shadow: 0 0 16px rgba(56, 189, 248, 0.38); } /* Halo azul-ciano no meio do ciclo */
     }
 
-    /* Glow dourado suave para o selo Max Star 2.0 */
+    /* Glow azul-ciano suave para o selo Max Star 2.0 */
     @keyframes starGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); } /* Estado base */
-      50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); } /* Brilho dourado no pico */
+      0%, 100% { box-shadow: 0 0 0 rgba(56, 189, 248, 0); } /* Estado base */
+      50% { box-shadow: 0 0 14px rgba(56, 189, 248, 0.35); } /* Brilho azul-ciano no pico */
     }
 
     /* Reset universal de margens, preenchimentos, box-sizing e fonte padrão */
@@ -130,11 +130,11 @@
       stroke-width: 2.65; /* Traço mais marcante para botões de ação */
     }
 
-    /* Tamanho e brilho dourado do ícone principal no hero */
+    /* Tamanho e brilho azul-ciano do ícone principal no hero */
     .hero-icon-box .ico-svg {
       width: 21px; /* Largura fixa do ícone da coroa/hero */
       height: 21px; /* Altura fixa do ícone da coroa/hero */
-      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.45)); /* Brilho dourado sutil */
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.45)); /* Brilho azul-ciano sutil */
     }
 
     /* Espessura refinada para ícones de pílulas, badges e navegação */
@@ -149,10 +149,10 @@
       stroke-width: 2.25; /* Traço equilibrado para textos compactos */
     }
 
-    /* Destaque dourado nos ícones de KPI */
+    /* Destaque azul-ciano nos ícones de KPI */
     .kpi-pill-item .ico-svg {
-      color: #facc15; /* Amarelo ouro */
-      filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.35)); /* Leve glow dourado */
+      color: #38bdf8; /* Azul-ciano */
+      filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.35)); /* Leve glow azul-ciano */
     }
 
     /* Alinha números com largura uniforme para não "dançarem" ao atualizar relógio/KPIs */
@@ -289,16 +289,16 @@
       animation: pulseDot 2s infinite; /* Pulsa continuamente */
     }
 
-    /* Badge dourado do plano/edição Max Star 2.0 */
+    /* Badge azul-ciano do plano/edição Max Star 2.0 */
     .max-star-tag {
       display: inline-flex; /* Layout em linha */
       align-items: center; /* Centraliza ícone e texto */
       gap: 5px; /* Espaço entre estrela e rótulo */
       padding: 4px 10px; /* Espaçamento interno */
       border-radius: 999px; /* Formato pílula */
-      background: linear-gradient(90deg, rgba(250, 204, 21, 0.18), rgba(56, 189, 248, 0.16)); /* Gradiente dourado/ciano */
-      border: 1px solid rgba(250, 204, 21, 0.45); /* Borda dourada */
-      color: #fde047; /* Amarelo claro vibrante */
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.24), rgba(56, 189, 248, 0.22)); /* Gradiente azul/ciano */
+      border: 1px solid rgba(56, 189, 248, 0.50); /* Borda azul-ciano */
+      color: #7dd3fc; /* Azul-ciano claro vibrante */
       font-size: 9.5px; /* Tamanho compacto */
       font-weight: 800; /* Negrito forte */
       letter-spacing: 0.5px; /* Espaçamento de letras */
@@ -312,10 +312,10 @@
       width: 30px; /* Largura do círculo */
       height: 30px; /* Altura do círculo */
       border-radius: 50%; /* Formato circular */
-      border: 1.5px solid #facc15; /* Aro dourado */
+      border: 1.5px solid #38bdf8; /* Aro azul-ciano */
       background: rgba(15, 23, 42, 0.85); /* Fundo escuro */
-      box-shadow: 0 0 12px rgba(250, 204, 21, 0.32); /* Halo dourado */
-      color: #fde047; /* Iniciais em amarelo claro */
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.32); /* Halo azul-ciano */
+      color: #7dd3fc; /* Iniciais em azul-ciano claro */
       font-size: 10.5px; /* Tamanho das iniciais */
       font-weight: 800; /* Negrito */
       display: inline-flex; /* Centralização flex */
@@ -391,7 +391,7 @@
         url('img/Card_gerencial.jpg') center/cover no-repeat; /* Imagem de fundo cobrindo o banner */
       backdrop-filter: blur(20px) saturate(145%); /* Efeito glassmorphism atrás do banner */
       -webkit-backdrop-filter: blur(20px) saturate(145%); /* Prefixo Safari/iOS */
-      border: 1px solid rgba(250, 204, 21, 0.30); /* Borda dourada discreta */
+      border: 1px solid rgba(56, 189, 248, 0.32); /* Borda azul-ciano discreta */
       box-shadow:
         0 14px 32px rgba(0, 0, 0, 0.55), /* Sombra externa profunda */
         inset 0 1px 0 rgba(255, 255, 255, 0.14); /* Filete de luz superior interno */
@@ -410,7 +410,7 @@
       right: -40px; /* Ultrapassa levemente a direita */
       width: 280px; /* Largura da luz radial */
       height: 200px; /* Altura da luz radial */
-      background: radial-gradient(circle, rgba(250, 204, 21, 0.16) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 72%); /* Gradiente dourado/ciano */
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.16) 0%, rgba(56, 189, 248, 0.18) 45%, transparent 72%); /* Gradiente índigo/ciano */
       pointer-events: none; /* Não intercepta cliques ou seleção de texto */
     }
 
@@ -439,10 +439,10 @@
       width: 42px; /* Largura da caixa */
       height: 42px; /* Altura da caixa */
       border-radius: 12px; /* Cantos arredondados */
-      background: linear-gradient(145deg, rgba(234, 179, 8, 0.28), rgba(37, 99, 235, 0.34)); /* Fundo dourado/azul */
-      border: 1px solid rgba(250, 204, 21, 0.52); /* Borda dourada */
-      box-shadow: 0 6px 18px rgba(234, 179, 8, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22); /* Sombra e brilho interno */
-      color: #fde047; /* Cor do ícone */
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.28), rgba(37, 99, 235, 0.34)); /* Fundo ciano/azul */
+      border: 1px solid rgba(56, 189, 248, 0.52); /* Borda azul-ciano */
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22); /* Sombra e brilho interno */
+      color: #7dd3fc; /* Cor do ícone */
       display: flex; /* Centraliza o SVG */
       align-items: center; /* Centro vertical */
       justify-content: center; /* Centro horizontal */
@@ -461,7 +461,7 @@
       font-size: 11px; /* Texto compacto */
       font-weight: 700; /* Negrito */
       letter-spacing: 0.15px; /* Leve espaçamento */
-      color: #fef08a; /* Amarelo suave */
+      color: #bae6fd; /* Azul-ciano suave */
       background: rgba(255, 255, 255, 0.06); /* Vidro translúcido */
       backdrop-filter: blur(14px) saturate(150%); /* Desfoque de fundo */
       -webkit-backdrop-filter: blur(14px) saturate(150%); /* Compatibilidade Safari */
@@ -489,7 +489,7 @@
     .hero-greeting-pill .pill-temp { color: #7dd3fc; } /* Destaque azul claro para temperatura */
     .hero-greeting-pill .pill-clock { color: #6ee7b7; } /* Destaque verde menta para horário */
 
-    /* Título principal da seção ("GERÊNCIA EXECUTIVA") */
+    /* Título principal da seção ("DASHBOARDS CORPORATIVOS") */
     .hero-main-title {
       font-size: clamp(16px, 1.5vw, 18px); /* Escala fluida entre 16px e 18px */
       font-weight: 800; /* Negrito forte */
@@ -498,8 +498,8 @@
       text-transform: uppercase; /* Caixa alta */
     }
 
-    /* Palavra "EXECUTIVA" destacada em amarelo */
-    .hero-main-title span { color: #fde047; }
+    /* Palavra "CORPORATIVOS" destacada em azul-ciano */
+    .hero-main-title span { color: #38bdf8; }
 
     /* Descrição curta abaixo do título principal */
     .hero-subtitle {
@@ -517,7 +517,7 @@
       gap: 10px; /* Espaçamento entre cartões */
     }
 
-    /* Cada mini-card de estatística rápida ("Painéis Executivos", "Escopo", "Segurança") */
+    /* Cada mini-card de estatística rápida ("Painéis Ativos", "Desempenho BI", "Atualização") */
     .quick-stat-pill {
       padding: 8px 14px; /* Preenchimento interno */
       border-radius: 12px; /* Cantos arredondados */
@@ -734,18 +734,19 @@
       color: #040d1e; /* Texto escuro */
     }
 
-    /* Variante dourada (usada no filtro de favoritos) */
+    /* Variante índigo/ciano para favoritos (sem dourado) */
     .hero-btn-gold {
-      background: rgba(234, 179, 8, 0.15); /* Fundo amarelo translúcido */
-      border: 1px solid rgba(250, 204, 21, 0.45); /* Borda dourada */
-      color: #fde047; /* Texto amarelo claro */
+      background: rgba(99, 102, 241, 0.16); /* Fundo índigo translúcido */
+      border: 1px solid rgba(129, 140, 248, 0.48); /* Borda índigo */
+      color: #c7d2fe; /* Texto índigo claro */
     }
 
     /* Hover e estado ativo do botão de favoritos */
     .hero-btn-gold:hover,
     .hero-btn-gold.active {
-      background: rgba(234, 179, 8, 0.30); /* Fundo amarelo mais intenso */
-      color: #fef08a; /* Texto amarelo brilhante */
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.30), rgba(129, 140, 248, 0.32)); /* Gradiente ciano/índigo */
+      border-color: #7dd3fc; /* Borda ciano */
+      color: #e0f2fe; /* Texto claro */
     }
 
     /* Botão de ocultar/mostrar menu superior (empurrado para a direita via margin-left: auto) */
@@ -1053,11 +1054,11 @@
     .cards-track.mode-3d .card-3d-wrap.slot-right .card-surface {
       animation: none !important; /* Desativa animações extras */
       opacity: 1; /* Controlado pelo wrapper externo */
-      background: linear-gradient(155deg, rgba(16, 18, 22, 0.62) 0%, rgba(8, 9, 12, 0.74) 100%); /* Fundo escuro translúcido */
+      background: linear-gradient(155deg, rgba(19, 28, 49, 0.66) 0%, rgba(9, 13, 22, 0.78) 100%); /* Fundo escuro translúcido azulado */
       backdrop-filter: blur(22px) saturate(130%); /* Desfoque intenso */
       -webkit-backdrop-filter: blur(22px) saturate(130%); /* Prefixo Safari */
-      border-color: rgba(250, 204, 21, 0.26); /* Borda dourada suave */
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(254, 240, 138, 0.14); /* Sombra moderada */
+      border-color: rgba(56, 189, 248, 0.28); /* Borda azul-ciano suave */
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(125, 211, 252, 0.14); /* Sombra moderada */
     }
 
     /* Oculta a borda animada de varredura nos cards laterais do modo 3D */
@@ -1067,16 +1068,16 @@
       opacity: 0 !important; /* Sem brilho giratório */
     }
 
-    /* Destaque dourado e borda animada para o card central no modo 3D */
+    /* Destaque azul-ciano e borda animada para o card central no modo 3D */
     .cards-track.mode-3d .card-3d-wrap.slot-center .card-surface {
       opacity: 1; /* Opacidade total */
-      background: linear-gradient(160deg, rgba(22, 24, 30, 0.86) 0%, rgba(7, 8, 12, 0.94) 100%); /* Fundo mais denso */
-      border-color: rgba(250, 204, 21, 0.82); /* Borda dourada forte */
+      background: linear-gradient(160deg, rgba(22, 34, 62, 0.88) 0%, rgba(8, 13, 26, 0.95) 100%); /* Fundo mais denso */
+      border-color: rgba(56, 189, 248, 0.84); /* Borda azul-ciano forte */
       box-shadow:
         0 22px 46px rgba(0, 0, 0, 0.82), /* Sombra profunda */
-        0 0 32px rgba(234, 179, 8, 0.28), /* Halo dourado externo */
-        0 0 14px rgba(250, 204, 21, 0.26), /* Brilho dourado próximo */
-        inset 0 1px 0 rgba(254, 240, 138, 0.32); /* Filete luminoso interno */
+        0 0 32px rgba(56, 189, 248, 0.28), /* Halo azul-ciano externo */
+        0 0 14px rgba(129, 140, 248, 0.26), /* Brilho índigo próximo */
+        inset 0 1px 0 rgba(186, 230, 253, 0.32); /* Filete luminoso interno */
     }
 
     /* Ativa a animação contínua da borda no card central do modo 3D */
@@ -1115,22 +1116,22 @@
       box-shadow: none; /* Sem sombra */
     }
 
-    /* Superfície principal do card (glassmorphism + borda gradiente animada) */
+    /* Superfície principal do card (glassmorphism + borda gradiente animada em azul-ciano e índigo) */
     .card-surface {
       --sweep-angle: 0deg; /* Ângulo inicial do gradiente cônico */
-      --edge-a: #facc15; /* Cor principal do feixe (ouro) */
-      --edge-b: #b45309; /* Cor de transição (âmbar escuro) */
-      --edge-c: #fef08a; /* Pico de brilho (amarelo claro) */
+      --edge-a: #38bdf8; /* Cor principal do feixe (azul-ciano) */
+      --edge-b: #2563eb; /* Cor de transição (azul royal) */
+      --edge-c: #a5b4fc; /* Pico de brilho (índigo claro) */
       position: relative; /* Base para ::before e ::after */
       border-radius: 16px; /* Cantos arredondados */
-      background: linear-gradient(160deg, rgba(14, 16, 21, 0.74) 0%, rgba(5, 6, 9, 0.86) 100%); /* Gradiente escuro translúcido */
+      background: linear-gradient(160deg, rgba(19, 28, 49, 0.78) 0%, rgba(9, 13, 22, 0.90) 100%); /* Gradiente escuro translúcido */
       backdrop-filter: blur(22px) saturate(135%); /* Desfoque de vidro */
       -webkit-backdrop-filter: blur(22px) saturate(135%); /* Prefixo Safari */
-      border: 1px solid rgba(250, 204, 21, 0.22); /* Borda dourada sutil */
+      border: 1px solid rgba(56, 189, 248, 0.24); /* Borda azul-ciano sutil */
       box-shadow:
         0 14px 30px rgba(0, 0, 0, 0.65), /* Sombra externa */
-        inset 0 1px 0 rgba(254, 240, 138, 0.12); /* Brilho interno superior */
-      opacity: 0.90; /* Opacidade base */
+        inset 0 1px 0 rgba(186, 230, 253, 0.14); /* Brilho interno superior */
+      opacity: 0.92; /* Opacidade base */
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); /* Inclinação 3D controlada via JS */
       transition: transform 0.35s ease-out, background 0.35s ease, opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; /* Transições suaves */
       height: 100%; /* Ocupa altura total do wrapper */
@@ -1145,7 +1146,7 @@
       position: absolute; /* Cobre todo o .card-surface */
       inset: 0; /* Top/right/bottom/left = 0 */
       border-radius: 16px; /* Mesmo raio de canto */
-      background: linear-gradient(135deg, rgba(254, 240, 138, 0.06) 0%, transparent 42%, rgba(255, 255, 255, 0.02) 100%); /* Reflexo sutil */
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, transparent 42%, rgba(129, 140, 248, 0.04) 100%); /* Reflexo azul-ciano/índigo */
       pointer-events: none; /* Não bloqueia interação */
       z-index: 1; /* Acima do fundo, abaixo do conteúdo */
     }
@@ -1161,8 +1162,8 @@
         from var(--sweep-angle), /* Gira conforme --sweep-angle muda */
         transparent 0deg, /* Início transparente */
         transparent 195deg, /* Maior parte da volta apagada */
-        var(--edge-b) 258deg, /* Entrada âmbar */
-        var(--edge-a) 315deg, /* Corpo dourado */
+        var(--edge-b) 258deg, /* Entrada azul */
+        var(--edge-a) 315deg, /* Corpo ciano */
         var(--edge-c) 352deg, /* Ponta mais brilhante */
         transparent 360deg /* Fecha o círculo suavemente */
       );
@@ -1178,13 +1179,13 @@
     /* Efeito de destaque ao passar o mouse sobre cards acessíveis */
     .card-3d-wrap:not(.sem-acesso) .card-surface:hover {
       opacity: 1 !important; /* Opacidade máxima */
-      background: linear-gradient(160deg, rgba(24, 26, 33, 0.88) 0%, rgba(8, 9, 13, 0.95) 100%) !important; /* Fundo mais rico */
-      border-color: rgba(250, 204, 21, 0.88) !important; /* Borda dourada forte */
+      background: linear-gradient(160deg, rgba(26, 38, 66, 0.90) 0%, rgba(10, 15, 28, 0.96) 100%) !important; /* Fundo mais rico */
+      border-color: rgba(56, 189, 248, 0.88) !important; /* Borda azul-ciano forte */
       box-shadow:
         0 22px 46px rgba(0, 0, 0, 0.84), /* Sombra profunda */
-        0 0 32px rgba(234, 179, 8, 0.30), /* Halo dourado */
-        0 0 14px rgba(250, 204, 21, 0.28), /* Brilho próximo */
-        inset 0 1px 0 rgba(254, 240, 138, 0.36) !important; /* Brilho interno superior */
+        0 0 32px rgba(56, 189, 248, 0.30), /* Halo azul-ciano */
+        0 0 14px rgba(129, 140, 248, 0.28), /* Brilho índigo próximo */
+        inset 0 1px 0 rgba(186, 230, 253, 0.36) !important; /* Brilho interno superior */
     }
 
     /* Ativa a rotação da borda no hover de cards acessíveis */
@@ -1220,7 +1221,7 @@
       border-radius: 10px; /* Cantos arredondados da imagem */
       background-size: cover; /* Preenche sem distorcer proporção */
       background-position: center; /* Centraliza o foco da imagem */
-      border: 1px solid rgba(250, 204, 21, 0.26); /* Moldura dourada sutil */
+      border: 1px solid rgba(56, 189, 248, 0.28); /* Moldura azul-ciano sutil */
       overflow: hidden; /* Recorta cantos */
       flex-shrink: 0; /* Não reduz altura */
     }
@@ -1244,17 +1245,17 @@
       display: inline-flex; /* Ícone + texto */
       align-items: center; /* Centro vertical */
       gap: 4px; /* Espaço entre texto e ícone */
-      background: rgba(10, 12, 16, 0.86); /* Fundo escuro legível */
-      border: 1px solid rgba(250, 204, 21, 0.55); /* Borda dourada */
-      color: #fde047; /* Texto amarelo */
+      background: rgba(10, 15, 28, 0.88); /* Fundo escuro legível */
+      border: 1px solid rgba(56, 189, 248, 0.55); /* Borda azul-ciano */
+      color: #7dd3fc; /* Texto azul-ciano */
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.55); /* Sombra para destacar sobre a foto */
     }
 
-    /* Variante dourada destacada para módulos prioritários */
+    /* Variante azul-ciano/índigo destacada para módulos prioritários */
     .card-badge-tag.gold {
-      background: linear-gradient(90deg, #eab308, #facc15); /* Gradiente dourado */
-      border-color: #fef08a; /* Borda amarela clara */
-      color: #140f02; /* Texto escuro de alto contraste */
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Gradiente azul/ciano */
+      border-color: #bae6fd; /* Borda azul clara */
+      color: #040d1e; /* Texto escuro de alto contraste */
     }
 
     /* Variante bloqueada quando o usuário não tem acesso ao módulo */
@@ -1273,9 +1274,9 @@
       width: 24px; /* Largura do botão */
       height: 24px; /* Altura do botão */
       border-radius: 6px; /* Cantos arredondados */
-      border: 1px solid rgba(250, 204, 21, 0.34); /* Borda dourada suave */
-      background: rgba(8, 10, 14, 0.82); /* Fundo escuro */
-      color: #fde047; /* Estrela amarela */
+      border: 1px solid rgba(56, 189, 248, 0.36); /* Borda azul-ciano suave */
+      background: rgba(8, 13, 24, 0.84); /* Fundo escuro */
+      color: #7dd3fc; /* Estrela azul-ciano */
       font-size: 11px; /* Tamanho base */
       cursor: pointer; /* Cursor clicável */
       display: inline-flex; /* Centraliza estrela */
@@ -1284,19 +1285,19 @@
       transition: all 0.2s ease; /* Suaviza estado favoritado */
     }
 
-    .btn-fav-card:hover { border-color: #facc15; background: rgba(250, 204, 21, 0.18); } /* Destaque no hover */
+    .btn-fav-card:hover { border-color: #38bdf8; background: rgba(56, 189, 248, 0.18); } /* Destaque no hover */
     /* Estado quando o módulo está salvo nos favoritos */
     .btn-fav-card.favorited {
-      background: linear-gradient(90deg, #eab308, #facc15); /* Preenchimento dourado */
-      border-color: #fef08a; /* Borda clara */
-      color: #140f02; /* Ícone escuro sobre fundo claro */
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Preenchimento azul/ciano */
+      border-color: #bae6fd; /* Borda clara */
+      color: #040d1e; /* Ícone escuro sobre fundo claro */
     }
 
     /* Título do módulo dentro do card */
     .card-title-txt {
       font-size: 13px; /* Tamanho do título do card */
       font-weight: 800; /* Negrito forte */
-      color: #fefce8; /* Branco levemente amarelado */
+      color: #f8fafc; /* Branco gelo */
       letter-spacing: 0.25px; /* Espaçamento sutil */
       text-transform: uppercase; /* Caixa alta */
       white-space: nowrap; /* Uma linha */
@@ -1332,8 +1333,8 @@
       gap: 5px; /* Espaço entre ícone e valor */
       padding: 2px 8px; /* Preenchimento compacto */
       border-radius: 6px; /* Cantos arredondados */
-      background: rgba(8, 10, 14, 0.82); /* Fundo escuro */
-      border: 1px solid rgba(250, 204, 21, 0.26); /* Borda dourada sutil */
+      background: rgba(8, 13, 24, 0.84); /* Fundo escuro */
+      border: 1px solid rgba(56, 189, 248, 0.28); /* Borda azul-ciano sutil */
       font-size: 9.5px; /* Tamanho compacto */
       font-weight: 700; /* Negrito */
       color: #f8fafc; /* Texto branco */
@@ -1343,8 +1344,8 @@
       min-width: 0; /* Permite truncamento */
     }
 
-    /* Destaque dourado para o primeiro indicador de desempenho */
-    .kpi-success { color: #fde047 !important; }
+    /* Destaque azul-ciano para o primeiro indicador de desempenho */
+    .kpi-success { color: #7dd3fc !important; }
 
     /* Pilha de botões na base do card */
     .card-actions-stack {
@@ -1373,9 +1374,9 @@
       max-height: 29px; /* Altura máxima fixa */
       padding: 0 12px; /* Preenchimento horizontal */
       border-radius: 8px; /* Cantos arredondados */
-      border: 1px solid rgba(250, 204, 21, 0.56); /* Borda dourada */
-      background: linear-gradient(180deg, rgba(234, 179, 8, 0.22) 0%, rgba(161, 98, 7, 0.14) 100%); /* Gradiente dourado suave */
-      color: #fef08a; /* Texto amarelo claro */
+      border: 1px solid rgba(56, 189, 248, 0.56); /* Borda azul-ciano */
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.28) 0%, rgba(14, 165, 233, 0.16) 100%); /* Gradiente azul/ciano suave */
+      color: #bae6fd; /* Texto azul-ciano claro */
       font-size: 10px; /* Tamanho compacto */
       font-weight: 800; /* Negrito forte */
       letter-spacing: 0.5px; /* Espaçamento entre letras */
@@ -1394,10 +1395,10 @@
 
     /* Hover do botão principal ABRIR */
     .btn-primary-card:hover {
-      background: linear-gradient(90deg, #eab308, #facc15); /* Dourado sólido vibrante */
-      border-color: #fef9c3; /* Borda amarela muito clara */
-      color: #120d02; /* Texto escuro para alto contraste */
-      box-shadow: 0 4px 18px rgba(250, 204, 21, 0.36); /* Sombra dourada */
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Azul/ciano sólido vibrante */
+      border-color: #e0f2fe; /* Borda azul muito clara */
+      color: #040d1e; /* Texto escuro para alto contraste */
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.38); /* Sombra azul-ciano */
     }
 
     /* Botão secundário de largura total ("DETALHES") */
@@ -1410,8 +1411,8 @@
       max-height: 28px; /* Altura máxima */
       padding: 0 12px; /* Preenchimento lateral */
       border-radius: 8px; /* Cantos arredondados */
-      border: 1px solid rgba(250, 204, 21, 0.22); /* Borda dourada discreta */
-      background: rgba(16, 18, 24, 0.72); /* Fundo escuro translúcido */
+      border: 1px solid rgba(56, 189, 248, 0.24); /* Borda azul-ciano discreta */
+      background: rgba(15, 23, 42, 0.76); /* Fundo escuro translúcido */
       color: #e2e8f0; /* Texto claro */
       font-size: 9.5px; /* Tamanho compacto */
       font-weight: 800; /* Negrito forte */
@@ -1430,9 +1431,9 @@
 
     /* Hover do botão DETALHES */
     .btn-glass-card:hover {
-      border-color: #facc15; /* Destaca borda em dourado */
-      color: #fde047; /* Texto amarelo */
-      background: rgba(250, 204, 21, 0.12); /* Fundo levemente dourado */
+      border-color: #38bdf8; /* Destaca borda em azul-ciano */
+      color: #7dd3fc; /* Texto azul-ciano */
+      background: rgba(56, 189, 248, 0.14); /* Fundo levemente ciano */
     }
 
     /* Botão quadrado de informação (i) ao lado do botão ABRIR */
@@ -1442,10 +1443,10 @@
       min-height: 29px; /* Altura mínima */
       max-height: 29px; /* Altura máxima */
       flex-shrink: 0; /* Não perde largura */
-      background: rgba(10, 12, 16, 0.88); /* Fundo escuro */
-      border: 1px solid rgba(250, 204, 21, 0.42); /* Borda dourada */
+      background: rgba(10, 15, 28, 0.88); /* Fundo escuro */
+      border: 1px solid rgba(56, 189, 248, 0.44); /* Borda azul-ciano */
       border-radius: 8px; /* Cantos arredondados */
-      color: #facc15; /* Ícone dourado */
+      color: #38bdf8; /* Ícone azul-ciano */
       font-size: 13px; /* Tamanho base */
       font-weight: 800; /* Negrito */
       cursor: pointer; /* Cursor clicável */
@@ -1457,9 +1458,9 @@
 
     /* Hover do botão (i) quando habilitado */
     .btn-info-aba:hover:not(:disabled) {
-      background: linear-gradient(90deg, #eab308, #facc15); /* Preenchimento dourado */
-      border-color: #fef08a; /* Borda clara */
-      color: #120d02; /* Ícone escuro */
+      background: linear-gradient(90deg, #2563eb, #38bdf8); /* Preenchimento azul/ciano */
+      border-color: #bae6fd; /* Borda clara */
+      color: #040d1e; /* Ícone escuro */
     }
 
     /* Aparência quando o botão (i) está desabilitado */
@@ -1681,8 +1682,8 @@
       color: #e2e8f0; /* Texto claro */
     }
 
-    /* Destaque dourado dentro do briefing da IA */
-    .ai-briefing-card strong { color: #fde047; }
+    /* Destaque azul-ciano dentro do briefing da IA */
+    .ai-briefing-card strong { color: #7dd3fc; }
 
     /* Pilha de botões de tópicos rápidos da IA */
     .ai-prompt-chips {
@@ -1822,7 +1823,7 @@
 
     /* Breakpoint para smartphones até 520px */
 
-    /* ================= AJUSTES: BORDA 360 SEQUENCIAL + BOTAO VOLTAR DOURADO + ABA ATIVA ================= */
+    /* ================= AJUSTES: BORDA 360 SEQUENCIAL + BOTAO VOLTAR AZUL-CIANO + ABA ATIVA ================= */
     @keyframes sequentialCardBorder360 {
       0% {
         --sweep-angle: 0deg;
@@ -1834,11 +1835,11 @@
 
     .card-3d-wrap:not(.sem-acesso).seq-border-active .card-surface {
       opacity: 1 !important;
-      border-color: rgba(250, 204, 21, 0.94) !important;
+      border-color: rgba(56, 189, 248, 0.94) !important;
       box-shadow:
         0 20px 44px rgba(0, 0, 0, 0.78),
-        0 0 28px rgba(250, 204, 21, 0.30),
-        inset 0 1px 0 rgba(254, 240, 138, 0.38) !important;
+        0 0 28px rgba(56, 189, 248, 0.32),
+        inset 0 1px 0 rgba(186, 230, 253, 0.38) !important;
     }
 
     .card-3d-wrap:not(.sem-acesso).seq-border-active .card-surface::before {
@@ -1847,23 +1848,23 @@
       animation-play-state: running !important;
     }
 
-    /* Menu de marcação (aba/card ativo) com detalhes dourados estilo Gerência / Supervisão */
+    /* Menu de marcação (aba/card ativo) com detalhes azul-ciano / índigo */
     .top-nav-link.active {
-      color: #fde047 !important;
-      background: linear-gradient(90deg, rgba(234, 179, 8, 0.24), rgba(250, 204, 21, 0.14)) !important;
-      border: 1px solid rgba(250, 204, 21, 0.62) !important;
-      box-shadow: 0 0 14px rgba(250, 204, 21, 0.24), inset 0 1px 0 rgba(254, 240, 138, 0.28) !important;
+      color: #7dd3fc !important;
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.28), rgba(56, 189, 248, 0.16)) !important;
+      border: 1px solid rgba(56, 189, 248, 0.62) !important;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.26), inset 0 1px 0 rgba(186, 230, 253, 0.28) !important;
     }
 
     .top-nav-link.active .ico-svg {
-      color: #facc15 !important;
-      filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.45));
+      color: #38bdf8 !important;
+      filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.45));
     }
 
     .top-nav-link.prev-tab-highlight:not(.active) {
-      color: #fde047;
-      background: rgba(250, 204, 21, 0.12);
-      box-shadow: inset 0 0 0 1px rgba(250, 204, 21, 0.28);
+      color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.28);
     }
 
     .btn-back-circle {
@@ -1871,10 +1872,10 @@
       overflow: hidden;
       width: 32px;
       height: 32px;
-      border: 1px solid rgba(250, 204, 21, 0.72);
-      background: linear-gradient(145deg, rgba(234, 179, 8, 0.24), rgba(15, 23, 42, 0.94));
-      color: #fde047;
-      box-shadow: 0 4px 14px rgba(234, 179, 8, 0.24), inset 0 1px 0 rgba(254, 240, 138, 0.35);
+      border: 1px solid rgba(56, 189, 248, 0.72);
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.28), rgba(15, 23, 42, 0.94));
+      color: #7dd3fc;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.24), inset 0 1px 0 rgba(186, 230, 253, 0.35);
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, background 0.22s ease, box-shadow 0.25s ease, color 0.2s ease;
     }
 
@@ -1882,7 +1883,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, transparent 20%, rgba(254, 240, 138, 0.45) 50%, transparent 80%);
+      background: linear-gradient(120deg, transparent 20%, rgba(186, 230, 253, 0.45) 50%, transparent 80%);
       transform: translateX(-140%);
       transition: transform 0.52s ease;
       pointer-events: none;
@@ -1890,10 +1891,10 @@
 
     .btn-back-circle:hover:not(:disabled) {
       transform: translateX(-2px) scale(1.06);
-      border-color: #fef08a;
-      background: linear-gradient(135deg, #eab308, #facc15);
-      color: #140f02;
-      box-shadow: 0 0 18px rgba(250, 204, 21, 0.62), 0 6px 18px rgba(202, 138, 4, 0.38);
+      border-color: #e0f2fe;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: #040d1e;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.62), 0 6px 18px rgba(37, 99, 235, 0.38);
     }
 
     .btn-back-circle:hover:not(:disabled)::before {
@@ -1905,8 +1906,8 @@
     }
 
     .btn-back-circle.has-prev-tab {
-      border-color: rgba(250, 204, 21, 0.88);
-      box-shadow: 0 0 16px rgba(250, 204, 21, 0.34), inset 0 1px 0 rgba(254, 240, 138, 0.42);
+      border-color: rgba(56, 189, 248, 0.88);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.34), inset 0 1px 0 rgba(186, 230, 253, 0.42);
     }
 
     @media (max-width: 520px) {
@@ -1998,7 +1999,7 @@
           </div>
           <div class="quick-stat-pill">
             <small>Desempenho BI</small>
-            <strong style="color:#fde047;">+18% Mensal</strong>
+            <strong style="color:#7dd3fc;">+18% Mensal</strong>
           </div>
           <div class="quick-stat-pill">
             <small>Atualização</small>
@@ -2154,7 +2155,7 @@
       Carregando diagnóstico executivo...
     </div>
 
-    <div style="font-size:10px; font-weight:800; color:#fde047; text-transform:uppercase; letter-spacing:1px;">
+    <div style="font-size:10px; font-weight:800; color:#7dd3fc; text-transform:uppercase; letter-spacing:1px;">
       Análises Rápidas para Diretoria
     </div>
 
@@ -2163,7 +2164,7 @@
       <button type="button" class="ai-chip-btn" data-ai-topic="resumo" data-chip-ico="chartLine" data-chip-color="#38bdf8" data-chip-label="Resumo Executivo do Turno">
         <span>Resumo Executivo do Turno</span>
       </button>
-      <button type="button" class="ai-chip-btn" data-ai-topic="gargalos" data-chip-ico="alertTriangle" data-chip-color="#facc15" data-chip-label="Radar de Desvios & Gargalos">
+      <button type="button" class="ai-chip-btn" data-ai-topic="gargalos" data-chip-ico="alertTriangle" data-chip-color="#818cf8" data-chip-label="Radar de Desvios & Gargalos">
         <span>Radar de Desvios &amp; Gargalos</span>
       </button>
       <button type="button" class="ai-chip-btn" data-ai-topic="governanca" data-chip-ico="shield" data-chip-color="#34d399" data-chip-label="Auditoria de Governança & Acessos">
@@ -2414,7 +2415,7 @@
         "Fernanda Dantas": ["infraestrutura"]
       };
 
-      // Catálogo dos 10 módulos exibidos na Gerência Executiva
+      // Catálogo dos módulos exibidos na Gerência Executiva / Dashboards BI
       const MODULOS_GERENCIA = [
           {
                     "key": "dash_gerencial",
@@ -3143,7 +3144,7 @@
             <div class="card-3d-wrap" style="grid-column: 1 / -1; position: relative; height: auto; max-height: none; max-width: 100%;">
               <div class="card-surface">
                 <div class="card-body" style="text-align:center; padding:24px; min-height:160px;">
-                  <strong style="color:#fde047; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
+                  <strong style="color:#7dd3fc; font-size:15px;">Nenhum módulo encontrado para o filtro atual.</strong>
                   <span style="font-size:12px; color:#94a3b8; margin-top:4px;">Limpe a busca ou altere a categoria selecionada.</span>
                 </div>
               </div>
@@ -3208,7 +3209,7 @@
 
         iniciarSequenciaBordaCards(false);
 
-        // Renderiza exatamente a quantidade de dots correspondente aos cards filtrados (10 no total padrão)
+        // Renderiza exatamente a quantidade de dots correspondente aos cards filtrados
         if (total > 1 && modoVisualizacao !== "grade") {
           paginationDots.style.display = "flex";
           paginationDots.innerHTML = itens.map((item, idx) => `
