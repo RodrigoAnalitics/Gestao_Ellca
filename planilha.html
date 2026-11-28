@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <script>
     if (sessionStorage.getItem('ellca_auth') !== 'true') {
@@ -91,11 +90,11 @@
       50% { box-shadow: 0 0 14px rgba(250, 204, 21, 0.35); }
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     html, body {
@@ -117,6 +116,53 @@
       flex-direction: column;
       overflow-y: auto;
       overflow-x: hidden;
+    }
+
+    /* ================= SISTEMA DE ÍCONES SVG BOLD + FALLBACK NATIVO ================= */
+    .ico-svg {
+      width: 1.08em;
+      height: 1.08em;
+      display: inline-block;
+      vertical-align: -0.16em;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.45;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      shape-rendering: geometricPrecision;
+      overflow: visible;
+    }
+
+    .hero-icon-box .ico-svg,
+    .hero-btn .ico-svg,
+    .cat-btn .ico-svg,
+    .btn-primary-card .ico-svg,
+    .btn-info-aba .ico-svg,
+    .carousel-arrow .ico-svg,
+    .carousel-status-label .ico-svg,
+    .btn-back-circle .ico-svg {
+      stroke-width: 2.65;
+    }
+
+    .hero-icon-box .ico-svg {
+      width: 21px;
+      height: 21px;
+      filter: drop-shadow(0 0 8px rgba(110, 231, 183, 0.45));
+    }
+
+    .kpi-pill-item .ico-svg,
+    .btn-fav-card .ico-svg,
+    .hero-greeting-pill .ico-svg,
+    .card-badge-tag .ico-svg,
+    .top-nav-link .ico-svg,
+    .max-star-tag .ico-svg {
+      stroke-width: 2.25;
+    }
+
+    .kpi-pill-item .ico-svg {
+      color: #38bdf8;
+      filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.35));
     }
 
     .tabular { font-variant-numeric: tabular-nums; }
@@ -604,13 +650,14 @@
       flex: 0 1 340px;
     }
 
-    .search-box-wrap i {
+    .search-box-wrap .search-ico {
       position: absolute;
       left: 11px;
       top: 50%;
       transform: translateY(-50%);
       color: #38bdf8;
-      font-size: 11.5px;
+      font-size: 12.5px;
+      pointer-events: none;
     }
 
     .search-input {
@@ -677,6 +724,9 @@
       border-radius: 6px;
       background: rgba(15, 23, 42, 0.72);
       border: 1px solid rgba(148, 163, 184, 0.22);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .carousel-nav-controls {
@@ -1005,7 +1055,7 @@
       border: 1px solid rgba(255, 255, 255, 0.25);
       background: rgba(5, 10, 22, 0.72);
       color: #cbd5e1;
-      font-size: 10px;
+      font-size: 11px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -1059,8 +1109,8 @@
       color: #e2e8f0;
     }
 
-    .kpi-pill-item i { color: #38bdf8; }
     .kpi-success { color: #34d399 !important; border-color: rgba(52, 211, 153, 0.35) !important; }
+    .kpi-success .ico-svg { color: #34d399 !important; filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.35)); }
 
     .card-actions-stack {
       display: flex;
@@ -1146,7 +1196,7 @@
       border: 1px solid rgba(56, 189, 248, 0.45);
       border-radius: 8px;
       color: #38bdf8;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
@@ -1241,6 +1291,9 @@
       background: rgba(15, 23, 42, 0.8);
       color: #e2e8f0;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .details-meta-grid {
@@ -1417,23 +1470,21 @@
             REDES ONLINE • 12ms · BANCO DE DADOS
           </span>
 
-          <span class="max-star-tag">
-            <i class="fa-solid fa-star"></i> MAX STAR 2.0
+          <span class="max-star-tag" id="maxStarTagEl">
+            MAX STAR 2.0
           </span>
 
           <span class="user-avatar-ring" id="userAvatarInitials" title="Rodrigo Lopes">RL</span>
         </div>
 
         <nav class="nav-links-side" aria-label="Menu do Portal">
-          <a href="home.html" class="top-nav-link"><i class="fa-solid fa-house-user"></i> HOME</a>
-          <a href="dashboard.html" class="top-nav-link"><i class="fa-solid fa-chart-pie"></i> DASHBOARD</a>
-          <a href="planilha.html" class="top-nav-link active"><i class="fa-solid fa-file-excel"></i> PLANILHAS</a>
-          <a href="supervisor.html" class="top-nav-link"><i class="fa-solid fa-user-shield"></i> SUPERVISÃO</a>
-          <a href="gerencial.html" class="top-nav-link"><i class="fa-solid fa-crown"></i> GERÊNCIA</a>
-          <a href="organograma.html" class="top-nav-link"><i class="fa-solid fa-sitemap"></i> ORGANOGRAMA</a>
-          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle">
-            <i class="fa-solid fa-arrow-left"></i>
-          </button>
+          <a href="home.html" class="top-nav-link" data-svg="home">HOME</a>
+          <a href="dashboard.html" class="top-nav-link" data-svg="pie">DASHBOARD</a>
+          <a href="planilha.html" class="top-nav-link active" data-svg="sheet">PLANILHAS</a>
+          <a href="supervisor.html" class="top-nav-link" data-svg="shieldUser">SUPERVISÃO</a>
+          <a href="gerencial.html" class="top-nav-link" data-svg="crown">GERÊNCIA</a>
+          <a href="organograma.html" class="top-nav-link" data-svg="sitemap">ORGANOGRAMA</a>
+          <button type="button" class="btn-back-circle" id="btnVoltarHome" title="Voltar para a Central de Controle" aria-label="Voltar para a Central de Controle"></button>
         </nav>
       </header>
     </div>
@@ -1442,12 +1493,10 @@
     <section class="hero-banner">
       <div class="hero-top-split">
         <div class="hero-title-row">
-          <div class="hero-icon-box">
-            <i class="fa-solid fa-file-excel"></i>
-          </div>
+          <div class="hero-icon-box" id="heroMainIconBox"></div>
           <div>
             <div class="hero-greeting-pill tabular" id="planGreetingPill">
-              <i class="fa-solid fa-sun" id="planGreetingIcon"></i>
+              <span id="planGreetingIconWrap"></span>
               <span id="planGreetingText">Olá, Boa tarde, Rodrigo Lopes • Carregando local e clima...</span>
             </div>
             <h1 class="hero-main-title">PLANILHAS <span>INTELIGENTES</span></h1>
@@ -1474,33 +1523,24 @@
       </div>
 
       <div class="hero-actions-row">
-        <span class="live-badge tabular">
-          <i class="fa-solid fa-circle-check"></i>
-          <span id="liveClockTxt">Bases Sincronizadas · --:--</span>
-        </span>
+        <span class="live-badge tabular" id="liveBadgeEl"></span>
 
-        <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel">
-          <i class="fa-solid fa-sliders"></i> MODO CARROSSEL
-        </button>
+        <button type="button" class="hero-btn hero-btn-cyan active" id="btnModoCarrossel" data-svg="sliders">MODO CARROSSEL</button>
 
-        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D">
-          <i class="fa-solid fa-cube"></i> MODO CARROSSEL 3D
-        </button>
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoCarrossel3D" data-svg="cube">MODO CARROSSEL 3D</button>
 
-        <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade">
-          <i class="fa-solid fa-table-cells"></i> MODO GRADE
-        </button>
+        <button type="button" class="hero-btn hero-btn-blue" id="btnModoGrade" data-svg="grid">MODO GRADE</button>
 
         <button type="button" class="hero-btn hero-btn-gold" id="btnFiltroFavoritos">
-          <i class="fa-solid fa-star"></i> FAVORITOS (<span id="favCountTxt">0</span>)
+          <span id="favStarIcon"></span> FAVORITOS (<span id="favCountTxt">0</span>)
         </button>
 
         <button type="button" class="hero-btn hero-btn-blue" id="btnAutoPlay">
-          <i class="fa-solid fa-pause" id="iconAutoPlay"></i> <span id="txtAutoPlay">AUTOPLAY: ON</span>
+          <span id="iconAutoPlayWrap"></span> <span id="txtAutoPlay">AUTOPLAY: ON</span>
         </button>
 
         <button type="button" class="hero-btn hero-btn-menu-toggle" id="btnToggleMenu" style="margin-left:auto;">
-          <i class="fa-solid fa-eye-slash" id="iconToggleMenu"></i>
+          <span id="iconToggleMenuWrap"></span>
           <span id="txtToggleMenu">OCULTAR MENU</span>
         </button>
       </div>
@@ -1509,17 +1549,16 @@
     <!-- 3. BARRA DE FILTROS & PESQUISA -->
     <div class="filter-toolbar">
       <div class="category-pills" id="categoryPills">
-        <button type="button" class="cat-btn active" data-cat="TODOS"><i class="fa-solid fa-layer-group"></i> Todas (13)</button>
-        <button type="button" class="cat-btn" data-cat="OPERACIONAL"><i class="fa-solid fa-hard-hat"></i> Operacional</button>
-        <button type="button" class="cat-btn" data-cat="PESSOAS"><i class="fa-solid fa-users"></i> Pessoas</button>
-        <button type="button" class="cat-btn" data-cat="SEGURANÇA"><i class="fa-solid fa-helmet-safety"></i> Segurança</button>
-        <button type="button" class="cat-btn" data-cat="ADMINISTRATIVO"><i class="fa-solid fa-file-invoice-dollar"></i> Administrativo</button>
-        <button type="button" class="cat-btn" data-cat="GOVERNANÇA"><i class="fa-solid fa-sitemap"></i> Governança</button>
-        <button type="button" class="cat-btn" data-cat="SUPORTE"><i class="fa-solid fa-building"></i> Suporte</button>
+        <button type="button" class="cat-btn active" data-cat="TODOS" data-svg="layers">Todas (13)</button>
+        <button type="button" class="cat-btn" data-cat="OPERACIONAL" data-svg="hardHat">Operacional</button>
+        <button type="button" class="cat-btn" data-cat="PESSOAS" data-svg="users">Pessoas</button>
+        <button type="button" class="cat-btn" data-cat="SEGURANÇA" data-svg="helmetSafety">Segurança</button>
+        <button type="button" class="cat-btn" data-cat="ADMINISTRATIVO" data-svg="invoice">Administrativo</button>
+        <button type="button" class="cat-btn" data-cat="GOVERNANÇA" data-svg="sitemap">Governança</button>
+        <button type="button" class="cat-btn" data-cat="SUPORTE" data-svg="building">Suporte</button>
       </div>
 
-      <div class="search-box-wrap">
-        <i class="fa-solid fa-magnifying-glass"></i>
+      <div class="search-box-wrap" id="searchBoxWrap">
         <input type="text" id="moduleSearch" class="search-input" placeholder="Pesquisar planilha ou base de dados..." />
       </div>
     </div>
@@ -1527,20 +1566,14 @@
     <!-- 4. CARROSSEL / CARROSSEL 3D / GRADE -->
     <section class="carousel-shell">
       <div class="carousel-header-bar">
-        <span class="carousel-status-label" id="carouselStatusLabel">
-          <i class="fa-solid fa-file-excel"></i> EXIBINDO 13 PLANILHAS · MODO CARROSSEL
-        </span>
+        <span class="carousel-status-label" id="carouselStatusLabel"></span>
 
         <div class="carousel-nav-controls" id="carouselNavControls">
-          <span class="kbd-hint" title="Use as setas do teclado para navegar e Espaço para pausar">
-            <i class="fa-solid fa-keyboard"></i> ← → Navegar · Espaço Pausar
+          <span class="kbd-hint" id="kbdHintEl" title="Use as setas do teclado para navegar e Espaço para pausar">
+            ← → Navegar · Espaço Pausar
           </span>
-          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior (Seta Esquerda)">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo (Seta Direita)">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
+          <button type="button" class="carousel-arrow" id="btnPrevCard" title="Anterior (Seta Esquerda)" aria-label="Anterior"></button>
+          <button type="button" class="carousel-arrow" id="btnNextCard" title="Próximo (Seta Direita)" aria-label="Próximo"></button>
         </div>
       </div>
 
@@ -1550,20 +1583,16 @@
 
     <!-- 5. RODAPÉ OFICIAL -->
     <footer class="ellca-official-footer">
-      <div class="footer-system-text">
-        <span><i class="fa-solid fa-shield-halved" style="color:#64748b;"></i> Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
+      <div class="footer-system-text" id="footerSysText">
+        <span>Sistema ELLCA <strong>v2.5.0 · Max Star 2.0</strong></span>
         <span>•</span>
-        <span>Módulo: <strong>Banco de Dados & Planilhas</strong></span>
+        <span>Módulo: <strong>Banco de Dados &amp; Planilhas</strong></span>
       </div>
 
       <div class="footer-right-actions">
-        <button type="button" class="btn-footer-support" title="Rodrigo.lopes@ellca2.com.br" onclick="alert('E-mail de suporte: Rodrigo.lopes@ellca2.com.br')">
-          <i class="fa-solid fa-headset" style="color:#38bdf8;"></i> Suporte
-        </button>
-        <span style="color:#cbd5e1;"><i class="fa-solid fa-user-check" style="color:#34d399;"></i> Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
-        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
+        <button type="button" class="btn-footer-support" id="btnFooterSupport" title="Rodrigo.lopes@ellca2.com.br">Suporte</button>
+        <span style="color:#cbd5e1;" id="footerUserWrap">Olá, <strong id="footerUserName" style="color:#fff;">Rodrigo Lopes</strong></span>
+        <button type="button" class="btn-footer-sair" id="btnSairRodape" title="Sair do sistema">Sair</button>
       </div>
     </footer>
 
@@ -1574,9 +1603,7 @@
   <aside class="details-drawer" id="detailsDrawer" aria-hidden="true">
     <div class="details-drawer-top">
       <h3 id="drawerModTitulo">Planilha</h3>
-      <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <button type="button" class="details-drawer-close" id="btnFecharDrawer" title="Fechar Detalhes" aria-label="Fechar Detalhes"></button>
     </div>
     <p id="drawerModDesc" style="font-size:12px; color:#cbd5e1; line-height:1.55;"></p>
     <div class="details-meta-grid">
@@ -1598,16 +1625,213 @@
       </div>
     </div>
     <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">
-      Campos & Controles Principais
+      Campos &amp; Controles Principais
     </div>
     <ul class="details-sublist" id="drawerModRecursos"></ul>
-    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;">
-      ACESSAR <i class="fa-solid fa-arrow-right"></i>
-    </button>
+    <button type="button" class="btn-primary-card" id="btnDrawerAcessar" style="margin-top:auto; height:38px; min-height:38px; max-height:38px;"></button>
   </aside>
 
   <script>
     (function iniciarPlanilhaMaxStar() {
+      // ================= ESTADO GLOBAL INICIALIZADO NO TOPO =================
+      let modoVisualizacao = "carrossel";
+      let categoriaAtiva = "TODOS";
+      let somenteFavoritos = false;
+      let indiceCarrossel = 0;
+      let autoPlayAtivo = true;
+      let timerCarrossel = null;
+      let itemAtualDrawer = null;
+      let assinaturaDomAtual = "";
+
+      let modoIconeAtivo = "nativo"; // "nativo" | "site"
+      const cacheIconesSite = {};
+      let siteCdnDisponivel = null;
+
+      // ================= ÍCONES NATIVOS (FALLBACK LOCAL GARANTIDO) =================
+      const SVG_MAP = {
+        info: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.2"/><circle cx="12" cy="8.2" r="0.6" fill="currentColor" stroke="none"/></svg>',
+        star: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2.4 15 8.5 21.7 9.5 16.85 14.2 18 20.9 12 17.75 6 20.9 7.15 14.2 2.3 9.5 9 8.5 12 2.4"/></svg>',
+        starFilled: '<svg class="ico-svg" style="fill:currentColor;" viewBox="0 0 24 24"><polygon points="12 2.4 15 8.5 21.7 9.5 16.85 14.2 18 20.9 12 17.75 6 20.9 7.15 14.2 2.3 9.5 9 8.5 12 2.4"/></svg>',
+        pin: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.5 10c0 6.8-8.5 12.2-8.5 12.2S3.5 16.8 3.5 10a8.5 8.5 0 0 1 17 0z"/><circle cx="12" cy="10" r="2.8"/></svg>',
+        sun: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.6"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.55 1.55M17.52 17.52l1.55 1.55M2 12h2.2M19.8 12H22M4.93 19.07l1.55-1.55M17.52 6.48l1.55-1.55"/></svg>',
+        moon: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.5 13.2A8.8 8.8 0 1 1 10.8 3.5a7 7 0 0 0 9.7 9.7z"/></svg>',
+        cloudSun: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 2.5v2M5.2 5.2l1.4 1.4M19.8 12h2M18.8 5.2l-1.4 1.4"/><path d="M15.8 12.5a3.8 3.8 0 0 0-5.6-3.9"/><path d="M13 21.5H7.2a4.8 4.8 0 1 1 4.7-5.8H13a2.9 2.9 0 0 1 0 5.8Z"/></svg>',
+        cloud: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.5 19H9a6.8 6.8 0 1 1 6.5-8.8h2a4.4 4.4 0 1 1 0 8.8Z"/></svg>',
+        rain: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M4.5 14.8A6.8 6.8 0 1 1 15.6 8.2h1.9a4.4 4.4 0 0 1 2.3 8.1"/><path d="M16 14.5v5.5M8 14.5v5.5M12 16.5v5.5"/></svg>',
+        bolt: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="13 2.2 3.5 13.8 11.8 13.8 11 21.8 20.5 10.2 12.2 10.2 13 2.2"/></svg>',
+        checkCircle: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.5 11.2V12a9.5 9.5 0 1 1-5.6-8.7"/><polyline points="21.5 4.5 12 14 9 11"/></svg>',
+        check: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="20 6.5 9.5 17 4.5 12"/></svg>',
+        arrowRight: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+        arrowLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>',
+        lock: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.5" y="11" width="17" height="10.5" rx="2.2"/><path d="M7.5 11V7.2a4.5 4.5 0 0 1 9 0V11"/></svg>',
+        layers: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5 12 2.5"/><polyline points="2.5 16.8 12 21.5 21.5 16.8"/><polyline points="2.5 12.2 12 17 21.5 12.2"/></svg>',
+        pie: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 15.8A9.5 9.5 0 1 1 8.2 3"/><path d="M21.5 12A9.5 9.5 0 0 0 12 2.5V12z"/></svg>',
+        trendUp: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="21.5 7 13.5 15 8.5 10 2.5 16"/><polyline points="15.5 7 21.5 7 21.5 13"/></svg>',
+        calendar: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="16.8" rx="2.2"/><line x1="16" y1="2.2" x2="16" y2="6.2"/><line x1="8" y1="2.2" x2="8" y2="6.2"/><line x1="3.2" y1="10" x2="20.8" y2="10"/></svg>',
+        calendarCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="16.8" rx="2.2"/><line x1="16" y1="2.2" x2="16" y2="6.2"/><line x1="8" y1="2.2" x2="8" y2="6.2"/><line x1="3.2" y1="10" x2="20.8" y2="10"/><polyline points="9 15 11.2 17.2 15.5 13"/></svg>',
+        clock: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><polyline points="12 6.8 12 12 15.5 14"/></svg>',
+        rotate: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><polyline points="21 3 21 8 16 8"/></svg>',
+        sheet: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.2 2.5H6.2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11.6a2 2 0 0 0 2-2V8z"/><polyline points="14.2 2.5 14.2 8 19.8 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>',
+        crown: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m2.5 4.8 2.8 11.4h13.4l2.8-11.4-5.7 6.5L12 4.8l-3.8 6.5-5.7-6.5z"/><line x1="5" y1="19.8" x2="19" y2="19.8"/></svg>',
+        shield: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 21.8s7.8-3.9 7.8-9.8V5.2L12 2.4 4.2 5.2V12c0 5.9 7.8 9.8 7.8 9.8z"/></svg>',
+        shieldUser: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M12 21.8s7.8-3.9 7.8-9.8V5.2L12 2.4 4.2 5.2V12c0 5.9 7.8 9.8 7.8 9.8z"/><circle cx="12" cy="10.2" r="2.4"/></svg>',
+        users: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="9.2" cy="7.5" r="3.6"/><path d="M22 20.5v-1.8a3.6 3.6 0 0 0-2.7-3.5"/><path d="M15.8 3.9a3.6 3.6 0 0 1 0 7.2"/></svg>',
+        userPlus: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M15.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="8.8" cy="7.5" r="3.6"/><line x1="19.5" y1="8.5" x2="19.5" y2="14.5"/><line x1="16.5" y1="11.5" x2="22.5" y2="11.5"/></svg>',
+        userCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M15.5 20.5v-1.8a3.8 3.8 0 0 0-3.8-3.8H5.8A3.8 3.8 0 0 0 2 18.7v1.8"/><circle cx="8.8" cy="7.5" r="3.6"/><polyline points="17 11.2 19.2 13.4 22.8 9.4"/></svg>',
+        idBadge: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="4.2" y="2.4" width="15.6" height="19.2" rx="2.2"/><circle cx="12" cy="9.2" r="2.4"/><path d="M8 16.2c0-1.8 1.8-3 4-3s4 1.2 4 3"/></svg>',
+        clipboardCheck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M16 4.2h1.8a2 2 0 0 1 2 2v13.6a2 2 0 0 1-2 2H6.2a2 2 0 0 1-2-2V6.2a2 2 0 0 1 2-2H8"/><rect x="8" y="2.2" width="8" height="4" rx="1.1"/><polyline points="9 14 11.2 16.2 15.2 12"/></svg>',
+        home: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m3 9.5 9-7 9 7V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9.2 22 9.2 12.5 14.8 12.5 14.8 22"/></svg>',
+        sitemap: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="9" y="2.4" width="6" height="4.8" rx="1.1"/><rect x="2.4" y="16.8" width="6" height="4.8" rx="1.1"/><rect x="15.6" y="16.8" width="6" height="4.8" rx="1.1"/><path d="M12 7.2v4.8M5.4 16.8V12h13.2v4.8"/></svg>',
+        sliders: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="4.5" y1="21" x2="4.5" y2="14"/><line x1="4.5" y1="10" x2="4.5" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="19.5" y1="21" x2="19.5" y2="16"/><line x1="19.5" y1="12" x2="19.5" y2="3"/><line x1="1.8" y1="14" x2="7.2" y2="14"/><line x1="9.3" y1="8" x2="14.7" y2="8"/><line x1="16.8" y1="16" x2="22.2" y2="16"/></svg>',
+        cube: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M20.8 16V8a2 2 0 0 0-1-1.73l-6.8-3.9a2 2 0 0 0-2 0l-6.8 3.9A2 2 0 0 0 3.2 8v8a2 2 0 0 0 1 1.73l6.8 3.9a2 2 0 0 0 2 0l6.8-3.9a2 2 0 0 0 1-1.73z"/><polyline points="3.5 7.1 12 12 20.5 7.1"/><line x1="12" y1="21.8" x2="12" y2="12"/></svg>',
+        grid: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="3.2" y="3.2" width="7" height="7" rx="1.1"/><rect x="13.8" y="3.2" width="7" height="7" rx="1.1"/><rect x="13.8" y="13.8" width="7" height="7" rx="1.1"/><rect x="3.2" y="13.8" width="7" height="7" rx="1.1"/></svg>',
+        pause: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="6" y="4" width="4.2" height="16" rx="1"/><rect x="13.8" y="4" width="4.2" height="16" rx="1"/></svg>',
+        play: '<svg class="ico-svg" viewBox="0 0 24 24"><polygon points="5.5 3.5 19.5 12 5.5 20.5 5.5 3.5"/></svg>',
+        eyeOff: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M17.9 17.9A10 10 0 0 1 12 20c-6.8 0-10.5-8-10.5-8a18 18 0 0 1 4.9-5.8M9.9 4.3A9 9 0 0 1 12 4c6.8 0 10.5 8 10.5 8a18 18 0 0 1-2.1 3.1m-6.6-1a3 3 0 1 1-4.2-4.2"/><line x1="2" y1="2" x2="22" y2="22"/></svg>',
+        menu: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>',
+        search: '<svg class="ico-svg search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><line x1="20.8" y1="20.8" x2="16.4" y2="16.4"/></svg>',
+        chevronLeft: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>',
+        chevronRight: '<svg class="ico-svg" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>',
+        keyboard: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="2.2" y="4.2" width="19.6" height="15.6" rx="2.2"/><path d="M6.2 8.2h.01M10 8.2h.01M14 8.2h.01M17.8 8.2h.01M8 12h.01M12 12h.01M16 12h.01M7.2 15.8h9.6"/></svg>',
+        close: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+        headset: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M3.2 18v-6a8.8 8.8 0 0 1 17.6 0v6"/><path d="M20.8 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3.2 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3.2z"/></svg>',
+        logout: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M9.2 21H5.2a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+        ruler: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/></svg>',
+        boxes: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><polyline points="3.3 7 12 12 20.7 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>',
+        invoice: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M14.5 13.5c0-.8-.9-1.5-2.5-1.5s-2.5.7-2.5 1.5.9 1.3 2.5 1.5 2.5.7 2.5 1.5-.9 1.5-2.5 1.5-2.5-.7-2.5-1.5"/></svg>',
+        truck: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>',
+        fuel: '<svg class="ico-svg" viewBox="0 0 24 24"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg>',
+        building: '<svg class="ico-svg" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>',
+        wrench: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+        gauge: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>',
+        target: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.8"/></svg>',
+        route: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>',
+        compass: '<svg class="ico-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',
+        folderOpen: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg>',
+        hardHat: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></svg>',
+        helmetSafety: '<svg class="ico-svg" viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></svg>'
+      };
+
+      // ================= ÍCONES DO SITE (LUCIDE CDN) COM FALLBACK NATIVO =================
+      const SITE_ICON_CDN = "https://unpkg.com/lucide-static@0.469.0/icons/";
+      const LUCIDE_NAME_MAP = {
+        info: "info",
+        star: "star",
+        starFilled: "star",
+        pin: "map-pin",
+        sun: "sun",
+        moon: "moon",
+        cloudSun: "cloud-sun",
+        cloud: "cloud",
+        rain: "cloud-rain",
+        bolt: "zap",
+        checkCircle: "check-circle-2",
+        check: "check",
+        arrowRight: "arrow-right",
+        arrowLeft: "arrow-left",
+        lock: "lock",
+        layers: "layers",
+        pie: "pie-chart",
+        trendUp: "trending-up",
+        calendar: "calendar",
+        calendarCheck: "calendar-check-2",
+        clock: "clock",
+        rotate: "refresh-cw",
+        sheet: "file-spreadsheet",
+        crown: "crown",
+        shield: "shield",
+        shieldUser: "shield-check",
+        users: "users",
+        userPlus: "user-plus",
+        userCheck: "user-check",
+        idBadge: "contact",
+        clipboardCheck: "clipboard-check",
+        home: "home",
+        sitemap: "network",
+        sliders: "sliders-horizontal",
+        cube: "box",
+        grid: "layout-grid",
+        pause: "pause",
+        play: "play",
+        eyeOff: "eye-off",
+        menu: "menu",
+        search: "search",
+        chevronLeft: "chevron-left",
+        chevronRight: "chevron-right",
+        keyboard: "keyboard",
+        close: "x",
+        headset: "headphones",
+        logout: "log-out",
+        ruler: "ruler",
+        boxes: "package",
+        invoice: "receipt",
+        truck: "truck",
+        fuel: "fuel",
+        building: "building-2",
+        wrench: "wrench",
+        gauge: "gauge",
+        target: "target",
+        route: "route",
+        compass: "compass",
+        folderOpen: "folder-open",
+        hardHat: "hard-hat",
+        helmetSafety: "hard-hat"
+      };
+
+      function svg(name) {
+        if (modoIconeAtivo === "site" && siteCdnDisponivel === true && cacheIconesSite[name]) {
+          return cacheIconesSite[name];
+        }
+        return SVG_MAP[name] || SVG_MAP.info;
+      }
+
+      function normalizarSvgExterno(rawSvg, name) {
+        if (!rawSvg || !rawSvg.includes("<svg")) return null;
+        const extraClass = name === "search" ? "ico-svg search-ico" : "ico-svg";
+        const filledStyle = name === "starFilled" ? ' style="fill:currentColor;"' : "";
+        return rawSvg
+          .replace(/<svg\b([^>]*)>/i, `<svg class="${extraClass}"${filledStyle} viewBox="0 0 24 24">`)
+          .replace(/class="[^"]*"/i, `class="${extraClass}"`);
+      }
+
+      async function tentarAtivarIconesDoSite() {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 1400);
+
+        try {
+          const probeUrl = `${SITE_ICON_CDN}${LUCIDE_NAME_MAP.layers}.svg`;
+          const probeResp = await fetch(probeUrl, { signal: controller.signal, cache: "force-cache" });
+          if (!probeResp.ok) throw new Error("HTTP " + probeResp.status);
+
+          const probeText = await probeResp.text();
+          const parsedProbe = normalizarSvgExterno(probeText, "layers");
+          if (!parsedProbe) throw new Error("SVG inválido");
+
+          cacheIconesSite["layers"] = parsedProbe;
+
+          const entries = Object.entries(LUCIDE_NAME_MAP).filter(([k]) => k !== "layers");
+          await Promise.allSettled(
+            entries.map(async ([key, slug]) => {
+              const r = await fetch(`${SITE_ICON_CDN}${slug}.svg`, { signal: controller.signal, cache: "force-cache" });
+              if (!r.ok) return;
+              const txt = await r.text();
+              const clean = normalizarSvgExterno(txt, key);
+              if (clean) cacheIconesSite[key] = clean;
+            })
+          );
+
+          clearTimeout(timer);
+          siteCdnDisponivel = true;
+          modoIconeAtivo = "site";
+          reaplicarTodosOsIcones();
+          renderizarCards(true);
+        } catch {
+          clearTimeout(timer);
+          siteCdnDisponivel = false;
+          modoIconeAtivo = "nativo";
+        }
+      }
+
       const PERMISSOES_POR_USUARIO = {
         "Administrador": ["todos"],
         "Rodrigo Lopes": ["todos"],
@@ -1641,12 +1865,14 @@
           categoria: "OPERACIONAL",
           badge: "EPI/EPC",
           badgeGold: true,
-          icone: "fa-ruler-combined",
+          icone: "ruler",
           imagem: "img/capa_excel.png",
           titulo: "Almox. EPI/EPC",
           desc: "Controle de estoque, validade, inspeção e entrega de equipamentos de proteção.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
-          kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "94%",
+          kpi2Ico: "calendar",
+          kpi2Txt: "Mensal",
           kpiResumo: "94% · Mensal",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1659,12 +1885,14 @@
           categoria: "OPERACIONAL",
           badge: "ALMOXARIFADO",
           badgeGold: false,
-          icone: "fa-boxes-stacked",
+          icone: "boxes",
           imagem: "img/capa_excel.png",
           titulo: "Almoxarifado",
           desc: "Gestão de materiais, recebimento, inventário e suprimento das equipes.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 96%</span>',
-          kpi2: '<span><i class="fa-solid fa-rotate"></i> Diário</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "96%",
+          kpi2Ico: "rotate",
+          kpi2Txt: "Diário",
           kpiResumo: "96% · Diário",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1677,12 +1905,14 @@
           categoria: "ADMINISTRATIVO",
           badge: "BACKOFFICE",
           badgeGold: false,
-          icone: "fa-file-invoice-dollar",
+          icone: "invoice",
           imagem: "img/capa_excel.png",
           titulo: "Backoffice",
           desc: "Suporte administrativo, conferência de processos, medições e faturamento.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 92%</span>',
-          kpi2: '<span><i class="fa-solid fa-calendar"></i> Mensal</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "92%",
+          kpi2Ico: "calendar",
+          kpi2Txt: "Mensal",
           kpiResumo: "92% · Mensal",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1695,12 +1925,14 @@
           categoria: "PESSOAS",
           badge: "DP",
           badgeGold: false,
-          icone: "fa-id-card",
+          icone: "idBadge",
           imagem: "img/capa_excel.png",
           titulo: "DP",
           desc: "Gestão de ponto, folha de pagamento, benefícios, férias e rotinas trabalhistas.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 98%</span>',
-          kpi2: '<span><i class="fa-solid fa-clock"></i> Mensal</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "98%",
+          kpi2Ico: "clock",
+          kpi2Txt: "Mensal",
           kpiResumo: "98% · Mensal",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1713,12 +1945,14 @@
           categoria: "OPERACIONAL",
           badge: "DSC",
           badgeGold: false,
-          icone: "fa-clipboard-check",
+          icone: "clipboardCheck",
           imagem: "img/capa_excel.png",
           titulo: "DSC",
           desc: "Acompanhamento de indicadores, conformidade em campo e controle de desvios.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 91%</span>',
-          kpi2: '<span><i class="fa-solid fa-chart-line"></i> Semanal</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "91%",
+          kpi2Ico: "trendUp",
+          kpi2Txt: "Semanal",
           kpiResumo: "91% · Semanal",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1731,12 +1965,14 @@
           categoria: "GOVERNANÇA",
           badge: "ESTRUTURA",
           badgeGold: true,
-          icone: "fa-sitemap",
+          icone: "sitemap",
           imagem: "img/capa_excel.png",
           titulo: "Estrutura",
           desc: "Visão organizacional, hierarquia, liderança setorial e integração das áreas.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 100%</span>',
-          kpi2: '<span><i class="fa-solid fa-users"></i> Geral</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "100%",
+          kpi2Ico: "users",
+          kpi2Txt: "Geral",
           kpiResumo: "100% · Geral",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1749,12 +1985,14 @@
           categoria: "OPERACIONAL",
           badge: "FROTA",
           badgeGold: false,
-          icone: "fa-truck",
+          icone: "truck",
           imagem: "img/capa_excel.png",
           titulo: "Frota",
           desc: "Controle de veículos, manutenções preventivas/corretivas, combustível e rastreio.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 93%</span>',
-          kpi2: '<span><i class="fa-solid fa-gas-pump"></i> Diário</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "93%",
+          kpi2Ico: "fuel",
+          kpi2Txt: "Diário",
           kpiResumo: "93% · Diário",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1767,12 +2005,14 @@
           categoria: "SUPORTE",
           badge: "INFRAESTRUTURA",
           badgeGold: false,
-          icone: "fa-building",
+          icone: "building",
           imagem: "img/capa_excel.png",
           titulo: "Infraestrutura",
           desc: "Manutenção predial, bases operacionais, energia e serviços de apoio.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
-          kpi2: '<span><i class="fa-solid fa-wrench"></i> Contínuo</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "95%",
+          kpi2Ico: "wrench",
+          kpi2Txt: "Contínuo",
           kpiResumo: "95% · Contínuo",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1785,12 +2025,14 @@
           categoria: "OPERACIONAL",
           badge: "PRODUTIVIDADE",
           badgeGold: true,
-          icone: "fa-gauge-high",
+          icone: "gauge",
           imagem: "img/capa_excel.png",
           titulo: "Produtividade",
           desc: "Monitoramento de rendimento, metas operacionais, indicadores e eficiência.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 89%</span>',
-          kpi2: '<span><i class="fa-solid fa-bullseye"></i> Diário</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "89%",
+          kpi2Ico: "target",
+          kpi2Txt: "Diário",
           kpiResumo: "89% · Diário",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1803,12 +2045,14 @@
           categoria: "OPERACIONAL",
           badge: "PROGRAMAÇÃO",
           badgeGold: false,
-          icone: "fa-calendar-check",
+          icone: "calendarCheck",
           imagem: "img/capa_excel.png",
           titulo: "Programação",
           desc: "Planejamento diário, roteirização de ordens de serviço e alocação de equipes.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 95%</span>',
-          kpi2: '<span><i class="fa-solid fa-route"></i> Diário</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "95%",
+          kpi2Ico: "route",
+          kpi2Txt: "Diário",
           kpiResumo: "95% · Diário",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1821,12 +2065,14 @@
           categoria: "OPERACIONAL",
           badge: "PROJETO",
           badgeGold: false,
-          icone: "fa-compass-drafting",
+          icone: "compass",
           imagem: "img/capa_excel.png",
           titulo: "Projeto",
           desc: "Análise técnica, levantamentos, desenhos e acompanhamento de obras e projetos.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 90%</span>',
-          kpi2: '<span><i class="fa-solid fa-folder-open"></i> Etapas</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "90%",
+          kpi2Ico: "folderOpen",
+          kpi2Txt: "Etapas",
           kpiResumo: "90% · Etapas",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1839,12 +2085,14 @@
           categoria: "PESSOAS",
           badge: "RH",
           badgeGold: false,
-          icone: "fa-users",
+          icone: "users",
           imagem: "img/capa_excel.png",
           titulo: "RH",
           desc: "Recrutamento e seleção, integração, treinamentos, desenvolvimento e clima.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 94%</span>',
-          kpi2: '<span><i class="fa-solid fa-user-plus"></i> Mensal</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "94%",
+          kpi2Ico: "userPlus",
+          kpi2Txt: "Mensal",
           kpiResumo: "94% · Mensal",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1857,12 +2105,14 @@
           categoria: "SEGURANÇA",
           badge: "SESMT",
           badgeGold: true,
-          icone: "fa-helmet-safety",
+          icone: "helmetSafety",
           imagem: "img/capa_excel.png",
           titulo: "SESMT",
           desc: "Segurança do trabalho, prevenção de riscos, normas regulamentadoras e saúde ocupacional.",
-          kpi1: '<span class="kpi-success"><i class="fa-solid fa-check-circle"></i> 97%</span>',
-          kpi2: '<span><i class="fa-solid fa-shield-halved"></i> Contínuo</span>',
+          kpi1Ico: "checkCircle",
+          kpi1Txt: "97%",
+          kpi2Ico: "shield",
+          kpi2Txt: "Contínuo",
           kpiResumo: "97% · Contínuo",
           url: "#",
           origemLabel: "Base Operacional",
@@ -1896,15 +2146,6 @@
         if (raw) setoresSessao = JSON.parse(raw);
       } catch { setoresSessao = null; }
 
-      let modoVisualizacao = "carrossel";
-      let categoriaAtiva = "TODOS";
-      let somenteFavoritos = false;
-      let indiceCarrossel = 0;
-      let autoPlayAtivo = true;
-      let timerCarrossel = null;
-      let itemAtualDrawer = null;
-      let assinaturaDomAtual = "";
-
       const cardsWrapper = document.getElementById("cardsWrapper");
       const paginationDots = document.getElementById("paginationDots");
       const detailsBackdrop = document.getElementById("detailsBackdrop");
@@ -1919,7 +2160,7 @@
       const estadoClima = {
         cidade: "Ananindeua - PA",
         temperatura: "--°C",
-        icone: "fa-cloud-sun"
+        icone: "cloudSun"
       };
 
       function obterSaudacaoPorHorario(hora) {
@@ -1929,12 +2170,11 @@
       }
 
       function mapearIconeClima(weatherCode, isDay) {
-        if (weatherCode === 0) return isDay ? "fa-sun" : "fa-moon";
-        if ([1, 2, 3].includes(weatherCode)) return isDay ? "fa-cloud-sun" : "fa-cloud-moon";
-        if ([45, 48].includes(weatherCode)) return "fa-smog";
-        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "fa-cloud-showers-heavy";
-        if ([95, 96, 99].includes(weatherCode)) return "fa-cloud-bolt";
-        return "fa-cloud";
+        if (weatherCode === 0) return isDay ? "sun" : "moon";
+        if ([1, 2, 3].includes(weatherCode)) return isDay ? "cloudSun" : "moon";
+        if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "rain";
+        if ([95, 96, 99].includes(weatherCode)) return "bolt";
+        return "cloud";
       }
 
       function renderizarSaudacaoEHorario() {
@@ -1945,16 +2185,16 @@
         const ss = String(now.getSeconds()).padStart(2, "0");
         const saudacao = obterSaudacaoPorHorario(h);
 
-        const iconEl = document.getElementById("planGreetingIcon");
+        const iconWrap = document.getElementById("planGreetingIconWrap");
         const textEl = document.getElementById("planGreetingText");
         const clockEl = document.getElementById("liveClockTxt");
 
-        if (iconEl) iconEl.className = `fa-solid ${estadoClima.icone}`;
+        if (iconWrap) iconWrap.innerHTML = svg(estadoClima.icone);
         if (textEl) {
           textEl.innerHTML = `
             <span class="pill-item">Olá, ${saudacao}, ${nomeExibicao}</span>
             <span class="pill-sep">•</span>
-            <span class="pill-item"><i class="fa-solid fa-location-dot"></i>${estadoClima.cidade}</span>
+            <span class="pill-item">${svg("pin")}${estadoClima.cidade}</span>
             <span class="pill-sep">•</span>
             <span class="pill-item pill-temp">${estadoClima.temperatura}</span>
             <span class="pill-sep">•</span>
@@ -1962,6 +2202,46 @@
           `;
         }
         if (clockEl) clockEl.textContent = `Bases Sincronizadas · ${hh}:${mm}`;
+      }
+
+      function reaplicarTodosOsIcones() {
+        try {
+          document.querySelectorAll("[data-svg]").forEach(el => {
+            const antiga = el.querySelector("svg.ico-svg");
+            if (antiga) antiga.remove();
+            el.insertAdjacentHTML("afterbegin", svg(el.getAttribute("data-svg")));
+          });
+          document.getElementById("maxStarTagEl").innerHTML = `${svg("starFilled")} MAX STAR 2.0`;
+          document.getElementById("btnVoltarHome").innerHTML = svg("arrowLeft");
+          document.getElementById("heroMainIconBox").innerHTML = svg("sheet");
+          const clockEl = document.getElementById("liveClockTxt");
+          const clockText = clockEl ? clockEl.textContent : "Bases Sincronizadas · --:--";
+          document.getElementById("liveBadgeEl").innerHTML = `${svg("checkCircle")}<span id="liveClockTxt">${clockText}</span>`;
+          document.getElementById("favStarIcon").innerHTML = svg("starFilled");
+          document.getElementById("iconAutoPlayWrap").innerHTML = svg(autoPlayAtivo ? "pause" : "play");
+          const oculto = document.body.classList.contains("menu-hidden");
+          document.getElementById("iconToggleMenuWrap").innerHTML = svg(oculto ? "menu" : "eyeOff");
+          const oldSearch = document.querySelector("#searchBoxWrap svg.search-ico");
+          if (oldSearch) oldSearch.remove();
+          document.getElementById("searchBoxWrap").insertAdjacentHTML("afterbegin", svg("search"));
+          const oldKbd = document.querySelector("#kbdHintEl svg.ico-svg");
+          if (oldKbd) oldKbd.remove();
+          document.getElementById("kbdHintEl").insertAdjacentHTML("afterbegin", svg("keyboard"));
+          document.getElementById("btnPrevCard").innerHTML = svg("chevronLeft");
+          document.getElementById("btnNextCard").innerHTML = svg("chevronRight");
+          document.querySelectorAll("#footerSysText > span[data-footer-ico]").forEach(n => n.remove());
+          document.getElementById("footerSysText").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#64748b;">${svg("shield")}</span>`);
+          document.querySelectorAll("#btnFooterSupport > span[data-footer-ico]").forEach(n => n.remove());
+          document.getElementById("btnFooterSupport").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#38bdf8;">${svg("headset")}</span>`);
+          document.querySelectorAll("#footerUserWrap > span[data-footer-ico]").forEach(n => n.remove());
+          document.getElementById("footerUserWrap").insertAdjacentHTML("afterbegin", `<span data-footer-ico="1" style="color:#34d399;">${svg("userCheck")}</span>`);
+          document.querySelectorAll("#btnSairRodape > svg.ico-svg").forEach(n => n.remove());
+          document.getElementById("btnSairRodape").insertAdjacentHTML("afterbegin", svg("logout"));
+          document.getElementById("btnFecharDrawer").innerHTML = svg("close");
+          renderizarSaudacaoEHorario();
+        } catch (err) {
+          console.warn("Aviso ao aplicar ícones:", err);
+        }
       }
 
       async function buscarClimaELocalizacao(lat, lon, cidadePadrao = null) {
@@ -2010,11 +2290,6 @@
         }
       }
 
-      renderizarSaudacaoEHorario();
-      iniciarLocalizacaoClima();
-      setInterval(renderizarSaudacaoEHorario, 1000);
-      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
-
       function obterSetoresPermitidosUsuario() {
         if (Array.isArray(setoresSessao) && setoresSessao.length > 0) {
           return setoresSessao.map(s => String(s).toLowerCase());
@@ -2045,12 +2320,16 @@
       document.getElementById("statQtdPlanilhas").textContent = `${qtdAutorizadas} de ${PLANILHAS_BASE.length} Bases`;
       const btnTodas = document.querySelector('#categoryPills .cat-btn[data-cat="TODOS"]');
       if (btnTodas) {
-        btnTodas.innerHTML = `<i class="fa-solid fa-layer-group"></i> Todas (${PLANILHAS_BASE.length})`;
+        btnTodas.innerHTML = `${svg("layers")} Todas (${PLANILHAS_BASE.length})`;
       }
 
       document.getElementById("footerUserName").textContent = usuarioAtual;
       document.getElementById("userAvatarInitials").textContent = obterIniciais(usuarioAtual);
       document.getElementById("userAvatarInitials").title = usuarioAtual;
+
+      document.getElementById("btnFooterSupport").addEventListener("click", () => {
+        alert("E-mail de suporte: Rodrigo.lopes@ellca2.com.br");
+      });
 
       document.getElementById("btnVoltarHome").addEventListener("click", () => {
         window.location.href = "home.html";
@@ -2111,10 +2390,10 @@
               <div class="card-body">
                 <div class="card-img-banner" style="background-image: url('${mod.imagem}');">
                   <span class="card-badge-tag ${!permitido ? "locked" : (mod.badgeGold ? "gold" : "")}">
-                    ${permitido ? `${mod.badge} <i class="fa-solid ${mod.icone}"></i>` : `BLOQUEADO <i class="fa-solid fa-lock"></i>`}
+                    ${permitido ? `${mod.badge} ${svg(mod.icone)}` : `BLOQUEADO ${svg("lock")}`}
                   </span>
-                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos">
-                    <i class="fa-${isFav ? "solid" : "regular"} fa-star"></i>
+                  <button type="button" class="btn-fav-card ${isFav ? "favorited" : ""}" data-fav-key="${mod.key}" title="Fixar nos favoritos" aria-label="Fixar nos favoritos">
+                    ${isFav ? svg("starFilled") : svg("star")}
                   </button>
                 </div>
 
@@ -2124,17 +2403,17 @@
                 </div>
 
                 <div class="kpi-pills-row">
-                  <span class="kpi-pill-item">${mod.kpi1}</span>
-                  <span class="kpi-pill-item">${mod.kpi2}</span>
+                  <span class="kpi-pill-item"><span class="kpi-success">${svg(mod.kpi1Ico)} ${mod.kpi1Txt}</span></span>
+                  <span class="kpi-pill-item"><span>${svg(mod.kpi2Ico)} ${mod.kpi2Txt}</span></span>
                 </div>
 
                 <div class="card-actions-stack">
                   <div class="acessar-line">
                     <button type="button" class="btn-primary-card btn-abrir-mod" data-key="${mod.key}" ${permitido ? "" : "disabled"}>
-                      ${permitido ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>` : `<i class="fa-solid fa-lock"></i> BLOQUEADO`}
+                      ${permitido ? `ACESSAR ${svg("arrowRight")}` : `${svg("lock")} BLOQUEADO`}
                     </button>
-                    <button type="button" class="btn-info-aba btn-info-detalhes" data-key="${mod.key}" title="Ver detalhes na barra lateral" ${permitido ? "" : "disabled"}>
-                      <i class="fa-solid fa-info"></i>
+                    <button type="button" class="btn-info-aba btn-info-detalhes" data-key="${mod.key}" title="Ver detalhes na barra lateral" aria-label="Ver detalhes na barra lateral" ${permitido ? "" : "disabled"}>
+                      ${svg("info")}
                     </button>
                   </div>
                   <button type="button" class="btn-glass-card btn-detalhes-mod" data-key="${mod.key}">
@@ -2162,7 +2441,7 @@
 
         const nomeModo = modoVisualizacao === "3d" ? "CARROSSEL 3D" : (modoVisualizacao === "grade" ? "MODO GRADE" : "MODO CARROSSEL");
         document.getElementById("carouselStatusLabel").innerHTML =
-          `<i class="fa-solid fa-file-excel"></i> EXIBINDO ${total} DE ${PLANILHAS_BASE.length} PLANILHAS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
+          `${svg("sheet")} EXIBINDO ${total} DE ${PLANILHAS_BASE.length} PLANILHAS · USUÁRIO: ${usuarioAtual.toUpperCase()} · ${nomeModo}`;
 
         if (total === 0) {
           assinaturaDomAtual = "vazio";
@@ -2186,7 +2465,7 @@
         if (modoVisualizacao === "3d") {
           const prevIdx = (indiceCarrossel - 1 + total) % total;
           const nextIdx = (indiceCarrossel + 1) % total;
-          const novaAssinatura = `3d|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
+          const novaAssinatura = `3d|${modoIconeAtivo}|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
 
           if (!forcarRebuild && assinaturaDomAtual === novaAssinatura) {
             cardsWrapper.querySelectorAll(".card-3d-wrap[data-slot-idx]").forEach((wrap, idx) => {
@@ -2210,7 +2489,7 @@
             aplicarTilt3D();
           }
         } else if (modoVisualizacao === "grade") {
-          const novaAssinatura = `grade|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
+          const novaAssinatura = `grade|${modoIconeAtivo}|${itens.map(i => i.key).join(",")}|${favs.join(",")}`;
           if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
             assinaturaDomAtual = novaAssinatura;
             cardsWrapper.innerHTML = itens.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
@@ -2223,7 +2502,7 @@
             listaExibida.push(itens[(indiceCarrossel + i) % total]);
           }
           document.documentElement.style.setProperty("--card-count", Math.max(1, listaExibida.length));
-          const novaAssinatura = `carrossel|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
+          const novaAssinatura = `carrossel|${modoIconeAtivo}|${listaExibida.map(i => i.key).join(",")}|${favs.join(",")}`;
           if (forcarRebuild || assinaturaDomAtual !== novaAssinatura) {
             assinaturaDomAtual = novaAssinatura;
             cardsWrapper.innerHTML = listaExibida.map((item, i) => criarHtmlCard(item, favs, i, "")).join("");
@@ -2333,7 +2612,7 @@
         document.getElementById("drawerModRecursos").innerHTML = (mod.recursos || []).map(rec => `
           <li>
             <span>${rec}</span>
-            <i class="fa-solid fa-check" style="color:#38bdf8; font-size:11px;"></i>
+            <span style="color:#38bdf8;">${svg("check")}</span>
           </li>
         `).join("");
 
@@ -2342,8 +2621,8 @@
         btnDrawer.style.opacity = permitido ? "1" : "0.45";
         btnDrawer.style.pointerEvents = permitido ? "auto" : "none";
         btnDrawer.innerHTML = permitido
-          ? `ACESSAR <i class="fa-solid fa-arrow-right"></i>`
-          : `<i class="fa-solid fa-lock"></i> ACESSO BLOQUEADO`;
+          ? `ACESSAR ${svg("arrowRight")}`
+          : `${svg("lock")} ACESSO BLOQUEADO`;
 
         detailsBackdrop.classList.add("open");
         detailsDrawer.classList.add("open");
@@ -2382,7 +2661,7 @@
 
       function alternarAutoPlay() {
         autoPlayAtivo = !autoPlayAtivo;
-        document.getElementById("iconAutoPlay").className = autoPlayAtivo ? "fa-solid fa-pause" : "fa-solid fa-play";
+        document.getElementById("iconAutoPlayWrap").innerHTML = svg(autoPlayAtivo ? "pause" : "play");
         document.getElementById("txtAutoPlay").textContent = autoPlayAtivo ? "AUTOPLAY: ON" : "AUTOPLAY: OFF";
         iniciarAutoPlay();
       }
@@ -2450,7 +2729,7 @@
 
       document.getElementById("btnToggleMenu").addEventListener("click", () => {
         const oculto = document.body.classList.toggle("menu-hidden");
-        document.getElementById("iconToggleMenu").className = oculto ? "fa-solid fa-bars" : "fa-solid fa-eye-slash";
+        document.getElementById("iconToggleMenuWrap").innerHTML = svg(oculto ? "menu" : "eyeOff");
         document.getElementById("txtToggleMenu").textContent = oculto ? "MOSTRAR MENU" : "OCULTAR MENU";
       });
 
@@ -2458,8 +2737,14 @@
         if (modoVisualizacao === "carrossel") renderizarCards(true);
       });
 
+      // ================= INICIALIZAÇÃO ORDENADA =================
+      reaplicarTodosOsIcones();
+      iniciarLocalizacaoClima();
+      setInterval(renderizarSaudacaoEHorario, 1000);
+      setInterval(iniciarLocalizacaoClima, 15 * 60 * 1000);
       renderizarCards(true);
       iniciarAutoPlay();
+      tentarAtivarIconesDoSite();
     })();
   </script>
 </body>
